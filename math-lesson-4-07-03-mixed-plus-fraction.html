@@ -725,7 +725,7 @@
 <button class="strategy-chip" onclick="this.classList.toggle('selected')"><span class="frac"><span class="num">8</span><span class="den">12</span></span></button>
 <button class="strategy-chip" onclick="this.classList.toggle('selected')">3 <span class="frac"><span class="num">1</span><span class="den">9</span></span></button>
 </div>
-<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>Hint:</strong> Rename 1 <span class="frac"><span class="num">2</span><span class="den">3</span></span> = 1 6/9. Add fractions: <span class="frac"><span class="num">6</span><span class="den">9</span></span> + <span class="frac"><span class="num">7</span><span class="den">9</span></span> = 13/9. Regroup <span class="frac"><span class="num">13</span><span class="den">9</span></span> = 1 4/9. Total whole = 1 + 1 = 2. Final: <strong>2 <span class="frac"><span class="num">4</span><span class="den">9</span></span> miles</strong>.</p></div>
+<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>Hint:</strong> Rename 1 <span class="frac"><span class="num">2</span><span class="den">3</span></span> = 1 <span class="frac"><span class="num">6</span><span class="den">9</span></span>. Add fractions: <span class="frac"><span class="num">6</span><span class="den">9</span></span> + <span class="frac"><span class="num">7</span><span class="den">9</span></span> = <span class="frac"><span class="num">13</span><span class="den">9</span></span>. Regroup <span class="frac"><span class="num">13</span><span class="den">9</span></span> = 1 <span class="frac"><span class="num">4</span><span class="den">9</span></span>. Total whole = 1 + 1 = 2. Final: <strong>2 <span class="frac"><span class="num">4</span><span class="den">9</span></span> miles</strong>.</p></div>
 <div class="journal-label">✏️ Show 1 <span class="frac"><span class="num">2</span><span class="den">3</span></span> + <span class="frac"><span class="num">7</span><span class="den">9</span></span> step by step. Name the rename + regroup moments. <span class="saved-dot" id="dot-think"></span></div>
 <textarea class="journal-box" data-label="Warm-Up — Think Prompt: 1 2/3 + 7/9 runner" id="journal-think" oninput="autoSave(this,'dot-think')" placeholder=""></textarea>
 </div></div><div class="tab-next-wrap"><p class="tab-transition-voice">Rename + add + regroup. Now build the answer yourself with the Sum Builder.</p><button class="tab-next-btn" onclick="switchTab('learn')">Continue to 📐 Learn →</button></div>
@@ -744,13 +744,13 @@
 <div aria-label="Vocabulary card for regroup. Tap to flip." class="flip-card fc-color-1" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
 <div class="flip-card-inner">
 <div class="flip-card-front"><div class="fc-emoji">🔄</div><div class="fc-word">regroup</div><div class="fc-tap">tap to flip</div></div>
-<div class="flip-card-back"><div class="fc-word-back">regroup</div><div class="fc-def">to convert extra slices into a full whole. If <span class="frac"><span class="num">13</span><span class="den">9</span></span> of pie is shaded, regroup as 1 whole + 4/9. The "extra" whole gets added to the whole-number count.</div><div class="fc-tap-back">tap to flip back</div></div>
+<div class="flip-card-back"><div class="fc-word-back">regroup</div><div class="fc-def">to convert extra slices into a full whole. If <span class="frac"><span class="num">13</span><span class="den">9</span></span> of pie is shaded, regroup as 1 whole + <span class="frac"><span class="num">4</span><span class="den">9</span></span>. The "extra" whole gets added to the whole-number count.</div><div class="fc-tap-back">tap to flip back</div></div>
 </div>
 </div>
 <div aria-label="Vocabulary card for fraction part. Tap to flip." class="flip-card fc-color-2" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
 <div class="flip-card-inner">
 <div class="flip-card-front"><div class="fc-emoji">🥧</div><div class="fc-word">fraction part</div><div class="fc-tap">tap to flip</div></div>
-<div class="flip-card-back"><div class="fc-word-back">fraction part</div><div class="fc-def">the fraction in a mixed number. In 1 <span class="frac"><span class="num">2</span><span class="den">3</span></span>, the fraction part is 2/3. Only the fraction part gets renamed when you find a common denominator.</div><div class="fc-tap-back">tap to flip back</div></div>
+<div class="flip-card-back"><div class="fc-word-back">fraction part</div><div class="fc-def">the fraction in a mixed number. In 1 <span class="frac"><span class="num">2</span><span class="den">3</span></span>, the fraction part is <span class="frac"><span class="num">2</span><span class="den">3</span></span>. Only the fraction part gets renamed when you find a common denominator.</div><div class="fc-tap-back">tap to flip back</div></div>
 </div>
 </div>
 <div aria-label="Vocabulary card for whole part. Tap to flip." class="flip-card fc-color-3" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
@@ -785,12 +785,12 @@
 <button class="builder-btn" onclick="builderAdd(1,-1)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">− 1 slice</button>
 <button class="builder-btn" onclick="builderReset(1)" style="background:#E07B39;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">↺ Reset</button>
 </div>
-<div id="builderStatus-1" style="background:#D4EBE9;border:2px solid #A8D8D6;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Click to add slices. Target: 4 <span class="frac"><span class="num">6</span><span class="den">8</span></span> + <span class="frac"><span class="num">3</span><span class="den">8</span></span> = 5 1/8.</div>
+<div id="builderStatus-1" style="background:#D4EBE9;border:2px solid #A8D8D6;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Click to add slices. Target: 4 <span class="frac"><span class="num">6</span><span class="den">8</span></span> + <span class="frac"><span class="num">3</span><span class="den">8</span></span> = 5 <span class="frac"><span class="num">1</span><span class="den">8</span></span>.</div>
 </div>
 <!-- Problem 2: 1 1/2 + 5/6 (with rename to 6ths) -->
 <div class="sum-builder" data-id="2" style="background:#F3F9F8;border:2px solid #A8D8D6;border-radius:14px;padding:18px 14px;margin:14px 0;">
 <div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:18px;font-weight:900;color:#0E1C42;margin-bottom:10px;">Round 2 · Build <span style="color:#0E8A8C;">1 <span class="frac"><span class="num">1</span><span class="den">2</span></span> + <span class="frac"><span class="num">5</span><span class="den">6</span></span></span></div>
-<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:10px;">Hint: rename 1 <span class="frac"><span class="num">1</span><span class="den">2</span></span> with denominator 6 first → 1 3/6. Then add the fractions. Pies below are cut into 6ths.</div>
+<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:10px;">Hint: rename 1 <span class="frac"><span class="num">1</span><span class="den">2</span></span> with denominator 6 first → 1 <span class="frac"><span class="num">3</span><span class="den">6</span></span>. Then add the fractions. Pies below are cut into 6ths.</div>
 <div class="builder-pies" id="builderPies-2" style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;min-height:90px;"></div>
 <div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:16px;color:#0E1C42;line-height:1.6;margin-bottom:10px;">
     Total slices: <span id="builderCount-2" style="font-weight:900;color:#0E8A8C;"><span class="frac"><span class="num">0</span><span class="den">6</span></span></span>
@@ -807,7 +807,7 @@
 <!-- Problem 3: 1 2/3 + 7/9 (with rename to 9ths) -->
 <div class="sum-builder" data-id="3" style="background:#F3F9F8;border:2px solid #A8D8D6;border-radius:14px;padding:18px 14px;margin:14px 0;">
 <div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:18px;font-weight:900;color:#0E1C42;margin-bottom:10px;">Round 3 · Build <span style="color:#0E8A8C;">1 <span class="frac"><span class="num">2</span><span class="den">3</span></span> + <span class="frac"><span class="num">7</span><span class="den">9</span></span></span></div>
-<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:10px;">Rename 1 <span class="frac"><span class="num">2</span><span class="den">3</span></span> with denominator 9 → 1 6/9. Pies are cut into 9ths.</div>
+<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:10px;">Rename 1 <span class="frac"><span class="num">2</span><span class="den">3</span></span> with denominator 9 → 1 <span class="frac"><span class="num">6</span><span class="den">9</span></span>. Pies are cut into 9ths.</div>
 <div class="builder-pies" id="builderPies-3" style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;min-height:90px;"></div>
 <div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:16px;color:#0E1C42;line-height:1.6;margin-bottom:10px;">
     Total slices: <span id="builderCount-3" style="font-weight:900;color:#0E8A8C;"><span class="frac"><span class="num">0</span><span class="den">9</span></span></span>
@@ -823,7 +823,7 @@
 </div>
 <div class="reveal-box" id="learnReveal"><strong>Targets:</strong> Round 1 — 4 <span class="frac"><span class="num">6</span><span class="den">8</span></span> + <span class="frac"><span class="num">3</span><span class="den">8</span></span> = 5 <span class="frac"><span class="num">1</span><span class="den">8</span></span> (= 41 eighths). Round 2 — 1 <span class="frac"><span class="num">1</span><span class="den">2</span></span> + <span class="frac"><span class="num">5</span><span class="den">6</span></span> = 2 <span class="frac"><span class="num">2</span><span class="den">6</span></span> = 2 <span class="frac"><span class="num">1</span><span class="den">3</span></span> (= 14 sixths). Round 3 — 1 <span class="frac"><span class="num">2</span><span class="den">3</span></span> + <span class="frac"><span class="num">7</span><span class="den">9</span></span> = 2 <span class="frac"><span class="num">4</span><span class="den">9</span></span> (= 22 ninths). For each, the strategy is the same — rename if needed, add the fractions, regroup if past a whole.</div>
 </div></div>
-<div class="key-concept" style="margin-top:16px;"><div class="key-concept-label">📐 Mixed + Fraction Procedure</div><p><strong>Step 1 — Check denominators.</strong> If different, rename the fraction part of the mixed number to match.</p><p><strong>Step 2 — Add the fraction parts.</strong> Same denominator rule (Lesson 7.01).</p><p><strong>Step 3 — Regroup if improper.</strong> If the fraction sum is bigger than 1, convert: <span class="frac"><span class="num">13</span><span class="den">9</span></span> = 1 + 4/9. Add the extra 1 to the whole-number total.</p><p><strong>Step 4 — Simplify.</strong> Reduce the fraction part if you can.</p></div>
+<div class="key-concept" style="margin-top:16px;"><div class="key-concept-label">📐 Mixed + Fraction Procedure</div><p><strong>Step 1 — Check denominators.</strong> If different, rename the fraction part of the mixed number to match.</p><p><strong>Step 2 — Add the fraction parts.</strong> Same denominator rule (Lesson 7.01).</p><p><strong>Step 3 — Regroup if improper.</strong> If the fraction sum is bigger than 1, convert: <span class="frac"><span class="num">13</span><span class="den">9</span></span> = 1 + <span class="frac"><span class="num">4</span><span class="den">9</span></span>. Add the extra 1 to the whole-number total.</p><p><strong>Step 4 — Simplify.</strong> Reduce the fraction part if you can.</p></div>
 <div class="activity bl-violet" style="margin-top:16px;"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">🏃</div><div><div class="activity-title">Picture It: Watching the Regroup</div><div class="activity-sub">1 <span class="frac"><span class="num">2</span><span class="den">3</span></span> + <span class="frac"><span class="num">7</span><span class="den">9</span></span> step by step on the pies.</div></div></div><div class="activity-body"><p>Hazel draws 1 <span class="frac"><span class="num">2</span><span class="den">3</span></span> = 1 whole pie + <span class="frac"><span class="num">2</span><span class="den">3</span></span> of a pie. She renames <span class="frac"><span class="num">2</span><span class="den">3</span></span> to <span class="frac"><span class="num">6</span><span class="den">9</span></span> (same area, finer cuts). Then she ADDS 7 more ninths from a third pie. The middle pie fills past full — regroup time.</p>
 <div style="background:#F3F9F8;border:2px solid #A8D8D6;border-radius:14px;padding:18px;margin:12px 0;">
 <div style="text-align:center;margin-bottom:10px;font-family:'Lora',Georgia,serif;color:#0E1C42;font-size:14px;font-style:italic;">Start — 1 <span class="frac"><span class="num">2</span><span class="den">3</span></span> = 1 whole + <span class="frac"><span class="num">6</span><span class="den">9</span></span> (renamed):</div>
@@ -849,9 +849,9 @@ The <span class="frac"><span class="num">6</span><span class="den">9</span></spa
 
 <div style="background:#F3F9F8;border:2px solid #A8D8D6;border-radius:14px;padding:16px;margin:12px 0;">
 <div style="text-align:center;font-family:'Lora',Georgia,serif;color:#0E1C42;line-height:1.8;font-size:15px;">
-<strong>Step 1 — Rename.</strong> <span class="frac"><span class="num">4</span><span class="den">5</span></span> × <span class="frac"><span class="num">4</span><span class="den">4</span></span> = 16/20. So 8 <span class="frac"><span class="num">4</span><span class="den">5</span></span> = <span style="color:#0E8A8C;font-weight:900;">8 <span class="frac"><span class="num">16</span><span class="den">20</span></span></span>.<br/>
+<strong>Step 1 — Rename.</strong> <span class="frac"><span class="num">4</span><span class="den">5</span></span> × <span class="frac"><span class="num">4</span><span class="den">4</span></span> = <span class="frac"><span class="num">16</span><span class="den">20</span></span>. So 8 <span class="frac"><span class="num">4</span><span class="den">5</span></span> = <span style="color:#0E8A8C;font-weight:900;">8 <span class="frac"><span class="num">16</span><span class="den">20</span></span></span>.<br/>
 <strong>Step 2 — Add fractions.</strong> <span class="frac"><span class="num">16</span><span class="den">20</span></span> + <span class="frac"><span class="num">7</span><span class="den">20</span></span> = <span style="color:#0E8A8C;font-weight:900;"><span class="frac"><span class="num">23</span><span class="den">20</span></span></span> (improper).<br/>
-<strong>Step 3 — Regroup.</strong> <span class="frac"><span class="num">23</span><span class="den">20</span></span> = 1 3/20. Add the 1 to 8: <span style="color:#0E8A8C;font-weight:900;">9 <span class="frac"><span class="num">3</span><span class="den">20</span></span></span>.<br/>
+<strong>Step 3 — Regroup.</strong> <span class="frac"><span class="num">23</span><span class="den">20</span></span> = 1 <span class="frac"><span class="num">3</span><span class="den">20</span></span>. Add the 1 to 8: <span style="color:#0E8A8C;font-weight:900;">9 <span class="frac"><span class="num">3</span><span class="den">20</span></span></span>.<br/>
 <strong>Step 4 — Simplify.</strong> <span class="frac"><span class="num">3</span><span class="den">20</span></span> already simplest. <span style="color:#0E8A8C;font-weight:900;">Final: 9 <span class="frac"><span class="num">3</span><span class="den">20</span></span></span>.
 </div>
 </div>
@@ -897,6 +897,8 @@ The <span class="frac"><span class="num">6</span><span class="den">9</span></spa
 </div>
 <canvas id="confettiCanvas"></canvas>
 <script>
+function __fr(v){return String(v).replace(/(\d+)\/(\d+)/g,'<span class="frac"><span class="num">$1</span><span class="den">$2</span></span>');}
+
 
 function showPageFeedback(message,type){var panel=document.querySelector('.tab-panel.active')||document.querySelector('.page-wrap')||document.body;var box=panel.querySelector(':scope > .page-feedback');if(!box){box=document.createElement('div');box.className='page-feedback';panel.insertBefore(box,panel.firstChild);}box.className='page-feedback show '+(type||'warn');box.innerHTML=message;box.scrollIntoView({behavior:'smooth',block:'nearest'});}
 
@@ -1369,17 +1371,17 @@ function builderRender(id){
     html += '<div style="text-align:center;">' + builderPieSvg(shaded, b.denom, 70) + '</div>';
   }
   pies.innerHTML = html;
-  counter.textContent = b.count + '/' + b.denom;
+  counter.innerHTML = '<span class="frac"><span class="num">' + b.count + '</span><span class="den">' + b.denom + '</span></span>';
   // Mixed-number display
   if(wholes === 0 && rem === 0) mixed.textContent = '0';
-  else if(wholes === 0) mixed.textContent = rem + '/' + b.denom;
+  else if(wholes === 0) mixed.innerHTML = '<span class="frac"><span class="num">' + rem + '</span><span class="den">' + b.denom + '</span></span>';
   else if(rem === 0) mixed.textContent = wholes;
-  else mixed.textContent = wholes + ' ' + rem + '/' + b.denom;
+  else mixed.innerHTML = wholes + ' ' + '<span class="frac"><span class="num">' + rem + '</span><span class="den">' + b.denom + '</span></span>';
   // Status
   if(b.count === b.target){
     status.style.background = '#E3F8ED';
     status.style.borderColor = '#2DB87A';
-    status.innerHTML = '✅ You built it! ' + b.targetText + ' is the answer.';
+    status.innerHTML = '✅ You built it! ' + __fr(b.targetText) + ' is the answer.';
   } else if(b.count > b.target){
     status.style.background = '#FFF0E6';
     status.style.borderColor = '#E07B39';
@@ -1387,7 +1389,7 @@ function builderRender(id){
   } else {
     status.style.background = '#D4EBE9';
     status.style.borderColor = '#A8D8D6';
-    status.innerHTML = 'Keep building — target: ' + b.targetText + '. You have ' + b.count + ' slices so far.';
+    status.innerHTML = 'Keep building — target: ' + __fr(b.targetText) + '. You have ' + b.count + ' slices so far.';
   }
 }
 function builderAdd(id, n){

@@ -889,6 +889,8 @@
 </div>
 <canvas id="confettiCanvas"></canvas>
 <script>
+function __fr(v){return String(v).replace(/(\d+)\/(\d+)/g,'<span class="frac"><span class="num">$1</span><span class="den">$2</span></span>');}
+
 
 function showPageFeedback(message,type){var panel=document.querySelector('.tab-panel.active')||document.querySelector('.page-wrap')||document.body;var box=panel.querySelector(':scope > .page-feedback');if(!box){box=document.createElement('div');box.className='page-feedback';panel.insertBefore(box,panel.firstChild);}box.className='page-feedback show '+(type||'warn');box.innerHTML=message;box.scrollIntoView({behavior:'smooth',block:'nearest'});}
 
@@ -1355,7 +1357,7 @@ function stRender(id){
   // Display state. Use renamed subtrahend if step >= 1
   const sFNow = (t.step >= 1 && t.needsRename) ? t.sF * (t.newDen / t.sD) : t.sF;
   wDiv.innerHTML = 'Minuend: <span style="color:#1E5F9E;">' + t.mW + '</span><br>Subtrahend: <span style="color:#7A88A8;">− ' + t.sW + '</span>';
-  fDiv.innerHTML = 'Minuend: <span style="color:#1E5F9E;">' + t.mF + '/' + t.mD + '</span><br>Subtrahend: <span style="color:#7A88A8;">− ' + sFNow + '/' + t.mD + '</span>';
+  fDiv.innerHTML = 'Minuend: <span style="color:#1E5F9E;">' + '<span class="frac"><span class="num">' + t.mF + '</span><span class="den">' + t.mD + '</span></span>' + '</span><br>Subtrahend: <span style="color:#7A88A8;">− ' + '<span class="frac"><span class="num">' + sFNow + '</span><span class="den">' + t.mD + '</span></span>' + '</span>';
   // Result lines
   if(t.step >= 3){
     wDiv.innerHTML += '<hr style="border:1px solid #BFE3F2;margin:6px 0;"><span style="color:#1E5F9E;font-size:22px;">' + (t.mW - t.sW) + '</span>';
@@ -1377,21 +1379,21 @@ function stRender(id){
     setBtn(rBtn, false);
     if(t.needsBorrow){
       setBtn(bBtn, true); setBtn(sfBtn, false); setBtn(swBtn, false);
-      status.innerHTML = 'Check: minuend\'s fraction ' + t.mF + '/' + t.mD + ' vs subtrahend\'s ' + sFNow + '/' + t.mD + '. ' + t.mF + ' < ' + sFNow + ' → click Borrow.';
+      status.innerHTML = 'Check: minuend\'s fraction ' + '<span class="frac"><span class="num">' + t.mF + '</span><span class="den">' + t.mD + '</span></span>' + ' vs subtrahend\'s ' + '<span class="frac"><span class="num">' + sFNow + '</span><span class="den">' + t.mD + '</span></span>' + '. ' + t.mF + ' < ' + sFNow + ' → click Borrow.';
     } else {
       setBtn(bBtn, false); setBtn(sfBtn, true); setBtn(swBtn, false);
-      status.innerHTML = 'Check: ' + t.mF + '/' + t.mD + ' ≥ ' + sFNow + '/' + t.mD + '. No borrow needed → Subtract Fractions.';
+      status.innerHTML = 'Check: ' + '<span class="frac"><span class="num">' + t.mF + '</span><span class="den">' + t.mD + '</span></span>' + ' ≥ ' + '<span class="frac"><span class="num">' + sFNow + '</span><span class="den">' + t.mD + '</span></span>' + '. No borrow needed → Subtract Fractions.';
     }
   } else if(t.step === 2){
     setBtn(rBtn, false); setBtn(bBtn, false); setBtn(sfBtn, true); setBtn(swBtn, false);
-    status.innerHTML = 'Borrowed! Now minuend = ' + t.mW + ' ' + t.mF + '/' + t.mD + '. Subtract fractions.';
+    status.innerHTML = 'Borrowed! Now minuend = ' + t.mW + ' ' + '<span class="frac"><span class="num">' + t.mF + '</span><span class="den">' + t.mD + '</span></span>' + '. Subtract fractions.';
   } else if(t.step === 3){
     setBtn(rBtn, false); setBtn(bBtn, false); setBtn(sfBtn, false); setBtn(swBtn, true);
-    status.innerHTML = 'Fraction column: ' + (t.mF - sFNow) + '/' + t.mD + '. Now subtract wholes.';
+    status.innerHTML = 'Fraction column: ' + '<span class="frac"><span class="num">' + (t.mF - sFNow) + '</span><span class="den">' + t.mD + '</span></span>' + '. Now subtract wholes.';
   } else if(t.step === 4){
     setBtn(rBtn, false); setBtn(bBtn, false); setBtn(sfBtn, false); setBtn(swBtn, false);
     status.style.background = '#E3F8ED'; status.style.borderColor = '#2DB87A';
-    status.innerHTML = '✅ Done! Result: ' + (t.mW - t.sW) + ' ' + t.mF + '/' + t.mD + ' = <strong>' + t.target + '</strong>.';
+    status.innerHTML = '✅ Done! Result: ' + (t.mW - t.sW) + ' ' + '<span class="frac"><span class="num">' + t.mF + '</span><span class="den">' + t.mD + '</span></span>' + ' = <strong>' + __fr(t.target) + '</strong>.';
   }
 }
 function ddReset(id){

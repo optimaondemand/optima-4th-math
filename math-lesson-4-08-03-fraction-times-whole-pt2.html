@@ -712,7 +712,7 @@
 <button class="strategy-chip" onclick="this.classList.toggle('selected')">3 <span class="frac"><span class="num">0</span><span class="den">4</span></span></button>
 <button class="strategy-chip" onclick="this.classList.toggle('selected')"><span class="frac"><span class="num">12</span><span class="den">16</span></span></button>
 </div>
-<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>Rule:</strong> 4 × <span class="frac"><span class="num">3</span><span class="den">4</span></span> = 12/4. Twelve quarter-slices = three whole pies. <strong>4 × <span class="frac"><span class="num">3</span><span class="den">4</span></span> = 3</strong>.</p></div>
+<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>Rule:</strong> 4 × <span class="frac"><span class="num">3</span><span class="den">4</span></span> = <span class="frac"><span class="num">12</span><span class="den">4</span></span>. Twelve quarter-slices = three whole pies. <strong>4 × <span class="frac"><span class="num">3</span><span class="den">4</span></span> = 3</strong>.</p></div>
 <div class="journal-label">✏️ Why is the answer a whole number this time? <span class="saved-dot" id="dot-think"></span></div>
 <textarea class="journal-box" data-label="Warm-Up — Think: 4 × 3/4 lands on 3" id="journal-think" oninput="autoSave(this,'dot-think')" placeholder=""></textarea>
 </div></div><div class="tab-next-wrap"><p class="tab-transition-voice">Now: build, RESOLVE, simplify.</p><button class="tab-next-btn" onclick="switchTab('learn')">Continue to 📐 Learn →</button></div>
@@ -737,13 +737,13 @@
 <div aria-label="Vocabulary card for improper fraction. Tap to flip." class="flip-card fc-color-2" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
 <div class="flip-card-inner">
 <div class="flip-card-front"><div class="fc-emoji">⬆️</div><div class="fc-word">improper fraction</div><div class="fc-tap">tap to flip</div></div>
-<div class="flip-card-back"><div class="fc-word-back">improper fraction</div><div class="fc-def">a fraction where the top is bigger than the bottom. <span class="frac"><span class="num">12</span><span class="den">4</span></span>, 30/9. Always resolve.</div><div class="fc-tap-back">tap to flip back</div></div>
+<div class="flip-card-back"><div class="fc-word-back">improper fraction</div><div class="fc-def">a fraction where the top is bigger than the bottom. <span class="frac"><span class="num">12</span><span class="den">4</span></span>, <span class="frac"><span class="num">30</span><span class="den">9</span></span>. Always resolve.</div><div class="fc-tap-back">tap to flip back</div></div>
 </div>
 </div>
 <div aria-label="Vocabulary card for simplify. Tap to flip." class="flip-card fc-color-3" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
 <div class="flip-card-inner">
 <div class="flip-card-front"><div class="fc-emoji">✨</div><div class="fc-word">simplify</div><div class="fc-tap">tap to flip</div></div>
-<div class="flip-card-back"><div class="fc-word-back">simplify</div><div class="fc-def">divide top and bottom by the same factor. <span class="frac"><span class="num">8</span><span class="den">10</span></span> → 4/5. <span class="frac"><span class="num">3</span><span class="den">9</span></span> → 1/3.</div><div class="fc-tap-back">tap to flip back</div></div>
+<div class="flip-card-back"><div class="fc-word-back">simplify</div><div class="fc-def">divide top and bottom by the same factor. <span class="frac"><span class="num">8</span><span class="den">10</span></span> → <span class="frac"><span class="num">4</span><span class="den">5</span></span>. <span class="frac"><span class="num">3</span><span class="den">9</span></span> → <span class="frac"><span class="num">1</span><span class="den">3</span></span>.</div><div class="fc-tap-back">tap to flip back</div></div>
 </div>
 </div>
 <div aria-label="Vocabulary card for simplest form. Tap to flip." class="flip-card fc-color-4" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
@@ -760,7 +760,7 @@
 <!-- Problem 1: 4 × 3/4 (lands on 3) -->
 <div class="mr-builder" data-denom="4" data-id="1" data-numer="3" data-target="4" style="background:#FFFBEB;border:2px solid #FCD34D;border-radius:14px;padding:18px 14px;margin:14px 0;">
 <div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:20px;font-weight:900;color:#0E1C42;margin-bottom:6px;">Round 1 · <span style="color:#D97706;">4 × <span class="frac"><span class="num">3</span><span class="den">4</span></span></span></div>
-<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:12px;">Target: 4 groups of 3/4. After you build, resolve into whole pies.</div>
+<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:12px;">Target: 4 groups of <span class="frac"><span class="num">3</span><span class="den">4</span></span>. After you build, resolve into whole pies.</div>
 <div id="mrLoose-1" style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:12px;min-height:80px;"></div>
 <div id="mrStage-1" style="text-align:center;font-family:'Lora',Georgia,serif;font-size:18px;font-weight:900;color:#0E1C42;line-height:1.6;margin:10px 0;">Stage: BUILD  |  Loose slices: <span id="mrLoose-count-1">0</span>   total: <span id="mrTotal-1" style="color:#D97706;"><span class="frac"><span class="num">0</span><span class="den">4</span></span></span></div>
 <div id="mrResolved-1" style="display:none;margin:10px 0;text-align:center;"></div>
@@ -820,7 +820,7 @@
 <div style="background:#fff;border:1.5px solid #FCD34D;border-radius:10px;padding:14px;">
 <div style="font-size:11px;font-weight:900;color:#92400E;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">STEP 3 · SIMPLIFY</div>
 <div style="font-family:'Lora',Georgia,serif;font-size:18px;font-weight:900;color:#D97706;"><span class="frac"><span class="num">3</span><span class="den">9</span></span> → ÷ 3</div>
-<div style="font-size:13px;color:#3A4A6B;margin:6px 0;"><span class="frac"><span class="num">3</span><span class="den">9</span></span> = 1/3.</div>
+<div style="font-size:13px;color:#3A4A6B;margin:6px 0;"><span class="frac"><span class="num">3</span><span class="den">9</span></span> = <span class="frac"><span class="num">1</span><span class="den">3</span></span>.</div>
 <div style="font-family:'Lora',Georgia,serif;font-size:20px;font-weight:900;color:#0E1C42;">= 3 <span class="frac"><span class="num">1</span><span class="den">3</span></span></div>
 </div>
 </div>
@@ -836,7 +836,7 @@
 <div style="text-align:center;font-family:'Lora',Georgia,serif;color:#0E1C42;line-height:1.9;font-size:16px;">
 <strong>Step 1.</strong> 8 × <span class="frac"><span class="num">3</span><span class="den">10</span></span> = <span style="color:#D97706;font-weight:900;"><span class="frac"><span class="num">24</span><span class="den">10</span></span></span>.<br/>
 <strong>Step 2.</strong> Resolve: 10s in 24 = 2, remainder 4. <span style="color:#D97706;font-weight:900;">2 <span class="frac"><span class="num">4</span><span class="den">10</span></span></span>.<br/>
-<strong>Step 3.</strong> Simplify: <span class="frac"><span class="num">4</span><span class="den">10</span></span> ÷ <span class="frac"><span class="num">2</span><span class="den">2</span></span> = 2/5. Final: <span style="color:#D97706;font-weight:900;">2 <span class="frac"><span class="num">2</span><span class="den">5</span></span></span>.
+<strong>Step 3.</strong> Simplify: <span class="frac"><span class="num">4</span><span class="den">10</span></span> ÷ <span class="frac"><span class="num">2</span><span class="den">2</span></span> = <span class="frac"><span class="num">2</span><span class="den">5</span></span>. Final: <span style="color:#D97706;font-weight:900;">2 <span class="frac"><span class="num">2</span><span class="den">5</span></span></span>.
 </div>
 </div>
 <div class="key-concept" style="margin-top:14px;"><div class="key-concept-label">⚖️ Lesson 8.03 in One Image</div>
@@ -866,6 +866,8 @@
 </div>
 <canvas id="confettiCanvas"></canvas>
 <script>
+function __fr(v){return String(v).replace(/(\d+)\/(\d+)/g,'<span class="frac"><span class="num">$1</span><span class="den">$2</span></span>');}
+
 
 function showPageFeedback(message,type){var panel=document.querySelector('.tab-panel.active')||document.querySelector('.page-wrap')||document.body;var box=panel.querySelector(':scope > .page-feedback');if(!box){box=document.createElement('div');box.className='page-feedback';panel.insertBefore(box,panel.firstChild);}box.className='page-feedback show '+(type||'warn');box.innerHTML=message;box.scrollIntoView({behavior:'smooth',block:'nearest'});}
 
@@ -1332,7 +1334,7 @@ function stRender(id){
   // Display state. Use renamed subtrahend if step >= 1
   const sFNow = (t.step >= 1 && t.needsRename) ? t.sF * (t.newDen / t.sD) : t.sF;
   wDiv.innerHTML = 'Minuend: <span style="color:#D97706;">' + t.mW + '</span><br>Subtrahend: <span style="color:#7A88A8;">− ' + t.sW + '</span>';
-  fDiv.innerHTML = 'Minuend: <span style="color:#D97706;">' + t.mF + '/' + t.mD + '</span><br>Subtrahend: <span style="color:#7A88A8;">− ' + sFNow + '/' + t.mD + '</span>';
+  fDiv.innerHTML = 'Minuend: <span style="color:#D97706;">' + '<span class="frac"><span class="num">' + t.mF + '</span><span class="den">' + t.mD + '</span></span>' + '</span><br>Subtrahend: <span style="color:#7A88A8;">− ' + '<span class="frac"><span class="num">' + sFNow + '</span><span class="den">' + t.mD + '</span></span>' + '</span>';
   // Result lines
   if(t.step >= 3){
     wDiv.innerHTML += '<hr style="border:1px solid #FCD34D;margin:6px 0;"><span style="color:#D97706;font-size:22px;">' + (t.mW - t.sW) + '</span>';
@@ -1354,21 +1356,21 @@ function stRender(id){
     setBtn(rBtn, false);
     if(t.needsBorrow){
       setBtn(bBtn, true); setBtn(sfBtn, false); setBtn(swBtn, false);
-      status.innerHTML = 'Check: minuend\'s fraction ' + t.mF + '/' + t.mD + ' vs subtrahend\'s ' + sFNow + '/' + t.mD + '. ' + t.mF + ' < ' + sFNow + ' → click Borrow.';
+      status.innerHTML = 'Check: minuend\'s fraction ' + '<span class="frac"><span class="num">' + t.mF + '</span><span class="den">' + t.mD + '</span></span>' + ' vs subtrahend\'s ' + '<span class="frac"><span class="num">' + sFNow + '</span><span class="den">' + t.mD + '</span></span>' + '. ' + t.mF + ' < ' + sFNow + ' → click Borrow.';
     } else {
       setBtn(bBtn, false); setBtn(sfBtn, true); setBtn(swBtn, false);
-      status.innerHTML = 'Check: ' + t.mF + '/' + t.mD + ' ≥ ' + sFNow + '/' + t.mD + '. No borrow needed → Subtract Fractions.';
+      status.innerHTML = 'Check: ' + '<span class="frac"><span class="num">' + t.mF + '</span><span class="den">' + t.mD + '</span></span>' + ' ≥ ' + '<span class="frac"><span class="num">' + sFNow + '</span><span class="den">' + t.mD + '</span></span>' + '. No borrow needed → Subtract Fractions.';
     }
   } else if(t.step === 2){
     setBtn(rBtn, false); setBtn(bBtn, false); setBtn(sfBtn, true); setBtn(swBtn, false);
-    status.innerHTML = 'Borrowed! Now minuend = ' + t.mW + ' ' + t.mF + '/' + t.mD + '. Subtract fractions.';
+    status.innerHTML = 'Borrowed! Now minuend = ' + t.mW + ' ' + '<span class="frac"><span class="num">' + t.mF + '</span><span class="den">' + t.mD + '</span></span>' + '. Subtract fractions.';
   } else if(t.step === 3){
     setBtn(rBtn, false); setBtn(bBtn, false); setBtn(sfBtn, false); setBtn(swBtn, true);
-    status.innerHTML = 'Fraction column: ' + (t.mF - sFNow) + '/' + t.mD + '. Now subtract wholes.';
+    status.innerHTML = 'Fraction column: ' + '<span class="frac"><span class="num">' + (t.mF - sFNow) + '</span><span class="den">' + t.mD + '</span></span>' + '. Now subtract wholes.';
   } else if(t.step === 4){
     setBtn(rBtn, false); setBtn(bBtn, false); setBtn(sfBtn, false); setBtn(swBtn, false);
     status.style.background = '#E3F8ED'; status.style.borderColor = '#2DB87A';
-    status.innerHTML = '✅ Done! Result: ' + (t.mW - t.sW) + ' ' + t.mF + '/' + t.mD + ' = <strong>' + t.target + '</strong>.';
+    status.innerHTML = '✅ Done! Result: ' + (t.mW - t.sW) + ' ' + '<span class="frac"><span class="num">' + t.mF + '</span><span class="den">' + t.mD + '</span></span>' + ' = <strong>' + __fr(t.target) + '</strong>.';
   }
 }
 function mrAdd(id){
@@ -1421,7 +1423,7 @@ function mrRender(id){
     loose.innerHTML = pieHTML;
     loose.style.display = 'flex';
     resolved.style.display = 'none';
-    stage.innerHTML = 'Stage: BUILD &nbsp;|&nbsp; Loose slices: <span id="mrLoose-count-' + id + '">' + top + '</span> &nbsp; total: <span id="mrTotal-' + id + '" style="color:#D97706;">' + top + '/' + d + '</span>';
+    stage.innerHTML = 'Stage: BUILD &nbsp;|&nbsp; Loose slices: <span id="mrLoose-count-' + id + '">' + top + '</span> &nbsp; total: <span id="mrTotal-' + id + '" style="color:#D97706;">' + '<span class="frac"><span class="num">' + top + '</span><span class="den">' + d + '</span></span>' + '</span>';
     if(n === 0){
       status.innerHTML = 'Stage 1: Click +1 group to start.';
       status.style.background = '#FDE68A';
@@ -1431,7 +1433,7 @@ function mrRender(id){
       status.style.background = '#FDE68A';
       resolveBtn.disabled = true; resolveBtn.style.opacity = 0.6; resolveBtn.style.background = '#7A88A8';
     } else {
-      status.innerHTML = '✅ Built all ' + target + ' groups = ' + top + '/' + d + '. Now click RESOLVE.';
+      status.innerHTML = '✅ Built all ' + target + ' groups = ' + '<span class="frac"><span class="num">' + top + '</span><span class="den">' + d + '</span></span>' + '. Now click RESOLVE.';
       status.style.background = '#C8F0DA';
       resolveBtn.disabled = false; resolveBtn.style.opacity = 1; resolveBtn.style.background = '#2DB87A';
     }
@@ -1455,10 +1457,10 @@ function mrRender(id){
     } else {
       finalStr = wholes + ' ' + rem + '/' + d + ' → simplify → <strong style="color:#D97706;font-size:22px;">' + wholes + ' ' + simp.n + '/' + simp.d + '</strong>';
     }
-    resolved.innerHTML = '<div style="background:#fff;border:2px solid #2DB87A;border-radius:12px;padding:14px;font-family:Lora,Georgia,serif;font-size:15px;color:#0E1C42;">RESOLVED: ' + wholes + ' whole pie' + (wholes!==1?'s':'') + (rem>0 ? ' + ' + rem + '/' + d + ' leftover' : ' (nothing left over!)') + '<br/><br/>' + finalStr + '</div>';
+    resolved.innerHTML = '<div style="background:#fff;border:2px solid #2DB87A;border-radius:12px;padding:14px;font-family:Lora,Georgia,serif;font-size:15px;color:#0E1C42;">RESOLVED: ' + wholes + ' whole pie' + (wholes!==1?'s':'') + (rem>0 ? ' + ' + '<span class="frac"><span class="num">' + rem + '</span><span class="den">' + d + '</span></span>' + ' leftover' : ' (nothing left over!)') + '<br/><br/>' + finalStr + '</div>';
     resolved.style.display = 'block';
     stage.innerHTML = 'Stage: RESOLVED ✓';
-    status.innerHTML = '🎉 ' + n + ' × ' + a + '/' + d + ' = ' + top + '/' + d + ' = ' + (rem === 0 ? wholes : (wholes + ' ' + simp.n + '/' + simp.d));
+    status.innerHTML = '🎉 ' + n + ' × ' + '<span class="frac"><span class="num">' + a + '</span><span class="den">' + d + '</span></span>' + ' = ' + '<span class="frac"><span class="num">' + top + '</span><span class="den">' + d + '</span></span>' + ' = ' + (rem === 0 ? wholes : (wholes + ' ' + '<span class="frac"><span class="num">' + simp.n + '</span><span class="den">' + simp.d + '</span></span>'));
     status.style.background = '#C8F0DA';
     buildBtn.disabled = true; buildBtn.style.opacity = 0.6;
     resolveBtn.disabled = true; resolveBtn.style.opacity = 0.6; resolveBtn.style.background = '#7A88A8';
