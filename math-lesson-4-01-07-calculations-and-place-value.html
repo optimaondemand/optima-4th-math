@@ -674,7 +674,7 @@
 </div>
 <div class="callout callout-tip" style="margin-top:8px;"><span class="callout-icon">💡</span><p>The whole crew works together today. Felix sets the target. Atlas does the math. Hazel draws when the problem needs a picture. Cora double-checks against the target.</p></div>
 </div></div>
-<div class="activity bl-yellow"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🔎</div><div><div class="activity-title">Warm-Up: Estimate the Sum</div><div class="activity-sub">Round each number first, then add the rounded versions.</div></div><span class="activity-time" style="background:#F5C518;color:#0E1C42;">~5 min</span></div><div class="activity-body"><p>Two quick checks. Your full practice is in the Independent Practice PDF.</p>
+<div class="activity bl-yellow"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🔎</div><div><div class="activity-title">Warm-Up: Estimate the Sum</div><div class="activity-sub">Round each number first, then add the rounded versions.</div></div><span class="activity-time" style="background:#F5C518;color:#0E1C42;">~5 min</span></div><div class="activity-body"><p>Three quick estimates. Round first, then add.</p>
 <div style="background:#FAFBFF;border:2px solid #E2E8F4;border-radius:14px;padding:16px;margin:12px 0;">
 <div style="display:grid;gap:14px;">
 <div style="display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;">
@@ -1026,14 +1026,14 @@ function pickReadinessRound(btn,pair,val){
       document.getElementById('readinessReveal').classList.add('show');
       miniCelebrate(document.getElementById('readinessReveal'));
       fb.className='inline-feedback show good';
-      fb.innerHTML='✅ All three locked in. You’ll see the same rules at bigger scales next.';
+      fb.innerHTML='✅ All three locked in. Nice work. You’re ready for today’s lesson.';
     } else {
       fb.className='inline-feedback show info';
       fb.innerHTML='Nice. Keep going — '+(3-Object.values(rRoundDone).filter(v=>v).length)+' more.';
     }
   } else {
     btn.classList.add('bad');setTimeout(()=>btn.classList.remove('bad'),350);
-    fb.className='inline-feedback show think';fb.innerHTML='Not that one. Picture a number line and ask: which round neighbor is closer? Halfway and up rounds UP.';
+    fb.className='inline-feedback show think';fb.innerHTML='Not that one. Round each number to the nearest 10,000 first, then add the rounded numbers.';
   }
 }
 /* Rounding Lab (Learn): round 23,847 to a chosen place */

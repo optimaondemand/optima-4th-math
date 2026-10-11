@@ -964,10 +964,10 @@ document.addEventListener('click', function(e){
 /* 4.11.05 — Perimeter Pt 2 (Side-Sum Calculator) */
 const models={}; // empty
 /* Warm-Up readiness: 3 quick rounds */
-const rRoundAnswers={1:'12',2:'3',3:'5,280'};
+const rRoundAnswers={1:'4 cm',2:'5 m',3:'9 ft'};
 const rRoundDone={1:false,2:false,3:false};
 function pickReadinessRound(btn,pair,val){
-  const correct=(val===rRoundAnswers[pair]);
+  const correct=String(rRoundAnswers[pair]).split('|').indexOf(val)>=0;
   const fb=document.getElementById('rCmpFb');
   if(correct){
     btn.classList.add('good');
@@ -984,7 +984,7 @@ function pickReadinessRound(btn,pair,val){
     }
   } else {
     btn.classList.add('bad');setTimeout(()=>btn.classList.remove('bad'),350);
-    fb.className='inline-feedback show think';fb.innerHTML='Not that one. Check the customary length chart and try again.';
+    fb.className='inline-feedback show think';fb.innerHTML='Not that one. Subtract the piece you know from the total length.';
   }
 }
 /* Rounding Lab (Learn): round 23,847 to a chosen place */

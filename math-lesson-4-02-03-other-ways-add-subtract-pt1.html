@@ -878,7 +878,7 @@ function pickReadinessRound(btn,pair,val){
       document.getElementById('readinessReveal').classList.add('show');
       miniCelebrate(document.getElementById('readinessReveal'));
       fb.className='inline-feedback show good';
-      fb.innerHTML='✅ All three locked in. You’ll see the same rules at bigger scales next.';
+      fb.innerHTML='✅ All three locked in. Nice work. You’re ready for today’s lesson.';
     } else {
       fb.className='inline-feedback show info';
       fb.innerHTML='Nice. Keep going — '+(3-Object.values(rRoundDone).filter(v=>v).length)+' more.';

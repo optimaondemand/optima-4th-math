@@ -875,10 +875,10 @@ document.addEventListener('click', function(e){
 /* 4.02.02 — Addition (number-line + decider-digit) */
 const models={}; // empty
 /* Warm-Up readiness: 3 quick rounds */
-const rRoundAnswers={1:'12',2:'3',3:'5,280'};
+const rRoundAnswers={1:'2.3',2:'5.9',3:'3.7'};
 const rRoundDone={1:false,2:false,3:false};
 function pickReadinessRound(btn,pair,val){
-  const correct=(val===rRoundAnswers[pair]);
+  const correct=String(rRoundAnswers[pair]).split('|').indexOf(val)>=0;
   const fb=document.getElementById('rCmpFb');
   if(correct){
     btn.classList.add('good');
@@ -895,7 +895,7 @@ function pickReadinessRound(btn,pair,val){
     }
   } else {
     btn.classList.add('bad');setTimeout(()=>btn.classList.remove('bad'),350);
-    fb.className='inline-feedback show think';fb.innerHTML='Not that one. Check the customary length chart and try again.';
+    fb.className='inline-feedback show think';fb.innerHTML='Not that one. Ones go to the left of the decimal point. Tenths go to the right.';
   }
 }
 /* Rounding Lab (Learn): round 23,847 to a chosen place */
