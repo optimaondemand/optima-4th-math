@@ -385,6 +385,73 @@
 .vfrac .vf-num{padding:0 3px;border-bottom:1.5px solid #0E1C42}
 .vfrac .vf-den{padding:0 3px}
 </style>
+
+<style id="oao-g4a-widgets">
+.wg-box{background:#FAFBFF;border:2px solid #E2E8F4;border-radius:14px;padding:16px 14px;margin:12px 0}
+.wg-picks{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
+.wg-pick{background:#fff;border:2px solid #D8CCF0;border-radius:10px;padding:8px 14px;font-family:'Lora',Georgia,serif;font-size:16px;font-weight:800;color:#0E1C42;cursor:pointer}
+.wg-pick.on{background:#6B3FA0;border-color:#6B3FA0;color:#fff}
+.wg-pick.done::after{content:' \2713';color:#2DB87A}
+.wg-pick.on.done::after{color:#C8F0DA}
+.wg-title{font-family:'Lora',Georgia,serif;font-size:24px;font-weight:900;color:#0E1C42;text-align:center;margin:4px 0 10px}
+.wg-label{font-size:11px;font-weight:900;color:#3A4A6B;text-transform:uppercase;letter-spacing:.5px;text-align:center;margin:10px 0 6px}
+.wg-btn{background:#6B3FA0;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;font-size:15px;cursor:pointer;font-family:'Nunito',sans-serif}
+.wg-btn.alt{background:#3A6B9A}.wg-btn.grn{background:#2DB87A}.wg-btn.org{background:#E07B39}
+.wg-btn:disabled{background:#B8C0D4;cursor:not-allowed}
+.wg-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin:10px 0}
+.wg-in{width:84px;padding:8px 10px;border:2px solid #BFE3F2;border-radius:10px;font-size:18px;font-weight:800;font-family:'Lora',Georgia,serif;color:#0E1C42;text-align:center}
+.wg-in.wide{width:120px}
+.wg-status{background:#EAF8FD;border:2px solid #D6F2FB;border-radius:10px;padding:10px 14px;font-size:15px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;margin-top:10px}
+.wg-status.good{background:#E3F8ED;border-color:#B8E8CF}
+.wg-status.think{background:#FFF0E6;border-color:#F5C8A0}
+.wg-q{background:#fff;border:2px solid #E2E8F4;border-radius:12px;padding:10px 12px;margin:8px 0}
+.wg-q p{margin:0 0 6px;font-weight:700;color:#0E1C42;font-size:15px}
+.wg-fb{font-size:14px;line-height:1.5;margin-top:6px;font-weight:700}
+.wg-fb.good{color:#1A8A5A}.wg-fb.think{color:#B5561B}
+/* sharing mat */
+.sh-mat{display:grid;gap:8px}
+.sh-col{border:2px solid #E2E8F4;border-radius:12px;background:#fff;padding:8px 4px;min-height:90px;text-align:center;min-width:0}
+.sh-col.now{border-color:#F5C518;box-shadow:0 0 0 3px #FFF3C4}
+.sh-col h5{margin:0 0 2px;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:0}
+.sh-col .sh-n{font-family:'Lora',Georgia,serif;font-size:20px;font-weight:900;color:#0E1C42}
+.sh-discs{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-top:4px}
+.sh-disc{width:14px;height:14px;border-radius:50%;display:inline-block;border:1.5px solid rgba(0,0,0,.25)}
+.sh-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px}
+.sh-group{background:#fff;border:2px dashed #BFC8DC;border-radius:12px;padding:6px;min-height:64px;text-align:center}
+.sh-group b{display:block;font-size:11px;color:#3A4A6B;text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px}
+.sh-gplace{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;margin:2px 0}
+.sh-gplace .sh-disc{width:10px;height:10px;border-width:1px}
+.sh-quot{display:flex;justify-content:center;gap:6px;margin:6px 0 2px}
+.sh-qd{width:42px;height:48px;border:2px solid #D8CCF0;border-radius:10px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Lora',Georgia,serif;font-size:24px;font-weight:900;color:#0E1C42}
+.sh-qd small{font-family:'Nunito',sans-serif;font-size:9px;font-weight:900;color:#7A88A8;text-transform:uppercase}
+.sh-qd.blank{color:#C3CADB}
+.sh-record{background:#fff;border:2px solid #E2E8F4;border-radius:12px;padding:10px 14px;margin-top:10px;font-size:14px;line-height:1.7;color:#0E1C42}
+.sh-record:empty{display:none}
+/* round-and-share estimator */
+.rs-bar{display:flex;height:40px;border-radius:10px;overflow:hidden;border:2px solid #0E1C42;margin:6px 0}
+.rs-seg{flex:1;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:14px;border-right:2px solid #fff}
+.rs-seg:last-child{border-right:none}
+.rs-left{flex:0 0 18%;background:#E07B39;color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.1}
+.rs-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:15px}
+.rs-table th,.rs-table td{border:1.5px solid #E2E8F4;padding:6px 8px;text-align:center}
+.rs-table th{background:#F0E8FF;color:#0E1C42;font-size:12px;text-transform:uppercase;letter-spacing:.3px}
+.rs-table tr.best td{background:#E3F8ED;font-weight:900}
+/* packer */
+.pk-pool{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;min-height:30px;padding:8px;border:2px dashed #BFE3F2;border-radius:12px;background:#fff}
+.pk-dot{width:18px;height:18px;border-radius:50%;display:inline-block}
+.pk-bags{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:8px;margin-top:8px}
+.pk-bag{background:#fff;border:2px solid #3A6B9A;border-radius:10px;padding:5px;text-align:center}
+.pk-bag b{display:block;font-size:10px;color:#3A6B9A;text-transform:uppercase}
+.pk-bag .pk-dot{width:11px;height:11px;margin:1px}
+/* data check */
+.mm-ask{background:#fff;border:2px solid #F5C518;border-radius:12px;padding:12px;margin-bottom:12px;text-align:center}
+.mm-ask p{margin:0 0 8px;font-weight:800;color:#0E1C42}
+.mm-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.mm-grid label{display:flex;flex-direction:column;align-items:center;font-size:11px;font-weight:900;color:#0D3D6B;text-transform:uppercase;letter-spacing:.5px;gap:4px}
+.mm-mid{outline:3px solid #F5C518;outline-offset:2px}
+.sh-disc{flex:0 0 auto}
+@media (max-width:480px){.sh-col h5{font-size:10px;text-transform:none;overflow-wrap:normal}.sh-disc{width:11px;height:11px}.wg-title{font-size:20px}.sh-qd{width:36px;height:42px;font-size:20px}}
+</style>
 </head>
 <body id="pageTop">
 <div class="page-wrap">
@@ -662,7 +729,7 @@
 <p>Hazel leads — data analysis is all about seeing the picture. Atlas names the three measures. Felix sorts and computes. Cora double-checks.</p>
 <div class="bubble-row">
 <div class="bubble atlas"><div class="bubble-avatar">A</div><div class="bubble-body"><div class="bubble-name">Atlas — pattern-spotter</div><div class="bubble-text">"I noticed a line plot already does the sorting for you — the values go left to right in order, so you never have to write a sorted list by hand."</div></div></div>
-<div class="bubble felix"><div class="bubble-avatar">F</div><div class="bubble-body"><div class="bubble-name">Felix — method-tester</div><div class="bubble-text">"I tested the mode by literally counting the X's in each stack instead of guessing by eye — 5 fours beats 3 threes, so 4 wins."</div></div></div>
+<div class="bubble felix"><div class="bubble-avatar">F</div><div class="bubble-body"><div class="bubble-name">Felix — method-tester</div><div class="bubble-text">"I tested the mode by literally counting the X's in each stack instead of guessing by eye — 5 fours beats 4 threes, so 4 wins."</div></div></div>
 </div>
 <div class="bubble-row">
 <div class="bubble hazel"><div class="bubble-avatar">H</div><div class="bubble-body"><div class="bubble-name">Hazel — visual thinker</div><div class="bubble-text">"I picture the tallest stack as a skyscraper standing above the crowd — it's the easiest thing to spot on the whole plot."</div></div></div>
@@ -714,10 +781,10 @@
 <div class="strategy-chip-row">
 <button class="strategy-chip" onclick="this.classList.toggle('selected')">10</button>
 <button class="strategy-chip" onclick="this.classList.toggle('selected')">20</button>
-<button class="strategy-chip" onclick="this.classList.toggle('selected')">No tallest — all 1 X</button>
-<button class="strategy-chip" onclick="this.classList.toggle('selected')">All the same height</button>
+<button class="strategy-chip" onclick="this.classList.toggle('selected')">25</button>
+<button class="strategy-chip" onclick="this.classList.toggle('selected')">They’d all be the same height</button>
 </div>
-<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>None taller than the others.</strong> Five different values, one X each. No mode. The plot would just be 5 single X marks above 5, 10, 15, 20, 25.</p></div>
+<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>Before you pick, ask yourself:</strong> Does any number in the list show up more than once?</p></div>
 <div class="journal-label">✏️ What would the plot show if the data was 10, 20, 5, 25, 15, 10, 20? <span class="saved-dot" id="dot-think"></span></div>
 <textarea class="journal-box" data-label="Warm-Up — Think: stacked X marks" id="journal-think" oninput="autoSave(this,'dot-think')" placeholder=""></textarea>
 </div></div><div class="tab-next-wrap"><p class="tab-transition-voice">Click above the number line to stack X marks yourself.</p><button class="tab-next-btn" onclick="switchTab('learn')">Continue to 📐 Learn →</button></div>
@@ -760,7 +827,7 @@
 </div>
 </div>
 
-<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> Pick how many groups to SPLIT the bar into. Then click groups to TAKE them.</p></div>
+<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> Click each data chip to stack an X. When the plot is done, find the mode and range yourself.</p></div>
 <div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#1E5F9E;">📈</div><div><div class="activity-title">Line Plot Builder</div><div class="activity-sub">Click each data chip to stack an X above its tick. The plot builds as you click.</div></div></div><div class="activity-body"><p>Three data sets. Click the chips to add each X. The mode, count, and range fill in once you place all the data.</p>
 <div class="lp-builder" data-axis-label="minutes" data-id="1" data-tick-max="50" data-tick-min="0" data-tick-step="5" data-values="10,20,5,25,15,10,30,15,25,20,25,40,30,15,35,20,25,35,15,30,20,40,10,30,15,10,50,45,20,25" style="background:#F5FBFE;border:2px solid #BFE3F2;border-radius:14px;padding:18px 14px;margin:14px 0;">
 <div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:18px;font-weight:900;color:#0E1C42;margin-bottom:6px;">Round 1 · Jaiden's travel times</div>
@@ -770,7 +837,7 @@
 <div style="text-align:center;font-size:11px;font-weight:900;color:#0D3D6B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Step 2 · Watch the plot build</div>
 <div id="lpPlot-1" style="display:flex;justify-content:center;margin-bottom:14px;min-height:140px;"></div>
 <div id="lpMeasures-1" style="display:none;background:#fff;border:2px solid #4FB3D9;border-radius:12px;padding:14px;margin-bottom:14px;">
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center;">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;text-align:center;">
 <div style="background:#F5FBFE;border:1.5px solid #BFE3F2;border-radius:10px;padding:10px;">
 <div style="font-size:11px;font-weight:900;color:#0D3D6B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">MODE</div>
 <div id="lpMode-1" style="font-family:'Lora',Georgia,serif;font-size:18px;font-weight:900;color:#1E5F9E;">—</div>
@@ -798,7 +865,7 @@
 <div style="text-align:center;font-size:11px;font-weight:900;color:#0D3D6B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Step 2 · Watch the plot build</div>
 <div id="lpPlot-2" style="display:flex;justify-content:center;margin-bottom:14px;min-height:140px;"></div>
 <div id="lpMeasures-2" style="display:none;background:#fff;border:2px solid #4FB3D9;border-radius:12px;padding:14px;margin-bottom:14px;">
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center;">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;text-align:center;">
 <div style="background:#F5FBFE;border:1.5px solid #BFE3F2;border-radius:10px;padding:10px;">
 <div style="font-size:11px;font-weight:900;color:#0D3D6B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">MODE</div>
 <div id="lpMode-2" style="font-family:'Lora',Georgia,serif;font-size:18px;font-weight:900;color:#1E5F9E;">—</div>
@@ -826,7 +893,7 @@
 <div style="text-align:center;font-size:11px;font-weight:900;color:#0D3D6B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Step 2 · Watch the plot build</div>
 <div id="lpPlot-3" style="display:flex;justify-content:center;margin-bottom:14px;min-height:140px;"></div>
 <div id="lpMeasures-3" style="display:none;background:#fff;border:2px solid #4FB3D9;border-radius:12px;padding:14px;margin-bottom:14px;">
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center;">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;text-align:center;">
 <div style="background:#F5FBFE;border:1.5px solid #BFE3F2;border-radius:10px;padding:10px;">
 <div style="font-size:11px;font-weight:900;color:#0D3D6B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">MODE</div>
 <div id="lpMode-3" style="font-family:'Lora',Georgia,serif;font-size:18px;font-weight:900;color:#1E5F9E;">—</div>
@@ -846,22 +913,22 @@
 </div>
 <div id="lpStatus-3" style="background:#D6ECF7;border:2px solid #BFE3F2;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Click each chip above to add that data point to the plot.</div>
 </div>
-<div class="reveal-box" id="learnReveal"><strong>Plots built.</strong> Travel times — mode appears at 15 &amp; 25 (most popular times). Eruptions — mode 4 minutes. Bigger spread — mode 2. Each plot makes the mode obvious as the tallest stack.</div>
+<div class="reveal-box" id="learnReveal"><strong>All three plots:</strong> Travel times — three stacks tie at 5 X marks, so the modes are 15, 20, and 25 minutes; range 45. Eruptions — mode 4 minutes; range 3. Bigger spread — mode 2; range 14. The tallest stack is always the mode.</div>
 </div></div>
 <div class="key-concept" style="margin-top:16px;"><div class="key-concept-label">📐 Reading a Line Plot</div><p><strong>Each X is one data point.</strong> Stack them above the matching tick on the number line.</p><p><strong>Mode:</strong> tallest stack. <strong>Median:</strong> count to the middle X (the plot already sorts the data). <strong>Range:</strong> rightmost tick with a dot minus leftmost tick with a dot.</p></div>
-<div class="activity bl-violet" style="margin-top:16px;"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">📐</div><div><div class="activity-title">Picture It: Sleep Hours (Fractional Data)</div><div class="activity-sub">Quarter-hour ticks between whole hours.</div></div></div><div class="activity-body">
+<div class="activity bl-violet" style="margin-top:16px;"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">📐</div><div><div class="activity-title">Picture It: Sleep Hours (Fractional Data)</div><div class="activity-sub">Each hour is split into 4 quarter-hours.</div></div></div><div class="activity-body">
 <div style="background:#F5FBFE;border:2px solid #BFE3F2;border-radius:14px;padding:18px;margin:12px 0;">
-<div style="display:flex;justify-content:center;margin:6px 0;"><svg height="190" style="max-width:100%;" viewbox="0 0 460 190" width="460"><line stroke="#0E1C42" stroke-width="2" x1="40" x2="435" y1="135" y2="135"></line><polygon fill="#0E1C42" points="34,135 40,130 40,140"></polygon><polygon fill="#0E1C42" points="441,135 435,130 435,140"></polygon><line stroke="#0E1C42" stroke-width="2" x1="40.0" x2="40.0" y1="129.0" y2="141.0"></line><text fill="#0E1C42" font-family="Lora,Georgia,serif" font-size="13" font-weight="800" text-anchor="middle" x="40.0" y="158">6</text><line stroke="#7A88A8" stroke-width="1.2" x1="59.8" x2="59.8" y1="132.0" y2="138.0"></line><line stroke="#7A88A8" stroke-width="1.2" x1="79.5" x2="79.5" y1="132.0" y2="138.0"></line><line stroke="#7A88A8" stroke-width="1.2" x1="99.2" x2="99.2" y1="132.0" y2="138.0"></line><line stroke="#0E1C42" stroke-width="2" x1="119.0" x2="119.0" y1="129.0" y2="141.0"></line><text fill="#0E1C42" font-family="Lora,Georgia,serif" font-size="13" font-weight="800" text-anchor="middle" x="119.0" y="158">7</text><line stroke="#7A88A8" stroke-width="1.2" x1="138.8" x2="138.8" y1="132.0" y2="138.0"></line><line stroke="#7A88A8" stroke-width="1.2" x1="158.5" x2="158.5" y1="132.0" y2="138.0"></line><line stroke="#7A88A8" stroke-width="1.2" x1="178.2" x2="178.2" y1="132.0" y2="138.0"></line><line stroke="#0E1C42" stroke-width="2" x1="198.0" x2="198.0" y1="129.0" y2="141.0"></line><text fill="#0E1C42" font-family="Lora,Georgia,serif" font-size="13" font-weight="800" text-anchor="middle" x="198.0" y="158">8</text><circle cx="198.0" cy="120" fill="#1E5F9E" r="5" stroke="#0D3D6B" stroke-width="1.5"></circle><line stroke="#7A88A8" stroke-width="1.2" x1="217.8" x2="217.8" y1="132.0" y2="138.0"></line><line stroke="#7A88A8" stroke-width="1.2" x1="237.5" x2="237.5" y1="132.0" y2="138.0"></line><circle cx="237.5" cy="120" fill="#1E5F9E" r="5" stroke="#0D3D6B" stroke-width="1.5"></circle><line stroke="#7A88A8" stroke-width="1.2" x1="257.2" x2="257.2" y1="132.0" y2="138.0"></line><circle cx="257.2" cy="120" fill="#1E5F9E" r="5" stroke="#0D3D6B" stroke-width="1.5"></circle><circle cx="257.2" cy="106" fill="#1E5F9E" r="5" stroke="#0D3D6B" stroke-width="1.5"></circle><line stroke="#0E1C42" stroke-width="2" x1="277.0" x2="277.0" y1="129.0" y2="141.0"></line><text fill="#0E1C42" font-family="Lora,Georgia,serif" font-size="13" font-weight="800" text-anchor="middle" x="277.0" y="158">9</text><circle cx="277.0" cy="120" fill="#1E5F9E" r="5" stroke="#0D3D6B" stroke-width="1.5"></circle><circle cx="277.0" cy="106" fill="#1E5F9E" r="5" stroke="#0D3D6B" stroke-width="1.5"></circle><circle cx="277.0" cy="92" fill="#1E5F9E" r="5" stroke="#0D3D6B" stroke-width="1.5"></circle><circle cx="277.0" cy="78" fill="#1E5F9E" r="5" stroke="#0D3D6B" stroke-width="1.5"></circle><line stroke="#7A88A8" stroke-width="1.2" x1="296.8" x2="296.8" y1="132.0" y2="138.0"></line><circle cx="296.8" cy="120" fill="#1E5F9E" r="5" stroke="#0D3D6B" stroke-width="1.5"></circle><circle cx="296.8" cy="106" fill="#1E5F9E" r="5" stroke="#0D3D6B" stroke-width="1.5"></circle><line stroke="#7A88A8" stroke-width="1.2" x1="316.5" x2="316.5" y1="132.0" y2="138.0"></line><circle cx="316.5" cy="120" fill="#1E5F9E" r="5" stroke="#0D3D6B" stroke-width="1.5"></circle><circle cx="316.5" cy="106" fill="#1E5F9E" r="5" stroke="#0D3D6B" stroke-width="1.5"></circle><line stroke="#7A88A8" stroke-width="1.2" x1="336.2" x2="336.2" y1="132.0" y2="138.0"></line><line stroke="#0E1C42" stroke-width="2" x1="356.0" x2="356.0" y1="129.0" y2="141.0"></line><text fill="#0E1C42" font-family="Lora,Georgia,serif" font-size="13" font-weight="800" text-anchor="middle" x="356.0" y="158">10</text><line stroke="#7A88A8" stroke-width="1.2" x1="375.8" x2="375.8" y1="132.0" y2="138.0"></line><line stroke="#7A88A8" stroke-width="1.2" x1="395.5" x2="395.5" y1="132.0" y2="138.0"></line><line stroke="#7A88A8" stroke-width="1.2" x1="415.2" x2="415.2" y1="132.0" y2="138.0"></line><line stroke="#0E1C42" stroke-width="2" x1="435.0" x2="435.0" y1="129.0" y2="141.0"></line><text fill="#0E1C42" font-family="Lora,Georgia,serif" font-size="13" font-weight="800" text-anchor="middle" x="435.0" y="158">11</text><text fill="#0E1C42" font-family="Lora,Georgia,serif" font-size="14" font-style="italic" font-weight="700" text-anchor="middle" x="230.0" y="180">Hours of Sleep (4th graders, sample)</text></svg></div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px;">
+<div style="display:flex;justify-content:center;margin:6px 0;"><svg viewBox="0 0 340 160" width="340" style="width:100%;max-width:340px;height:auto;" role="img" aria-label="Hours of Sleep (12 fourth graders) line plot"><line x1="14" y1="98" x2="326" y2="98" stroke="#0E1C42" stroke-width="2"/><line x1="22.0" y1="91" x2="22.0" y2="105" stroke="#0E1C42" stroke-width="2"/><text x="22.0" y="122" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="16" font-weight="800" fill="#0E1C42">8</text><line x1="17.0" y1="79" x2="27.0" y2="89" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="17.0" y1="89" x2="27.0" y2="79" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="59.0" y1="93" x2="59.0" y2="103" stroke="#0E1C42" stroke-width="1.4"/><text x="54.0" y="122" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="15" font-weight="800" fill="#0E1C42">8</text><text x="65.0" y="114" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#0E1C42">1</text><line x1="60.0" y1="118" x2="71.0" y2="118" stroke="#0E1C42" stroke-width="1.2"/><text x="65.0" y="130" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#0E1C42">4</text><line x1="96.0" y1="93" x2="96.0" y2="103" stroke="#0E1C42" stroke-width="1.4"/><text x="91.0" y="122" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="15" font-weight="800" fill="#0E1C42">8</text><text x="102.0" y="114" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#0E1C42">1</text><line x1="97.0" y1="118" x2="108.0" y2="118" stroke="#0E1C42" stroke-width="1.2"/><text x="102.0" y="130" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#0E1C42">2</text><line x1="91.0" y1="79" x2="101.0" y2="89" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="91.0" y1="89" x2="101.0" y2="79" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="133.0" y1="93" x2="133.0" y2="103" stroke="#0E1C42" stroke-width="1.4"/><text x="128.0" y="122" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="15" font-weight="800" fill="#0E1C42">8</text><text x="139.0" y="114" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#0E1C42">3</text><line x1="134.0" y1="118" x2="145.0" y2="118" stroke="#0E1C42" stroke-width="1.2"/><text x="139.0" y="130" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#0E1C42">4</text><line x1="128.0" y1="79" x2="138.0" y2="89" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="128.0" y1="89" x2="138.0" y2="79" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="128.0" y1="63" x2="138.0" y2="73" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="128.0" y1="73" x2="138.0" y2="63" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="170.0" y1="91" x2="170.0" y2="105" stroke="#0E1C42" stroke-width="2"/><text x="170.0" y="122" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="16" font-weight="800" fill="#0E1C42">9</text><line x1="165.0" y1="79" x2="175.0" y2="89" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="165.0" y1="89" x2="175.0" y2="79" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="165.0" y1="63" x2="175.0" y2="73" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="165.0" y1="73" x2="175.0" y2="63" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="165.0" y1="47" x2="175.0" y2="57" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="165.0" y1="57" x2="175.0" y2="47" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="165.0" y1="31" x2="175.0" y2="41" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="165.0" y1="41" x2="175.0" y2="31" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="207.0" y1="93" x2="207.0" y2="103" stroke="#0E1C42" stroke-width="1.4"/><text x="202.0" y="122" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="15" font-weight="800" fill="#0E1C42">9</text><text x="213.0" y="114" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#0E1C42">1</text><line x1="208.0" y1="118" x2="219.0" y2="118" stroke="#0E1C42" stroke-width="1.2"/><text x="213.0" y="130" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#0E1C42">4</text><line x1="202.0" y1="79" x2="212.0" y2="89" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="202.0" y1="89" x2="212.0" y2="79" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="202.0" y1="63" x2="212.0" y2="73" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="202.0" y1="73" x2="212.0" y2="63" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="244.0" y1="93" x2="244.0" y2="103" stroke="#0E1C42" stroke-width="1.4"/><text x="239.0" y="122" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="15" font-weight="800" fill="#0E1C42">9</text><text x="250.0" y="114" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#0E1C42">1</text><line x1="245.0" y1="118" x2="256.0" y2="118" stroke="#0E1C42" stroke-width="1.2"/><text x="250.0" y="130" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#0E1C42">2</text><line x1="239.0" y1="79" x2="249.0" y2="89" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="239.0" y1="89" x2="249.0" y2="79" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="239.0" y1="63" x2="249.0" y2="73" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="239.0" y1="73" x2="249.0" y2="63" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="281.0" y1="93" x2="281.0" y2="103" stroke="#0E1C42" stroke-width="1.4"/><text x="276.0" y="122" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="15" font-weight="800" fill="#0E1C42">9</text><text x="287.0" y="114" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#0E1C42">3</text><line x1="282.0" y1="118" x2="293.0" y2="118" stroke="#0E1C42" stroke-width="1.2"/><text x="287.0" y="130" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#0E1C42">4</text><line x1="318.0" y1="91" x2="318.0" y2="105" stroke="#0E1C42" stroke-width="2"/><text x="318.0" y="122" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="16" font-weight="800" fill="#0E1C42">10</text><text x="170.0" y="152" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="14" font-style="italic" font-weight="700" fill="#0E1C42">Hours of Sleep (12 fourth graders)</text></svg></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:14px;">
 <div style="background:#fff;border:1.5px solid #BFE3F2;border-radius:10px;padding:10px;text-align:center;">
 <div style="font-size:11px;font-weight:900;color:#0D3D6B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">MODE</div>
 <div style="font-family:'Lora',Georgia,serif;font-size:14px;color:#3A4A6B;line-height:1.4;">Tallest stack is at 9 hours (4 X marks).</div>
 <div style="font-family:'Lora',Georgia,serif;font-size:22px;font-weight:900;color:#1E5F9E;margin-top:6px;">9 hours</div>
 </div>
 <div style="background:#fff;border:1.5px solid #BFE3F2;border-radius:10px;padding:10px;text-align:center;">
-<div style="font-size:11px;font-weight:900;color:#0D3D6B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">FRACTIONAL TICKS</div>
-<div style="font-family:'Lora',Georgia,serif;font-size:14px;color:#3A4A6B;line-height:1.4;">Each whole hour is split into 4 quarter-ticks.</div>
-<div style="font-family:'Lora',Georgia,serif;font-size:14px;color:#1E5F9E;margin-top:6px;font-weight:700;">8 <span class="frac"><span class="num">1</span><span class="den">2</span></span>, 8 <span class="frac"><span class="num">3</span><span class="den">4</span></span>, etc.</div>
+<div style="font-size:11px;font-weight:900;color:#0D3D6B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">AT LEAST 9 HOURS</div>
+<div style="font-family:'Lora',Georgia,serif;font-size:14px;color:#3A4A6B;line-height:1.4;">Count the X marks at 9 and to the right of 9.</div>
+<div style="font-family:'Lora',Georgia,serif;font-size:20px;color:#1E5F9E;margin-top:6px;font-weight:900;">8 of 12 = <span class="frac"><span class="num">8</span><span class="den">12</span></span></div>
 </div>
 <div style="background:#fff;border:1.5px solid #BFE3F2;border-radius:10px;padding:10px;text-align:center;">
 <div style="font-size:11px;font-weight:900;color:#0D3D6B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">DATA SIZE</div>
@@ -874,7 +941,7 @@
 <div class="journal-label">✏️ My thinking <span class="saved-dot" id="dot-soc"></span></div>
 <textarea class="journal-box" data-label="Learn — Socratic: tick types" id="journal-soc" oninput="autoSave(this,'dot-soc')" placeholder=""></textarea></div>
 </div></div>
-<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🔍</div><div><div class="activity-title">Worked Example: Old Faithful Eruptions</div><div class="activity-sub">Read a finished plot — find the mode and range.</div></div></div><div class="activity-body"><div class="task-box"><div class="task-label">Problem</div><p>A visitor at Yellowstone recorded eruption durations of Old Faithful in whole minutes: <strong>2, 2, 4, 3, 3, 5, 4, 4, 5, 5, 5, 3, 4, 4, 3</strong>. Build the line plot in your head, then find the mode and range.</p></div><p style="margin:8px 0;font-weight:700;color:#3A4A6B;">Watch the Math Crew solve it together:</p>
+<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🔍</div><div><div class="activity-title">Worked Example: Old Faithful Eruptions</div><div class="activity-sub">Read a finished plot — find the mode and range.</div></div></div><div class="activity-body"><div class="task-box"><div class="task-label">Problem</div><p>A visitor at Yellowstone recorded eruption durations of Old Faithful in whole minutes: <strong>2, 2, 4, 3, 3, 5, 4, 4, 5, 5, 5, 3, 4, 4, 3</strong>. Build the line plot in your head, then find the mode and range.</p></div><p style="margin:8px 0;font-weight:700;color:#3A4A6B;">Here’s how the Math Crew solved it:</p>
 
 <div style="background:#F5FBFE;border:2px solid #BFE3F2;border-radius:14px;padding:16px;margin:12px 0;">
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:14px;text-align:center;">
@@ -914,10 +981,10 @@
 <div class="tab-next-wrap"><p class="tab-transition-voice">You built the plot. Now practice with new sets.</p><button class="tab-next-btn" onclick="switchTab('assignment')">Continue to 🌟 Show What You Know →</button></div>
 </div>
 <div class="tab-panel" id="tab-assignment">
-<div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">For each problem, sketch the line plot on scratch paper, then write your answers.</div></div></div><div class="activity-body"><p>For each: build the line plot, then read off the answers.</p>
+<div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">Two quick checks. Your full practice is in the Independent Practice.</div></div></div><div class="activity-body"><p>Read the plot carefully. Count every X.</p>
 <div class="callout callout-think"><span class="callout-icon">🧠</span><p><strong>Before each problem, ask:</strong> Did I count every X? Am I reading the right number on the line?</p></div>
-<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Read a line plot.</strong> A class's homework hours: 0 → 1 X, 1 → 3 X, 2 → 2 X, 3 → 4 X, 4 → 1 X, 5 → 1 X. (a) How many students total? (b) What is the mode? (c) What is the range?</p><div class="journal-label">✏️ My three answers <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: read plot" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
-<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Make up your own.</strong> Sketch a line plot with EXACTLY 10 data points where the mode is 4 and the range is 6. Write your data set, then describe the plot.</p><div class="journal-label">✏️ My data set + plot description <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 6: design a plot" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
+<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Read a line plot.</strong> This plot shows how many books each student in a class read in October. How many students are in the data set? What is the mode? What is the range?</p><div style="display:flex;justify-content:center;margin:6px 0 10px;"><svg viewBox="0 0 320 160" width="320" style="width:100%;max-width:320px;height:auto;" role="img" aria-label="Books Read in October line plot"><line x1="14" y1="98" x2="306" y2="98" stroke="#0E1C42" stroke-width="2"/><line x1="22.0" y1="91" x2="22.0" y2="105" stroke="#0E1C42" stroke-width="2"/><text x="22.0" y="122" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="16" font-weight="800" fill="#0E1C42">2</text><line x1="17.0" y1="79" x2="27.0" y2="89" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="17.0" y1="89" x2="27.0" y2="79" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="68.0" y1="91" x2="68.0" y2="105" stroke="#0E1C42" stroke-width="2"/><text x="68.0" y="122" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="16" font-weight="800" fill="#0E1C42">3</text><line x1="63.0" y1="79" x2="73.0" y2="89" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="63.0" y1="89" x2="73.0" y2="79" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="63.0" y1="63" x2="73.0" y2="73" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="63.0" y1="73" x2="73.0" y2="63" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="114.0" y1="91" x2="114.0" y2="105" stroke="#0E1C42" stroke-width="2"/><text x="114.0" y="122" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="16" font-weight="800" fill="#0E1C42">4</text><line x1="109.0" y1="79" x2="119.0" y2="89" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="109.0" y1="89" x2="119.0" y2="79" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="109.0" y1="63" x2="119.0" y2="73" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="109.0" y1="73" x2="119.0" y2="63" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="109.0" y1="47" x2="119.0" y2="57" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="109.0" y1="57" x2="119.0" y2="47" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="109.0" y1="31" x2="119.0" y2="41" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="109.0" y1="41" x2="119.0" y2="31" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="160.0" y1="91" x2="160.0" y2="105" stroke="#0E1C42" stroke-width="2"/><text x="160.0" y="122" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="16" font-weight="800" fill="#0E1C42">5</text><line x1="155.0" y1="79" x2="165.0" y2="89" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="155.0" y1="89" x2="165.0" y2="79" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="155.0" y1="63" x2="165.0" y2="73" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="155.0" y1="73" x2="165.0" y2="63" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="155.0" y1="47" x2="165.0" y2="57" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="155.0" y1="57" x2="165.0" y2="47" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="206.0" y1="91" x2="206.0" y2="105" stroke="#0E1C42" stroke-width="2"/><text x="206.0" y="122" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="16" font-weight="800" fill="#0E1C42">6</text><line x1="252.0" y1="91" x2="252.0" y2="105" stroke="#0E1C42" stroke-width="2"/><text x="252.0" y="122" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="16" font-weight="800" fill="#0E1C42">7</text><line x1="247.0" y1="79" x2="257.0" y2="89" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="247.0" y1="89" x2="257.0" y2="79" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="298.0" y1="91" x2="298.0" y2="105" stroke="#0E1C42" stroke-width="2"/><text x="298.0" y="122" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="16" font-weight="800" fill="#0E1C42">8</text><line x1="293.0" y1="79" x2="303.0" y2="89" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="293.0" y1="89" x2="303.0" y2="79" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><text x="160.0" y="152" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="14" font-style="italic" font-weight="700" fill="#0E1C42">Books Read in October</text></svg></div><div class="journal-label">✏️ My three answers <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: Read the books line plot (count, mode, range)" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
+<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Make up your own.</strong> Sketch a line plot with EXACTLY 10 data points where the mode is 4 and the range is 6. Write your data set, then describe the plot.</p><div class="journal-label">✏️ My data set + plot description <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 2: Design a line plot" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
 <div class="activity bl-slate" style="margin-top:18px;border-left-color:#1E5F9E;"><div class="activity-head"><div class="activity-num" style="background:#1E5F9E;color:#fff;">🗺️</div><div><div class="activity-title">Connection Forward: Stem-and-Leaf Plots</div><div class="activity-sub">Looking ahead</div></div></div><div class="activity-body"><p>You can now build a line plot and read the mode, median, and range from it.</p><p>Next lesson, we organize bigger data sets with a stem-and-leaf plot — a compact way to show every value when a line plot would need too many ticks.</p></div></div></div></div>
 <div class="gathered-box"><div class="gathered-head"><div class="gathered-head-icon">📋</div><div><div class="gathered-head-label">Your Math Journal</div><div class="gathered-head-title">All Answers from Today</div></div></div><div class="gathered-body"><textarea class="gathered-output" id="gatheredOutput" readonly="">Click "Gather My Answers" to collect your work.</textarea><div class="gathered-actions"><button class="purple-btn" onclick="gatherAnswers()">📋 Gather My Answers</button><button class="green-btn" onclick="copyAnswers()">Copy All Answers</button><button class="check-btn" onclick="downloadJournal()">Download My Math Journal</button></div></div></div>
 <div class="turn-in-card"><div class="turn-in-header"><div class="turn-in-header-icon">✅</div><div><div class="turn-in-header-label">Turn-In Checklist</div><div class="turn-in-header-title">Ready to Submit?</div></div></div><div class="turn-in-body"><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I completed both quick checks above.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I showed my model or my steps for each problem.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I checked that each answer makes sense.</span></div></div></div>
@@ -1438,6 +1505,20 @@ function stRender(id){
     status.innerHTML = '✅ Done! Result: ' + (t.mW - t.sW) + ' ' + '<span class="frac"><span class="num">' + t.mF + '</span><span class="den">' + t.mD + '</span></span>' + ' = <strong>' + __fr(t.target) + '</strong>.';
   }
 }
+
+function lpAskEl(id, measures){var a=document.getElementById('lpAsk-'+id);if(!a){a=document.createElement('div');a.id='lpAsk-'+id;a.className='mm-ask';a.style.display='none';measures.parentNode.insertBefore(a,measures);}return a;}
+function lpModes(vals){var c={},mx=0,k;vals.forEach(function(v){c[v]=(c[v]||0)+1;});for(k in c){if(c[k]>mx)mx=c[k];}if(mx<2)return [];var out=[];for(k in c){if(c[k]===mx)out.push(parseFloat(k));}return out.sort(function(a,b){return a-b;});}
+function lpCheck(id){
+  var s=window.lpState[id],v=s.placed,fb=document.getElementById('lpFb-'+id),probs=[];
+  var modes=lpModes(v),rng=Math.max.apply(null,v)-Math.min.apply(null,v);
+  var mt=document.getElementById('lpInMode-'+id).value.toLowerCase(),rt=document.getElementById('lpInRange-'+id).value;
+  var nums=(mt.match(/\d+/g)||[]).map(Number).filter(function(x,i,a){return a.indexOf(x)===i;}).sort(function(a,b){return a-b;});
+  var modeOk=modes.length?nums.join(',')===modes.join(','):/\bno|none/.test(mt);
+  if(!modeOk)probs.push(modes.length>1&&nums.length&&nums.every(function(x){return modes.indexOf(x)>=0;})?'Mode: you found one of the tallest stacks. Look again. Some stacks are tied.':'Mode: find the tallest stack of X marks. Which number is it above?');
+  if(!/^\s*\d+\s*$/.test(rt)||parseInt(rt,10)!==rng)probs.push('Range: find the X farthest to the right and the X farthest to the left. Subtract: '+Math.max.apply(null,v)+' − '+Math.min.apply(null,v)+' = ?');
+  if(probs.length){fb.className='wg-fb think';fb.innerHTML=probs.join('<br>');return;}
+  s.checked=true;lpRender(id);
+}
 function lpReset(id){
   var s = window.lpState = window.lpState || {};
   var el = document.querySelector('.lp-builder[data-id="' + id + '"]');
@@ -1476,7 +1557,7 @@ function lpRender(id){
 
   // Render plot SVG
   var plotEl = document.getElementById('lpPlot-' + id);
-  var w = 480;
+  var w = 400;
   var marginL = 40;
   var marginR = 30;
   var span = w - marginL - marginR;
@@ -1500,12 +1581,13 @@ function lpRender(id){
     var col = isWhole ? '#0E1C42' : '#7A88A8';
     inner += '<line x1="' + x.toFixed(1) + '" y1="' + (dotY-tlen/2) + '" x2="' + x.toFixed(1) + '" y2="' + (dotY+tlen/2) + '" stroke="' + col + '" stroke-width="' + (isWhole ? 2 : 1.2) + '"/>';
     if(isWhole){
-      inner += '<text x="' + x.toFixed(1) + '" y="' + (dotY + 23) + '" text-anchor="middle" font-family="Lora,Georgia,serif" font-weight="800" font-size="12" fill="#0E1C42">' + tickVal + '</text>';
+      inner += '<text x="' + x.toFixed(1) + '" y="' + (dotY + 23) + '" text-anchor="middle" font-family="Lora,Georgia,serif" font-weight="800" font-size="15" fill="#0E1C42">' + tickVal + '</text>';
     }
     // Dots
     var c = counts[tickVal] || 0;
     for(var k=0; k<c; k++){
-      inner += '<circle cx="' + x.toFixed(1) + '" cy="' + (dotY - 15 - k*14) + '" r="5" fill="#1E5F9E" stroke="#0D3D6B" stroke-width="1.5"/>';
+      var cy = dotY - 15 - k*14;
+      inner += '<line x1="' + (x-5).toFixed(1) + '" y1="' + (cy-5) + '" x2="' + (x+5).toFixed(1) + '" y2="' + (cy+5) + '" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/><line x1="' + (x-5).toFixed(1) + '" y1="' + (cy+5) + '" x2="' + (x+5).toFixed(1) + '" y2="' + (cy-5) + '" stroke="#1E5F9E" stroke-width="2.6" stroke-linecap="round"/>';
     }
   }
   inner += '<text x="' + (w/2) + '" y="' + (plotH - 8) + '" text-anchor="middle" font-family="Lora,Georgia,serif" font-weight="700" font-size="13" fill="#0E1C42" font-style="italic">' + axisLabel + '</text>';
@@ -1534,14 +1616,28 @@ function lpRender(id){
     var vmax = Math.max.apply(null, s[id].placed);
     document.getElementById('lpRange-' + id).textContent = (vmax - vmin);
   }
-  measures.style.display = s[id].placed.length > 0 ? 'block' : 'none';
+  var ask = lpAskEl(id, measures);
+  var full = s[id].pool.length === 0;
+  measures.style.display = (full && s[id].checked) ? 'block' : 'none';
+  if(full && !s[id].checked){
+    ask.style.display = 'block';
+    if(!ask.dataset.built){
+      ask.innerHTML = '<p>Plot complete! Now read it.</p><div class="mm-grid"><label>Mode<input class="wg-in wide" id="lpInMode-'+id+'" type="text"></label><label>Range<input class="wg-in" id="lpInRange-'+id+'" type="text" inputmode="numeric"></label></div><div class="wg-row"><button class="wg-btn" onclick="lpCheck(\''+id+'\')">Check</button></div><div class="wg-fb" id="lpFb-'+id+'"></div><p style="font-size:13px;font-weight:600;color:#3A4A6B;margin:6px 0 0;">If stacks tie for tallest, write every mode.</p>';
+      ask.dataset.built = '1';
+    }
+  } else { ask.style.display = 'none'; if(!full) ask.dataset.built = ''; }
 
   // Status
   var status = document.getElementById('lpStatus-' + id);
   if(s[id].pool.length === 0){
-    status.innerHTML = '🎉 Plot complete! Mode, count, and range shown above.';
-    status.style.background = '#C8F0DA';
-    if(document.getElementById('learnReveal')) document.getElementById('learnReveal').classList.add('show');
+    if(s[id].checked){
+      status.innerHTML = '🎉 You read the plot. Mode, count, and range are shown above.';
+      status.style.background = '#C8F0DA';
+      if(['1','2','3'].every(function(k){ return window.lpState[k] && window.lpState[k].checked; }) && document.getElementById('learnReveal')) document.getElementById('learnReveal').classList.add('show');
+    } else {
+      status.innerHTML = 'All ' + s[id].placed.length + ' X marks placed. Find the mode and range.';
+      status.style.background = '#D6ECF7';
+    }
   } else {
     status.innerHTML = '✓ ' + s[id].placed.length + ' placed. ' + s[id].pool.length + ' to go.';
     status.style.background = '#D6ECF7';
@@ -1698,6 +1794,36 @@ document.addEventListener('DOMContentLoaded', function() {
     if(navigator.clipboard && window.isSecureContext){
       navigator.clipboard.writeText(text).then(function(){ say('Copied! Now paste your answers where your teacher asked you to turn them in.', true); }, fallback);
     } else { fallback(); }
+  };
+})();
+</script>
+<!-- OAO download fix -->
+<script>
+(function(){
+  var orig = window.downloadJournal;
+  if(typeof orig !== 'function') return;
+  window.downloadJournal = function(){
+    try { gatherAnswers(); } catch(e) {}
+    var out = document.getElementById('gatheredOutput');
+    var text = out ? (out.value || '') : '';
+    var w = null;
+    try { w = window.open('', '_blank'); } catch(e) { w = null; }
+    if(w && w.document){
+      w.document.write('<pre style="font-family:Arial;white-space:pre-wrap;font-size:14px;line-height:1.5;">' + text.replace(/[&<>]/g, function(s){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[s]; }) + '</pre>');
+      w.document.close();
+      try { w.focus(); w.print(); } catch(e) {}
+      return;
+    }
+    try {
+      var blob = new Blob([text], {type:'text/plain'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = ((document.title || 'math-journal').replace(/[^a-z0-9]+/gi,'-').toLowerCase()) + '.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+    } catch(e) {
+      if(out){ out.focus(); out.select(); }
+    }
   };
 })();
 </script>

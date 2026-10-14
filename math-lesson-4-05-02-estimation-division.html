@@ -378,6 +378,73 @@
 .vfrac .vf-num{padding:0 3px;border-bottom:1.5px solid #0E1C42}
 .vfrac .vf-den{padding:0 3px}
 </style>
+
+<style id="oao-g4a-widgets">
+.wg-box{background:#FAFBFF;border:2px solid #E2E8F4;border-radius:14px;padding:16px 14px;margin:12px 0}
+.wg-picks{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
+.wg-pick{background:#fff;border:2px solid #D8CCF0;border-radius:10px;padding:8px 14px;font-family:'Lora',Georgia,serif;font-size:16px;font-weight:800;color:#0E1C42;cursor:pointer}
+.wg-pick.on{background:#6B3FA0;border-color:#6B3FA0;color:#fff}
+.wg-pick.done::after{content:' \2713';color:#2DB87A}
+.wg-pick.on.done::after{color:#C8F0DA}
+.wg-title{font-family:'Lora',Georgia,serif;font-size:24px;font-weight:900;color:#0E1C42;text-align:center;margin:4px 0 10px}
+.wg-label{font-size:11px;font-weight:900;color:#3A4A6B;text-transform:uppercase;letter-spacing:.5px;text-align:center;margin:10px 0 6px}
+.wg-btn{background:#6B3FA0;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;font-size:15px;cursor:pointer;font-family:'Nunito',sans-serif}
+.wg-btn.alt{background:#3A6B9A}.wg-btn.grn{background:#2DB87A}.wg-btn.org{background:#E07B39}
+.wg-btn:disabled{background:#B8C0D4;cursor:not-allowed}
+.wg-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin:10px 0}
+.wg-in{width:84px;padding:8px 10px;border:2px solid #BFE3F2;border-radius:10px;font-size:18px;font-weight:800;font-family:'Lora',Georgia,serif;color:#0E1C42;text-align:center}
+.wg-in.wide{width:120px}
+.wg-status{background:#EAF8FD;border:2px solid #D6F2FB;border-radius:10px;padding:10px 14px;font-size:15px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;margin-top:10px}
+.wg-status.good{background:#E3F8ED;border-color:#B8E8CF}
+.wg-status.think{background:#FFF0E6;border-color:#F5C8A0}
+.wg-q{background:#fff;border:2px solid #E2E8F4;border-radius:12px;padding:10px 12px;margin:8px 0}
+.wg-q p{margin:0 0 6px;font-weight:700;color:#0E1C42;font-size:15px}
+.wg-fb{font-size:14px;line-height:1.5;margin-top:6px;font-weight:700}
+.wg-fb.good{color:#1A8A5A}.wg-fb.think{color:#B5561B}
+/* sharing mat */
+.sh-mat{display:grid;gap:8px}
+.sh-col{border:2px solid #E2E8F4;border-radius:12px;background:#fff;padding:8px 4px;min-height:90px;text-align:center;min-width:0}
+.sh-col.now{border-color:#F5C518;box-shadow:0 0 0 3px #FFF3C4}
+.sh-col h5{margin:0 0 2px;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:0}
+.sh-col .sh-n{font-family:'Lora',Georgia,serif;font-size:20px;font-weight:900;color:#0E1C42}
+.sh-discs{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-top:4px}
+.sh-disc{width:14px;height:14px;border-radius:50%;display:inline-block;border:1.5px solid rgba(0,0,0,.25)}
+.sh-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px}
+.sh-group{background:#fff;border:2px dashed #BFC8DC;border-radius:12px;padding:6px;min-height:64px;text-align:center}
+.sh-group b{display:block;font-size:11px;color:#3A4A6B;text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px}
+.sh-gplace{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;margin:2px 0}
+.sh-gplace .sh-disc{width:10px;height:10px;border-width:1px}
+.sh-quot{display:flex;justify-content:center;gap:6px;margin:6px 0 2px}
+.sh-qd{width:42px;height:48px;border:2px solid #D8CCF0;border-radius:10px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Lora',Georgia,serif;font-size:24px;font-weight:900;color:#0E1C42}
+.sh-qd small{font-family:'Nunito',sans-serif;font-size:9px;font-weight:900;color:#7A88A8;text-transform:uppercase}
+.sh-qd.blank{color:#C3CADB}
+.sh-record{background:#fff;border:2px solid #E2E8F4;border-radius:12px;padding:10px 14px;margin-top:10px;font-size:14px;line-height:1.7;color:#0E1C42}
+.sh-record:empty{display:none}
+/* round-and-share estimator */
+.rs-bar{display:flex;height:40px;border-radius:10px;overflow:hidden;border:2px solid #0E1C42;margin:6px 0}
+.rs-seg{flex:1;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:14px;border-right:2px solid #fff}
+.rs-seg:last-child{border-right:none}
+.rs-left{flex:0 0 18%;background:#E07B39;color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.1}
+.rs-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:15px}
+.rs-table th,.rs-table td{border:1.5px solid #E2E8F4;padding:6px 8px;text-align:center}
+.rs-table th{background:#F0E8FF;color:#0E1C42;font-size:12px;text-transform:uppercase;letter-spacing:.3px}
+.rs-table tr.best td{background:#E3F8ED;font-weight:900}
+/* packer */
+.pk-pool{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;min-height:30px;padding:8px;border:2px dashed #BFE3F2;border-radius:12px;background:#fff}
+.pk-dot{width:18px;height:18px;border-radius:50%;display:inline-block}
+.pk-bags{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:8px;margin-top:8px}
+.pk-bag{background:#fff;border:2px solid #3A6B9A;border-radius:10px;padding:5px;text-align:center}
+.pk-bag b{display:block;font-size:10px;color:#3A6B9A;text-transform:uppercase}
+.pk-bag .pk-dot{width:11px;height:11px;margin:1px}
+/* data check */
+.mm-ask{background:#fff;border:2px solid #F5C518;border-radius:12px;padding:12px;margin-bottom:12px;text-align:center}
+.mm-ask p{margin:0 0 8px;font-weight:800;color:#0E1C42}
+.mm-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.mm-grid label{display:flex;flex-direction:column;align-items:center;font-size:11px;font-weight:900;color:#0D3D6B;text-transform:uppercase;letter-spacing:.5px;gap:4px}
+.mm-mid{outline:3px solid #F5C518;outline-offset:2px}
+.sh-disc{flex:0 0 auto}
+@media (max-width:480px){.sh-col h5{font-size:10px;text-transform:none;overflow-wrap:normal}.sh-disc{width:11px;height:11px}.wg-title{font-size:20px}.sh-qd{width:36px;height:42px;font-size:20px}}
+</style>
 </head>
 <body id="pageTop">
 <div class="page-wrap">
@@ -607,7 +674,7 @@
 
 <div class="standards-toggle-bar" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');"><span class="standards-toggle-label">Standards Alignment</span><span class="standards-toggle-arrow">&#9660;</span></div><div class="standards-panel"><div class="standards-panel-inner"><div class="standards-group"><div class="standards-group-label">Florida B.E.S.T.</div><div class="standards-codes"><span class="fl-code">MA.4.NSO.2.5</span> &middot; <span class="fl-code">MTR.2.1</span> &middot; <span class="fl-code">MTR.6.1</span></div></div><div class="standards-group"><div class="standards-group-label">Texas TEKS</div><div class="standards-codes"><span class="tx-code">4.4.G</span></div></div></div></div>
 <div class="info-strip"><div class="info-cell"><div class="info-icon" style="background:#F0E8FF;">🧭</div><div><div class="info-label">Unit</div><div class="info-value">Unit 5</div><div class="info-detail">Division</div></div></div><div class="info-cell"><div class="info-icon" style="background:#E3F8ED;">📅</div><div><div class="info-label">Lesson</div><div class="info-value">4.05.02</div></div></div><div class="info-cell"><div class="info-icon" style="background:#EAF0FF;">📐</div><div><div class="info-label">Standard</div><div class="info-value">MA.4.NSO.2.5</div><div class="info-detail">Estimation & rounding</div></div></div><div class="info-cell"><div class="info-icon" style="background:#FFF8E6;">🔢</div><div><div class="info-label">Focus</div><div class="info-value">Estimate three ways</div><div class="info-detail">MTR.2.1 · MTR.6.1</div></div></div></div>
-<div class="explorer-strip"><span class="explorer-compass">🧭</span><div><div class="explorer-mission-label">Today's Mission</div><div class="explorer-mission-text">Yesterday's number bonds work when the dividend splits cleanly. Today: estimate ANY dividend by rounding three different ways. Compare the three estimates to the actual quotient — and learn which rounding gives the closest answer.</div></div></div>
+<div class="explorer-strip"><span class="explorer-compass">🧭</span><div><div class="explorer-mission-label">Today's Mission</div><div class="explorer-mission-text">Round the dividend three ways, then find out which estimate lands closest to the exact answer.</div></div></div>
 <div class="intro-2col"><div class="intro-card theme-question"><div class="intro-card-head"><div class="intro-card-head-icon">❓</div><div><div class="intro-card-head-label">Essential Question</div><div class="intro-card-head-title">For 743 ÷ 3, which rounding gives the closest estimate — 600, 750, or 900? Why?</div></div></div><div class="intro-card-body"><p>743 isn't a nice number to divide. So you ROUND it first. But to what?</p><p>600 ÷ 3 = 200. 750 ÷ 3 = 250. 900 ÷ 3 = 300. The actual quotient is 247 r 2. So 750 ÷ 3 = 250 is the closest — because 750 is closest to 743 AND 3 divides 750 evenly.</p></div></div><div class="intro-card theme-objectives"><div class="intro-card-head"><div class="intro-card-head-icon">🎯</div><div><div class="intro-card-head-label">Today's Objectives</div><div class="intro-card-head-title">You will…</div></div></div><div class="intro-card-body"><div class="obj-line"><span class="obj-icon">📏</span><span><strong>Round the dividend</strong> three different ways to estimate a quotient.</span></div><div class="obj-line"><span class="obj-icon">📐</span><span><strong>Use long division</strong> to find the exact quotient and remainder.</span></div><div class="obj-line"><span class="obj-icon">🎯</span><span><strong>Compare</strong> the three estimates to the actual — decide which was closest.</span></div></div></div></div>
 <div class="need-strip"><span class="need-strip-label">You'll need:</span><span class="need-chip">📓 Math Journal</span><span class="need-chip">✏️ Pencil</span><span class="need-chip">📏 Ruler or straight edge</span></div>
 <div class="tab-bar" id="tabBar"><button class="tab-btn active" data-tab="warmup" onclick="switchTab('warmup')">🔍 Warm-Up <span class="tab-check">✓</span></button><button class="tab-btn" data-tab="learn" onclick="switchTab('learn')">📐 Learn <span class="tab-check">✓</span></button><button class="tab-btn" data-tab="assignment" onclick="switchTab('assignment')">🌟 Show What You Know <span class="tab-check">✓</span></button></div>
@@ -667,7 +734,7 @@
 <div style="background:#FAFBFF;border:2px solid #E2E8F4;border-radius:14px;padding:16px;margin:12px 0;">
 <div style="display:grid;gap:14px;">
 <div style="display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;">
-<span style="font-family:'Lora',Georgia,serif;font-size:16px;font-weight:700;color:#0E1C42;max-width:520px;">For <strong>743 ÷ 3</strong>, the closest multiple of 3 to 743 is…</span>
+<span style="font-family:'Lora',Georgia,serif;font-size:16px;font-weight:700;color:#0E1C42;max-width:520px;">For <strong>743 ÷ 3</strong>, which round number near 743 can 3 divide evenly?</span>
 <div class="value-card-row" style="margin:0;">
 <button class="value-card" onclick="pickReadinessRound(this,1,'750')" style="min-width:80px;"><div class="big" style="font-size:16px;">750</div></button>
 <button class="value-card" onclick="pickReadinessRound(this,1,'700')" style="min-width:80px;"><div class="big" style="font-size:16px;">700</div></button>
@@ -675,7 +742,7 @@
 </div>
 </div>
 <div style="display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;">
-<span style="font-family:'Lora',Georgia,serif;font-size:16px;font-weight:700;color:#0E1C42;max-width:520px;">For <strong>878 ÷ 9</strong>, the closest friendly dividend is…</span>
+<span style="font-family:'Lora',Georgia,serif;font-size:16px;font-weight:700;color:#0E1C42;max-width:520px;">For <strong>878 ÷ 9</strong>, which round number near 878 can 9 divide evenly?</span>
 <div class="value-card-row" style="margin:0;">
 <button class="value-card" onclick="pickReadinessRound(this,2,'900')" style="min-width:80px;"><div class="big" style="font-size:16px;">900</div></button>
 <button class="value-card" onclick="pickReadinessRound(this,2,'800')" style="min-width:80px;"><div class="big" style="font-size:16px;">800</div></button>
@@ -697,24 +764,24 @@
 <div class="journal-label">✏️ Pick one of the three problems above. Explain why your rounded dividend is divisor-friendly — what makes it easy to divide? <span class="saved-dot" id="dot-r1"></span></div><textarea class="journal-box" data-label="Warm-Up — Readiness: Why divisor-friendly rounding makes the estimate tight" id="journal-r1" oninput="autoSave(this,'dot-r1')" placeholder=""></textarea></div></div>
 
 <div class="activity bl-yellow"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🤔</div><div><div class="activity-title">Think About It</div><div class="activity-sub">Look closely, then take a guess.</div></div></div><div class="activity-body">
-<div class="callout callout-think"><span class="callout-icon">🚣</span><p>A community boating center had <strong>$200</strong>. It bought <strong>6 identical life vests</strong> for its customers and had <strong>$8 left</strong>. Estimate the cost of one life vest. (Hint: $200 − $8 = $192 spent. Then $192 ÷ 6 = cost per vest.)</p></div>
+<div class="callout callout-think"><span class="callout-icon">🚣</span><p>A community boating center had <strong>$200</strong>. It bought <strong>6 life vests</strong> that all cost the same and had <strong>$8 left</strong>. About how much did one vest cost?</p></div>
 <div class="number-talk-visual">
-<div class="number-talk-prompt">$200 − $8 = $192. Now divide: $192 ÷ 6. Round 192 to 180 (multiple of 6): 180 ÷ 6 = $30. So each vest costs about $30 — close to $32 exact.</div>
+<div class="number-talk-prompt">How much money did the center spend on vests? Is that close to a number 6 can divide evenly?</div>
 <div class="visual-equation" style="font-size:22px;letter-spacing:1px;">Estimate first by rounding to a divisor-friendly number.</div>
 <div class="notice-wonder-grid">
 <div class="notice-wonder-box"><h4>🔍 I Notice…</h4><textarea class="journal-box" data-label="Warm-Up — Notice: What I notice about the boating center problem" id="journal-notice" oninput="autoSave(this,'dot-notice')" placeholder="" style="min-height:60px;"></textarea></div>
 <div class="notice-wonder-box"><h4>❓ I Wonder…</h4><textarea class="journal-box" data-label="Warm-Up — Wonder: What I wonder about estimating the cost" id="journal-wonder" oninput="autoSave(this,'dot-wonder')" placeholder="" style="min-height:60px;"></textarea></div>
 </div>
 </div>
-<p><strong>Predict the cost per life vest:</strong> $200 − $8 = $192. $192 ÷ 6 = ? Pick the closest answer.</p>
+<p><strong>Predict the cost of one life vest.</strong> Pick the answer you think is right.</p>
 <div class="strategy-chip-row">
 <button class="strategy-chip" onclick="this.classList.toggle('selected')">$21</button>
 <button class="strategy-chip" onclick="this.classList.toggle('selected')">$32</button>
 <button class="strategy-chip" onclick="this.classList.toggle('selected')">$40</button>
 <button class="strategy-chip" onclick="this.classList.toggle('selected')">$48</button>
 </div>
-<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>Before you predict, ask yourself:</strong> $192 is close to $180 (= 6 × $30). So $192 ÷ 6 ≈ $32.</p></div>
-<div class="journal-label">✏️ My estimate and reasoning: $192 ÷ 6 ≈ $___. Show your division (or use 6 × ? = 192). <span class="saved-dot" id="dot-think"></span></div>
+<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>Before you predict, ask yourself:</strong> If one vest cost $40, would 6 vests cost more or less than the center spent?</p></div>
+<div class="journal-label">✏️ My prediction and how I estimated it: <span class="saved-dot" id="dot-think"></span></div>
 <textarea class="journal-box" data-label="Warm-Up — Think Prompt: Cost per life vest by division" id="journal-think" oninput="autoSave(this,'dot-think')" placeholder=""></textarea>
 </div></div><div class="tab-next-wrap"><p class="tab-transition-voice">You estimated the cost. Now let's build the full three-estimate comparison and long division.</p><button class="tab-next-btn" onclick="switchTab('learn')">Continue to 📐 Learn →</button></div>
 </div>
@@ -756,44 +823,31 @@
 </div>
 </div>
 
-<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> Three divisions below. For each, find the estimated quotient using the rounded dividend shown.</p></div>
-<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🎯</div><div><div class="activity-title">Three Estimates Picker</div><div class="activity-sub">Round, then divide. Pick the estimated quotient.</div></div></div><div class="activity-body"><p>For each, the rounded dividend is given. Compute the estimated quotient.</p>
-<div style="background:#FAFBFF;border:2px solid #E2E8F4;border-radius:14px;padding:18px 14px;margin:12px 0;">
-<div style="margin-bottom:18px;">
-<div style="font-family:'Lora',Georgia,serif;font-size:22px;font-weight:900;color:#0E1C42;text-align:center;margin-bottom:8px;"><strong>743 ÷ 3</strong>, rounded to <strong>600</strong></div>
-<div style="font-size:12px;color:#6B3FA0;text-transform:uppercase;letter-spacing:.5px;text-align:center;margin-bottom:8px;">600 ÷ 3 = ?</div>
-<div class="value-card-row" style="margin:0;justify-content:center;">
-<button class="value-card" onclick="pickStrategy(this,1,'200')" style="min-width:80px;"><div class="big">200</div></button>
-<button class="value-card" onclick="pickStrategy(this,1,'250')" style="min-width:80px;"><div class="big">250</div></button>
-<button class="value-card" onclick="pickStrategy(this,1,'300')" style="min-width:80px;"><div class="big">300</div></button>
+<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> Move the purple dot to round 743. Find the three numbers that split into 3 equal parts with nothing left over.</p></div>
+<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🎯</div><div><div class="activity-title">Round and Share</div><div class="activity-sub">Find friendly numbers near 743. Keep three estimates.</div></div></div><div class="activity-body"><p>Use the arrows to move your rounded number. When it splits evenly into 3 parts, type the size of one part and keep it.</p>
+
+<div class="wg-box" id="rsTool">
+<div class="wg-picks" id="rsPicks"></div>
+<div class="wg-title" id="rsProblem"></div>
+<div id="rsLine" style="display:flex;justify-content:center;"></div>
+<div class="wg-row">
+<button class="wg-btn alt" id="rsDown" onclick="rsMove(-1)"></button>
+<div style="text-align:center;"><div class="wg-label" style="margin:0;">My rounded number</div><div id="rsVal" style="font-family:'Lora',Georgia,serif;font-size:30px;font-weight:900;color:#6B3FA0;"></div></div>
+<button class="wg-btn alt" id="rsUp" onclick="rsMove(1)"></button>
 </div>
+<div class="wg-label" id="rsBarLabel"></div>
+<div class="rs-bar" id="rsBar"></div>
+<div id="rsAsk"></div>
+<div class="wg-status" id="rsStatus"></div>
+<div id="rsKept"></div>
 </div>
-<div style="margin-bottom:18px;">
-<div style="font-family:'Lora',Georgia,serif;font-size:22px;font-weight:900;color:#0E1C42;text-align:center;margin-bottom:8px;"><strong>743 ÷ 3</strong>, rounded to <strong>750</strong></div>
-<div style="font-size:12px;color:#6B3FA0;text-transform:uppercase;letter-spacing:.5px;text-align:center;margin-bottom:8px;">750 ÷ 3 = ?</div>
-<div class="value-card-row" style="margin:0;justify-content:center;">
-<button class="value-card" onclick="pickStrategy(this,2,'250')" style="min-width:80px;"><div class="big">250</div></button>
-<button class="value-card" onclick="pickStrategy(this,2,'200')" style="min-width:80px;"><div class="big">200</div></button>
-<button class="value-card" onclick="pickStrategy(this,2,'150')" style="min-width:80px;"><div class="big">150</div></button>
-</div>
-</div>
-<div>
-<div style="font-family:'Lora',Georgia,serif;font-size:22px;font-weight:900;color:#0E1C42;text-align:center;margin-bottom:8px;"><strong>743 ÷ 3</strong>, rounded to <strong>900</strong></div>
-<div style="font-size:12px;color:#6B3FA0;text-transform:uppercase;letter-spacing:.5px;text-align:center;margin-bottom:8px;">900 ÷ 3 = ?</div>
-<div class="value-card-row" style="margin:0;justify-content:center;">
-<button class="value-card" onclick="pickStrategy(this,3,'300')" style="min-width:80px;"><div class="big">300</div></button>
-<button class="value-card" onclick="pickStrategy(this,3,'350')" style="min-width:80px;"><div class="big">350</div></button>
-<button class="value-card" onclick="pickStrategy(this,3,'250')" style="min-width:80px;"><div class="big">250</div></button>
-</div>
-</div>
-<div id="stratStatus" style="margin-top:14px;background:#EAF8FD;border:2px solid #D6F2FB;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Compute each estimated quotient. Compare them to the actual 247 r 2.</div>
-</div>
-<div class="reveal-box" id="learnReveal"><strong>Estimates:</strong> 600 ÷ 3 = <strong>200</strong> (low). 750 ÷ 3 = <strong>250</strong> (closest to actual 247). 900 ÷ 3 = <strong>300</strong> (high). The divisor-friendly rounding (750) gave the tightest estimate. Rounding too far down or up lost precision.</div>
+<div class="reveal-box" id="learnReveal"><strong>Three estimates, one closest:</strong> 200 is low, 300 is high, and 250 lands right next to the exact answer, 247 r 2.</div>
 </div></div>
+
 <div class="key-concept" style="margin-top:16px;"><div class="key-concept-label">📐 Three Estimates, One Closest</div><p><strong>For any division:</strong></p><p>1. <strong>Round DOWN</strong> to a low friendly value → LOW estimate.</p><p>2. <strong>Round to a DIVISOR-FRIENDLY value</strong> (a multiple of the divisor) → usually CLOSEST estimate.</p><p>3. <strong>Round UP</strong> to a high friendly value → HIGH estimate.</p><p>The actual quotient sits somewhere in the middle. The divisor-friendly estimate hugs it most tightly because it keeps the most of the original dividend AND divides cleanly.</p></div>
 <div class="activity bl-violet" style="margin-top:16px;"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">🔍</div><div><div class="activity-title">Sofia, Mei, Dion — Whose Estimate Is Closest?</div><div class="activity-sub">Three students estimate the same quotient differently.</div></div></div><div class="activity-body"><p>For <strong>4,975 ÷ 3</strong>, three students round 4,975 to three different values.</p>
 <div style="background:#FAFBFF;border:2px solid #E2E8F4;border-radius:14px;padding:18px;margin:12px 0;font-family:'Lora',Georgia,serif;color:#0E1C42;line-height:1.7;">
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center;font-size:15px;">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;text-align:center;font-size:15px;">
 <div style="background:#F0E8FF;border:2px solid #D8CCF0;border-radius:10px;padding:14px;">
 <div style="font-size:11px;color:#6B3FA0;text-transform:uppercase;letter-spacing:.5px;font-weight:900;margin-bottom:6px;">Sofia</div>
 <div>Rounds 4,975 → 3,000</div>
@@ -816,27 +870,43 @@
 <div class="journal-label">✏️ My thinking <span class="saved-dot" id="dot-soc"></span></div>
 <textarea class="journal-box" data-label="Learn — Socratic: Why divisor-friendly rounding works best" id="journal-soc" oninput="autoSave(this,'dot-soc')" placeholder=""></textarea></div>
 </div></div>
-<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🔍</div><div><div class="activity-title">Worked Example: 878 ÷ 9</div><div class="activity-sub">Estimate, then long division.</div></div></div><div class="activity-body"><div class="task-box"><div class="task-label">Problem</div><p>Find <strong>878 ÷ 9</strong>. Make TWO estimates first (round 878 differently each time, including one with both numbers rounded). Then compute the exact quotient with long division.</p></div><p style="margin:8px 0;font-weight:700;color:#3A4A6B;">Watch the Math Crew solve it together:</p>
+<div class="activity bl-slate" style="margin-top:16px;"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🟣</div><div><div class="activity-title">Share the Discs: 743 ÷ 3</div><div class="activity-sub">Find the exact answer. Share the biggest place first.</div></div></div><div class="activity-body"><p>Share the hundreds, then the tens, then the ones. When some are left over, trade them for 10 of the next place.</p>
+
+<div class="wg-box" id="shTool">
+<div class="wg-picks" id="shPicks"></div>
+<div class="wg-title" id="shProblem"></div>
+<div class="wg-label">Each group gets (the quotient)</div>
+<div class="sh-quot" id="shQuot"></div>
+<div class="wg-label">Still on the mat</div>
+<div class="sh-mat" id="shMat"></div>
+<div id="shAsk"></div>
+<div class="wg-label">The equal groups</div>
+<div class="sh-groups" id="shGroups"></div>
+<div class="wg-status" id="shStatus"></div>
+<div class="sh-record" id="shRecord"></div>
+</div>
+</div></div>
+<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🔍</div><div><div class="activity-title">Worked Example: 878 ÷ 9</div><div class="activity-sub">Estimate, then long division.</div></div></div><div class="activity-body"><div class="task-box"><div class="task-label">Problem</div><p>Find <strong>878 ÷ 9</strong>. Estimate first with a friendly number. Then use long division to find the exact quotient.</p></div><p style="margin:8px 0;font-weight:700;color:#3A4A6B;">Here’s how the Math Crew solved it:</p>
 
 <div class="key-concept" style="margin-top:14px;"><div class="key-concept-label">⚖️ Step by Step: 878 ÷ 9</div>
 <div style="background:#F0E8FF;border:2px solid #D8CCF0;border-radius:12px;padding:14px;margin-top:8px;font-family:'Lora',Georgia,serif;font-size:15px;color:#0E1C42;line-height:1.8;">
 <div><strong>Estimate:</strong> 900 ÷ 9 = <strong>100</strong> (divisor-friendly).</div>
-<div style="color:#6B3FA0;"><strong>Step 1.</strong> 87 ÷ 9 = 9 r 6. Write 9.</div>
-<div style="color:#6B3FA0;"><strong>Step 2.</strong> Bring down 8. 68 ÷ 9 = 7 r 5. Write 7.</div>
-<div style="margin-top:6px;color:#2DB87A;"><strong>Final: 97 r 5.</strong> Check: 97 × 9 + 5 = 873 + 5 = 878. ✓</div>
+<div style="color:#6B3FA0;"><strong>Step 1.</strong> 9 doesn’t go into 8 hundreds, so start with 87 tens. 87 ÷ 9 = 9 r 6. Write 9 in the tens place.</div>
+<div style="color:#6B3FA0;"><strong>Step 2.</strong> Bring down the 8 ones to make 68. 68 ÷ 9 = 7 r 5. Write 7 in the ones place.</div>
+<div style="margin-top:6px;color:#2DB87A;"><strong>Final: 97 r 5.</strong> Close to the estimate of 100. Check: 97 × 9 + 5 = 873 + 5 = 878. ✓</div>
 </div>
 </div>
 </div></div>
 <div class="tab-next-wrap"><p class="tab-transition-voice">Three estimates frame the actual. Long division finds the truth. Now apply.</p><button class="tab-next-btn" onclick="switchTab('assignment')">Continue to 🌟 Show What You Know →</button></div>
 </div>
 <div class="tab-panel" id="tab-assignment">
-<div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">Three estimates, long division, real word problems.</div></div></div><div class="activity-body"><p>Estimate first every time. Then compute exact using long division.</p>
+<div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">Two quick checks. Your full practice is in the Independent Practice.</div></div></div><div class="activity-body"><p>Estimate first every time. Then compute exact using long division.</p>
 <div class="callout callout-think"><span class="callout-icon">🧠</span><p><strong>Before each problem, ask:</strong> What's a divisor-friendly rounded dividend? What's my estimate? Does my long-division result land near it?</p></div>
-<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Three estimates for 743 ÷ 3.</strong> Compute the estimated quotient for each rounding.<br/>(a) 600 ÷ 3 = ___    (b) 750 ÷ 3 = ___    (c) 900 ÷ 3 = ___<br/>(d) Find the actual quotient.  (e) Which estimate was closest?</p><div class="journal-label">✏️ My estimates + actual + closest <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: Three estimates for 743 ÷ 3" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
-<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Reflection.</strong> When you need a TIGHT estimate of a quotient, what's the BEST way to round the dividend? Use the words "multiple of the divisor" in your answer.</p><div class="journal-label">✏️ My reflection <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 6: Why divisor-friendly rounding wins" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
+<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Estimate, then divide.</strong> Estimate 587 ÷ 6 by rounding 587 to a number 6 divides evenly. Then use long division to find the exact quotient. Is your estimate close?</p><div class="journal-label">✏️ My estimate, my long division, and the exact answer <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: Estimate and divide 587 ÷ 6" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
+<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Reflection.</strong> When you need a TIGHT estimate of a quotient, what's the BEST way to round the dividend? Use the words "multiple of the divisor" in your answer.</p><div class="journal-label">✏️ My reflection <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 2: Why divisor-friendly rounding wins" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
 <div class="activity bl-slate" style="margin-top:18px;border-left-color:#55C8E8;"><div class="activity-head"><div class="activity-num" style="background:#55C8E8;color:#0E1C42;">🗺️</div><div><div class="activity-title">Connection Forward: What Comes Next</div><div class="activity-sub">Preview Lesson 4.05.03 — Dividing 4-Digit Numbers</div></div></div><div class="activity-body"><p>You can divide 3-digit numbers by 1-digit divisors with estimation and long division. Next lesson scales up — 4-digit dividends like 9,875 ÷ 4.</p><p>You'll also learn a powerful shortcut: figuring out HOW MANY DIGITS the quotient will have, BEFORE you divide. (Compare the first digit of the dividend to the divisor.)</p><p>The big question next time: <em>Does the quotient of 7,489 ÷ 8 have 3 or 4 digits? Find the answer without dividing.</em></p></div></div></div></div>
 <div class="gathered-box"><div class="gathered-head"><div class="gathered-head-icon">📋</div><div><div class="gathered-head-label">Your Math Journal</div><div class="gathered-head-title">All Answers from Today</div></div></div><div class="gathered-body"><textarea class="gathered-output" id="gatheredOutput" readonly="">Click "Gather My Answers" to collect your work.</textarea><div class="gathered-actions"><button class="purple-btn" onclick="gatherAnswers()">📋 Gather My Answers</button><button class="green-btn" onclick="copyAnswers()">Copy All Answers</button><button class="check-btn" onclick="downloadJournal()">Download My Math Journal</button></div></div></div>
-<div class="turn-in-card"><div class="turn-in-header"><div class="turn-in-header-icon">✅</div><div><div class="turn-in-header-label">Turn-In Checklist</div><div class="turn-in-header-title">Ready to Submit?</div></div></div><div class="turn-in-body"><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I completed the Show What You Know problems on this lesson page.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I used place-value words in my explanations.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I reviewed my gathered Math Journal answers.</span></div></div></div>
+<div class="turn-in-card"><div class="turn-in-header"><div class="turn-in-header-icon">✅</div><div><div class="turn-in-header-label">Turn-In Checklist</div><div class="turn-in-header-title">Ready to Submit?</div></div></div><div class="turn-in-body"><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I completed the Show What You Know problems on this lesson page.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I estimated first, then checked my exact answer against the estimate.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I reviewed my gathered Math Journal answers.</span></div></div></div>
 </div>
 <div class="footer">
 <div class="footer-main">🏫 <span>Optima Academy Online</span></div>
@@ -889,7 +959,7 @@ function pickReadinessRound(btn,pair,val){
     }
   } else {
     btn.classList.add('bad');setTimeout(()=>btn.classList.remove('bad'),350);
-    fb.className='inline-feedback show think';fb.innerHTML='Not that one. Pick a nearby number the divisor divides evenly.';
+    fb.className='inline-feedback show think';fb.innerHTML=({1:'Not that one. Try it: 3 does not go into 700 or 800 evenly. Which choice is 3 × a round number?',2:'Not that one. 9 does not go into 800 or 1,000 evenly. What is 9 × 100?',3:'Not that one. Round 4,975 to a number 3 divides evenly, like 4,500. 45 hundreds ÷ 3 = ? hundreds.'})[pair]||'Not that one. Pick a nearby number the divisor divides evenly.';
   }
 }
 /* Rounding Lab (Learn): round 23,847 to a chosen place */
@@ -1376,6 +1446,152 @@ document.addEventListener('DOMContentLoaded', function() {
     .catch(function(err) { console.warn('Video manifest load failed:', err); });
 });
 </script>
+
+<script>
+/* Round-and-share estimator: move the rounded dividend, see if it splits evenly, keep three estimates */
+var RS={probs:[
+ {n:743,d:3,min:600,max:900,step:50,start:700,exQ:247,exR:2}
+ ],cur:0,st:{},revealId:'learnReveal'};
+function rsF(n){return n.toLocaleString('en-US');}
+function rsStart(i){RS.cur=i;var p=RS.probs[i];if(!RS.st[i])RS.st[i]={val:p.start,kept:[],msg:'',type:''};rsRender();}
+function rsMove(dir){var p=RS.probs[RS.cur],s=RS.st[RS.cur];var v=s.val+dir*p.step;if(v<p.min||v>p.max)return;s.val=v;s.msg='';s.type='';rsRender();}
+function rsLineSvg(p,s){
+  var W=380,L=24,R=24,y=46,span=W-L-R;function X(v){return L+(v-p.min)/(p.max-p.min)*span;}
+  var h='<svg viewBox="0 0 '+W+' 86" width="'+W+'" style="max-width:100%;height:auto;">';
+  h+='<line x1="'+L+'" y1="'+y+'" x2="'+(W-R)+'" y2="'+y+'" stroke="#0E1C42" stroke-width="2"/>';
+  for(var v=p.min;v<=p.max;v+=p.step){var x=X(v);var kept=s.kept.some(function(k){return k.r===v;});
+    h+='<line x1="'+x+'" y1="'+(y-7)+'" x2="'+x+'" y2="'+(y+7)+'" stroke="#0E1C42" stroke-width="2"/>';
+    h+='<text x="'+x+'" y="'+(y+26)+'" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="'+(p.max>=1000?14:16)+'" font-weight="800" fill="'+(kept?'#2DB87A':'#0E1C42')+'">'+rsF(v)+'</text>';}
+  var ax=X(p.n);
+  h+='<polygon points="'+ax+','+(y-4)+' '+(ax-7)+','+(y-16)+' '+(ax+7)+','+(y-16)+'" fill="#E07B39"/>';
+  h+='<text x="'+ax+'" y="'+(y-20)+'" text-anchor="middle" font-family="Nunito,sans-serif" font-size="13" font-weight="900" fill="#E07B39">'+rsF(p.n)+'</text>';
+  var mx=X(s.val);h+='<circle cx="'+mx+'" cy="'+y+'" r="8" fill="#6B3FA0" stroke="#fff" stroke-width="2"/>';
+  return h+'</svg>';
+}
+function rsRender(){
+  var p=RS.probs[RS.cur],s=RS.st[RS.cur],d=p.d,v=s.val,even=(v%d===0);
+  var picks='';RS.probs.forEach(function(q,k){var st=RS.st[k];picks+='<button class="wg-pick'+(k===RS.cur?' on':'')+(st&&st.kept.length===3?' done':'')+'" onclick="rsStart('+k+')">'+rsF(q.n)+' ÷ '+q.d+'</button>';});
+  document.getElementById('rsPicks').innerHTML=RS.probs.length>1?picks:'';
+  document.getElementById('rsProblem').innerHTML='Estimate <strong>'+rsF(p.n)+' ÷ '+d+'</strong>';
+  document.getElementById('rsLine').innerHTML=rsLineSvg(p,s);
+  document.getElementById('rsVal').textContent=rsF(v);
+  document.getElementById('rsDown').textContent='◀ '+rsF(p.step)+' less';document.getElementById('rsDown').disabled=(v<=p.min);
+  document.getElementById('rsUp').textContent=rsF(p.step)+' more ▶';document.getElementById('rsUp').disabled=(v>=p.max);
+  document.getElementById('rsBarLabel').textContent='Share '+rsF(v)+' into '+d+' equal parts';
+  var bar='',cols=['#6B3FA0','#3A6B9A','#2DB87A','#8A6D2B','#0E1C42','#1E5F9E','#B5561B','#4A4A8A','#2A7A6A'];
+  for(var i=0;i<d;i++){bar+='<div class="rs-seg" style="background:'+cols[i%cols.length]+'">'+(even?'?':'')+'</div>';}
+  if(!even)bar+='<div class="rs-left">'+(v%d)+' left<br>over</div>';
+  document.getElementById('rsBar').innerHTML=bar;
+  var already=s.kept.some(function(k){return k.r===v;});
+  var ask=document.getElementById('rsAsk'),st=document.getElementById('rsStatus');
+  if(s.kept.length===3){ask.innerHTML='';}
+  else if(already){ask.innerHTML='';if(!s.msg){s.msg='You already kept '+rsF(v)+'. Move to find another friendly number.';}}
+  else if(even){ask.innerHTML='<div class="wg-row"><label for="rsIn" style="font-weight:800;">'+rsF(v)+' ÷ '+d+' =</label><input class="wg-in wide" id="rsIn" type="text" inputmode="numeric" onkeydown="if(event.key===\'Enter\')rsKeep()"><button class="wg-btn grn" onclick="rsKeep()">Keep this estimate</button></div>';
+    if(!s.msg){s.msg='✅ '+rsF(v)+' splits into '+d+' equal parts with nothing left over. It’s a friendly number. How big is each part?';}}
+  else {ask.innerHTML='';if(!s.msg){s.msg=rsF(v)+' does not split evenly into '+d+' parts. Something is left over. Move to another number.';s.type='think';}}
+  st.className='wg-status'+(s.type?' '+s.type:'');st.innerHTML=s.msg||'';
+  var kh='';
+  if(s.kept.length){
+    var rows=s.kept.slice().sort(function(a,b){return a.r-b.r;});var best=null;
+    if(s.kept.length===3){best=rows.reduce(function(a,b){return Math.abs(b.q-p.exQ)<Math.abs(a.q-p.exQ)?b:a;});}
+    kh='<table class="rs-table"><tr><th>Rounded to</th><th>Estimate</th>'+(best?'<th>How far from '+rsF(p.exQ)+'</th>':'')+'</tr>';
+    rows.forEach(function(k){kh+='<tr'+(best&&k===best?' class="best"':'')+'><td>'+rsF(k.r)+'</td><td>'+rsF(k.q)+'</td>'+(best?'<td>'+rsF(Math.abs(k.q-p.exQ))+'</td>':'')+'</tr>';});
+    kh+='</table>';
+    if(s.kept.length<3){kh+='<p style="text-align:center;font-weight:700;color:#3A4A6B;margin-top:6px;">'+s.kept.length+' of 3 friendly numbers found. Keep looking.</p>';}
+    else{kh+='<div class="wg-status good">The exact answer is <strong>'+rsF(p.exQ)+' r '+p.exR+'</strong>. Your closest estimate came from <strong>'+rsF(best.r)+'</strong>, the friendly number nearest to '+rsF(p.n)+'.</div>';}
+  }
+  document.getElementById('rsKept').innerHTML=kh;
+  if(RS.probs.every(function(q,k){return RS.st[k]&&RS.st[k].kept.length===3;})){var r=document.getElementById(RS.revealId);if(r&&!r.classList.contains('show')){r.classList.add('show');if(typeof miniCelebrate==='function')miniCelebrate(r);}}
+}
+function rsKeep(){
+  var p=RS.probs[RS.cur],s=RS.st[RS.cur],v=s.val,q=v/p.d;
+  var raw=(document.getElementById('rsIn')||{}).value||'';var typed=parseInt(raw.replace(/[^0-9]/g,''),10);
+  if(isNaN(typed)){s.msg='Type the size of each part first.';s.type='think';rsRender();return;}
+  if(typed!==q){var big=v>=1000;var unit=big?100:10;
+    s.msg='Not quite. Think: '+p.d+' × ? = '+rsF(v)+'. '+rsF(v)+' is '+rsF(v/unit)+' '+(big?'hundreds':'tens')+'. '+rsF(v/unit)+' '+(big?'hundreds':'tens')+' ÷ '+p.d+' = ? '+(big?'hundreds':'tens')+'.';s.type='think';rsRender();return;}
+  s.kept.push({r:v,q:q});s.msg='Kept: '+rsF(v)+' ÷ '+p.d+' = '+rsF(q)+'.'+(s.kept.length<3?' Now find another friendly number.':'');s.type='good';rsRender();
+}
+document.addEventListener('DOMContentLoaded',function(){if(document.getElementById('rsTool'))rsStart(0);});
+</script>
+
+<script>
+/* Sharing mat: place-value discs shared into equal groups (long division as an action) */
+var SH_PL=[{name:'thousands',one:'thousand',c:'#6B3FA0'},{name:'hundreds',one:'hundred',c:'#3A6B9A'},{name:'tens',one:'ten',c:'#2DB87A'},{name:'ones',one:'one',c:'#E07B39'}];
+var SH={probs:[{n:743,d:3}],revealId:'',cur:0,done:{},st:null};
+function shFmt(n){return n.toLocaleString('en-US');}
+function shStart(i){
+  var p=SH.probs[i];SH.cur=i;
+  var digits=String(p.n).split('').map(Number);
+  var places=SH_PL.slice(4-digits.length);
+  SH.st={p:p,places:places,mat:digits.slice(),groups:places.map(function(){return 0;}),q:places.map(function(){return null;}),pos:0,phase:'share',left:0,rec:[],msg:'',msgType:''};
+  shRender();
+}
+function shDiscs(n,c,cls){var h='';for(var i=0;i<n;i++){h+='<span class="sh-disc '+(cls||'')+'" style="background:'+c+'"></span>';}return h;}
+function shRender(){
+  var s=SH.st,p=s.p,d=p.d,i;
+  var picks='';
+  SH.probs.forEach(function(q,k){picks+='<button class="wg-pick'+(k===SH.cur?' on':'')+(SH.done[k]?' done':'')+'" onclick="shStart('+k+')">'+shFmt(q.n)+' ÷ '+q.d+'</button>';});
+  document.getElementById('shPicks').innerHTML=SH.probs.length>1?picks:'';
+  document.getElementById('shProblem').innerHTML='Share <strong>'+shFmt(p.n)+'</strong> into <strong>'+d+'</strong> equal groups';
+  var qh='';
+  s.places.forEach(function(pl,k){var v=s.q[k];var started=s.q.slice(0,k+1).some(function(x){return x;});
+    qh+='<div class="sh-qd'+((v===null||(!started&&v===0))?' blank':'')+'"><span>'+(v===null?'?':(!started&&v===0?'–':v))+'</span><small>'+pl.name.slice(0,pl.name==='thousands'?2:1)+'</small></div>';});
+  document.getElementById('shQuot').innerHTML=qh;
+  var mat=document.getElementById('shMat');
+  mat.style.gridTemplateColumns='repeat('+s.places.length+',minmax(0,1fr))';
+  var mh='';
+  s.places.forEach(function(pl,k){mh+='<div class="sh-col'+(k===s.pos&&s.phase!=='done'?' now':'')+'"><h5 style="color:'+pl.c+'">'+pl.name+'</h5><div class="sh-n">'+s.mat[k]+'</div><div class="sh-discs">'+shDiscs(s.mat[k],pl.c)+'</div></div>';});
+  mat.innerHTML=mh;
+  var gh='';
+  for(i=0;i<d;i++){var inner='';s.places.forEach(function(pl,k){if(s.groups[k])inner+='<div class="sh-gplace">'+shDiscs(s.groups[k],pl.c)+'</div>';});gh+='<div class="sh-group"><b>Group '+(i+1)+'</b>'+inner+'</div>';}
+  document.getElementById('shGroups').innerHTML=gh;
+  var ask=document.getElementById('shAsk'),pl=s.places[s.pos],nx=s.places[s.pos+1];
+  if(s.phase==='share'){
+    ask.innerHTML='<p style="text-align:center;font-weight:800;color:#0E1C42;margin:8px 0 4px;">You have <strong>'+s.mat[s.pos]+' '+pl.name+'</strong> to share among <strong>'+d+'</strong> groups.</p><div class="wg-row"><label for="shIn" style="font-weight:700;">How many '+pl.name+' does each group get?</label><input class="wg-in" id="shIn" type="number" inputmode="numeric" min="0" max="9" onkeydown="if(event.key===\'Enter\')shShare()"><button class="wg-btn" onclick="shShare()">Share them</button></div>';
+  } else if(s.phase==='trade'){
+    ask.innerHTML='<div class="wg-row"><button class="wg-btn alt" onclick="shTrade()">Trade '+s.left+' leftover '+(s.left===1?pl.one:pl.name)+' for '+(s.left*10)+' '+nx.name+'</button></div>';
+  } else if(s.phase==='next'){
+    ask.innerHTML='<div class="wg-row"><button class="wg-btn alt" onclick="shTrade()">Nothing left over. Move on to the '+nx.name+'</button></div>';
+  } else {
+    ask.innerHTML='';
+  }
+  var st=document.getElementById('shStatus');
+  st.className='wg-status'+(s.msgType?' '+s.msgType:'');
+  st.innerHTML=s.msg||'Start with the biggest place. Share the '+s.places[0].name+' first.';
+  document.getElementById('shRecord').innerHTML=s.rec.length?'<strong>What you did:</strong><br>'+s.rec.join('<br>'):'';
+}
+function shShare(){
+  var s=SH.st,d=s.p.d,pl=s.places[s.pos],have=s.mat[s.pos];
+  var el=document.getElementById('shIn');var v=parseInt(el&&el.value,10);
+  if(isNaN(v)||v<0){s.msg='Type how many '+pl.name+' each group gets.';s.msgType='think';shRender();return;}
+  if(v*d>have){s.msg='Not quite. '+d+' groups × '+v+' = '+(v*d)+' '+pl.name+', but you only have '+have+'. Try a smaller number.';s.msgType='think';shRender();return;}
+  if(have-v*d>=d){s.msg='You can do better. After giving '+v+' to each group, '+(have-v*d)+' '+pl.name+' are still on the mat. That is enough to give every group one more.';s.msgType='think';shRender();return;}
+  var left=have-v*d;
+  s.groups[s.pos]=v;s.q[s.pos]=v;s.mat[s.pos]=left;s.left=left;
+  var line=pl.name.charAt(0).toUpperCase()+pl.name.slice(1)+': '+have+' ÷ '+d+' = '+v+' each, '+left+' left over.';
+  if(v===0&&s.pos===0){line+=' (Not enough to go around, so the answer has no '+pl.name+' digit.)';}
+  s.rec.push(line);
+  if(s.pos===s.places.length-1){
+    s.phase='done';var quot=parseInt(s.q.join(''),10);
+    s.msg='✅ Each group got <strong>'+shFmt(quot)+'</strong>'+(left?' and <strong>'+left+'</strong> '+(left===1?'one is':'ones are')+' left over':' with nothing left over')+'.<br>'+shFmt(s.p.n)+' ÷ '+d+' = <strong>'+shFmt(quot)+(left?' r '+left:'')+'</strong>. Check: '+shFmt(quot)+' × '+d+(left?' + '+left:'')+' = '+shFmt(s.p.n)+' ✓';
+    s.msgType='good';SH.done[SH.cur]=true;
+    if(Object.keys(SH.done).length===SH.probs.length){var r=document.getElementById(SH.revealId);if(r){r.classList.add('show');if(typeof miniCelebrate==='function')miniCelebrate(r);}}
+  } else {
+    s.phase=left>0?'trade':'next';
+    s.msg=v===0&&s.pos===0?'Each group gets 0 '+pl.name+'. There are only '+have+', not enough for '+d+' groups. Trade them for '+s.places[1].name+'.':'Each group gets '+v+' '+pl.name+'. '+(left?left+' '+(left===1?pl.one:pl.name)+' left over.':'Nothing left over.');
+    s.msgType='';
+  }
+  shRender();
+}
+function shTrade(){
+  var s=SH.st,pl=s.places[s.pos],nx=s.places[s.pos+1],left=s.left;
+  if(left>0){s.mat[s.pos+1]+=left*10;s.mat[s.pos]=0;s.rec.push('Traded '+left+' '+(left===1?pl.one:pl.name)+' for '+(left*10)+' '+nx.name+'. Now there are '+s.mat[s.pos+1]+' '+nx.name+'.');}
+  s.pos++;s.phase='share';s.left=0;
+  s.msg=left>0?'1 '+pl.one+' = 10 '+nx.name+'. Now share the '+s.mat[s.pos]+' '+nx.name+'.':'Now share the '+nx.name+'.';s.msgType='';
+  shRender();
+}
+document.addEventListener('DOMContentLoaded',function(){if(document.getElementById('shMat'))shStart(0);});
+</script>
 <!-- OAO copy fix -->
 <script>
 (function(){
@@ -1421,6 +1637,36 @@ document.addEventListener('DOMContentLoaded', function() {
     if(navigator.clipboard && window.isSecureContext){
       navigator.clipboard.writeText(text).then(function(){ say('Copied! Now paste your answers where your teacher asked you to turn them in.', true); }, fallback);
     } else { fallback(); }
+  };
+})();
+</script>
+<!-- OAO download fix -->
+<script>
+(function(){
+  var orig = window.downloadJournal;
+  if(typeof orig !== 'function') return;
+  window.downloadJournal = function(){
+    try { gatherAnswers(); } catch(e) {}
+    var out = document.getElementById('gatheredOutput');
+    var text = out ? (out.value || '') : '';
+    var w = null;
+    try { w = window.open('', '_blank'); } catch(e) { w = null; }
+    if(w && w.document){
+      w.document.write('<pre style="font-family:Arial;white-space:pre-wrap;font-size:14px;line-height:1.5;">' + text.replace(/[&<>]/g, function(s){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[s]; }) + '</pre>');
+      w.document.close();
+      try { w.focus(); w.print(); } catch(e) {}
+      return;
+    }
+    try {
+      var blob = new Blob([text], {type:'text/plain'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = ((document.title || 'math-journal').replace(/[^a-z0-9]+/gi,'-').toLowerCase()) + '.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+    } catch(e) {
+      if(out){ out.focus(); out.select(); }
+    }
   };
 })();
 </script>

@@ -668,7 +668,7 @@
 <div class="bubble hazel"><div class="bubble-avatar">H</div><div class="bubble-body"><div class="bubble-name">Hazel — visual thinker</div><div class="bubble-text">"I picture breaking open a whole pizza into 12 tiny slices and tossing them into my fraction pile so I finally have enough to give away."</div></div></div>
 <div class="bubble cora"><div class="bubble-avatar">C</div><div class="bubble-body"><div class="bubble-name">Cora — precise explainer</div><div class="bubble-text">"The precise term is 'borrow' — exactly like borrowing a ten in whole-number subtraction, except here you borrow a whole and it becomes denominator-many slices."</div></div></div>
 </div>
-<div class="callout callout-tip" style="margin-top:8px;"><span class="callout-icon">💡</span><p>Atlas's rule: <em>can't subtract because fraction part is too small? Borrow 1 whole. Convert it to denom slices. Subtract. Simplify.</em></p></div>
+<div class="callout callout-tip" style="margin-top:8px;"><span class="callout-icon">💡</span><p>Atlas's rule: <em>can't subtract because fraction part is too small? Borrow 1 whole. Cut it into slices. Subtract. Simplify.</em></p></div>
 </div></div>
 <div class="activity bl-yellow"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🔎</div><div><div class="activity-title">Warm-Up: Can You Subtract Without Borrowing?</div><div class="activity-sub">Compare the fraction parts. If the minuend's fraction is big enough, subtract. If not, you'll need to borrow.</div></div><span class="activity-time" style="background:#F5C518;color:#0E1C42;">~5 min</span></div><div class="activity-body"><p>For each subtraction, decide: NO BORROW NEEDED or BORROW NEEDED. (Don't solve — just decide.)</p>
 <div style="background:#F3F9F8;border:2px solid #A8D8D6;border-radius:14px;padding:16px;margin:12px 0;">
@@ -721,12 +721,12 @@
 </div>
 <p><strong>Your prediction:</strong> 2 <span class="frac"><span class="num">1</span><span class="den">4</span></span> − <span class="frac"><span class="num">7</span><span class="den">12</span></span> = ? Pick the simplest form.</p>
 <div class="strategy-chip-row">
-<button class="strategy-chip" onclick="this.classList.toggle('selected')">1 <span class="frac"><span class="num">2</span><span class="den">3</span></span></button>
-<button class="strategy-chip" onclick="this.classList.toggle('selected')">1 <span class="frac"><span class="num">8</span><span class="den">12</span></span></button>
-<button class="strategy-chip" onclick="this.classList.toggle('selected')">1 <span class="frac"><span class="num">4</span><span class="den">12</span></span></button>
-<button class="strategy-chip" onclick="this.classList.toggle('selected')">2 − <span class="frac"><span class="num">4</span><span class="den">12</span></span></button>
+<button class="strategy-chip" onclick="pickPrediction(this)">1 <span class="frac"><span class="num">2</span><span class="den">3</span></span></button>
+<button class="strategy-chip" onclick="pickPrediction(this)">1 <span class="frac"><span class="num">8</span><span class="den">12</span></span></button>
+<button class="strategy-chip" onclick="pickPrediction(this)">1 <span class="frac"><span class="num">4</span><span class="den">12</span></span></button>
+<button class="strategy-chip" onclick="pickPrediction(this)">2 − <span class="frac"><span class="num">4</span><span class="den">12</span></span></button>
 </div>
-<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>Hint:</strong> Rename <span class="frac"><span class="num">1</span><span class="den">4</span></span> = <span class="frac"><span class="num">3</span><span class="den">12</span></span>. <span class="frac"><span class="num">3</span><span class="den">12</span></span> &lt; <span class="frac"><span class="num">7</span><span class="den">12</span></span>, so borrow. 1 whole + <span class="frac"><span class="num">15</span><span class="den">12</span></span> left. Subtract: <span class="frac"><span class="num">15</span><span class="den">12</span></span> − <span class="frac"><span class="num">7</span><span class="den">12</span></span> = <span class="frac"><span class="num">8</span><span class="den">12</span></span>. Total: 1 <span class="frac"><span class="num">8</span><span class="den">12</span></span>. Simplify <span class="frac"><span class="num">8</span><span class="den">12</span></span> = <span class="frac"><span class="num">2</span><span class="den">3</span></span>. Final: <strong>1 <span class="frac"><span class="num">2</span><span class="den">3</span></span> lb</strong>.</p></div>
+<div class="callout callout-tip" id="thinkHint" style="display:none"><span class="callout-icon">🧠</span><p><strong>Check your thinking:</strong> Rename <span class="frac"><span class="num">1</span><span class="den">4</span></span> = <span class="frac"><span class="num">3</span><span class="den">12</span></span>. <span class="frac"><span class="num">3</span><span class="den">12</span></span> &lt; <span class="frac"><span class="num">7</span><span class="den">12</span></span>, so borrow. 1 whole + <span class="frac"><span class="num">15</span><span class="den">12</span></span> left. Subtract: <span class="frac"><span class="num">15</span><span class="den">12</span></span> − <span class="frac"><span class="num">7</span><span class="den">12</span></span> = <span class="frac"><span class="num">8</span><span class="den">12</span></span>. Total: 1 <span class="frac"><span class="num">8</span><span class="den">12</span></span>. Simplify <span class="frac"><span class="num">8</span><span class="den">12</span></span> = <span class="frac"><span class="num">2</span><span class="den">3</span></span>. Final: <strong>1 <span class="frac"><span class="num">2</span><span class="den">3</span></span> lb</strong>.</p></div>
 <div class="journal-label">✏️ Show your work — name the rename, the borrow, the subtract, and the simplify. <span class="saved-dot" id="dot-think"></span></div>
 <textarea class="journal-box" data-label="Warm-Up — Think Prompt: 2 1/4 − 7/12 flour" id="journal-think" oninput="autoSave(this,'dot-think')" placeholder=""></textarea>
 </div></div><div class="tab-next-wrap"><p class="tab-transition-voice">Borrow when needed. Subtract. Simplify. Now use the Borrowing Lab to walk through three problems.</p><button class="tab-next-btn" onclick="switchTab('learn')">Continue to 📐 Learn →</button></div>
@@ -745,7 +745,7 @@
 <div aria-label="Vocabulary card for borrow. Tap to flip." class="flip-card fc-color-1" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
 <div class="flip-card-inner">
 <div class="flip-card-front"><div class="fc-emoji">🤝</div><div class="fc-word">borrow</div><div class="fc-tap">tap to flip</div></div>
-<div class="flip-card-back"><div class="fc-word-back">borrow</div><div class="fc-def">to take 1 whole from the whole-number column and convert it to slices in the fraction column. 1 whole = denominator/denominator more slices.</div><div class="fc-tap-back">tap to flip back</div></div>
+<div class="flip-card-back"><div class="fc-word-back">borrow</div><div class="fc-def">to take 1 whole from the whole-number column and convert it to slices in the fraction column. 1 whole becomes as many slices as the denominator (1 whole = 12 twelfths).</div><div class="fc-tap-back">tap to flip back</div></div>
 </div>
 </div>
 <div aria-label="Vocabulary card for minuend. Tap to flip." class="flip-card fc-color-2" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
@@ -770,11 +770,11 @@
 </div>
 
 <div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> Use the Borrowing Lab below. CLICK through each step (Rename → Borrow → Subtract) and watch a whole pie get cut into more slices.</p></div>
-<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#0E8A8C;">🤝</div><div><div class="activity-title">Borrowing Lab</div><div class="activity-sub">Click each step. Watch a whole pie get re-cut into denominator slices.</div></div></div><div class="activity-body"><p>Three problems below. Each one walks you through Rename → Check → Borrow (if needed) → Subtract → Simplify. Click each button in order; the visual updates with each click.</p>
+<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#0E8A8C;">🤝</div><div><div class="activity-title">Borrowing Lab</div><div class="activity-sub">Click each step. Watch a whole pie get re-cut into denominator slices.</div></div></div><div class="activity-body"><p>Three problems below. Rename first. Then check the slices and decide: borrow, or subtract right away? The pies change with each click.</p>
 <!-- Problem 1: 4 3/4 - 3/8 (no borrow) -->
 <div class="bor-lab" data-id="1" style="background:#F3F9F8;border:2px solid #A8D8D6;border-radius:14px;padding:18px 14px;margin:14px 0;">
 <div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:18px;font-weight:900;color:#0E1C42;margin-bottom:10px;">Round 1 · <span style="color:#0E8A8C;">4 <span class="frac"><span class="num">3</span><span class="den">4</span></span> − <span class="frac"><span class="num">3</span><span class="den">8</span></span></span></div>
-<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:10px;">No borrow needed. Rename <span class="frac"><span class="num">3</span><span class="den">4</span></span> to 8ths first.</div>
+<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:10px;">Rename <span class="frac"><span class="num">3</span><span class="den">4</span></span> to eighths first. Then decide: do you need to borrow?</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px;">
 <div style="background:#fff;border:1.5px solid #A8D8D6;border-radius:10px;padding:12px;">
 <div style="text-align:center;font-size:12px;font-weight:900;color:#066464;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">WHOLES</div>
@@ -782,23 +782,23 @@
 <div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:20px;font-weight:900;color:#0E8A8C;margin-top:6px;"><span id="borWholeCount-1">4</span></div>
 </div>
 <div style="background:#fff;border:1.5px solid #A8D8D6;border-radius:10px;padding:12px;">
-<div style="text-align:center;font-size:12px;font-weight:900;color:#066464;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">FRACTION (<span id="borDenLabel-1">4</span>ths)</div>
+<div style="text-align:center;font-size:12px;font-weight:900;color:#066464;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">FRACTION (<span id="borDenLabel-1">fourths</span>)</div>
 <div id="borFrac-1" style="display:flex;justify-content:center;gap:4px;flex-wrap:wrap;min-height:70px;align-items:center;"></div>
-<div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:20px;font-weight:900;color:#0E8A8C;margin-top:6px;"><span id="borFracCount-1">3</span>/<span id="borDen-1">4</span></div>
+<div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:20px;font-weight:900;color:#0E8A8C;margin-top:6px;"><span class="frac"><span class="num" id="borFracCount-1">3</span><span class="den" id="borDen-1">4</span></span></div>
 </div>
 </div>
 <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:10px;">
 <button id="borBtnRename-1" onclick="borRename(1)" style="background:#1FA67A;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">Step 1 · Rename to 8ths</button>
-<button disabled="" id="borBtnBorrow-1" onclick="borBorrow(1)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">Step 2 · Borrow 1 (if needed)</button>
+<button disabled="" id="borBtnBorrow-1" onclick="borBorrow(1)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">Step 2 · Borrow 1 whole (if needed)</button>
 <button disabled="" id="borBtnSub-1" onclick="borSubtract(1)" style="background:#0E8A8C;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">Step 3 · Subtract 3 slices</button>
 <button onclick="borReset(1)" style="background:#E07B39;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">↺ Reset</button>
 </div>
-<div id="borStatus-1" style="background:#D4EBE9;border:2px solid #A8D8D6;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Click Step 1 to rename the fraction part.</div>
+<div id="borStatus-1" style="background:#D4EBE9;border:2px solid #A8D8D6;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;"></div>
 </div>
 <!-- Problem 2: 2 1/4 - 7/12 (must borrow) -->
 <div class="bor-lab" data-id="2" style="background:#F3F9F8;border:2px solid #A8D8D6;border-radius:14px;padding:18px 14px;margin:14px 0;">
 <div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:18px;font-weight:900;color:#0E1C42;margin-bottom:10px;">Round 2 · <span style="color:#0E8A8C;">2 <span class="frac"><span class="num">1</span><span class="den">4</span></span> − <span class="frac"><span class="num">7</span><span class="den">12</span></span></span></div>
-<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:10px;">Borrow needed. Rename <span class="frac"><span class="num">1</span><span class="den">4</span></span> to 12ths, then borrow 1 whole.</div>
+<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:10px;">Rename <span class="frac"><span class="num">1</span><span class="den">4</span></span> to twelfths first. Then decide: do you need to borrow?</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px;">
 <div style="background:#fff;border:1.5px solid #A8D8D6;border-radius:10px;padding:12px;">
 <div style="text-align:center;font-size:12px;font-weight:900;color:#066464;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">WHOLES</div>
@@ -806,23 +806,23 @@
 <div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:20px;font-weight:900;color:#0E8A8C;margin-top:6px;"><span id="borWholeCount-2">2</span></div>
 </div>
 <div style="background:#fff;border:1.5px solid #A8D8D6;border-radius:10px;padding:12px;">
-<div style="text-align:center;font-size:12px;font-weight:900;color:#066464;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">FRACTION (<span id="borDenLabel-2">4</span>ths)</div>
+<div style="text-align:center;font-size:12px;font-weight:900;color:#066464;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">FRACTION (<span id="borDenLabel-2">fourths</span>)</div>
 <div id="borFrac-2" style="display:flex;justify-content:center;gap:4px;flex-wrap:wrap;min-height:70px;align-items:center;"></div>
-<div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:20px;font-weight:900;color:#0E8A8C;margin-top:6px;"><span id="borFracCount-2">1</span>/<span id="borDen-2">4</span></div>
+<div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:20px;font-weight:900;color:#0E8A8C;margin-top:6px;"><span class="frac"><span class="num" id="borFracCount-2">1</span><span class="den" id="borDen-2">4</span></span></div>
 </div>
 </div>
 <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:10px;">
 <button id="borBtnRename-2" onclick="borRename(2)" style="background:#1FA67A;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">Step 1 · Rename to 12ths</button>
-<button disabled="" id="borBtnBorrow-2" onclick="borBorrow(2)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">Step 2 · Borrow 1 whole</button>
+<button disabled="" id="borBtnBorrow-2" onclick="borBorrow(2)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">Step 2 · Borrow 1 whole (if needed)</button>
 <button disabled="" id="borBtnSub-2" onclick="borSubtract(2)" style="background:#0E8A8C;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">Step 3 · Subtract 7 slices</button>
 <button onclick="borReset(2)" style="background:#E07B39;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">↺ Reset</button>
 </div>
-<div id="borStatus-2" style="background:#D4EBE9;border:2px solid #A8D8D6;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Click Step 1 to rename the fraction part.</div>
+<div id="borStatus-2" style="background:#D4EBE9;border:2px solid #A8D8D6;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;"></div>
 </div>
 <!-- Problem 3: 6 1/2 - 7/12 -->
 <div class="bor-lab" data-id="3" style="background:#F3F9F8;border:2px solid #A8D8D6;border-radius:14px;padding:18px 14px;margin:14px 0;">
 <div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:18px;font-weight:900;color:#0E1C42;margin-bottom:10px;">Round 3 · <span style="color:#0E8A8C;">6 <span class="frac"><span class="num">1</span><span class="den">2</span></span> − <span class="frac"><span class="num">7</span><span class="den">12</span></span></span></div>
-<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:10px;">Borrow needed. Rename <span class="frac"><span class="num">1</span><span class="den">2</span></span> → <span class="frac"><span class="num">6</span><span class="den">12</span></span>, then borrow.</div>
+<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:10px;">Rename <span class="frac"><span class="num">1</span><span class="den">2</span></span> to twelfths first. Then decide: do you need to borrow?</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px;">
 <div style="background:#fff;border:1.5px solid #A8D8D6;border-radius:10px;padding:12px;">
 <div style="text-align:center;font-size:12px;font-weight:900;color:#066464;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">WHOLES</div>
@@ -830,18 +830,18 @@
 <div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:20px;font-weight:900;color:#0E8A8C;margin-top:6px;"><span id="borWholeCount-3">6</span></div>
 </div>
 <div style="background:#fff;border:1.5px solid #A8D8D6;border-radius:10px;padding:12px;">
-<div style="text-align:center;font-size:12px;font-weight:900;color:#066464;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">FRACTION (<span id="borDenLabel-3">2</span>ths)</div>
+<div style="text-align:center;font-size:12px;font-weight:900;color:#066464;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">FRACTION (<span id="borDenLabel-3">halves</span>)</div>
 <div id="borFrac-3" style="display:flex;justify-content:center;gap:4px;flex-wrap:wrap;min-height:70px;align-items:center;"></div>
-<div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:20px;font-weight:900;color:#0E8A8C;margin-top:6px;"><span id="borFracCount-3">1</span>/<span id="borDen-3">2</span></div>
+<div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:20px;font-weight:900;color:#0E8A8C;margin-top:6px;"><span class="frac"><span class="num" id="borFracCount-3">1</span><span class="den" id="borDen-3">2</span></span></div>
 </div>
 </div>
 <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:10px;">
 <button id="borBtnRename-3" onclick="borRename(3)" style="background:#1FA67A;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">Step 1 · Rename to 12ths</button>
-<button disabled="" id="borBtnBorrow-3" onclick="borBorrow(3)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">Step 2 · Borrow 1 whole</button>
+<button disabled="" id="borBtnBorrow-3" onclick="borBorrow(3)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">Step 2 · Borrow 1 whole (if needed)</button>
 <button disabled="" id="borBtnSub-3" onclick="borSubtract(3)" style="background:#0E8A8C;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">Step 3 · Subtract 7 slices</button>
 <button onclick="borReset(3)" style="background:#E07B39;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">↺ Reset</button>
 </div>
-<div id="borStatus-3" style="background:#D4EBE9;border:2px solid #A8D8D6;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Click Step 1 to rename the fraction part.</div>
+<div id="borStatus-3" style="background:#D4EBE9;border:2px solid #A8D8D6;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;"></div>
 </div>
 <div class="reveal-box" id="learnReveal"><strong>Final answers:</strong> Round 1 — 4 <span class="frac"><span class="num">3</span><span class="den">4</span></span> − <span class="frac"><span class="num">3</span><span class="den">8</span></span> = 4 <span class="frac"><span class="num">6</span><span class="den">8</span></span> − <span class="frac"><span class="num">3</span><span class="den">8</span></span> = <strong>4 <span class="frac"><span class="num">3</span><span class="den">8</span></span></strong> (no borrow, fraction part <span class="frac"><span class="num">6</span><span class="den">8</span></span> ≥ <span class="frac"><span class="num">3</span><span class="den">8</span></span>). Round 2 — 2 <span class="frac"><span class="num">1</span><span class="den">4</span></span> − <span class="frac"><span class="num">7</span><span class="den">12</span></span>: rename 2 <span class="frac"><span class="num">3</span><span class="den">12</span></span>, borrow → 1 <span class="frac"><span class="num">15</span><span class="den">12</span></span>, subtract → 1 <span class="frac"><span class="num">8</span><span class="den">12</span></span> = <strong>1 <span class="frac"><span class="num">2</span><span class="den">3</span></span></strong>. Round 3 — 6 <span class="frac"><span class="num">1</span><span class="den">2</span></span> − <span class="frac"><span class="num">7</span><span class="den">12</span></span>: rename 6 <span class="frac"><span class="num">6</span><span class="den">12</span></span>, borrow → 5 <span class="frac"><span class="num">18</span><span class="den">12</span></span>, subtract → <strong>5 <span class="frac"><span class="num">11</span><span class="den">12</span></span></strong>.</div>
 </div></div>
@@ -889,21 +889,21 @@ Result: 1 whole + <span class="frac"><span class="num">8</span><span class="den"
 </div>
 <div style="background:#fff;border:1.5px solid #A8D8D6;border-radius:10px;padding:12px;">
 <div style="font-size:11px;color:#066464;text-transform:uppercase;letter-spacing:.5px;font-weight:900;">BORROW</div>
-<div style="font-size:13px;margin-top:4px;">Fraction too small. Take 1 whole → denom slices.</div>
+<div style="font-size:13px;margin-top:4px;">Fraction too small. Borrow 1 whole and cut it into slices.</div>
 <div style="font-size:13px;color:#066464;margin-top:4px;">2 <span class="frac"><span class="num">1</span><span class="den">4</span></span> − <span class="frac"><span class="num">7</span><span class="den">12</span></span> = 1 <span class="frac"><span class="num">2</span><span class="den">3</span></span></div>
 </div>
 </div>
 </div>
 </div>
 </div></div>
-<div class="tab-next-wrap"><p class="tab-transition-voice">Improper or mixed — same amount, two ways. Now practice reading both.</p><button class="tab-next-btn" onclick="switchTab('assignment')">Continue to 🌟 Show What You Know →</button></div>
+<div class="tab-next-wrap"><p class="tab-transition-voice">Rename, check, borrow if you need to, subtract, simplify. Now show what you know.</p><button class="tab-next-btn" onclick="switchTab('assignment')">Continue to 🌟 Show What You Know →</button></div>
 </div>
 <div class="tab-panel" id="tab-assignment">
 <div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">Subtracting a fraction from a mixed number. Rename, check, borrow if needed.</div></div></div><div class="activity-body"><p>For each, show your work: rename, check, borrow (if needed), subtract, simplify.</p>
-<div class="callout callout-think"><span class="callout-icon">🧠</span><p><strong>Before each problem, ask:</strong> Do the denominators MATCH? Or do I need to rename one or both? Or is a benchmark (<span class="frac"><span class="num">1</span><span class="den">2</span></span>, 1) faster?</p></div>
-<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Same denominator — no borrow needed.</strong> Subtract and simplify.<br/>(a) 4 <span class="frac"><span class="num">3</span><span class="den">4</span></span> − <span class="frac"><span class="num">3</span><span class="den">8</span></span><br/>(b) 5 <span class="frac"><span class="num">5</span><span class="den">6</span></span> − <span class="frac"><span class="num">1</span><span class="den">3</span></span><br/>(c) 7 <span class="frac"><span class="num">8</span><span class="den">9</span></span> − <span class="frac"><span class="num">2</span><span class="den">3</span></span></p><div class="journal-label">✏️ My answers in simplest form + the simplification step <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: Convert three improper to mixed" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
-<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Word problem — fabric.</strong> Gina had 4 <span class="frac"><span class="num">1</span><span class="den">3</span></span> yards of fabric. She used <span class="frac"><span class="num">5</span><span class="den">6</span></span> yard for a project. How much is left in simplest form?</p><div class="journal-label">✏️ My answers <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 6: Cake story with simplification" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
-<div class="activity bl-slate" style="margin-top:18px;border-left-color:#0E8A8C;"><div class="activity-head"><div class="activity-num" style="background:#0E8A8C;color:#fff;">🗺️</div><div><div class="activity-title">Connection Forward: Subtracting Two Mixed Numbers</div><div class="activity-sub">What comes next in Unit 7</div></div></div><div class="activity-body"><p>You can now borrow when subtracting a fraction from a mixed number.</p><p>Next lesson closes the unit: subtracting TWO mixed numbers, borrowing between two full columns.</p></div></div></div></div>
+<div class="callout callout-think"><span class="callout-icon">🧠</span><p><strong>Before each problem, ask:</strong> Do the denominators match? Is the fraction part big enough to take away from, or do I need to borrow?</p></div>
+<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>No borrow needed.</strong> Rename, subtract, and simplify.<br/>(a) 4 <span class="frac"><span class="num">3</span><span class="den">4</span></span> − <span class="frac"><span class="num">3</span><span class="den">8</span></span><br/>(b) 5 <span class="frac"><span class="num">5</span><span class="den">6</span></span> − <span class="frac"><span class="num">1</span><span class="den">3</span></span><br/>(c) 7 <span class="frac"><span class="num">8</span><span class="den">9</span></span> − <span class="frac"><span class="num">2</span><span class="den">3</span></span></p><div class="journal-label">✏️ My answers in simplest form + the simplification step <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: Subtract a fraction from a mixed number" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
+<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Word problem — fabric.</strong> Gina had 4 <span class="frac"><span class="num">1</span><span class="den">3</span></span> yards of fabric. She used <span class="frac"><span class="num">5</span><span class="den">6</span></span> yard for a project. How much is left in simplest form?</p><div class="journal-label">✏️ My answers <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 2: Gina fabric story" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
+<div class="activity bl-slate" style="margin-top:18px;border-left-color:#0E8A8C;"><div class="activity-head"><div class="activity-num" style="background:#0E8A8C;color:#fff;">🗺️</div><div><div class="activity-title">Connection Forward: Subtracting Mixed Numbers</div><div class="activity-sub">What comes next</div></div></div><div class="activity-body"><p>You can now borrow when you subtract a fraction from a mixed number.</p><p>Next lesson (4.07.06): subtract one mixed number from another. You’ll borrow the same way, then subtract the wholes too.</p></div></div></div></div>
 <div class="gathered-box"><div class="gathered-head"><div class="gathered-head-icon">📋</div><div><div class="gathered-head-label">Your Math Journal</div><div class="gathered-head-title">All Answers from Today</div></div></div><div class="gathered-body"><textarea class="gathered-output" id="gatheredOutput" readonly="">Click "Gather My Answers" to collect your work.</textarea><div class="gathered-actions"><button class="purple-btn" onclick="gatherAnswers()">📋 Gather My Answers</button><button class="green-btn" onclick="copyAnswers()">Copy All Answers</button><button class="check-btn" onclick="downloadJournal()">Download My Math Journal</button></div></div></div>
 <div class="turn-in-card"><div class="turn-in-header"><div class="turn-in-header-icon">✅</div><div><div class="turn-in-header-label">Turn-In Checklist</div><div class="turn-in-header-title">Ready to Submit?</div></div></div><div class="turn-in-body"><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I completed both quick checks above.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I checked whether borrowing was needed before subtracting.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I showed the borrow step explicitly whenever the minuend's fraction was too small.</span></div></div></div>
 </div>
@@ -1401,7 +1401,7 @@ function borRender(id){
   wCount.textContent = b.whole;
   fCount.textContent = b.frac;
   den.textContent = b.denom;
-  denLabel.textContent = b.denom;
+  denLabel.textContent = ({2:'halves',3:'thirds',4:'fourths',6:'sixths',8:'eighths',9:'ninths',12:'twelfths',16:'sixteenths'})[b.denom] || (b.denom + 'ths');
   // Status + button states
   const renameBtn = document.getElementById('borBtnRename-'+id);
   const borrowBtn = document.getElementById('borBtnBorrow-'+id);
@@ -1415,16 +1415,11 @@ function borRender(id){
     status.innerHTML = 'Step 1: rename the fraction part.';
   } else if(b.step === 1){
     if(renameBtn) renameBtn.disabled = true, renameBtn.style.opacity = 0.6;
-    if(b.needsBorrow){
-      if(borrowBtn) borrowBtn.disabled = false, borrowBtn.style.opacity = 1;
-      if(subBtn) subBtn.disabled = true, subBtn.style.opacity = 0.6;
-      status.innerHTML = 'Now check — is ' + '<span class="frac"><span class="num">' + b.frac + '</span><span class="den">' + b.denom + '</span></span>' + ' big enough to subtract ' + '<span class="frac"><span class="num">' + b.sub + '</span><span class="den">' + b.denom + '</span></span>' + '? No → click Borrow.';
-    } else {
-      if(borrowBtn) borrowBtn.disabled = true, borrowBtn.style.opacity = 0.6;
-      if(subBtn) subBtn.disabled = false, subBtn.style.opacity = 1;
-      status.innerHTML = 'Now check — is ' + '<span class="frac"><span class="num">' + b.frac + '</span><span class="den">' + b.denom + '</span></span>' + ' ≥ ' + '<span class="frac"><span class="num">' + b.sub + '</span><span class="den">' + b.denom + '</span></span>' + '? Yes → skip borrow, go to Subtract.';
-    }
+    if(borrowBtn) borrowBtn.disabled = false, borrowBtn.style.opacity = 1;
+    if(subBtn) subBtn.disabled = false, subBtn.style.opacity = 1;
+    status.innerHTML = 'Renamed! Now check: is ' + '<span class="frac"><span class="num">' + b.frac + '</span><span class="den">' + b.denom + '</span></span>' + ' enough to take away ' + '<span class="frac"><span class="num">' + b.sub + '</span><span class="den">' + b.denom + '</span></span>' + '? You decide: Borrow or Subtract.';
   } else if(b.step === 2){
+    status.style.background = '#D4EBE9'; status.style.borderColor = '#A8D8D6';
     if(renameBtn) renameBtn.disabled = true, renameBtn.style.opacity = 0.6;
     if(borrowBtn) borrowBtn.disabled = true, borrowBtn.style.opacity = 0.6;
     if(subBtn) subBtn.disabled = false, subBtn.style.opacity = 1;
@@ -1438,6 +1433,11 @@ function borRender(id){
     status.innerHTML = '✅ Done! Result: ' + b.whole + ' ' + '<span class="frac"><span class="num">' + b.frac + '</span><span class="den">' + b.denom + '</span></span>' + ' = <strong>' + __fr(b.target) + '</strong> (simplest form).';
   }
 }
+function borHint(id, msg){
+  const st = document.getElementById('borStatus-'+id);
+  st.style.background = '#FFF0E6'; st.style.borderColor = '#E07B39';
+  st.innerHTML = '🔄 ' + msg;
+}
 function borRename(id){
   const b = bors[id];
   if(b.step !== 0) return;
@@ -1450,7 +1450,8 @@ function borRename(id){
 }
 function borBorrow(id){
   const b = bors[id];
-  if(b.step !== 1 || !b.needsBorrow) return;
+  if(b.step !== 1) return;
+  if(!b.needsBorrow){ borHint(id, 'You have ' + b.frac + ' slices. That is enough to take away ' + b.sub + ', so no borrow is needed. Click Subtract.'); return; }
   b.whole -= 1;
   b.frac += b.denom;
   b.step = 2;
@@ -1459,6 +1460,7 @@ function borBorrow(id){
 function borSubtract(id){
   const b = bors[id];
   if(b.step < 1 || b.step >= 3) return;
+  if(b.step === 1 && b.needsBorrow){ borHint(id, 'Not enough slices: ' + b.frac + ' slices cannot give away ' + b.sub + '. Borrow 1 whole first.'); return; }
   b.frac -= b.sub;
   b.step = 3;
   borRender(id);
@@ -1477,6 +1479,14 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 setTimeout(function(){ for(const id in bors) borRender(parseInt(id)); }, 0);
 
+</script>
+<script id="predictionScript">
+/* Warm-Up prediction chips: pick one, then show the check-your-thinking box */
+function pickPrediction(btn){
+  btn.parentElement.querySelectorAll('.strategy-chip').forEach(function(c){c.classList.remove('selected');});
+  btn.classList.add('selected');
+  var h=document.getElementById('thinkHint');if(h)h.style.display='';
+}
 </script>
 <script id="fluencyScript">
 (function(){
@@ -1619,6 +1629,36 @@ document.addEventListener('DOMContentLoaded', function() {
     if(navigator.clipboard && window.isSecureContext){
       navigator.clipboard.writeText(text).then(function(){ say('Copied! Now paste your answers where your teacher asked you to turn them in.', true); }, fallback);
     } else { fallback(); }
+  };
+})();
+</script>
+<!-- OAO download fix -->
+<script>
+(function(){
+  var orig = window.downloadJournal;
+  if(typeof orig !== 'function') return;
+  window.downloadJournal = function(){
+    try { gatherAnswers(); } catch(e) {}
+    var out = document.getElementById('gatheredOutput');
+    var text = out ? (out.value || '') : '';
+    var w = null;
+    try { w = window.open('', '_blank'); } catch(e) { w = null; }
+    if(w && w.document){
+      w.document.write('<pre style="font-family:Arial;white-space:pre-wrap;font-size:14px;line-height:1.5;">' + text.replace(/[&<>]/g, function(s){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[s]; }) + '</pre>');
+      w.document.close();
+      try { w.focus(); w.print(); } catch(e) {}
+      return;
+    }
+    try {
+      var blob = new Blob([text], {type:'text/plain'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = ((document.title || 'math-journal').replace(/[^a-z0-9]+/gi,'-').toLowerCase()) + '.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+    } catch(e) {
+      if(out){ out.focus(); out.select(); }
+    }
   };
 })();
 </script>

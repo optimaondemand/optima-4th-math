@@ -385,6 +385,78 @@
 .vfrac .vf-num{padding:0 3px;border-bottom:1.5px solid #0E1C42}
 .vfrac .vf-den{padding:0 3px}
 </style>
+<script id="bt-common">
+/* Unit 6 build tools — shared helpers (added 2026-10-14) */
+var BT={
+  F:function(n,d){return '<span class="frac"><span class="num">'+n+'</span><span class="den">'+d+'</span></span>';},
+  M:function(w,n,d){if(n===0)return ''+w;if(w===0)return BT.F(n,d);return w+'&nbsp;'+BT.F(n,d);},
+  gcd:function(a,b){while(b){var t=b;b=a%b;a=t;}return a;},
+  name:function(d,plural){var s={2:'half',3:'third',4:'fourth',5:'fifth',6:'sixth',7:'seventh',8:'eighth',9:'ninth',10:'tenth',12:'twelfth'}[d]||(d+'th');if(plural){return d===2?'halves':s+'s';}return s;},
+  pie:function(d,sh,size){
+    size=size||120;var r=size/2-2,c=size/2,on='#FF7A45',off='#FFF1E6',sw=d>16?0.8:1.3;
+    var s='<svg class="bt-svg" width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" aria-hidden="true">';
+    if(d===1){return s+'<circle cx="'+c+'" cy="'+c+'" r="'+r+'" fill="'+(sh>=1?on:off)+'" stroke="#0E1C42" stroke-width="1.5"/></svg>';}
+    for(var i=0;i<d;i++){
+      var a0=-Math.PI/2+2*Math.PI*i/d,a1=-Math.PI/2+2*Math.PI*(i+1)/d;
+      s+='<path d="M'+c+','+c+' L'+(c+r*Math.cos(a0)).toFixed(2)+','+(c+r*Math.sin(a0)).toFixed(2)+' A'+r+','+r+' 0 0 1 '+(c+r*Math.cos(a1)).toFixed(2)+','+(c+r*Math.sin(a1)).toFixed(2)+' Z" fill="'+(i<sh?on:off)+'" stroke="#0E1C42" stroke-width="'+sw+'"/>';
+    }
+    return s+'</svg>';
+  },
+  slice:function(d,size){
+    size=size||30;var r=size-3,cx=size/2,cy=size-1,half=Math.PI/d;
+    if(d===2){return '<svg class="bt-svg" width="'+size+'" height="'+(size/2+3)+'" viewBox="0 0 '+size+' '+(size/2+3)+'" aria-hidden="true"><path d="M2,'+(size/2+1)+' A'+(size/2-2)+','+(size/2-2)+' 0 0 1 '+(size-2)+','+(size/2+1)+' Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"/></svg>';}
+    var a0=-Math.PI/2-half,a1=-Math.PI/2+half;
+    var x0=cx+r*Math.cos(a0),y0=cy+r*Math.sin(a0),x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1);
+    var w=Math.max(size,(x1-x0)+4),off=(w-size)/2;
+    return '<svg class="bt-svg" width="'+w.toFixed(0)+'" height="'+size+'" viewBox="'+(-off).toFixed(2)+' 0 '+w.toFixed(2)+' '+size+'" aria-hidden="true"><path d="M'+cx+','+cy+' L'+x0.toFixed(2)+','+y0.toFixed(2)+' A'+r+','+r+' 0 0 1 '+x1.toFixed(2)+','+y1.toFixed(2)+' Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"/></svg>';
+  },
+  bar:function(d,sh,w){
+    w=w||300;var h=34,s='<svg class="bt-svg bt-bar" width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-hidden="true">',cw=(w-2)/d;
+    for(var i=0;i<d;i++){s+='<rect x="'+(1+i*cw).toFixed(2)+'" y="1" width="'+cw.toFixed(2)+'" height="'+(h-2)+'" fill="'+(i<sh?'#FF7A45':'#FFF1E6')+'" stroke="#0E1C42" stroke-width="1.2"/>';}
+    return s+'</svg>';
+  },
+  msg:function(id,type,html){var el=document.getElementById(id);if(!el)return;el.className='inline-feedback'+(type?' show '+type:'');el.innerHTML=html||'';},
+  num:function(id){var v=(document.getElementById(id).value||'').trim();if(v==='')return null;var x=Number(v);return isFinite(x)&&Math.floor(x)===x?x:NaN;}
+};
+function btShowHint(btn){
+  var row=btn.previousElementSibling;
+  while(row&&!(row.classList&&row.classList.contains('strategy-chip-row'))){row=row.previousElementSibling;}
+  var hint=btn.nextElementSibling;
+  if(row&&!row.querySelector('.strategy-chip.selected')){btn.textContent='Pick an answer above first, then tap here';return;}
+  if(hint){hint.style.display='';}
+  btn.style.display='none';
+}
+</script>
+<style id="bt-style">
+/* Unit 6 build tools (added 2026-10-14) */
+.bt-wrap{background:#FFF8F0;border:2px solid #FFD0A8;border-radius:14px;padding:16px 12px;margin:12px 0;text-align:center}
+.bt-goal{font-family:'Lora',Georgia,serif;font-weight:700;color:#0E1C42;font-size:16px;margin:0 0 10px;line-height:1.8}
+.bt-stage{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;min-height:90px;margin:8px 0}
+.bt-svg{max-width:100%;height:auto;vertical-align:middle}
+.bt-read{font-size:22px;font-weight:900;color:#C25A2B;margin:6px 0;line-height:1.4}
+.bt-read small{font-size:14px;color:#3A4A6B;font-weight:700}
+.bt-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:10px 0}
+.bt-btn{border:2px solid #FF7A45;background:#fff;color:#0E1C42;border-radius:10px;padding:9px 12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;cursor:pointer;min-height:44px;line-height:1.3}
+.bt-btn:hover{background:#FFF1E6}
+.bt-btn:disabled{opacity:.45;cursor:not-allowed}
+.bt-btn.bt-blue{border-color:#3A6B9A}
+.bt-btn.bt-go{background:#2DB87A;border-color:#2DB87A;color:#fff}
+.bt-btn.bt-quiet{border-color:#CBD5E1;color:#3A4A6B}
+.bt-label{font-size:12px;font-weight:900;color:#8A5A3A;letter-spacing:.5px;text-transform:uppercase;margin-top:6px}
+.bt-log{font-size:14px;color:#3A4A6B;text-align:left;max-width:560px;margin:8px auto;line-height:2.1}
+.bt-box{background:#fff;border:1.5px solid #FFCBA8;border-radius:12px;padding:10px;margin:8px auto;max-width:620px}
+.bt-pile{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;min-height:36px}
+.bt-write{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin:10px 0;font-weight:800;color:#0E1C42}
+.bt-in{width:58px;font-size:18px;font-weight:800;text-align:center;border:2px solid #CBD5E1;border-radius:8px;padding:6px;font-family:'Nunito',sans-serif}
+.bt-fracin{display:inline-flex;flex-direction:column;align-items:center;gap:3px}
+.bt-fracin .bt-in{width:52px}
+.bt-fracin .bt-barline{width:56px;height:2px;background:#0E1C42}
+.bt-plates{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.bt-plate{background:#fff;border:2px solid #E2E8F4;border-radius:12px;padding:6px;min-width:64px;max-width:120px}
+.bt-plate .bt-who{font-size:12px;font-weight:800;color:#3A4A6B}
+.bt-pair{display:flex;flex-direction:column;align-items:center;gap:4px;margin:8px 0}
+.bt-hint-btn{margin:4px 0 10px}
+</style>
 </head>
 <body id="pageTop">
 <div class="page-wrap">
@@ -725,7 +797,7 @@
 <button class="strategy-chip" onclick="this.classList.toggle('selected')"><span class="frac"><span class="num">15</span><span class="den">5</span></span></button>
 <button class="strategy-chip" onclick="this.classList.toggle('selected')"><span class="frac"><span class="num">32</span><span class="den">5</span></span></button>
 </div>
-<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>Hint:</strong> 3 wholes × 5 fifths per pie = 15 fifths. Plus 2 more fifths = 17. Answer: <strong><span class="frac"><span class="num">17</span><span class="den">5</span></span></strong>.</p></div>
+<button class="bt-btn bt-hint-btn" onclick="btShowHint(this)">Check my prediction</button><div class="callout callout-tip" style="display:none;"><span class="callout-icon">🧠</span><p><strong>Hint:</strong> 3 wholes × 5 fifths per pie = 15 fifths. Plus 2 more fifths = 17. Answer: <strong><span class="frac"><span class="num">17</span><span class="den">5</span></span></strong>.</p></div>
 <div class="journal-label">✏️ Show 3 <span class="frac"><span class="num">2</span><span class="den">5</span></span> → improper. Multiply, add, write. <span class="saved-dot" id="dot-think"></span></div>
 <textarea class="journal-box" data-label="Warm-Up — Think Prompt: 3 2/5 to improper" id="journal-think" oninput="autoSave(this,'dot-think')" placeholder=""></textarea>
 </div></div><div class="tab-next-wrap"><p class="tab-transition-voice">You used multiply-and-add on a small mixed number. Now master the rule for any mixed number.</p><button class="tab-next-btn" onclick="switchTab('learn')">Continue to 📐 Learn →</button></div>
@@ -768,40 +840,63 @@
 </div>
 </div>
 
-<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> Three mixed numbers below. Multiply, add, and pick the matching improper fraction.</p></div>
-<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#FF7A45;">🧩</div><div><div class="activity-title">Composer</div><div class="activity-sub">Multiply, add. Pick the matching improper fraction.</div></div></div><div class="activity-body"><p>Each problem shows a mixed number. Multiply whole × denominator, add the top. Pick the improper fraction.</p>
-<div style="background:#FFF8F0;border:2px solid #FFD0A8;border-radius:14px;padding:18px 14px;margin:12px 0;">
-<div style="margin-bottom:24px;padding-bottom:18px;border-bottom:1.5px dashed #FFCBA8;">
-<div style="text-align:center;margin-bottom:10px;font-family:'Lora',Georgia,serif;font-size:22px;font-weight:900;color:#FF7A45;">2 <span class="frac"><span class="num">3</span><span class="den">4</span></span></div>
-<div style="font-family:'Lora',Georgia,serif;font-size:14px;font-weight:700;color:#0E1C42;text-align:center;margin-bottom:8px;line-height:1.6;">2 × 4 + 3 = ? → improper?</div>
-<div class="value-card-row" style="margin:0;justify-content:center;">
-<button class="value-card" onclick="pickStrategy(this,1,'11/4')" style="min-width:100px;"><div class="big" style="font-size:15px;"><span class="frac"><span class="num">11</span><span class="den">4</span></span></div></button>
-<button class="value-card" onclick="pickStrategy(this,1,'5/4')" style="min-width:100px;"><div class="big" style="font-size:15px;"><span class="frac"><span class="num">5</span><span class="den">4</span></span></div></button>
-<button class="value-card" onclick="pickStrategy(this,1,'8/4')" style="min-width:100px;"><div class="big" style="font-size:15px;"><span class="frac"><span class="num">8</span><span class="den">4</span></span></div></button>
+<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> Cut open each whole pie into slices. Count every slice when you are done.</p></div>
+<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#FF7A45;">🔪</div><div><div class="activity-title">Pie Opener</div><div class="activity-sub">Cut whole pies into slices. Count all the slices.</div></div></div><div class="activity-body">
+<div class="bt-wrap">
+<p class="bt-goal" id="poGoal"></p>
+<div class="bt-box"><div class="bt-label">Whole pies</div><div class="bt-stage" id="poWhole" style="min-height:70px;"></div></div>
+<div class="bt-btns"><button class="bt-btn" id="poCutBtn" onclick="poCut()"></button></div>
+<div class="bt-box"><div class="bt-label">Loose slices</div><div class="bt-pile" id="poLoose"></div><div class="bt-read" id="poLooseN"></div><div class="bt-log" id="poLog" style="text-align:center;"></div></div>
+<div class="inline-feedback" id="poMsg"></div>
+<div class="bt-write" id="poWrite" style="display:none;">Improper fraction:
+<span class="bt-fracin"><input class="bt-in" id="poN" inputmode="numeric" aria-label="numerator"/><span class="bt-barline"></span><input class="bt-in" id="poD" inputmode="numeric" aria-label="denominator"/></span>
+<button class="bt-btn bt-go" onclick="poCheck()">✔ Check</button></div>
+<div class="bt-btns"><button class="bt-btn bt-quiet" onclick="poReset()">↺ Start over</button><button class="bt-btn bt-go" id="poNext" onclick="poNextRound()" style="display:none;">Next one →</button></div>
 </div>
-</div>
-<div style="margin-bottom:24px;padding-bottom:18px;border-bottom:1.5px dashed #FFCBA8;">
-<div style="text-align:center;margin-bottom:10px;font-family:'Lora',Georgia,serif;font-size:22px;font-weight:900;color:#FF7A45;">5 <span class="frac"><span class="num">1</span><span class="den">3</span></span></div>
-<div style="font-family:'Lora',Georgia,serif;font-size:14px;font-weight:700;color:#0E1C42;text-align:center;margin-bottom:8px;line-height:1.6;">5 × 3 + 1 = ? → improper?</div>
-<div class="value-card-row" style="margin:0;justify-content:center;">
-<button class="value-card" onclick="pickStrategy(this,2,'16/3')" style="min-width:100px;"><div class="big" style="font-size:15px;"><span class="frac"><span class="num">16</span><span class="den">3</span></span></div></button>
-<button class="value-card" onclick="pickStrategy(this,2,'15/3')" style="min-width:100px;"><div class="big" style="font-size:15px;"><span class="frac"><span class="num">15</span><span class="den">3</span></span></div></button>
-<button class="value-card" onclick="pickStrategy(this,2,'6/3')" style="min-width:100px;"><div class="big" style="font-size:15px;"><span class="frac"><span class="num">6</span><span class="den">3</span></span></div></button>
-</div>
-</div>
-<div>
-<div style="text-align:center;margin-bottom:10px;font-family:'Lora',Georgia,serif;font-size:22px;font-weight:900;color:#FF7A45;">4 <span class="frac"><span class="num">5</span><span class="den">8</span></span></div>
-<div style="font-family:'Lora',Georgia,serif;font-size:14px;font-weight:700;color:#0E1C42;text-align:center;margin-bottom:8px;line-height:1.6;">4 × 8 + 5 = ? → improper?</div>
-<div class="value-card-row" style="margin:0;justify-content:center;">
-<button class="value-card" onclick="pickStrategy(this,3,'37/8')" style="min-width:100px;"><div class="big" style="font-size:15px;"><span class="frac"><span class="num">37</span><span class="den">8</span></span></div></button>
-<button class="value-card" onclick="pickStrategy(this,3,'9/8')" style="min-width:100px;"><div class="big" style="font-size:15px;"><span class="frac"><span class="num">9</span><span class="den">8</span></span></div></button>
-<button class="value-card" onclick="pickStrategy(this,3,'45/8')" style="min-width:100px;"><div class="big" style="font-size:15px;"><span class="frac"><span class="num">45</span><span class="den">8</span></span></div></button>
-</div>
-</div>
-<div id="stratStatus" style="margin-top:14px;background:#FFE0CC;border:2px solid #FFCBA8;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Multiply whole × bottom. Add the top. Same bottom carries through.</div>
-</div>
-<div class="reveal-box" id="learnReveal"><strong>Improper fractions:</strong> 2 <span class="frac"><span class="num">3</span><span class="den">4</span></span> → 2 × 4 + 3 = 11 → <strong><span class="frac"><span class="num">11</span><span class="den">4</span></span></strong>. 5 <span class="frac"><span class="num">1</span><span class="den">3</span></span> → 5 × 3 + 1 = 16 → <strong><span class="frac"><span class="num">16</span><span class="den">3</span></span></strong>. 4 <span class="frac"><span class="num">5</span><span class="den">8</span></span> → 4 × 8 + 5 = 37 → <strong><span class="frac"><span class="num">37</span><span class="den">8</span></span></strong>.</div>
 </div></div>
+<script>
+(function(){
+  var F=BT.F,M=BT.M,R=[{w:2,n:3,d:4},{w:5,n:1,d:3},{w:4,n:5,d:8}];
+  var ri=0,whole,loose,log=[],done=false;
+  function el(id){return document.getElementById(id);}
+  function render(){
+    var r=R[ri],d=r.d,h='';
+    el('poGoal').innerHTML=(ri+1)+' of 3: '+M(r.w,r.n,d)+' is '+r.w+' whole pies and '+r.n+' more '+(r.n===1?BT.name(d):BT.name(d,true))+'. How many '+BT.name(d,true)+' is that in all?';
+    for(var i=0;i<whole;i++){h+=BT.pie(d,d,64);}
+    el('poWhole').innerHTML=h||'<span style="color:#8A97B0;font-weight:700;">all cut open</span>';
+    h='';for(var j=0;j<loose;j++){h+=BT.slice(d,26);}
+    el('poLoose').innerHTML=h;
+    el('poLooseN').innerHTML=loose+' <small>loose '+(loose===1?BT.name(d):BT.name(d,true))+'</small>';
+    el('poLog').innerHTML=log.join(' &nbsp;→&nbsp; ');
+    var b=el('poCutBtn');b.innerHTML='🔪 Cut open a whole pie (makes '+d+' slices)';b.disabled=(whole===0)||done;
+    el('poWrite').style.display=(whole===0&&!done)?'flex':'none';
+    el('poNext').style.display=(done&&ri<R.length-1)?'inline-block':'none';
+  }
+  function start(i){ri=i;whole=R[i].w;loose=R[i].n;log=[];done=false;el('poN').value='';el('poD').value='';BT.msg('poMsg','','');render();}
+  window.poCut=function(){
+    var d=R[ri].d;if(done||whole===0)return;
+    log.push(loose+' + '+d+' = '+(loose+d));loose+=d;whole--;
+    if(whole===0){BT.msg('poMsg','info','Every pie is cut open. Count the loose slices and write the improper fraction.');}
+    render();
+  };
+  window.poCheck=function(){
+    var r=R[ri],d=r.d,t=r.w*d+r.n,nn=BT.num('poN'),dd=BT.num('poD');
+    if(nn===null||dd===null||isNaN(nn)||isNaN(dd)){BT.msg('poMsg','think','Fill in both boxes: slices on top, slice size on the bottom.');return;}
+    if(nn===t&&dd===d){
+      done=true;
+      BT.msg('poMsg','good','✅ '+M(r.w,r.n,d)+' = '+F(t,d)+'. Each whole pie gave you '+d+' slices, so '+r.w+' × '+d+' = '+(r.w*d)+'. Add the '+r.n+' you started with: '+(r.w*d)+' + '+r.n+' = '+t+'. The bottom stays '+d+' because every slice is still one '+BT.name(d)+'.');
+      render();
+    }else if(dd!==d){
+      BT.msg('poMsg','think','Check the bottom number. Every slice is one '+BT.name(d)+', so the denominator is '+d+'.');
+    }else{
+      BT.msg('poMsg','think','Count the loose slices again. Each whole pie made '+d+' slices, and you had '+r.n+' to start.');
+    }
+  };
+  window.poReset=function(){start(ri);};
+  window.poNextRound=function(){start(ri+1);};
+  start(0);
+})();
+</script>
 <div class="key-concept" style="margin-top:16px;"><div class="key-concept-label">📐 Mixed → Improper Procedure</div><p><strong>Step 1 — Multiply</strong> the whole number by the denominator.</p><p style="text-align:center;font-size:17px;font-weight:900;color:#FF7A45;">Whole × Denominator</p><p><strong>Step 2 — Add</strong> the top of the fraction part to that product.</p><p style="text-align:center;font-size:17px;font-weight:900;color:#FF7A45;">(Whole × Denominator) + Top = New Top</p><p><strong>Step 3 — Write it</strong> over the same denominator.</p><p><strong>Check:</strong> convert the new improper back to mixed (divide). If you land on the original mixed, the conversion is correct.</p></div>
 <div class="activity bl-violet" style="margin-top:16px;"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">🥧</div><div><div class="activity-title">Picture It: Why Multiply-and-Add Works</div><div class="activity-sub">Counting all the slices, organized.</div></div></div><div class="activity-body"><p>Hazel draws 3 <span class="frac"><span class="num">2</span><span class="den">5</span></span> as pies. Atlas multiplies. They get the same answer — and the picture shows why.</p>
 <div style="background:#FFF8F0;border:2px solid #FFD0A8;border-radius:14px;padding:18px;margin:12px 0;">
@@ -846,7 +941,7 @@
 </div>
 <div style="background:#fff;border:1.5px solid #FFCBA8;border-radius:10px;padding:14px;">
 <div style="font-size:11px;color:#C25A2B;text-transform:uppercase;letter-spacing:.5px;font-weight:900;">IMPROPER → MIXED</div>
-<div style="font-size:14px;margin-top:6px;">Divide top by bottom. Quotient + remainder/bottom.</div>
+<div style="font-size:14px;margin-top:6px;">Divide top by bottom. The quotient is the whole number. The remainder goes over the same bottom.</div>
 <div style="font-size:14px;color:#C25A2B;margin-top:6px;"><span class="frac"><span class="num">23</span><span class="den">3</span></span> → 23÷3 = 7 r 2 → 7 <span class="frac"><span class="num">2</span><span class="den">3</span></span></div>
 </div>
 </div>
@@ -854,14 +949,14 @@
 </div>
 </div>
 </div></div>
-<div class="tab-next-wrap"><p class="tab-transition-voice">Improper or mixed — same amount, two ways. Now practice reading both.</p><button class="tab-next-btn" onclick="switchTab('assignment')">Continue to 🌟 Show What You Know →</button></div>
+<div class="tab-next-wrap"><p class="tab-transition-voice">Multiply, add, keep the same bottom. Now show what you know.</p><button class="tab-next-btn" onclick="switchTab('assignment')">Continue to 🌟 Show What You Know →</button></div>
 </div>
 <div class="tab-panel" id="tab-assignment">
-<div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">Mixed to improper — multiply and add. Check by converting back.</div></div></div><div class="activity-body"><p>Show your multiply-and-add for each. Verify by converting back.</p>
+<div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">Mixed to improper — multiply and add. Check by converting back.</div></div></div><div class="activity-body"><p>Two quick checks. Your full practice is in the Independent Practice PDF.</p>
 <div class="callout callout-think"><span class="callout-icon">🧠</span><p><strong>Before each problem, ask:</strong> Did I multiply the whole number by the denominator, then add the numerator?</p></div>
-<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Convert each mixed number to an improper fraction.</strong> Show your multiply-and-add.<br/>(a) 3 <span class="frac"><span class="num">1</span><span class="den">4</span></span><br/>(b) 5 <span class="frac"><span class="num">2</span><span class="den">3</span></span><br/>(c) 7 <span class="frac"><span class="num">4</span><span class="den">9</span></span></p><div class="journal-label">✏️ My answers in simplest form + the simplification step <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: Convert three improper to mixed" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
-<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Story problem.</strong> A baker made 3 <span class="frac"><span class="num">1</span><span class="den">2</span></span> batches of cookies. Each batch fills <span class="frac"><span class="num">1</span><span class="den">2</span></span> of a tray. (a) Write 3 <span class="frac"><span class="num">1</span><span class="den">2</span></span> as an improper fraction with denominator 2. (b) How many half-trays of cookies is that in total?</p><div class="journal-label">✏️ My answers <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 6: Cake story with simplification" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
-<div class="activity bl-slate" style="margin-top:18px;border-left-color:#FF7A45;"><div class="activity-head"><div class="activity-num" style="background:#FF7A45;color:#fff;">🗺️</div><div><div class="activity-title">Connection Forward: Fractions as Division</div><div class="activity-sub">What comes next in Unit 6</div></div></div><div class="activity-body"><p>You just learned to turn a mixed number into an improper fraction. Next lesson, you'll discover that a fraction bar is really a division sign — connecting everything you've learned this unit.</p></div></div></div></div>
+<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Convert.</strong> Write 4 <span class="frac"><span class="num">3</span><span class="den">8</span></span> as an improper fraction. Show your multiply-and-add.</p><div class="journal-label">✏️ My multiply-and-add + improper fraction <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: Convert 4 3/8 to an improper fraction" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
+<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Story problem.</strong> Grandma baked 3 <span class="frac"><span class="num">1</span><span class="den">2</span></span> pans of cornbread. She cuts every pan into 2 equal halves. How many half-pans does she have? Write 3 <span class="frac"><span class="num">1</span><span class="den">2</span></span> as an improper fraction.</p><div class="journal-label">✏️ My answer <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 2: Cornbread halves" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
+<div class="activity bl-slate" style="margin-top:18px;border-left-color:#FF7A45;"><div class="activity-head"><div class="activity-num" style="background:#FF7A45;color:#fff;">🗺️</div><div><div class="activity-title">Connection Forward: Fractions and Division</div><div class="activity-sub">What comes next in Unit 6</div></div></div><div class="activity-body"><p>You just learned to turn a mixed number into an improper fraction. Next lesson, you'll discover that a fraction bar is really a division sign — connecting everything you've learned this unit.</p></div></div></div></div>
 <div class="gathered-box"><div class="gathered-head"><div class="gathered-head-icon">📋</div><div><div class="gathered-head-label">Your Math Journal</div><div class="gathered-head-title">All Answers from Today</div></div></div><div class="gathered-body"><textarea class="gathered-output" id="gatheredOutput" readonly="">Click "Gather My Answers" to collect your work.</textarea><div class="gathered-actions"><button class="purple-btn" onclick="gatherAnswers()">📋 Gather My Answers</button><button class="green-btn" onclick="copyAnswers()">Copy All Answers</button><button class="check-btn" onclick="downloadJournal()">Download My Math Journal</button></div></div></div>
 <div class="turn-in-card"><div class="turn-in-header"><div class="turn-in-header-icon">✅</div><div><div class="turn-in-header-label">Turn-In Checklist</div><div class="turn-in-header-title">Ready to Submit?</div></div></div><div class="turn-in-body"><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I completed both quick checks above.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I showed my multiply-and-add for every conversion.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I double-checked by converting at least one improper back to its mixed form.</span></div></div></div>
 </div>
@@ -1448,6 +1543,36 @@ document.addEventListener('DOMContentLoaded', function() {
     if(navigator.clipboard && window.isSecureContext){
       navigator.clipboard.writeText(text).then(function(){ say('Copied! Now paste your answers where your teacher asked you to turn them in.', true); }, fallback);
     } else { fallback(); }
+  };
+})();
+</script>
+<!-- OAO download fix -->
+<script>
+(function(){
+  var orig = window.downloadJournal;
+  if(typeof orig !== 'function') return;
+  window.downloadJournal = function(){
+    try { gatherAnswers(); } catch(e) {}
+    var out = document.getElementById('gatheredOutput');
+    var text = out ? (out.value || '') : '';
+    var w = null;
+    try { w = window.open('', '_blank'); } catch(e) { w = null; }
+    if(w && w.document){
+      w.document.write('<pre style="font-family:Arial;white-space:pre-wrap;font-size:14px;line-height:1.5;">' + text.replace(/[&<>]/g, function(s){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[s]; }) + '</pre>');
+      w.document.close();
+      try { w.focus(); w.print(); } catch(e) {}
+      return;
+    }
+    try {
+      var blob = new Blob([text], {type:'text/plain'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = ((document.title || 'math-journal').replace(/[^a-z0-9]+/gi,'-').toLowerCase()) + '.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+    } catch(e) {
+      if(out){ out.focus(); out.select(); }
+    }
   };
 })();
 </script>

@@ -707,12 +707,13 @@
 <div class="callout callout-think"><span class="callout-icon">🥧</span><p>What is <strong>4 × <span class="frac"><span class="num">3</span><span class="den">4</span></span></strong>?</p></div>
 <p>Predict before you build below:</p>
 <div class="strategy-chip-row">
-<button class="strategy-chip" onclick="this.classList.toggle('selected')"><span class="frac"><span class="num">12</span><span class="den">4</span></span></button>
-<button class="strategy-chip" onclick="this.classList.toggle('selected')">3</button>
-<button class="strategy-chip" onclick="this.classList.toggle('selected')">3 <span class="frac"><span class="num">0</span><span class="den">4</span></span></button>
-<button class="strategy-chip" onclick="this.classList.toggle('selected')"><span class="frac"><span class="num">12</span><span class="den">16</span></span></button>
+<button class="strategy-chip" onclick="thinkPick(this)" data-ok="1" data-msg="✅ Yes! 4 groups of 3 slices is 12 fourths. Read the rule below to see what that equals."><span class="frac"><span class="num">12</span><span class="den">4</span></span></button>
+<button class="strategy-chip" onclick="thinkPick(this)" data-ok="1" data-msg="✅ Yes! 12 fourths make exactly 3 whole pies. Read the rule below.">3</button>
+<button class="strategy-chip" onclick="thinkPick(this)" data-msg="🔄 That is equal to 3, but we never write a leftover of 0. Just write 3. Read the rule below.">3 <span class="frac"><span class="num">0</span><span class="den">4</span></span></button>
+<button class="strategy-chip" onclick="thinkPick(this)" data-msg="🔄 Not quite. Only the numerator gets multiplied. The slices stay fourths. Read the rule below."><span class="frac"><span class="num">12</span><span class="den">16</span></span></button>
 </div>
-<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>Rule:</strong> 4 × <span class="frac"><span class="num">3</span><span class="den">4</span></span> = <span class="frac"><span class="num">12</span><span class="den">4</span></span>. Twelve quarter-slices = three whole pies. <strong>4 × <span class="frac"><span class="num">3</span><span class="den">4</span></span> = 3</strong>.</p></div>
+<div class="inline-feedback" id="thinkFb"></div>
+<div class="callout callout-tip" id="thinkRule" style="display:none;"><span class="callout-icon">🧠</span><p><strong>Rule:</strong> 4 × <span class="frac"><span class="num">3</span><span class="den">4</span></span> = <span class="frac"><span class="num">12</span><span class="den">4</span></span>. Twelve quarter-slices = three whole pies. <strong>4 × <span class="frac"><span class="num">3</span><span class="den">4</span></span> = 3</strong>.</p></div>
 <div class="journal-label">✏️ Why is the answer a whole number this time? <span class="saved-dot" id="dot-think"></span></div>
 <textarea class="journal-box" data-label="Warm-Up — Think: 4 × 3/4 lands on 3" id="journal-think" oninput="autoSave(this,'dot-think')" placeholder=""></textarea>
 </div></div><div class="tab-next-wrap"><p class="tab-transition-voice">Now: build, RESOLVE, simplify.</p><button class="tab-next-btn" onclick="switchTab('learn')">Continue to 📐 Learn →</button></div>
@@ -737,7 +738,7 @@
 <div aria-label="Vocabulary card for improper fraction. Tap to flip." class="flip-card fc-color-2" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
 <div class="flip-card-inner">
 <div class="flip-card-front"><div class="fc-emoji">⬆️</div><div class="fc-word">improper fraction</div><div class="fc-tap">tap to flip</div></div>
-<div class="flip-card-back"><div class="fc-word-back">improper fraction</div><div class="fc-def">a fraction where the top is bigger than the bottom. <span class="frac"><span class="num">12</span><span class="den">4</span></span>, <span class="frac"><span class="num">30</span><span class="den">9</span></span>. Always resolve.</div><div class="fc-tap-back">tap to flip back</div></div>
+<div class="flip-card-back"><div class="fc-word-back">improper fraction</div><div class="fc-def">a fraction where the top is equal to or bigger than the bottom. <span class="frac"><span class="num">12</span><span class="den">4</span></span>, <span class="frac"><span class="num">30</span><span class="den">9</span></span>. Resolve it to a whole or mixed number.</div><div class="fc-tap-back">tap to flip back</div></div>
 </div>
 </div>
 <div aria-label="Vocabulary card for simplify. Tap to flip." class="flip-card fc-color-3" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
@@ -797,11 +798,11 @@
 <button disabled="" id="mrResolveBtn-3" onclick="mrResolve(3)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:10px 18px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">▶ Resolve</button>
 <button onclick="mrReset(3)" style="background:#E07B39;color:#fff;border:none;border-radius:10px;padding:10px 18px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">↺ Reset</button>
 </div>
-<div id="mrStatus-3" style="background:#FDE68A;border:2px solid #FCD34D;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Stage 1: Click +1 group, 15 times. (Or just spam it.)</div>
+<div id="mrStatus-3" style="background:#FDE68A;border:2px solid #FCD34D;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Stage 1: Click +1 group, 15 times.</div>
 </div>
 <div class="reveal-box" id="learnReveal"><strong>Resolved:</strong> 4 × <span class="frac"><span class="num">3</span><span class="den">4</span></span> = <span class="frac"><span class="num">12</span><span class="den">4</span></span> = <strong>3</strong>. 6 × <span class="frac"><span class="num">5</span><span class="den">9</span></span> = <span class="frac"><span class="num">30</span><span class="den">9</span></span> = 3 <span class="frac"><span class="num">3</span><span class="den">9</span></span> = <strong>3 <span class="frac"><span class="num">1</span><span class="den">3</span></span></strong>. 15 × <span class="frac"><span class="num">2</span><span class="den">5</span></span> = <span class="frac"><span class="num">30</span><span class="den">5</span></span> = <strong>6</strong>.</div>
 </div></div>
-<div class="key-concept" style="margin-top:16px;"><div class="key-concept-label">📐 The Three-Step Rule</div><p><strong>Step 1 — Multiply.</strong> (whole × top) / bottom.</p><p><strong>Step 2 — Resolve.</strong> Divide top by bottom for whole pies + remainder.</p><p><strong>Step 3 — Simplify.</strong> Reduce the leftover fraction.</p></div>
+<div class="key-concept" style="margin-top:16px;"><div class="key-concept-label">📐 The Three-Step Rule</div><p><strong>Step 1 — Multiply.</strong> Multiply the numerator by the whole number. Keep the denominator.</p><p><strong>Step 2 — Resolve.</strong> Divide top by bottom for whole pies + remainder.</p><p><strong>Step 3 — Simplify.</strong> Reduce the leftover fraction.</p></div>
 <div class="activity bl-violet" style="margin-top:16px;"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">📐</div><div><div class="activity-title">Picture It: 6 × <span class="frac"><span class="num">5</span><span class="den">9</span></span> → Resolve → Simplify</div><div class="activity-sub">Three steps, side by side.</div></div></div><div class="activity-body">
 <div style="background:#FFFBEB;border:2px solid #FCD34D;border-radius:14px;padding:18px;margin:12px 0;">
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;text-align:center;">
@@ -846,13 +847,13 @@
 </div>
 </div>
 </div></div>
-<div class="tab-next-wrap"><p class="tab-transition-voice">Three steps, every time. Now practice.</p><button class="tab-next-btn" onclick="switchTab('assignment')">Continue to 🌟 Show What You Know →</button></div>
+<div class="tab-next-wrap"><p class="tab-transition-voice">Three steps, every time. Now show what you know.</p><button class="tab-next-btn" onclick="switchTab('assignment')">Continue to 🌟 Show What You Know →</button></div>
 </div>
 <div class="tab-panel" id="tab-assignment">
 <div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">Each answer: multiply, resolve, simplify. All three steps every time.</div></div></div><div class="activity-body"><p>For each: show all three steps — multiply, resolve, simplify.</p>
 <div class="callout callout-think"><span class="callout-icon">🧠</span><p><strong>Before each problem, ask:</strong> Did I multiply, change to a mixed number, AND simplify?</p></div>
 <div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Resolve to whole numbers.</strong> Each lands on a whole number.<br/>(a) 4 × <span class="frac"><span class="num">3</span><span class="den">4</span></span><br/>(b) 15 × <span class="frac"><span class="num">2</span><span class="den">5</span></span><br/>(c) 6 × <span class="frac"><span class="num">2</span><span class="den">3</span></span></p><div class="journal-label">✏️ My whole-number answers <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: Resolve to whole" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
-<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Word problem — water bottles.</strong> Tia drinks <span class="frac"><span class="num">3</span><span class="den">4</span></span> of a bottle every day. After 8 days, how many full bottles did she drink? Show all three steps and finish in simplest form.</p><div class="journal-label">✏️ My work and final answer <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 6: 8 days of water" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
+<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Word problem — water bottles.</strong> Tia drinks <span class="frac"><span class="num">3</span><span class="den">4</span></span> of a bottle every day. After 8 days, how many full bottles did she drink? Show all three steps and finish in simplest form.</p><div class="journal-label">✏️ My work and final answer <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 2: 8 days of water" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
 <div class="activity bl-slate" style="margin-top:18px;border-left-color:#D97706;"><div class="activity-head"><div class="activity-num" style="background:#D97706;color:#fff;">🗺️</div><div><div class="activity-title">Connection Forward: Fraction of a Set</div><div class="activity-sub">What comes next in Unit 8</div></div></div><div class="activity-body"><p>Next lesson, fractions describe part of a SET of objects instead of part of one strip.</p></div></div></div></div>
 <div class="gathered-box"><div class="gathered-head"><div class="gathered-head-icon">📋</div><div><div class="gathered-head-label">Your Math Journal</div><div class="gathered-head-title">All Answers from Today</div></div></div><div class="gathered-body"><textarea class="gathered-output" id="gatheredOutput" readonly="">Click "Gather My Answers" to collect your work.</textarea><div class="gathered-actions"><button class="purple-btn" onclick="gatherAnswers()">📋 Gather My Answers</button><button class="green-btn" onclick="copyAnswers()">Copy All Answers</button><button class="check-btn" onclick="downloadJournal()">Download My Math Journal</button></div></div></div>
 <div class="turn-in-card"><div class="turn-in-header"><div class="turn-in-header-icon">✅</div><div><div class="turn-in-header-label">Turn-In Checklist</div><div class="turn-in-header-title">Ready to Submit?</div></div></div><div class="turn-in-body"><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I completed both quick checks above.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I showed my model or my steps for each problem.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I checked that each answer makes sense.</span></div></div></div>
@@ -1429,7 +1430,7 @@ function mrRender(id){
       status.style.background = '#FDE68A';
       resolveBtn.disabled = true; resolveBtn.style.opacity = 0.6; resolveBtn.style.background = '#7A88A8';
     } else if(n < target){
-      status.innerHTML = 'Built ' + n + ' / ' + target + ' groups. Keep going to unlock RESOLVE.';
+      status.innerHTML = 'Built ' + n + ' of ' + target + ' groups. Keep going to unlock RESOLVE.';
       status.style.background = '#FDE68A';
       resolveBtn.disabled = true; resolveBtn.style.opacity = 0.6; resolveBtn.style.background = '#7A88A8';
     } else {
@@ -1453,9 +1454,9 @@ function mrRender(id){
     if(rem === 0){
       finalStr = '<strong style="color:#D97706;font-size:22px;">' + wholes + '</strong>';
     } else if(simp.n === rem && simp.d === d){
-      finalStr = '<strong style="color:#D97706;font-size:22px;">' + wholes + ' ' + rem + '/' + d + '</strong> <span style="color:#3A4A6B;font-size:13px;">(already simplest)</span>';
+      finalStr = '<strong style="color:#D97706;font-size:22px;">' + wholes + ' ' + __fr(rem + '/' + d) + '</strong> <span style="color:#3A4A6B;font-size:13px;">(already simplest)</span>';
     } else {
-      finalStr = wholes + ' ' + rem + '/' + d + ' → simplify → <strong style="color:#D97706;font-size:22px;">' + wholes + ' ' + simp.n + '/' + simp.d + '</strong>';
+      finalStr = wholes + ' ' + __fr(rem + '/' + d) + ' → simplify → <strong style="color:#D97706;font-size:22px;">' + wholes + ' ' + __fr(simp.n + '/' + simp.d) + '</strong>';
     }
     resolved.innerHTML = '<div style="background:#fff;border:2px solid #2DB87A;border-radius:12px;padding:14px;font-family:Lora,Georgia,serif;font-size:15px;color:#0E1C42;">RESOLVED: ' + wholes + ' whole pie' + (wholes!==1?'s':'') + (rem>0 ? ' + ' + '<span class="frac"><span class="num">' + rem + '</span><span class="den">' + d + '</span></span>' + ' leftover' : ' (nothing left over!)') + '<br/><br/>' + finalStr + '</div>';
     resolved.style.display = 'block';
@@ -1464,7 +1465,7 @@ function mrRender(id){
     status.style.background = '#C8F0DA';
     buildBtn.disabled = true; buildBtn.style.opacity = 0.6;
     resolveBtn.disabled = true; resolveBtn.style.opacity = 0.6; resolveBtn.style.background = '#7A88A8';
-    document.getElementById('learnReveal').classList.add('show');
+    markRoundDone(id);
   }
 }
 function mrPieSVG(num, d, color){
@@ -1564,6 +1565,32 @@ window.fluencyCheck = function(){
 };
 })();
 </script>
+<script id="g4u8-think">
+/* Think About It prediction: rule stays hidden until the student commits to a prediction */
+function thinkPick(btn){
+  var row = btn.parentElement;
+  row.querySelectorAll('.strategy-chip').forEach(function(c){ c.classList.remove('selected'); });
+  btn.classList.add('selected');
+  var fb = document.getElementById('thinkFb');
+  var ok = btn.getAttribute('data-ok') === '1';
+  var msg = btn.getAttribute('data-msg');
+  if(fb){
+    fb.className = 'inline-feedback show ' + (ok ? 'good' : 'think');
+    fb.innerHTML = msg ? msg : (ok ? '\u2705 Yes! Read the rule below to see why.' : '\uD83D\uDD04 Not quite. Look at the picture again, then read the rule below.');
+  }
+  var rule = document.getElementById('thinkRule');
+  if(rule) rule.style.display = '';
+}
+/* Show the Finals box only after all three rounds are finished */
+function markRoundDone(id){
+  window.__u8Done = window.__u8Done || {};
+  window.__u8Done[id] = true;
+  if(window.__u8Done[1] && window.__u8Done[2] && window.__u8Done[3]){
+    var r = document.getElementById('learnReveal');
+    if(r) r.classList.add('show');
+  }
+}
+</script>
 <!-- Video Manifest Loader -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -1636,6 +1663,36 @@ document.addEventListener('DOMContentLoaded', function() {
     if(navigator.clipboard && window.isSecureContext){
       navigator.clipboard.writeText(text).then(function(){ say('Copied! Now paste your answers where your teacher asked you to turn them in.', true); }, fallback);
     } else { fallback(); }
+  };
+})();
+</script>
+<!-- OAO download fix -->
+<script>
+(function(){
+  var orig = window.downloadJournal;
+  if(typeof orig !== 'function') return;
+  window.downloadJournal = function(){
+    try { gatherAnswers(); } catch(e) {}
+    var out = document.getElementById('gatheredOutput');
+    var text = out ? (out.value || '') : '';
+    var w = null;
+    try { w = window.open('', '_blank'); } catch(e) { w = null; }
+    if(w && w.document){
+      w.document.write('<pre style="font-family:Arial;white-space:pre-wrap;font-size:14px;line-height:1.5;">' + text.replace(/[&<>]/g, function(s){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[s]; }) + '</pre>');
+      w.document.close();
+      try { w.focus(); w.print(); } catch(e) {}
+      return;
+    }
+    try {
+      var blob = new Blob([text], {type:'text/plain'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = ((document.title || 'math-journal').replace(/[^a-z0-9]+/gi,'-').toLowerCase()) + '.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+    } catch(e) {
+      if(out){ out.focus(); out.select(); }
+    }
   };
 })();
 </script>

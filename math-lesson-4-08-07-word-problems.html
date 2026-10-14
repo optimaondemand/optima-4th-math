@@ -604,7 +604,7 @@
 <div class="header-sub">An Education Experience Company</div>
 </div>
 </div>
-<div class="header-title"><em>Word Problems — Unit 8 Closer</em></div>
+<div class="header-title"><em>Word Problems — Part 1</em></div>
 <div class="header-badge">
 <span class="header-badge-icon">🦉</span>
 <span class="header-badge-text">Lesson 4.08.07</span>
@@ -673,7 +673,7 @@
 <p>Hazel takes lead — bar models are her thing, and every word problem starts with a bar. Atlas reads the story carefully. Felix computes. Cora checks reasonableness.</p>
 <div class="bubble-row">
 <div class="bubble atlas"><div class="bubble-avatar">A</div><div class="bubble-body"><div class="bubble-name">Atlas — pattern-spotter</div><div class="bubble-text">"I noticed every word problem sorts into one of three types — forward, other-part, or inverse — and the same bar-model habit solves all three."</div></div></div>
-<div class="bubble felix"><div class="bubble-avatar">F</div><div class="bubble-body"><div class="bubble-name">Felix — method-tester</div><div class="bubble-text">"I tested my inverse-problem answer by working backward: I found the trip was 300 miles, so I checked that <span class="frac"><span class="num">3</span><span class="den">5</span></span> of 300 really does equal 180."</div></div></div>
+<div class="bubble felix"><div class="bubble-avatar">F</div><div class="bubble-body"><div class="bubble-name">Felix — method-tester</div><div class="bubble-text">"I tested my inverse-problem answer by working backward: I found Asimah has 75 books, so I checked that <span class="frac"><span class="num">2</span><span class="den">5</span></span> of 75 really does equal 30."</div></div></div>
 </div>
 <div class="bubble-row">
 <div class="bubble hazel"><div class="bubble-avatar">H</div><div class="bubble-body"><div class="bubble-name">Hazel — visual thinker</div><div class="bubble-text">"I picture the SAME bar split into equal groups every time — sometimes I shade the part I want, sometimes I shade what's left, sometimes I only know one group's value."</div></div></div>
@@ -713,16 +713,17 @@
 <div class="journal-label">✏️ What clue tells you which type? <span class="saved-dot" id="dot-r1"></span></div><textarea class="journal-box" data-label="Warm-Up — Readiness: Forward inverse other-part" id="journal-r1" oninput="autoSave(this,'dot-r1')" placeholder=""></textarea></div></div>
 
 <div class="activity bl-yellow"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🤔</div><div><div class="activity-title">Think About It</div><div class="activity-sub">Same numbers, two different stories.</div></div></div><div class="activity-body">
-<div class="callout callout-think"><span class="callout-icon">📐</span><p><strong>Story A:</strong> A pool has 40 gallons. <span class="frac"><span class="num">3</span><span class="den">8</span></span> of the water is salt water. How many gallons of salt water?</p><p><strong>Story B:</strong> A pool has 15 gallons of salt water. That is <span class="frac"><span class="num">3</span><span class="den">8</span></span> of all the water in the pool. How many gallons of water are in the pool altogether?</p></div>
+<div class="callout callout-think"><span class="callout-icon">📐</span><p><strong>Story A:</strong> A fish tank holds 40 gallons of water. <span class="frac"><span class="num">3</span><span class="den">8</span></span> of the water is salt water. How many gallons of salt water?</p><p><strong>Story B:</strong> A fish tank has 15 gallons of salt water. That is <span class="frac"><span class="num">3</span><span class="den">8</span></span> of all the water in the tank. How many gallons of water are in the tank altogether?</p></div>
 <p>Which one is forward? Which one is inverse?</p>
 <div class="strategy-chip-row">
-<button class="strategy-chip" onclick="this.classList.toggle('selected')">A=forward, B=inverse</button>
-<button class="strategy-chip" onclick="this.classList.toggle('selected')">A=inverse, B=forward</button>
-<button class="strategy-chip" onclick="this.classList.toggle('selected')">Both forward</button>
+<button class="strategy-chip" onclick="pickThink(this,'ok')">A=forward, B=inverse</button>
+<button class="strategy-chip" onclick="pickThink(this,'swap')">A=inverse, B=forward</button>
+<button class="strategy-chip" onclick="pickThink(this,'both')">Both forward</button>
 </div>
-<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>A is forward.</strong> You know the whole (40 gallons), so find <span class="frac"><span class="num">3</span><span class="den">8</span></span> of it: 40 ÷ 8 = 5 in each eighth, and 3 eighths make 15 gallons of salt water. <strong>B is inverse.</strong> You know the part (15 gallons is <span class="frac"><span class="num">3</span><span class="den">8</span></span>), so find the whole: 15 ÷ 3 = 5 in each eighth, and 8 eighths make 40 gallons. Same pool, same numbers, run in opposite directions.</p></div>
+<div class="inline-feedback" id="thinkFb"></div>
+<div class="callout callout-tip" id="thinkReveal" style="display:none;"><span class="callout-icon">🧠</span><p><strong>A is forward.</strong> You know the whole (40 gallons), so find <span class="frac"><span class="num">3</span><span class="den">8</span></span> of it: 40 ÷ 8 = 5 in each eighth, and 3 eighths make 15 gallons of salt water. <strong>B is inverse.</strong> You know the part (15 gallons is <span class="frac"><span class="num">3</span><span class="den">8</span></span>), so find the whole: 15 ÷ 3 = 5 in each eighth, and 8 eighths make 40 gallons. Same numbers, run in opposite directions.</p></div>
 <div class="journal-label">✏️ Both stories use 15, 40, and the same fraction. What changed between them? <span class="saved-dot" id="dot-think"></span></div>
-<textarea class="journal-box" data-label="Warm-Up — Think: Pool stories, forward vs inverse" id="journal-think" oninput="autoSave(this,'dot-think')" placeholder=""></textarea>
+<textarea class="journal-box" data-label="Warm-Up — Think: Fish tank stories, forward vs inverse" id="journal-think" oninput="autoSave(this,'dot-think')" placeholder=""></textarea>
 </div></div><div class="tab-next-wrap"><p class="tab-transition-voice">Now you read, sketch, and solve.</p><button class="tab-next-btn" onclick="switchTab('learn')">Continue to 📐 Learn →</button></div>
 </div>
 <div class="tab-panel" id="tab-learn">
@@ -763,7 +764,7 @@
 </div>
 </div>
 
-<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> Pick how many groups to SPLIT the bar into. Then click groups to TAKE them.</p></div>
+<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> Read each story. Build the bar first, then type the answer.</p></div>
 <div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#D97706;">📖</div><div><div class="activity-title">Bar-Model Word Solver</div><div class="activity-sub">Read each story. Pick the split. Click piles. Enter the answer.</div></div></div><div class="activity-body"><p>Three real stories. Each one needs a bar model first, then a number answer.</p>
 <!-- Story 1: FORWARD — 30 teeth, 2/5 incisors -->
 <div class="wp-card" data-answer="12" data-denom="5" data-id="1" data-numer="2" data-total="30" data-type="forward" style="background:#FFFBEB;border:2px solid #FCD34D;border-radius:14px;padding:18px 14px;margin:14px 0;">
@@ -806,7 +807,7 @@
 <div style="background:#fff;border-left:4px solid #D97706;padding:12px 14px;border-radius:8px;margin-bottom:14px;color:#0E1C42;font-family:'Lora',Georgia,serif;font-size:15px;line-height:1.6;">
 <strong>Story 3 · Inverse problem.</strong> 30 of Asimah's books are nonfiction. That is <span class="frac"><span class="num">2</span><span class="den">5</span></span> of her whole collection. How many books does she have IN ALL?
 </div>
-<div style="text-align:center;font-size:12px;color:#92400E;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Step 1 · Bar has 5 piles (denominator). 2 are labeled "30 books total"</div>
+<div style="text-align:center;font-size:12px;color:#92400E;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Step 1 · The bar has 5 piles. The 2 shaded piles are the 30 nonfiction books.</div>
 <div id="wpBar-3" style="display:flex;justify-content:center;margin-bottom:12px;min-height:80px;"></div>
 <div style="text-align:center;font-size:12px;color:#92400E;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Step 2 · What is each pile worth? (30 ÷ 2 = ?)</div>
 <div id="wpPerPileBtns-3" style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;"></div>
@@ -878,10 +879,10 @@
 <div class="tab-next-wrap"><p class="tab-transition-voice">Three story types in your toolkit. Now apply.</p><button class="tab-next-btn" onclick="switchTab('assignment')">Continue to 🌟 Show What You Know →</button></div>
 </div>
 <div class="tab-panel" id="tab-assignment">
-<div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">For each story, sketch a bar model on scratch paper, then write your final answer.</div></div></div><div class="activity-body"><p>For each: sketch the bar, label what you know, decide forward / other-part / inverse, then solve.</p>
+<div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">Two quick checks. Your full practice is in the Independent Practice PDF.</div></div></div><div class="activity-body"><p>Sketch a bar model for each story. Label what you know. Then solve.</p>
 <div class="callout callout-think"><span class="callout-icon">🧠</span><p><strong>Before each problem, ask:</strong> Is this a forward, other-part, or inverse story? What does my bar model show?</p></div>
-<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Forward stories.</strong> Whole given, find a part.<br/>(a) A class has 28 kids. <span class="frac"><span class="num">3</span><span class="den">4</span></span> ride the bus. How many ride?<br/>(b) Sammy collected 35 shells. <span class="frac"><span class="num">2</span><span class="den">5</span></span> are pink. How many pink?<br/>(c) Eli ran 18 miles this week. <span class="frac"><span class="num">5</span><span class="den">9</span></span> was on Saturday. How many Saturday miles?</p><div class="journal-label">✏️ My answers + my bar sketches in words <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: Forward stories" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
-<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Cat teeth — Unit 8 closer.</strong> A cat has 30 teeth. <span class="frac"><span class="num">2</span><span class="den">5</span></span> are incisors. The REST are canines and molars. (a) How many incisors? (b) How many are NOT incisors? (c) Sketch a bar model that shows both answers.</p><div class="journal-label">✏️ Both answers + bar sketch in words <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 6: Cat teeth" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
+<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Find a part.</strong> A class has 28 students. <span class="frac"><span class="num">3</span><span class="den">4</span></span> of them ride the bus. How many students ride the bus?</p><div class="journal-label">✏️ My answer + my bar sketch in words <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: Students on the bus" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
+<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Work backward.</strong> Leo has read 24 pages of his book. That is <span class="frac"><span class="num">3</span><span class="den">8</span></span> of the whole book. How many pages long is the whole book?</p><div class="journal-label">✏️ My answer + bar sketch in words <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 2: Leo’s book" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
 <div class="activity bl-slate" style="margin-top:18px;border-left-color:#D97706;"><div class="activity-head"><div class="activity-num" style="background:#D97706;color:#fff;">🗺️</div><div><div class="activity-title">Connection Forward: Word Problems, Part 2</div><div class="activity-sub">What comes next in Unit 8</div></div></div><div class="activity-body"><p>You can now solve forward, other-part, and inverse word problems. Next lesson, the stories take two steps: a fraction of what’s left, and one amount compared to another.</p></div></div></div></div>
 <div class="gathered-box"><div class="gathered-head"><div class="gathered-head-icon">📋</div><div><div class="gathered-head-label">Your Math Journal</div><div class="gathered-head-title">All Answers from Today</div></div></div><div class="gathered-body"><textarea class="gathered-output" id="gatheredOutput" readonly="">Click "Gather My Answers" to collect your work.</textarea><div class="gathered-actions"><button class="purple-btn" onclick="gatherAnswers()">📋 Gather My Answers</button><button class="green-btn" onclick="copyAnswers()">Copy All Answers</button><button class="check-btn" onclick="downloadJournal()">Download My Math Journal</button></div></div></div>
 <div class="turn-in-card"><div class="turn-in-header"><div class="turn-in-header-icon">✅</div><div><div class="turn-in-header-label">Turn-In Checklist</div><div class="turn-in-header-title">Ready to Submit?</div></div></div><div class="turn-in-body"><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I completed both quick checks above.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I showed my model or my steps for each problem.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I checked that each answer makes sense.</span></div></div></div>
@@ -921,6 +922,19 @@ const models={}; // empty
 /* Warm-Up readiness: 3 quick rounds */
 const rRoundAnswers={1:'forward',2:'inverse',3:'other-part'};
 const rRoundDone={1:false,2:false,3:false};
+/* Think About It: pick, get a hint, then see the explanation */
+const THINK={ans:'ok',hints:{'swap':'Look at Story A again. Does it tell you the whole tank (40 gallons), or only a part?','both':'Story B tells you 15 gallons is the part. Are you finding a part, or the whole tank?'}};
+function pickThink(btn,val){
+  const fb=document.getElementById('thinkFb');
+  if(val===THINK.ans){
+    btn.parentElement.querySelectorAll('button').forEach(b=>{b.classList.remove('selected');b.disabled=true;});
+    btn.classList.add('selected');
+    fb.className='inline-feedback show good';fb.innerHTML='✅ Yes!';
+    document.getElementById('thinkReveal').style.display='';
+  } else {
+    fb.className='inline-feedback show think';fb.innerHTML='Not quite. '+THINK.hints[val];
+  }
+}
 function pickReadinessRound(btn,pair,val){
   const correct=String(rRoundAnswers[pair]).split('|').indexOf(val)>=0;
   const fb=document.getElementById('rCmpFb');
@@ -1288,7 +1302,7 @@ function switchTab(tab){document.querySelectorAll('.tab-panel').forEach(p=>p.cla
 function updateProgress(){const tabs=['warmup','learn','assignment'];let active=[...document.querySelectorAll('.tab-btn')].findIndex(b=>b.classList.contains('active'));let pct=Math.round(((active+1)/tabs.length)*100);document.getElementById('progressFill').style.width=pct+'%';document.getElementById('progressPct').textContent=pct+'%'}
 function autoSave(el,dotId){localStorage.setItem('g4-4-08-07-'+el.id,el.value);let dot=document.getElementById(dotId);if(dot){dot.classList.add('saved');setTimeout(()=>dot.classList.remove('saved'),900)}}
 function restoreJournals(){document.querySelectorAll('textarea.journal-box').forEach(t=>{let v=localStorage.getItem('g4-4-08-07-'+t.id);if(v)t.value=v})}
-function gatherAnswers(){let out='Lesson 4.08.07 — Word Problems — Unit 8 Closer\n\n';document.querySelectorAll('textarea.journal-box').forEach(t=>{out+=t.dataset.label+'\n'+(t.value.trim()||'[No answer yet]')+'\n\n'});document.getElementById('gatheredOutput').value=out}
+function gatherAnswers(){let out='Lesson 4.08.07 — Word Problems — Part 1\n\n';document.querySelectorAll('textarea.journal-box').forEach(t=>{out+=t.dataset.label+'\n'+(t.value.trim()||'[No answer yet]')+'\n\n'});document.getElementById('gatheredOutput').value=out}
 function copyAnswers(){gatherAnswers();navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('gatheredOutput').value);showPageFeedback&&showPageFeedback('Your answers were copied.');}
 function downloadJournal(){gatherAnswers();let text=document.getElementById('gatheredOutput').value;let w=window.open('','_blank');w.document.write('<pre style="font-family:Arial;white-space:pre-wrap;font-size:14px;line-height:1.5;">'+text.replace(/[&<>]/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[s]))+'</pre>');w.document.close();w.print()}
 function toggleCheck(item){
@@ -1484,8 +1498,8 @@ function wpRenderBar(id){
     }
     // Bracket above the shaded portion
     var bracketEndX = 8 + numer * cellW - 2;
-    inner += '<line x1="8" y1="10" x2="' + bracketEndX + '" y2="10" stroke="#92400E" stroke-width="1.5"/>';
-    inner += '<text x="' + ((8 + bracketEndX) / 2) + '" y="6" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="800" font-size="12" fill="#92400E">' + part + ' (given)</text>';
+    inner += '<line x1="8" y1="15" x2="' + bracketEndX + '" y2="15" stroke="#92400E" stroke-width="1.5"/>';
+    inner += '<text x="' + ((8 + bracketEndX) / 2) + '" y="11" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="800" font-size="12" fill="#92400E">' + part + ' books</text>';
     bar.innerHTML = '<svg width="' + w + '" height="92" viewBox="0 0 ' + w + ' 92" style="max-width:100%;">' + inner + '</svg>';
     // Per-pile choice
     wpRenderPerPile(id);
@@ -1527,7 +1541,7 @@ function wpRenderBar(id){
       var partVal = taken * perGroup;
       var leftVal = total - partVal;
       if(type === 'other-part'){
-        readout.innerHTML = 'Taken: ' + '<span class="frac"><span class="num">' + taken + '</span><span class="den">' + d + '</span></span>' + ' = ' + partVal + '. LEFT: ' + (d - taken) + ' piles = <span style="color:#D97706;">' + leftVal + '</span>.';
+        readout.innerHTML = 'Taken: ' + '<span class="frac"><span class="num">' + taken + '</span><span class="den">' + d + '</span></span>' + ' of ' + total + ' = ' + partVal + '. LEFT: ' + (d - taken) + ' piles = <span style="color:#D97706;">' + leftVal + '</span>.';
       } else {
         readout.innerHTML = '<span class="frac"><span class="num">' + taken + '</span><span class="den">' + d + '</span></span>' + ' of ' + total + ' = ' + taken + ' × ' + perGroup + ' = <span style="color:#D97706;">' + partVal + '</span>.';
       }
@@ -1563,7 +1577,7 @@ function wpRenderPerPile(id){
   if(fb){
     if(s[id].perPile === undefined || s[id].perPile === null) fb.textContent = '';
     else if(s[id].perPile === right) fb.innerHTML = '✓ Yes — ' + part + ' ÷ ' + numer + ' = ' + right + '.';
-    else fb.innerHTML = 'Not quite. ' + part + ' ÷ ' + numer + ' = ' + right + '.';
+    else fb.innerHTML = 'Not quite. The ' + numer + ' shaded piles hold ' + part + ' together. Share ' + part + ' equally between ' + numer + ' piles.';
   }
 }
 function wpCheck(id){
@@ -1578,12 +1592,29 @@ function wpCheck(id){
     status.style.background = '#FFEEDD';
     return;
   }
+  var s = window.wpState = window.wpState || {};
+  if(!s[id]) s[id] = {};
+  var type = el.getAttribute('data-type');
+  var numer = parseInt(el.getAttribute('data-numer'), 10), denom = parseInt(el.getAttribute('data-denom'), 10);
   if(given === answer){
-    status.innerHTML = '🎉 ✓ Correct! ' + answer + '.';
+    s[id].solved = true;
+    status.innerHTML = '🎉 ✓ Correct! ' + answer + '. Your bar shows it.';
     status.style.background = '#C8F0DA';
-    if(document.getElementById('learnReveal')) document.getElementById('learnReveal').classList.add('show');
+    if(['1','2','3'].every(function(k){ return s[k] && s[k].solved; }) && document.getElementById('learnReveal')) document.getElementById('learnReveal').classList.add('show');
   } else {
-    status.innerHTML = '🔍 You answered ' + given + '. The correct answer is ' + answer + '. Check your bar.';
+    var hint;
+    if(type === 'inverse'){
+      hint = (s[id].perPile === parseInt(el.getAttribute('data-part'),10) / numer)
+        ? 'You found one pile. The whole bar has ' + denom + ' piles. How much do all ' + denom + ' piles hold?'
+        : 'Find one pile first (Step 2). Then count all ' + denom + ' piles.';
+    } else if(s[id].split !== denom){
+      hint = 'The denominator is ' + denom + '. Split the bar into ' + denom + ' equal piles first.';
+    } else if(type === 'other-part'){
+      hint = 'Shade the ' + numer + ' piles he drove. The piles you did NOT shade are the miles left. Count them.';
+    } else {
+      hint = 'Take ' + numer + ' piles (the numerator). Count everything in the piles you took.';
+    }
+    status.innerHTML = '🔍 Not yet. ' + hint;
     status.style.background = '#FFF0CC';
   }
 }
@@ -1738,6 +1769,36 @@ document.addEventListener('DOMContentLoaded', function() {
     if(navigator.clipboard && window.isSecureContext){
       navigator.clipboard.writeText(text).then(function(){ say('Copied! Now paste your answers where your teacher asked you to turn them in.', true); }, fallback);
     } else { fallback(); }
+  };
+})();
+</script>
+<!-- OAO download fix -->
+<script>
+(function(){
+  var orig = window.downloadJournal;
+  if(typeof orig !== 'function') return;
+  window.downloadJournal = function(){
+    try { gatherAnswers(); } catch(e) {}
+    var out = document.getElementById('gatheredOutput');
+    var text = out ? (out.value || '') : '';
+    var w = null;
+    try { w = window.open('', '_blank'); } catch(e) { w = null; }
+    if(w && w.document){
+      w.document.write('<pre style="font-family:Arial;white-space:pre-wrap;font-size:14px;line-height:1.5;">' + text.replace(/[&<>]/g, function(s){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[s]; }) + '</pre>');
+      w.document.close();
+      try { w.focus(); w.print(); } catch(e) {}
+      return;
+    }
+    try {
+      var blob = new Blob([text], {type:'text/plain'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = ((document.title || 'math-journal').replace(/[^a-z0-9]+/gi,'-').toLowerCase()) + '.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+    } catch(e) {
+      if(out){ out.focus(); out.select(); }
+    }
   };
 })();
 </script>

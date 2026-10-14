@@ -385,6 +385,78 @@
 .vfrac .vf-num{padding:0 3px;border-bottom:1.5px solid #0E1C42}
 .vfrac .vf-den{padding:0 3px}
 </style>
+<script id="bt-common">
+/* Unit 6 build tools — shared helpers (added 2026-10-14) */
+var BT={
+  F:function(n,d){return '<span class="frac"><span class="num">'+n+'</span><span class="den">'+d+'</span></span>';},
+  M:function(w,n,d){if(n===0)return ''+w;if(w===0)return BT.F(n,d);return w+'&nbsp;'+BT.F(n,d);},
+  gcd:function(a,b){while(b){var t=b;b=a%b;a=t;}return a;},
+  name:function(d,plural){var s={2:'half',3:'third',4:'fourth',5:'fifth',6:'sixth',7:'seventh',8:'eighth',9:'ninth',10:'tenth',12:'twelfth'}[d]||(d+'th');if(plural){return d===2?'halves':s+'s';}return s;},
+  pie:function(d,sh,size){
+    size=size||120;var r=size/2-2,c=size/2,on='#FF7A45',off='#FFF1E6',sw=d>16?0.8:1.3;
+    var s='<svg class="bt-svg" width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" aria-hidden="true">';
+    if(d===1){return s+'<circle cx="'+c+'" cy="'+c+'" r="'+r+'" fill="'+(sh>=1?on:off)+'" stroke="#0E1C42" stroke-width="1.5"/></svg>';}
+    for(var i=0;i<d;i++){
+      var a0=-Math.PI/2+2*Math.PI*i/d,a1=-Math.PI/2+2*Math.PI*(i+1)/d;
+      s+='<path d="M'+c+','+c+' L'+(c+r*Math.cos(a0)).toFixed(2)+','+(c+r*Math.sin(a0)).toFixed(2)+' A'+r+','+r+' 0 0 1 '+(c+r*Math.cos(a1)).toFixed(2)+','+(c+r*Math.sin(a1)).toFixed(2)+' Z" fill="'+(i<sh?on:off)+'" stroke="#0E1C42" stroke-width="'+sw+'"/>';
+    }
+    return s+'</svg>';
+  },
+  slice:function(d,size){
+    size=size||30;var r=size-3,cx=size/2,cy=size-1,half=Math.PI/d;
+    if(d===2){return '<svg class="bt-svg" width="'+size+'" height="'+(size/2+3)+'" viewBox="0 0 '+size+' '+(size/2+3)+'" aria-hidden="true"><path d="M2,'+(size/2+1)+' A'+(size/2-2)+','+(size/2-2)+' 0 0 1 '+(size-2)+','+(size/2+1)+' Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"/></svg>';}
+    var a0=-Math.PI/2-half,a1=-Math.PI/2+half;
+    var x0=cx+r*Math.cos(a0),y0=cy+r*Math.sin(a0),x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1);
+    var w=Math.max(size,(x1-x0)+4),off=(w-size)/2;
+    return '<svg class="bt-svg" width="'+w.toFixed(0)+'" height="'+size+'" viewBox="'+(-off).toFixed(2)+' 0 '+w.toFixed(2)+' '+size+'" aria-hidden="true"><path d="M'+cx+','+cy+' L'+x0.toFixed(2)+','+y0.toFixed(2)+' A'+r+','+r+' 0 0 1 '+x1.toFixed(2)+','+y1.toFixed(2)+' Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"/></svg>';
+  },
+  bar:function(d,sh,w){
+    w=w||300;var h=34,s='<svg class="bt-svg bt-bar" width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-hidden="true">',cw=(w-2)/d;
+    for(var i=0;i<d;i++){s+='<rect x="'+(1+i*cw).toFixed(2)+'" y="1" width="'+cw.toFixed(2)+'" height="'+(h-2)+'" fill="'+(i<sh?'#FF7A45':'#FFF1E6')+'" stroke="#0E1C42" stroke-width="1.2"/>';}
+    return s+'</svg>';
+  },
+  msg:function(id,type,html){var el=document.getElementById(id);if(!el)return;el.className='inline-feedback'+(type?' show '+type:'');el.innerHTML=html||'';},
+  num:function(id){var v=(document.getElementById(id).value||'').trim();if(v==='')return null;var x=Number(v);return isFinite(x)&&Math.floor(x)===x?x:NaN;}
+};
+function btShowHint(btn){
+  var row=btn.previousElementSibling;
+  while(row&&!(row.classList&&row.classList.contains('strategy-chip-row'))){row=row.previousElementSibling;}
+  var hint=btn.nextElementSibling;
+  if(row&&!row.querySelector('.strategy-chip.selected')){btn.textContent='Pick an answer above first, then tap here';return;}
+  if(hint){hint.style.display='';}
+  btn.style.display='none';
+}
+</script>
+<style id="bt-style">
+/* Unit 6 build tools (added 2026-10-14) */
+.bt-wrap{background:#FFF8F0;border:2px solid #FFD0A8;border-radius:14px;padding:16px 12px;margin:12px 0;text-align:center}
+.bt-goal{font-family:'Lora',Georgia,serif;font-weight:700;color:#0E1C42;font-size:16px;margin:0 0 10px;line-height:1.8}
+.bt-stage{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;min-height:90px;margin:8px 0}
+.bt-svg{max-width:100%;height:auto;vertical-align:middle}
+.bt-read{font-size:22px;font-weight:900;color:#C25A2B;margin:6px 0;line-height:1.4}
+.bt-read small{font-size:14px;color:#3A4A6B;font-weight:700}
+.bt-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:10px 0}
+.bt-btn{border:2px solid #FF7A45;background:#fff;color:#0E1C42;border-radius:10px;padding:9px 12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;cursor:pointer;min-height:44px;line-height:1.3}
+.bt-btn:hover{background:#FFF1E6}
+.bt-btn:disabled{opacity:.45;cursor:not-allowed}
+.bt-btn.bt-blue{border-color:#3A6B9A}
+.bt-btn.bt-go{background:#2DB87A;border-color:#2DB87A;color:#fff}
+.bt-btn.bt-quiet{border-color:#CBD5E1;color:#3A4A6B}
+.bt-label{font-size:12px;font-weight:900;color:#8A5A3A;letter-spacing:.5px;text-transform:uppercase;margin-top:6px}
+.bt-log{font-size:14px;color:#3A4A6B;text-align:left;max-width:560px;margin:8px auto;line-height:2.1}
+.bt-box{background:#fff;border:1.5px solid #FFCBA8;border-radius:12px;padding:10px;margin:8px auto;max-width:620px}
+.bt-pile{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;min-height:36px}
+.bt-write{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin:10px 0;font-weight:800;color:#0E1C42}
+.bt-in{width:58px;font-size:18px;font-weight:800;text-align:center;border:2px solid #CBD5E1;border-radius:8px;padding:6px;font-family:'Nunito',sans-serif}
+.bt-fracin{display:inline-flex;flex-direction:column;align-items:center;gap:3px}
+.bt-fracin .bt-in{width:52px}
+.bt-fracin .bt-barline{width:56px;height:2px;background:#0E1C42}
+.bt-plates{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.bt-plate{background:#fff;border:2px solid #E2E8F4;border-radius:12px;padding:6px;min-width:64px;max-width:120px}
+.bt-plate .bt-who{font-size:12px;font-weight:800;color:#3A4A6B}
+.bt-pair{display:flex;flex-direction:column;align-items:center;gap:4px;margin:8px 0}
+.bt-hint-btn{margin:4px 0 10px}
+</style>
 </head>
 <body id="pageTop">
 <div class="page-wrap">
@@ -728,12 +800,12 @@
 </div>
 <p><strong>Your prediction:</strong> What's the improper fraction? The mixed number?</p>
 <div class="strategy-chip-row">
-<button class="strategy-chip" onclick="this.classList.toggle('selected')"><span class="frac"><span class="num">11</span><span class="den">4</span></span> (improper)</button>
-<button class="strategy-chip" onclick="this.classList.toggle('selected')">2 <span class="frac"><span class="num">3</span><span class="den">4</span></span> (mixed)</button>
+<button class="strategy-chip" onclick="this.classList.toggle('selected')"><span class="frac"><span class="num">11</span><span class="den">4</span></span></button>
+<button class="strategy-chip" onclick="this.classList.toggle('selected')">2 <span class="frac"><span class="num">3</span><span class="den">4</span></span></button>
 <button class="strategy-chip" onclick="this.classList.toggle('selected')"><span class="frac"><span class="num">4</span><span class="den">11</span></span></button>
 <button class="strategy-chip" onclick="this.classList.toggle('selected')">3 <span class="frac"><span class="num">1</span><span class="den">4</span></span></button>
 </div>
-<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>Hint:</strong> Count every shaded slice — 4 + 4 + 3 = 11 fourths = <strong><span class="frac"><span class="num">11</span><span class="den">4</span></span></strong>. Or count whole pies first — 2 full pies + <span class="frac"><span class="num">3</span><span class="den">4</span></span> = <strong>2 <span class="frac"><span class="num">3</span><span class="den">4</span></span></strong>. Same amount. Two ways to write it.</p></div>
+<button class="bt-btn bt-hint-btn" onclick="btShowHint(this)">Check my prediction</button><div class="callout callout-tip" style="display:none;"><span class="callout-icon">🧠</span><p><strong>Hint:</strong> Count every shaded slice — 4 + 4 + 3 = 11 fourths = <strong><span class="frac"><span class="num">11</span><span class="den">4</span></span></strong>. Or count whole pies first — 2 full pies + <span class="frac"><span class="num">3</span><span class="den">4</span></span> = <strong>2 <span class="frac"><span class="num">3</span><span class="den">4</span></span></strong>. Same amount. Two ways to write it.</p></div>
 <div class="journal-label">✏️ My answers: Write the amount as BOTH an improper fraction AND a mixed number. Explain how you know they match. <span class="saved-dot" id="dot-think"></span></div>
 <textarea class="journal-box" data-label="Warm-Up — Think Prompt: Three fourths pies → improper + mixed" id="journal-think" oninput="autoSave(this,'dot-think')" placeholder=""></textarea>
 </div></div><div class="tab-next-wrap"><p class="tab-transition-voice">You counted past one whole pie and wrote the amount two ways. Now learn the rule for any improper fraction or mixed number.</p><button class="tab-next-btn" onclick="switchTab('learn')">Continue to 📐 Learn →</button></div>
@@ -776,41 +848,53 @@
 </div>
 </div>
 
-<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> Three rows of pies below. Count the slices and pick the matching improper fraction.</p></div>
-<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#FF7A45;">🥧</div><div><div class="activity-title">Pie Counter</div><div class="activity-sub">Count the slices. Pick the matching improper fraction.</div></div></div><div class="activity-body"><p>Each row shows pies cut the same way. Count every shaded slice across ALL the pies, then pick the improper fraction.</p>
-<div style="background:#FFF8F0;border:2px solid #FFD0A8;border-radius:14px;padding:18px 14px;margin:12px 0;">
-<div style="margin-bottom:24px;padding-bottom:18px;border-bottom:1.5px dashed #FFCBA8;">
-<div style="text-align:center;margin-bottom:10px;"><div style="display:inline-flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;"><div style="text-align:center;"><svg height="78" style="vertical-align:middle;" viewbox="0 0 78 78" width="78"><path d="M39.0,39.0 L39.00,2.00 A37.0,37.0 0 0 1 39.00,76.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M39.0,39.0 L39.00,76.00 A37.0,37.0 0 0 1 39.00,2.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path></svg></div><div style="text-align:center;"><svg height="78" style="vertical-align:middle;" viewbox="0 0 78 78" width="78"><path d="M39.0,39.0 L39.00,2.00 A37.0,37.0 0 0 1 39.00,76.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M39.0,39.0 L39.00,76.00 A37.0,37.0 0 0 1 39.00,2.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path></svg></div><div style="text-align:center;"><svg height="78" style="vertical-align:middle;" viewbox="0 0 78 78" width="78"><path d="M39.0,39.0 L39.00,2.00 A37.0,37.0 0 0 1 39.00,76.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M39.0,39.0 L39.00,76.00 A37.0,37.0 0 0 1 39.00,2.00 Z" fill="#FFF1E6" stroke="#0E1C42" stroke-width="1.2"></path></svg></div></div></div>
-<div style="font-family:'Lora',Georgia,serif;font-size:14px;font-weight:700;color:#0E1C42;text-align:center;margin-bottom:8px;line-height:1.6;">Row 1: All HALVES. How many shaded slices total?</div>
-<div class="value-card-row" style="margin:0;justify-content:center;">
-<button class="value-card" onclick="pickStrategy(this,1,'5/2')" style="min-width:90px;"><div class="big" style="font-size:16px;"><span class="frac"><span class="num">5</span><span class="den">2</span></span></div></button>
-<button class="value-card" onclick="pickStrategy(this,1,'2/5')" style="min-width:90px;"><div class="big" style="font-size:16px;"><span class="frac"><span class="num">2</span><span class="den">5</span></span></div></button>
-<button class="value-card" onclick="pickStrategy(this,1,'3/2')" style="min-width:90px;"><div class="big" style="font-size:16px;"><span class="frac"><span class="num">3</span><span class="den">2</span></span></div></button>
+<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> Add slices one at a time. When a pie fills up, a new pie starts. Watch both ways of naming the amount.</p></div>
+<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#FF7A45;">🥧</div><div><div class="activity-title">Pie Filler</div><div class="activity-sub">Add slices. Fill pies. Name the amount two ways.</div></div></div><div class="activity-body">
+<div class="bt-wrap">
+<p class="bt-goal" id="pfGoal"></p>
+<div class="bt-stage" id="pfPies"></div>
+<div class="bt-read" id="pfRead"></div>
+<div class="bt-btns"><button class="bt-btn" onclick="pfAdd(1)">➕ Add 1 slice</button><button class="bt-btn bt-quiet" onclick="pfAdd(-1)">➖ Take 1 slice away</button><button class="bt-btn bt-go" onclick="pfCheck()">✔ Check my pies</button></div>
+<div class="inline-feedback" id="pfMsg"></div>
+<div class="bt-btns"><button class="bt-btn bt-go" id="pfNext" onclick="pfNextRound()" style="display:none;">Next one →</button></div>
 </div>
-</div>
-<div style="margin-bottom:24px;padding-bottom:18px;border-bottom:1.5px dashed #FFCBA8;">
-<div style="text-align:center;margin-bottom:10px;"><div style="display:inline-flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;"><div style="text-align:center;"><svg height="86" style="vertical-align:middle;" viewbox="0 0 86 86" width="86"><path d="M43.0,43.0 L43.00,2.00 A41.0,41.0 0 0 1 78.51,63.50 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M43.0,43.0 L78.51,63.50 A41.0,41.0 0 0 1 7.49,63.50 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M43.0,43.0 L7.49,63.50 A41.0,41.0 0 0 1 43.00,2.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path></svg></div><div style="text-align:center;"><svg height="86" style="vertical-align:middle;" viewbox="0 0 86 86" width="86"><path d="M43.0,43.0 L43.00,2.00 A41.0,41.0 0 0 1 78.51,63.50 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M43.0,43.0 L78.51,63.50 A41.0,41.0 0 0 1 7.49,63.50 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M43.0,43.0 L7.49,63.50 A41.0,41.0 0 0 1 43.00,2.00 Z" fill="#FFF1E6" stroke="#0E1C42" stroke-width="1.2"></path></svg></div></div></div>
-<div style="font-family:'Lora',Georgia,serif;font-size:14px;font-weight:700;color:#0E1C42;text-align:center;margin-bottom:8px;line-height:1.6;">Row 2: All THIRDS. How many shaded slices total?</div>
-<div class="value-card-row" style="margin:0;justify-content:center;">
-<button class="value-card" onclick="pickStrategy(this,2,'5/3')" style="min-width:90px;"><div class="big" style="font-size:16px;"><span class="frac"><span class="num">5</span><span class="den">3</span></span></div></button>
-<button class="value-card" onclick="pickStrategy(this,2,'6/3')" style="min-width:90px;"><div class="big" style="font-size:16px;"><span class="frac"><span class="num">6</span><span class="den">3</span></span></div></button>
-<button class="value-card" onclick="pickStrategy(this,2,'2/3')" style="min-width:90px;"><div class="big" style="font-size:16px;"><span class="frac"><span class="num">2</span><span class="den">3</span></span></div></button>
-</div>
-</div>
-<div>
-<div style="text-align:center;margin-bottom:10px;"><div style="display:inline-flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;"><div style="text-align:center;"><svg height="76" style="vertical-align:middle;" viewbox="0 0 76 76" width="76"><path d="M38.0,38.0 L38.00,2.00 A36.0,36.0 0 0 1 69.18,20.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M38.0,38.0 L69.18,20.00 A36.0,36.0 0 0 1 69.18,56.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M38.0,38.0 L69.18,56.00 A36.0,36.0 0 0 1 38.00,74.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M38.0,38.0 L38.00,74.00 A36.0,36.0 0 0 1 6.82,56.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M38.0,38.0 L6.82,56.00 A36.0,36.0 0 0 1 6.82,20.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M38.0,38.0 L6.82,20.00 A36.0,36.0 0 0 1 38.00,2.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path></svg></div><div style="text-align:center;"><svg height="76" style="vertical-align:middle;" viewbox="0 0 76 76" width="76"><path d="M38.0,38.0 L38.00,2.00 A36.0,36.0 0 0 1 69.18,20.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M38.0,38.0 L69.18,20.00 A36.0,36.0 0 0 1 69.18,56.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M38.0,38.0 L69.18,56.00 A36.0,36.0 0 0 1 38.00,74.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M38.0,38.0 L38.00,74.00 A36.0,36.0 0 0 1 6.82,56.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M38.0,38.0 L6.82,56.00 A36.0,36.0 0 0 1 6.82,20.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M38.0,38.0 L6.82,20.00 A36.0,36.0 0 0 1 38.00,2.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path></svg></div><div style="text-align:center;"><svg height="76" style="vertical-align:middle;" viewbox="0 0 76 76" width="76"><path d="M38.0,38.0 L38.00,2.00 A36.0,36.0 0 0 1 69.18,20.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M38.0,38.0 L69.18,20.00 A36.0,36.0 0 0 1 69.18,56.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M38.0,38.0 L69.18,56.00 A36.0,36.0 0 0 1 38.00,74.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M38.0,38.0 L38.00,74.00 A36.0,36.0 0 0 1 6.82,56.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M38.0,38.0 L6.82,56.00 A36.0,36.0 0 0 1 6.82,20.00 Z" fill="#FF7A45" stroke="#0E1C42" stroke-width="1.2"></path><path d="M38.0,38.0 L6.82,20.00 A36.0,36.0 0 0 1 38.00,2.00 Z" fill="#FFF1E6" stroke="#0E1C42" stroke-width="1.2"></path></svg></div></div></div>
-<div style="font-family:'Lora',Georgia,serif;font-size:14px;font-weight:700;color:#0E1C42;text-align:center;margin-bottom:8px;line-height:1.6;">Row 3: All SIXTHS. How many shaded slices total?</div>
-<div class="value-card-row" style="margin:0;justify-content:center;">
-<button class="value-card" onclick="pickStrategy(this,3,'17/6')" style="min-width:90px;"><div class="big" style="font-size:16px;"><span class="frac"><span class="num">17</span><span class="den">6</span></span></div></button>
-<button class="value-card" onclick="pickStrategy(this,3,'5/6')" style="min-width:90px;"><div class="big" style="font-size:16px;"><span class="frac"><span class="num">5</span><span class="den">6</span></span></div></button>
-<button class="value-card" onclick="pickStrategy(this,3,'2/6')" style="min-width:90px;"><div class="big" style="font-size:16px;"><span class="frac"><span class="num">2</span><span class="den">6</span></span></div></button>
-</div>
-</div>
-<div id="stratStatus" style="margin-top:14px;background:#FFE0CC;border:2px solid #FFCBA8;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Total slice count goes on TOP. The cut size (halves, thirds, sixths) goes on BOTTOM.</div>
-</div>
-<div class="reveal-box" id="learnReveal"><strong>Improper fractions:</strong> Row 1 — <strong><span class="frac"><span class="num">5</span><span class="den">2</span></span></strong> (2 + 2 + 1 = 5 halves; mixed = 2 <span class="frac"><span class="num">1</span><span class="den">2</span></span>). Row 2 — <strong><span class="frac"><span class="num">5</span><span class="den">3</span></span></strong> (3 + 2 = 5 thirds; mixed = 1 <span class="frac"><span class="num">2</span><span class="den">3</span></span>). Row 3 — <strong><span class="frac"><span class="num">17</span><span class="den">6</span></span></strong> (6 + 6 + 5 = 17 sixths; mixed = 2 <span class="frac"><span class="num">5</span><span class="den">6</span></span>).</div>
 </div></div>
-<div class="key-concept" style="margin-top:16px;"><div class="key-concept-label">📐 Improper Fractions vs Mixed Numbers</div><p><strong>Improper fraction:</strong> top number is BIGGER than (or equal to) the bottom. It tells you how many slices of size 1/denominator you have — even if that's more than a whole pie.</p><p style="text-align:center;font-size:18px;font-weight:900;color:#FF7A45;"><span class="frac"><span class="num">8</span><span class="den">5</span></span> = "eight one-fifth slices"</p><p><strong>Mixed number:</strong> a whole number AND a fraction together. Whole part = how many full pies. Fraction part = how much of one more pie.</p><p style="text-align:center;font-size:18px;font-weight:900;color:#FF7A45;">1 <span class="frac"><span class="num">3</span><span class="den">5</span></span> = "one whole pie and three more fifths"</p><p><strong>Same amount, two outfits:</strong> <span class="frac"><span class="num">8</span><span class="den">5</span></span> = 1 <span class="frac"><span class="num">3</span><span class="den">5</span></span>. You can prove it by counting slices both ways — 5 in the whole + 3 leftover = 8 total. ✓</p><p><strong>How to tell which is more than 1:</strong> compare top and bottom of an improper. If top &gt; bottom → more than 1 whole. If top = bottom → exactly 1. If top &lt; bottom → less than 1 (it's a proper fraction).</p></div>
+<script>
+(function(){
+  var F=BT.F,M=BT.M,R=[
+    {d:3,t:7,ask:function(){return 'Build '+F(7,3)+'. Every slice is one third of a pie.';}},
+    {d:4,t:11,ask:function(){return 'Build '+M(2,3,4)+'. That means 2 full pies and 3 more fourths.';}},
+    {d:6,t:13,ask:function(){return 'Build '+F(13,6)+'. Every slice is one sixth of a pie.';}}
+  ];
+  var ri=0,c=0,done=false;
+  function el(id){return document.getElementById(id);}
+  function render(){
+    var d=R[ri].d,full=Math.floor(c/d),extra=c%d,pies=Math.max(1,Math.ceil(c/d)),h='';
+    for(var i=0;i<pies;i++){var sh=Math.min(d,Math.max(0,c-i*d));h+=BT.pie(d,sh,96);}
+    el('pfPies').innerHTML=h;
+    el('pfGoal').innerHTML=(ri+1)+' of 3: '+R[ri].ask();
+    el('pfRead').innerHTML=c+' '+(c===1?BT.name(d):BT.name(d,true))+' shaded <small>→</small> '+F(c,d)+'<br><small>Full pies: '+full+' &nbsp;·&nbsp; Extra '+BT.name(d,true)+': '+extra+'</small>';
+    el('pfNext').style.display=(done&&ri<R.length-1)?'inline-block':'none';
+  }
+  function start(i){ri=i;c=0;done=false;BT.msg('pfMsg','','');render();}
+  window.pfAdd=function(k){if(done)return;c=Math.max(0,Math.min(24,c+k));BT.msg('pfMsg','','');render();};
+  window.pfCheck=function(){
+    var r=R[ri],d=r.d,w=Math.floor(r.t/d),x=r.t%d;
+    if(c===r.t){
+      done=true;
+      BT.msg('pfMsg','good','✅ '+F(r.t,d)+' = '+M(w,x,d)+'. Count every slice and you get '+r.t+' '+BT.name(d,true)+'. Count full pies first and you get '+w+' whole pies ('+w*d+' slices) plus '+x+' more. Same amount, two names.');
+      render();
+    }else if(ri===1){
+      BT.msg('pfMsg','think','You have '+Math.floor(c/d)+' full pies and '+(c%d)+' extra fourths. '+M(2,3,4)+' means fill 2 whole pies first, then add 3 more slices.');
+    }else{
+      BT.msg('pfMsg','think','You have '+c+' '+BT.name(d,true)+'. The top number of '+F(r.t,d)+' tells you how many slices to shade: '+r.t+'. '+(c<r.t?'Add more.':'Take some away.'));
+    }
+  };
+  window.pfNextRound=function(){start(ri+1);};
+  start(0);
+})();
+</script>
+<div class="key-concept" style="margin-top:16px;"><div class="key-concept-label">📐 Improper Fractions vs Mixed Numbers</div><p><strong>Improper fraction:</strong> top number is BIGGER than (or equal to) the bottom. It counts slices, even when there are more slices than fit in one whole pie.</p><p style="text-align:center;font-size:18px;font-weight:900;color:#FF7A45;"><span class="frac"><span class="num">8</span><span class="den">5</span></span> = "eight one-fifth slices"</p><p><strong>Mixed number:</strong> a whole number AND a fraction together. Whole part = how many full pies. Fraction part = how much of one more pie.</p><p style="text-align:center;font-size:18px;font-weight:900;color:#FF7A45;">1 <span class="frac"><span class="num">3</span><span class="den">5</span></span> = "one whole pie and three more fifths"</p><p><strong>Same amount, two outfits:</strong> <span class="frac"><span class="num">8</span><span class="den">5</span></span> = 1 <span class="frac"><span class="num">3</span><span class="den">5</span></span>. You can prove it by counting slices both ways — 5 in the whole + 3 leftover = 8 total. ✓</p><p><strong>How to tell which is more than 1:</strong> compare top and bottom of an improper. If top &gt; bottom → more than 1 whole. If top = bottom → exactly 1. If top &lt; bottom → less than 1 (it's a proper fraction).</p></div>
 <div class="activity bl-violet" style="margin-top:16px;"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">🥧</div><div><div class="activity-title">Picture It: Same Spot, Two Names</div><div class="activity-sub">Pies on the left. Number line on the right. Two ways to name the same amount.</div></div></div><div class="activity-body"><p>Hazel takes <span class="frac"><span class="num">8</span><span class="den">5</span></span> and shows it three ways: as pies, as a mixed number, and as a point on a number line.</p>
 <div style="background:#FFF8F0;border:2px solid #FFD0A8;border-radius:14px;padding:18px;margin:12px 0;">
 <div style="display:flex;justify-content:center;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:14px;">
@@ -821,7 +905,7 @@
 <strong>Count all slices:</strong> 5 + 3 = 8 fifths → <span style="color:#FF7A45;font-weight:900;"><span class="frac"><span class="num">8</span><span class="den">5</span></span></span> (improper)<br/>
 <strong>Count whole pies + leftover:</strong> 1 whole + 3 more fifths → <span style="color:#FF7A45;font-weight:900;">1 <span class="frac"><span class="num">3</span><span class="den">5</span></span></span> (mixed)
 </div>
-<div style="text-align:center;"><svg height="70" viewbox="0 0 520 70" width="520"><line stroke="#0E1C42" stroke-width="2.2" x1="24" x2="496" y1="39" y2="39"></line><line stroke="#0E1C42" stroke-width="1.8" x1="24.00" x2="24.00" y1="32" y2="46"></line><line stroke="#0E1C42" stroke-width="1.2" x1="71.20" x2="71.20" y1="35" y2="43"></line><line stroke="#0E1C42" stroke-width="1.2" x1="118.40" x2="118.40" y1="35" y2="43"></line><line stroke="#0E1C42" stroke-width="1.2" x1="165.60" x2="165.60" y1="35" y2="43"></line><line stroke="#0E1C42" stroke-width="1.2" x1="212.80" x2="212.80" y1="35" y2="43"></line><line stroke="#0E1C42" stroke-width="1.8" x1="260.00" x2="260.00" y1="32" y2="46"></line><line stroke="#0E1C42" stroke-width="1.2" x1="307.20" x2="307.20" y1="35" y2="43"></line><line stroke="#0E1C42" stroke-width="1.2" x1="354.40" x2="354.40" y1="35" y2="43"></line><line stroke="#0E1C42" stroke-width="1.2" x1="401.60" x2="401.60" y1="35" y2="43"></line><line stroke="#0E1C42" stroke-width="1.2" x1="448.80" x2="448.80" y1="35" y2="43"></line><line stroke="#0E1C42" stroke-width="1.8" x1="496.00" x2="496.00" y1="32" y2="46"></line><text fill="#0E1C42" font-family="Lora" font-size="12" font-weight="700" text-anchor="middle" x="24" y="66">0</text><text fill="#0E1C42" font-family="Lora" font-size="12" font-weight="700" text-anchor="middle" x="260.0" y="66">1</text><text fill="#0E1C42" font-family="Lora" font-size="12" font-weight="700" text-anchor="middle" x="496" y="66">2</text><circle cx="401.60" cy="39" fill="#FF7A45" r="7" stroke="#0E1C42" stroke-width="1.5"></circle><text fill="#FF7A45" font-family="Lora" font-size="13" font-weight="900" text-anchor="middle" x="401.60" y="27"><span class="frac"><span class="num">8</span><span class="den">5</span></span> = 1 <span class="frac"><span class="num">3</span><span class="den">5</span></span></text></svg></div>
+<div style="text-align:center;"><svg style="max-width:100%;height:auto;" height="120" viewbox="0 -36 520 120" width="520"><line stroke="#0E1C42" stroke-width="2.2" x1="24" x2="496" y1="39" y2="39"></line><line stroke="#0E1C42" stroke-width="1.8" x1="24.00" x2="24.00" y1="32" y2="46"></line><line stroke="#0E1C42" stroke-width="1.2" x1="71.20" x2="71.20" y1="35" y2="43"></line><line stroke="#0E1C42" stroke-width="1.2" x1="118.40" x2="118.40" y1="35" y2="43"></line><line stroke="#0E1C42" stroke-width="1.2" x1="165.60" x2="165.60" y1="35" y2="43"></line><line stroke="#0E1C42" stroke-width="1.2" x1="212.80" x2="212.80" y1="35" y2="43"></line><line stroke="#0E1C42" stroke-width="1.8" x1="260.00" x2="260.00" y1="32" y2="46"></line><line stroke="#0E1C42" stroke-width="1.2" x1="307.20" x2="307.20" y1="35" y2="43"></line><line stroke="#0E1C42" stroke-width="1.2" x1="354.40" x2="354.40" y1="35" y2="43"></line><line stroke="#0E1C42" stroke-width="1.2" x1="401.60" x2="401.60" y1="35" y2="43"></line><line stroke="#0E1C42" stroke-width="1.2" x1="448.80" x2="448.80" y1="35" y2="43"></line><line stroke="#0E1C42" stroke-width="1.8" x1="496.00" x2="496.00" y1="32" y2="46"></line><text fill="#0E1C42" font-family="Lora" font-size="12" font-weight="700" text-anchor="middle" x="24" y="66">0</text><text fill="#0E1C42" font-family="Lora" font-size="12" font-weight="700" text-anchor="middle" x="260.0" y="66">1</text><text fill="#0E1C42" font-family="Lora" font-size="12" font-weight="700" text-anchor="middle" x="496" y="66">2</text><circle cx="401.60" cy="39" fill="#FF7A45" r="7" stroke="#0E1C42" stroke-width="1.5"></circle><g><text fill="#FF7A45" font-family="Lora" font-size="13" font-weight="900" x="381.87" y="10.00" text-anchor="middle">8</text><line x1="377.84" x2="385.90" y1="13.00" y2="13.00" stroke="#FF7A45" stroke-width="1.4"></line><text fill="#FF7A45" font-family="Lora" font-size="13" font-weight="900" x="381.87" y="27.00" text-anchor="middle">5</text><text fill="#FF7A45" font-family="Lora" font-size="13" font-weight="900" x="401.60" y="17.55" text-anchor="middle">= 1</text><text fill="#FF7A45" font-family="Lora" font-size="13" font-weight="900" x="421.33" y="10.00" text-anchor="middle">3</text><line x1="417.30" x2="425.36" y1="13.00" y2="13.00" stroke="#FF7A45" stroke-width="1.4"></line><text fill="#FF7A45" font-family="Lora" font-size="13" font-weight="900" x="421.33" y="27.00" text-anchor="middle">5</text></g></svg></div>
 <div style="margin-top:8px;text-align:center;font-family:'Lora',Georgia,serif;font-style:italic;color:#3A4A6B;font-size:13px;">On the number line, both <span class="frac"><span class="num">8</span><span class="den">5</span></span> and 1 <span class="frac"><span class="num">3</span><span class="den">5</span></span> land at the SAME spot — three fifths past 1.</div>
 </div>
 <div class="socratic-box"><div class="socratic-label">🧠 Socratic — Think Like a Mathematician</div><p class="socratic-q">Why does <span class="frac"><span class="num">5</span><span class="den">5</span></span> equal 1 whole? What happens to the value of an improper fraction when the top number EQUALS the bottom number?</p>
@@ -865,14 +949,14 @@
 </div>
 </div>
 </div></div>
-<div class="tab-next-wrap"><p class="tab-transition-voice">Improper or mixed — same amount, two ways. Now practice reading both.</p><button class="tab-next-btn" onclick="switchTab('assignment')">Continue to 🌟 Show What You Know →</button></div>
+<div class="tab-next-wrap"><p class="tab-transition-voice">Improper or mixed — same amount, two ways. Now show what you know.</p><button class="tab-next-btn" onclick="switchTab('assignment')">Continue to 🌟 Show What You Know →</button></div>
 </div>
 <div class="tab-panel" id="tab-assignment">
-<div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">Improper fractions and mixed numbers — read both forms and switch between them.</div></div></div><div class="activity-body"><p>Show the pie picture or the count for each. Two ways to write each amount — improper and mixed.</p>
+<div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">Improper fractions and mixed numbers — read both forms and switch between them.</div></div></div><div class="activity-body"><p>Two quick checks. Your full practice is in the Independent Practice PDF.</p>
 <div class="callout callout-think"><span class="callout-icon">🧠</span><p><strong>Before each problem, ask:</strong> Am I counting whole pies or leftover slices? Does my mixed number name the same amount as the improper fraction?</p></div>
-<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Write the improper fraction.</strong> For each picture, count every shaded slice. The denominator is given.<br/>(a) Two full pies of fourths + 3 more fourths (denom 4)<br/>(b) One full pie of fifths + 4 more fifths (denom 5)<br/>(c) Three full pies of halves + 1 more half (denom 2)</p><div class="journal-label">✏️ My improper fractions (a), (b), (c) <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: Write improper from pies" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
-<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Story problem.</strong> A bakery cuts each pie into 6 slices. They sold 19 slices today. (a) How many WHOLE pies were sold? (b) How many extra slices were left from a partly-sold pie? (c) Write 19 slices total as both an improper fraction AND a mixed number.</p><div class="journal-label">✏️ My answers <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 6: Bakery slice story" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
-<div class="activity bl-slate" style="margin-top:18px;border-left-color:#FF7A45;"><div class="activity-head"><div class="activity-num" style="background:#FF7A45;color:#fff;">🗺️</div><div><div class="activity-title">Connection Forward: A Fast Shortcut for Converting</div><div class="activity-sub">What comes next in Unit 6</div></div></div><div class="activity-body"><p>Today you counted slices by hand to turn improper fractions into mixed numbers. Next lesson, you'll turn that counting method into a fast division shortcut — one division problem does all the counting for you.</p></div></div></div></div>
+<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Two ways.</strong> Mia shaded 3 whole pies cut into thirds, plus 1 more third. Write the shaded amount as an improper fraction AND as a mixed number.</p><div class="journal-label">✏️ My improper fraction + my mixed number <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: Thirds as improper and mixed" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
+<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Story problem.</strong> A bakery cuts each pie into 8 slices. They sold 21 slices today. Write the amount sold as an improper fraction AND as a mixed number. Draw pies if it helps.</p><div class="journal-label">✏️ My answer <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 2: Bakery slices two ways" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
+<div class="activity bl-slate" style="margin-top:18px;border-left-color:#FF7A45;"><div class="activity-head"><div class="activity-num" style="background:#FF7A45;color:#fff;">🗺️</div><div><div class="activity-title">Connection Forward: Improper to Mixed</div><div class="activity-sub">What comes next in Unit 6</div></div></div><div class="activity-body"><p>Today you counted slices by hand to turn improper fractions into mixed numbers. Next lesson, <strong>Improper to Mixed</strong>, turns that counting into a fast division shortcut — one division problem does all the counting for you.</p></div></div></div></div>
 <div class="gathered-box"><div class="gathered-head"><div class="gathered-head-icon">📋</div><div><div class="gathered-head-label">Your Math Journal</div><div class="gathered-head-title">All Answers from Today</div></div></div><div class="gathered-body"><textarea class="gathered-output" id="gatheredOutput" readonly="">Click "Gather My Answers" to collect your work.</textarea><div class="gathered-actions"><button class="purple-btn" onclick="gatherAnswers()">📋 Gather My Answers</button><button class="green-btn" onclick="copyAnswers()">Copy All Answers</button><button class="check-btn" onclick="downloadJournal()">Download My Math Journal</button></div></div></div>
 <div class="turn-in-card"><div class="turn-in-header"><div class="turn-in-header-icon">✅</div><div><div class="turn-in-header-label">Turn-In Checklist</div><div class="turn-in-header-title">Ready to Submit?</div></div></div><div class="turn-in-body"><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I completed both quick checks above.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I wrote each amount BOTH as an improper fraction AND as a mixed number where asked.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I double-checked at least one problem by drawing the pies.</span></div></div></div>
 </div>
@@ -1459,6 +1543,36 @@ document.addEventListener('DOMContentLoaded', function() {
     if(navigator.clipboard && window.isSecureContext){
       navigator.clipboard.writeText(text).then(function(){ say('Copied! Now paste your answers where your teacher asked you to turn them in.', true); }, fallback);
     } else { fallback(); }
+  };
+})();
+</script>
+<!-- OAO download fix -->
+<script>
+(function(){
+  var orig = window.downloadJournal;
+  if(typeof orig !== 'function') return;
+  window.downloadJournal = function(){
+    try { gatherAnswers(); } catch(e) {}
+    var out = document.getElementById('gatheredOutput');
+    var text = out ? (out.value || '') : '';
+    var w = null;
+    try { w = window.open('', '_blank'); } catch(e) { w = null; }
+    if(w && w.document){
+      w.document.write('<pre style="font-family:Arial;white-space:pre-wrap;font-size:14px;line-height:1.5;">' + text.replace(/[&<>]/g, function(s){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[s]; }) + '</pre>');
+      w.document.close();
+      try { w.focus(); w.print(); } catch(e) {}
+      return;
+    }
+    try {
+      var blob = new Blob([text], {type:'text/plain'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = ((document.title || 'math-journal').replace(/[^a-z0-9]+/gi,'-').toLowerCase()) + '.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+    } catch(e) {
+      if(out){ out.focus(); out.select(); }
+    }
   };
 })();
 </script>

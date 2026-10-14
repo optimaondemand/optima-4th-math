@@ -378,7 +378,74 @@
 .vfrac .vf-num{padding:0 3px;border-bottom:1.5px solid #0E1C42}
 .vfrac .vf-den{padding:0 3px}
 </style>
-<style>.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-family:'Lora',Georgia,serif;line-height:1.05;margin:0 .12em;font-size:.95em;position:relative;top:-.05em}.frac .num{display:block;padding:0 .28em .04em;border-bottom:1.6px solid currentColor;font-weight:700}.frac .den{display:block;padding:.04em .28em 0;font-weight:700}</style></head>
+<style>.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-family:'Lora',Georgia,serif;line-height:1.05;margin:0 .12em;font-size:.95em;position:relative;top:-.05em}.frac .num{display:block;padding:0 .28em .04em;border-bottom:1.6px solid currentColor;font-weight:700}.frac .den{display:block;padding:.04em .28em 0;font-weight:700}</style>
+<style id="oao-g4a-widgets">
+.wg-box{background:#FAFBFF;border:2px solid #E2E8F4;border-radius:14px;padding:16px 14px;margin:12px 0}
+.wg-picks{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
+.wg-pick{background:#fff;border:2px solid #D8CCF0;border-radius:10px;padding:8px 14px;font-family:'Lora',Georgia,serif;font-size:16px;font-weight:800;color:#0E1C42;cursor:pointer}
+.wg-pick.on{background:#6B3FA0;border-color:#6B3FA0;color:#fff}
+.wg-pick.done::after{content:' \2713';color:#2DB87A}
+.wg-pick.on.done::after{color:#C8F0DA}
+.wg-title{font-family:'Lora',Georgia,serif;font-size:24px;font-weight:900;color:#0E1C42;text-align:center;margin:4px 0 10px}
+.wg-label{font-size:11px;font-weight:900;color:#3A4A6B;text-transform:uppercase;letter-spacing:.5px;text-align:center;margin:10px 0 6px}
+.wg-btn{background:#6B3FA0;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;font-size:15px;cursor:pointer;font-family:'Nunito',sans-serif}
+.wg-btn.alt{background:#3A6B9A}.wg-btn.grn{background:#2DB87A}.wg-btn.org{background:#E07B39}
+.wg-btn:disabled{background:#B8C0D4;cursor:not-allowed}
+.wg-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin:10px 0}
+.wg-in{width:84px;padding:8px 10px;border:2px solid #BFE3F2;border-radius:10px;font-size:18px;font-weight:800;font-family:'Lora',Georgia,serif;color:#0E1C42;text-align:center}
+.wg-in.wide{width:120px}
+.wg-status{background:#EAF8FD;border:2px solid #D6F2FB;border-radius:10px;padding:10px 14px;font-size:15px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;margin-top:10px}
+.wg-status.good{background:#E3F8ED;border-color:#B8E8CF}
+.wg-status.think{background:#FFF0E6;border-color:#F5C8A0}
+.wg-q{background:#fff;border:2px solid #E2E8F4;border-radius:12px;padding:10px 12px;margin:8px 0}
+.wg-q p{margin:0 0 6px;font-weight:700;color:#0E1C42;font-size:15px}
+.wg-fb{font-size:14px;line-height:1.5;margin-top:6px;font-weight:700}
+.wg-fb.good{color:#1A8A5A}.wg-fb.think{color:#B5561B}
+/* sharing mat */
+.sh-mat{display:grid;gap:8px}
+.sh-col{border:2px solid #E2E8F4;border-radius:12px;background:#fff;padding:8px 4px;min-height:90px;text-align:center;min-width:0}
+.sh-col.now{border-color:#F5C518;box-shadow:0 0 0 3px #FFF3C4}
+.sh-col h5{margin:0 0 2px;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:0}
+.sh-col .sh-n{font-family:'Lora',Georgia,serif;font-size:20px;font-weight:900;color:#0E1C42}
+.sh-discs{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-top:4px}
+.sh-disc{width:14px;height:14px;border-radius:50%;display:inline-block;border:1.5px solid rgba(0,0,0,.25)}
+.sh-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px}
+.sh-group{background:#fff;border:2px dashed #BFC8DC;border-radius:12px;padding:6px;min-height:64px;text-align:center}
+.sh-group b{display:block;font-size:11px;color:#3A4A6B;text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px}
+.sh-gplace{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;margin:2px 0}
+.sh-gplace .sh-disc{width:10px;height:10px;border-width:1px}
+.sh-quot{display:flex;justify-content:center;gap:6px;margin:6px 0 2px}
+.sh-qd{width:42px;height:48px;border:2px solid #D8CCF0;border-radius:10px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Lora',Georgia,serif;font-size:24px;font-weight:900;color:#0E1C42}
+.sh-qd small{font-family:'Nunito',sans-serif;font-size:9px;font-weight:900;color:#7A88A8;text-transform:uppercase}
+.sh-qd.blank{color:#C3CADB}
+.sh-record{background:#fff;border:2px solid #E2E8F4;border-radius:12px;padding:10px 14px;margin-top:10px;font-size:14px;line-height:1.7;color:#0E1C42}
+.sh-record:empty{display:none}
+/* round-and-share estimator */
+.rs-bar{display:flex;height:40px;border-radius:10px;overflow:hidden;border:2px solid #0E1C42;margin:6px 0}
+.rs-seg{flex:1;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:14px;border-right:2px solid #fff}
+.rs-seg:last-child{border-right:none}
+.rs-left{flex:0 0 18%;background:#E07B39;color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.1}
+.rs-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:15px}
+.rs-table th,.rs-table td{border:1.5px solid #E2E8F4;padding:6px 8px;text-align:center}
+.rs-table th{background:#F0E8FF;color:#0E1C42;font-size:12px;text-transform:uppercase;letter-spacing:.3px}
+.rs-table tr.best td{background:#E3F8ED;font-weight:900}
+/* packer */
+.pk-pool{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;min-height:30px;padding:8px;border:2px dashed #BFE3F2;border-radius:12px;background:#fff}
+.pk-dot{width:18px;height:18px;border-radius:50%;display:inline-block}
+.pk-bags{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:8px;margin-top:8px}
+.pk-bag{background:#fff;border:2px solid #3A6B9A;border-radius:10px;padding:5px;text-align:center}
+.pk-bag b{display:block;font-size:10px;color:#3A6B9A;text-transform:uppercase}
+.pk-bag .pk-dot{width:11px;height:11px;margin:1px}
+/* data check */
+.mm-ask{background:#fff;border:2px solid #F5C518;border-radius:12px;padding:12px;margin-bottom:12px;text-align:center}
+.mm-ask p{margin:0 0 8px;font-weight:800;color:#0E1C42}
+.mm-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.mm-grid label{display:flex;flex-direction:column;align-items:center;font-size:11px;font-weight:900;color:#0D3D6B;text-transform:uppercase;letter-spacing:.5px;gap:4px}
+.mm-mid{outline:3px solid #F5C518;outline-offset:2px}
+.sh-disc{flex:0 0 auto}
+@media (max-width:480px){.sh-col h5{font-size:10px;text-transform:none;overflow-wrap:normal}.sh-disc{width:11px;height:11px}.wg-title{font-size:20px}.sh-qd{width:36px;height:42px;font-size:20px}}
+</style>
+</head>
 <body id="pageTop">
 <div class="page-wrap">
 
@@ -607,7 +674,7 @@
 
 <div class="standards-toggle-bar" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');"><span class="standards-toggle-label">Standards Alignment</span><span class="standards-toggle-arrow">&#9660;</span></div><div class="standards-panel"><div class="standards-panel-inner"><div class="standards-group"><div class="standards-group-label">Florida B.E.S.T.</div><div class="standards-codes"><span class="fl-code">MA.4.AR.1.1</span> &middot; <span class="fl-code">MTR.5.1</span> &middot; <span class="fl-code">MTR.7.1</span></div></div><div class="standards-group"><div class="standards-group-label">Texas TEKS</div><div class="standards-codes"><span class="tx-code">4.4.H</span> &middot; <span class="tx-code">4.5.A</span></div></div></div></div>
 <div class="info-strip"><div class="info-cell"><div class="info-icon" style="background:#F0E8FF;">🧭</div><div><div class="info-label">Unit</div><div class="info-value">Unit 5</div><div class="info-detail">Division</div></div></div><div class="info-cell"><div class="info-icon" style="background:#E3F8ED;">📅</div><div><div class="info-label">Lesson</div><div class="info-value">4.05.04</div></div></div><div class="info-cell"><div class="info-icon" style="background:#EAF0FF;">📐</div><div><div class="info-label">Standard</div><div class="info-value">MA.4.AR.1.1</div><div class="info-detail">Word problems (4 ops)</div></div></div><div class="info-cell"><div class="info-icon" style="background:#FFF8E6;">🔢</div><div><div class="info-label">Focus</div><div class="info-value">Bar models · remainders</div><div class="info-detail">MTR.5.1 · MTR.7.1</div></div></div></div>
-<div class="explorer-strip"><span class="explorer-compass">🧭</span><div><div class="explorer-mission-label">Today's Mission</div><div class="explorer-mission-text">Unit 5 capstone. Real stories. Read the story, draw the bar, choose the operation, compute, then INTERPRET the remainder. Sometimes you ignore it. Sometimes you need one MORE group to fit it. The story decides.</div></div></div>
+<div class="explorer-strip"><span class="explorer-compass">🧭</span><div><div class="explorer-mission-label">Today's Mission</div><div class="explorer-mission-text">Solve division stories and let the story decide what the remainder means.</div></div></div>
 <div class="intro-2col"><div class="intro-card theme-question"><div class="intro-card-head"><div class="intro-card-head-icon">❓</div><div><div class="intro-card-head-label">Essential Question</div><div class="intro-card-head-title">If 2,560 eggs go into cartons of 6, do you need 426 cartons or 427? Why?</div></div></div><div class="intro-card-body"><p>2,560 ÷ 6 = 426 r 4. There are 426 FULL cartons. But the 4 leftover eggs still need a carton. So if you must ship every egg, you need 427 cartons.</p><p>The STORY decides whether to round up, ignore the remainder, or keep it as a remainder. Read carefully every time.</p></div></div><div class="intro-card theme-objectives"><div class="intro-card-head"><div class="intro-card-head-icon">🎯</div><div><div class="intro-card-head-label">Today's Objectives</div><div class="intro-card-head-title">You will…</div></div></div><div class="intro-card-body"><div class="obj-line"><span class="obj-icon">📏</span><span><strong>Draw a bar model</strong> for a division word problem (equal parts or how many groups).</span></div><div class="obj-line"><span class="obj-icon">📐</span><span><strong>Choose the right operation</strong> by reading the story — multiply, divide, or combine.</span></div><div class="obj-line"><span class="obj-icon">🎯</span><span><strong>Interpret the remainder</strong> in context — ignore, round up, or keep it.</span></div></div></div></div>
 <div class="need-strip"><span class="need-strip-label">You'll need:</span><span class="need-chip">📓 Math Journal</span><span class="need-chip">✏️ Pencil</span><span class="need-chip">📏 Ruler or straight edge</span></div>
 <div class="tab-bar" id="tabBar"><button class="tab-btn active" data-tab="warmup" onclick="switchTab('warmup')">🔍 Warm-Up <span class="tab-check">✓</span></button><button class="tab-btn" data-tab="learn" onclick="switchTab('learn')">📐 Learn <span class="tab-check">✓</span></button><button class="tab-btn" data-tab="assignment" onclick="switchTab('assignment')">🌟 Show What You Know <span class="tab-check">✓</span></button></div>
@@ -710,7 +777,7 @@
 <div class="activity bl-yellow"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🤔</div><div><div class="activity-title">Think About It</div><div class="activity-sub">Look closely, then take a guess.</div></div></div><div class="activity-body">
 <div class="callout callout-think"><span class="callout-icon">🚣</span><p>A school packs <strong>2,560 eggs</strong> into cartons of <strong>6 eggs</strong> each. Compute 2,560 ÷ 6, then answer THREE different questions: (a) how many full cartons? (b) how many eggs left over? (c) if every egg MUST be shipped, how many cartons are needed?</p></div>
 <div class="number-talk-visual">
-<div class="number-talk-prompt">2,560 ÷ 6 = 426 r 4. (a) Full cartons = 426 (ignore remainder). (b) Leftover eggs = 4 (the remainder IS the answer). (c) Total cartons needed = 427 (round up — those 4 eggs still need a carton).</div>
+<div class="number-talk-prompt">2,560 ÷ 6 = 426 r 4. Will all three questions have the same answer?</div>
 <div class="visual-equation" style="font-size:22px;letter-spacing:1px;">Same division, three different jobs for the remainder.</div>
 <div class="notice-wonder-grid">
 <div class="notice-wonder-box"><h4>🔍 I Notice…</h4><textarea class="journal-box" data-label="Warm-Up — Notice: What I notice about the egg-carton story" id="journal-notice" oninput="autoSave(this,'dot-notice')" placeholder="" style="min-height:60px;"></textarea></div>
@@ -724,7 +791,7 @@
 <button class="strategy-chip" onclick="this.classList.toggle('selected')">4 cartons</button>
 <button class="strategy-chip" onclick="this.classList.toggle('selected')">430</button>
 </div>
-<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>Before you predict, ask yourself:</strong> 426 full cartons + 1 extra for the 4 leftover eggs = 427 cartons total.</p></div>
+<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>Before you predict, ask yourself:</strong> After 426 cartons are full, where do the last 4 eggs go?</p></div>
 <div class="journal-label">✏️ My answer + reasoning: How many cartons are needed if all 2,560 eggs MUST ship? Why round up? <span class="saved-dot" id="dot-think"></span></div>
 <textarea class="journal-box" data-label="Warm-Up — Think Prompt: Egg cartons with round-up remainder" id="journal-think" oninput="autoSave(this,'dot-think')" placeholder=""></textarea>
 </div></div><div class="tab-next-wrap"><p class="tab-transition-voice">You decided when to round up. Now let's master the full word-problem method: read, draw, choose, compute, interpret.</p><button class="tab-next-btn" onclick="switchTab('learn')">Continue to 📐 Learn →</button></div>
@@ -767,7 +834,22 @@
 </div>
 </div>
 
-<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> Three stories below. For each, choose the operation. (One needs DIVISION + ROUND UP. One needs DIVISION + IGNORE remainder. One needs MULTIPLICATION.)</p></div>
+<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> Fill the bags one at a time. Then decide what the leftovers mean for each question.</p></div>
+<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">📦</div><div><div class="activity-title">Pack It Up</div><div class="activity-sub">Fill equal groups. Then decide what the remainder means.</div></div></div><div class="activity-body"><p>Click to fill one group at a time. When you can’t fill another, answer the three questions. Do both stories.</p>
+
+<div class="wg-box" id="pkTool">
+<div class="wg-picks" id="pkPicks"></div>
+<div class="wg-title" id="pkProblem"></div>
+<div class="wg-label" id="pkPoolLabel"></div>
+<div class="pk-pool" id="pkPool"></div>
+<div class="wg-row"><button class="wg-btn" id="pkFill" onclick="pkFill()"></button><button class="wg-btn org" onclick="pkStart(PK.cur,true)">↺ Start over</button></div>
+<div class="pk-bags" id="pkBags"></div>
+<div class="wg-status" id="pkStatus"></div>
+<div id="pkQs"></div>
+</div>
+<div class="reveal-box" id="pkReveal"><strong>Same division, three jobs:</strong> FULL groups? Leave out the remainder. LEFT OVER? The remainder is the answer. Fit EVERYTHING? Add one more group.</div>
+</div></div>
+<p style="margin:14px 0 6px;font-weight:700;color:#3A4A6B;">Now try it without the pictures. Not every story is division.</p>
 <div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🎯</div><div><div class="activity-title">Choose the Operation</div><div class="activity-sub">Three stories. Decide the operation and how to handle the remainder.</div></div></div><div class="activity-body"><p>For each story, pick the operation/remainder treatment that fits.</p>
 <div style="background:#FAFBFF;border:2px solid #E2E8F4;border-radius:14px;padding:18px 14px;margin:12px 0;">
 <div style="margin-bottom:18px;">
@@ -823,11 +905,11 @@
 <div class="journal-label">✏️ My thinking <span class="saved-dot" id="dot-soc"></span></div>
 <textarea class="journal-box" data-label="Learn — Socratic: What 24÷6=4 means in two different stories" id="journal-soc" oninput="autoSave(this,'dot-soc')" placeholder=""></textarea></div>
 </div></div>
-<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🔍</div><div><div class="activity-title">Worked Example: 2,560 Eggs Story (Three Questions)</div><div class="activity-sub">Same division, three different remainder interpretations.</div></div></div><div class="activity-body"><div class="task-box"><div class="task-label">Problem</div><p>A school packs <strong>2,560 eggs</strong> into cartons that hold <strong>6 eggs</strong> each. Answer three questions: (a) How many FULL cartons can they make? (b) How many eggs are LEFT OVER? (c) If every egg must be shipped (no eggs left behind), how many cartons are needed?</p></div><p style="margin:8px 0;font-weight:700;color:#3A4A6B;">Watch the Math Crew solve it together:</p>
+<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🔍</div><div><div class="activity-title">Worked Example: 2,560 Eggs Story (Three Questions)</div><div class="activity-sub">Same division, three different remainder interpretations.</div></div></div><div class="activity-body"><div class="task-box"><div class="task-label">Problem</div><p>A school packs <strong>2,560 eggs</strong> into cartons that hold <strong>6 eggs</strong> each. Answer three questions: (a) How many FULL cartons can they make? (b) How many eggs are LEFT OVER? (c) If every egg must be shipped (no eggs left behind), how many cartons are needed?</p></div><p style="margin:8px 0;font-weight:700;color:#3A4A6B;">Here’s how the Math Crew solved it:</p>
 
 <div class="key-concept" style="margin-top:14px;"><div class="key-concept-label">⚖️ The Remainder's Three Jobs</div>
 <div style="background:#F0E8FF;border:2px solid #D8CCF0;border-radius:12px;padding:14px;margin-top:8px;font-family:'Lora',Georgia,serif;font-size:15px;color:#0E1C42;line-height:1.8;">
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center;">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;text-align:center;">
 <div style="background:#fff;border:1.5px solid #B8E8CF;border-radius:10px;padding:12px;">
 <div style="font-size:11px;color:#1A8A5A;text-transform:uppercase;letter-spacing:.5px;font-weight:900;">IGNORE</div>
 <div style="font-size:13px;margin-top:4px;">"How many FULL groups?" → just the quotient.</div>
@@ -853,11 +935,11 @@
 <div class="tab-panel" id="tab-assignment">
 <div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">Unit 5 capstone. Real word problems, every remainder job.</div></div></div><div class="activity-body"><p>Five-step method on every problem: READ → DRAW → CHOOSE → COMPUTE → INTERPRET.</p>
 <div class="callout callout-think"><span class="callout-icon">🧠</span><p><strong>Before each problem, ask:</strong> What's the bar shape? What's the operation? What's the remainder's job — IGNORE, KEEP, or ROUND UP?</p></div>
-<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>The egg-carton story.</strong> A school packs <strong>2,560 eggs</strong> into cartons of <strong>6</strong>. Compute 2,560 ÷ 6, then answer each question.<br/>(a) How many FULL cartons can they make?<br/>(b) How many eggs are LEFT OVER?<br/>(c) If every egg must ship, how many cartons are NEEDED?</p><div class="journal-label">✏️ My answers + reasoning <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: Egg cartons, three interpretations" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
-<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Unit 5 reflection.</strong> Across Unit 5 you learned mental math for division (number bonds, ÷10 patterns), estimation (three estimates, divisor-friendly rounding), 4-digit long division with the lead-digit trick, and now word problems with three remainder jobs. In one paragraph, explain how all four pieces work together when you face a real division word problem.</p><div class="journal-label">✏️ My reflection <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 6: Unit 5 reflection" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
-<div class="activity bl-slate" style="margin-top:18px;border-left-color:#55C8E8;"><div class="activity-head"><div class="activity-num" style="background:#55C8E8;color:#0E1C42;">🗺️</div><div><div class="activity-title">Connection Forward: Beyond Unit 5</div><div class="activity-sub">What comes next</div></div></div><div class="activity-body"><p>You've closed the whole-number arithmetic tour — Units 1–5 covered place value, addition, subtraction, multiplication, and division. Plus all the multiplication families (multiples, factors, primes).</p><p>Up next: <strong>Fractions.</strong> A fraction is just a division you HAVEN'T computed yet. <span class="frac"><span class="num">3</span><span class="den">4</span></span> = 3 ÷ 4. The remainder ideas you just learned come back hard — when you can't divide cleanly, the result is a FRACTION.</p><p>The big question opening the fractions unit: <em>What's the connection between division and a fraction?</em></p></div></div></div></div>
+<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Cabins at camp.</strong> 158 campers are going to camp. Each cabin sleeps 8 campers. How many cabins are needed so every camper has a bed? Show your division and tell what you did with the remainder.</p><div class="journal-label">✏️ My division, my answer, and why <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: Cabins for 158 campers" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
+<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>What does the remainder mean?</strong> Write one division story where you leave out the remainder and one where you add one more group. Tell why for each.</p><div class="journal-label">✏️ My reflection <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 2: Two remainder stories" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
+<div class="activity bl-slate" style="margin-top:18px;border-left-color:#55C8E8;"><div class="activity-head"><div class="activity-num" style="background:#55C8E8;color:#0E1C42;">🗺️</div><div><div class="activity-title">Connection Forward: What Comes Next</div><div class="activity-sub">Preview Lesson 4.06.01 — Equivalent Fractions</div></div></div><div class="activity-body"><p>You've closed the whole-number arithmetic tour — Units 1–5 covered place value, addition, subtraction, multiplication, and division. Plus all the multiplication families (multiples, factors, primes).</p><p>Up next: <strong>Unit 6, Fractions.</strong> The first lesson is Equivalent Fractions: different fractions that name the same amount, like <span class="frac"><span class="num">1</span><span class="den">2</span></span> and <span class="frac"><span class="num">2</span><span class="den">4</span></span>.</p><p>The big question next time: <em>How can two different fractions name the same amount?</em></p></div></div></div></div>
 <div class="gathered-box"><div class="gathered-head"><div class="gathered-head-icon">📋</div><div><div class="gathered-head-label">Your Math Journal</div><div class="gathered-head-title">All Answers from Today</div></div></div><div class="gathered-body"><textarea class="gathered-output" id="gatheredOutput" readonly="">Click "Gather My Answers" to collect your work.</textarea><div class="gathered-actions"><button class="purple-btn" onclick="gatherAnswers()">📋 Gather My Answers</button><button class="green-btn" onclick="copyAnswers()">Copy All Answers</button><button class="check-btn" onclick="downloadJournal()">Download My Math Journal</button></div></div></div>
-<div class="turn-in-card"><div class="turn-in-header"><div class="turn-in-header-icon">✅</div><div><div class="turn-in-header-label">Turn-In Checklist</div><div class="turn-in-header-title">Ready to Submit?</div></div></div><div class="turn-in-body"><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I completed the Show What You Know problems on this lesson page.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I used place-value words in my explanations.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I reviewed my gathered Math Journal answers.</span></div></div></div>
+<div class="turn-in-card"><div class="turn-in-header"><div class="turn-in-header-icon">✅</div><div><div class="turn-in-header-label">Turn-In Checklist</div><div class="turn-in-header-title">Ready to Submit?</div></div></div><div class="turn-in-body"><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I completed the Show What You Know problems on this lesson page.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I told what the remainder means in each story.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I reviewed my gathered Math Journal answers.</span></div></div></div>
 </div>
 <div class="footer">
 <div class="footer-main">🏫 <span>Optima Academy Online</span></div>
@@ -1397,6 +1479,56 @@ document.addEventListener('DOMContentLoaded', function() {
     .catch(function(err) { console.warn('Video manifest load failed:', err); });
 });
 </script>
+
+<script>
+/* Packer: fill groups one at a time, then decide what the remainder means */
+var PK={probs:[
+ {n:50,size:8,item:'apples',one:'apple',unit:'bag',units:'bags',c:'#D64545'},
+ {n:45,size:4,item:'campers',one:'camper',unit:'tent',units:'tents',c:'#3A6B9A'}
+],cur:0,st:{},revealId:'pkReveal'};
+function pkStart(i,reset){PK.cur=i;if(!PK.st[i]||reset)PK.st[i]={left:PK.probs[i].n,full:0,ans:{},fb:{},typed:{}};pkRender();}
+function pkFill(){var p=PK.probs[PK.cur],s=PK.st[PK.cur];if(s.left<p.size)return;s.left-=p.size;s.full++;pkRender();}
+function pkRender(){
+  var p=PK.probs[PK.cur],s=PK.st[PK.cur],i,k;
+  var picks='';PK.probs.forEach(function(q,j){var st=PK.st[j];picks+='<button class="wg-pick'+(j===PK.cur?' on':'')+(st&&st.ans.q1&&st.ans.q2&&st.ans.q3?' done':'')+'" onclick="pkStart('+j+')">'+q.n+' '+q.item+'</button>';});
+  document.getElementById('pkPicks').innerHTML=picks;
+  document.getElementById('pkProblem').innerHTML=p.n+' '+p.item+'. '+p.size+' fit in each '+p.unit+'.';
+  document.getElementById('pkPoolLabel').textContent=p.item+' not in a '+p.unit+' yet: '+s.left;
+  var pool='';for(i=0;i<s.left;i++)pool+='<span class="pk-dot" style="background:'+p.c+'"></span>';
+  document.getElementById('pkPool').innerHTML=pool||'<span style="color:#7A88A8;font-style:italic;">None left.</span>';
+  var fb=document.getElementById('pkFill');fb.textContent='Fill a '+p.unit+' with '+p.size+' '+p.item;fb.disabled=s.left<p.size;
+  var bags='';for(i=0;i<s.full;i++){var dots='';for(k=0;k<p.size;k++)dots+='<span class="pk-dot" style="background:'+p.c+'"></span>';bags+='<div class="pk-bag"><b>Full '+p.unit+' '+(i+1)+'</b>'+dots+'</div>';}
+  document.getElementById('pkBags').innerHTML=bags;
+  var st=document.getElementById('pkStatus'),qs=document.getElementById('pkQs');
+  if(s.left>=p.size){st.className='wg-status';st.innerHTML=s.full===0?'Click the button to fill the first '+p.unit+'.':s.full+' full '+(s.full===1?p.unit:p.units)+' so far. Keep going.';qs.innerHTML='';return;}
+  var q=Math.floor(p.n/p.size),r=p.n%p.size;
+  st.className='wg-status good';st.innerHTML='Only '+s.left+' '+(s.left===1?p.one:p.item)+' left — not enough to fill another '+p.unit+'.<br><strong>'+p.n+' ÷ '+p.size+' = '+q+' r '+r+'</strong>';
+  var Q=[['q1','How many FULL '+p.units+'?'],['q2','How many '+p.item+' are LEFT OVER?'],['q3','Every '+p.one+' needs a '+p.unit+'. How many '+p.units+' do you need?']];
+  var h='';Q.forEach(function(x){var f=s.fb[x[0]];h+='<div class="wg-q"><p>'+x[1]+'</p><div class="wg-row" style="justify-content:flex-start;margin:0;"><input class="wg-in" id="pk-'+x[0]+'" type="text" inputmode="numeric" value="'+(s.typed[x[0]]||'')+'" onkeydown="if(event.key===\'Enter\')pkCheck(\''+x[0]+'\')"><button class="wg-btn alt" onclick="pkCheck(\''+x[0]+'\')">Check</button></div>'+(f?'<div class="wg-fb '+f[0]+'">'+f[1]+'</div>':'')+'</div>';});
+  qs.innerHTML=h;
+}
+function pkCheck(id){
+  var p=PK.probs[PK.cur],s=PK.st[PK.cur],q=Math.floor(p.n/p.size),r=p.n%p.size;
+  var v=parseInt((document.getElementById('pk-'+id).value||'').replace(/[^0-9]/g,''),10);
+  ['q1','q2','q3'].forEach(function(k){var e=document.getElementById('pk-'+k);if(e)s.typed[k]=e.value;});
+  var want={q1:q,q2:r,q3:q+1}[id],msg;
+  if(v===want){
+    msg={q1:'✅ '+q+'. Only full '+p.units+' count, so you leave out the remainder.',q2:'✅ '+r+'. Here the remainder IS the answer.',q3:'✅ '+(q+1)+'. The '+r+' leftover '+(r===1?p.one:p.item)+' still need'+(r===1?'s':'')+' a '+p.unit+', so you add one more.'}[id];
+    s.ans[id]=String(v);s.fb[id]=['good',msg];
+  } else {
+    if(isNaN(v))msg='Type a number first.';
+    else if(id==='q1'&&v===q+1)msg='That counts the '+p.unit+' that isn’t full. Count only the FULL '+p.units+' in the picture.';
+    else if(id==='q1'&&v===r)msg=r+' is how many '+p.item+' are left, not how many '+p.units+'. Count the full '+p.units+'.';
+    else if(id==='q2')msg='Look at the '+p.item+' that never made it into a '+p.unit+'. That leftover number is the remainder.';
+    else if(id==='q3'&&v===q)msg=q+' '+p.units+' hold only '+(q*p.size)+' '+p.item+'. '+(r===1?'Where does the last '+p.one+' go?':'Where do the other '+r+' go?');
+    else msg='Look at the picture again: '+q+' full '+p.units+' and '+r+' left over. What does this question need?';
+    s.fb[id]=['think',msg];s.ans[id]='';
+  }
+  pkRender();
+  if(PK.probs.every(function(x,j){var st=PK.st[j];return st&&st.ans.q1&&st.ans.q2&&st.ans.q3;})){var rv=document.getElementById(PK.revealId);if(rv&&!rv.classList.contains('show')){rv.classList.add('show');if(typeof miniCelebrate==='function')miniCelebrate(rv);}}
+}
+document.addEventListener('DOMContentLoaded',function(){if(document.getElementById('pkTool'))pkStart(0);});
+</script>
 <!-- OAO copy fix -->
 <script>
 (function(){
@@ -1442,6 +1574,36 @@ document.addEventListener('DOMContentLoaded', function() {
     if(navigator.clipboard && window.isSecureContext){
       navigator.clipboard.writeText(text).then(function(){ say('Copied! Now paste your answers where your teacher asked you to turn them in.', true); }, fallback);
     } else { fallback(); }
+  };
+})();
+</script>
+<!-- OAO download fix -->
+<script>
+(function(){
+  var orig = window.downloadJournal;
+  if(typeof orig !== 'function') return;
+  window.downloadJournal = function(){
+    try { gatherAnswers(); } catch(e) {}
+    var out = document.getElementById('gatheredOutput');
+    var text = out ? (out.value || '') : '';
+    var w = null;
+    try { w = window.open('', '_blank'); } catch(e) { w = null; }
+    if(w && w.document){
+      w.document.write('<pre style="font-family:Arial;white-space:pre-wrap;font-size:14px;line-height:1.5;">' + text.replace(/[&<>]/g, function(s){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[s]; }) + '</pre>');
+      w.document.close();
+      try { w.focus(); w.print(); } catch(e) {}
+      return;
+    }
+    try {
+      var blob = new Blob([text], {type:'text/plain'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = ((document.title || 'math-journal').replace(/[^a-z0-9]+/gi,'-').toLowerCase()) + '.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+    } catch(e) {
+      if(out){ out.focus(); out.select(); }
+    }
   };
 })();
 </script>

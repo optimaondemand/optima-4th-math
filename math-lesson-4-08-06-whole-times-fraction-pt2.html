@@ -668,7 +668,7 @@
 <div class="bubble hazel"><div class="bubble-avatar">H</div><div class="bubble-body"><div class="bubble-name">Hazel — visual thinker</div><div class="bubble-text">"I picture predicting first — <span class="frac"><span class="num">7</span><span class="den">8</span></span> is almost a whole, so <span class="frac"><span class="num">7</span><span class="den">8</span></span> of 20 should be just under 20 — then I verify with the algorithm to see how close I was."</div></div></div>
 <div class="bubble cora"><div class="bubble-avatar">C</div><div class="bubble-body"><div class="bubble-name">Cora — precise explainer</div><div class="bubble-text">"The precise term is algorithm — a step-by-step procedure that gives the correct answer every single time, whether or not a drawing would split evenly."</div></div></div>
 </div>
-<div class="callout callout-tip" style="margin-top:8px;"><span class="callout-icon">💡</span><p>Crew rule: <em>Multiply tops (Felix). Keep bottom. Resolve. Simplify. Pictures help when they help; the algorithm always works.</em></p></div>
+<div class="callout callout-tip" style="margin-top:8px;"><span class="callout-icon">💡</span><p>Crew rule: <em>Multiply the numerator by the whole number (Felix). Keep the denominator. Divide to make a mixed number. Simplify the leftover (Cora). Pictures help, and the steps always work (Hazel and Atlas).</em></p></div>
 </div></div>
 <div class="activity bl-yellow"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🔎</div><div><div class="activity-title">Warm-Up: Predict, Then Resolve</div><div class="activity-sub">When the picture is tricky, trust the algorithm.</div></div><span class="activity-time" style="background:#F5C518;color:#0E1C42;">~5 min</span></div><div class="activity-body"><p>For each abstract problem, pick the simplest-form answer.</p>
 <div style="background:#FFFBEB;border:2px solid #FCD34D;border-radius:14px;padding:16px;margin:12px 0;">
@@ -706,15 +706,16 @@
 <div class="activity bl-yellow"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🤔</div><div><div class="activity-title">Think About It</div><div class="activity-sub">A tricky one to predict.</div></div></div><div class="activity-body">
 <div class="callout callout-think"><span class="callout-icon">🧮</span><p>What is <strong><span class="frac"><span class="num">3</span><span class="den">4</span></span> × 30</strong>? Predict before you peek.</p></div>
 <div class="strategy-chip-row">
-<button class="strategy-chip" onclick="this.classList.toggle('selected')"><span class="frac"><span class="num">90</span><span class="den">4</span></span></button>
-<button class="strategy-chip" onclick="this.classList.toggle('selected')">22 <span class="frac"><span class="num">1</span><span class="den">2</span></span></button>
-<button class="strategy-chip" onclick="this.classList.toggle('selected')">23</button>
-<button class="strategy-chip" onclick="this.classList.toggle('selected')">10</button>
+<button class="strategy-chip" onclick="pickThink(this,'90/4')"><span class="frac"><span class="num">90</span><span class="den">4</span></span></button>
+<button class="strategy-chip" onclick="pickThink(this,'22 1/2')">22 <span class="frac"><span class="num">1</span><span class="den">2</span></span></button>
+<button class="strategy-chip" onclick="pickThink(this,'23')">23</button>
+<button class="strategy-chip" onclick="pickThink(this,'10')">10</button>
 </div>
-<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong><span class="frac"><span class="num">3</span><span class="den">4</span></span> × 30.</strong> Tops: 3 × 30 = 90. Bottom: 4. So <span class="frac"><span class="num">90</span><span class="den">4</span></span>. Resolve: 22 R 2. So 22 <span class="frac"><span class="num">2</span><span class="den">4</span></span> = <strong>22 <span class="frac"><span class="num">1</span><span class="den">2</span></span></strong>.</p></div>
+<div class="inline-feedback" id="thinkFb"></div>
+<div class="callout callout-tip" id="thinkReveal" style="display:none;"><span class="callout-icon">🧠</span><p><strong><span class="frac"><span class="num">3</span><span class="den">4</span></span> × 30.</strong> Numerator × whole number: 3 × 30 = 90. The denominator stays 4. So <span class="frac"><span class="num">90</span><span class="den">4</span></span>. Divide: 90 ÷ 4 = 22 R 2. So 22 <span class="frac"><span class="num">2</span><span class="den">4</span></span> = <strong>22 <span class="frac"><span class="num">1</span><span class="den">2</span></span></strong>.</p></div>
 <div class="journal-label">✏️ Why does the algorithm beat trying to split 30 into 4 equal whole-number piles? <span class="saved-dot" id="dot-think"></span></div>
 <textarea class="journal-box" data-label="Warm-Up — Think: 3/4 × 30 algorithm" id="journal-think" oninput="autoSave(this,'dot-think')" placeholder=""></textarea>
-</div></div><div class="tab-next-wrap"><p class="tab-transition-voice">Predict, then click to reveal each step.</p><button class="tab-next-btn" onclick="switchTab('learn')">Continue to 📐 Learn →</button></div>
+</div></div><div class="tab-next-wrap"><p class="tab-transition-voice">Predict first. Then build each step.</p><button class="tab-next-btn" onclick="switchTab('learn')">Continue to 📐 Learn →</button></div>
 </div>
 <div class="tab-panel" id="tab-learn">
 <div aria-label="Daily vocabulary flash cards" class="vocab-section">
@@ -742,7 +743,7 @@
 <div aria-label="Vocabulary card for resolve. Tap to flip." class="flip-card fc-color-3" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
 <div class="flip-card-inner">
 <div class="flip-card-front"><div class="fc-emoji">🧩</div><div class="fc-word">resolve</div><div class="fc-tap">tap to flip</div></div>
-<div class="flip-card-back"><div class="fc-word-back">resolve</div><div class="fc-def">divide top by bottom to get whole + remainder. <span class="frac"><span class="num">30</span><span class="den">9</span></span> → 3 R 3 = 3 <span class="frac"><span class="num">3</span><span class="den">9</span></span>.</div><div class="fc-tap-back">tap to flip back</div></div>
+<div class="flip-card-back"><div class="fc-word-back">resolve</div><div class="fc-def">divide the numerator by the denominator to get a whole number and a leftover. <span class="frac"><span class="num">30</span><span class="den">9</span></span> → 3 R 3 → 3 <span class="frac"><span class="num">3</span><span class="den">9</span></span>.</div><div class="fc-tap-back">tap to flip back</div></div>
 </div>
 </div>
 <div aria-label="Vocabulary card for verify. Tap to flip." class="flip-card fc-color-4" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
@@ -754,116 +755,110 @@
 </div>
 </div>
 
-<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> PREDICT the answer first. Then click each step to reveal the math.</p></div>
-<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#D97706;">🔬</div><div><div class="activity-title">Predict-then-Reveal Lab</div><div class="activity-sub">Type your prediction. Then click each step to reveal — and check your work.</div></div></div><div class="activity-body"><p>Three abstract problems. Predict, lock, then click through the three steps. See if your prediction matches.</p>
+<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> PREDICT the answer first. Then build it one step at a time.</p></div>
+<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#D97706;">🔬</div><div><div class="activity-title">Predict-then-Build Lab</div><div class="activity-sub">Predict. Then build the answer step by step.</div></div></div><div class="activity-body"><p>Three problems. Lock in a prediction, then do each step yourself. Did your prediction match?</p>
 <div class="rv-lab" data-d="9" data-id="1" data-n="5" data-whole="6" style="background:#FFFBEB;border:2px solid #FCD34D;border-radius:14px;padding:18px 14px;margin:14px 0;">
 <div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:22px;font-weight:900;color:#0E1C42;margin-bottom:6px;"><span class="frac"><span class="num">5</span><span class="den">9</span></span> × 6</div>
-<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:14px;">Tricky: 6 will not split evenly into 9 piles. Use the algorithm.</div>
+<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:14px;">Tricky: 6 will not split evenly into 9 piles. The steps still work.</div>
 <div style="background:#fff;border:2px solid #FCD34D;border-radius:10px;padding:14px;margin-bottom:14px;">
-<div style="text-align:center;font-size:13px;font-weight:800;color:#92400E;margin-bottom:10px;">YOUR PREDICTION (as a fraction or mixed number)</div>
+<div style="text-align:center;font-size:13px;font-weight:800;color:#92400E;margin-bottom:10px;">YOUR PREDICTION (a whole number, fraction, or mixed number)</div>
 <div style="display:flex;justify-content:center;gap:10px;align-items:center;flex-wrap:wrap;">
-<input id="rvPred-1" placeholder="e.g. 3 1/3" style="border:2px solid #D6D6D6;border-radius:10px;padding:10px 14px;font-size:18px;font-weight:800;text-align:center;width:160px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/>
-<button onclick="rvLockPrediction('1')" style="background:#3A6B9A;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">🔒 Lock prediction</button>
+<input id="rvPred-1" placeholder="" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:10px;padding:10px 14px;font-size:18px;font-weight:800;text-align:center;width:160px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/>
+<button onclick="rvLockPrediction('1')" style="background:#3A6B9A;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">🔒 Lock prediction</button>
 </div>
-<div id="rvPredStatus-1" style="text-align:center;margin-top:8px;font-size:13px;color:#7A88A8;">Type your guess, then lock it. You can reveal the steps after.</div>
+<div id="rvPredStatus-1" style="text-align:center;margin-top:8px;font-size:13px;color:#7A88A8;">Type your best guess and lock it. For a mixed number, put a space after the whole number.</div>
 </div>
 <div id="rvStep1-1" style="display:none;background:#fff;border:1.5px solid #FCD34D;border-radius:10px;padding:14px;margin-bottom:10px;text-align:center;">
-<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:6px;">STEP 1 · MULTIPLY TOPS</div>
-<div style="font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;">5 × 6 = <strong style="color:#D97706;">30</strong></div>
-<div style="font-size:12px;color:#3A4A6B;margin-top:4px;">Bottom stays 9. So far: <span class="frac"><span class="num">30</span><span class="den">9</span></span>.</div>
+<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:8px;">STEP 1 · MULTIPLY THE NUMERATOR BY THE WHOLE NUMBER</div>
+<div style="display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;"><span>5 × 6 =</span><input id="rvIn1-1" inputmode="numeric" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:8px;padding:6px 8px;font-size:18px;font-weight:800;text-align:center;width:64px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/><button onclick="rvCheck('1',1)" style="background:#D97706;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">✓ Check</button></div>
+<div id="rvFb1-1" style="font-size:13px;color:#3A4A6B;margin-top:8px;"></div>
 </div>
 <div id="rvStep2-1" style="display:none;background:#fff;border:1.5px solid #FCD34D;border-radius:10px;padding:14px;margin-bottom:10px;text-align:center;">
-<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:6px;">STEP 2 · RESOLVE</div>
-<div style="font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;"><span class="frac"><span class="num">30</span><span class="den">9</span></span> = <strong style="color:#D97706;">3 R 3</strong></div>
-<div style="font-size:12px;color:#3A4A6B;margin-top:4px;">9s in 30 = 3, remainder 3. So 3 <span class="frac"><span class="num">3</span><span class="den">9</span></span>.</div>
+<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:8px;">STEP 2 · DIVIDE BY THE DENOMINATOR</div>
+<div style="display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;"><span id="rvFrac2-1"></span><span>→</span><span id="rvDiv2-1"></span><span>=</span><input id="rvIn2a-1" inputmode="numeric" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:8px;padding:6px 8px;font-size:18px;font-weight:800;text-align:center;width:64px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/><span>R</span><input id="rvIn2b-1" inputmode="numeric" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:8px;padding:6px 8px;font-size:18px;font-weight:800;text-align:center;width:64px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/><button onclick="rvCheck('1',2)" style="background:#D97706;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">✓ Check</button></div>
+<div id="rvFb2-1" style="font-size:13px;color:#3A4A6B;margin-top:8px;">How many groups of 9 fit? What is left over?</div>
 </div>
 <div id="rvStep3-1" style="display:none;background:#fff;border:1.5px solid #FCD34D;border-radius:10px;padding:14px;margin-bottom:10px;text-align:center;">
-<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:6px;">STEP 3 · SIMPLIFY THE LEFTOVER</div>
-<div id="rvStep3Body-1" style="font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;"></div>
+<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:8px;">STEP 3 · SIMPLIFY THE LEFTOVER</div>
+<div style="display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;"><span id="rvMixed3-1"></span><span>=</span><span id="rvWhole3-1"></span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:3px;"><input id="rvIn3n-1" inputmode="numeric" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:6px;padding:2px 4px;font-size:16px;font-weight:800;text-align:center;width:46px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/><span style="display:block;width:52px;border-top:2px solid #0E1C42;"></span><input id="rvIn3d-1" inputmode="numeric" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:6px;padding:2px 4px;font-size:16px;font-weight:800;text-align:center;width:46px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/></span><button onclick="rvCheck('1',3)" style="background:#D97706;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">✓ Check</button></div>
+<div id="rvFb3-1" style="font-size:13px;color:#3A4A6B;margin-top:8px;">Type the leftover fraction in simplest form. If it is already simplest, type it as it is.</div>
 </div>
 <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:10px;">
-<button disabled="" id="rvBtn1-1" onclick="rvReveal('1',1)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">▶ Reveal Step 1</button>
-<button disabled="" id="rvBtn2-1" onclick="rvReveal('1',2)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">▶ Reveal Step 2</button>
-<button disabled="" id="rvBtn3-1" onclick="rvReveal('1',3)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">▶ Reveal Step 3</button>
-<button onclick="rvReset('1')" style="background:#E07B39;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">↺ Reset</button>
+<button onclick="rvReset('1')" style="background:#E07B39;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">↺ Reset</button>
 </div>
-<div id="rvStatus-1" style="background:#FDE68A;border:2px solid #FCD34D;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Predict first. Lock it. Then reveal each step.</div>
+<div id="rvStatus-1" style="background:#FDE68A;border:2px solid #FCD34D;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Predict first. Lock it. Then build each step.</div>
 </div>
 <div class="rv-lab" data-d="4" data-id="2" data-n="3" data-whole="30" style="background:#FFFBEB;border:2px solid #FCD34D;border-radius:14px;padding:18px 14px;margin:14px 0;">
 <div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:22px;font-weight:900;color:#0E1C42;margin-bottom:6px;"><span class="frac"><span class="num">3</span><span class="den">4</span></span> × 30</div>
-<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:14px;">Bigger numbers. 30 does split into 4 piles, but the algorithm still gives 22 <span class="frac"><span class="num">1</span><span class="den">2</span></span>.</div>
+<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:14px;">Bigger numbers. 30 will not split evenly into 4 piles either.</div>
 <div style="background:#fff;border:2px solid #FCD34D;border-radius:10px;padding:14px;margin-bottom:14px;">
-<div style="text-align:center;font-size:13px;font-weight:800;color:#92400E;margin-bottom:10px;">YOUR PREDICTION (as a fraction or mixed number)</div>
+<div style="text-align:center;font-size:13px;font-weight:800;color:#92400E;margin-bottom:10px;">YOUR PREDICTION (a whole number, fraction, or mixed number)</div>
 <div style="display:flex;justify-content:center;gap:10px;align-items:center;flex-wrap:wrap;">
-<input id="rvPred-2" placeholder="e.g. 3 1/3" style="border:2px solid #D6D6D6;border-radius:10px;padding:10px 14px;font-size:18px;font-weight:800;text-align:center;width:160px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/>
-<button onclick="rvLockPrediction('2')" style="background:#3A6B9A;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">🔒 Lock prediction</button>
+<input id="rvPred-2" placeholder="" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:10px;padding:10px 14px;font-size:18px;font-weight:800;text-align:center;width:160px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/>
+<button onclick="rvLockPrediction('2')" style="background:#3A6B9A;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">🔒 Lock prediction</button>
 </div>
-<div id="rvPredStatus-2" style="text-align:center;margin-top:8px;font-size:13px;color:#7A88A8;">Type your guess, then lock it. You can reveal the steps after.</div>
+<div id="rvPredStatus-2" style="text-align:center;margin-top:8px;font-size:13px;color:#7A88A8;">Type your best guess and lock it. For a mixed number, put a space after the whole number.</div>
 </div>
 <div id="rvStep1-2" style="display:none;background:#fff;border:1.5px solid #FCD34D;border-radius:10px;padding:14px;margin-bottom:10px;text-align:center;">
-<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:6px;">STEP 1 · MULTIPLY TOPS</div>
-<div style="font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;">3 × 30 = <strong style="color:#D97706;">90</strong></div>
-<div style="font-size:12px;color:#3A4A6B;margin-top:4px;">Bottom stays 4. So far: <span class="frac"><span class="num">90</span><span class="den">4</span></span>.</div>
+<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:8px;">STEP 1 · MULTIPLY THE NUMERATOR BY THE WHOLE NUMBER</div>
+<div style="display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;"><span>3 × 30 =</span><input id="rvIn1-2" inputmode="numeric" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:8px;padding:6px 8px;font-size:18px;font-weight:800;text-align:center;width:64px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/><button onclick="rvCheck('2',1)" style="background:#D97706;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">✓ Check</button></div>
+<div id="rvFb1-2" style="font-size:13px;color:#3A4A6B;margin-top:8px;"></div>
 </div>
 <div id="rvStep2-2" style="display:none;background:#fff;border:1.5px solid #FCD34D;border-radius:10px;padding:14px;margin-bottom:10px;text-align:center;">
-<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:6px;">STEP 2 · RESOLVE</div>
-<div style="font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;"><span class="frac"><span class="num">90</span><span class="den">4</span></span> = <strong style="color:#D97706;">22 R 2</strong></div>
-<div style="font-size:12px;color:#3A4A6B;margin-top:4px;">4s in 90 = 22, remainder 2. So 22 <span class="frac"><span class="num">2</span><span class="den">4</span></span>.</div>
+<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:8px;">STEP 2 · DIVIDE BY THE DENOMINATOR</div>
+<div style="display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;"><span id="rvFrac2-2"></span><span>→</span><span id="rvDiv2-2"></span><span>=</span><input id="rvIn2a-2" inputmode="numeric" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:8px;padding:6px 8px;font-size:18px;font-weight:800;text-align:center;width:64px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/><span>R</span><input id="rvIn2b-2" inputmode="numeric" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:8px;padding:6px 8px;font-size:18px;font-weight:800;text-align:center;width:64px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/><button onclick="rvCheck('2',2)" style="background:#D97706;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">✓ Check</button></div>
+<div id="rvFb2-2" style="font-size:13px;color:#3A4A6B;margin-top:8px;">How many groups of 4 fit? What is left over?</div>
 </div>
 <div id="rvStep3-2" style="display:none;background:#fff;border:1.5px solid #FCD34D;border-radius:10px;padding:14px;margin-bottom:10px;text-align:center;">
-<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:6px;">STEP 3 · SIMPLIFY THE LEFTOVER</div>
-<div id="rvStep3Body-2" style="font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;"></div>
+<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:8px;">STEP 3 · SIMPLIFY THE LEFTOVER</div>
+<div style="display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;"><span id="rvMixed3-2"></span><span>=</span><span id="rvWhole3-2"></span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:3px;"><input id="rvIn3n-2" inputmode="numeric" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:6px;padding:2px 4px;font-size:16px;font-weight:800;text-align:center;width:46px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/><span style="display:block;width:52px;border-top:2px solid #0E1C42;"></span><input id="rvIn3d-2" inputmode="numeric" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:6px;padding:2px 4px;font-size:16px;font-weight:800;text-align:center;width:46px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/></span><button onclick="rvCheck('2',3)" style="background:#D97706;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">✓ Check</button></div>
+<div id="rvFb3-2" style="font-size:13px;color:#3A4A6B;margin-top:8px;">Type the leftover fraction in simplest form. If it is already simplest, type it as it is.</div>
 </div>
 <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:10px;">
-<button disabled="" id="rvBtn1-2" onclick="rvReveal('2',1)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">▶ Reveal Step 1</button>
-<button disabled="" id="rvBtn2-2" onclick="rvReveal('2',2)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">▶ Reveal Step 2</button>
-<button disabled="" id="rvBtn3-2" onclick="rvReveal('2',3)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">▶ Reveal Step 3</button>
-<button onclick="rvReset('2')" style="background:#E07B39;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">↺ Reset</button>
+<button onclick="rvReset('2')" style="background:#E07B39;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">↺ Reset</button>
 </div>
-<div id="rvStatus-2" style="background:#FDE68A;border:2px solid #FCD34D;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Predict first. Lock it. Then reveal each step.</div>
+<div id="rvStatus-2" style="background:#FDE68A;border:2px solid #FCD34D;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Predict first. Lock it. Then build each step.</div>
 </div>
 <div class="rv-lab" data-d="9" data-id="3" data-n="2" data-whole="4" style="background:#FFFBEB;border:2px solid #FCD34D;border-radius:14px;padding:18px 14px;margin:14px 0;">
 <div style="text-align:center;font-family:'Lora',Georgia,serif;font-size:22px;font-weight:900;color:#0E1C42;margin-bottom:6px;"><span class="frac"><span class="num">2</span><span class="den">9</span></span> × 4</div>
-<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:14px;">Small leftover. Will the answer be more or less than 1?</div>
+<div style="text-align:center;font-size:13px;color:#3A4A6B;margin-bottom:14px;">Small numbers. Will the answer be more or less than 1?</div>
 <div style="background:#fff;border:2px solid #FCD34D;border-radius:10px;padding:14px;margin-bottom:14px;">
-<div style="text-align:center;font-size:13px;font-weight:800;color:#92400E;margin-bottom:10px;">YOUR PREDICTION (as a fraction or mixed number)</div>
+<div style="text-align:center;font-size:13px;font-weight:800;color:#92400E;margin-bottom:10px;">YOUR PREDICTION (a whole number, fraction, or mixed number)</div>
 <div style="display:flex;justify-content:center;gap:10px;align-items:center;flex-wrap:wrap;">
-<input id="rvPred-3" placeholder="e.g. 3 1/3" style="border:2px solid #D6D6D6;border-radius:10px;padding:10px 14px;font-size:18px;font-weight:800;text-align:center;width:160px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/>
-<button onclick="rvLockPrediction('3')" style="background:#3A6B9A;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">🔒 Lock prediction</button>
+<input id="rvPred-3" placeholder="" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:10px;padding:10px 14px;font-size:18px;font-weight:800;text-align:center;width:160px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/>
+<button onclick="rvLockPrediction('3')" style="background:#3A6B9A;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">🔒 Lock prediction</button>
 </div>
-<div id="rvPredStatus-3" style="text-align:center;margin-top:8px;font-size:13px;color:#7A88A8;">Type your guess, then lock it. You can reveal the steps after.</div>
+<div id="rvPredStatus-3" style="text-align:center;margin-top:8px;font-size:13px;color:#7A88A8;">Type your best guess and lock it. For a mixed number, put a space after the whole number.</div>
 </div>
 <div id="rvStep1-3" style="display:none;background:#fff;border:1.5px solid #FCD34D;border-radius:10px;padding:14px;margin-bottom:10px;text-align:center;">
-<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:6px;">STEP 1 · MULTIPLY TOPS</div>
-<div style="font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;">2 × 4 = <strong style="color:#D97706;">8</strong></div>
-<div style="font-size:12px;color:#3A4A6B;margin-top:4px;">Bottom stays 9. So far: <span class="frac"><span class="num">8</span><span class="den">9</span></span>.</div>
+<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:8px;">STEP 1 · MULTIPLY THE NUMERATOR BY THE WHOLE NUMBER</div>
+<div style="display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;"><span>2 × 4 =</span><input id="rvIn1-3" inputmode="numeric" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:8px;padding:6px 8px;font-size:18px;font-weight:800;text-align:center;width:64px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/><button onclick="rvCheck('3',1)" style="background:#D97706;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">✓ Check</button></div>
+<div id="rvFb1-3" style="font-size:13px;color:#3A4A6B;margin-top:8px;"></div>
 </div>
 <div id="rvStep2-3" style="display:none;background:#fff;border:1.5px solid #FCD34D;border-radius:10px;padding:14px;margin-bottom:10px;text-align:center;">
-<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:6px;">STEP 2 · RESOLVE</div>
-<div style="font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;"><span class="frac"><span class="num">8</span><span class="den">9</span></span> = <strong style="color:#D97706;">0 R 8</strong></div>
-<div style="font-size:12px;color:#3A4A6B;margin-top:4px;">9s in 8 = 0, remainder 8. So 0 <span class="frac"><span class="num">8</span><span class="den">9</span></span>.</div>
+<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:8px;">STEP 2 · DIVIDE BY THE DENOMINATOR</div>
+<div style="display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;"><span id="rvFrac2-3"></span><span>→</span><span id="rvDiv2-3"></span><span>=</span><input id="rvIn2a-3" inputmode="numeric" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:8px;padding:6px 8px;font-size:18px;font-weight:800;text-align:center;width:64px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/><span>R</span><input id="rvIn2b-3" inputmode="numeric" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:8px;padding:6px 8px;font-size:18px;font-weight:800;text-align:center;width:64px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/><button onclick="rvCheck('3',2)" style="background:#D97706;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">✓ Check</button></div>
+<div id="rvFb2-3" style="font-size:13px;color:#3A4A6B;margin-top:8px;">How many groups of 9 fit? What is left over?</div>
 </div>
 <div id="rvStep3-3" style="display:none;background:#fff;border:1.5px solid #FCD34D;border-radius:10px;padding:14px;margin-bottom:10px;text-align:center;">
-<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:6px;">STEP 3 · SIMPLIFY THE LEFTOVER</div>
-<div id="rvStep3Body-3" style="font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;"></div>
+<div style="font-size:11px;font-weight:900;color:#92400E;letter-spacing:.5px;margin-bottom:8px;">STEP 3 · SIMPLIFY THE LEFTOVER</div>
+<div style="display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42;"><span id="rvMixed3-3"></span><span>=</span><span id="rvWhole3-3"></span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:3px;"><input id="rvIn3n-3" inputmode="numeric" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:6px;padding:2px 4px;font-size:16px;font-weight:800;text-align:center;width:46px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/><span style="display:block;width:52px;border-top:2px solid #0E1C42;"></span><input id="rvIn3d-3" inputmode="numeric" autocomplete="off" style="border:2px solid #D6D6D6;border-radius:6px;padding:2px 4px;font-size:16px;font-weight:800;text-align:center;width:46px;font-family:'Lora',Georgia,serif;color:#0E1C42;" type="text"/></span><button onclick="rvCheck('3',3)" style="background:#D97706;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">✓ Check</button></div>
+<div id="rvFb3-3" style="font-size:13px;color:#3A4A6B;margin-top:8px;">Type the leftover fraction in simplest form. If it is already simplest, type it as it is.</div>
 </div>
 <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:10px;">
-<button disabled="" id="rvBtn1-3" onclick="rvReveal('3',1)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">▶ Reveal Step 1</button>
-<button disabled="" id="rvBtn2-3" onclick="rvReveal('3',2)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">▶ Reveal Step 2</button>
-<button disabled="" id="rvBtn3-3" onclick="rvReveal('3',3)" style="background:#7A88A8;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;opacity:0.6;">▶ Reveal Step 3</button>
-<button onclick="rvReset('3')" style="background:#E07B39;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">↺ Reset</button>
+<button onclick="rvReset('3')" style="background:#E07B39;color:#fff;border:none;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">↺ Reset</button>
 </div>
-<div id="rvStatus-3" style="background:#FDE68A;border:2px solid #FCD34D;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Predict first. Lock it. Then reveal each step.</div>
+<div id="rvStatus-3" style="background:#FDE68A;border:2px solid #FCD34D;border-radius:10px;padding:10px 14px;font-size:14px;color:#0E1C42;font-weight:700;line-height:1.5;text-align:center;">Predict first. Lock it. Then build each step.</div>
 </div>
-<div class="reveal-box" id="learnReveal"><strong>Resolved:</strong> <span class="frac"><span class="num">5</span><span class="den">9</span></span> × 6 = <span class="frac"><span class="num">30</span><span class="den">9</span></span> = <strong>3 <span class="frac"><span class="num">1</span><span class="den">3</span></span></strong>. <span class="frac"><span class="num">3</span><span class="den">4</span></span> × 30 = <span class="frac"><span class="num">90</span><span class="den">4</span></span> = <strong>22 <span class="frac"><span class="num">1</span><span class="den">2</span></span></strong>. <span class="frac"><span class="num">2</span><span class="den">9</span></span> × 4 = <strong><span class="frac"><span class="num">8</span><span class="den">9</span></span></strong> (already simplest).</div>
+<div class="reveal-box" id="learnReveal"><strong>All three built:</strong> <span class="frac"><span class="num">5</span><span class="den">9</span></span> × 6 = <span class="frac"><span class="num">30</span><span class="den">9</span></span> = <strong>3 <span class="frac"><span class="num">1</span><span class="den">3</span></span></strong>. <span class="frac"><span class="num">3</span><span class="den">4</span></span> × 30 = <span class="frac"><span class="num">90</span><span class="den">4</span></span> = <strong>22 <span class="frac"><span class="num">1</span><span class="den">2</span></span></strong>. <span class="frac"><span class="num">2</span><span class="den">9</span></span> × 4 = <strong><span class="frac"><span class="num">8</span><span class="den">9</span></span></strong> (already simplest).</div>
 </div></div>
-<div class="key-concept" style="margin-top:16px;"><div class="key-concept-label">📐 The Algorithm Works Always</div><p><strong>Step 1:</strong> Multiply the numerator by the whole number.</p><p><strong>Step 2:</strong> Keep the bottom. Resolve: divide by d for whole + remainder.</p><p><strong>Step 3:</strong> Simplify the leftover. Done.</p></div>
+<div class="key-concept" style="margin-top:16px;"><div class="key-concept-label">📐 What You Just Built: Steps That Always Work</div><p><strong>Step 1:</strong> Multiply the numerator by the whole number. Keep the denominator.</p><p><strong>Step 2:</strong> Divide by the denominator to get a whole number and a leftover.</p><p><strong>Step 3:</strong> Simplify the leftover fraction.</p></div>
 <div class="activity bl-violet" style="margin-top:16px;"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">📐</div><div><div class="activity-title">Picture It: <span class="frac"><span class="num">7</span><span class="den">8</span></span> × 20 — Stepped</div><div class="activity-sub">Algorithm step-by-step, with thought balloons.</div></div></div><div class="activity-body">
 <div style="background:#FFFBEB;border:2px solid #FCD34D;border-radius:14px;padding:18px;margin:12px 0;">
 <div style="display:flex;flex-direction:column;gap:12px;">
 <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid #FCD34D;border-radius:10px;padding:12px;">
 <div style="background:#D97706;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">1</div>
-<div style="flex:1;"><div style="font-family:'Lora',Georgia,serif;font-size:16px;color:#0E1C42;"><strong>7 × 20 = 140.</strong> Keep bottom 8.</div><div style="font-size:12px;color:#3A4A6B;margin-top:2px;font-style:italic;">"Tops multiply. Bottom stays."</div></div>
+<div style="flex:1;"><div style="font-family:'Lora',Georgia,serif;font-size:16px;color:#0E1C42;"><strong>7 × 20 = 140.</strong> Keep the denominator, 8.</div><div style="font-size:12px;color:#3A4A6B;margin-top:2px;font-style:italic;">"Multiply the numerator. The denominator stays."</div></div>
 <div style="font-family:'Lora',Georgia,serif;font-size:20px;font-weight:900;color:#D97706;"><span class="frac"><span class="num">140</span><span class="den">8</span></span></div>
 </div>
 <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid #FCD34D;border-radius:10px;padding:12px;">
@@ -899,21 +894,21 @@
 </div>
 <div style="text-align:center;color:#0E1C42;font-size:17px;font-weight:700;margin-top:14px;">SAME WEIGHT — multiplication is commutative.</div>
 </div>
-<div class="key-concept" style="margin-top:14px;"><div class="key-concept-label">⚖️ Lesson 8.06 in One Image</div>
+<div class="key-concept" style="margin-top:14px;"><div class="key-concept-label">⚖️ Lesson 4.08.06 in One Image</div>
 <div style="background:#FEF3C7;border:2px solid #FCD34D;border-radius:12px;padding:14px;margin-top:8px;font-family:'Lora',Georgia,serif;font-size:15px;color:#0E1C42;line-height:1.8;">
-<p style="text-align:center;margin:6px 0;"><strong>Fraction times whole equals whole times fraction. (Order doesn't matter.)</strong> Order doesn't matter.</p>
+<p style="text-align:center;margin:6px 0;"><strong>Fraction × whole number = whole number × fraction.</strong> Order doesn't matter.</p>
 <p style="text-align:center;margin:6px 0;font-style:italic;color:#3A4A6B;font-size:13px;">The algorithm is the algorithm. Pictures help when they help. The rule always works.</p>
 </div>
 </div>
 </div></div>
-<div class="tab-next-wrap"><p class="tab-transition-voice">You predicted, you revealed. Now show it.</p><button class="tab-next-btn" onclick="switchTab('assignment')">Continue to 🌟 Show What You Know →</button></div>
+<div class="tab-next-wrap"><p class="tab-transition-voice">You predicted, you built it. Now show what you know.</p><button class="tab-next-btn" onclick="switchTab('assignment')">Continue to 🌟 Show What You Know →</button></div>
 </div>
 <div class="tab-panel" id="tab-assignment">
-<div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">For each abstract problem, write the work and the simplest final answer.</div></div></div><div class="activity-body"><p>For each: multiply the numerator by the whole number, keep the denominator, resolve, simplify.</p>
+<div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">Two quick checks. Your full practice is in the Independent Practice PDF.</div></div></div><div class="activity-body"><p>Show your steps: multiply, divide, simplify.</p>
 <div class="callout callout-think"><span class="callout-icon">🧠</span><p><strong>Before each problem, ask:</strong> Did I multiply the numerator by the whole number? Is my answer in simplest form?</p></div>
-<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Tricky algorithms.</strong> Show all steps for each.<br/>(a) <span class="frac"><span class="num">5</span><span class="den">9</span></span> × 6<br/>(b) <span class="frac"><span class="num">1</span><span class="den">3</span></span> × 10<br/>(c) <span class="frac"><span class="num">2</span><span class="den">9</span></span> × 4</p><div class="journal-label">✏️ My steps + final <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: Tricky algorithms" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
-<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Word problem — birthday balloons.</strong> Jo bought 5 packs of balloons. Each pack holds <span class="frac"><span class="num">3</span><span class="den">8</span></span> of a dozen (a dozen = 12). (a) How many balloons total? (b) Show all three steps.</p><div class="journal-label">✏️ My work <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 6: Balloons" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
-<div class="activity bl-slate" style="margin-top:18px;border-left-color:#D97706;"><div class="activity-head"><div class="activity-num" style="background:#D97706;color:#fff;">🗺️</div><div><div class="activity-title">Connection Forward: Unit 8 Word Problems</div><div class="activity-sub">What comes next in Unit 8</div></div></div><div class="activity-body"><p>Next lesson is the Unit 8 closer — real word problems where you decide what to find and which model fits.</p></div></div></div></div>
+<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Build it.</strong> Find <span class="frac"><span class="num">5</span><span class="den">6</span></span> × 9. Write the answer as a mixed number in simplest form. Show all three steps.</p><div class="journal-label">✏️ My steps + final <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: 5/6 × 9" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
+<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Word problem — ribbon.</strong> Jo has a ribbon that is 14 feet long. She uses <span class="frac"><span class="num">2</span><span class="den">3</span></span> of it for a banner. How many feet of ribbon does she use? Write the answer as a mixed number.</p><div class="journal-label">✏️ My work <span class="saved-dot" id="dot-a6"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 2: Ribbon" id="journal-a6" oninput="autoSave(this,'dot-a6')" placeholder=""></textarea></div>
+<div class="activity bl-slate" style="margin-top:18px;border-left-color:#D97706;"><div class="activity-head"><div class="activity-num" style="background:#D97706;color:#fff;">🗺️</div><div><div class="activity-title">Connection Forward: Lesson 4.08.07</div><div class="activity-sub">What comes next in Unit 8</div></div></div><div class="activity-body"><p>Next lesson, <strong>Word Problems</strong>, puts these steps to work in real stories. You’ll decide what to find and sketch a bar model to show it.</p></div></div></div></div>
 <div class="gathered-box"><div class="gathered-head"><div class="gathered-head-icon">📋</div><div><div class="gathered-head-label">Your Math Journal</div><div class="gathered-head-title">All Answers from Today</div></div></div><div class="gathered-body"><textarea class="gathered-output" id="gatheredOutput" readonly="">Click "Gather My Answers" to collect your work.</textarea><div class="gathered-actions"><button class="purple-btn" onclick="gatherAnswers()">📋 Gather My Answers</button><button class="green-btn" onclick="copyAnswers()">Copy All Answers</button><button class="check-btn" onclick="downloadJournal()">Download My Math Journal</button></div></div></div>
 <div class="turn-in-card"><div class="turn-in-header"><div class="turn-in-header-icon">✅</div><div><div class="turn-in-header-label">Turn-In Checklist</div><div class="turn-in-header-title">Ready to Submit?</div></div></div><div class="turn-in-body"><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I completed both quick checks above.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I showed my model or my steps for each problem.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check">✓</span><span>I checked that each answer makes sense.</span></div></div></div>
 </div>
@@ -952,6 +947,19 @@ const models={}; // empty
 /* Warm-Up readiness: 3 quick rounds */
 const rRoundAnswers={1:'3 1/3',2:'4 1/2',3:'8/9'};
 const rRoundDone={1:false,2:false,3:false};
+/* Think About It: pick, get a hint, then see the steps */
+const THINK={ans:['90/4','22 1/2'],hints:{'23':'Close! 90 ÷ 4 is 22 with 2 left over. That is not quite 23.','10':'10 is 30 ÷ 3. Start by multiplying the numerator, 3, by the whole number, 30.'}};
+function pickThink(btn,val){
+  const fb=document.getElementById('thinkFb');
+  if(THINK.ans.indexOf(val)>=0){
+    btn.parentElement.querySelectorAll('button').forEach(b=>{b.classList.remove('selected');b.disabled=true;});
+    btn.classList.add('selected');
+    fb.className='inline-feedback show good';fb.innerHTML='✅ Yes! <span class="frac"><span class="num">90</span><span class="den">4</span></span> and 22 <span class="frac"><span class="num">1</span><span class="den">2</span></span> are the same amount.';
+    document.getElementById('thinkReveal').style.display='';
+  } else {
+    fb.className='inline-feedback show think';fb.innerHTML='Not quite. '+THINK.hints[val];
+  }
+}
 function pickReadinessRound(btn,pair,val){
   const correct=String(rRoundAnswers[pair]).split('|').indexOf(val)>=0;
   const fb=document.getElementById('rCmpFb');
@@ -1433,84 +1441,105 @@ function stRender(id){
     status.innerHTML = '✅ Done! Result: ' + (t.mW - t.sW) + ' ' + '<span class="frac"><span class="num">' + t.mF + '</span><span class="den">' + t.mD + '</span></span>' + ' = <strong>' + __fr(t.target) + '</strong>.';
   }
 }
+function rvFr(n,d){ return '<span class="frac"><span class="num">' + n + '</span><span class="den">' + d + '</span></span>'; }
+function rvMixed(w,n,d){ if(n === 0) return String(w); return (w > 0 ? w + ' ' : '') + rvFr(n,d); }
+function rvParse(str){
+  var s = String(str || '').replace(/⁄/g,'/').replace(/\s+/g,' ').trim();
+  var m;
+  if((m = s.match(/^(\d+)\s+(\d+)\s*\/\s*(\d+)$/))){ var dd = +m[3]; if(!dd) return null; return {v: +m[1] + (+m[2])/dd, w:+m[1], n:+m[2], d:dd}; }
+  if((m = s.match(/^(\d+)\s*\/\s*(\d+)$/))){ var d2 = +m[2]; if(!d2) return null; return {v: (+m[1])/d2, w:0, n:+m[1], d:d2}; }
+  if((m = s.match(/^\d+(\.\d+)?$/))){ return {v: parseFloat(s), w:parseFloat(s), n:0, d:1}; }
+  return null;
+}
+function rvNums(id){
+  var el = document.querySelector('.rv-lab[data-id="' + id + '"]');
+  var n = parseInt(el.getAttribute('data-n'), 10), d = parseInt(el.getAttribute('data-d'), 10), N = parseInt(el.getAttribute('data-whole'), 10);
+  var P = n * N, q = Math.floor(P / d), r = P - q * d, g = r ? gcd(r, d) : 1;
+  return {n:n, d:d, N:N, P:P, q:q, r:r, sn:r/g, sd:d/g};
+}
+function rvSay(id, k, html, good){
+  var fb = document.getElementById('rvFb' + k + '-' + id);
+  fb.innerHTML = html; fb.style.color = good ? '#1F8856' : '#A75728'; fb.style.fontWeight = '700';
+}
 function rvLockPrediction(id){
   var s = window.rvState = window.rvState || {};
   if(!s[id]) s[id] = {};
   var input = document.getElementById('rvPred-' + id);
   var pred = (input.value || '').trim();
-  if(!pred){ document.getElementById('rvPredStatus-' + id).innerHTML = '⚠️ Type a prediction first.'; document.getElementById('rvPredStatus-' + id).style.color = '#E07B39'; return; }
-  s[id].prediction = pred;
-  s[id].locked = true;
-  input.disabled = true;
-  input.style.background = '#F0F0F0';
-  document.getElementById('rvPredStatus-' + id).innerHTML = '🔒 Locked: <strong>' + pred + '</strong>. Now reveal each step.';
-  document.getElementById('rvPredStatus-' + id).style.color = '#3A6B9A';
-  // Enable Step 1 button
-  var b1 = document.getElementById('rvBtn1-' + id);
-  b1.disabled = false; b1.style.opacity = 1; b1.style.background = '#D97706';
+  var ps = document.getElementById('rvPredStatus-' + id);
+  if(!pred){ ps.innerHTML = '⚠️ Type a prediction first.'; ps.style.color = '#E07B39'; return; }
+  var p = rvParse(pred);
+  if(!p){ ps.innerHTML = '⚠️ Type a number, a fraction like 7/2, or a mixed number like 3 1/2.'; ps.style.color = '#E07B39'; return; }
+  s[id].prediction = p; s[id].locked = true;
+  input.disabled = true; input.style.background = '#F0F0F0';
+  ps.innerHTML = '🔒 Locked: <strong>' + (p.d === 1 ? p.w : rvMixed(p.w, p.n, p.d)) + '</strong>. Now build Step 1.';
+  ps.style.color = '#3A6B9A';
+  document.getElementById('rvStep1-' + id).style.display = 'block';
+  document.getElementById('rvStatus-' + id).innerHTML = 'Step 1: multiply the numerator by the whole number.';
 }
-function rvReveal(id, step){
+function rvCheck(id, step){
   var s = window.rvState = window.rvState || {};
   if(!s[id] || !s[id].locked) return;
-  var el = document.querySelector('.rv-lab[data-id="' + id + '"]');
-  if(!el) return;
-  var n = parseInt(el.getAttribute('data-n'), 10);
-  var d = parseInt(el.getAttribute('data-d'), 10);
-  var N = parseInt(el.getAttribute('data-whole'), 10);
-  s[id]['step' + step] = true;
-  document.getElementById('rvStep' + step + '-' + id).style.display = 'block';
-  var bThis = document.getElementById('rvBtn' + step + '-' + id);
-  bThis.style.background = '#7A88A8'; bThis.disabled = true; bThis.style.opacity = 0.6;
-  if(step < 3){
-    var bNext = document.getElementById('rvBtn' + (step+1) + '-' + id);
-    bNext.disabled = false; bNext.style.opacity = 1; bNext.style.background = '#D97706';
+  var t = rvNums(id);
+  var status = document.getElementById('rvStatus-' + id);
+  if(step === 1){
+    var v = parseInt(document.getElementById('rvIn1-' + id).value, 10);
+    if(v === t.P){
+      rvSay(id, 1, '✓ ' + t.n + ' × ' + t.N + ' = ' + t.P + '. The denominator stays ' + t.d + ', so you have ' + rvFr(t.P, t.d) + '.', true);
+      document.getElementById('rvFrac2-' + id).innerHTML = rvFr(t.P, t.d);
+      document.getElementById('rvDiv2-' + id).innerHTML = t.P + ' ÷ ' + t.d;
+      document.getElementById('rvStep2-' + id).style.display = 'block';
+      status.innerHTML = 'Step 2: divide by the denominator to find the whole number and the leftover.';
+    } else {
+      rvSay(id, 1, 'Not yet. Multiply the numerator (' + t.n + ') by the whole number (' + t.N + '). The denominator waits.', false);
+    }
+    return;
+  }
+  if(step === 2){
+    var qa = parseInt(document.getElementById('rvIn2a-' + id).value, 10);
+    var ra = parseInt(document.getElementById('rvIn2b-' + id).value, 10);
+    if(qa === t.q && ra === t.r){
+      rvSay(id, 2, '✓ ' + t.q + ' group' + (t.q === 1 ? '' : 's') + ' of ' + t.d + ' make ' + (t.q * t.d) + ', with ' + t.r + ' left over. So ' + rvFr(t.P, t.d) + ' = ' + rvMixed(t.q, t.r, t.d) + '.', true);
+      if(t.r === 0){ rvFinish(id, t); return; }
+      document.getElementById('rvMixed3-' + id).innerHTML = rvMixed(t.q, t.r, t.d);
+      document.getElementById('rvWhole3-' + id).innerHTML = t.q > 0 ? String(t.q) : '';
+      document.getElementById('rvStep3-' + id).style.display = 'block';
+      status.innerHTML = 'Step 3: simplify the leftover fraction.';
+    } else if(qa !== t.q){
+      rvSay(id, 2, 'Not yet. How many groups of ' + t.d + ' fit in ' + t.P + '? Count by ' + t.d + 's and stop before you pass ' + t.P + '. If ' + t.d + ' does not fit even once, the whole number is 0.', false);
+    } else {
+      rvSay(id, 2, 'The whole number is right. The leftover is ' + t.P + ' minus ' + t.q + ' groups of ' + t.d + '.', false);
+    }
+    return;
   }
   if(step === 3){
-    // Fill Step 3 body with simplify logic
-    var top = n * N;
-    var whole = Math.floor(top / d);
-    var rem = top - whole * d;
-    var body = document.getElementById('rvStep3Body-' + id);
-    var finalStr = '';
-    if(rem === 0){
-      finalStr = '<strong style="color:#2DB87A;font-size:22px;">' + whole + '</strong>';
-      body.innerHTML = 'No leftover. Final: ' + finalStr;
+    var nn = parseInt(document.getElementById('rvIn3n-' + id).value, 10);
+    var dd = parseInt(document.getElementById('rvIn3d-' + id).value, 10);
+    if(!nn || !dd){ rvSay(id, 3, 'Type a numerator and a denominator.', false); return; }
+    if(nn * t.d !== t.r * dd){
+      rvSay(id, 3, 'That fraction is a different size. Divide the numerator and the denominator of ' + rvFr(t.r, t.d) + ' by the SAME number.', false);
+    } else if(gcd(nn, dd) !== 1){
+      rvSay(id, 3, 'Same size, but it can be simpler. Is there a number bigger than 1 that divides both ' + nn + ' and ' + dd + '?', false);
     } else {
-      var g = gcd(rem, d);
-      var sn = rem / g, sd = d / g;
-      if(g === 1){
-        finalStr = '<strong style="color:#2DB87A;font-size:22px;">' + whole + ' ' + rem + '/' + d + '</strong>';
-        body.innerHTML = '<span class="frac"><span class="num">' + rem + '</span><span class="den">' + d + '</span></span>' + ' already simplest. Final: ' + finalStr;
-      } else {
-        finalStr = '<strong style="color:#2DB87A;font-size:22px;">' + whole + ' ' + sn + '/' + sd + '</strong>';
-        body.innerHTML = '<span class="frac"><span class="num">' + rem + '</span><span class="den">' + d + '</span></span>' + ' ÷ ' + '<span class="frac"><span class="num">' + g + '</span><span class="den">' + g + '</span></span>' + ' = ' + '<span class="frac"><span class="num">' + sn + '</span><span class="den">' + sd + '</span></span>' + '. Final: ' + finalStr;
-      }
+      rvSay(id, 3, '✓ ' + (t.sn === t.r ? rvFr(t.r, t.d) + ' is already in simplest form.' : rvFr(t.r, t.d) + ' = ' + rvFr(t.sn, t.sd) + '.'), true);
+      rvFinish(id, t);
     }
-    // Compare with prediction
-    var status = document.getElementById('rvStatus-' + id);
-    var pred = (s[id].prediction || '').replace(/\s+/g,'').replace(/\u2044/g,'/');
-    var realParts = [];
-    if(rem === 0){ realParts = [String(whole)]; }
-    else {
-      var g2 = gcd(rem, d);
-      var sn2 = rem / g2, sd2 = d / g2;
-      realParts = [whole + sn2 + '/' + sd2, whole + ' ' + sn2 + '/' + sd2, whole + '+' + sn2 + '/' + sd2, sn2 + '/' + sd2, rem + '/' + d, whole + ' ' + rem + '/' + d];
-    }
-    var pNorm = pred.replace(/\s+/g,'').replace(/\u2044/g,'/');
-    var matched = realParts.some(function(r){ return r.replace(/\s+/g,'') === pNorm; });
-    if(matched){
-      status.innerHTML = '🎉 <strong>Match!</strong> Your prediction matched the final.';
-      status.style.background = '#C8F0DA';
-    } else {
-      var finalText = rem === 0 ? whole : (whole + ' ' + (gcd(rem,d) === 1 ? (rem + '/' + d) : ((rem/gcd(rem,d)) + '/' + (d/gcd(rem,d)))));
-      status.innerHTML = '🔍 You predicted "<strong>' + s[id].prediction + '</strong>". Final answer is <strong>' + finalText + '</strong>. Close? Off by what?';
-      status.style.background = '#FFF0CC';
-    }
-    if(document.getElementById('learnReveal')) document.getElementById('learnReveal').classList.add('show');
-  } else {
-    var status = document.getElementById('rvStatus-' + id);
-    status.innerHTML = '✓ Step ' + step + ' revealed. Click Step ' + (step + 1) + '.';
-    status.style.background = '#FDE68A';
+  }
+}
+function rvFinish(id, t){
+  var s = window.rvState;
+  s[id].done = true;
+  var finalHtml = rvMixed(t.q, t.sn, t.sd);
+  var p = s[id].prediction, exact = t.P / t.d;
+  var status = document.getElementById('rvStatus-' + id);
+  var msg = '✅ Built it: ' + rvFr(t.n, t.d) + ' × ' + t.N + ' = <strong>' + finalHtml + '</strong>. ';
+  if(p && Math.abs(p.v - exact) < 1e-9){ msg += '🎉 Your prediction matched!'; }
+  else if(p && Math.abs(p.v - exact) < 1){ msg += 'Your prediction was close, less than 1 away.'; }
+  else { msg += 'Compare it with your prediction. What would you change next time?'; }
+  status.innerHTML = msg; status.style.background = '#C8F0DA';
+  if(['1','2','3'].every(function(k){ return s[k] && s[k].done; }) && document.getElementById('learnReveal')){
+    document.getElementById('learnReveal').classList.add('show');
+    if(typeof miniCelebrate === 'function') miniCelebrate(document.getElementById('learnReveal'));
   }
 }
 function rvReset(id){
@@ -1518,15 +1547,16 @@ function rvReset(id){
   s[id] = {};
   var input = document.getElementById('rvPred-' + id);
   if(input){ input.value = ''; input.disabled = false; input.style.background = '#fff'; }
-  document.getElementById('rvPredStatus-' + id).innerHTML = 'Type your guess, then lock it. You can reveal the steps after.';
-  document.getElementById('rvPredStatus-' + id).style.color = '#7A88A8';
-  [1,2,3].forEach(function(k){
-    document.getElementById('rvStep' + k + '-' + id).style.display = 'none';
-    var b = document.getElementById('rvBtn' + k + '-' + id);
-    b.disabled = true; b.style.opacity = 0.6; b.style.background = '#7A88A8';
-  });
+  var ps = document.getElementById('rvPredStatus-' + id);
+  ps.innerHTML = 'Type your best guess and lock it. For a mixed number, put a space after the whole number.'; ps.style.color = '#7A88A8';
+  [1,2,3].forEach(function(k){ document.getElementById('rvStep' + k + '-' + id).style.display = 'none'; });
+  ['rvIn1-','rvIn2a-','rvIn2b-','rvIn3n-','rvIn3d-'].forEach(function(p){ var x = document.getElementById(p + id); if(x) x.value = ''; });
+  document.getElementById('rvFb1-' + id).innerHTML = '';
+  var t = rvNums(id);
+  var f2 = document.getElementById('rvFb2-' + id); f2.innerHTML = 'How many groups of ' + t.d + ' fit? What is left over?'; f2.style.color = '#3A4A6B'; f2.style.fontWeight = '400';
+  var f3 = document.getElementById('rvFb3-' + id); f3.innerHTML = 'Type the leftover fraction in simplest form. If it is already simplest, type it as it is.'; f3.style.color = '#3A4A6B'; f3.style.fontWeight = '400';
   var status = document.getElementById('rvStatus-' + id);
-  status.innerHTML = 'Predict first. Lock it. Then reveal each step.';
+  status.innerHTML = 'Predict first. Lock it. Then build each step.';
   status.style.background = '#FDE68A';
 }
 function gcd(x, y){ if(y === 0) return x; return gcd(y, x % y); }
@@ -1675,6 +1705,36 @@ document.addEventListener('DOMContentLoaded', function() {
     if(navigator.clipboard && window.isSecureContext){
       navigator.clipboard.writeText(text).then(function(){ say('Copied! Now paste your answers where your teacher asked you to turn them in.', true); }, fallback);
     } else { fallback(); }
+  };
+})();
+</script>
+<!-- OAO download fix -->
+<script>
+(function(){
+  var orig = window.downloadJournal;
+  if(typeof orig !== 'function') return;
+  window.downloadJournal = function(){
+    try { gatherAnswers(); } catch(e) {}
+    var out = document.getElementById('gatheredOutput');
+    var text = out ? (out.value || '') : '';
+    var w = null;
+    try { w = window.open('', '_blank'); } catch(e) { w = null; }
+    if(w && w.document){
+      w.document.write('<pre style="font-family:Arial;white-space:pre-wrap;font-size:14px;line-height:1.5;">' + text.replace(/[&<>]/g, function(s){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[s]; }) + '</pre>');
+      w.document.close();
+      try { w.focus(); w.print(); } catch(e) {}
+      return;
+    }
+    try {
+      var blob = new Blob([text], {type:'text/plain'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = ((document.title || 'math-journal').replace(/[^a-z0-9]+/gi,'-').toLowerCase()) + '.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+    } catch(e) {
+      if(out){ out.focus(); out.select(); }
+    }
   };
 })();
 </script>
