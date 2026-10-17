@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Optima Academy Online — Grade 4 Math Lesson 4.16.01</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@400;600;700;800;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0} body{font-family:'Nunito','Century Gothic',Verdana,sans-serif;background:#F0F2F8;color:#0E1C42;line-height:1.6} .page-wrap{max-width:920px;margin:0 auto;background:#fff;box-shadow:0 0 40px rgba(14,28,66,.08)}
+.progress-wrap{position:sticky;top:0;z-index:200;background:#0E1C42;padding:8px 20px 10px;display:flex;align-items:center;gap:14px}.progress-label{font-size:12px;color:#F5C518;font-weight:800;text-transform:uppercase;letter-spacing:.8px;white-space:nowrap}.progress-track{flex:1;height:10px;background:rgba(255,255,255,.1);border-radius:10px;overflow:hidden}.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#86198F,#F5C518,#F5D0FE);border-radius:10px;transition:width .4s}.progress-pct{font-size:13px;color:#F5C518;font-weight:800;min-width:36px;text-align:right}
+.header{background:#0E1C42;border-bottom:6px solid #86198F;padding:20px 28px 18px;position:relative;overflow:hidden}.header::after{content:'';position:absolute;bottom:6px;left:0;right:0;height:3px;background:linear-gradient(90deg,#86198F,#F5D0FE,#86198F)}.header-brand{display:flex;align-items:center;gap:12px;margin-bottom:14px}.header-logo{width:52px;height:52px;border-radius:50%;background:#FFFFFF;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.15)}.header-logo img{width:48px;height:38px;display:block}.header-org{font-size:22px;color:#fff;font-weight:800;line-height:1.15}.header-sub{font-size:11px;color:#F5D0FE;letter-spacing:.5px}.header-title{font-family:'Lora',Georgia,serif;font-size:28px;color:#fff;font-weight:700;line-height:1.2;margin-bottom:10px}.header-title em{color:#A0E8DA;font-style:italic}.header-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(197,108,63,.18);border:1.5px solid rgba(197,108,63,.42);border-radius:28px;padding:6px 16px}.header-badge-icon{font-size:22px}.header-badge-text{font-size:18px;color:#fff;font-weight:800}
+.quote-strip{background:linear-gradient(135deg,#FAF0FC,#E3A8EC);border-bottom:2px solid #F5D0FE;padding:14px 28px;text-align:center}.quote-strip-text{font-family:'Lora',Georgia,serif;font-size:16px;font-style:italic;color:#5A4A3A;line-height:1.6}.quote-strip-attr{font-size:11px;color:#7A88A8;font-weight:700;margin-top:4px;text-transform:uppercase;letter-spacing:.5px}.info-strip{display:flex;flex-wrap:wrap;background:#fff;border-bottom:2px solid #E2E8F4}.info-cell{flex:1;min-width:150px;padding:12px 16px;border-right:1px solid #E2E8F4;display:flex;align-items:center;gap:10px}.info-cell:last-child{border-right:none}.info-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}.info-label{font-size:10px;color:#7A88A8;text-transform:uppercase;letter-spacing:.5px;font-weight:700}.info-value{font-size:16px;color:#0E1C42;font-weight:800;line-height:1.2}.info-detail{font-size:11px;color:#3A4A6B;line-height:1.3}.explorer-strip{display:flex;align-items:center;gap:16px;padding:12px 28px;background:linear-gradient(135deg,#1A2340,#0E1C42);border-bottom:3px solid #6B3FA0}.explorer-compass{font-size:28px;flex-shrink:0}.explorer-mission-label{font-size:10px;color:#F5C518;text-transform:uppercase;letter-spacing:1px;font-weight:800;margin-bottom:2px}.explorer-mission-text{font-size:15px;color:#fff;font-weight:700;line-height:1.3}
+.intro-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:20px 28px 4px}.intro-card{background:#fff;border:2px solid #E2E8F4;border-radius:18px;overflow:hidden;box-shadow:0 2px 10px rgba(14,28,66,.04)}.intro-card-head{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:2px solid}.intro-card-head-icon{width:40px;height:40px;border-radius:50%;color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0}.intro-card-head-label{font-size:10px;color:#7A88A8;text-transform:uppercase;letter-spacing:.8px;font-weight:700}.intro-card-head-title{font-size:18px;color:#0E1C42;font-weight:800;line-height:1.2}.intro-card-body{padding:14px 18px}.intro-card-body p{font-size:15px;color:#3A4A6B;line-height:1.65;margin-bottom:8px}.obj-line{display:flex;align-items:flex-start;gap:8px;font-size:15px;color:#0E1C42;line-height:1.55;margin-bottom:8px}.obj-icon{flex-shrink:0;font-size:17px}.theme-question .intro-card-head{background:#FFF8E6;border-color:#F5E6C8}.theme-question .intro-card-head-icon{background:#F5C518}.theme-objectives .intro-card-head{background:#F0E8FF;border-color:#D8CCF0}.theme-objectives .intro-card-head-icon{background:#6B3FA0}.need-strip{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:12px 28px 18px}.need-strip-label{font-size:13px;color:#3A4A6B;font-weight:700;white-space:nowrap}.need-chip{display:inline-flex;align-items:center;gap:5px;background:#E3F8ED;border:1.5px solid #B8E8CF;border-radius:20px;padding:5px 12px;font-size:13px;color:#0E1C42;font-weight:700}
+.tab-bar{position:sticky;top:38px;z-index:100;background:#fff;border-bottom:3px solid #E2E8F4;display:flex;overflow-x:auto;box-shadow:0 -4px 0 0 #0E1C42}.tab-btn{flex:1;min-width:130px;padding:12px 8px 11px;background:transparent;border:none;border-bottom:4px solid transparent;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:#7A88A8;cursor:pointer;transition:all .2s;white-space:nowrap;line-height:1.3;text-align:center}.tab-btn:hover{color:#0E1C42;background:#FAF0FC}.tab-btn.active{color:#0E1C42;border-bottom-color:#86198F;background:#fff}.tab-btn .tab-check{display:none;font-size:12px;color:#2DB87A;margin-left:4px;font-weight:800}.tab-btn.visited .tab-check{display:inline}.tab-panel{display:none;padding:24px 28px 36px}.tab-panel.active{display:block}
+/* ═══ VIDEO PLACEHOLDER ═══ */
+.video-placeholder-wrap {
+  display: none;
+  border-radius: 14px; overflow: hidden; margin: 0 0 18px;
+  border: 2px dashed rgba(107,63,160,0.4);
+  background: linear-gradient(135deg, #0E1C42, #1A2D5A);
+}
+.video-placeholder-inner {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 28px 20px;
+}
+.video-placeholder-inner .vp-icon { font-size: 34px; margin-bottom: 6px; }
+.video-placeholder-inner .vp-label {
+  font-size: 10px; color: #F5C518; text-transform: uppercase;
+  letter-spacing: 2px; font-weight: 800; margin-bottom: 4px;
+}
+.video-placeholder-inner .vp-title {
+  font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 8px;
+}
+.video-placeholder-inner .vp-slot {
+  font-family: monospace; font-size: 11px; color: #6B3FA0;
+  background: rgba(107,63,160,0.15);
+  padding: 3px 10px; border-radius: 4px;
+}
+.video-placeholder-inner .vp-notes {
+  font-size: 12px; color: rgba(255,255,255,0.8); font-style: italic;
+  margin-top: 10px; text-align: left; padding: 10px 12px;
+  background: rgba(0,0,0,0.25); border-radius: 6px; border-left: 3px solid #6B3FA0;
+}
+.activity{background:#fff;border:2px solid #E2E8F4;border-radius:18px;margin-bottom:18px;overflow:hidden;box-shadow:0 2px 10px rgba(14,28,66,.04)}.activity.bl-violet{border-left:6px solid #6B3FA0}.activity.bl-green{border-left:6px solid #2DB87A}.activity.bl-yellow{border-left:6px solid #F5C518}.activity.bl-orange{border-left:6px solid #701A75}.activity.bl-slate{border-left:6px solid #3A6B9A}.activity.bl-navy{border-left:6px solid #0E1C42}.activity-head{display:flex;align-items:center;gap:12px;padding:14px 20px 14px 18px;border-bottom:1.5px solid #E2E8F4}.activity-num{width:38px;height:38px;border-radius:14px;color:#fff;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}.activity-title{font-size:19px;color:#0E1C42;font-weight:800;line-height:1.2}.activity-sub{font-size:12px;color:#7A88A8}.activity-time{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:20px;font-size:13px;font-weight:700;color:#fff;white-space:nowrap;margin-left:auto}.activity-body{padding:18px 22px}.activity-body p{font-size:17px;color:#3A4A6B;line-height:1.75;margin-bottom:12px}.callout{border-radius:14px;padding:16px 18px;display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}.callout-icon{font-size:28px;flex-shrink:0;margin-top:2px}.callout p{font-size:16px;color:#0E1C42;line-height:1.65;margin:0}.callout-info{background:#FAF0FC;border:2px solid #F5D0FE}.callout-think{background:#FFF8E6;border:2px solid #F5E6C8}.callout-tip{background:#E3F8ED;border:2px solid #B8E8CF}.callout-vocab{background:#F0E8FF;border:2px solid #D8CCF0}.key-concept{background:#F0E8FF;border:2px solid #D8CCF0;border-radius:14px;padding:16px 18px;margin-bottom:14px}.key-concept-label{font-size:12px;color:#6B3FA0;text-transform:uppercase;letter-spacing:.5px;font-weight:800;margin-bottom:8px}.key-concept p{font-size:15px;color:#0E1C42;line-height:1.7;margin-bottom:6px}.socratic-box{background:linear-gradient(135deg,#F0E8FF,#E8DCFA);border:2px solid #D8CCF0;border-radius:14px;padding:16px 18px;margin-bottom:14px}.socratic-label{font-size:12px;color:#6B3FA0;text-transform:uppercase;letter-spacing:.5px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:6px}.socratic-q{font-size:16px;color:#0E1C42;line-height:1.7;font-style:italic;margin-bottom:8px}.journal-label{font-size:13px;color:#3A4A6B;font-weight:700;margin:10px 0 4px;display:flex;align-items:center;gap:6px}.journal-box{width:100%;min-height:80px;border:2px solid #E2E8F4;border-radius:12px;padding:12px 14px;font-family:'Nunito',sans-serif;font-size:15px;color:#0E1C42;resize:vertical;transition:border-color .2s;line-height:1.6}.journal-box:focus{outline:none;border-color:#6B3FA0;box-shadow:0 0 0 3px rgba(107,63,160,.1)}.saved-dot{width:8px;height:8px;border-radius:50%;background:#E2E8F4;display:inline-block;transition:background .3s}.saved-dot.saved{background:#2DB87A}.check-btn,.purple-btn,.green-btn,.orange-btn{display:inline-flex;align-items:center;gap:6px;color:#fff;border:none;border-radius:12px;padding:10px 20px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;margin-top:10px}.check-btn{background:#3A6B9A}.purple-btn{background:#6B3FA0}.green-btn{background:#2DB87A}.orange-btn{background:#701A75}.reveal-box{display:none;background:#E3F8ED;border:2px solid #B8E8CF;border-radius:12px;padding:14px 16px;margin-top:10px;font-size:15px;color:#0E1C42;line-height:1.6;font-weight:600}.reveal-box.show{display:block}.hint-callout{background:#FFF8E6;border:2px solid #F5C518;border-radius:10px;padding:10px 14px;margin:12px 0;font-size:14px;color:#5A4A00;font-weight:700}.task-box{background:#FAFBFF;border:2px solid #E2E8F4;border-radius:14px;padding:16px 18px;margin-bottom:14px}.task-label{font-size:12px;color:#6B3FA0;text-transform:uppercase;letter-spacing:.6px;font-weight:800;margin-bottom:10px}.feedback-branch{display:none;margin-top:16px;border-radius:14px;overflow:hidden;padding:16px}.feedback-branch.show{display:block}.feedback-pass{background:#E3F8ED;border:2px solid #B8E8CF}.feedback-retry{background:#FFF0E6;border:2px solid #F5C8A0}
+.pv-mat{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:14px 0}.pv-col{border:2px solid #E2E8F4;border-radius:14px;min-height:150px;background:#FAFBFF;overflow:hidden}.pv-col-head{padding:8px 3px;text-align:center;color:#fff;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.2px;line-height:1.15}.hundredthousands .pv-col-head{background:#1A8A7D}.tenthousands .pv-col-head{background:#C43B6B}.thousands .pv-col-head{background:#6B3FA0}.hundreds .pv-col-head{background:#3A6B9A}.tens .pv-col-head{background:#2DB87A}.ones .pv-col-head{background:#701A75}.pv-col-body{padding:7px 5px;min-height:90px;display:flex;gap:4px;flex-wrap:wrap;align-content:flex-start;justify-content:center}.disk{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#fff;box-shadow:inset 0 -3px 0 rgba(0,0,0,.16);user-select:none}.disk.ht{background:#1A8A7D}.disk.tk{background:#C43B6B}.disk.k{background:#6B3FA0}.disk.h{background:#3A6B9A}.disk.t{background:#2DB87A}.disk.o{background:#701A75}.pv-count{text-align:center;font-size:18px;font-weight:900;color:#0E1C42;margin:2px 0 8px}.pv-controls{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px}.mini-btn{border:none;border-radius:9px;padding:6px;font-weight:900;color:#fff;cursor:pointer}.mini-btn.add{background:#6B3FA0}.mini-btn.remove{background:#7A88A8}.number-display{background:#0E1C42;color:#fff;border-radius:16px;padding:14px;text-align:center;margin:14px 0}.number-display .digits{font-family:'Lora',Georgia,serif;font-size:34px;font-weight:800;letter-spacing:3px}.number-display .words{font-size:14px;color:#F5C518;font-weight:800;margin-top:4px}.value-card-row{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.value-card{border:2px solid #E2E8F4;background:#fff;border-radius:14px;padding:10px 14px;min-width:110px;text-align:center;cursor:pointer;transition:.2s}.value-card:hover,.value-card.selected{border-color:#6B3FA0;background:#F0E8FF}.value-card.good{background:#E3F8ED;border-color:#2DB87A}.value-card.bad{background:#FFF0E6;border-color:#701A75;animation:shake .25s}.value-card .big{font-size:24px;font-weight:900;color:#0E1C42}.value-card .small{font-size:12px;color:#3A4A6B;font-weight:800}.digit-strip{display:flex;justify-content:center;gap:8px;margin:14px 0}.digit-tile{width:56px;height:64px;border-radius:14px;border:3px solid #E2E8F4;background:#fff;font-size:30px;font-weight:900;display:flex;align-items:center;justify-content:center;cursor:pointer}.digit-tile.active{background:#F0E8FF;border-color:#6B3FA0;color:#6B3FA0}.place-bubble{font-size:15px;font-weight:800;color:#0E1C42;background:#FFF8E6;border:2px solid #F5E6C8;border-radius:12px;padding:12px;text-align:center;margin-top:8px}.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}.match-card{padding:12px;border:2px solid #E2E8F4;border-radius:14px;background:#fff;cursor:pointer;font-size:15px;font-weight:800}.match-card.selected{border-color:#6B3FA0;background:#F0E8FF}.match-card.matched{border-color:#2DB87A;background:#E3F8ED}.sortable-row{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.digit-bank-card{width:62px;height:62px;border-radius:14px;background:#fff;border:3px solid #E2E8F4;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;cursor:pointer}.digit-bank-card.selected{border-color:#6B3FA0;background:#F0E8FF}.chart-slot{height:64px;border:3px dashed #D8CCF0;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:#6B3FA0;background:#FBF8FF;cursor:pointer}.chart-slot.filled{border-style:solid;background:#F0E8FF}.q-block{background:#FAFBFF;border:2px solid #E2E8F4;border-radius:14px;padding:14px 18px;margin-bottom:14px}.q-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#6B3FA0;color:#fff;font-weight:800;font-size:14px;margin-right:8px;vertical-align:middle}.q-text{font-size:16px;color:#0E1C42;line-height:1.65;margin-bottom:4px}.gathered-box{background:#fff;border:2px solid #E2E8F4;border-radius:18px;overflow:hidden;margin-top:24px}.gathered-head{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#0E1C42,#1A2D5A);padding:18px 22px}.gathered-head-icon{font-size:32px}.gathered-head-label{font-size:11px;color:#F5C518;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}.gathered-head-title{font-size:18px;color:#fff;font-weight:800}.gathered-body{padding:16px 22px}.gathered-output{width:100%;min-height:180px;border:2px solid #E2E8F4;border-radius:12px;padding:14px;font-family:'Courier New',monospace;font-size:13px;color:#0E1C42;resize:vertical;background:#FAFBFF}.gathered-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.tab-next-wrap{text-align:center;padding:24px 0 8px}.tab-transition-voice{font-family:'Lora',Georgia,serif;font-size:15px;font-style:italic;color:#5A4A3A;margin-bottom:12px;line-height:1.6}.tab-next-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#86198F,#C561D2);color:#fff;border:none;border-radius:28px;padding:13px 28px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:0 4px 14px rgba(197,108,63,.3);transition:all .2s}.turn-in-card{background:#fff;border:2px solid #E2E8F4;border-radius:18px;overflow:hidden;box-shadow:0 2px 10px rgba(14,28,66,.04);margin-top:18px}.turn-in-header{display:flex;align-items:center;gap:14px;background:#FAF0FC;padding:18px 22px;border-bottom:2px solid #F5D0FE}.turn-in-header-icon{font-size:36px}.turn-in-header-label{font-size:11px;color:#86198F;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}.turn-in-header-title{font-family:'Lora',Georgia,serif;font-size:22px;color:#0E1C42;font-weight:700}.turn-in-body{padding:18px 22px 20px}.turn-in-item{display:flex;align-items:center;gap:14px;padding:12px 16px;background:#FAFBFF;border:1.5px solid #E2E8F4;border-radius:12px;cursor:pointer;transition:.2s;margin-bottom:10px}.turn-in-item.checked{background:#E3F8ED;border-color:#B8E8CF}.turn-in-check{width:26px;height:26px;border-radius:8px;border:2px solid #D8CCF0;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}.turn-in-item.checked .turn-in-check{background:#2DB87A;border-color:#2DB87A;color:#fff}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}@media(max-width:720px){.intro-2col,.pv-mat,.match-grid{grid-template-columns:1fr}.tab-panel{padding:20px 18px}.activity-head{align-items:flex-start}.activity-time{display:none}.header-title{font-size:24px}.number-display .digits{font-size:28px}.pv-mat{gap:8px}.disk{width:32px;height:32px}}
+.student-task-banner{background:#FAF0FC;border:2px solid #F5D0FE;border-left:6px solid #55C8E8;border-radius:14px;padding:14px 16px;margin:14px 0;font-size:16px;color:#0E1C42;line-height:1.55;font-weight:800}.student-task-banner .task-steps{display:block;font-size:14px;font-weight:700;color:#3A4A6B;margin-top:6px}.student-task-banner strong{color:#0E1C42}
+#confettiCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10000}
+
+
+/* ═══════════ HEADER ═══════════ */
+.header {
+  background: #0E1C42;
+  border-bottom: 6px solid #55C8E8;
+  padding: 20px 28px 18px;
+  position: relative;
+  overflow: hidden;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #55C8E8, #E3A8EC, #55C8E8);
+}
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.header-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.header-logo img { width: 48px; height: 38px; }
+.header-org { font-size: 22px; color: #fff; font-weight: 800; line-height: 1.15; }
+.header-sub { font-size: 11px; color: #55C8E8; letter-spacing: 0.5px; }
+.header-title {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 28px;
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+.header-title em { color: #A0E8DA; font-style: italic; }
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(85, 200, 232, 0.15);
+  border: 1.5px solid rgba(85, 200, 232, 0.35);
+  border-radius: 28px;
+  padding: 6px 16px;
+}
+.header-badge-icon { font-size: 22px; }
+.header-badge-text { font-size: 18px; color: #fff; font-weight: 800; }
+
+/* ═══════════ FOOTER ═══════════ */
+.footer {
+  background: #0E1C42;
+  border-top: 4px solid #86198F;
+  padding: 18px 28px;
+  text-align: center;
+}
+.footer-main { font-size: 14px; color: #fff; margin-bottom: 4px; }
+.footer-main span { color: #86198F; font-weight: 700; }
+.footer-sub { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 2px; }
+.footer-copy { font-size: 11px; color: rgba(255,255,255,0.3); }
+
+
+/* ═══════════ CONFETTI ═══════════ */
+#confettiCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 10000;
+}
+
+
+.page-feedback{display:none;margin:12px 0;padding:12px 14px;border-radius:12px;border:2px solid #F5E6C8;background:#FDF8FF;color:#0E1C42;font-weight:800;line-height:1.45;box-shadow:0 2px 8px rgba(14,28,66,.06)}.page-feedback.show{display:block}.page-feedback.good{background:#E3F8ED;border-color:#B8E8CF}.page-feedback.warn{background:#FFF3DC;border-color:#F5E6C8}.page-feedback .small{display:block;font-weight:700;color:#3A4A6B;margin-top:3px;font-size:13px}
+
+/* tactile number talk + inline feedback upgrades */
+.number-talk-visual{background:linear-gradient(135deg,#FAFBFF,#FAF0FC);border:2px solid #F5D0FE;border-radius:16px;padding:16px;margin:14px 0;box-shadow:inset 0 0 0 1px rgba(85,200,232,.08)}
+.number-talk-prompt{font-size:16px;color:#0E1C42;font-weight:800;margin-bottom:10px;line-height:1.5}.notice-wonder-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}.notice-wonder-box{background:#fff;border:2px solid #E2E8F4;border-radius:14px;padding:12px 14px;min-height:98px}.notice-wonder-box h4{font-size:13px;color:#1A8A7D;text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px}.visual-equation{font-size:28px;font-weight:900;text-align:center;color:#0E1C42;background:#fff;border:2px solid #E2E8F4;border-radius:14px;padding:12px;margin:10px 0}.open-number-line{position:relative;height:86px;margin:18px 8px 4px}.open-number-line::before{content:'';position:absolute;left:5%;right:5%;top:42px;height:6px;background:#0E1C42;border-radius:8px}.nt-tick{position:absolute;top:29px;width:18px;height:18px;background:#55C8E8;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 2px #0E1C42;transform:translateX(-50%)}.nt-tick-label{position:absolute;top:54px;transform:translateX(-50%);font-weight:900;font-size:13px;color:#0E1C42}.jump-arc{position:absolute;top:2px;height:50px;border:3px solid #D4943A;border-bottom:0;border-radius:60px 60px 0 0}.jump-label{position:absolute;top:3px;transform:translateX(-50%);background:#FFF3DC;border:2px solid #F5E6C8;border-radius:12px;padding:2px 8px;font-size:12px;font-weight:900;color:#5A4A3A}.ten-frame-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0}.ten-frame{display:grid;grid-template-columns:repeat(5,22px);gap:5px;background:#fff;border:2px solid #E2E8F4;border-radius:12px;padding:8px}.tf-dot{width:22px;height:22px;border-radius:50%;background:#55C8E8;border:2px solid #0E1C42}.tf-empty{width:22px;height:22px;border-radius:50%;background:#FAFBFF;border:2px dashed #B0B8CC}.bar-talk{display:flex;height:48px;border:3px solid #0E1C42;border-radius:12px;overflow:hidden;background:#fff;margin:12px 0}.bar-talk .seg{display:flex;align-items:center;justify-content:center;font-weight:900;color:#0E1C42;border-right:2px solid #0E1C42}.bar-talk .seg:last-child{border-right:0}.bar-talk .known{background:#FAF0FC}.bar-talk .unknown{background:#FFF3DC}.strategy-chip-row{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.strategy-chip{border:2px solid #E2E8F4;background:#fff;border-radius:999px;padding:10px 14px;font-family:'Nunito',sans-serif;font-weight:900;color:#0E1C42;cursor:pointer;transition:.18s}.strategy-chip:hover{border-color:#55C8E8;background:#FAF0FC;transform:translateY(-1px)}.strategy-chip.selected{border-color:#34B76F;background:#E3F8ED}.inline-feedback,.page-feedback{display:none;margin:12px 0;border-radius:14px;padding:12px 14px;font-weight:800;line-height:1.5}.inline-feedback.show,.page-feedback.show{display:block}.inline-feedback.good,.page-feedback.good{background:#E3F8ED;border:2px solid #B8E8CF;color:#0E1C42}.inline-feedback.think,.page-feedback.think,.inline-feedback.try,.page-feedback.warn{background:#FFF3DC;border:2px solid #F5E6C8;color:#5A4A3A}.inline-feedback.info,.page-feedback.info{background:#FAF0FC;border:2px solid #F5D0FE;color:#0E1C42}
+@media(max-width:620px){.notice-wonder-grid{grid-template-columns:1fr}.visual-equation{font-size:22px}.open-number-line{margin-left:0;margin-right:0}.strategy-chip{width:100%;justify-content:center}}
+
+
+/* ═══════════ DAILY VOCABULARY ═══════════ */
+.daily-vocab {
+  margin: 14px 28px 18px;
+  background: #F0E8FF;
+  border: 2px solid #D8CCF0;
+  border-left: 6px solid #6B3FA0;
+  border-radius: 16px;
+  padding: 14px 18px;
+}
+.daily-vocab-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 900;
+  color: #0E1C42;
+  margin-bottom: 8px;
+}
+.daily-vocab-sub {
+  font-size: 13px;
+  color: #3A4A6B;
+  margin-bottom: 10px;
+}
+.daily-vocab-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.daily-vocab-item {
+  background: #FFFFFF;
+  border: 1.5px solid #D8CCF0;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #3A4A6B;
+  line-height: 1.45;
+}
+.daily-vocab-term {
+  display: block;
+  font-size: 15px;
+  color: #0E1C42;
+  font-weight: 900;
+  margin-bottom: 3px;
+}
+@media (max-width: 620px) { .daily-vocab-grid { grid-template-columns: 1fr; } }
+
+/* ═══════════ SPARKLE: ANIMATIONS & MICRO-INTERACTIONS ═══════════ */
+@keyframes diskPop { 0%{transform:scale(0) rotate(-45deg);opacity:0} 60%{transform:scale(1.25) rotate(5deg);opacity:1} 100%{transform:scale(1) rotate(0)} }
+.disk { animation: diskPop .35s cubic-bezier(.34,1.56,.64,1) both; }
+.disk:hover { transform:scale(1.15); box-shadow: 0 4px 12px rgba(0,0,0,.2), inset 0 -3px 0 rgba(0,0,0,.16); transition: transform .15s, box-shadow .15s; cursor:pointer; }
+
+@keyframes digitBump { 0%{transform:translateY(8px);opacity:.4} 100%{transform:translateY(0);opacity:1} }
+.number-display .digits.bumping { animation: digitBump .25s ease-out; }
+
+.mini-btn { transition: transform .12s, box-shadow .12s, filter .12s; }
+.mini-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,.15); }
+.mini-btn:active { transform: translateY(1px) scale(.95); }
+.mini-btn.add:hover { filter: brightness(1.15); }
+
+.check-btn,.purple-btn,.green-btn,.orange-btn { transition: transform .15s, box-shadow .15s, filter .12s; }
+.check-btn:hover,.purple-btn:hover,.green-btn:hover,.orange-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.15); filter: brightness(1.1); }
+.check-btn:active,.purple-btn:active,.green-btn:active,.orange-btn:active { transform: translateY(1px) scale(.97); }
+
+@keyframes digitGlow { 0%{box-shadow:0 0 0 0 rgba(107,63,160,.5)} 70%{box-shadow:0 0 0 12px rgba(107,63,160,0)} 100%{box-shadow:none} }
+.digit-tile { transition: transform .15s, border-color .2s, background .2s; }
+.digit-tile:hover { transform: translateY(-3px) scale(1.05); }
+.digit-tile.active { animation: digitGlow .5s ease-out; }
+
+.pv-col { transition: transform .2s, box-shadow .2s; }
+.pv-col:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(14,28,66,.08); }
+
+@keyframes matchPulse { 0%{transform:scale(1)} 40%{transform:scale(1.06)} 100%{transform:scale(1)} }
+.match-card { transition: transform .15s, border-color .2s, background .2s, box-shadow .2s; }
+.match-card:hover:not(.matched) { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(14,28,66,.1); }
+.match-card.matched { animation: matchPulse .35s ease-out; box-shadow: 0 0 0 3px rgba(45,184,122,.3); }
+
+.digit-bank-card { transition: transform .15s, border-color .2s, box-shadow .2s; }
+.digit-bank-card:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 6px 16px rgba(14,28,66,.1); }
+.digit-bank-card.selected { animation: digitGlow .5s ease-out; }
+
+@keyframes slotPulse { 0%,100%{border-color:#D8CCF0} 50%{border-color:#6B3FA0} }
+.chart-slot:not(.filled) { animation: slotPulse 2s ease-in-out infinite; }
+.chart-slot.filled { animation: matchPulse .3s ease-out; }
+
+@keyframes revealSlide { 0%{opacity:0;transform:translateY(10px)} 100%{opacity:1;transform:translateY(0)} }
+.reveal-box.show, .feedback-branch.show, .inline-feedback.show { animation: revealSlide .35s ease-out; }
+
+.tab-btn { transition: all .2s; position: relative; }
+@keyframes gentleFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+.tab-next-btn { animation: gentleFloat 3s ease-in-out infinite; }
+.tab-next-btn:hover { animation: none; transform: translateY(-2px) scale(1.03); box-shadow: 0 8px 24px rgba(197,108,63,.35); transition: all .2s; }
+
+.flip-card:not(.flipped):hover .flip-card-inner { transform: rotateY(8deg); }
+.flip-card.flipped:hover .flip-card-inner { transform: rotateY(172deg); }
+.flip-card { transition: transform .15s; }
+.flip-card:hover { transform: translateY(-3px); }
+
+@keyframes checkPop { 0%{transform:scale(0)} 60%{transform:scale(1.3)} 100%{transform:scale(1)} }
+.turn-in-item.checked .turn-in-check { animation: checkPop .3s ease-out; }
+
+@keyframes progressShimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+.progress-fill { background: linear-gradient(90deg,#86198F,#F5C518,#F5D0FE,#86198F); background-size: 200% 100%; animation: progressShimmer 3s linear infinite; }
+
+.journal-box:focus { border-color: #6B3FA0; box-shadow: 0 0 0 3px rgba(107,63,160,.12), 0 0 20px rgba(107,63,160,.06); }
+@keyframes savedPulse { 0%{transform:scale(1)} 50%{transform:scale(1.8)} 100%{transform:scale(1)} }
+.saved-dot.saved { animation: savedPulse .4s ease-out; }
+
+.callout { transition: transform .2s, box-shadow .2s; }
+.callout:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(14,28,66,.06); }
+.key-concept { transition: box-shadow .3s; }
+.key-concept:hover { box-shadow: 0 0 0 2px rgba(107,63,160,.15), 0 4px 16px rgba(107,63,160,.08); }
+.socratic-box { transition: box-shadow .3s; }
+.socratic-box:hover { box-shadow: 0 0 0 2px rgba(107,63,160,.12), 0 6px 20px rgba(107,63,160,.08); }
+.activity { transition: transform .2s, box-shadow .2s; }
+.activity:hover { box-shadow: 0 6px 24px rgba(14,28,66,.08); }
+.need-chip { transition: transform .15s; }
+.need-chip:hover { transform: translateY(-2px); }
+.explorer-strip:hover .explorer-compass { display:inline-block; animation: compassSpin 1.5s ease-in-out; }
+@keyframes compassSpin { 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
+@keyframes miniPop { 0%{transform:translateY(0) scale(0);opacity:1} 50%{transform:translateY(-30px) scale(1.2);opacity:1} 100%{transform:translateY(-60px) scale(.6);opacity:0} }
+.value-card { transition: transform .15s, border-color .2s, background .2s, box-shadow .2s; }
+.value-card:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 6px 16px rgba(14,28,66,.08); }
+
+/* ═══════════ LEARN TAB VOCABULARY FLIP CARDS ═══════════ */
+.vocab-flip-section{
+  background:#F0E8FF;
+  border:2px solid #D8CCF0;
+  border-left:6px solid #6B3FA0;
+  border-radius:18px;
+  padding:16px 18px;
+  margin:0 0 18px;
+  box-shadow:0 2px 10px rgba(14,28,66,.04);
+}
+.vocab-flip-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;}
+.vocab-flip-icon{width:40px;height:40px;border-radius:14px;background:#6B3FA0;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.vocab-flip-title{font-size:20px;font-weight:900;color:#0E1C42;line-height:1.2;}
+.vocab-flip-sub{font-size:13px;color:#3A4A6B;font-weight:700;margin-top:3px;line-height:1.45;}
+.vocab-flip-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+.vocab-card{min-height:138px;border:0;background:transparent;perspective:900px;cursor:pointer;font-family:'Nunito',sans-serif;text-align:initial;padding:0;}
+.vocab-card-inner{position:relative;width:100%;height:100%;min-height:138px;transition:transform .45s ease;transform-style:preserve-3d;}
+.vocab-card.flipped .vocab-card-inner{transform:rotateY(180deg);}
+.vocab-card-face{position:absolute;inset:0;border-radius:16px;border:2px solid #D8CCF0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(14,28,66,.05);}
+.vocab-card-front{background:#fff;}
+.vocab-card-back{background:linear-gradient(135deg,#0E1C42,#1A2D5A);transform:rotateY(180deg);border-color:#0E1C42;}
+.vocab-card-term{font-size:22px;line-height:1.15;font-weight:900;color:#0E1C42;margin-bottom:8px;}
+.vocab-card-hint{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:#6B3FA0;}
+.vocab-card-def{font-size:15px;line-height:1.5;font-weight:800;color:#fff;}
+.vocab-card-term-small{font-size:11px;color:#55C8E8;text-transform:uppercase;letter-spacing:1px;font-weight:900;margin-bottom:8px;}
+@media(max-width:620px){.vocab-flip-grid{grid-template-columns:1fr}.vocab-card,.vocab-card-inner{min-height:120px}}
+
+
+/* Daily Vocabulary Flip Cards */
+.vocab-section { background:#fff; border:2px solid #D8CCF0; border-left:6px solid #6B3FA0; border-radius:18px; padding:18px 20px 20px; margin:0 0 20px; box-shadow:0 2px 10px rgba(14,28,66,.04); }
+.vocab-section-head { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; }
+.vocab-section-icon { width:42px; height:42px; border-radius:50%; color:#fff; background:#6B3FA0; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+.vocab-section-label { font-size:11px; color:#6B3FA0; text-transform:uppercase; letter-spacing:.9px; font-weight:900; margin-bottom:3px; }
+.vocab-section-title { font-size:21px; color:#0E1C42; font-weight:900; line-height:1.2; }
+.vocab-section-directions { font-size:15px; color:#3A4A6B; line-height:1.55; font-weight:700; margin:0 0 14px; }
+.vocab-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0 0; }
+.flip-card { perspective:900px; height:180px; cursor:pointer; }
+.flip-card-inner { position:relative; width:100%; height:100%; transition:transform .5s ease; transform-style:preserve-3d; }
+.flip-card.flipped .flip-card-inner { transform:rotateY(180deg); }
+.flip-card-front, .flip-card-back { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; backface-visibility:hidden; -webkit-backface-visibility:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:14px 18px; text-align:center; border:2px solid #E2E8F4; box-shadow:0 2px 10px rgba(14,28,66,.06); }
+.flip-card-front { background:#FAFBFF; border-top:5px solid #6B3FA0; }
+.flip-card-front .fc-emoji { font-size:30px; margin-bottom:8px; }
+.flip-card-front .fc-word { font-size:22px; font-weight:900; color:#0E1C42; margin-bottom:6px; line-height:1.15; }
+.flip-card-front .fc-tap { font-size:11px; color:#6B3FA0; font-weight:900; letter-spacing:.6px; text-transform:uppercase; }
+.flip-card-back { background:linear-gradient(145deg,#0E1C42,#1A2D5A); border-color:#0E1C42; transform:rotateY(180deg); }
+.flip-card-back .fc-word-back { font-size:11px; color:#55C8E8; text-transform:uppercase; letter-spacing:1px; font-weight:900; margin-bottom:8px; }
+.flip-card-back .fc-def { font-size:15px; color:#fff; line-height:1.5; font-weight:700; }
+.flip-card-back .fc-tap-back { font-size:11px; color:rgba(255,255,255,.55); margin-top:9px; font-weight:800; letter-spacing:.4px; text-transform:uppercase; }
+.fc-color-1 .flip-card-front { border-top-color:#3A6B9A; }
+.fc-color-2 .flip-card-front { border-top-color:#2DB87A; }
+.fc-color-3 .flip-card-front { border-top-color:#F5C518; }
+.fc-color-4 .flip-card-front { border-top-color:#701A75; }
+@media(max-width:620px){.vocab-grid{grid-template-columns:1fr}.flip-card{height:165px}.flip-card-front .fc-word{font-size:20px}}
+
+
+/* OAO Math Crew thought bubbles */
+.bubble-row{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0;align-items:flex-start}
+.bubble{display:flex;gap:10px;align-items:flex-start;flex:1 1 260px;max-width:340px;background:#fff;border:2px solid #E2E8F4;border-radius:18px;padding:12px 14px;box-shadow:0 2px 10px rgba(14,28,66,.05);position:relative}
+.bubble.atlas{border-left:5px solid #86198F;background:linear-gradient(135deg,#fff,#FAF0FC)}
+.bubble.hazel{border-left:5px solid #2DB87A;background:linear-gradient(135deg,#fff,#F4FBF7)}
+.bubble.felix{border-left:5px solid #F5C518;background:linear-gradient(135deg,#fff,#FEFBEB)}
+.bubble.cora{border-left:5px solid #3A6B9A;background:linear-gradient(135deg,#fff,#F4F8FC)}
+.bubble-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;flex-shrink:0;font-family:'Lora',Georgia,serif}
+.bubble.atlas .bubble-avatar{background:#86198F}
+.bubble.hazel .bubble-avatar{background:#2DB87A}
+.bubble.felix .bubble-avatar{background:#F5C518;color:#0E1C42}
+.bubble.cora .bubble-avatar{background:#3A6B9A}
+.bubble-body{flex:1;min-width:0}
+.bubble-name{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.7px;margin-bottom:3px;color:#86198F}
+.bubble.hazel .bubble-name{color:#1A8A5A}
+.bubble.felix .bubble-name{color:#8A6D2B}
+.bubble.cora .bubble-name{color:#86198F}
+.bubble-text{font-size:14.5px;color:#0E1C42;line-height:1.5;font-weight:600;font-family:'Lora',Georgia,serif;font-style:italic}
+@media(max-width:620px){.bubble{flex:1 1 100%;max-width:100%}}
+
+/* Vertical (stacked) fractions — elementary math display */
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-family:'Lora',Georgia,serif;line-height:1.05;margin:0 .12em;font-size:.95em;position:relative;top:-.05em}
+.frac .num{display:block;padding:0 .28em .04em;border-bottom:1.6px solid currentColor;font-weight:700}
+.frac .den{display:block;padding:.04em .28em 0;font-weight:700}
+.frac.frac-lg{font-size:1.05em}
+.frac.frac-on-dark .num{border-bottom-color:#fff}
+
+/* Conversion Chart popup */
+
+.cc-fab:hover{transform:scale(1.05)}
+
+.cc-overlay.show{display:flex}
+.cc-modal{background:#FDF8FF;border:3px solid #86198F;border-radius:18px;max-width:520px;width:100%;max-height:88vh;overflow-y:auto;padding:22px 24px;box-shadow:0 10px 40px rgba(91,46,16,.35);font-family:'Lora',Georgia,serif}
+.cc-modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #F5D0FE}
+.cc-modal-title{font-size:20px;font-weight:900;color:#0E2A4A}
+
+
+.cc-section-head{font-size:11px;color:#92400E;text-transform:uppercase;letter-spacing:.6px;font-weight:900;margin-bottom:6px;padding-bottom:4px;border-bottom:1.5px dashed #E3A8EC}
+
+.cc-row strong{color:#86198F;font-weight:900;font-family:Lora,Georgia,serif}
+.cc-row em{color:#7A88A8;font-style:italic;font-size:12px}
+/* STANDARDS TOGGLE BAR */
+.standards-toggle-bar{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#1a2a3a,#1e3448);padding:10px 28px;cursor:pointer;user-select:none;border-bottom:1px solid rgba(85,200,232,.12);}
+.standards-toggle-bar:hover{background:linear-gradient(135deg,#1e3044,#23394d);}
+.standards-toggle-label{font-size:12px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:1px;font-weight:700;display:flex;align-items:center;gap:8px;}
+.standards-toggle-arrow{font-size:10px;color:rgba(255,255,255,.35);transition:transform .25s ease;}
+.standards-toggle-bar.open .standards-toggle-arrow{transform:rotate(180deg);}
+.standards-panel{max-height:0;overflow:hidden;transition:max-height .3s ease;background:#14212e;border-bottom:1px solid rgba(85,200,232,.08);}
+.standards-panel.open{max-height:200px;}
+.standards-panel-inner{display:flex;gap:32px;padding:14px 28px 16px;flex-wrap:wrap;}
+.standards-group{display:flex;flex-direction:column;gap:6px;}
+.standards-group-label{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.8px;font-weight:700;}
+.standards-codes{font-size:12px;color:rgba(255,255,255,.65);line-height:1.7;font-weight:500;}
+.standards-codes .fl-code{color:#80CBC4;}
+.standards-codes .tx-code{color:#FFD54F;}
+.footer-standards{font-size:10px;color:rgba(255,255,255,.3);margin-top:6px;letter-spacing:.3px;}
+
+.practice-note { font-size: 12px; color: #8899AA; text-align: center; margin: 6px 0 2px; font-style: italic; line-height: 1.4; }
+</style>
+<style id="fluencyStyles">
+.fluency-box{background:#fff;border:2px solid #F5C518;border-radius:18px;overflow:hidden;margin-bottom:22px;font-family:'Nunito',sans-serif}
+.fluency-head{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#F5C518,#E8B723);padding:14px 20px;flex-wrap:wrap}
+.fluency-head-icon{font-size:26px;line-height:1}
+.fluency-head-label{font-size:10px;color:#0E1C42;font-weight:800;text-transform:uppercase;letter-spacing:0.5px}
+.fluency-head-title{font-size:15px;color:#0E1C42;font-weight:800}
+.fluency-timer-ui{margin-left:auto;display:flex;align-items:center;gap:10px}
+.fluency-timer-display{font-size:20px;font-weight:800;color:#0E1C42;min-width:46px;text-align:center}
+.fluency-start-btn{background:#0E1C42;color:#fff;border:none;border-radius:10px;padding:8px 14px;font-weight:700;font-size:12px;cursor:pointer}
+.fluency-start-btn:disabled{opacity:0.55;cursor:default}
+.fluency-body{padding:16px 20px}
+.fluency-instructions{font-size:13px;color:#4A5568;margin:0 0 12px}
+.fluency-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.fluency-item{display:flex;align-items:center;gap:6px;background:#FAFBFF;border:1.5px solid #E2E8F4;border-radius:10px;padding:8px 10px;flex-wrap:wrap}
+.fluency-item.fluency-correct{border-color:#2DB87A;background:#EAFBF3}
+.fluency-item.fluency-wrong{border-color:#E07B39;background:#FDF1E9}
+.fluency-q{font-size:13px;font-weight:700;color:#0E1C42;white-space:normal}
+.fluency-input{width:52px;border:1.5px solid #CBD5E8;border-radius:6px;padding:4px;font-size:14px;text-align:center;font-family:'Nunito',sans-serif}
+.fluency-input:disabled{background:#F0F2F8}
+.fluency-check-btn{background:#2DB87A;color:#fff;border:none;border-radius:10px;padding:10px 18px;font-weight:800;font-size:13px;cursor:pointer}
+.fluency-check-btn:disabled{opacity:0.55;cursor:default}
+.fluency-result{margin-top:10px;font-size:14px;color:#0E1C42;font-weight:700}
+.vfrac{display:inline-flex;flex-direction:column;align-items:center;font-size:12px;line-height:1.05;vertical-align:middle;margin:0 2px}
+.vfrac .vf-num{padding:0 3px;border-bottom:1.5px solid #0E1C42}
+.vfrac .vf-den{padding:0 3px}
+/* ═══ Unit 16 — Atlas Town palette (plum) ═══ */
+.tb-stage{background:#FDF8FF;border:2px solid #F5D0FE;border-radius:14px;padding:18px 14px;margin:14px 0}
+.tb-story{background:#fff;border-left:4px solid #86198F;padding:12px 14px;border-radius:8px;margin-bottom:14px;color:#0E1C42;font-family:'Lora',Georgia,serif;font-size:15px;line-height:1.6}
+.tb-step{text-align:center;font-size:12px;color:#5B1062;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 6px}
+.tb-btnrow{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.tb-split{background:#fff;border:2px solid #F5D0FE;color:#5B1062;border-radius:10px;padding:7px 12px;font-weight:900;font-size:13px;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .12s}
+.tb-split:hover{transform:translateY(-2px)}
+.tb-split.on{background:#86198F;border-color:#5B1062;color:#fff}
+.tb-split:disabled{opacity:.4;cursor:default;transform:none}
+.tb-split.big{font-size:15px;padding:10px 18px;background:#86198F;color:#fff;border-color:#5B1062}
+.tb-status{background:#FAF0FC;border:2px solid #F5D0FE;border-radius:10px;padding:10px 14px;font-size:14.5px;color:#5B1062;font-weight:700;line-height:1.5;text-align:center;margin-top:10px}
+.tb-answer{display:flex;justify-content:center;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0}
+.tb-input{border:2px solid #D6D6D6;border-radius:10px;padding:8px 12px;font-size:18px;font-weight:800;text-align:center;width:90px;font-family:'Lora',Georgia,serif;color:#0E1C42}
+.tb-unit{font-weight:800;color:#3A4A6B}
+.tb-go{background:#86198F;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif}
+.tb-reset{background:#E07B39;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif}
+.tb-reset:disabled{opacity:.45;cursor:default}
+.fb-box{display:none;margin-top:12px;border-radius:14px;padding:14px 16px;line-height:1.55;font-size:14.5px;color:#0E1C42}
+.fb-box.show{display:block;animation:revealSlide .35s ease-out}
+.fb-box.pass{background:#E3F8ED;border:2px solid #B8E8CF}
+.fb-box.retry{background:#FFF3DC;border:2px solid #F5E6C8}
+.fb-box .fb-head{font-weight:900;margin-bottom:4px}
+.ready-row{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0;font-family:'Lora',Georgia,serif;font-size:18px;font-weight:800;color:#0E1C42}
+.pp-card{background:#fff;border:2px solid #F5D0FE;border-radius:12px;padding:10px;margin:8px 0}
+.pp-new{animation:ppDrop .45s ease-out}
+@keyframes ppDrop{0%{opacity:0;transform:translateY(-18px)}100%{opacity:1;transform:translateY(0)}}
+.pp-strip{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;min-height:34px;padding:8px;background:#FDF8FF;border:2px dashed #F5D0FE;border-radius:10px}
+.pp-one{display:inline-flex;gap:1px;padding:2px;border:2px solid #5B1062;border-radius:5px;background:#fff}
+.pp-one i{display:block;width:9px;height:20px;background:#86198F;border-radius:1px}
+.pp-tenth{display:inline-block;width:11px;height:20px;background:#86198F;border-radius:2px;outline:2px solid #fff;box-shadow:0 0 0 1px #5B1062}
+.pp-read{text-align:center;font-family:'Lora',Georgia,serif;font-size:16px;color:#0E1C42;margin-top:6px}
+.pp-work{display:flex;gap:18px;justify-content:center;align-items:flex-end;flex-wrap:wrap;margin-top:6px}
+.col-form{display:inline-block;font-family:'Lora',Georgia,serif;font-size:26px;font-weight:800;color:#0E1C42;background:#fff;border:2px solid #F5D0FE;border-radius:12px;padding:10px 18px}
+.col-row,.col-head{display:grid;grid-template-columns:26px 30px 14px 30px;text-align:center;line-height:1.25}
+.col-pt{color:#86198F}
+.col-line{border-top:3px solid #0E1C42;margin:4px 0 2px 26px}
+.col-head{font-family:'Nunito',sans-serif;font-size:10px;font-weight:900;color:#5B1062;text-transform:uppercase;letter-spacing:.3px}
+.same-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14.5px}
+.same-table th{background:#86198F;color:#fff;padding:8px 10px;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+.same-table td{border:1.5px solid #F5D0FE;padding:9px 10px;background:#fff;color:#0E1C42;font-weight:700}
+.same-table tr:nth-child(even) td{background:#FDF8FF}
+.same-table td:last-child{color:#5B1062;font-family:'Lora',Georgia,serif;font-size:16px}
+.word-note{background:#FAF0FC;border-left:4px solid #86198F;border-radius:8px;padding:10px 14px;margin:10px 0;font-size:14.5px;color:#0E1C42;line-height:1.55}
+.word-note b{color:#5B1062}
+@media(max-width:620px){.col-form{font-size:22px}.same-table{font-size:13px}}
+.tt-tray{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:stretch;background:#FDF8FF;border:2px dashed #F5D0FE;border-radius:12px;padding:10px 12px}
+.tt-side{display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center}
+.tt-label{font-size:11px;font-weight:900;color:#5B1062;text-transform:uppercase;letter-spacing:.5px}
+.tt-bars{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;min-height:28px;align-items:center}
+.tt-empty{color:#7A88A8;font-weight:700;font-size:13px}
+.tt-slots{display:grid;grid-template-columns:repeat(5,16px);gap:4px;padding:6px;border:2px solid #F5D0FE;border-radius:8px;background:#fff;transition:box-shadow .2s}
+.tt-slots.ready{box-shadow:0 0 0 4px #F5C518;border-color:#F5C518}
+.tt-slot{width:16px;height:22px;border-radius:3px;border:1.5px dashed #EDC2F3;background:#fff}
+.tt-slot.full{background:#86198F;border:1.5px solid #5B1062}
+.tt-pop{animation:ttPop .6s ease-out}
+@keyframes ttPop{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+.tb-split.glow{background:#F5C518;color:#0E1C42;border-color:#C9A100;animation:ttGlow 1s ease-in-out infinite alternate}
+@keyframes ttGlow{from{box-shadow:0 0 0 0 rgba(245,197,24,.6)}to{box-shadow:0 0 0 8px rgba(245,197,24,0)}}
+.col-carry{font-size:15px;color:#86198F;line-height:1;min-height:16px}
+@media(max-width:620px){.tt-tray{grid-template-columns:1fr}}
+.tt-slots.wide{grid-template-columns:repeat(10,16px)}
+.struck{text-decoration:line-through;text-decoration-color:#86198F;text-decoration-thickness:3px;color:#7A88A8}
+.col-row.h,.col-head.h{grid-template-columns:26px 40px 14px 52px 72px}
+.col-head.h span{font-size:9.5px}
+.cm-mat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.cm-col{background:#fff;border:2px solid #F5D0FE;border-radius:12px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:150px;transition:box-shadow .2s}
+.cm-col.ready{box-shadow:0 0 0 4px #F5C518;border-color:#F5C518}
+.cm-head{font-size:11px;font-weight:900;color:#5B1062;text-transform:uppercase;letter-spacing:.4px;text-align:center;line-height:1.3}
+.cm-head small{display:block;color:#3A4A6B;font-size:10px;letter-spacing:0}
+.cm-coins{display:grid;grid-template-columns:repeat(5,30px);gap:4px;justify-content:center;min-height:30px}
+.cm-count{font-size:12px;font-weight:900;color:#0E1C42}
+.coin{width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-size:9.5px;font-weight:900;box-shadow:inset 0 -2px 0 rgba(0,0,0,.15)}
+.coin-d{background:radial-gradient(circle at 35% 35%,#FFE38A,#D9A520);color:#5C4300;border:2px solid #B8860B;font-size:10.5px}
+.coin-t{background:radial-gradient(circle at 35% 35%,#F2F5F8,#A8B4C4);color:#2E3A4A;border:2px solid #8592A3;width:26px;height:26px;margin:2px}
+.coin-p{background:radial-gradient(circle at 35% 35%,#E8A06A,#B87333);color:#fff;border:2px solid #8B4513}
+.cm-purse{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#FDF8FF;border:2px dashed #F5D0FE;border-radius:12px;padding:8px}
+.cm-purse .cm-coins{min-height:30px}
+@media(max-width:620px){.cm-coins{grid-template-columns:repeat(5,24px)}.coin{width:24px;height:24px;font-size:8px}.coin-t{width:21px;height:21px}}
+.pb-tag{display:flex;justify-content:center;margin:6px 0 12px}
+.pb-tag>div{display:inline-flex;align-items:center;gap:14px;background:#fff;border:3px solid #5B1062;border-radius:10px 26px 26px 10px;padding:10px 26px 10px 18px;position:relative;box-shadow:0 3px 0 #F5D0FE}
+.pb-tag>div::before{content:'';position:absolute;right:12px;top:50%;width:9px;height:9px;margin-top:-5px;border-radius:50%;border:2.5px solid #5B1062;background:#FDF8FF}
+.tag-item{font-family:'Lora',Georgia,serif;font-size:17px;font-weight:700;color:#0E1C42}
+.tag-price{font-family:'Lora',Georgia,serif;font-size:26px;font-weight:900;color:#86198F;margin-right:14px}
+.pb-ctrl{display:flex;gap:4px;justify-content:center}
+.pb-ctrl .tb-split{padding:4px 10px;font-size:13px}
+.three-ways{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;transition:opacity .3s}
+.three-ways>div{background:#fff;border:2px solid #F5D0FE;border-radius:12px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.mx-wrap{display:inline-flex;align-items:center;gap:8px;font-family:'Lora',Georgia,serif;font-size:18px;font-weight:800;color:#0E1C42}
+.mx-frac{display:inline-flex;flex-direction:column;align-items:center;gap:3px}
+.mx-frac .tb-input{width:64px;padding:5px 6px;font-size:16px}
+.mx-bar{width:70px;height:0;border-top:2.5px solid #0E1C42}
+.mx-fixed{font-family:'Lora',Georgia,serif;font-size:18px;font-weight:800;color:#0E1C42;padding:4px 0}
+.receipt{max-width:340px;margin:8px auto;background:#fff;border:2px dashed #E3A8EC;border-radius:6px;padding:14px 18px;font-family:'Courier New',monospace;font-size:15px;color:#0E1C42}
+.receipt .r-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0}
+.receipt .r-line{border-top:2px dashed #E3A8EC;margin:6px 0}
+.receipt .tb-input{width:96px;font-size:15px;padding:4px 6px;font-family:'Courier New',monospace}
+@media(max-width:620px){.three-ways{grid-template-columns:1fr}}
+/* ═══ Unit 14 place-value discs + plates ═══ */
+.disc{width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-size:9.5px;font-weight:900;color:#fff;box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
+.disc-o{background:#E07B39;border:2px solid #A8521F}
+.disc-t{background:#86198F;border:2px solid #5B1062}
+.disc-h{background:#C99A06;border:2px solid #8A6A04;color:#3B2D00}
+.plates{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.plate{width:132px;min-height:112px;border-radius:50%;background:radial-gradient(circle,#fff 55%,#F7E4FA 56%,#fff 70%);border:3px solid #E3A8EC;display:flex;flex-wrap:wrap;gap:3px;align-content:center;justify-content:center;padding:18px 14px;position:relative}
+.plate.pattern{border-color:#86198F;box-shadow:0 0 0 4px #F5D0FE}
+.plate-label{position:absolute;bottom:-18px;left:0;right:0;text-align:center;font-size:11px;font-weight:900;color:#5B1062}
+.plate .disc{width:24px;height:24px;font-size:8px}
+.plate.empty{opacity:.45;border-style:dashed}
+.pv-mat3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pv-col3{background:#fff;border:2px solid #F5D0FE;border-radius:12px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:130px;transition:box-shadow .2s}
+.pv-col3.ready{box-shadow:0 0 0 4px #F5C518;border-color:#F5C518}
+.pv-discs{display:grid;grid-template-columns:repeat(5,30px);gap:4px;justify-content:center}
+.slide-in{animation:slideIn .5s ease-out}
+@keyframes slideIn{0%{transform:translateY(-30px);opacity:0}100%{transform:translateY(0);opacity:1}}
+.eq-big{text-align:center;font-family:'Lora',Georgia,serif;font-size:20px;font-weight:800;color:#0E1C42;margin:8px 0}
+@media(max-width:620px){.plate{width:112px;min-height:96px}.pv-discs{grid-template-columns:repeat(5,24px)}.disc{width:24px;height:24px;font-size:8px}}
+.col-row.h,.col-head.h{grid-template-columns:26px 36px 14px 38px 38px}
+.col-head.h span{font-size:8.5px;line-height:1.15}
+/* long division */
+.ld{display:inline-grid;grid-template-columns:34px 30px 14px 30px 30px;font-family:'Lora',Georgia,serif;font-size:24px;font-weight:800;color:#0E1C42;background:#fff;border:2px solid #F5D0FE;border-radius:12px;padding:10px 18px 10px 10px;text-align:center;line-height:1.35}
+.ld.t2{grid-template-columns:34px 30px 14px 30px}
+.ld span{min-height:32px}
+.ld .q{color:#86198F}
+.ld .top{border-top:3px solid #0E1C42}
+.ld .br{border-right:3px solid #0E1C42;border-top-right-radius:10px}
+.ld .ul{border-bottom:2px solid #0E1C42}
+.ld .sg{text-align:right;padding-right:4px;color:#3A4A6B}
+.ld .new{animation:ttPop .5s ease-out}
+.ld-note{font-size:12.5px;color:#5B1062;font-weight:800;text-align:center;margin-top:4px}
+@media(max-width:620px){.ld{font-size:20px}}
+@media(max-width:620px){.pp-work>div{min-width:0!important;width:100%;text-align:center}.pv-mat3{gap:5px}.pv-col3{padding:6px 3px;min-width:0}.pv-discs{grid-template-columns:repeat(3,22px);gap:3px}.pv-discs .disc{width:22px;height:22px;font-size:7px}.cm-head{font-size:9.5px}}
+/* geoboard property card */
+.gb-card{max-width:340px;margin:10px auto 0;background:#fff;border:2px solid #F5D0FE;border-radius:12px;padding:6px 12px}
+.gb-row{display:flex;justify-content:space-between;align-items:center;padding:6px 2px;border-bottom:1px dashed #F5D0FE;font-weight:800;color:#5B1062;font-size:14px}
+.gb-row:last-child{border-bottom:none}
+.gb-row b{font-family:'Lora',Georgia,serif;font-size:18px;color:#0E1C42}
+.gb-row.bad{color:#B4372E;justify-content:center;text-align:center}
+.quad-tbl td:first-child{font-weight:900;color:#86198F}
+.fold-ghost{transition:transform .9s ease, opacity .4s;transform-box:view-box}
+.sym-btns .tb-split.yes{background:#E3F8ED;border-color:#2DB87A;color:#1F8A57}
+.sym-btns .tb-split.no{background:#FFF0EC;border-color:#E0453A;color:#B4372E}
+
+</style>
+</head>
+<body id="pageTop">
+<div class="page-wrap">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     OPTIMA READ-ALOUD PLAYER — drop-in snippet for GitHub-hosted lesson pages
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div id="optima-read-aloud">
+<style>
+    #optima-read-aloud { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 14px 18px; margin: 0 0 20px 0; }
+    #optima-read-aloud .ora-kicker { font-size: 11px; color: #1B6A94; letter-spacing: 0.4px; margin-bottom: 10px; }
+    #optima-read-aloud .ora-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    #optima-read-aloud .ora-controls button { border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    #ora-play { background: #0E1C42; color: #FFFFFF; border: 1.5px solid #0E1C42; }
+    #ora-play:hover:enabled { background: #1B2D5E; }
+    #ora-play:disabled { background: #D0D9E8; border-color: #D0D9E8; color: #6b7a99; cursor: default; }
+    #ora-stop { background: #FFFFFF; color: #0E1C42; border: 1.5px solid #D0D9E8; }
+    #ora-stop:hover:enabled { background: #F4F6FA; border-color: #55C8E8; }
+    #ora-stop:disabled { color: #999; border-color: #E4E9F2; cursor: default; }
+    #optima-read-aloud .ora-speed { font-size: 12px; color: #6b7a99; display: flex; align-items: center; gap: 6px; }
+    #ora-rate { font-family: inherit; font-size: 13px; color: #0E1C42; border: 1.5px solid #D0D9E8; border-radius: 6px; padding: 5px 8px; background: #FFFFFF; }
+    #ora-status { font-size: 12px; color: #666; }
+    .ora-highlight { background: #FDF3E3 !important; box-shadow: inset 4px 0 0 #C7922C; border-radius: 4px; transition: background 0.2s; }
+</style>
+    <div class="ora-kicker">&#128266; READ ALOUD &mdash; LISTEN TO THIS PAGE</div>
+    <div class="ora-controls">
+        <button id="ora-play" type="button" aria-label="Listen to this page">&#9654;&#65039; Listen</button>
+<p class="practice-note">Interactive practice tools on this page won't save if you leave — your written answers below are saved automatically.</p>
+
+        <button id="ora-stop" type="button" aria-label="Stop reading" disabled>&#9632; Stop</button>
+        <label class="ora-speed">Speed
+            <select id="ora-rate" aria-label="Reading speed">
+                <option value="0.8">Slower</option>
+                <option value="1" selected>Normal</option>
+                <option value="1.25">Faster</option>
+            </select>
+        </label>
+        <span id="ora-status" role="status" aria-live="polite"></span>
+    </div>
+<script>
+(function () {
+    "use strict";
+    var playBtn  = document.getElementById("ora-play");
+    var stopBtn  = document.getElementById("ora-stop");
+    var rateSel  = document.getElementById("ora-rate");
+    var statusEl = document.getElementById("ora-status");
+
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        playBtn.disabled = true;
+        rateSel.disabled = true;
+        statusEl.textContent = "Read-aloud is not supported in this browser.";
+        return;
+    }
+
+    var LABEL_PLAY   = "▶️ Listen";
+    var LABEL_PAUSE  = "⏸️ Pause";
+    var LABEL_RESUME = "▶️ Resume";
+    var BLOCK_SEL = "p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, dt, dd, figcaption, div";
+    var SKIP_SEL  = "#optima-read-aloud, [data-ra-skip], button, script, style, select, noscript, iframe";
+
+    var queue = [];
+    var idx = 0;
+    var playing = false, paused = false, stopping = false;
+    var currentBlock = null;
+    var currentUtterance = null;
+
+    var voices = [];
+    function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+    loadVoices();
+    if ("onvoiceschanged" in window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    function pickVoice() {
+        if (!voices.length) loadVoices();
+        var en = voices.filter(function (v) { return /^en/i.test(v.lang); });
+        return en.filter(function (v) { return /natural/i.test(v.name); })[0]
+            || en.filter(function (v) { return /google us english/i.test(v.name); })[0]
+            || en.filter(function (v) { return v.default; })[0]
+            || en[0] || null;
+    }
+
+    function isVisible(el) {
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    }
+
+    function collectQueue() {
+        var root = document.querySelector("[data-readaloud-root]")
+                || document.querySelector(".canvas-frame")
+                || document.body;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+        var items = [];
+        var node;
+        while ((node = walker.nextNode())) {
+            if (!/\S/.test(node.textContent)) continue;
+            var el = node.parentElement;
+            if (!el || el.closest(SKIP_SEL)) continue;
+            if (!isVisible(el)) continue;
+            var block = el.closest(BLOCK_SEL) || root;
+            var last = items[items.length - 1];
+            if (last && last.el === block) last.text += " " + node.textContent;
+            else items.push({ el: block, text: node.textContent });
+        }
+        var q = [];
+        items.forEach(function (item) {
+            var clean = item.text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B50}\u{2B55}\u{25A0}-\u{25FF}\u{2702}-\u{27B0}\u{FE00}-\u{FE0F}\u{200D}\u{20E3}\u{E0020}-\u{E007F}]/gu, "").replace(/\s+/g, " ").trim();
+            if (!clean) return;
+            var sentences = clean.match(/[^.!?]+[.!?]+["”’')\]]*\s*|[^.!?]+$/g) || [clean];
+            sentences.forEach(function (s) {
+                s = s.trim();
+                if (s) q.push({ el: item.el, text: s });
+            });
+        });
+        return q;
+    }
+
+    function highlight(el) {
+        if (el === currentBlock) return;
+        clearHighlight();
+        currentBlock = el;
+        if (el && el !== document.body) {
+            el.classList.add("ora-highlight");
+            try { el.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+        }
+    }
+    function clearHighlight() {
+        if (currentBlock) currentBlock.classList.remove("ora-highlight");
+        currentBlock = null;
+    }
+
+    function speakNext() {
+        if (idx >= queue.length) { finish("Finished reading this page."); return; }
+        var item = queue[idx];
+        highlight(item.el);
+        var u = new SpeechSynthesisUtterance(item.text);
+        u.rate = parseFloat(rateSel.value) || 1;
+        var v = pickVoice();
+        if (v) u.voice = v;
+        u.onend = function () {
+            if (stopping) return;
+            idx++;
+            speakNext();
+        };
+        u.onerror = function (e) {
+            if (stopping || e.error === "canceled" || e.error === "interrupted") return;
+            idx++;
+            speakNext();
+        };
+        currentUtterance = u;
+        window.speechSynthesis.speak(u);
+        statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+    }
+
+    function finish(message) {
+        playing = false;
+        paused = false;
+        clearHighlight();
+        playBtn.textContent = LABEL_PLAY;
+        stopBtn.disabled = true;
+        statusEl.textContent = message || "";
+        currentUtterance = null;
+    }
+
+    playBtn.addEventListener("click", function () {
+        if (playing && !paused) {
+            window.speechSynthesis.pause();
+            paused = true;
+            playBtn.textContent = LABEL_RESUME;
+            statusEl.textContent = "Paused";
+            return;
+        }
+        if (playing && paused) {
+            window.speechSynthesis.resume();
+            paused = false;
+            playBtn.textContent = LABEL_PAUSE;
+            statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+            return;
+        }
+        queue = collectQueue();
+        if (!queue.length) { statusEl.textContent = "Nothing to read on this page."; return; }
+        idx = 0;
+        stopping = false;
+        playing = true;
+        paused = false;
+        window.speechSynthesis.cancel();
+        playBtn.textContent = LABEL_PAUSE;
+        stopBtn.disabled = false;
+        speakNext();
+    });
+
+    stopBtn.addEventListener("click", function () {
+        stopping = true;
+        window.speechSynthesis.cancel();
+        finish("");
+    });
+
+    rateSel.addEventListener("change", function () {
+        if (!playing || paused) return;
+        stopping = true;
+        window.speechSynthesis.cancel();
+        setTimeout(function () { stopping = false; speakNext(); }, 60);
+    });
+
+    window.addEventListener("pagehide", function () { window.speechSynthesis.cancel(); });
+})();
+</script>
+</div>
+<!-- ═══ END OPTIMA READ-ALOUD PLAYER ═══ -->
+
+<div class="progress-wrap"><span class="progress-label">📐 Lesson Progress</span><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div><span class="progress-pct" id="progressPct">0%</span></div>
+<div class="header">
+<div class="header-brand">
+<div class="header-logo">
+<img alt="Optima Academy" src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png"/>
+</div>
+<div>
+<div class="header-org">Optima Academy Online</div>
+<div class="header-sub">An Education Experience Company</div>
+</div>
+</div>
+<div class="header-title"><em>Perpendicular Lines</em></div>
+<div class="header-badge">
+<span class="header-badge-icon">🦉</span>
+<span class="header-badge-text">Lesson 4.16.01</span>
+</div>
+</div>
+<div class="quote-strip"><div class="quote-strip-text">"Some lines cross. Perpendicular lines cross at square corners."</div><div class="quote-strip-attr">Unit 16 Big Idea</div></div>
+<div class="standards-toggle-bar" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');"><span class="standards-toggle-label">Standards Alignment</span><span class="standards-toggle-arrow">&#9660;</span></div><div class="standards-panel"><div class="standards-panel-inner"><div class="standards-group"><div class="standards-group-label">Florida B.E.S.T.</div><div class="standards-codes"><span class="fl-code">MA.3.GR.1.1</span> &middot; <span class="fl-code">MTR.2.1</span> &middot; <span class="fl-code">MTR.4.1</span></div></div><div class="standards-group"><div class="standards-group-label">Texas TEKS</div><div class="standards-codes"><span class="tx-code">4.6A</span></div></div></div></div>
+<div class="info-strip"><div class="info-cell"><div class="info-icon" style="background:#F5D0FE;">🏙️</div><div><div class="info-label">Unit</div><div class="info-value">Unit 16</div><div class="info-detail">Lines and Shapes</div></div></div><div class="info-cell"><div class="info-icon" style="background:#E3F8ED;">📅</div><div><div class="info-label">Lesson</div><div class="info-value">4.16.01</div></div></div><div class="info-cell"><div class="info-icon" style="background:#EAF0FF;">📐</div><div><div class="info-label">Standard</div><div class="info-value">MA.3.GR.1.1</div><div class="info-detail">Perpendicular and parallel lines</div></div></div><div class="info-cell"><div class="info-icon" style="background:#FFF8E6;">🔢</div><div><div class="info-label">Focus</div><div class="info-value">Lines that meet at right angles</div><div class="info-detail">MTR.2.1 · MTR.4.1</div></div></div></div>
+<div class="explorer-strip"><span class="explorer-compass">🧭</span><div><div class="explorer-mission-label">Today's Mission</div><div class="explorer-mission-text">Find, build and check perpendicular lines.</div></div></div>
+<div class="intro-2col"><div class="intro-card theme-question"><div class="intro-card-head"><div class="intro-card-head-icon">❓</div><div><div class="intro-card-head-label">Essential Question</div><div class="intro-card-head-title">What makes two lines perpendicular?</div></div></div><div class="intro-card-body"><p>Atlas’s class is planning a model town. The first job is laying out the streets.</p></div></div><div class="intro-card theme-objectives"><div class="intro-card-head"><div class="intro-card-head-icon">🎯</div><div><div class="intro-card-head-label">Today's Objectives</div><div class="intro-card-head-title">You will…</div></div></div><div class="intro-card-body"><div class="obj-line"><span class="obj-icon">📏</span><span><strong>Tell</strong> a line from a line segment.</span></div><div class="obj-line"><span class="obj-icon">➕</span><span><strong>Build</strong> perpendicular lines that cross at right angles.</span></div><div class="obj-line"><span class="obj-icon">📄</span><span><strong>Check</strong> with a square corner.</span></div></div></div></div>
+<div class="need-strip"><span class="need-strip-label">You'll need:</span><span class="need-chip">📓 Math Journal</span><span class="need-chip">✏️ Pencil</span><span class="need-chip">📄 A sheet of paper or an index card (its corner is a right angle)</span></div>
+<div class="tab-bar" id="tabBar"><button class="tab-btn active" data-tab="warmup" onclick="switchTab('warmup')">🔍 Warm-Up <span class="tab-check">✓</span></button><button class="tab-btn" data-tab="learn" onclick="switchTab('learn')">📐 Learn <span class="tab-check">✓</span></button><button class="tab-btn" data-tab="assignment" onclick="switchTab('assignment')">🌟 Show What You Know <span class="tab-check">✓</span></button></div>
+
+<!-- ═══════════════ TAB 1: WARM-UP ═══════════════ -->
+<div class="tab-panel active" id="tab-warmup">
+<!-- ═══ INTRODUCTION VIDEO ═══ -->
+<div class="video-placeholder-wrap">
+<!-- slot: g4math-16-01 -->
+<div class="video-placeholder-inner">
+  <span class="vp-icon">&#x1F3AC;</span>
+  <div class="vp-label">Introduction Video</div>
+  <div class="vp-title">Optima Academy Online — Grade 4 Math Lesson 4.16.01</div>
+  <div class="vp-slot">g4math-16-01</div>
+  <div class="vp-notes">
+    <strong>Teacher recording notes:</strong> Model-town opener. Lay two pencils across each other in a plus sign, then on a slant. Ask: "Which one makes four square corners?" Check each corner with an index card. Show perpendicular lines around the room: window frames, the corner of a book, floor tiles.
+  </div>
+</div>
+</div>
+<div class="fluency-box" data-timed="true">
+<div class="fluency-head">
+<div class="fluency-head-icon">⏳</div>
+<div><div class="fluency-head-label">TIMED FLUENCY CHECK</div><div class="fluency-head-title">Right-Angle Facts — One-Minute Check</div></div>
+<div class="fluency-timer-ui"><span class="fluency-timer-display" id="fluencyTimerDisplay">60s</span><button class="fluency-start-btn" id="fluencyStartBtn" onclick="fluencyStart()">Start 1-Minute Check</button></div>
+</div>
+<div class="fluency-body">
+<p class="fluency-instructions">Unit 16 fluency. Click Start, then answer as many as you can in 60 seconds. Every answer is a whole number.</p>
+<div class="fluency-grid" id="fluencyGrid">
+<div class="fluency-item"><span class="fluency-q" data-plain="90 + 90 =">90 + 90 =</span><input autocomplete="off" class="fluency-input" data-answer="180" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="90 × 4 =">90 × 4 =</span><input autocomplete="off" class="fluency-input" data-answer="360" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="180 − 90 =">180 − 90 =</span><input autocomplete="off" class="fluency-input" data-answer="90" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="360 − 90 =">360 − 90 =</span><input autocomplete="off" class="fluency-input" data-answer="270" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="4 × 90 =">4 × 90 =</span><input autocomplete="off" class="fluency-input" data-answer="360" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="90 × 2 =">90 × 2 =</span><input autocomplete="off" class="fluency-input" data-answer="180" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="90 − 45 =">90 − 45 =</span><input autocomplete="off" class="fluency-input" data-answer="45" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="45 + 45 =">45 + 45 =</span><input autocomplete="off" class="fluency-input" data-answer="90" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="Right angles in a square =">Right angles in a square =</span><input autocomplete="off" class="fluency-input" data-answer="4" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="Right angles in a rectangle =">Right angles in a rectangle =</span><input autocomplete="off" class="fluency-input" data-answer="4" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="Sides of a square =">Sides of a square =</span><input autocomplete="off" class="fluency-input" data-answer="4" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="Corners of a triangle =">Corners of a triangle =</span><input autocomplete="off" class="fluency-input" data-answer="3" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="60 + 30 =">60 + 30 =</span><input autocomplete="off" class="fluency-input" data-answer="90" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="90 − 60 =">90 − 60 =</span><input autocomplete="off" class="fluency-input" data-answer="30" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="180 − 135 =">180 − 135 =</span><input autocomplete="off" class="fluency-input" data-answer="45" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="90 + 45 =">90 + 45 =</span><input autocomplete="off" class="fluency-input" data-answer="135" disabled="" inputmode="numeric" type="text"/></div>
+</div>
+<button class="fluency-check-btn" disabled="" id="fluencyCheckBtn" onclick="fluencyCheck()">Check My Answers</button>
+<div class="fluency-result" id="fluencyResult"></div>
+</div>
+<textarea class="journal-box" data-label="Fluency Warm-Up (Right-Angle Facts — One-Minute Check)" id="fluencyJournal" readonly="" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;"></textarea>
+</div>
+<div class="activity bl-violet"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">👋</div><div><div class="activity-title">Meet the Math Crew</div><div class="activity-sub">Atlas leads this unit. He spots patterns in lines and shapes everywhere.</div></div></div><div class="activity-body"><div class="bubble-row"><div class="bubble atlas"><div class="bubble-avatar">A</div><div class="bubble-body"><div class="bubble-name">Atlas — pattern-spotter</div><div class="bubble-text">"On a city map, most streets cross like a plus sign. That pattern has a name: perpendicular."</div></div></div><div class="bubble hazel"><div class="bubble-avatar">H</div><div class="bubble-body"><div class="bubble-name">Hazel — visual thinker</div><div class="bubble-text">"Perpendicular lines look like the corner of a window. Four square corners around one point."</div></div></div></div><div class="bubble-row"><div class="bubble cora"><div class="bubble-avatar">C</div><div class="bubble-body"><div class="bubble-name">Cora — precise explainer</div><div class="bubble-text">"Perpendicular lines meet at a right angle. If one corner is square, all four are."</div></div></div><div class="bubble felix"><div class="bubble-avatar">F</div><div class="bubble-body"><div class="bubble-name">Felix — method-tester</div><div class="bubble-text">"I don’t trust my eyes. I check with the corner of an index card."</div></div></div></div></div></div>
+<div class="activity bl-yellow"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🔎</div><div><div class="activity-title">Readiness Check: Right Angles</div><div class="activity-sub">From the angles unit.</div></div><span class="activity-time" style="background:#F5C518;color:#0E1C42;">~3 min</span></div><div class="activity-body">
+<div class="ready-row"><span>A right angle measures</span><input class="tb-input" id="rd1" inputmode="numeric" type="text" placeholder="" style="width:70px;"/><span>°</span></div>
+<div class="ready-row"><span>How many right angles does a rectangle have?</span><input class="tb-input" id="rd2" inputmode="numeric" type="text" placeholder="" style="width:56px;"/></div>
+<div class="ready-row"><span>Two right angles side by side make</span><input class="tb-input" id="rd3" inputmode="numeric" type="text" placeholder="" style="width:70px;"/><span>°</span></div>
+<div class="tb-answer"><button class="tb-go" onclick="checkReadiness()">✓ Check</button><button class="tb-reset" onclick="resetReadiness()">↺ Reset</button></div>
+<div class="fb-box pass" id="rd-pass"><div class="fb-head">✅ 90, 4 and 180.</div>A right angle is a square corner, 90°. Today you’ll see right angles where lines cross.</div>
+<div class="fb-box retry" id="rd-retry"><div class="fb-head">🔄 Think about a sheet of paper.</div>Each corner of a sheet of paper is a right angle. How many corners? Two square corners side by side make a straight line.</div>
+</div></div>
+
+<div class="activity bl-yellow"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🤔</div><div><div class="activity-title">Think About It: Two Crossings</div><div class="activity-sub">Look, predict, then hold on to your idea.</div></div></div><div class="activity-body">
+<div class="callout callout-think"><span class="callout-icon">🏙️</span><p>Elm Street and Oak Street both cross Main Street. The town wants every corner lot to be a perfect square corner.</p></div>
+<div class="pp-card"><svg viewBox="0 0 440 200" width="100%" style="max-width:460px;display:block;margin:0 auto;" role="img" aria-label="A town map. Main Street runs across. Elm Street crosses it straight up and down. Oak Street crosses it on a slant."><rect x="0" y="0" width="440" height="200" fill="#F3F7EE"/><line x1="460" y1="100" x2="-20" y2="100" stroke="#9AA3B5" stroke-width="22" stroke-linecap="round"/><line x1="460" y1="100" x2="-20" y2="100" stroke="#F5C518" stroke-width="2" stroke-linecap="round" stroke-dasharray="10 9"/><line x1="110" y1="-40" x2="110" y2="240" stroke="#C561D2" stroke-width="22" stroke-linecap="round"/><line x1="110" y1="-40" x2="110" y2="240" stroke="#F5C518" stroke-width="2" stroke-linecap="round" stroke-dasharray="10 9"/><text x="110" y="-0.8" transform="rotate(-90 110 13.2)" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="#C561D2">Elm St</text><line x1="377.9" y1="-31.6" x2="282.1" y2="231.6" stroke="#C561D2" stroke-width="22" stroke-linecap="round"/><line x1="377.9" y1="-31.6" x2="282.1" y2="231.6" stroke="#F5C518" stroke-width="2" stroke-linecap="round" stroke-dasharray="10 9"/><text x="359.7" y="4.4" transform="rotate(-70 359.7 18.4)" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="#C561D2">Oak St</text></svg></div>
+<p>Which crossing makes four square corners?</p>
+<div class="strategy-chip-row">
+<button class="strategy-chip" onclick="this.classList.toggle('selected')">Elm St</button>
+<button class="strategy-chip" onclick="this.classList.toggle('selected')">Oak St</button>
+<button class="strategy-chip" onclick="this.classList.toggle('selected')">Both</button>
+</div>
+<div class="notice-wonder-grid">
+<div class="notice-wonder-box"><h4>I notice…</h4><textarea class="journal-box" data-label="Warm-Up — Two crossings: I notice" id="journal-notice" oninput="autoSave(this,'dot-notice')" placeholder=""></textarea><span class="saved-dot" id="dot-notice"></span></div>
+<div class="notice-wonder-box"><h4>I wonder…</h4><textarea class="journal-box" data-label="Warm-Up — Two crossings: I wonder" id="journal-wonder" oninput="autoSave(this,'dot-wonder')" placeholder=""></textarea><span class="saved-dot" id="dot-wonder"></span></div>
+</div>
+<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>Stop and think:</strong> Look at the four corners around each crossing. Are they all the same size?</p></div>
+</div></div>
+<div class="tab-next-wrap"><p class="tab-transition-voice">Let’s lay out some streets.</p><button class="tab-next-btn" onclick="switchTab('learn')">Continue to 📐 Learn →</button></div>
+</div>
+
+<!-- ═══════════════ TAB 2: LEARN ═══════════════ -->
+<div class="tab-panel" id="tab-learn">
+<div aria-label="Daily vocabulary flash cards" class="vocab-section">
+<div class="vocab-section-head">
+<div class="vocab-section-icon">📚</div>
+<div>
+<div class="vocab-section-label">Daily Vocabulary</div>
+<div class="vocab-section-title">Tap to Build Today’s Math Language</div>
+</div>
+</div>
+<p class="vocab-section-directions">Tap each card to flip it. Read the word, then read the meaning. You will use these words in today’s models and explanations.</p>
+<div class="vocab-grid">
+<div aria-label="Vocabulary card for line. Tap to flip." class="flip-card fc-color-1" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
+<div class="flip-card-inner">
+<div class="flip-card-front"><div class="fc-emoji">↔️</div><div class="fc-word">line</div><div class="fc-tap">tap to flip</div></div>
+<div class="flip-card-back"><div class="fc-word-back">line</div><div class="fc-def">a straight path that goes on forever in both directions. We draw arrows on both ends to show that.</div><div class="fc-tap-back">tap to flip back</div></div>
+</div>
+</div>
+<div aria-label="Vocabulary card for line segment. Tap to flip." class="flip-card fc-color-2" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
+<div class="flip-card-inner">
+<div class="flip-card-front"><div class="fc-emoji">📏</div><div class="fc-word">line segment</div><div class="fc-tap">tap to flip</div></div>
+<div class="flip-card-back"><div class="fc-word-back">line segment</div><div class="fc-def">part of a line with two endpoints, like one block of a street or the edge of a book.</div><div class="fc-tap-back">tap to flip back</div></div>
+</div>
+</div>
+<div aria-label="Vocabulary card for intersect. Tap to flip." class="flip-card fc-color-3" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
+<div class="flip-card-inner">
+<div class="flip-card-front"><div class="fc-emoji">✖️</div><div class="fc-word">intersect</div><div class="fc-tap">tap to flip</div></div>
+<div class="flip-card-back"><div class="fc-word-back">intersect</div><div class="fc-def">to cross or meet. Two streets intersect at a corner.</div><div class="fc-tap-back">tap to flip back</div></div>
+</div>
+</div>
+<div aria-label="Vocabulary card for perpendicular. Tap to flip." class="flip-card fc-color-4" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
+<div class="flip-card-inner">
+<div class="flip-card-front"><div class="fc-emoji">➕</div><div class="fc-word">perpendicular</div><div class="fc-tap">tap to flip</div></div>
+<div class="flip-card-back"><div class="fc-word-back">perpendicular</div><div class="fc-def">lines or segments that meet at a right angle. They make square corners.</div><div class="fc-tap-back">tap to flip back</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> Turn the new street until every corner at the crossing is a square corner. Use the paper corner to check.</p></div>
+
+<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#86198F;">🛣️</div><div><div class="activity-title">Street Builder</div><div class="activity-sub">Lay out four perpendicular streets</div></div></div><div class="activity-body">
+<div class="tb-stage">
+<div class="tb-btnrow" id="stTabs"></div>
+<div class="tb-story" id="stTask"></div>
+<svg id="stSvg" viewBox="0 0 420 280" width="100%" style="max-width:440px;display:block;margin:0 auto;border:2px solid #F5D0FE;border-radius:12px;" role="img" aria-label="A town map with a gray street and a purple street you can turn."></svg>
+<div class="tb-btnrow" style="margin-top:10px;"><button class="tb-split" onclick="stTurn(-5)">↻ Turn −5°</button><button class="tb-split" onclick="stTurn(5)">↺ Turn +5°</button><button class="tb-split" onclick="stTurn(30)">↺ Turn more</button><button class="tb-split" id="stCornerBtn" onclick="stCorner()">📄 Hold up the paper corner</button></div>
+<div class="tb-status" id="stStatus"></div>
+<div class="tb-answer"><button class="tb-go" onclick="stCheck()">✓ Check my street</button></div>
+<div class="fb-box pass" id="st-pass"><div class="fb-head">✅ Perpendicular!</div><span id="stPassText"></span></div>
+<div class="fb-box retry" id="st-retry"><div class="fb-head">🔄 Check the corners.</div><span id="stRetry"></span></div>
+</div>
+</div></div>
+
+<div class="key-concept" style="margin-top:16px;"><div class="key-concept-label">📐 What You Just Saw</div><p><strong>Perpendicular</strong> lines cross at a <strong>right angle</strong>. When they do, all <strong>four corners</strong> around the crossing are right angles.</p><p>Perpendicular lines don’t have to go straight up and straight across. Lines on a slant can be perpendicular too. Check with a square corner.</p></div>
+
+<div class="activity bl-violet" style="margin-top:16px;"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">🗂️</div><div><div class="activity-title">Lines That Meet, Lines That Don’t</div><div class="activity-sub">Sorting what you see on the map</div></div></div><div class="activity-body">
+<table class="same-table">
+<thead><tr><th>What the lines do</th><th>Name</th><th>On the map</th></tr></thead>
+<tbody>
+<tr><td>Cross at square corners</td><td>Perpendicular</td><td>Elm St and Main St</td></tr>
+<tr><td>Cross, but not at square corners</td><td>Intersecting (not perpendicular)</td><td>Oak St and Main St</td></tr>
+<tr><td>Never cross</td><td>(Next lesson: parallel)</td><td>Two streets side by side</td></tr>
+</tbody>
+</table>
+<div class="word-note"><b>Watch out:</b> Every pair of perpendicular lines intersects, but not every pair of intersecting lines is perpendicular. Oak Street crosses Main Street, but its corners aren’t square.</div>
+</div></div>
+
+<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#5B1062;">🔍</div><div><div class="activity-title">Worked Example: Letters on the Town Sign</div><div class="activity-sub">Perpendicular segments in letters</div></div></div><div class="activity-body"><div class="task-box"><div class="task-label">Problem</div><p>The town sign uses the letters L, T, V and X. Which letters have perpendicular segments?</p></div>
+<div class="pp-card"><svg viewBox="0 0 470 140" width="100%" style="max-width:470px;display:block;margin:0 auto;" role="img" aria-label="The capital letters L, T, V and X drawn with straight line segments. L and T have right-angle marks."><line x1="40" y1="30" x2="40" y2="120" stroke="#0E1C42" stroke-width="7" stroke-linecap="round"/><line x1="40" y1="120" x2="95" y2="120" stroke="#0E1C42" stroke-width="7" stroke-linecap="round"/><path d="M54 120 L54 106 L40 106" fill="none" stroke="#2DB87A" stroke-width="2.5"/><line x1="150" y1="30" x2="220" y2="30" stroke="#0E1C42" stroke-width="7" stroke-linecap="round"/><line x1="185" y1="30" x2="185" y2="120" stroke="#0E1C42" stroke-width="7" stroke-linecap="round"/><path d="M171 30 L171 44 L185 44" fill="none" stroke="#2DB87A" stroke-width="2.5"/><path d="M185 44 L199 44 L199 30" fill="none" stroke="#2DB87A" stroke-width="2.5"/><line x1="265" y1="30" x2="300" y2="120" stroke="#0E1C42" stroke-width="7" stroke-linecap="round"/><line x1="300" y1="120" x2="335" y2="30" stroke="#0E1C42" stroke-width="7" stroke-linecap="round"/><line x1="375" y1="30" x2="435" y2="120" stroke="#0E1C42" stroke-width="7" stroke-linecap="round"/><line x1="435" y1="30" x2="375" y2="120" stroke="#0E1C42" stroke-width="7" stroke-linecap="round"/></svg></div>
+<div style="background:#FDF8FF;border:2px solid #F5D0FE;border-radius:14px;padding:14px 16px;font-family:'Lora',Georgia,serif;color:#0E1C42;line-height:1.9;font-size:15.5px;margin:12px 0;">
+<strong>L:</strong> the two segments meet at a square corner. Perpendicular ✓<br/>
+<strong>T:</strong> the top bar and the post meet at square corners. Perpendicular ✓<br/>
+<strong>V:</strong> the segments meet, but the corner is much narrower than a square corner. Not perpendicular.<br/>
+<strong>X:</strong> the segments cross on a slant. Two corners are skinny and two are wide. Not perpendicular.<br/>
+<strong>Answer:</strong> <span style="color:#86198F;font-weight:900;">L and T</span>.
+</div>
+<div class="bubble-row">
+<div class="bubble felix"><div class="bubble-avatar">F</div><div class="bubble-body"><div class="bubble-name">Felix</div><div class="bubble-text">"An X can be perpendicular if you draw it like a plus sign turned sideways. This X isn’t, because its corners don’t match."</div></div></div>
+<div class="bubble atlas"><div class="bubble-avatar">A</div><div class="bubble-body"><div class="bubble-name">Atlas</div><div class="bubble-text">"Mathematicians mark a right angle with a tiny square in the corner. I look for those."</div></div></div>
+</div>
+<div class="socratic-box"><div class="socratic-label">🧠 Socratic — Think Like a Mathematician</div><p class="socratic-q">Wren says perpendicular lines always have one line going straight across and one going straight up and down. Is she right? Use the Street Builder to explain.</p>
+<div class="journal-label">✏️ My thinking <span class="saved-dot" id="dot-soc"></span></div>
+<textarea class="journal-box" data-label="Learn — Socratic: Wren’s idea" id="journal-soc" oninput="autoSave(this,'dot-soc')" placeholder=""></textarea></div>
+</div></div>
+<div class="tab-next-wrap"><p class="tab-transition-voice">Square corners mean perpendicular. Your turn.</p><button class="tab-next-btn" onclick="switchTab('assignment')">Continue to 🌟 Show What You Know →</button></div>
+</div>
+
+<!-- ═══════════════ TAB 3: SHOW WHAT YOU KNOW ═══════════════ -->
+<div class="tab-panel" id="tab-assignment">
+<div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">Two quick checks. Your full practice is in the Independent Practice PDF.</div></div></div><div class="activity-body">
+<div class="callout callout-think"><span class="callout-icon">🧠</span><p><strong>Before each problem, ask:</strong> Do the lines cross? Are the corners square?</p></div>
+<div class="q-block"><p class="q-text"><span class="q-num">1</span>Which pair of lines is perpendicular?</p>
+<svg viewBox="0 0 440 170" width="100%" style="max-width:440px;display:block;margin:0 auto;" role="img" aria-label="Three pairs of lines. Pair A crosses on a slant. Pair B crosses straight up and down. Pair C never crosses."><line x1="125" y1="80" x2="15" y2="80" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><path d="M115.9 75.8 L125 80 L115.9 84.2" fill="none" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><path d="M24.1 84.2 L15 80 L24.1 75.8" fill="none" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><line x1="97.5" y1="32.4" x2="42.5" y2="127.6" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><path d="M89.3 38.1 L97.5 32.4 L96.6 42.3" fill="none" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><path d="M50.7 121.9 L42.5 127.6 L43.4 117.7" fill="none" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><line x1="275" y1="80" x2="165" y2="80" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><path d="M265.9 75.8 L275 80 L265.9 84.2" fill="none" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><path d="M174.1 84.2 L165 80 L174.1 75.8" fill="none" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><line x1="220" y1="25" x2="220" y2="135" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><path d="M215.8 34.1 L220 25 L224.2 34.1" fill="none" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><path d="M224.2 125.9 L220 135 L215.8 125.9" fill="none" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><line x1="425" y1="55" x2="315" y2="55" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><path d="M415.9 50.8 L425 55 L415.9 59.2" fill="none" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><path d="M324.1 59.2 L315 55 L324.1 50.8" fill="none" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><line x1="425" y1="105" x2="315" y2="105" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><path d="M415.9 100.8 L425 105 L415.9 109.2" fill="none" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><path d="M324.1 109.2 L315 105 L324.1 100.8" fill="none" stroke="#0E1C42" stroke-width="3" stroke-linecap="round"/><text x="70" y="160" text-anchor="middle" font-family="Nunito,sans-serif" font-size="16" font-weight="900" fill="#86198F">A</text><text x="220" y="160" text-anchor="middle" font-family="Nunito,sans-serif" font-size="16" font-weight="900" fill="#86198F">B</text><text x="370" y="160" text-anchor="middle" font-family="Nunito,sans-serif" font-size="16" font-weight="900" fill="#86198F">C</text></svg>
+<div class="strategy-chip-row" id="sw1Btns" style="margin-top:8px;"><button class="strategy-chip" data-k="A" onclick="checkSwyk1('A')">Pair A</button><button class="strategy-chip" data-k="B" onclick="checkSwyk1('B')">Pair B</button><button class="strategy-chip" data-k="C" onclick="checkSwyk1('C')">Pair C</button></div>
+<div class="fb-box pass" id="sw1-pass"><div class="fb-head">✅ Pair B</div>Pair B crosses at four square corners. Pair A crosses on a slant, and pair C never crosses.</div>
+<div class="fb-box retry" id="sw1-retry"><div class="fb-head">🔄 Check the corners.</div><span id="sw1RetryText"></span></div>
+<div class="journal-label">✏️ How I checked <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: which pair" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
+<div class="q-block"><p class="q-text"><span class="q-num">2</span>Two perpendicular streets cross. How many right angles are around the crossing?</p>
+<div class="tb-answer" style="justify-content:flex-start;"><input class="tb-input" id="sw2" inputmode="numeric" type="text" placeholder=""/><span class="tb-unit">right angles</span><button class="tb-go" onclick="checkSwyk2()">✓ Check</button></div>
+<div class="fb-box pass" id="sw2-pass"><div class="fb-head">✅ 4</div>Perpendicular lines make four square corners around the point where they cross, like a plus sign.</div>
+<div class="fb-box retry" id="sw2-retry"><div class="fb-head">🔄 Count all the corners.</div><span id="sw2RetryText"></span></div>
+<div class="journal-label">✏️ My sketch <span class="saved-dot" id="dot-a2"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 2: right angles at a crossing" id="journal-a2" oninput="autoSave(this,'dot-a2')" placeholder=""></textarea></div>
+<div class="callout callout-tip"><span class="callout-icon">🌟</span><p>If you got these, you're ready for the Independent Practice.</p></div>
+<div class="activity bl-slate" style="margin-top:18px;border-left-color:#86198F;"><div class="activity-head"><div class="activity-num" style="background:#86198F;color:#fff;">🗺️</div><div><div class="activity-title">Connection Forward: Parallel Lines</div><div class="activity-sub">Looking ahead</div></div></div><div class="activity-body"><p>Today the streets crossed. Next lesson, <strong>Parallel Lines</strong>, you’ll build streets that run side by side and <strong>never</strong> cross, like railroad tracks.</p></div></div>
+</div></div>
+<div class="gathered-box"><div class="gathered-head"><div class="gathered-head-icon">📋</div><div><div class="gathered-head-label">Your Math Journal</div><div class="gathered-head-title">All Answers from Today</div></div></div><div class="gathered-body"><textarea class="gathered-output" id="gatheredOutput" readonly="">Click "Gather My Answers" to collect your work.</textarea><div class="gathered-actions"><button class="purple-btn" onclick="gatherAnswers()">📋 Gather My Answers</button><button class="green-btn" onclick="copyAnswers()">Copy All Answers</button><button class="check-btn" onclick="downloadJournal()">Download My Math Journal</button></div></div></div>
+<div class="turn-in-card"><div class="turn-in-header"><div class="turn-in-header-icon">✅</div><div><div class="turn-in-header-label">Turn-In Checklist</div><div class="turn-in-header-title">Ready to Submit?</div></div></div><div class="turn-in-body"><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check"></span><span>I answered both quick checks.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check"></span><span>I can tell a line from a line segment.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check"></span><span>I checked perpendicular lines with a square corner.</span></div></div></div>
+</div>
+<div class="footer">
+<div class="footer-main">🏫 <span>Optima Academy Online</span></div>
+<div class="footer-sub">Math · Grade 4 · 4.16.01</div>
+<div class="footer-standards">FL: MA.3.GR.1.1, MTR.2.1, MTR.4.1 &middot; TX: 4.6A</div>
+<div class="footer-copy">© 2025 Optima Academy Online</div>
+</div>
+</div>
+<canvas id="confettiCanvas"></canvas>
+
+<script>
+function F(n, d){ return '<span class="frac"><span class="num">' + n + '</span><span class="den">' + d + '</span></span>'; }
+function numVal(id){ var el = document.getElementById(id); var v = (el && el.value || "").replace(/,/g, "").replace(/°|degrees?|cm|f$/gi, "").trim(); return v === "" || isNaN(Number(v)) ? null : Number(v); }
+function showFb(prefix, ok){
+  var p = document.getElementById(prefix + "-pass"), r = document.getElementById(prefix + "-retry");
+  if(p) p.classList.remove("show");
+  if(r) r.classList.remove("show");
+  var el = ok ? p : r;
+  if(el){ el.classList.add("show"); if(ok) miniCelebrate(el); }
+}
+function hideFb(prefix){ ["pass","retry"].forEach(function(x){ var el = document.getElementById(prefix + "-" + x); if(el) el.classList.remove("show"); }); }
+function mark(id, ok){ var el = document.getElementById(id); if(el) el.style.borderColor = ok ? "#2DB87A" : "#E07B39"; }
+function clearInputs(ids){ ids.forEach(function(id){ var el = document.getElementById(id); if(el){ el.value = ""; el.style.borderColor = "#D6D6D6"; } }); }
+
+/* ── Line graph drawing (shared by every graph on the page) ──
+   cfg: { labels:[], values:[], yMin, yMax, yStep, yTitle, xTitle, title, w, h } */
+var SVGNS = "http://www.w3.org/2000/svg";
+function lgGeom(cfg){
+  var w = cfg.w || 600, h = cfg.h || 330, L = 62, R = 22, T = 34, B = 64;
+  var n = cfg.labels.length;
+  function x(i){ return L + (w - L - R) * (i + 0.5) / n; }
+  function y(v){ return T + (h - T - B) * (1 - (v - cfg.yMin) / (cfg.yMax - cfg.yMin)); }
+  return { w:w, h:h, L:L, R:R, T:T, B:B, x:x, y:y, n:n };
+}
+function lgFrame(cfg){
+  var g = lgGeom(cfg), s = "";
+  s += '<rect x="0" y="0" width="' + g.w + '" height="' + g.h + '" fill="#fff"/>';
+  if(cfg.title) s += '<text x="' + (g.w / 2) + '" y="20" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="15" font-weight="700" fill="#0E1C42">' + cfg.title + '</text>';
+  var pxStep = (g.y(cfg.yMin) - g.y(cfg.yMin + cfg.yStep)), every = Math.max(1, Math.ceil(15 / pxStep));
+  for(var v = cfg.yMin, li = 0; v <= cfg.yMax; v += cfg.yStep, li++){
+    s += '<line x1="' + g.L + '" x2="' + (g.w - g.R) + '" y1="' + g.y(v) + '" y2="' + g.y(v) + '" stroke="' + (v === cfg.yMin ? '#0E1C42' : '#D6ECF7') + '" stroke-width="' + (v === cfg.yMin ? 2 : 1) + '"/>';
+    if(li % every === 0) s += '<text x="' + (g.L - 8) + '" y="' + (g.y(v) + 4) + '" text-anchor="end" font-family="Nunito,sans-serif" font-size="12" font-weight="700" fill="#3A4A6B">' + v + '</text>';
+  }
+  s += '<line x1="' + g.L + '" x2="' + g.L + '" y1="' + g.T + '" y2="' + g.y(cfg.yMin) + '" stroke="#0E1C42" stroke-width="2"/>';
+  for(var i = 0; i < g.n; i++){
+    s += '<text x="' + g.x(i) + '" y="' + (g.h - g.B + 18) + '" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#0E1C42">' + cfg.labels[i] + '</text>';
+  }
+  if(cfg.xTitle) s += '<text x="' + ((g.L + g.w - g.R) / 2) + '" y="' + (g.h - 12) + '" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="#0D3D6B">' + cfg.xTitle + '</text>';
+  if(cfg.yTitle) s += '<text transform="translate(16,' + ((g.T + g.y(cfg.yMin)) / 2) + ') rotate(-90)" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="#0D3D6B">' + cfg.yTitle + '</text>';
+  return s;
+}
+function lgLineAndDots(cfg, values, color){
+  var g = lgGeom(cfg), s = "", pts = [];
+  for(var i = 0; i < values.length; i++){ if(values[i] !== null && values[i] !== undefined) pts.push([g.x(i), g.y(values[i])]); else pts.push(null); }
+  for(var j = 0; j < pts.length - 1; j++){
+    if(pts[j] && pts[j+1]) s += '<line x1="' + pts[j][0] + '" y1="' + pts[j][1] + '" x2="' + pts[j+1][0] + '" y2="' + pts[j+1][1] + '" stroke="' + (color || '#1E5F9E') + '" stroke-width="3" stroke-linecap="round"/>';
+  }
+  pts.forEach(function(p){ if(p) s += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="6" fill="#fff" stroke="' + (color || '#1E5F9E') + '" stroke-width="3"/>'; });
+  return s;
+}
+function lgStatic(id, cfg){
+  var g = lgGeom(cfg);
+  document.getElementById(id).innerHTML = '<svg viewBox="0 0 ' + g.w + ' ' + g.h + '" width="100%" role="img" aria-label="' + (cfg.aria || cfg.title || 'line graph') + '" style="max-width:' + g.w + 'px;display:block;margin:0 auto;">' + lgFrame(cfg) + lgLineAndDots(cfg, cfg.values) + '</svg>';
+}
+
+/* ── Angle drawing kit (Unit 15) ──
+   Angles are measured counterclockwise in degrees. SVG y grows downward, so a point at angle d is (x + r·cos d, y − r·sin d). */
+var ANG = {
+  ink:"#0E1C42", rayA:"#7C2D12", rayB:"#C2410C", fill:"rgba(242,140,82,.28)", fillB:"rgba(107,63,160,.20)", corner:"#2DB87A"
+};
+function aRad(d){ return d * Math.PI / 180; }
+function aPt(x, y, r, d){ return [x + r * Math.cos(aRad(d)), y - r * Math.sin(aRad(d))]; }
+function aFmt(n){ return Math.round(n * 10) / 10; }
+/* filled wedge from angle a0 to a1 (counterclockwise) */
+function aWedge(x, y, r, a0, a1, fill){
+  var span = ((a1 - a0) % 360 + 360) % 360; if(span === 0 && a1 !== a0) span = 360;
+  if(span >= 359.99){ return '<circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="' + fill + '"/>'; }
+  var p0 = aPt(x, y, r, a0), p1 = aPt(x, y, r, a0 + span), big = span > 180 ? 1 : 0;
+  return '<path d="M' + x + ' ' + y + ' L' + aFmt(p0[0]) + ' ' + aFmt(p0[1]) + ' A' + r + ' ' + r + ' 0 ' + big + ' 0 ' + aFmt(p1[0]) + ' ' + aFmt(p1[1]) + ' Z" fill="' + fill + '"/>';
+}
+/* arc only (the little curve that marks an angle) */
+function aArc(x, y, r, a0, a1, color, w){
+  var span = ((a1 - a0) % 360 + 360) % 360; if(span === 0) return "";
+  var p0 = aPt(x, y, r, a0), p1 = aPt(x, y, r, a0 + span), big = span > 180 ? 1 : 0;
+  return '<path d="M' + aFmt(p0[0]) + ' ' + aFmt(p0[1]) + ' A' + r + ' ' + r + ' 0 ' + big + ' 0 ' + aFmt(p1[0]) + ' ' + aFmt(p1[1]) + '" fill="none" stroke="' + (color || ANG.ink) + '" stroke-width="' + (w || 2.5) + '"/>';
+}
+/* a ray from the vertex with an arrowhead */
+function aRay(x, y, len, d, color, w, id){
+  var p = aPt(x, y, len, d), h1 = aPt(p[0], p[1], 11, d + 155), h2 = aPt(p[0], p[1], 11, d - 155);
+  return '<g' + (id ? ' id="' + id + '"' : '') + '><line x1="' + x + '" y1="' + y + '" x2="' + aFmt(p[0]) + '" y2="' + aFmt(p[1]) + '" stroke="' + color + '" stroke-width="' + (w || 4) + '" stroke-linecap="round"/>' +
+    '<path d="M' + aFmt(h1[0]) + ' ' + aFmt(h1[1]) + ' L' + aFmt(p[0]) + ' ' + aFmt(p[1]) + ' L' + aFmt(h2[0]) + ' ' + aFmt(h2[1]) + '" fill="none" stroke="' + color + '" stroke-width="' + (w || 4) + '" stroke-linecap="round" stroke-linejoin="round"/></g>';
+}
+function aVertex(x, y){ return '<circle cx="' + x + '" cy="' + y + '" r="5.5" fill="' + ANG.ink + '"/>'; }
+/* a small square "corner checker" (like the corner of a sheet of paper) placed on the base ray */
+function aCorner(x, y, base, s){
+  s = s || 34; var p1 = aPt(x, y, s, base), p2 = aPt(x, y, s, base + 90), p3 = aPt(p1[0], p1[1], s, base + 90);
+  return '<path d="M' + aFmt(p1[0]) + ' ' + aFmt(p1[1]) + ' L' + aFmt(p3[0]) + ' ' + aFmt(p3[1]) + ' L' + aFmt(p2[0]) + ' ' + aFmt(p2[1]) + '" fill="rgba(45,184,122,.12)" stroke="' + ANG.corner + '" stroke-width="3" stroke-dasharray="6 4"/>';
+}
+/* protractor: semicircle on a horizontal baseline, center (cx, cy). hi = "in" or "out" to highlight a scale.
+   Inner scale: 0 on the RIGHT, counting up counterclockwise. Outer scale: 0 on the LEFT. */
+function aProtractor(cx, cy, R, hi, opacity){
+  var s = '<g class="prot" opacity="' + (opacity == null ? 1 : opacity) + '">';
+  s += '<path d="M' + (cx - R - 8) + ' ' + cy + ' A' + (R + 8) + ' ' + (R + 8) + ' 0 0 1 ' + (cx + R + 8) + ' ' + cy + ' Z" fill="rgba(255,250,230,.78)" stroke="#B88A2E" stroke-width="2"/>';
+  for(var d = 0; d <= 180; d++){
+    var len = d % 10 === 0 ? 14 : (d % 5 === 0 ? 9 : 5);
+    var p0 = aPt(cx, cy, R + 8, d), p1 = aPt(cx, cy, R + 8 - len, d);
+    s += '<line x1="' + aFmt(p0[0]) + '" y1="' + aFmt(p0[1]) + '" x2="' + aFmt(p1[0]) + '" y2="' + aFmt(p1[1]) + '" stroke="#6B5320" stroke-width="' + (d % 10 === 0 ? 1.4 : .7) + '"/>';
+  }
+  var outC = hi === "out" ? "#C2410C" : "#5A4A3A", inC = hi === "in" ? "#C2410C" : "#5A4A3A";
+  var outW = hi === "out" ? 900 : 700, inW = hi === "in" ? 900 : 700;
+  for(var k = 0; k <= 180; k += 10){
+    var po = aPt(cx, cy, R - 15, k), pi = aPt(cx, cy, R - 35, k), lift = (k === 0 || k === 180) ? 7 : 0; po[1] -= lift; pi[1] -= lift;
+    s += '<text x="' + aFmt(po[0]) + '" y="' + aFmt(po[1] + 4) + '" text-anchor="middle" font-family="Nunito,sans-serif" font-size="' + (hi === "out" ? 13 : 12) + '" font-weight="' + outW + '" fill="' + outC + '">' + (180 - k) + '</text>';
+    s += '<text x="' + aFmt(pi[0]) + '" y="' + aFmt(pi[1] + 4) + '" text-anchor="middle" font-family="Nunito,sans-serif" font-size="' + (hi === "in" ? 12 : 10.5) + '" font-weight="' + inW + '" fill="' + inC + '">' + k + '</text>';
+  }
+  s += '<line x1="' + (cx - R - 8) + '" y1="' + cy + '" x2="' + (cx + R + 8) + '" y2="' + cy + '" stroke="#6B5320" stroke-width="1.6"/>';
+  s += '<circle cx="' + cx + '" cy="' + cy + '" r="4" fill="none" stroke="#C2410C" stroke-width="2"/><line x1="' + cx + '" y1="' + (cy - 9) + '" x2="' + cx + '" y2="' + cy + '" stroke="#C2410C" stroke-width="2"/>';
+  return s + '</g>';
+}
+/* turn a pointer event into an angle (0–360) around (vx, vy) inside an SVG */
+function aPointerAngle(svg, evt, vx, vy){
+  var pt = svg.createSVGPoint(), t = evt.touches ? evt.touches[0] : evt;
+  pt.x = t.clientX; pt.y = t.clientY;
+  var p = pt.matrixTransform(svg.getScreenCTM().inverse());
+  var d = Math.atan2(vy - p.y, p.x - vx) * 180 / Math.PI;
+  return (d + 360) % 360;
+}
+/* make an SVG draggable: onAngle(deg) is called as the pointer moves */
+function aDraggable(svg, vx, vy, onAngle){
+  var down = false;
+  function mv(e){ if(!down) return; e.preventDefault(); onAngle(aPointerAngle(svg, e, vx, vy)); }
+  svg.addEventListener("pointerdown", function(e){ down = true; try{ svg.setPointerCapture(e.pointerId); }catch(_){} mv(e); });
+  svg.addEventListener("pointermove", mv);
+  svg.addEventListener("pointerup", function(){ down = false; });
+  svg.addEventListener("pointercancel", function(){ down = false; });
+  svg.style.touchAction = "none";
+}
+function aKind(a){ a = Math.round(a); if(a === 0) return "zero"; if(a < 90) return "acute"; if(a === 90) return "right"; if(a < 180) return "obtuse"; if(a === 180) return "straight"; if(a < 360) return "reflex"; return "full turn"; }
+/* full-circle "360 ring": tick marks every 10°, numbers every 30°, counting counterclockwise from the right */
+function aRing(cx, cy, R, opacity){
+  var s = '<g opacity="' + (opacity == null ? 1 : opacity) + '"><circle cx="' + cx + '" cy="' + cy + '" r="' + (R + 6) + '" fill="rgba(255,250,230,.55)" stroke="#B88A2E" stroke-width="2"/>';
+  for(var d = 0; d < 360; d += 5){
+    var len = d % 30 === 0 ? 12 : (d % 10 === 0 ? 8 : 4), p0 = aPt(cx, cy, R + 6, d), p1 = aPt(cx, cy, R + 6 - len, d);
+    s += '<line x1="' + aFmt(p0[0]) + '" y1="' + aFmt(p0[1]) + '" x2="' + aFmt(p1[0]) + '" y2="' + aFmt(p1[1]) + '" stroke="#6B5320" stroke-width="' + (d % 30 === 0 ? 1.4 : .8) + '"/>';
+    if(d % 30 === 0){ var pt = aPt(cx, cy, R - 14, d); s += '<text x="' + aFmt(pt[0]) + '" y="' + aFmt(pt[1] + 4) + '" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10.5" font-weight="900" fill="#7C2D12">' + d + '</text>'; }
+  }
+  return s + '</g>';
+}
+
+/* ── Lines-and-shapes kit (Unit 16). Uses aPt/aFmt from ang.js. Directions are degrees counterclockwise. ── */
+var GEO = { road:"#9AA3B5", road2:"#86198F", stripe:"#F5C518", ink:"#0E1C42", plum:"#86198F", green:"#2DB87A" };
+function gLine(x1, y1, x2, y2, col, w, dash){ return '<line x1="' + aFmt(x1) + '" y1="' + aFmt(y1) + '" x2="' + aFmt(x2) + '" y2="' + aFmt(y2) + '" stroke="' + col + '" stroke-width="' + (w || 3) + '" stroke-linecap="round"' + (dash ? ' stroke-dasharray="' + dash + '"' : '') + '/>'; }
+/* a road through (x, y) at direction d, long enough to cross the picture */
+function gRoad(x, y, d, L, col, name){
+  var a = aPt(x, y, L, d), b = aPt(x, y, L, d + 180);
+  var s = gLine(a[0], a[1], b[0], b[1], col || GEO.road, 22) + gLine(a[0], a[1], b[0], b[1], GEO.stripe, 2, "10 9");
+  if(name){ var p = aPt(x, y, Math.min(L * .62, 150), d), r = -d; if(r < -90) r += 180; if(r > 90) r -= 180;
+    s += '<text x="' + aFmt(p[0]) + '" y="' + aFmt(p[1] - 14) + '" transform="rotate(' + r + ' ' + aFmt(p[0]) + ' ' + aFmt(p[1]) + ')" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="' + (col || "#3A4A6B") + '">' + name + '</text>'; }
+  return s;
+}
+/* a full line (with arrowheads at both ends) through (x, y) at direction d */
+function gFullLine(x, y, d, L, col, w){
+  var a = aPt(x, y, L, d), b = aPt(x, y, L, d + 180);
+  function head(p, dd){ var h1 = aPt(p[0], p[1], 10, dd + 155), h2 = aPt(p[0], p[1], 10, dd - 155); return '<path d="M' + aFmt(h1[0]) + ' ' + aFmt(h1[1]) + ' L' + aFmt(p[0]) + ' ' + aFmt(p[1]) + ' L' + aFmt(h2[0]) + ' ' + aFmt(h2[1]) + '" fill="none" stroke="' + col + '" stroke-width="' + (w || 3) + '" stroke-linecap="round"/>'; }
+  return gLine(a[0], a[1], b[0], b[1], col, w) + head(a, d) + head(b, d + 180);
+}
+/* little square that marks a right angle between directions d1 and d1 + 90 */
+function gRightMark(x, y, d1, s, col){
+  s = s || 12; var p1 = aPt(x, y, s, d1), p2 = aPt(x, y, s, d1 + 90), p3 = aPt(p1[0], p1[1], s, d1 + 90);
+  return '<path d="M' + aFmt(p1[0]) + ' ' + aFmt(p1[1]) + ' L' + aFmt(p3[0]) + ' ' + aFmt(p3[1]) + ' L' + aFmt(p2[0]) + ' ' + aFmt(p2[1]) + '" fill="none" stroke="' + (col || GEO.green) + '" stroke-width="2.5"/>';
+}
+/* parallel marks: n small arrowheads at the midpoint of segment (x1,y1)-(x2,y2) */
+function gParMark(x1, y1, x2, y2, n, col){
+  var d = Math.atan2(y1 - y2, x2 - x1) * 180 / Math.PI, mx = (x1 + x2) / 2, my = (y1 + y2) / 2, s = "";
+  for(var i = 0; i < (n || 1); i++){ var c = aPt(mx, my, (i - ((n || 1) - 1) / 2) * 8, d), h1 = aPt(c[0], c[1], 7, d + 150), h2 = aPt(c[0], c[1], 7, d - 150);
+    s += '<path d="M' + aFmt(h1[0]) + ' ' + aFmt(h1[1]) + ' L' + aFmt(c[0]) + ' ' + aFmt(c[1]) + ' L' + aFmt(h2[0]) + ' ' + aFmt(h2[1]) + '" fill="none" stroke="' + (col || GEO.plum) + '" stroke-width="2.2" stroke-linecap="round"/>'; }
+  return s;
+}
+/* equal-length tick marks on a segment */
+function gTicks(x1, y1, x2, y2, n, col){
+  var d = Math.atan2(y1 - y2, x2 - x1) * 180 / Math.PI, mx = (x1 + x2) / 2, my = (y1 + y2) / 2, s = "";
+  for(var i = 0; i < (n || 1); i++){ var c = aPt(mx, my, (i - ((n || 1) - 1) / 2) * 5, d), a = aPt(c[0], c[1], 6, d + 90), b = aPt(c[0], c[1], 6, d - 90); s += gLine(a[0], a[1], b[0], b[1], col || "#0E1C42", 2); }
+  return s;
+}
+function gMod180(a){ return ((Math.round(a) % 180) + 180) % 180; }
+function gAngleBetween(d1, d2){ var x = gMod180(d1 - d2); return Math.min(x, 180 - x); }
+
+/* ═══ Lesson 4.16.01 — Perpendicular Lines ═══ */
+var LS_PREFIX = "g4-4-16-01-";
+var LESSON_TITLE = "Lesson 4.16.01 — Perpendicular Lines";
+var CONFETTI_COLORS = ['#86198F','#C561D2','#F5D0FE','#F5C518','#2DB87A','#0E1C42','#E07B39'];
+var CONFETTI_EMOJIS = ['🏙️','🛣️','📐','⭐','✅','🎉'];
+
+/* ── Readiness ── */
+function checkReadiness(){
+  var a = numVal("rd1"), b = numVal("rd2"), c = numVal("rd3");
+  mark("rd1", a === 90); mark("rd2", b === 4); mark("rd3", c === 180);
+  showFb("rd", a === 90 && b === 4 && c === 180);
+}
+function resetReadiness(){ clearInputs(["rd1","rd2","rd3"]); hideFb("rd"); }
+
+/* ── Street Builder: turn the new street until it crosses Main Street at square corners ── */
+var ST = [
+  { main:0, name:"Main St", start:40, newName:"Elm St", task:"Main Street runs east and west. Turn <strong>Elm Street</strong> so it crosses Main Street at <strong>four square corners</strong>." },
+  { main:90, name:"River Rd", start:30, newName:"Oak St", task:"River Road runs north and south. Turn <strong>Oak Street</strong> so it is <strong>perpendicular</strong> to River Road." },
+  { main:30, name:"Hill Ave", start:80, newName:"Pine St", task:"Hill Avenue runs on a slant. Turn <strong>Pine Street</strong> so it is <strong>perpendicular</strong> to Hill Avenue. Careful: perpendicular streets don’t have to be straight up and down." },
+  { main:135, name:"Park Way", start:100, newName:"Lake St", task:"Park Way slants the other way. Make <strong>Lake Street</strong> perpendicular to it." }
+];
+var STS = { r:0, a:ST.map(function(x){ return x.start; }), corner:false, done:ST.map(function(){ return false; }) };
+var STC = [210, 140];
+function stDraw(){
+  var R = ST[STS.r], a = STS.a[STS.r], x = STC[0], y = STC[1], s = "";
+  s += '<rect x="0" y="0" width="420" height="280" fill="#F3F7EE"/>';
+  for(var i = 0; i < 420; i += 35) s += gLine(i, 0, i, 280, "#E3EBD8", 1);
+  for(var j = 0; j < 280; j += 35) s += gLine(0, j, 420, j, "#E3EBD8", 1);
+  s += gRoad(x, y, R.main, 260, GEO.road, R.name) + gRoad(x, y, a, 260, "#C561D2", R.newName);
+  var between = gAngleBetween(a, R.main);
+  if(STS.corner) s += aCorner(x, y, R.main, 52);
+  if(STS.done[STS.r]) for(var k = 0; k < 4; k++) s += gRightMark(x, y, R.main + k * 90, 30, "#2DB87A");
+  var h = aPt(x, y, 118, a);
+  s += '<circle cx="' + aFmt(h[0]) + '" cy="' + aFmt(h[1]) + '" r="13" fill="#F5C518" stroke="#5B1062" stroke-width="2.5" style="cursor:grab"/><text x="' + aFmt(h[0]) + '" y="' + aFmt(h[1] + 4) + '" text-anchor="middle" font-size="12" font-weight="900" fill="#5B1062" style="pointer-events:none">↻</text>';
+  s += '<circle cx="' + x + '" cy="' + y + '" r="5" fill="#0E1C42"/>';
+  document.getElementById("stSvg").innerHTML = s;
+  document.getElementById("stTabs").innerHTML = ST.map(function(q, i){ return '<button class="tb-split' + (i === STS.r ? ' on' : '') + '" onclick="stGo(' + i + ')">' + (STS.done[i] ? "✓ " : "") + q.newName + '</button>'; }).join("");
+  document.getElementById("stTask").innerHTML = R.task;
+  document.getElementById("stCornerBtn").textContent = STS.corner ? "📄 Put the paper corner away" : "📄 Hold up the paper corner";
+  var st = document.getElementById("stStatus");
+  if(between === 0) st.innerHTML = R.newName + " is lying right on top of " + R.name + ". Turn it.";
+  else if(STS.corner) st.innerHTML = between === 90 ? R.newName + " lines up exactly with the edge of the paper corner." : "The paper corner sits on " + R.name + ". " + R.newName + " doesn’t line up with its edge yet.";
+  else st.innerHTML = "The streets cross, making four corners. Are they all square corners? Drag the yellow handle or use the buttons.";
+}
+function stSet(d){ STS.a[STS.r] = ((Math.round(d / 5) * 5) % 180 + 180) % 180; hideFb("st"); stDraw(); }
+function stTurn(d){ if(STS.done[STS.r]) return; stSet(STS.a[STS.r] + d); }
+function stCorner(){ STS.corner = !STS.corner; stDraw(); }
+function stGo(i){ STS.r = i; hideFb("st"); stDraw(); }
+function stCheck(){
+  var R = ST[STS.r], a = STS.a[STS.r], b = gAngleBetween(a, R.main), rt = document.getElementById("stRetry"), ok = b === 90;
+  if(b === 0) rt.innerHTML = "The new street is lying right on top of " + R.name + ". Turn it so the two streets cross.";
+  else if(b < 60) rt.innerHTML = "The streets cross, but two of the corners are skinny and two are wide. Perpendicular streets make four corners that are all the same: square corners.";
+  else rt.innerHTML = "Very close! The corners are almost square. Hold up the paper corner and turn a little more.";
+  showFb("st", ok);
+  if(ok){ STS.done[STS.r] = true; stDraw(); document.getElementById("stPassText").innerHTML = R.newName + " and " + R.name + " are perpendicular. Look at the green marks: all four corners are right angles." + (STS.r < ST.length - 1 ? " Try the next street." : " The whole town has square crossings!"); }
+}
+
+/* ── Show What You Know ── */
+var SW1 = null;
+function checkSwyk1(w){
+  SW1 = w; var rt = document.getElementById("sw1RetryText");
+  document.querySelectorAll("#sw1Btns .strategy-chip").forEach(function(b){ b.classList.toggle("selected", b.dataset.k === w); });
+  if(w === "A") rt.innerHTML = "Pair A crosses, but the corners aren’t square. Two are skinny and two are wide.";
+  else if(w === "C") rt.innerHTML = "Pair C never crosses. Those lines run side by side.";
+  showFb("sw1", w === "B");
+}
+function checkSwyk2(){
+  var v = numVal("sw2"), rt = document.getElementById("sw2RetryText");
+  if(v === 1) rt.innerHTML = "Look at all the corners around the crossing, not just one.";
+  else if(v === 2) rt.innerHTML = "There are corners on both sides of each street. Count all the way around.";
+  else rt.innerHTML = "Picture a plus sign. How many square corners are around the middle?";
+  mark("sw2", v === 4); showFb("sw2", v === 4);
+}
+function gatherExtra(){
+  var b = (document.getElementById("sw2").value || "").trim();
+  return "Show What You Know — Problem 1 answer\n" + (SW1 ? "Pair " + SW1 : "[No answer yet]") + "\n\nShow What You Know — Problem 2 answer\n" + (b || "[No answer yet]") + "\n\n";
+}
+function initLesson(){
+  restoreJournals(); updateProgress(); stDraw();
+  aDraggable(document.getElementById("stSvg"), STC[0], STC[1], function(d){ if(!STS.done[STS.r]) stSet(d); });
+}
+if(document.readyState === "loading"){ document.addEventListener("DOMContentLoaded", initLesson); } else { initLesson(); }
+
+/* ── Shared page helpers ── */
+function miniCelebrate(el){if(!el)return;var emojis=['⭐','✨','🎉','💫','🌟'];for(var i=0;i<8;i++){var s=document.createElement('span');s.textContent=emojis[Math.floor(Math.random()*emojis.length)];s.style.cssText='position:absolute;font-size:'+(16+Math.random()*14)+'px;pointer-events:none;z-index:999;animation:miniPop .7s ease-out forwards;left:'+(20+Math.random()*60)+'%;top:'+(Math.random()*40)+'%;';el.style.position='relative';el.style.overflow='visible';el.appendChild(s);setTimeout(function(x){x.remove()}.bind(null,s),800)}}
+function showPageFeedback(message,type){var panel=document.querySelector('.tab-panel.active')||document.querySelector('.page-wrap')||document.body;var box=panel.querySelector(':scope > .page-feedback');if(!box){box=document.createElement('div');box.className='page-feedback';panel.insertBefore(box,panel.firstChild);}box.className='page-feedback show '+(type||'good');box.innerHTML=message;box.scrollIntoView({behavior:'smooth',block:'nearest'});}
+function switchTab(tab){document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});document.getElementById('tab-'+tab).classList.add('active');document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');if(b.dataset.tab===tab){b.classList.add('active');b.classList.add('visited')}});updateProgress();window.scrollTo({top:0,behavior:'smooth'})}
+function updateProgress(){var tabs=['warmup','learn','assignment'];var active=[].slice.call(document.querySelectorAll('.tab-btn')).findIndex(function(b){return b.classList.contains('active')});var pct=Math.round(((active+1)/tabs.length)*100);document.getElementById('progressFill').style.width=pct+'%';document.getElementById('progressPct').textContent=pct+'%'}
+function autoSave(el,dotId){try{localStorage.setItem(LS_PREFIX+el.id,el.value)}catch(e){}var dot=document.getElementById(dotId);if(dot){dot.classList.add('saved');setTimeout(function(){dot.classList.remove('saved')},900)}}
+function restoreJournals(){document.querySelectorAll('textarea.journal-box').forEach(function(t){if(t.readOnly)return;try{var v=localStorage.getItem(LS_PREFIX+t.id);if(v)t.value=v}catch(e){}})}
+function gatherAnswers(){
+  var out = LESSON_TITLE + '\n\n';
+  document.querySelectorAll('textarea.journal-box').forEach(function(t){ out += t.dataset.label + '\n' + (t.value.trim() || '[No answer yet]') + '\n\n'; });
+  if(typeof gatherExtra === 'function') out += gatherExtra();
+  document.getElementById('gatheredOutput').value = out;
+}
+function copyAnswers(){gatherAnswers();if(navigator.clipboard)navigator.clipboard.writeText(document.getElementById('gatheredOutput').value);showPageFeedback('Your answers were copied.','good');}
+function downloadJournal(){gatherAnswers();var text=document.getElementById('gatheredOutput').value;var w=window.open('','_blank');w.document.write('<pre style="font-family:Arial;white-space:pre-wrap;font-size:14px;line-height:1.5;">'+text.replace(/[&<>]/g,function(s){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[s]})+'</pre>');w.document.close();w.print()}
+function toggleCheck(item){
+  item.classList.toggle('checked');
+  var check=item.querySelector('.turn-in-check');
+  if(check) check.textContent=item.classList.contains('checked')?'✓':'';
+  var items=[].slice.call(document.querySelectorAll('.turn-in-item'));
+  var allChecked=items.length>0 && items.every(function(x){return x.classList.contains('checked')});
+  if(allChecked && !window._turnInConfettiFired){window._turnInConfettiFired=true;fireConfetti();}
+  if(!allChecked){window._turnInConfettiFired=false;}
+}
+function fireConfetti(){
+  var canvas=document.getElementById('confettiCanvas');var ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  var particles=[];var colors=CONFETTI_COLORS;
+  var emojis=CONFETTI_EMOJIS;
+  for(var i=0;i<120;i++){particles.push({type:'rect',x:Math.random()*canvas.width,y:Math.random()*-50,r:Math.random()*6+3,c:colors[Math.floor(Math.random()*colors.length)],vx:(Math.random()-0.5)*4,vy:Math.random()*3+2,rot:Math.random()*360,rv:(Math.random()-0.5)*8});}
+  for(var j=0;j<18;j++){particles.push({type:'emoji',x:Math.random()*canvas.width,y:Math.random()*-50,emoji:emojis[Math.floor(Math.random()*emojis.length)],size:Math.random()*14+26,vx:(Math.random()-0.5)*3,vy:Math.random()*2.5+1.5,rot:Math.random()*360,rv:(Math.random()-0.5)*5});}
+  var frames=0;
+  function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(function(p){ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);if(p.type==='emoji'){ctx.font=p.size+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(p.emoji,0,0);}else{ctx.fillStyle=p.c;ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);}ctx.restore();p.x+=p.vx;p.y+=p.vy;p.rot+=p.rv;p.vy+=0.04;});
+    frames++;
+    if(frames<300){if(frames>220)canvas.style.opacity=1-((frames-220)/80);requestAnimationFrame(animate);}else{ctx.clearRect(0,0,canvas.width,canvas.height);canvas.style.opacity=1;}
+  }
+  animate();
+}
+
+</script>
+<script id="fluencyScript">
+(function(){
+var FLUENCY_TITLE = "Right-Angle Facts — One-Minute Check";
+var fluencyInterval = null;
+var fluencySecondsLeft = 60;
+window.fluencyStart = function(){
+  var grid = document.getElementById('fluencyGrid');
+  if(!grid) return;
+  grid.querySelectorAll('.fluency-input').forEach(function(i){ i.disabled = false; });
+  var btn = document.getElementById('fluencyStartBtn');
+  if(btn){ btn.disabled = true; btn.textContent = 'Timer Running…'; }
+  var checkBtn = document.getElementById('fluencyCheckBtn');
+  if(checkBtn) checkBtn.disabled = false;
+  fluencySecondsLeft = 60;
+  fluencyUpdateDisplay();
+  fluencyInterval = setInterval(function(){
+    fluencySecondsLeft--;
+    fluencyUpdateDisplay();
+    if(fluencySecondsLeft <= 0){
+      clearInterval(fluencyInterval);
+      grid.querySelectorAll('.fluency-input').forEach(function(i){ i.disabled = true; });
+      window.fluencyCheck();
+    }
+  }, 1000);
+};
+function fluencyUpdateDisplay(){ var el = document.getElementById('fluencyTimerDisplay'); if(el) el.textContent = fluencySecondsLeft + 's'; }
+function fluencyNormalize(s){ return (s||'').trim().toLowerCase().replace(/\s+/g,' '); }
+window.fluencyCheck = function(){
+  if(fluencyInterval){ clearInterval(fluencyInterval); fluencyInterval = null; }
+  var items = document.querySelectorAll('#fluencyGrid .fluency-item');
+  var correct = 0, total = items.length, lines = [];
+  items.forEach(function(item){
+    var input = item.querySelector('.fluency-input');
+    var q = item.querySelector('.fluency-q');
+    var qText = q.dataset.plain || q.textContent;
+    var given = (input.value || '').trim();
+    var ans = input.dataset.answer;
+    var ok = given !== '' && fluencyNormalize(given) === fluencyNormalize(ans);
+    item.classList.remove('fluency-correct','fluency-wrong');
+    if(ok){ correct++; item.classList.add('fluency-correct'); }
+    else if(given !== ''){ item.classList.add('fluency-wrong'); }
+    input.disabled = true;
+    lines.push(qText + '  answer: ' + ans + '   [answered: ' + (given || 'blank') + ']' + (ok ? ' ✓' : (given ? ' ✗' : '')));
+  });
+  var pct = total ? Math.round((correct/total)*100) : 0;
+  var timeStr = ' in ' + (60 - fluencySecondsLeft) + ' seconds';
+  var j = document.getElementById('fluencyJournal');
+  if(j) j.value = 'Fluency Warm-Up — ' + FLUENCY_TITLE + '\n' + correct + ' / ' + total + ' correct (' + pct + '%)' + timeStr + '\n\n' + lines.join('\n');
+  var resEl = document.getElementById('fluencyResult');
+  if(resEl) resEl.innerHTML = correct + ' / ' + total + ' correct (' + pct + '%)' + timeStr;
+  var checkBtn = document.getElementById('fluencyCheckBtn'); if(checkBtn) checkBtn.disabled = true;
+  var startBtn = document.getElementById('fluencyStartBtn'); if(startBtn) startBtn.textContent = 'Done';
+};
+})();
+</script>
+<!-- Video Manifest Loader -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  fetch('https://raw.githubusercontent.com/bbirchum1/optima-4th-math/main/video-manifest.json?v=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var manifest = data.videos || data;
+      document.querySelectorAll('.video-placeholder-wrap').forEach(function(wrap) {
+        var m = wrap.innerHTML.match(/<!--\s*slot:\s*([\w-]+)\s*-->/);
+        if (!m) return;
+        var entry = manifest[m[1]];
+        if (!entry || entry.status !== 'ready' || !entry.embed) return;
+        var temp = document.createElement('div');
+        temp.innerHTML = entry.embed;
+        var iframe = temp.querySelector('iframe');
+        if (!iframe) return;
+        iframe.removeAttribute('width');
+        iframe.removeAttribute('height');
+        iframe.style.cssText = 'display:block;width:100%;aspect-ratio:16/9;border:none;';
+        wrap.innerHTML = '';
+        wrap.style.cssText = 'display:block;border:none;background:#000;border-radius:14px;overflow:hidden;margin:0 0 18px;';
+        wrap.appendChild(iframe);
+      });
+    })
+    .catch(function(err) { console.warn('Video manifest load failed:', err); });
+});
+</script>
+<!-- OAO copy fix -->
+<script>
+(function(){
+  function say(text, ok){
+    var btn = document.querySelector('[onclick*="copyAnswers"]');
+    var box = document.getElementById('oaoCopyStatus');
+    if(!box){
+      box = document.createElement('p');
+      box.id = 'oaoCopyStatus';
+      box.setAttribute('role','status');
+      box.setAttribute('aria-live','polite');
+      box.style.cssText = 'margin:10px 0 0;padding:10px 14px;border-radius:10px;font-size:15px;font-weight:700;line-height:1.5;';
+      var anchor = btn ? (btn.parentNode || btn) : document.getElementById('gatheredOutput');
+      if(anchor && anchor.parentNode){ anchor.parentNode.insertBefore(box, anchor.nextSibling); } else { document.body.appendChild(box); }
+    }
+    box.textContent = text;
+    box.style.background = ok ? '#E3F8ED' : '#FFF8E6';
+    box.style.border = ok ? '2px solid #B8E8CF' : '2px solid #F5E6C8';
+    box.style.color = '#0E1C42';
+  }
+  window.copyAnswers = function(){
+    var out = document.getElementById('gatheredOutput');
+    var text = '';
+    try { var r = gatherAnswers(); text = (typeof r === 'string' && r) ? r : ''; } catch(e) {}
+    if(!text && out) text = out.value || '';
+    if(out && !out.value && text) out.value = text;
+    function fallback(){
+      var ok = false;
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = text; ta.setAttribute('readonly','');
+        ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;';
+        document.body.appendChild(ta); ta.focus(); ta.select(); ta.setSelectionRange(0, text.length);
+        ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+      } catch(e) { ok = false; }
+      if(ok){ say('Copied! Now paste your answers where your teacher asked you to turn them in.', true); }
+      else {
+        if(out){ out.focus(); out.select(); }
+        say('Your answers are highlighted in the box above. Press Ctrl + C (or Command + C on a Mac) to copy them.', false);
+      }
+    }
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(function(){ say('Copied! Now paste your answers where your teacher asked you to turn them in.', true); }, fallback);
+    } else { fallback(); }
+  };
+})();
+</script>
+<!-- OAO download fix -->
+<script>
+(function(){
+  var orig = window.downloadJournal;
+  if(typeof orig !== 'function') return;
+  window.downloadJournal = function(){
+    try { gatherAnswers(); } catch(e) {}
+    var out = document.getElementById('gatheredOutput');
+    var text = out ? (out.value || '') : '';
+    var w = null;
+    try { w = window.open('', '_blank'); } catch(e) { w = null; }
+    if(w && w.document){
+      w.document.write('<pre style="font-family:Arial;white-space:pre-wrap;font-size:14px;line-height:1.5;">' + text.replace(/[&<>]/g, function(s){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[s]; }) + '</pre>');
+      w.document.close();
+      try { w.focus(); w.print(); } catch(e) {}
+      return;
+    }
+    try {
+      var blob = new Blob([text], {type:'text/plain'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = ((document.title || 'math-journal').replace(/[^a-z0-9]+/gi,'-').toLowerCase()) + '.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+    } catch(e) {
+      if(out){ out.focus(); out.select(); }
+    }
+  };
+})();
+</script>
+</body></html>
