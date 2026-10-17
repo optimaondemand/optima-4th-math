@@ -944,9 +944,9 @@
 <div class="fb-box retry" id="sw1-retry"><div class="fb-head">🔄 Check your row.</div><span id="sw1Retry"></span></div>
 </div>
 <div class="journal-label">✏️ My estimate <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: draw 110°" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
-<div class="q-block"><p class="q-text"><span class="q-num">2</span>Wren’s first ray points left. She wants a 160° angle, but she makes her mark where the row that starts at 0 on the <em>right</em> says 160. What angle does she actually draw?</p>
+<div class="q-block"><p class="q-text"><span class="q-num">2</span>Theo’s first ray points right. He wants a 35° angle, but he makes his mark where the row that starts at 0 on the <em>left</em> says 35. What angle does he actually draw?</p>
 <div class="tb-answer" style="justify-content:flex-start;"><input class="tb-input" id="sw2" inputmode="numeric" type="text" placeholder=""/><span class="tb-unit">°</span><button class="tb-go" onclick="checkSwyk2()">✓ Check</button></div>
-<div class="fb-box pass" id="sw2-pass"><div class="fb-head">✅ 20°</div>At that spot, the row that starts at 0 on the left says 20. The two rows add to 180: 160 + 20 = 180. That’s why her ramp came out narrow.</div>
+<div class="fb-box pass" id="sw2-pass"><div class="fb-head">✅ 145°</div>At that spot, the row that starts at 0 on the right says 145. The two rows add to 180: 35 + 145 = 180. That’s why his angle came out wide instead of small.</div>
 <div class="fb-box retry" id="sw2-retry"><div class="fb-head">🔄 Think about partners of 180.</div><span id="sw2RetryText"></span></div>
 <div class="journal-label">✏️ How I know <span class="saved-dot" id="dot-a2"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 2: Wren’s angle" id="journal-a2" oninput="autoSave(this,'dot-a2')" placeholder=""></textarea></div>
 <div class="callout callout-tip"><span class="callout-icon">🌟</span><p>If you got these, you're ready for the Independent Practice.</p></div>
@@ -1124,7 +1124,7 @@ function Drawer(pfx, rounds, R){
   me.el = function(id){ return document.getElementById(pfx + id); };
   me.draw = function(){
     var Rd = me.rounds[me.r], S = me.st[me.r], x = me.V[0], y = me.V[1], s = "";
-    s += '<g>' + aProtractor(S.placed ? x : x + 95, S.placed ? y : y + 2, me.R, S.placed ? S.scale : null, S.placed ? .93 : .7) + '</g>';
+    s += '<g>' + aProtractor(S.placed ? x : x + 70, S.placed ? y : y + 2, me.R, S.placed ? S.scale : null, S.placed ? .93 : .7) + '</g>';
     s += aRay(x, y, 190, Rd.base, ANG.rayA, 3.5);
     if(S.drawn){
       var lo = Math.min(Rd.base, S.dot), hi = Math.max(Rd.base, S.dot);
@@ -1190,9 +1190,9 @@ sw.onCheck = function(ok, m){ SW1OK = ok; SW1M = m; };
 /* ── Show What You Know ── */
 function checkSwyk2(){
   var v = numVal("sw2"), rt = document.getElementById("sw2RetryText");
-  if(v === 160) rt.innerHTML = "That’s what Wren wanted, but not what she drew. Her ray points left, and she used the row that starts at 0 on the right.";
-  else rt.innerHTML = "On a protractor, the two rows always add up to 180. If one row says 160 at her mark, what does the other row say there?";
-  mark("sw2", v === 20); showFb("sw2", v === 20);
+  if(v === 35) rt.innerHTML = "That’s what Theo wanted, but not what he drew. His ray points right, and he used the row that starts at 0 on the left.";
+  else rt.innerHTML = "On a protractor, the two rows always add up to 180. If one row says 35 at his mark, what does the other row say there?";
+  mark("sw2", v === 145); showFb("sw2", v === 145);
 }
 function gatherExtra(){
   var b = (document.getElementById("sw2").value || "").trim();

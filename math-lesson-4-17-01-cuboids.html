@@ -764,8 +764,8 @@
 </div>
 </div>
 <div class="quote-strip"><div class="quote-strip-text">"A box has faces, edges and vertices. Count them carefully, even the ones hiding in back."</div><div class="quote-strip-attr">Unit 17 Big Idea</div></div>
-<div class="standards-toggle-bar" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');"><span class="standards-toggle-label">Standards Alignment</span><span class="standards-toggle-arrow">&#9660;</span></div><div class="standards-panel"><div class="standards-panel-inner"><div class="standards-group"><div class="standards-group-label">Florida B.E.S.T.</div><div class="standards-codes"><span class="fl-code">MA.5.GR.2.1</span> &middot; <span class="fl-code">MTR.2.1</span> &middot; <span class="fl-code">MTR.5.1</span></div></div><div class="standards-group"><div class="standards-group-label">Texas TEKS</div><div class="standards-codes"><span class="tx-code">3.6A</span></div></div></div></div>
-<div class="info-strip"><div class="info-cell"><div class="info-icon" style="background:#E0E7FF;">📦</div><div><div class="info-label">Unit</div><div class="info-value">Unit 17</div><div class="info-detail">Properties of Cuboids</div></div></div><div class="info-cell"><div class="info-icon" style="background:#E3F8ED;">📅</div><div><div class="info-label">Lesson</div><div class="info-value">4.17.01</div></div></div><div class="info-cell"><div class="info-icon" style="background:#EAF0FF;">📐</div><div><div class="info-label">Standard</div><div class="info-value">MA.5.GR.2.1</div><div class="info-detail">Classify 3D figures</div></div></div><div class="info-cell"><div class="info-icon" style="background:#FFF8E6;">🔢</div><div><div class="info-label">Focus</div><div class="info-value">Faces, edges and vertices</div><div class="info-detail">MTR.2.1 · MTR.5.1</div></div></div></div>
+<div class="standards-toggle-bar" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');"><span class="standards-toggle-label">Standards Alignment</span><span class="standards-toggle-arrow">&#9660;</span></div><div class="standards-panel"><div class="standards-panel-inner"><div class="standards-group"><div class="standards-group-label">Florida B.E.S.T.</div><div class="standards-codes"><span class="fl-code">MA.5.GR.2.1 (Grade 5 preview)</span> &middot; <span class="fl-code">MTR.2.1</span> &middot; <span class="fl-code">MTR.5.1</span></div></div><div class="standards-group"><div class="standards-group-label">Texas TEKS</div><div class="standards-codes"><span class="tx-code">3.6A</span></div></div></div></div>
+<div class="info-strip"><div class="info-cell"><div class="info-icon" style="background:#E0E7FF;">📦</div><div><div class="info-label">Unit</div><div class="info-value">Unit 17</div><div class="info-detail">Properties of Cuboids</div></div></div><div class="info-cell"><div class="info-icon" style="background:#E3F8ED;">📅</div><div><div class="info-label">Lesson</div><div class="info-value">4.17.01</div></div></div><div class="info-cell"><div class="info-icon" style="background:#EAF0FF;">📐</div><div><div class="info-label">Standard</div><div class="info-value">MA.5.GR.2.1</div><div class="info-detail">Classify 3D figures · FL Grade 5 preview</div></div></div><div class="info-cell"><div class="info-icon" style="background:#FFF8E6;">🔢</div><div><div class="info-label">Focus</div><div class="info-value">Faces, edges and vertices</div><div class="info-detail">MTR.2.1 · MTR.5.1</div></div></div></div>
 <div class="explorer-strip"><span class="explorer-compass">🧭</span><div><div class="explorer-mission-label">Today's Mission</div><div class="explorer-mission-text">Name and count the faces, edges and vertices of a cuboid.</div></div></div>
 <div class="intro-2col"><div class="intro-card theme-question"><div class="intro-card-head"><div class="intro-card-head-icon">❓</div><div><div class="intro-card-head-label">Essential Question</div><div class="intro-card-head-title">What are the parts of a box, and how many of each are there?</div></div></div><div class="intro-card-body"><p>The class is running a toy drive. Every toy goes into a box, and Cora wants to know everything about those boxes.</p></div></div><div class="intro-card theme-objectives"><div class="intro-card-head"><div class="intro-card-head-icon">🎯</div><div><div class="intro-card-head-label">Today's Objectives</div><div class="intro-card-head-title">You will…</div></div></div><div class="intro-card-body"><div class="obj-line"><span class="obj-icon">📦</span><span><strong>Name</strong> the faces, edges and vertices of a cuboid.</span></div><div class="obj-line"><span class="obj-icon">🔢</span><span><strong>Count</strong> them all, even the hidden ones.</span></div><div class="obj-line"><span class="obj-icon">🎲</span><span><strong>Tell</strong> a cube from other cuboids.</span></div></div></div></div>
 <div class="need-strip"><span class="need-strip-label">You'll need:</span><span class="need-chip">📓 Math Journal</span><span class="need-chip">✏️ Pencil</span><span class="need-chip">📦 A small box, like a tissue or cereal box (optional)</span></div>
@@ -1273,7 +1273,7 @@ function biDraw(){
     var best = {};
     M.E.forEach(function(e, k){ if(!visEdge[k]) return; var mx = (P[e[0]][0] + P[e[1]][0]) / 2, my = (P[e[0]][1] + P[e[1]][1]) / 2, sc = e[2] === "h" ? mx : my;
       if(!best[e[2]] || sc > best[e[2]].sc) best[e[2]] = { e:e, sc:sc }; });
-    ["l","h","w"].forEach(function(k){ if(best[k]) s += lab(best[k].e[0], best[k].e[1], BIS.dims[k] + " in"); });
+    ["l","h","w"].forEach(function(k){ if(best[k]) s += lab(best[k].e[0], best[k].e[1], BIS.dims[k] + " cm"); });
   }
   var svg = document.getElementById("biSvg"); svg.innerHTML = s;
   document.getElementById("biTabs").innerHTML = BI.map(function(q, i){ return '<button class="tb-split' + (i === BIS.r ? ' on' : '') + '" onclick="biGo(' + i + ')">' + (BIS.done[i] ? "✓ " : "") + ["Faces","Edges","Vertices","Make a cube"][i] + '</button>'; }).join("");
@@ -1283,7 +1283,7 @@ function biDraw(){
   document.getElementById("biCubeRow").style.display = R.mode === "cube" ? "" : "none";
   var st = document.getElementById("biStatus");
   if(R.mode !== "cube"){ var n = Object.keys(BIS.tag[["faces","edges","verts"].indexOf(R.mode)]).length; st.innerHTML = "Tagged so far: <strong>" + n + "</strong> " + R.word + ". Drag the box to turn it."; document.getElementById("biUnit").textContent = R.word; }
-  else st.innerHTML = "Length " + BIS.dims.l + " in, width " + BIS.dims.w + " in, height " + BIS.dims.h + " in." + (BIS.dims.l === BIS.dims.h && BIS.dims.h === BIS.dims.w ? " All the same!" : "");
+  else st.innerHTML = "Length " + BIS.dims.l + " cm, width " + BIS.dims.w + " cm, height " + BIS.dims.h + " cm." + (BIS.dims.l === BIS.dims.h && BIS.dims.h === BIS.dims.w ? " All the same!" : "");
 }
 function biTag(kind, k){
   var svg = document.getElementById("biSvg"); if(svg.bxWasDrag && svg.bxWasDrag()) return;
@@ -1295,9 +1295,9 @@ function biCheck(){
   var R = BI[BIS.r], rt = document.getElementById("biRetry"), ok;
   if(R.mode === "cube"){
     var D = BIS.dims; ok = D.l === D.h && D.h === D.w;
-    rt.innerHTML = "A cube needs the length, width and height all the same. Right now they are " + D.l + ", " + D.w + " and " + D.h + " inches.";
+    rt.innerHTML = "A cube needs the length, width and height all the same. Right now they are " + D.l + ", " + D.w + " and " + D.h + " centimeters.";
     showFb("bi", ok);
-    if(ok){ BIS.done[3] = true; biDraw(); document.getElementById("biPassText").innerHTML = "Every edge is " + D.l + " inches, so every face is a square. A cube is a special cuboid: it still has 6 faces, 12 edges and 8 vertices."; }
+    if(ok){ BIS.done[3] = true; biDraw(); document.getElementById("biPassText").innerHTML = "Every edge is " + D.l + " centimeters, so every face is a square. A cube is a special cuboid: it still has 6 faces, 12 edges and 8 vertices."; }
     return;
   }
   var idx = ["faces","edges","verts"].indexOf(R.mode), n = Object.keys(BIS.tag[idx]).length, v = numVal("biAns");

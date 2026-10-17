@@ -764,8 +764,8 @@
 </div>
 </div>
 <div class="quote-strip"><div class="quote-strip-text">"Unfold a box and lay it flat. That flat shape is its net."</div><div class="quote-strip-attr">Unit 17 Big Idea</div></div>
-<div class="standards-toggle-bar" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');"><span class="standards-toggle-label">Standards Alignment</span><span class="standards-toggle-arrow">&#9660;</span></div><div class="standards-panel"><div class="standards-panel-inner"><div class="standards-group"><div class="standards-group-label">Florida B.E.S.T.</div><div class="standards-codes"><span class="fl-code">MA.5.GR.2.1</span> &middot; <span class="fl-code">MTR.2.1</span> &middot; <span class="fl-code">MTR.5.1</span></div></div><div class="standards-group"><div class="standards-group-label">Texas TEKS</div><div class="standards-codes"><span class="tx-code">3.6A</span></div></div></div></div>
-<div class="info-strip"><div class="info-cell"><div class="info-icon" style="background:#E0E7FF;">📦</div><div><div class="info-label">Unit</div><div class="info-value">Unit 17</div><div class="info-detail">Properties of Cuboids</div></div></div><div class="info-cell"><div class="info-icon" style="background:#E3F8ED;">📅</div><div><div class="info-label">Lesson</div><div class="info-value">4.17.02</div></div></div><div class="info-cell"><div class="info-icon" style="background:#EAF0FF;">📐</div><div><div class="info-label">Standard</div><div class="info-value">MA.5.GR.2.1</div><div class="info-detail">Classify 3D figures</div></div></div><div class="info-cell"><div class="info-icon" style="background:#FFF8E6;">🔢</div><div><div class="info-label">Focus</div><div class="info-value">Folding flat shapes into boxes</div><div class="info-detail">MTR.2.1 · MTR.5.1</div></div></div></div>
+<div class="standards-toggle-bar" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');"><span class="standards-toggle-label">Standards Alignment</span><span class="standards-toggle-arrow">&#9660;</span></div><div class="standards-panel"><div class="standards-panel-inner"><div class="standards-group"><div class="standards-group-label">Florida B.E.S.T.</div><div class="standards-codes"><span class="fl-code">MA.5.GR.2.1 (Grade 5 preview)</span> &middot; <span class="fl-code">MTR.2.1</span> &middot; <span class="fl-code">MTR.5.1</span></div></div><div class="standards-group"><div class="standards-group-label">Texas TEKS</div><div class="standards-codes"><span class="tx-code">3.6A</span></div></div></div></div>
+<div class="info-strip"><div class="info-cell"><div class="info-icon" style="background:#E0E7FF;">📦</div><div><div class="info-label">Unit</div><div class="info-value">Unit 17</div><div class="info-detail">Properties of Cuboids</div></div></div><div class="info-cell"><div class="info-icon" style="background:#E3F8ED;">📅</div><div><div class="info-label">Lesson</div><div class="info-value">4.17.02</div></div></div><div class="info-cell"><div class="info-icon" style="background:#EAF0FF;">📐</div><div><div class="info-label">Standard</div><div class="info-value">MA.5.GR.2.1</div><div class="info-detail">Classify 3D figures · FL Grade 5 preview</div></div></div><div class="info-cell"><div class="info-icon" style="background:#FFF8E6;">🔢</div><div><div class="info-label">Focus</div><div class="info-value">Folding flat shapes into boxes</div><div class="info-detail">MTR.2.1 · MTR.5.1</div></div></div></div>
 <div class="explorer-strip"><span class="explorer-compass">🧭</span><div><div class="explorer-mission-label">Today's Mission</div><div class="explorer-mission-text">Decide which nets fold into a cube or box, and match opposite faces.</div></div></div>
 <div class="intro-2col"><div class="intro-card theme-question"><div class="intro-card-head"><div class="intro-card-head-icon">❓</div><div><div class="intro-card-head-label">Essential Question</div><div class="intro-card-head-title">How can a flat shape become a box?</div></div></div><div class="intro-card-body"><p>The toy drive needs boxes, and every box starts as a flat piece of cardboard.</p></div></div><div class="intro-card theme-objectives"><div class="intro-card-head"><div class="intro-card-head-icon">🎯</div><div><div class="intro-card-head-label">Today's Objectives</div><div class="intro-card-head-title">You will…</div></div></div><div class="intro-card-body"><div class="obj-line"><span class="obj-icon">✂️</span><span><strong>Know</strong> that a net is a flat shape that folds into a solid.</span></div><div class="obj-line"><span class="obj-icon">📦</span><span><strong>Predict</strong> which nets fold into a closed cube.</span></div><div class="obj-line"><span class="obj-icon">🔁</span><span><strong>Find</strong> faces that end up opposite each other.</span></div></div></div></div>
 <div class="need-strip"><span class="need-strip-label">You'll need:</span><span class="need-chip">📓 Math Journal</span><span class="need-chip">✏️ Pencil</span><span class="need-chip">✂️ Scissors, tape and grid paper (optional)</span></div>
@@ -1291,6 +1291,10 @@ function nfRender(svgId, F, t, cam, opts){
     s += '<polygon points="' + q.map(function(p){ return aFmt(p[0]) + "," + aFmt(p[1]); }).join(" ") + '" fill="' + fill + '" fill-opacity=".9" stroke="' + (bad ? "#B91C1C" : "#312E81") + '" stroke-width="2" stroke-linejoin="round"' + (opts.click ? ' style="cursor:pointer" onclick="' + opts.click + '(' + k + ')"' : '') + '/>';
     if(opts.labels && (t < .01 || o.z > -.05)){ var m = [0, 0]; q.forEach(function(p){ m[0] += p[0] / 4; m[1] += p[1] / 4; }); s += '<text x="' + aFmt(m[0]) + '" y="' + aFmt(m[1] + 6) + '" text-anchor="middle" font-family="Nunito,sans-serif" font-size="17" font-weight="900" fill="#312E81" style="pointer-events:none">' + opts.labels[k] + '</text>'; }
   });
+  if(opts.bad){ /* doubled-up faces: outline them on top so they show even from behind */
+    Object.keys(opts.bad).forEach(function(k){ var q = proj[k];
+      s += '<polygon points="' + q.map(function(p){ return aFmt(p[0]) + "," + aFmt(p[1]); }).join(" ") + '" fill="rgba(239,68,68,.22)" stroke="#B91C1C" stroke-width="3" stroke-dasharray="6 4" stroke-linejoin="round" style="pointer-events:none"/>'; });
+  }
   if(opts.open){
     var q = opts.open.map(function(p){ return bxProj(vSub(p, c), cam2); }), m = [0, 0]; q.forEach(function(p){ m[0] += p[0] / 4; m[1] += p[1] / 4; });
     s += '<polygon points="' + q.map(function(p){ return aFmt(p[0]) + "," + aFmt(p[1]); }).join(" ") + '" fill="rgba(245,197,24,.18)" stroke="#B88A00" stroke-width="3" stroke-dasharray="7 5" stroke-linejoin="round"/>';
@@ -1311,7 +1315,8 @@ function nfProblems(F){
     var a = n[0] ? [0,1,0] : [1,0,0], b = vCross(n, a);
     open = { n:n, pts:[[1,1],[1,-1],[-1,-1],[-1,1]].map(function(s){ return vAdd(fc, vAdd(vMul(a, .5 * s[0]), vMul(b, .5 * s[1]))); }) };
   });
-  return { bad:bad, open:open };
+  var badN = null; Object.keys(bad).some(function(k){ var d = vSub(C[k], mid); var L = Math.hypot(d[0], d[1], d[2]); if(L > .3){ badN = vMul(d, 1 / L); return true; } return false; });
+  return { bad:bad, open:open, badN:badN };
 }
 function nfAnimate(get, set, to, done){
   var from = get(), t0 = null, dur = 1100;
@@ -1344,7 +1349,7 @@ function nfDraw(){
   if(!NFS.guess[NFS.r]) st.innerHTML = "Make a prediction first. Picture each square folding up.";
   else if(NFS.t < 0.01) st.innerHTML = "Now fold it and see. You can also drag the slider to fold slowly.";
   else if(NFS.t < 1.56) st.innerHTML = "Folding…";
-  else st.innerHTML = N.valid ? "Every face found its own spot. It’s a closed " + (N.box ? "box" : "cube") + "!" : "The <span style=\"color:#B91C1C;font-weight:900\">red</span> faces landed in the <strong>same spot</strong>, so one side of the cube is left <strong>open</strong> (the dashed yellow square). Drag to turn it.";
+  else st.innerHTML = N.valid ? "Every face found its own spot. It’s a closed " + (N.box ? "box" : "cube") + "!" : "The <span style=\"color:#B91C1C;font-weight:900\">red dashed</span> faces landed in the <strong>same spot</strong>, so one side of the cube is left <strong>open</strong> (the dashed yellow square). Drag to turn it.";
 }
 function nfGuess(k){ if(NFS.done[NFS.r]) return; NFS.guess[NFS.r] = k; hideFb("nf"); nfDraw(); }
 function nfSetT(t){ NFS.t = t; nfDraw(); }
@@ -1353,9 +1358,12 @@ function nfFold(){
   nfAnimate(function(){ return NFS.t; }, nfSetT, Math.PI / 2, function(){ NFS.busy = false; nfResult(); nfShowOpen(); });
 }
 function nfShowOpen(){
-  var N = NF[NFS.r]; if(N.valid) return; var pr = N.pr || (N.pr = nfProblems(N.F)); if(!pr.open || bxDir(pr.open.n, NFS.cam)[2] > .3) return;
+  var N = NF[NFS.r]; if(N.valid) return; var pr = N.pr || (N.pr = nfProblems(N.F)); if(!pr.open) return;
+  /* turn so BOTH the open side and the doubled-up (red) faces are in view */
+  var see = function(cm){ var zo = bxDir(pr.open.n, cm)[2], zb = pr.badN ? bxDir(pr.badN, cm)[2] : 1; return (pr.badN && vDot(pr.badN, pr.open.n) < -.5) ? zo : Math.min(zo, zb); };
+  if(see(NFS.cam) > .3) return;
   var best = null;
-  [-2.4,-1.6,-.8,0,.8,1.6,2.4].forEach(function(dy){ [.75,.35,-.35,-.75].forEach(function(p){ var cm = { yaw:NFS.cam.yaw + dy, pitch:p }, z = bxDir(pr.open.n, cm)[2]; if(z > .45){ var cost = Math.abs(dy) + Math.abs(p - NFS.cam.pitch); if(!best || cost < best.cost) best = { yaw:cm.yaw, pitch:p, cost:cost }; } }); });
+  [-2.4,-2.0,-1.6,-1.2,-.8,-.4,0,.4,.8,1.2,1.6,2.0,2.4].forEach(function(dy){ [.9,.75,.5,.35,0,-.35,-.5,-.75,-.9].forEach(function(p){ var cm = { yaw:NFS.cam.yaw + dy, pitch:p }, z = see(cm); if(z > .2){ var cost = Math.abs(dy) + Math.abs(p - NFS.cam.pitch) - z * 2; if(!best || cost < best.cost) best = { yaw:cm.yaw, pitch:p, cost:cost }; } }); });
   if(!best) return; var y0 = NFS.cam.yaw, p0 = NFS.cam.pitch;
   nfAnimate(function(){ return 0; }, function(k){ NFS.cam.yaw = y0 + (best.yaw - y0) * k; NFS.cam.pitch = p0 + (best.pitch - p0) * k; nfDraw(); }, 1);
 }
