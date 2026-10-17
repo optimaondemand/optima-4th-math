@@ -1171,6 +1171,8 @@ var FT = [
   { name:"Slanted lot", pts:[[100,205],[260,205],[320,95],[160,95]], lines:[90, 0, 27, 132], labels:["Up and down","Across","Corner to corner ↗","Corner to corner ↖"], center:C0, count:0 },
   { name:"House sign", pts:[[140,210],[280,210],[280,130],[210,70],[140,130]], lines:[90, 0], labels:["Up and down","Across"], center:[210,140], count:1 }
 ];
+/* draw every shape 25% bigger, scaled about the middle of the board (symmetry is unchanged) */
+FT.forEach(function(F){ var sc = function(p){ return [210 + (p[0] - 210) * 1.25, 150 + (p[1] - 150) * 1.25]; }; F.pts = F.pts.map(sc); F.center = sc(F.center); });
 var FTS = { r:0, sel:null, folded:false, res:FT.map(function(f){ return f.lines.map(function(){ return null; }); }), done:FT.map(function(){ return false; }) };
 function ftReflect(pt, c, d){
   var t = aRad(d), ux = Math.cos(t), uy = -Math.sin(t), vx = pt[0] - c[0], vy = pt[1] - c[1], k = vx * ux + vy * uy;

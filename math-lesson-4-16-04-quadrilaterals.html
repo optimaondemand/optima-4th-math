@@ -1172,7 +1172,7 @@ var GB = [
   { want:"rhombus", label:"Rhombus", task:"The fountain plaza is a <strong>rhombus that is not a square</strong>: four equal sides, but no right angles. Hint: try a diamond." },
   { want:"square", label:"Square", task:"The town hall lot is a <strong>square</strong>: four equal sides and four right angles." }
 ];
-function gbStart(){ return [[1,1],[6,2],[5,5],[2,4]]; }
+function gbStart(){ return [[1,1],[6,2],[5,5],[1,4]]; } /* no right angles and no parallel sides to start */
 var GBS = { r:0, pts:GB.map(gbStart), done:GB.map(function(){ return false; }), drag:-1 };
 function gbSegsCross(a, b, c, d){
   function o(p, q, r){ var v = (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0]); return v > 0 ? 1 : v < 0 ? -1 : 0; }

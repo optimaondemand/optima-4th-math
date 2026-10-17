@@ -905,6 +905,7 @@
 </div></div>
 
 <div class="key-concept" style="margin-top:16px;"><div class="key-concept-label">📐 What You Just Saw</div><p>An angle is a <strong>turn</strong> from one ray to the other, around the vertex. The <strong>size</strong> of the angle is how far it turns. The length of the arms doesn’t change it.</p><p>Compare any angle to a square corner. <strong>Less</strong> is acute. <strong>The same</strong> is right. <strong>More</strong>, but not a straight line, is obtuse. A <strong>straight line</strong> is a straight angle.</p></div>
+<div class="callout callout-think" style="margin-top:12px;"><span class="callout-icon">🔁</span><p><strong>Back to Theo’s ramps:</strong> Angle Q is bigger. It opens about twice as wide as angle P. Theo looked at the arms, but long arms don’t make an angle bigger. Only the turn between the arms does.</p></div>
 
 <div class="activity bl-violet" style="margin-top:16px;"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">🗂️</div><div><div class="activity-title">Four Kinds of Angles</div><div class="activity-sub">Each one on a clock face</div></div></div><div class="activity-body">
 <table class="same-table">
@@ -1069,9 +1070,9 @@ function aProtractor(cx, cy, R, hi, opacity){
   var outC = hi === "out" ? "#C2410C" : "#5A4A3A", inC = hi === "in" ? "#C2410C" : "#5A4A3A";
   var outW = hi === "out" ? 900 : 700, inW = hi === "in" ? 900 : 700;
   for(var k = 0; k <= 180; k += 10){
-    var po = aPt(cx, cy, R - 14, k), pi = aPt(cx, cy, R - 32, k), lift = (k === 0 || k === 180) ? 7 : 0; po[1] -= lift; pi[1] -= lift;
-    s += '<text x="' + aFmt(po[0]) + '" y="' + aFmt(po[1] + 4) + '" text-anchor="middle" font-family="Nunito,sans-serif" font-size="' + (hi === "out" ? 11 : 10) + '" font-weight="' + outW + '" fill="' + outC + '">' + (180 - k) + '</text>';
-    s += '<text x="' + aFmt(pi[0]) + '" y="' + aFmt(pi[1] + 4) + '" text-anchor="middle" font-family="Nunito,sans-serif" font-size="' + (hi === "in" ? 11 : 9.5) + '" font-weight="' + inW + '" fill="' + inC + '">' + k + '</text>';
+    var po = aPt(cx, cy, R - 15, k), pi = aPt(cx, cy, R - 35, k), lift = (k === 0 || k === 180) ? 7 : 0; po[1] -= lift; pi[1] -= lift;
+    s += '<text x="' + aFmt(po[0]) + '" y="' + aFmt(po[1] + 4) + '" text-anchor="middle" font-family="Nunito,sans-serif" font-size="' + (hi === "out" ? 13 : 12) + '" font-weight="' + outW + '" fill="' + outC + '">' + (180 - k) + '</text>';
+    s += '<text x="' + aFmt(pi[0]) + '" y="' + aFmt(pi[1] + 4) + '" text-anchor="middle" font-family="Nunito,sans-serif" font-size="' + (hi === "in" ? 12 : 10.5) + '" font-weight="' + inW + '" fill="' + inC + '">' + k + '</text>';
   }
   s += '<line x1="' + (cx - R - 8) + '" y1="' + cy + '" x2="' + (cx + R + 8) + '" y2="' + cy + '" stroke="#6B5320" stroke-width="1.6"/>';
   s += '<circle cx="' + cx + '" cy="' + cy + '" r="4" fill="none" stroke="#C2410C" stroke-width="2"/><line x1="' + cx + '" y1="' + (cy - 9) + '" x2="' + cx + '" y2="' + cy + '" stroke="#C2410C" stroke-width="2"/>';
