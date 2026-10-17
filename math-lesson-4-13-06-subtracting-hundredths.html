@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Optima Academy Online — Grade 4 Math Lesson 4.13.06</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@400;600;700;800;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0} body{font-family:'Nunito','Century Gothic',Verdana,sans-serif;background:#F0F2F8;color:#0E1C42;line-height:1.6} .page-wrap{max-width:920px;margin:0 auto;background:#fff;box-shadow:0 0 40px rgba(14,28,66,.08)}
+.progress-wrap{position:sticky;top:0;z-index:200;background:#0E1C42;padding:8px 20px 10px;display:flex;align-items:center;gap:14px}.progress-label{font-size:12px;color:#F5C518;font-weight:800;text-transform:uppercase;letter-spacing:.8px;white-space:nowrap}.progress-track{flex:1;height:10px;background:rgba(255,255,255,.1);border-radius:10px;overflow:hidden}.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#C2415B,#F5C518,#F8D7DE);border-radius:10px;transition:width .4s}.progress-pct{font-size:13px;color:#F5C518;font-weight:800;min-width:36px;text-align:right}
+.header{background:#0E1C42;border-bottom:6px solid #C2415B;padding:20px 28px 18px;position:relative;overflow:hidden}.header::after{content:'';position:absolute;bottom:6px;left:0;right:0;height:3px;background:linear-gradient(90deg,#C2415B,#F8D7DE,#C2415B)}.header-brand{display:flex;align-items:center;gap:12px;margin-bottom:14px}.header-logo{width:52px;height:52px;border-radius:50%;background:#FFFFFF;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.15)}.header-logo img{width:48px;height:38px;display:block}.header-org{font-size:22px;color:#fff;font-weight:800;line-height:1.15}.header-sub{font-size:11px;color:#F8D7DE;letter-spacing:.5px}.header-title{font-family:'Lora',Georgia,serif;font-size:28px;color:#fff;font-weight:700;line-height:1.2;margin-bottom:10px}.header-title em{color:#A0E8DA;font-style:italic}.header-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(197,108,63,.18);border:1.5px solid rgba(197,108,63,.42);border-radius:28px;padding:6px 16px}.header-badge-icon{font-size:22px}.header-badge-text{font-size:18px;color:#fff;font-weight:800}
+.quote-strip{background:linear-gradient(135deg,#FFF5F7,#F3B4C1);border-bottom:2px solid #F8D7DE;padding:14px 28px;text-align:center}.quote-strip-text{font-family:'Lora',Georgia,serif;font-size:16px;font-style:italic;color:#5A4A3A;line-height:1.6}.quote-strip-attr{font-size:11px;color:#7A88A8;font-weight:700;margin-top:4px;text-transform:uppercase;letter-spacing:.5px}.info-strip{display:flex;flex-wrap:wrap;background:#fff;border-bottom:2px solid #E2E8F4}.info-cell{flex:1;min-width:150px;padding:12px 16px;border-right:1px solid #E2E8F4;display:flex;align-items:center;gap:10px}.info-cell:last-child{border-right:none}.info-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}.info-label{font-size:10px;color:#7A88A8;text-transform:uppercase;letter-spacing:.5px;font-weight:700}.info-value{font-size:16px;color:#0E1C42;font-weight:800;line-height:1.2}.info-detail{font-size:11px;color:#3A4A6B;line-height:1.3}.explorer-strip{display:flex;align-items:center;gap:16px;padding:12px 28px;background:linear-gradient(135deg,#1A2340,#0E1C42);border-bottom:3px solid #6B3FA0}.explorer-compass{font-size:28px;flex-shrink:0}.explorer-mission-label{font-size:10px;color:#F5C518;text-transform:uppercase;letter-spacing:1px;font-weight:800;margin-bottom:2px}.explorer-mission-text{font-size:15px;color:#fff;font-weight:700;line-height:1.3}
+.intro-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:20px 28px 4px}.intro-card{background:#fff;border:2px solid #E2E8F4;border-radius:18px;overflow:hidden;box-shadow:0 2px 10px rgba(14,28,66,.04)}.intro-card-head{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:2px solid}.intro-card-head-icon{width:40px;height:40px;border-radius:50%;color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0}.intro-card-head-label{font-size:10px;color:#7A88A8;text-transform:uppercase;letter-spacing:.8px;font-weight:700}.intro-card-head-title{font-size:18px;color:#0E1C42;font-weight:800;line-height:1.2}.intro-card-body{padding:14px 18px}.intro-card-body p{font-size:15px;color:#3A4A6B;line-height:1.65;margin-bottom:8px}.obj-line{display:flex;align-items:flex-start;gap:8px;font-size:15px;color:#0E1C42;line-height:1.55;margin-bottom:8px}.obj-icon{flex-shrink:0;font-size:17px}.theme-question .intro-card-head{background:#FFF8E6;border-color:#F5E6C8}.theme-question .intro-card-head-icon{background:#F5C518}.theme-objectives .intro-card-head{background:#F0E8FF;border-color:#D8CCF0}.theme-objectives .intro-card-head-icon{background:#6B3FA0}.need-strip{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:12px 28px 18px}.need-strip-label{font-size:13px;color:#3A4A6B;font-weight:700;white-space:nowrap}.need-chip{display:inline-flex;align-items:center;gap:5px;background:#E3F8ED;border:1.5px solid #B8E8CF;border-radius:20px;padding:5px 12px;font-size:13px;color:#0E1C42;font-weight:700}
+.tab-bar{position:sticky;top:38px;z-index:100;background:#fff;border-bottom:3px solid #E2E8F4;display:flex;overflow-x:auto;box-shadow:0 -4px 0 0 #0E1C42}.tab-btn{flex:1;min-width:130px;padding:12px 8px 11px;background:transparent;border:none;border-bottom:4px solid transparent;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:#7A88A8;cursor:pointer;transition:all .2s;white-space:nowrap;line-height:1.3;text-align:center}.tab-btn:hover{color:#0E1C42;background:#FFF5F7}.tab-btn.active{color:#0E1C42;border-bottom-color:#C2415B;background:#fff}.tab-btn .tab-check{display:none;font-size:12px;color:#2DB87A;margin-left:4px;font-weight:800}.tab-btn.visited .tab-check{display:inline}.tab-panel{display:none;padding:24px 28px 36px}.tab-panel.active{display:block}
+/* ═══ VIDEO PLACEHOLDER ═══ */
+.video-placeholder-wrap {
+  display: none;
+  border-radius: 14px; overflow: hidden; margin: 0 0 18px;
+  border: 2px dashed rgba(107,63,160,0.4);
+  background: linear-gradient(135deg, #0E1C42, #1A2D5A);
+}
+.video-placeholder-inner {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 28px 20px;
+}
+.video-placeholder-inner .vp-icon { font-size: 34px; margin-bottom: 6px; }
+.video-placeholder-inner .vp-label {
+  font-size: 10px; color: #F5C518; text-transform: uppercase;
+  letter-spacing: 2px; font-weight: 800; margin-bottom: 4px;
+}
+.video-placeholder-inner .vp-title {
+  font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 8px;
+}
+.video-placeholder-inner .vp-slot {
+  font-family: monospace; font-size: 11px; color: #6B3FA0;
+  background: rgba(107,63,160,0.15);
+  padding: 3px 10px; border-radius: 4px;
+}
+.video-placeholder-inner .vp-notes {
+  font-size: 12px; color: rgba(255,255,255,0.8); font-style: italic;
+  margin-top: 10px; text-align: left; padding: 10px 12px;
+  background: rgba(0,0,0,0.25); border-radius: 6px; border-left: 3px solid #6B3FA0;
+}
+.activity{background:#fff;border:2px solid #E2E8F4;border-radius:18px;margin-bottom:18px;overflow:hidden;box-shadow:0 2px 10px rgba(14,28,66,.04)}.activity.bl-violet{border-left:6px solid #6B3FA0}.activity.bl-green{border-left:6px solid #2DB87A}.activity.bl-yellow{border-left:6px solid #F5C518}.activity.bl-orange{border-left:6px solid #A8344D}.activity.bl-slate{border-left:6px solid #3A6B9A}.activity.bl-navy{border-left:6px solid #0E1C42}.activity-head{display:flex;align-items:center;gap:12px;padding:14px 20px 14px 18px;border-bottom:1.5px solid #E2E8F4}.activity-num{width:38px;height:38px;border-radius:14px;color:#fff;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}.activity-title{font-size:19px;color:#0E1C42;font-weight:800;line-height:1.2}.activity-sub{font-size:12px;color:#7A88A8}.activity-time{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:20px;font-size:13px;font-weight:700;color:#fff;white-space:nowrap;margin-left:auto}.activity-body{padding:18px 22px}.activity-body p{font-size:17px;color:#3A4A6B;line-height:1.75;margin-bottom:12px}.callout{border-radius:14px;padding:16px 18px;display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}.callout-icon{font-size:28px;flex-shrink:0;margin-top:2px}.callout p{font-size:16px;color:#0E1C42;line-height:1.65;margin:0}.callout-info{background:#FFF5F7;border:2px solid #F8D7DE}.callout-think{background:#FFF8E6;border:2px solid #F5E6C8}.callout-tip{background:#E3F8ED;border:2px solid #B8E8CF}.callout-vocab{background:#F0E8FF;border:2px solid #D8CCF0}.key-concept{background:#F0E8FF;border:2px solid #D8CCF0;border-radius:14px;padding:16px 18px;margin-bottom:14px}.key-concept-label{font-size:12px;color:#6B3FA0;text-transform:uppercase;letter-spacing:.5px;font-weight:800;margin-bottom:8px}.key-concept p{font-size:15px;color:#0E1C42;line-height:1.7;margin-bottom:6px}.socratic-box{background:linear-gradient(135deg,#F0E8FF,#E8DCFA);border:2px solid #D8CCF0;border-radius:14px;padding:16px 18px;margin-bottom:14px}.socratic-label{font-size:12px;color:#6B3FA0;text-transform:uppercase;letter-spacing:.5px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:6px}.socratic-q{font-size:16px;color:#0E1C42;line-height:1.7;font-style:italic;margin-bottom:8px}.journal-label{font-size:13px;color:#3A4A6B;font-weight:700;margin:10px 0 4px;display:flex;align-items:center;gap:6px}.journal-box{width:100%;min-height:80px;border:2px solid #E2E8F4;border-radius:12px;padding:12px 14px;font-family:'Nunito',sans-serif;font-size:15px;color:#0E1C42;resize:vertical;transition:border-color .2s;line-height:1.6}.journal-box:focus{outline:none;border-color:#6B3FA0;box-shadow:0 0 0 3px rgba(107,63,160,.1)}.saved-dot{width:8px;height:8px;border-radius:50%;background:#E2E8F4;display:inline-block;transition:background .3s}.saved-dot.saved{background:#2DB87A}.check-btn,.purple-btn,.green-btn,.orange-btn{display:inline-flex;align-items:center;gap:6px;color:#fff;border:none;border-radius:12px;padding:10px 20px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;margin-top:10px}.check-btn{background:#3A6B9A}.purple-btn{background:#6B3FA0}.green-btn{background:#2DB87A}.orange-btn{background:#A8344D}.reveal-box{display:none;background:#E3F8ED;border:2px solid #B8E8CF;border-radius:12px;padding:14px 16px;margin-top:10px;font-size:15px;color:#0E1C42;line-height:1.6;font-weight:600}.reveal-box.show{display:block}.hint-callout{background:#FFF8E6;border:2px solid #F5C518;border-radius:10px;padding:10px 14px;margin:12px 0;font-size:14px;color:#5A4A00;font-weight:700}.task-box{background:#FAFBFF;border:2px solid #E2E8F4;border-radius:14px;padding:16px 18px;margin-bottom:14px}.task-label{font-size:12px;color:#6B3FA0;text-transform:uppercase;letter-spacing:.6px;font-weight:800;margin-bottom:10px}.feedback-branch{display:none;margin-top:16px;border-radius:14px;overflow:hidden;padding:16px}.feedback-branch.show{display:block}.feedback-pass{background:#E3F8ED;border:2px solid #B8E8CF}.feedback-retry{background:#FFF0E6;border:2px solid #F5C8A0}
+.pv-mat{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:14px 0}.pv-col{border:2px solid #E2E8F4;border-radius:14px;min-height:150px;background:#FAFBFF;overflow:hidden}.pv-col-head{padding:8px 3px;text-align:center;color:#fff;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.2px;line-height:1.15}.hundredthousands .pv-col-head{background:#1A8A7D}.tenthousands .pv-col-head{background:#C43B6B}.thousands .pv-col-head{background:#6B3FA0}.hundreds .pv-col-head{background:#3A6B9A}.tens .pv-col-head{background:#2DB87A}.ones .pv-col-head{background:#A8344D}.pv-col-body{padding:7px 5px;min-height:90px;display:flex;gap:4px;flex-wrap:wrap;align-content:flex-start;justify-content:center}.disk{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#fff;box-shadow:inset 0 -3px 0 rgba(0,0,0,.16);user-select:none}.disk.ht{background:#1A8A7D}.disk.tk{background:#C43B6B}.disk.k{background:#6B3FA0}.disk.h{background:#3A6B9A}.disk.t{background:#2DB87A}.disk.o{background:#A8344D}.pv-count{text-align:center;font-size:18px;font-weight:900;color:#0E1C42;margin:2px 0 8px}.pv-controls{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px}.mini-btn{border:none;border-radius:9px;padding:6px;font-weight:900;color:#fff;cursor:pointer}.mini-btn.add{background:#6B3FA0}.mini-btn.remove{background:#7A88A8}.number-display{background:#0E1C42;color:#fff;border-radius:16px;padding:14px;text-align:center;margin:14px 0}.number-display .digits{font-family:'Lora',Georgia,serif;font-size:34px;font-weight:800;letter-spacing:3px}.number-display .words{font-size:14px;color:#F5C518;font-weight:800;margin-top:4px}.value-card-row{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.value-card{border:2px solid #E2E8F4;background:#fff;border-radius:14px;padding:10px 14px;min-width:110px;text-align:center;cursor:pointer;transition:.2s}.value-card:hover,.value-card.selected{border-color:#6B3FA0;background:#F0E8FF}.value-card.good{background:#E3F8ED;border-color:#2DB87A}.value-card.bad{background:#FFF0E6;border-color:#A8344D;animation:shake .25s}.value-card .big{font-size:24px;font-weight:900;color:#0E1C42}.value-card .small{font-size:12px;color:#3A4A6B;font-weight:800}.digit-strip{display:flex;justify-content:center;gap:8px;margin:14px 0}.digit-tile{width:56px;height:64px;border-radius:14px;border:3px solid #E2E8F4;background:#fff;font-size:30px;font-weight:900;display:flex;align-items:center;justify-content:center;cursor:pointer}.digit-tile.active{background:#F0E8FF;border-color:#6B3FA0;color:#6B3FA0}.place-bubble{font-size:15px;font-weight:800;color:#0E1C42;background:#FFF8E6;border:2px solid #F5E6C8;border-radius:12px;padding:12px;text-align:center;margin-top:8px}.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}.match-card{padding:12px;border:2px solid #E2E8F4;border-radius:14px;background:#fff;cursor:pointer;font-size:15px;font-weight:800}.match-card.selected{border-color:#6B3FA0;background:#F0E8FF}.match-card.matched{border-color:#2DB87A;background:#E3F8ED}.sortable-row{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.digit-bank-card{width:62px;height:62px;border-radius:14px;background:#fff;border:3px solid #E2E8F4;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;cursor:pointer}.digit-bank-card.selected{border-color:#6B3FA0;background:#F0E8FF}.chart-slot{height:64px;border:3px dashed #D8CCF0;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:#6B3FA0;background:#FBF8FF;cursor:pointer}.chart-slot.filled{border-style:solid;background:#F0E8FF}.q-block{background:#FAFBFF;border:2px solid #E2E8F4;border-radius:14px;padding:14px 18px;margin-bottom:14px}.q-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#6B3FA0;color:#fff;font-weight:800;font-size:14px;margin-right:8px;vertical-align:middle}.q-text{font-size:16px;color:#0E1C42;line-height:1.65;margin-bottom:4px}.gathered-box{background:#fff;border:2px solid #E2E8F4;border-radius:18px;overflow:hidden;margin-top:24px}.gathered-head{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#0E1C42,#1A2D5A);padding:18px 22px}.gathered-head-icon{font-size:32px}.gathered-head-label{font-size:11px;color:#F5C518;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}.gathered-head-title{font-size:18px;color:#fff;font-weight:800}.gathered-body{padding:16px 22px}.gathered-output{width:100%;min-height:180px;border:2px solid #E2E8F4;border-radius:12px;padding:14px;font-family:'Courier New',monospace;font-size:13px;color:#0E1C42;resize:vertical;background:#FAFBFF}.gathered-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.tab-next-wrap{text-align:center;padding:24px 0 8px}.tab-transition-voice{font-family:'Lora',Georgia,serif;font-size:15px;font-style:italic;color:#5A4A3A;margin-bottom:12px;line-height:1.6}.tab-next-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#C2415B,#E88A9C);color:#fff;border:none;border-radius:28px;padding:13px 28px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:0 4px 14px rgba(197,108,63,.3);transition:all .2s}.turn-in-card{background:#fff;border:2px solid #E2E8F4;border-radius:18px;overflow:hidden;box-shadow:0 2px 10px rgba(14,28,66,.04);margin-top:18px}.turn-in-header{display:flex;align-items:center;gap:14px;background:#FFF5F7;padding:18px 22px;border-bottom:2px solid #F8D7DE}.turn-in-header-icon{font-size:36px}.turn-in-header-label{font-size:11px;color:#C2415B;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}.turn-in-header-title{font-family:'Lora',Georgia,serif;font-size:22px;color:#0E1C42;font-weight:700}.turn-in-body{padding:18px 22px 20px}.turn-in-item{display:flex;align-items:center;gap:14px;padding:12px 16px;background:#FAFBFF;border:1.5px solid #E2E8F4;border-radius:12px;cursor:pointer;transition:.2s;margin-bottom:10px}.turn-in-item.checked{background:#E3F8ED;border-color:#B8E8CF}.turn-in-check{width:26px;height:26px;border-radius:8px;border:2px solid #D8CCF0;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}.turn-in-item.checked .turn-in-check{background:#2DB87A;border-color:#2DB87A;color:#fff}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}@media(max-width:720px){.intro-2col,.pv-mat,.match-grid{grid-template-columns:1fr}.tab-panel{padding:20px 18px}.activity-head{align-items:flex-start}.activity-time{display:none}.header-title{font-size:24px}.number-display .digits{font-size:28px}.pv-mat{gap:8px}.disk{width:32px;height:32px}}
+.student-task-banner{background:#FFF5F7;border:2px solid #F8D7DE;border-left:6px solid #55C8E8;border-radius:14px;padding:14px 16px;margin:14px 0;font-size:16px;color:#0E1C42;line-height:1.55;font-weight:800}.student-task-banner .task-steps{display:block;font-size:14px;font-weight:700;color:#3A4A6B;margin-top:6px}.student-task-banner strong{color:#0E1C42}
+#confettiCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10000}
+
+
+/* ═══════════ HEADER ═══════════ */
+.header {
+  background: #0E1C42;
+  border-bottom: 6px solid #55C8E8;
+  padding: 20px 28px 18px;
+  position: relative;
+  overflow: hidden;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #55C8E8, #F3B4C1, #55C8E8);
+}
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.header-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.header-logo img { width: 48px; height: 38px; }
+.header-org { font-size: 22px; color: #fff; font-weight: 800; line-height: 1.15; }
+.header-sub { font-size: 11px; color: #55C8E8; letter-spacing: 0.5px; }
+.header-title {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 28px;
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+.header-title em { color: #A0E8DA; font-style: italic; }
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(85, 200, 232, 0.15);
+  border: 1.5px solid rgba(85, 200, 232, 0.35);
+  border-radius: 28px;
+  padding: 6px 16px;
+}
+.header-badge-icon { font-size: 22px; }
+.header-badge-text { font-size: 18px; color: #fff; font-weight: 800; }
+
+/* ═══════════ FOOTER ═══════════ */
+.footer {
+  background: #0E1C42;
+  border-top: 4px solid #C2415B;
+  padding: 18px 28px;
+  text-align: center;
+}
+.footer-main { font-size: 14px; color: #fff; margin-bottom: 4px; }
+.footer-main span { color: #C2415B; font-weight: 700; }
+.footer-sub { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 2px; }
+.footer-copy { font-size: 11px; color: rgba(255,255,255,0.3); }
+
+
+/* ═══════════ CONFETTI ═══════════ */
+#confettiCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 10000;
+}
+
+
+.page-feedback{display:none;margin:12px 0;padding:12px 14px;border-radius:12px;border:2px solid #F5E6C8;background:#FFF8F9;color:#0E1C42;font-weight:800;line-height:1.45;box-shadow:0 2px 8px rgba(14,28,66,.06)}.page-feedback.show{display:block}.page-feedback.good{background:#E3F8ED;border-color:#B8E8CF}.page-feedback.warn{background:#FFF3DC;border-color:#F5E6C8}.page-feedback .small{display:block;font-weight:700;color:#3A4A6B;margin-top:3px;font-size:13px}
+
+/* tactile number talk + inline feedback upgrades */
+.number-talk-visual{background:linear-gradient(135deg,#FAFBFF,#FFF5F7);border:2px solid #F8D7DE;border-radius:16px;padding:16px;margin:14px 0;box-shadow:inset 0 0 0 1px rgba(85,200,232,.08)}
+.number-talk-prompt{font-size:16px;color:#0E1C42;font-weight:800;margin-bottom:10px;line-height:1.5}.notice-wonder-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}.notice-wonder-box{background:#fff;border:2px solid #E2E8F4;border-radius:14px;padding:12px 14px;min-height:98px}.notice-wonder-box h4{font-size:13px;color:#1A8A7D;text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px}.visual-equation{font-size:28px;font-weight:900;text-align:center;color:#0E1C42;background:#fff;border:2px solid #E2E8F4;border-radius:14px;padding:12px;margin:10px 0}.open-number-line{position:relative;height:86px;margin:18px 8px 4px}.open-number-line::before{content:'';position:absolute;left:5%;right:5%;top:42px;height:6px;background:#0E1C42;border-radius:8px}.nt-tick{position:absolute;top:29px;width:18px;height:18px;background:#55C8E8;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 2px #0E1C42;transform:translateX(-50%)}.nt-tick-label{position:absolute;top:54px;transform:translateX(-50%);font-weight:900;font-size:13px;color:#0E1C42}.jump-arc{position:absolute;top:2px;height:50px;border:3px solid #D4943A;border-bottom:0;border-radius:60px 60px 0 0}.jump-label{position:absolute;top:3px;transform:translateX(-50%);background:#FFF3DC;border:2px solid #F5E6C8;border-radius:12px;padding:2px 8px;font-size:12px;font-weight:900;color:#5A4A3A}.ten-frame-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0}.ten-frame{display:grid;grid-template-columns:repeat(5,22px);gap:5px;background:#fff;border:2px solid #E2E8F4;border-radius:12px;padding:8px}.tf-dot{width:22px;height:22px;border-radius:50%;background:#55C8E8;border:2px solid #0E1C42}.tf-empty{width:22px;height:22px;border-radius:50%;background:#FAFBFF;border:2px dashed #B0B8CC}.bar-talk{display:flex;height:48px;border:3px solid #0E1C42;border-radius:12px;overflow:hidden;background:#fff;margin:12px 0}.bar-talk .seg{display:flex;align-items:center;justify-content:center;font-weight:900;color:#0E1C42;border-right:2px solid #0E1C42}.bar-talk .seg:last-child{border-right:0}.bar-talk .known{background:#FFF5F7}.bar-talk .unknown{background:#FFF3DC}.strategy-chip-row{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.strategy-chip{border:2px solid #E2E8F4;background:#fff;border-radius:999px;padding:10px 14px;font-family:'Nunito',sans-serif;font-weight:900;color:#0E1C42;cursor:pointer;transition:.18s}.strategy-chip:hover{border-color:#55C8E8;background:#FFF5F7;transform:translateY(-1px)}.strategy-chip.selected{border-color:#34B76F;background:#E3F8ED}.inline-feedback,.page-feedback{display:none;margin:12px 0;border-radius:14px;padding:12px 14px;font-weight:800;line-height:1.5}.inline-feedback.show,.page-feedback.show{display:block}.inline-feedback.good,.page-feedback.good{background:#E3F8ED;border:2px solid #B8E8CF;color:#0E1C42}.inline-feedback.think,.page-feedback.think,.inline-feedback.try,.page-feedback.warn{background:#FFF3DC;border:2px solid #F5E6C8;color:#5A4A3A}.inline-feedback.info,.page-feedback.info{background:#FFF5F7;border:2px solid #F8D7DE;color:#0E1C42}
+@media(max-width:620px){.notice-wonder-grid{grid-template-columns:1fr}.visual-equation{font-size:22px}.open-number-line{margin-left:0;margin-right:0}.strategy-chip{width:100%;justify-content:center}}
+
+
+/* ═══════════ DAILY VOCABULARY ═══════════ */
+.daily-vocab {
+  margin: 14px 28px 18px;
+  background: #F0E8FF;
+  border: 2px solid #D8CCF0;
+  border-left: 6px solid #6B3FA0;
+  border-radius: 16px;
+  padding: 14px 18px;
+}
+.daily-vocab-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 900;
+  color: #0E1C42;
+  margin-bottom: 8px;
+}
+.daily-vocab-sub {
+  font-size: 13px;
+  color: #3A4A6B;
+  margin-bottom: 10px;
+}
+.daily-vocab-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.daily-vocab-item {
+  background: #FFFFFF;
+  border: 1.5px solid #D8CCF0;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #3A4A6B;
+  line-height: 1.45;
+}
+.daily-vocab-term {
+  display: block;
+  font-size: 15px;
+  color: #0E1C42;
+  font-weight: 900;
+  margin-bottom: 3px;
+}
+@media (max-width: 620px) { .daily-vocab-grid { grid-template-columns: 1fr; } }
+
+/* ═══════════ SPARKLE: ANIMATIONS & MICRO-INTERACTIONS ═══════════ */
+@keyframes diskPop { 0%{transform:scale(0) rotate(-45deg);opacity:0} 60%{transform:scale(1.25) rotate(5deg);opacity:1} 100%{transform:scale(1) rotate(0)} }
+.disk { animation: diskPop .35s cubic-bezier(.34,1.56,.64,1) both; }
+.disk:hover { transform:scale(1.15); box-shadow: 0 4px 12px rgba(0,0,0,.2), inset 0 -3px 0 rgba(0,0,0,.16); transition: transform .15s, box-shadow .15s; cursor:pointer; }
+
+@keyframes digitBump { 0%{transform:translateY(8px);opacity:.4} 100%{transform:translateY(0);opacity:1} }
+.number-display .digits.bumping { animation: digitBump .25s ease-out; }
+
+.mini-btn { transition: transform .12s, box-shadow .12s, filter .12s; }
+.mini-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,.15); }
+.mini-btn:active { transform: translateY(1px) scale(.95); }
+.mini-btn.add:hover { filter: brightness(1.15); }
+
+.check-btn,.purple-btn,.green-btn,.orange-btn { transition: transform .15s, box-shadow .15s, filter .12s; }
+.check-btn:hover,.purple-btn:hover,.green-btn:hover,.orange-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.15); filter: brightness(1.1); }
+.check-btn:active,.purple-btn:active,.green-btn:active,.orange-btn:active { transform: translateY(1px) scale(.97); }
+
+@keyframes digitGlow { 0%{box-shadow:0 0 0 0 rgba(107,63,160,.5)} 70%{box-shadow:0 0 0 12px rgba(107,63,160,0)} 100%{box-shadow:none} }
+.digit-tile { transition: transform .15s, border-color .2s, background .2s; }
+.digit-tile:hover { transform: translateY(-3px) scale(1.05); }
+.digit-tile.active { animation: digitGlow .5s ease-out; }
+
+.pv-col { transition: transform .2s, box-shadow .2s; }
+.pv-col:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(14,28,66,.08); }
+
+@keyframes matchPulse { 0%{transform:scale(1)} 40%{transform:scale(1.06)} 100%{transform:scale(1)} }
+.match-card { transition: transform .15s, border-color .2s, background .2s, box-shadow .2s; }
+.match-card:hover:not(.matched) { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(14,28,66,.1); }
+.match-card.matched { animation: matchPulse .35s ease-out; box-shadow: 0 0 0 3px rgba(45,184,122,.3); }
+
+.digit-bank-card { transition: transform .15s, border-color .2s, box-shadow .2s; }
+.digit-bank-card:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 6px 16px rgba(14,28,66,.1); }
+.digit-bank-card.selected { animation: digitGlow .5s ease-out; }
+
+@keyframes slotPulse { 0%,100%{border-color:#D8CCF0} 50%{border-color:#6B3FA0} }
+.chart-slot:not(.filled) { animation: slotPulse 2s ease-in-out infinite; }
+.chart-slot.filled { animation: matchPulse .3s ease-out; }
+
+@keyframes revealSlide { 0%{opacity:0;transform:translateY(10px)} 100%{opacity:1;transform:translateY(0)} }
+.reveal-box.show, .feedback-branch.show, .inline-feedback.show { animation: revealSlide .35s ease-out; }
+
+.tab-btn { transition: all .2s; position: relative; }
+@keyframes gentleFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+.tab-next-btn { animation: gentleFloat 3s ease-in-out infinite; }
+.tab-next-btn:hover { animation: none; transform: translateY(-2px) scale(1.03); box-shadow: 0 8px 24px rgba(197,108,63,.35); transition: all .2s; }
+
+.flip-card:not(.flipped):hover .flip-card-inner { transform: rotateY(8deg); }
+.flip-card.flipped:hover .flip-card-inner { transform: rotateY(172deg); }
+.flip-card { transition: transform .15s; }
+.flip-card:hover { transform: translateY(-3px); }
+
+@keyframes checkPop { 0%{transform:scale(0)} 60%{transform:scale(1.3)} 100%{transform:scale(1)} }
+.turn-in-item.checked .turn-in-check { animation: checkPop .3s ease-out; }
+
+@keyframes progressShimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+.progress-fill { background: linear-gradient(90deg,#C2415B,#F5C518,#F8D7DE,#C2415B); background-size: 200% 100%; animation: progressShimmer 3s linear infinite; }
+
+.journal-box:focus { border-color: #6B3FA0; box-shadow: 0 0 0 3px rgba(107,63,160,.12), 0 0 20px rgba(107,63,160,.06); }
+@keyframes savedPulse { 0%{transform:scale(1)} 50%{transform:scale(1.8)} 100%{transform:scale(1)} }
+.saved-dot.saved { animation: savedPulse .4s ease-out; }
+
+.callout { transition: transform .2s, box-shadow .2s; }
+.callout:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(14,28,66,.06); }
+.key-concept { transition: box-shadow .3s; }
+.key-concept:hover { box-shadow: 0 0 0 2px rgba(107,63,160,.15), 0 4px 16px rgba(107,63,160,.08); }
+.socratic-box { transition: box-shadow .3s; }
+.socratic-box:hover { box-shadow: 0 0 0 2px rgba(107,63,160,.12), 0 6px 20px rgba(107,63,160,.08); }
+.activity { transition: transform .2s, box-shadow .2s; }
+.activity:hover { box-shadow: 0 6px 24px rgba(14,28,66,.08); }
+.need-chip { transition: transform .15s; }
+.need-chip:hover { transform: translateY(-2px); }
+.explorer-strip:hover .explorer-compass { display:inline-block; animation: compassSpin 1.5s ease-in-out; }
+@keyframes compassSpin { 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
+@keyframes miniPop { 0%{transform:translateY(0) scale(0);opacity:1} 50%{transform:translateY(-30px) scale(1.2);opacity:1} 100%{transform:translateY(-60px) scale(.6);opacity:0} }
+.value-card { transition: transform .15s, border-color .2s, background .2s, box-shadow .2s; }
+.value-card:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 6px 16px rgba(14,28,66,.08); }
+
+/* ═══════════ LEARN TAB VOCABULARY FLIP CARDS ═══════════ */
+.vocab-flip-section{
+  background:#F0E8FF;
+  border:2px solid #D8CCF0;
+  border-left:6px solid #6B3FA0;
+  border-radius:18px;
+  padding:16px 18px;
+  margin:0 0 18px;
+  box-shadow:0 2px 10px rgba(14,28,66,.04);
+}
+.vocab-flip-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;}
+.vocab-flip-icon{width:40px;height:40px;border-radius:14px;background:#6B3FA0;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.vocab-flip-title{font-size:20px;font-weight:900;color:#0E1C42;line-height:1.2;}
+.vocab-flip-sub{font-size:13px;color:#3A4A6B;font-weight:700;margin-top:3px;line-height:1.45;}
+.vocab-flip-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+.vocab-card{min-height:138px;border:0;background:transparent;perspective:900px;cursor:pointer;font-family:'Nunito',sans-serif;text-align:initial;padding:0;}
+.vocab-card-inner{position:relative;width:100%;height:100%;min-height:138px;transition:transform .45s ease;transform-style:preserve-3d;}
+.vocab-card.flipped .vocab-card-inner{transform:rotateY(180deg);}
+.vocab-card-face{position:absolute;inset:0;border-radius:16px;border:2px solid #D8CCF0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(14,28,66,.05);}
+.vocab-card-front{background:#fff;}
+.vocab-card-back{background:linear-gradient(135deg,#0E1C42,#1A2D5A);transform:rotateY(180deg);border-color:#0E1C42;}
+.vocab-card-term{font-size:22px;line-height:1.15;font-weight:900;color:#0E1C42;margin-bottom:8px;}
+.vocab-card-hint{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:#6B3FA0;}
+.vocab-card-def{font-size:15px;line-height:1.5;font-weight:800;color:#fff;}
+.vocab-card-term-small{font-size:11px;color:#55C8E8;text-transform:uppercase;letter-spacing:1px;font-weight:900;margin-bottom:8px;}
+@media(max-width:620px){.vocab-flip-grid{grid-template-columns:1fr}.vocab-card,.vocab-card-inner{min-height:120px}}
+
+
+/* Daily Vocabulary Flip Cards */
+.vocab-section { background:#fff; border:2px solid #D8CCF0; border-left:6px solid #6B3FA0; border-radius:18px; padding:18px 20px 20px; margin:0 0 20px; box-shadow:0 2px 10px rgba(14,28,66,.04); }
+.vocab-section-head { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; }
+.vocab-section-icon { width:42px; height:42px; border-radius:50%; color:#fff; background:#6B3FA0; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+.vocab-section-label { font-size:11px; color:#6B3FA0; text-transform:uppercase; letter-spacing:.9px; font-weight:900; margin-bottom:3px; }
+.vocab-section-title { font-size:21px; color:#0E1C42; font-weight:900; line-height:1.2; }
+.vocab-section-directions { font-size:15px; color:#3A4A6B; line-height:1.55; font-weight:700; margin:0 0 14px; }
+.vocab-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0 0; }
+.flip-card { perspective:900px; height:180px; cursor:pointer; }
+.flip-card-inner { position:relative; width:100%; height:100%; transition:transform .5s ease; transform-style:preserve-3d; }
+.flip-card.flipped .flip-card-inner { transform:rotateY(180deg); }
+.flip-card-front, .flip-card-back { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; backface-visibility:hidden; -webkit-backface-visibility:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:14px 18px; text-align:center; border:2px solid #E2E8F4; box-shadow:0 2px 10px rgba(14,28,66,.06); }
+.flip-card-front { background:#FAFBFF; border-top:5px solid #6B3FA0; }
+.flip-card-front .fc-emoji { font-size:30px; margin-bottom:8px; }
+.flip-card-front .fc-word { font-size:22px; font-weight:900; color:#0E1C42; margin-bottom:6px; line-height:1.15; }
+.flip-card-front .fc-tap { font-size:11px; color:#6B3FA0; font-weight:900; letter-spacing:.6px; text-transform:uppercase; }
+.flip-card-back { background:linear-gradient(145deg,#0E1C42,#1A2D5A); border-color:#0E1C42; transform:rotateY(180deg); }
+.flip-card-back .fc-word-back { font-size:11px; color:#55C8E8; text-transform:uppercase; letter-spacing:1px; font-weight:900; margin-bottom:8px; }
+.flip-card-back .fc-def { font-size:15px; color:#fff; line-height:1.5; font-weight:700; }
+.flip-card-back .fc-tap-back { font-size:11px; color:rgba(255,255,255,.55); margin-top:9px; font-weight:800; letter-spacing:.4px; text-transform:uppercase; }
+.fc-color-1 .flip-card-front { border-top-color:#3A6B9A; }
+.fc-color-2 .flip-card-front { border-top-color:#2DB87A; }
+.fc-color-3 .flip-card-front { border-top-color:#F5C518; }
+.fc-color-4 .flip-card-front { border-top-color:#A8344D; }
+@media(max-width:620px){.vocab-grid{grid-template-columns:1fr}.flip-card{height:165px}.flip-card-front .fc-word{font-size:20px}}
+
+
+/* OAO Math Crew thought bubbles */
+.bubble-row{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0;align-items:flex-start}
+.bubble{display:flex;gap:10px;align-items:flex-start;flex:1 1 260px;max-width:340px;background:#fff;border:2px solid #E2E8F4;border-radius:18px;padding:12px 14px;box-shadow:0 2px 10px rgba(14,28,66,.05);position:relative}
+.bubble.atlas{border-left:5px solid #C2415B;background:linear-gradient(135deg,#fff,#FFF5F7)}
+.bubble.hazel{border-left:5px solid #2DB87A;background:linear-gradient(135deg,#fff,#F4FBF7)}
+.bubble.felix{border-left:5px solid #F5C518;background:linear-gradient(135deg,#fff,#FEFBEB)}
+.bubble.cora{border-left:5px solid #3A6B9A;background:linear-gradient(135deg,#fff,#F4F8FC)}
+.bubble-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;flex-shrink:0;font-family:'Lora',Georgia,serif}
+.bubble.atlas .bubble-avatar{background:#C2415B}
+.bubble.hazel .bubble-avatar{background:#2DB87A}
+.bubble.felix .bubble-avatar{background:#F5C518;color:#0E1C42}
+.bubble.cora .bubble-avatar{background:#3A6B9A}
+.bubble-body{flex:1;min-width:0}
+.bubble-name{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.7px;margin-bottom:3px;color:#C2415B}
+.bubble.hazel .bubble-name{color:#1A8A5A}
+.bubble.felix .bubble-name{color:#8A6D2B}
+.bubble.cora .bubble-name{color:#C2415B}
+.bubble-text{font-size:14.5px;color:#0E1C42;line-height:1.5;font-weight:600;font-family:'Lora',Georgia,serif;font-style:italic}
+@media(max-width:620px){.bubble{flex:1 1 100%;max-width:100%}}
+
+/* Vertical (stacked) fractions — elementary math display */
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-family:'Lora',Georgia,serif;line-height:1.05;margin:0 .12em;font-size:.95em;position:relative;top:-.05em}
+.frac .num{display:block;padding:0 .28em .04em;border-bottom:1.6px solid currentColor;font-weight:700}
+.frac .den{display:block;padding:.04em .28em 0;font-weight:700}
+.frac.frac-lg{font-size:1.05em}
+.frac.frac-on-dark .num{border-bottom-color:#fff}
+
+/* Conversion Chart popup */
+
+.cc-fab:hover{transform:scale(1.05)}
+
+.cc-overlay.show{display:flex}
+.cc-modal{background:#FFF8F9;border:3px solid #C2415B;border-radius:18px;max-width:520px;width:100%;max-height:88vh;overflow-y:auto;padding:22px 24px;box-shadow:0 10px 40px rgba(91,46,16,.35);font-family:'Lora',Georgia,serif}
+.cc-modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #F8D7DE}
+.cc-modal-title{font-size:20px;font-weight:900;color:#0E2A4A}
+
+
+.cc-section-head{font-size:11px;color:#92400E;text-transform:uppercase;letter-spacing:.6px;font-weight:900;margin-bottom:6px;padding-bottom:4px;border-bottom:1.5px dashed #F3B4C1}
+
+.cc-row strong{color:#C2415B;font-weight:900;font-family:Lora,Georgia,serif}
+.cc-row em{color:#7A88A8;font-style:italic;font-size:12px}
+/* STANDARDS TOGGLE BAR */
+.standards-toggle-bar{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#1a2a3a,#1e3448);padding:10px 28px;cursor:pointer;user-select:none;border-bottom:1px solid rgba(85,200,232,.12);}
+.standards-toggle-bar:hover{background:linear-gradient(135deg,#1e3044,#23394d);}
+.standards-toggle-label{font-size:12px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:1px;font-weight:700;display:flex;align-items:center;gap:8px;}
+.standards-toggle-arrow{font-size:10px;color:rgba(255,255,255,.35);transition:transform .25s ease;}
+.standards-toggle-bar.open .standards-toggle-arrow{transform:rotate(180deg);}
+.standards-panel{max-height:0;overflow:hidden;transition:max-height .3s ease;background:#14212e;border-bottom:1px solid rgba(85,200,232,.08);}
+.standards-panel.open{max-height:200px;}
+.standards-panel-inner{display:flex;gap:32px;padding:14px 28px 16px;flex-wrap:wrap;}
+.standards-group{display:flex;flex-direction:column;gap:6px;}
+.standards-group-label{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.8px;font-weight:700;}
+.standards-codes{font-size:12px;color:rgba(255,255,255,.65);line-height:1.7;font-weight:500;}
+.standards-codes .fl-code{color:#80CBC4;}
+.standards-codes .tx-code{color:#FFD54F;}
+.footer-standards{font-size:10px;color:rgba(255,255,255,.3);margin-top:6px;letter-spacing:.3px;}
+
+.practice-note { font-size: 12px; color: #8899AA; text-align: center; margin: 6px 0 2px; font-style: italic; line-height: 1.4; }
+</style>
+<style id="fluencyStyles">
+.fluency-box{background:#fff;border:2px solid #F5C518;border-radius:18px;overflow:hidden;margin-bottom:22px;font-family:'Nunito',sans-serif}
+.fluency-head{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#F5C518,#E8B723);padding:14px 20px;flex-wrap:wrap}
+.fluency-head-icon{font-size:26px;line-height:1}
+.fluency-head-label{font-size:10px;color:#0E1C42;font-weight:800;text-transform:uppercase;letter-spacing:0.5px}
+.fluency-head-title{font-size:15px;color:#0E1C42;font-weight:800}
+.fluency-timer-ui{margin-left:auto;display:flex;align-items:center;gap:10px}
+.fluency-timer-display{font-size:20px;font-weight:800;color:#0E1C42;min-width:46px;text-align:center}
+.fluency-start-btn{background:#0E1C42;color:#fff;border:none;border-radius:10px;padding:8px 14px;font-weight:700;font-size:12px;cursor:pointer}
+.fluency-start-btn:disabled{opacity:0.55;cursor:default}
+.fluency-body{padding:16px 20px}
+.fluency-instructions{font-size:13px;color:#4A5568;margin:0 0 12px}
+.fluency-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.fluency-item{display:flex;align-items:center;gap:6px;background:#FAFBFF;border:1.5px solid #E2E8F4;border-radius:10px;padding:8px 10px;flex-wrap:wrap}
+.fluency-item.fluency-correct{border-color:#2DB87A;background:#EAFBF3}
+.fluency-item.fluency-wrong{border-color:#E07B39;background:#FDF1E9}
+.fluency-q{font-size:13px;font-weight:700;color:#0E1C42;white-space:normal}
+.fluency-input{width:52px;border:1.5px solid #CBD5E8;border-radius:6px;padding:4px;font-size:14px;text-align:center;font-family:'Nunito',sans-serif}
+.fluency-input:disabled{background:#F0F2F8}
+.fluency-check-btn{background:#2DB87A;color:#fff;border:none;border-radius:10px;padding:10px 18px;font-weight:800;font-size:13px;cursor:pointer}
+.fluency-check-btn:disabled{opacity:0.55;cursor:default}
+.fluency-result{margin-top:10px;font-size:14px;color:#0E1C42;font-weight:700}
+.vfrac{display:inline-flex;flex-direction:column;align-items:center;font-size:12px;line-height:1.05;vertical-align:middle;margin:0 2px}
+.vfrac .vf-num{padding:0 3px;border-bottom:1.5px solid #0E1C42}
+.vfrac .vf-den{padding:0 3px}
+/* ═══ Unit 13 — Punch Stand palette (raspberry) ═══ */
+.tb-stage{background:#FFF8F9;border:2px solid #F8D7DE;border-radius:14px;padding:18px 14px;margin:14px 0}
+.tb-story{background:#fff;border-left:4px solid #C2415B;padding:12px 14px;border-radius:8px;margin-bottom:14px;color:#0E1C42;font-family:'Lora',Georgia,serif;font-size:15px;line-height:1.6}
+.tb-step{text-align:center;font-size:12px;color:#7A1F36;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 6px}
+.tb-btnrow{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.tb-split{background:#fff;border:2px solid #F8D7DE;color:#7A1F36;border-radius:10px;padding:7px 12px;font-weight:900;font-size:13px;cursor:pointer;font-family:'Nunito',sans-serif;transition:transform .12s}
+.tb-split:hover{transform:translateY(-2px)}
+.tb-split.on{background:#C2415B;border-color:#7A1F36;color:#fff}
+.tb-split:disabled{opacity:.4;cursor:default;transform:none}
+.tb-split.big{font-size:15px;padding:10px 18px;background:#C2415B;color:#fff;border-color:#7A1F36}
+.tb-status{background:#FFF5F7;border:2px solid #F8D7DE;border-radius:10px;padding:10px 14px;font-size:14.5px;color:#7A1F36;font-weight:700;line-height:1.5;text-align:center;margin-top:10px}
+.tb-answer{display:flex;justify-content:center;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0}
+.tb-input{border:2px solid #D6D6D6;border-radius:10px;padding:8px 12px;font-size:18px;font-weight:800;text-align:center;width:90px;font-family:'Lora',Georgia,serif;color:#0E1C42}
+.tb-unit{font-weight:800;color:#3A4A6B}
+.tb-go{background:#C2415B;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif}
+.tb-reset{background:#E07B39;color:#fff;border:none;border-radius:10px;padding:9px 16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif}
+.tb-reset:disabled{opacity:.45;cursor:default}
+.fb-box{display:none;margin-top:12px;border-radius:14px;padding:14px 16px;line-height:1.55;font-size:14.5px;color:#0E1C42}
+.fb-box.show{display:block;animation:revealSlide .35s ease-out}
+.fb-box.pass{background:#E3F8ED;border:2px solid #B8E8CF}
+.fb-box.retry{background:#FFF3DC;border:2px solid #F5E6C8}
+.fb-box .fb-head{font-weight:900;margin-bottom:4px}
+.ready-row{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0;font-family:'Lora',Georgia,serif;font-size:18px;font-weight:800;color:#0E1C42}
+.pp-card{background:#fff;border:2px solid #F8D7DE;border-radius:12px;padding:10px;margin:8px 0}
+.pp-new{animation:ppDrop .45s ease-out}
+@keyframes ppDrop{0%{opacity:0;transform:translateY(-18px)}100%{opacity:1;transform:translateY(0)}}
+.pp-strip{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;min-height:34px;padding:8px;background:#FFF8F9;border:2px dashed #F8D7DE;border-radius:10px}
+.pp-one{display:inline-flex;gap:1px;padding:2px;border:2px solid #7A1F36;border-radius:5px;background:#fff}
+.pp-one i{display:block;width:9px;height:20px;background:#C2415B;border-radius:1px}
+.pp-tenth{display:inline-block;width:11px;height:20px;background:#C2415B;border-radius:2px;outline:2px solid #fff;box-shadow:0 0 0 1px #7A1F36}
+.pp-read{text-align:center;font-family:'Lora',Georgia,serif;font-size:16px;color:#0E1C42;margin-top:6px}
+.pp-work{display:flex;gap:18px;justify-content:center;align-items:flex-end;flex-wrap:wrap;margin-top:6px}
+.col-form{display:inline-block;font-family:'Lora',Georgia,serif;font-size:26px;font-weight:800;color:#0E1C42;background:#fff;border:2px solid #F8D7DE;border-radius:12px;padding:10px 18px}
+.col-row,.col-head{display:grid;grid-template-columns:26px 30px 14px 30px;text-align:center;line-height:1.25}
+.col-pt{color:#C2415B}
+.col-line{border-top:3px solid #0E1C42;margin:4px 0 2px 26px}
+.col-head{font-family:'Nunito',sans-serif;font-size:10px;font-weight:900;color:#7A1F36;text-transform:uppercase;letter-spacing:.3px}
+.same-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14.5px}
+.same-table th{background:#C2415B;color:#fff;padding:8px 10px;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+.same-table td{border:1.5px solid #F8D7DE;padding:9px 10px;background:#fff;color:#0E1C42;font-weight:700}
+.same-table tr:nth-child(even) td{background:#FFF8F9}
+.same-table td:last-child{color:#7A1F36;font-family:'Lora',Georgia,serif;font-size:16px}
+.word-note{background:#FFF5F7;border-left:4px solid #C2415B;border-radius:8px;padding:10px 14px;margin:10px 0;font-size:14.5px;color:#0E1C42;line-height:1.55}
+.word-note b{color:#7A1F36}
+@media(max-width:620px){.col-form{font-size:22px}.same-table{font-size:13px}}
+.tt-tray{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:stretch;background:#FFF8F9;border:2px dashed #F8D7DE;border-radius:12px;padding:10px 12px}
+.tt-side{display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center}
+.tt-label{font-size:11px;font-weight:900;color:#7A1F36;text-transform:uppercase;letter-spacing:.5px}
+.tt-bars{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;min-height:28px;align-items:center}
+.tt-empty{color:#7A88A8;font-weight:700;font-size:13px}
+.tt-slots{display:grid;grid-template-columns:repeat(5,16px);gap:4px;padding:6px;border:2px solid #F8D7DE;border-radius:8px;background:#fff;transition:box-shadow .2s}
+.tt-slots.ready{box-shadow:0 0 0 4px #F5C518;border-color:#F5C518}
+.tt-slot{width:16px;height:22px;border-radius:3px;border:1.5px dashed #E8C9D0;background:#fff}
+.tt-slot.full{background:#C2415B;border:1.5px solid #7A1F36}
+.tt-pop{animation:ttPop .6s ease-out}
+@keyframes ttPop{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+.tb-split.glow{background:#F5C518;color:#0E1C42;border-color:#C9A100;animation:ttGlow 1s ease-in-out infinite alternate}
+@keyframes ttGlow{from{box-shadow:0 0 0 0 rgba(245,197,24,.6)}to{box-shadow:0 0 0 8px rgba(245,197,24,0)}}
+.col-carry{font-size:15px;color:#C2415B;line-height:1;min-height:16px}
+@media(max-width:620px){.tt-tray{grid-template-columns:1fr}}
+.tt-slots.wide{grid-template-columns:repeat(10,16px)}
+.struck{text-decoration:line-through;text-decoration-color:#C2415B;text-decoration-thickness:3px;color:#7A88A8}
+.col-row.h,.col-head.h{grid-template-columns:26px 40px 14px 52px 72px}
+.col-head.h span{font-size:9.5px}
+.cm-mat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.cm-col{background:#fff;border:2px solid #F8D7DE;border-radius:12px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:150px;transition:box-shadow .2s}
+.cm-col.ready{box-shadow:0 0 0 4px #F5C518;border-color:#F5C518}
+.cm-head{font-size:11px;font-weight:900;color:#7A1F36;text-transform:uppercase;letter-spacing:.4px;text-align:center;line-height:1.3}
+.cm-head small{display:block;color:#3A4A6B;font-size:10px;letter-spacing:0}
+.cm-coins{display:grid;grid-template-columns:repeat(5,30px);gap:4px;justify-content:center;min-height:30px}
+.cm-count{font-size:12px;font-weight:900;color:#0E1C42}
+.coin{width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-size:9.5px;font-weight:900;box-shadow:inset 0 -2px 0 rgba(0,0,0,.15)}
+.coin-d{background:radial-gradient(circle at 35% 35%,#FFE38A,#D9A520);color:#5C4300;border:2px solid #B8860B;font-size:10.5px}
+.coin-t{background:radial-gradient(circle at 35% 35%,#F2F5F8,#A8B4C4);color:#2E3A4A;border:2px solid #8592A3;width:26px;height:26px;margin:2px}
+.coin-p{background:radial-gradient(circle at 35% 35%,#E8A06A,#B87333);color:#fff;border:2px solid #8B4513}
+.cm-purse{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#FFF8F9;border:2px dashed #F8D7DE;border-radius:12px;padding:8px}
+.cm-purse .cm-coins{min-height:30px}
+@media(max-width:620px){.cm-coins{grid-template-columns:repeat(5,24px)}.coin{width:24px;height:24px;font-size:8px}.coin-t{width:21px;height:21px}}
+.pb-tag{display:flex;justify-content:center;margin:6px 0 12px}
+.pb-tag>div{display:inline-flex;align-items:center;gap:14px;background:#fff;border:3px solid #7A1F36;border-radius:10px 26px 26px 10px;padding:10px 26px 10px 18px;position:relative;box-shadow:0 3px 0 #F8D7DE}
+.pb-tag>div::before{content:'';position:absolute;right:12px;top:50%;width:9px;height:9px;margin-top:-5px;border-radius:50%;border:2.5px solid #7A1F36;background:#FFF8F9}
+.tag-item{font-family:'Lora',Georgia,serif;font-size:17px;font-weight:700;color:#0E1C42}
+.tag-price{font-family:'Lora',Georgia,serif;font-size:26px;font-weight:900;color:#C2415B;margin-right:14px}
+.pb-ctrl{display:flex;gap:4px;justify-content:center}
+.pb-ctrl .tb-split{padding:4px 10px;font-size:13px}
+.three-ways{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;transition:opacity .3s}
+.three-ways>div{background:#fff;border:2px solid #F8D7DE;border-radius:12px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.mx-wrap{display:inline-flex;align-items:center;gap:8px;font-family:'Lora',Georgia,serif;font-size:18px;font-weight:800;color:#0E1C42}
+.mx-frac{display:inline-flex;flex-direction:column;align-items:center;gap:3px}
+.mx-frac .tb-input{width:64px;padding:5px 6px;font-size:16px}
+.mx-bar{width:70px;height:0;border-top:2.5px solid #0E1C42}
+.mx-fixed{font-family:'Lora',Georgia,serif;font-size:18px;font-weight:800;color:#0E1C42;padding:4px 0}
+.receipt{max-width:340px;margin:8px auto;background:#fff;border:2px dashed #C9A0AA;border-radius:6px;padding:14px 18px;font-family:'Courier New',monospace;font-size:15px;color:#0E1C42}
+.receipt .r-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0}
+.receipt .r-line{border-top:2px dashed #C9A0AA;margin:6px 0}
+.receipt .tb-input{width:96px;font-size:15px;padding:4px 6px;font-family:'Courier New',monospace}
+@media(max-width:620px){.three-ways{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body id="pageTop">
+<div class="page-wrap">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     OPTIMA READ-ALOUD PLAYER — drop-in snippet for GitHub-hosted lesson pages
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div id="optima-read-aloud">
+<style>
+    #optima-read-aloud { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 14px 18px; margin: 0 0 20px 0; }
+    #optima-read-aloud .ora-kicker { font-size: 11px; color: #1B6A94; letter-spacing: 0.4px; margin-bottom: 10px; }
+    #optima-read-aloud .ora-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    #optima-read-aloud .ora-controls button { border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    #ora-play { background: #0E1C42; color: #FFFFFF; border: 1.5px solid #0E1C42; }
+    #ora-play:hover:enabled { background: #1B2D5E; }
+    #ora-play:disabled { background: #D0D9E8; border-color: #D0D9E8; color: #6b7a99; cursor: default; }
+    #ora-stop { background: #FFFFFF; color: #0E1C42; border: 1.5px solid #D0D9E8; }
+    #ora-stop:hover:enabled { background: #F4F6FA; border-color: #55C8E8; }
+    #ora-stop:disabled { color: #999; border-color: #E4E9F2; cursor: default; }
+    #optima-read-aloud .ora-speed { font-size: 12px; color: #6b7a99; display: flex; align-items: center; gap: 6px; }
+    #ora-rate { font-family: inherit; font-size: 13px; color: #0E1C42; border: 1.5px solid #D0D9E8; border-radius: 6px; padding: 5px 8px; background: #FFFFFF; }
+    #ora-status { font-size: 12px; color: #666; }
+    .ora-highlight { background: #FDF3E3 !important; box-shadow: inset 4px 0 0 #C7922C; border-radius: 4px; transition: background 0.2s; }
+</style>
+    <div class="ora-kicker">&#128266; READ ALOUD &mdash; LISTEN TO THIS PAGE</div>
+    <div class="ora-controls">
+        <button id="ora-play" type="button" aria-label="Listen to this page">&#9654;&#65039; Listen</button>
+<p class="practice-note">Interactive practice tools on this page won't save if you leave — your written answers below are saved automatically.</p>
+
+        <button id="ora-stop" type="button" aria-label="Stop reading" disabled>&#9632; Stop</button>
+        <label class="ora-speed">Speed
+            <select id="ora-rate" aria-label="Reading speed">
+                <option value="0.8">Slower</option>
+                <option value="1" selected>Normal</option>
+                <option value="1.25">Faster</option>
+            </select>
+        </label>
+        <span id="ora-status" role="status" aria-live="polite"></span>
+    </div>
+<script>
+(function () {
+    "use strict";
+    var playBtn  = document.getElementById("ora-play");
+    var stopBtn  = document.getElementById("ora-stop");
+    var rateSel  = document.getElementById("ora-rate");
+    var statusEl = document.getElementById("ora-status");
+
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        playBtn.disabled = true;
+        rateSel.disabled = true;
+        statusEl.textContent = "Read-aloud is not supported in this browser.";
+        return;
+    }
+
+    var LABEL_PLAY   = "▶️ Listen";
+    var LABEL_PAUSE  = "⏸️ Pause";
+    var LABEL_RESUME = "▶️ Resume";
+    var BLOCK_SEL = "p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, dt, dd, figcaption, div";
+    var SKIP_SEL  = "#optima-read-aloud, [data-ra-skip], button, script, style, select, noscript, iframe";
+
+    var queue = [];
+    var idx = 0;
+    var playing = false, paused = false, stopping = false;
+    var currentBlock = null;
+    var currentUtterance = null;
+
+    var voices = [];
+    function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+    loadVoices();
+    if ("onvoiceschanged" in window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    function pickVoice() {
+        if (!voices.length) loadVoices();
+        var en = voices.filter(function (v) { return /^en/i.test(v.lang); });
+        return en.filter(function (v) { return /natural/i.test(v.name); })[0]
+            || en.filter(function (v) { return /google us english/i.test(v.name); })[0]
+            || en.filter(function (v) { return v.default; })[0]
+            || en[0] || null;
+    }
+
+    function isVisible(el) {
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    }
+
+    function collectQueue() {
+        var root = document.querySelector("[data-readaloud-root]")
+                || document.querySelector(".canvas-frame")
+                || document.body;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+        var items = [];
+        var node;
+        while ((node = walker.nextNode())) {
+            if (!/\S/.test(node.textContent)) continue;
+            var el = node.parentElement;
+            if (!el || el.closest(SKIP_SEL)) continue;
+            if (!isVisible(el)) continue;
+            var block = el.closest(BLOCK_SEL) || root;
+            var last = items[items.length - 1];
+            if (last && last.el === block) last.text += " " + node.textContent;
+            else items.push({ el: block, text: node.textContent });
+        }
+        var q = [];
+        items.forEach(function (item) {
+            var clean = item.text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B50}\u{2B55}\u{25A0}-\u{25FF}\u{2702}-\u{27B0}\u{FE00}-\u{FE0F}\u{200D}\u{20E3}\u{E0020}-\u{E007F}]/gu, "").replace(/\s+/g, " ").trim();
+            if (!clean) return;
+            var sentences = clean.match(/[^.!?]+[.!?]+["”’')\]]*\s*|[^.!?]+$/g) || [clean];
+            sentences.forEach(function (s) {
+                s = s.trim();
+                if (s) q.push({ el: item.el, text: s });
+            });
+        });
+        return q;
+    }
+
+    function highlight(el) {
+        if (el === currentBlock) return;
+        clearHighlight();
+        currentBlock = el;
+        if (el && el !== document.body) {
+            el.classList.add("ora-highlight");
+            try { el.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+        }
+    }
+    function clearHighlight() {
+        if (currentBlock) currentBlock.classList.remove("ora-highlight");
+        currentBlock = null;
+    }
+
+    function speakNext() {
+        if (idx >= queue.length) { finish("Finished reading this page."); return; }
+        var item = queue[idx];
+        highlight(item.el);
+        var u = new SpeechSynthesisUtterance(item.text);
+        u.rate = parseFloat(rateSel.value) || 1;
+        var v = pickVoice();
+        if (v) u.voice = v;
+        u.onend = function () {
+            if (stopping) return;
+            idx++;
+            speakNext();
+        };
+        u.onerror = function (e) {
+            if (stopping || e.error === "canceled" || e.error === "interrupted") return;
+            idx++;
+            speakNext();
+        };
+        currentUtterance = u;
+        window.speechSynthesis.speak(u);
+        statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+    }
+
+    function finish(message) {
+        playing = false;
+        paused = false;
+        clearHighlight();
+        playBtn.textContent = LABEL_PLAY;
+        stopBtn.disabled = true;
+        statusEl.textContent = message || "";
+        currentUtterance = null;
+    }
+
+    playBtn.addEventListener("click", function () {
+        if (playing && !paused) {
+            window.speechSynthesis.pause();
+            paused = true;
+            playBtn.textContent = LABEL_RESUME;
+            statusEl.textContent = "Paused";
+            return;
+        }
+        if (playing && paused) {
+            window.speechSynthesis.resume();
+            paused = false;
+            playBtn.textContent = LABEL_PAUSE;
+            statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+            return;
+        }
+        queue = collectQueue();
+        if (!queue.length) { statusEl.textContent = "Nothing to read on this page."; return; }
+        idx = 0;
+        stopping = false;
+        playing = true;
+        paused = false;
+        window.speechSynthesis.cancel();
+        playBtn.textContent = LABEL_PAUSE;
+        stopBtn.disabled = false;
+        speakNext();
+    });
+
+    stopBtn.addEventListener("click", function () {
+        stopping = true;
+        window.speechSynthesis.cancel();
+        finish("");
+    });
+
+    rateSel.addEventListener("change", function () {
+        if (!playing || paused) return;
+        stopping = true;
+        window.speechSynthesis.cancel();
+        setTimeout(function () { stopping = false; speakNext(); }, 60);
+    });
+
+    window.addEventListener("pagehide", function () { window.speechSynthesis.cancel(); });
+})();
+</script>
+</div>
+<!-- ═══ END OPTIMA READ-ALOUD PLAYER ═══ -->
+
+<div class="progress-wrap"><span class="progress-label">📐 Lesson Progress</span><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div><span class="progress-pct" id="progressPct">0%</span></div>
+<div class="header">
+<div class="header-brand">
+<div class="header-logo">
+<img alt="Optima Academy" src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png"/>
+</div>
+<div>
+<div class="header-org">Optima Academy Online</div>
+<div class="header-sub">An Education Experience Company</div>
+</div>
+</div>
+<div class="header-title"><em>Subtracting Hundredths</em></div>
+<div class="header-badge">
+<span class="header-badge-icon">🦉</span>
+<span class="header-badge-text">Lesson 4.13.06</span>
+</div>
+</div>
+<div class="quote-strip"><div class="quote-strip-text">"How much farther? Subtract. Break a one or a tenth whenever the top digit is too small."</div><div class="quote-strip-attr">Unit 13 Big Idea</div></div>
+<div class="standards-toggle-bar" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');"><span class="standards-toggle-label">Standards Alignment</span><span class="standards-toggle-arrow">&#9660;</span></div><div class="standards-panel"><div class="standards-panel-inner"><div class="standards-group"><div class="standards-group-label">Florida B.E.S.T.</div><div class="standards-codes"><span class="fl-code">MA.4.NSO.2.7</span> &middot; <span class="fl-code">MTR.2.1</span> &middot; <span class="fl-code">MTR.5.1</span></div></div><div class="standards-group"><div class="standards-group-label">Texas TEKS</div><div class="standards-codes"><span class="tx-code">4.4.A</span></div></div></div></div>
+<div class="info-strip"><div class="info-cell"><div class="info-icon" style="background:#F8D7DE;">🧃</div><div><div class="info-label">Unit</div><div class="info-value">Unit 13</div><div class="info-detail">Adding and Subtracting Decimals</div></div></div><div class="info-cell"><div class="info-icon" style="background:#E3F8ED;">📅</div><div><div class="info-label">Lesson</div><div class="info-value">4.13.06</div></div></div><div class="info-cell"><div class="info-icon" style="background:#EAF0FF;">📐</div><div><div class="info-label">Standard</div><div class="info-value">MA.4.NSO.2.7</div><div class="info-detail">Add and subtract decimals</div></div></div><div class="info-cell"><div class="info-icon" style="background:#FFF8E6;">🔢</div><div><div class="info-label">Focus</div><div class="info-value">Subtracting hundredths</div><div class="info-detail">MTR.2.1 · MTR.5.1</div></div></div></div>
+<div class="explorer-strip"><span class="explorer-compass">🧭</span><div><div class="explorer-mission-label">Today's Mission</div><div class="explorer-mission-text">Subtract hundredths two ways: hop up a measuring tape, and subtract in columns.</div></div></div>
+<div class="intro-2col"><div class="intro-card theme-question"><div class="intro-card-head"><div class="intro-card-head-icon">❓</div><div><div class="intro-card-head-label">Essential Question</div><div class="intro-card-head-title">Mia jumped 3.42 m and Leo jumped 1.68 m. How much farther did Mia jump?</div></div></div><div class="intro-card-body"><p>It’s Field Day, and the long jump is measured to the hundredth of a meter.</p></div></div><div class="intro-card theme-objectives"><div class="intro-card-head"><div class="intro-card-head-icon">🎯</div><div><div class="intro-card-head-label">Today's Objectives</div><div class="intro-card-head-title">You will…</div></div></div><div class="intro-card-body"><div class="obj-line"><span class="obj-icon">📏</span><span><strong>Count up on a measuring tape</strong> to find how far apart two numbers are.</span></div><div class="obj-line"><span class="obj-icon">➖</span><span><strong>Subtract hundredths in columns</strong>, breaking ones and tenths when you need to.</span></div><div class="obj-line"><span class="obj-icon">0️⃣</span><span><strong>Fill in zeros</strong> so both numbers have the same places, like 5.6 = 5.60.</span></div></div></div></div>
+<div class="need-strip"><span class="need-strip-label">You'll need:</span><span class="need-chip">📓 Math Journal</span><span class="need-chip">✏️ Pencil</span><span class="need-chip">📏 A meter stick or tape measure, if you have one (optional)</span></div>
+<div class="tab-bar" id="tabBar"><button class="tab-btn active" data-tab="warmup" onclick="switchTab('warmup')">🔍 Warm-Up <span class="tab-check">✓</span></button><button class="tab-btn" data-tab="learn" onclick="switchTab('learn')">📐 Learn <span class="tab-check">✓</span></button><button class="tab-btn" data-tab="assignment" onclick="switchTab('assignment')">🌟 Show What You Know <span class="tab-check">✓</span></button></div>
+
+<!-- ═══════════════ TAB 1: WARM-UP ═══════════════ -->
+<div class="tab-panel active" id="tab-warmup">
+<!-- ═══ INTRODUCTION VIDEO ═══ -->
+<div class="video-placeholder-wrap">
+<!-- slot: g4math-13-06 -->
+<div class="video-placeholder-inner">
+  <span class="vp-icon">&#x1F3AC;</span>
+  <div class="vp-label">Introduction Video</div>
+  <div class="vp-title">Optima Academy Online — Grade 4 Math Lesson 4.13.06</div>
+  <div class="vp-slot">g4math-13-06</div>
+  <div class="vp-notes">
+    <strong>Teacher recording notes:</strong> Long jump opener. Lay a tape measure on the floor and put two pieces of tape at 1.68 m and 3.42 m. Ask: "Who jumped farther? By about how much?" Walk from the short mark to the long mark in small, then big, steps: 2 hundredths, 3 tenths, 1 meter, 42 hundredths.
+  </div>
+</div>
+</div>
+<div class="fluency-box" data-timed="true">
+<div class="fluency-head">
+<div class="fluency-head-icon">⏳</div>
+<div><div class="fluency-head-label">TIMED FLUENCY CHECK</div><div class="fluency-head-title">Hundredths Facts — One-Minute Check</div></div>
+<div class="fluency-timer-ui"><span class="fluency-timer-display" id="fluencyTimerDisplay">60s</span><button class="fluency-start-btn" id="fluencyStartBtn" onclick="fluencyStart()">Start 1-Minute Check</button></div>
+</div>
+<div class="fluency-body">
+<p class="fluency-instructions">Unit 13 fluency. Click Start, then answer as many as you can in 60 seconds. Every answer is a whole number.</p>
+<div class="fluency-grid" id="fluencyGrid">
+<div class="fluency-item"><span class="fluency-q" data-plain="12 − 8 =">12 − 8 =</span><input autocomplete="off" class="fluency-input" data-answer="4" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="13 − 6 =">13 − 6 =</span><input autocomplete="off" class="fluency-input" data-answer="7" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="15 − 7 =">15 − 7 =</span><input autocomplete="off" class="fluency-input" data-answer="8" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="10 − 4 =">10 − 4 =</span><input autocomplete="off" class="fluency-input" data-answer="6" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="14 − 9 =">14 − 9 =</span><input autocomplete="off" class="fluency-input" data-answer="5" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="11 − 5 =">11 − 5 =</span><input autocomplete="off" class="fluency-input" data-answer="6" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="16 − 7 =">16 − 7 =</span><input autocomplete="off" class="fluency-input" data-answer="9" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="13 − 9 =">13 − 9 =</span><input autocomplete="off" class="fluency-input" data-answer="4" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="0.42 = 4 tenths and ___ hundredths =">0.42 = 4 tenths and ___ hundredths =</span><input autocomplete="off" class="fluency-input" data-answer="2" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="0.42 = 3 tenths and ___ hundredths =">0.42 = 3 tenths and ___ hundredths =</span><input autocomplete="off" class="fluency-input" data-answer="12" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="3.4 = 2 ones and ___ tenths =">3.4 = 2 ones and ___ tenths =</span><input autocomplete="off" class="fluency-input" data-answer="14" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="0.05 = 0 tenths and ___ hundredths =">0.05 = 0 tenths and ___ hundredths =</span><input autocomplete="off" class="fluency-input" data-answer="5" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="1.68 to 1.70 is ___ hundredths =">1.68 to 1.70 is ___ hundredths =</span><input autocomplete="off" class="fluency-input" data-answer="2" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="1.70 to 2.00 is ___ tenths =">1.70 to 2.00 is ___ tenths =</span><input autocomplete="off" class="fluency-input" data-answer="3" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="2.00 to 3.00 is ___ one =">2.00 to 3.00 is ___ one =</span><input autocomplete="off" class="fluency-input" data-answer="1" disabled="" inputmode="numeric" type="text"/></div>
+<div class="fluency-item"><span class="fluency-q" data-plain="3.00 to 3.42 is ___ hundredths =">3.00 to 3.42 is ___ hundredths =</span><input autocomplete="off" class="fluency-input" data-answer="42" disabled="" inputmode="numeric" type="text"/></div>
+</div>
+<button class="fluency-check-btn" disabled="" id="fluencyCheckBtn" onclick="fluencyCheck()">Check My Answers</button>
+<div class="fluency-result" id="fluencyResult"></div>
+</div>
+<textarea class="journal-box" data-label="Fluency Warm-Up (Hundredths Facts — One-Minute Check)" id="fluencyJournal" readonly="" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;"></textarea>
+</div>
+<div class="activity bl-violet"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">👋</div><div><div class="activity-title">Meet the Math Crew</div><div class="activity-sub">Cora leads this unit. Today there are two ways to solve every problem.</div></div></div><div class="activity-body"><div class="bubble-row"><div class="bubble cora"><div class="bubble-avatar">C</div><div class="bubble-body"><div class="bubble-name">Cora — precise explainer</div><div class="bubble-text">"“How much farther” is a subtraction question. It asks for the difference between two distances."</div></div></div><div class="bubble felix"><div class="bubble-avatar">F</div><div class="bubble-body"><div class="bubble-name">Felix — method-tester</div><div class="bubble-text">"I like to count up on the tape. Hop to the next tenth, then the next whole meter, then the rest."</div></div></div></div><div class="bubble-row"><div class="bubble hazel"><div class="bubble-avatar">H</div><div class="bubble-body"><div class="bubble-name">Hazel — visual thinker</div><div class="bubble-text">"When one number is 5.6 and the other is 2.84, I write 5.6 as 5.60. Now both numbers have hundredths, and I can line them up."</div></div></div><div class="bubble atlas"><div class="bubble-avatar">A</div><div class="bubble-body"><div class="bubble-name">Atlas — pattern-spotter</div><div class="bubble-text">"Breaking works the same at every place: one becomes 10 tenths, a tenth becomes 10 hundredths."</div></div></div></div></div></div>
+<div class="activity bl-yellow"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🔎</div><div><div class="activity-title">Readiness Check: Breaking Apart</div><div class="activity-sub">The same amount, in smaller pieces</div></div><span class="activity-time" style="background:#F5C518;color:#0E1C42;">~3 min</span></div><div class="activity-body">
+<p>Fill in each blank with a whole number.</p>
+<div class="ready-row"><span>4.5 =</span><input class="tb-input" id="rd1" inputmode="numeric" type="text" placeholder="" style="width:64px;"/><span>ones and 15 tenths</span></div>
+<div class="ready-row"><span>0.34 = 2 tenths and</span><input class="tb-input" id="rd2" inputmode="numeric" type="text" placeholder="" style="width:64px;"/><span>hundredths</span></div>
+<div class="ready-row"><span>6 hundredths − 4 hundredths =</span><input class="tb-input" id="rd3" inputmode="numeric" type="text" placeholder="" style="width:64px;"/><span>hundredths</span></div>
+<div class="tb-answer"><button class="tb-go" onclick="checkReadiness()">✓ Check</button><button class="tb-reset" onclick="resetReadiness()">↺ Reset</button></div>
+<div class="fb-box pass" id="rd-pass"><div class="fb-head">✅ 3, 14 and 2.</div>Break one of the 4 ones into 10 tenths: 3 ones and 15 tenths. Break one of the 3 tenths into 10 hundredths: 2 tenths and 14 hundredths. You’ll do both kinds of breaks today.</div>
+<div class="fb-box retry" id="rd-retry"><div class="fb-head">🔄 Same amount, smaller pieces.</div>When you break 1 one, the ones go down by 1 and the tenths go up by 10. When you break 1 tenth, the tenths go down by 1 and the hundredths go up by 10.</div>
+</div></div>
+
+<div class="activity bl-yellow"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🤔</div><div><div class="activity-title">Think About It: The Long Jump</div><div class="activity-sub">Look, predict, then hold on to your idea.</div></div></div><div class="activity-body">
+<div class="callout callout-think"><span class="callout-icon">🏃</span><p>At Field Day, Mia jumped 3.42 m. Leo jumped 1.68 m. The coach marked both jumps on a measuring tape.</p></div>
+<div class="pp-card"><svg viewBox="0 0 600 140" width="100%" style="max-width:600px;display:block;margin:0 auto;" role="img" aria-label="A measuring tape from 1 to 4 meters. Leo’s jump mark is at 1.68 meters and Mia’s is at 3.42 meters."><rect x="20" y="66" width="560" height="40" rx="6" fill="#FFE9A8" stroke="#C9A100" stroke-width="2"/><line x1="30.0" x2="30.0" y1="66" y2="88" stroke="#5C4300" stroke-width="2.2"/><text x="30.0" y="101" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="#5C4300">1 m</text><line x1="48.0" x2="48.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="66.0" x2="66.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="84.0" x2="84.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="102.0" x2="102.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="120.0" x2="120.0" y1="66" y2="81" stroke="#5C4300" stroke-width="1"/><line x1="138.0" x2="138.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="156.0" x2="156.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="174.0" x2="174.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="192.0" x2="192.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="210.0" x2="210.0" y1="66" y2="88" stroke="#5C4300" stroke-width="2.2"/><text x="210.0" y="101" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="#5C4300">2 m</text><line x1="228.0" x2="228.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="246.0" x2="246.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="264.0" x2="264.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="282.0" x2="282.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="300.0" x2="300.0" y1="66" y2="81" stroke="#5C4300" stroke-width="1"/><line x1="318.0" x2="318.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="336.0" x2="336.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="354.0" x2="354.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="372.0" x2="372.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="390.0" x2="390.0" y1="66" y2="88" stroke="#5C4300" stroke-width="2.2"/><text x="390.0" y="101" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="#5C4300">3 m</text><line x1="408.0" x2="408.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="426.0" x2="426.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="444.0" x2="444.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="462.0" x2="462.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="480.0" x2="480.0" y1="66" y2="81" stroke="#5C4300" stroke-width="1"/><line x1="498.0" x2="498.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="516.0" x2="516.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="534.0" x2="534.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="552.0" x2="552.0" y1="66" y2="75" stroke="#5C4300" stroke-width="1"/><line x1="570.0" x2="570.0" y1="66" y2="88" stroke="#5C4300" stroke-width="2.2"/><text x="570.0" y="101" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="#5C4300">4 m</text><line x1="152.4" x2="152.4" y1="40" y2="110" stroke="#3A6B9A" stroke-width="3"/><text x="152.4" y="34" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="#3A6B9A">Leo: 1.68 m</text><line x1="465.6" x2="465.6" y1="40" y2="110" stroke="#C2415B" stroke-width="3"/><text x="465.6" y="34" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="#C2415B">Mia: 3.42 m</text></svg></div>
+<p>About how much farther did Mia jump?</p>
+<div class="strategy-chip-row">
+<button class="strategy-chip" onclick="this.classList.toggle('selected')">about 1 m</button>
+<button class="strategy-chip" onclick="this.classList.toggle('selected')">a little less than 2 m</button>
+<button class="strategy-chip" onclick="this.classList.toggle('selected')">about 5 m</button>
+</div>
+<div class="notice-wonder-grid">
+<div class="notice-wonder-box"><h4>I notice…</h4><textarea class="journal-box" data-label="Warm-Up — Long jump: I notice" id="journal-notice" oninput="autoSave(this,'dot-notice')" placeholder=""></textarea><span class="saved-dot" id="dot-notice"></span></div>
+<div class="notice-wonder-box"><h4>I wonder…</h4><textarea class="journal-box" data-label="Warm-Up — Long jump: I wonder" id="journal-wonder" oninput="autoSave(this,'dot-wonder')" placeholder=""></textarea><span class="saved-dot" id="dot-wonder"></span></div>
+</div>
+<div class="callout callout-tip"><span class="callout-icon">🧠</span><p><strong>Stop and think:</strong> If you walked along the tape from Leo’s mark to Mia’s mark, how far would you walk?</p></div>
+</div></div>
+<div class="tab-next-wrap"><p class="tab-transition-voice">Let’s measure it two ways.</p><button class="tab-next-btn" onclick="switchTab('learn')">Continue to 📐 Learn →</button></div>
+</div>
+
+<!-- ═══════════════ TAB 2: LEARN ═══════════════ -->
+<div class="tab-panel" id="tab-learn">
+<div aria-label="Daily vocabulary flash cards" class="vocab-section">
+<div class="vocab-section-head">
+<div class="vocab-section-icon">📚</div>
+<div>
+<div class="vocab-section-label">Daily Vocabulary</div>
+<div class="vocab-section-title">Tap to Build Today’s Math Language</div>
+</div>
+</div>
+<p class="vocab-section-directions">Tap each card to flip it. Read the word, then read the meaning. You will use these words in today’s models and explanations.</p>
+<div class="vocab-grid">
+<div aria-label="Vocabulary card for how much farther. Tap to flip." class="flip-card fc-color-1" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
+<div class="flip-card-inner">
+<div class="flip-card-front"><div class="fc-emoji">📏</div><div class="fc-word">how much farther</div><div class="fc-tap">tap to flip</div></div>
+<div class="flip-card-back"><div class="fc-word-back">how much farther</div><div class="fc-def">a question that asks for the difference between two distances. Subtract the shorter one from the longer one.</div><div class="fc-tap-back">tap to flip back</div></div>
+</div>
+</div>
+<div aria-label="Vocabulary card for count up. Tap to flip." class="flip-card fc-color-2" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
+<div class="flip-card-inner">
+<div class="flip-card-front"><div class="fc-emoji">🐸</div><div class="fc-word">count up</div><div class="fc-tap">tap to flip</div></div>
+<div class="flip-card-back"><div class="fc-word-back">count up</div><div class="fc-def">start at the smaller number and hop to the bigger one. Add up the hops. 1.68 → 1.70 → 2.00 → 3.00 → 3.42.</div><div class="fc-tap-back">tap to flip back</div></div>
+</div>
+</div>
+<div aria-label="Vocabulary card for fill in a zero. Tap to flip." class="flip-card fc-color-3" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
+<div class="flip-card-inner">
+<div class="flip-card-front"><div class="fc-emoji">0️⃣</div><div class="fc-word">fill in a zero</div><div class="fc-tap">tap to flip</div></div>
+<div class="flip-card-back"><div class="fc-word-back">fill in a zero</div><div class="fc-def">add a 0 at the end so both numbers have the same places. 5.6 and 5.60 are the same amount.</div><div class="fc-tap-back">tap to flip back</div></div>
+</div>
+</div>
+<div aria-label="Vocabulary card for break (regroup). Tap to flip." class="flip-card fc-color-4" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped');}" role="button" tabindex="0">
+<div class="flip-card-inner">
+<div class="flip-card-front"><div class="fc-emoji">🔨</div><div class="fc-word">break (regroup)</div><div class="fc-tap">tap to flip</div></div>
+<div class="flip-card-back"><div class="fc-word-back">break (regroup)</div><div class="fc-def">trade 1 one for 10 tenths, or 1 tenth for 10 hundredths, when the top digit is too small to subtract.</div><div class="fc-tap-back">tap to flip back</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong> First hop along the tape. Then do the same problem in columns. Do the two answers match?</p></div>
+
+<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#C2415B;">📏</div><div><div class="activity-title">The Long Jump Tape</div><div class="activity-sub">Two ways to find the difference</div></div></div><div class="activity-body">
+<div class="tb-stage">
+<div class="tb-btnrow" id="ljTabs"></div>
+<div class="tb-story" id="ljStory"></div>
+<div class="tb-step">Way 1 · Hop up the tape</div>
+<div class="pp-card" id="ljTape"></div>
+<div class="tb-btnrow"><button class="tb-split big" id="ljH3" onclick="ljHop(1)">Hop 0.01</button><button class="tb-split big" id="ljH2" onclick="ljHop(10)">Hop 0.1</button><button class="tb-split big" id="ljH1" onclick="ljHop(100)">Hop 1</button><button class="tb-split" id="ljHopUndo" onclick="ljUndo()">↶ Undo hop</button></div>
+<div class="pp-read" id="ljHopTotal"></div>
+<div class="tb-status" id="ljHopStatus"></div>
+<div class="tb-step">Way 2 · Subtract in columns</div>
+<div class="pp-work"><div class="col-form" id="ljCol"></div><div style="display:flex;flex-direction:column;gap:8px;"><button class="tb-split" id="ljBreakT" onclick="ljBreak('t')">✂️ Break a tenth into 10 hundredths</button><button class="tb-split" id="ljBreakO" onclick="ljBreak('o')">🔨 Break a one into 10 tenths</button></div></div>
+<div class="tb-status" id="ljColStatus"></div>
+<div class="tb-step">How much farther?</div>
+<div class="tb-answer"><input class="tb-input" id="ljAns" inputmode="decimal" type="text" placeholder=""/><span class="tb-unit">m</span><button class="tb-go" onclick="ljCheck()">✓ Check</button></div>
+<div class="fb-box pass" id="lj-pass"><div class="fb-head" id="ljPassHead">✅</div><span id="ljPassText"></span></div>
+<div class="fb-box retry" id="lj-retry"><div class="fb-head">🔄 Check both ways.</div><span id="ljRetry"></span></div>
+<div class="tb-answer"><button class="tb-reset" onclick="ljReset()">↺ Start this round over</button></div>
+</div>
+</div></div>
+
+<div class="key-concept" style="margin-top:16px;"><div class="key-concept-label">📐 What You Just Saw</div><p><strong>Line up the decimal points.</strong> If one number has fewer places, fill in zeros: 5.6 becomes 5.60.</p><p><strong>Start with the hundredths.</strong> If the top digit is too small, break a tenth into 10 hundredths. Then do the tenths. If that top digit is too small, break a one into 10 tenths. Then do the ones.</p><p><strong>Check by counting up</strong> on a number line, or by adding your answer to the smaller number.</p></div>
+
+<div class="activity bl-violet" style="margin-top:16px;"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">🗂️</div><div><div class="activity-title">Fill In the Zeros First</div><div class="activity-sub">Make both numbers the same length, then line them up.</div></div></div><div class="activity-body">
+<table class="same-table">
+<thead><tr><th>Problem</th><th>Rewrite as</th><th>Breaks needed</th><th>Answer</th></tr></thead>
+<tbody>
+<tr><td>3.42 − 1.68</td><td>3.42 − 1.68</td><td>a tenth, then a one</td><td>1.74</td></tr>
+<tr><td>5.6 − 2.84</td><td>5.60 − 2.84</td><td>a tenth, then a one</td><td>2.76</td></tr>
+<tr><td>4 − 1.25</td><td>4.00 − 1.25</td><td>a one, then a tenth</td><td>2.75</td></tr>
+<tr><td>2.75 − 0.4</td><td>2.75 − 0.40</td><td>none</td><td>2.35</td></tr>
+</tbody>
+</table>
+<div class="word-note"><b>Why fill in zeros?</b> 5.6 means 5 ones and 6 tenths. It has no hundredths, so its hundredths digit is 0. Writing the 0 doesn’t change the number. It just gives you a hundredths place to subtract from.</div>
+</div></div>
+
+<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#7A1F36;">🔍</div><div><div class="activity-title">Worked Example: Mia’s Second Jump</div><div class="activity-sub">Back to the long jump from the Warm-Up</div></div></div><div class="activity-body"><div class="task-box"><div class="task-label">Problem</div><p>On her second try, Mia jumped 3.9 m. Her first jump was 3.42 m. How much farther was her second jump?</p></div>
+<div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:12px 0;">
+<div class="col-form"><div class="col-row h col-carry"><span></span><span></span><span></span><span>8</span><span>10</span></div><div class="col-row h"><span></span><span>3</span><span class="col-pt">.</span><span class="struck">9</span><span class="struck">0</span></div><div class="col-row h"><span>−</span><span>3</span><span class="col-pt">.</span><span>4</span><span>2</span></div><div class="col-line"></div><div class="col-row h" style="color:#C2415B;"><span></span><span>0</span><span class="col-pt">.</span><span>4</span><span>8</span></div><div class="col-head h"><span></span><span>ones</span><span></span><span>tenths</span><span>hundredths</span></div></div>
+</div>
+<div style="background:#FFF8F9;border:2px solid #F8D7DE;border-radius:14px;padding:16px;margin:12px 0;">
+<div style="text-align:center;font-family:'Lora',Georgia,serif;color:#0E1C42;line-height:2;font-size:16px;">
+<strong>Step 1.</strong> Fill in a zero: 3.9 = 3.90.<br/>
+<strong>Step 2.</strong> Hundredths: 0 − 2? Not enough. Break a tenth: 8 tenths and 10 hundredths. 10 − 2 = 8.<br/>
+<strong>Step 3.</strong> Tenths: 8 − 4 = 4. Ones: 3 − 3 = 0. Mia’s second jump was <span style="color:#C2415B;font-weight:900;">0.48 m</span> farther.<br/>
+<strong>Check by counting up.</strong> 3.42 → 3.50 is 0.08. 3.50 → 3.90 is 0.40. 0.08 + 0.40 = 0.48. ✓
+</div>
+</div>
+<div class="bubble-row">
+<div class="bubble hazel"><div class="bubble-avatar">H</div><div class="bubble-body"><div class="bubble-name">Hazel</div><div class="bubble-text">"Without the zero, I might have lined up the 9 over the 2. Filling it in kept every digit in its place."</div></div></div>
+<div class="bubble felix"><div class="bubble-avatar">F</div><div class="bubble-body"><div class="bubble-name">Felix</div><div class="bubble-text">"0.48 m is almost half a meter. That’s a big improvement!"</div></div></div>
+</div>
+<div class="socratic-box"><div class="socratic-label">🧠 Socratic — Think Like a Mathematician</div><p class="socratic-q">Counting up on the tape and subtracting in columns gave the same answers. For 4.05 − 2.37, which way would you choose, and why?</p>
+<div class="journal-label">✏️ My thinking <span class="saved-dot" id="dot-soc"></span></div>
+<textarea class="journal-box" data-label="Learn — Socratic: which way for 4.05 − 2.37" id="journal-soc" oninput="autoSave(this,'dot-soc')" placeholder=""></textarea></div>
+</div></div>
+<div class="tab-next-wrap"><p class="tab-transition-voice">Fill in zeros, line up, break when you need to. Your turn.</p><button class="tab-next-btn" onclick="switchTab('assignment')">Continue to 🌟 Show What You Know →</button></div>
+</div>
+
+<!-- ═══════════════ TAB 3: SHOW WHAT YOU KNOW ═══════════════ -->
+<div class="tab-panel" id="tab-assignment">
+<div class="activity bl-navy"><div class="activity-head"><div class="activity-num" style="background:#0E1C42;">📬</div><div><div class="activity-title">Show What You Know</div><div class="activity-sub">Two quick checks. Your full practice is in the Independent Practice PDF.</div></div></div><div class="activity-body">
+<div class="callout callout-think"><span class="callout-icon">🧠</span><p><strong>Before each problem, ask:</strong> Do both numbers have the same places? Is each top digit big enough?</p></div>
+<div class="q-block"><p class="q-text"><span class="q-num">1</span>Subtract. Line up the decimal points first.</p>
+<div style="text-align:center;margin:8px 0;"><div class="col-form"><div class="col-row h col-carry"><span></span><span></span><span></span><span></span><span></span></div><div class="col-row h"><span></span><span>4</span><span class="col-pt">.</span><span>2</span><span>1</span></div><div class="col-row h"><span>−</span><span>1</span><span class="col-pt">.</span><span>8</span><span>4</span></div><div class="col-line"></div></div></div>
+<div class="tb-answer"><input class="tb-input" id="sw1" inputmode="decimal" type="text" placeholder=""/><button class="tb-go" onclick="checkSwyk1()">✓ Check</button></div>
+<div class="fb-box pass" id="sw1-pass"><div class="fb-head">✅ 2.37</div>Hundredths: break a tenth, 11 − 4 = 7. Tenths: 1 − 8? Break a one, 11 − 8 = 3. Ones: 3 − 1 = 2. Check: 2.37 + 1.84 = 4.21. ✓</div>
+<div class="fb-box retry" id="sw1-retry"><div class="fb-head">🔄 Hundredths first.</div><span id="sw1RetryText"></span></div>
+<div class="journal-label">✏️ My breaks <span class="saved-dot" id="dot-a1"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 1: 4.21 − 1.84" id="journal-a1" oninput="autoSave(this,'dot-a1')" placeholder=""></textarea></div>
+<div class="q-block"><p class="q-text"><span class="q-num">2</span>The class sunflower is 3 m tall. The fence beside it is 2.5 m tall. How much taller is the sunflower than the fence?</p>
+<div class="tb-answer" style="justify-content:flex-start;"><input class="tb-input" id="sw2" inputmode="decimal" type="text" placeholder=""/><span class="tb-unit">m</span><button class="tb-go" onclick="checkSwyk2()">✓ Check</button></div>
+<div class="fb-box pass" id="sw2-pass"><div class="fb-head">✅ 0.5 m</div>3.0 − 2.5: break a one into 10 tenths. 10 − 5 = 5 tenths, 2 − 2 = 0 ones. The sunflower is 0.5 m, or half a meter, taller.</div>
+<div class="fb-box retry" id="sw2-retry"><div class="fb-head">🔄 Fill in the zeros.</div><span id="sw2RetryText"></span></div>
+<div class="journal-label">✏️ My work <span class="saved-dot" id="dot-a2"></span></div><textarea class="journal-box" data-label="Show What You Know — Problem 2: sunflower and fence" id="journal-a2" oninput="autoSave(this,'dot-a2')" placeholder=""></textarea></div>
+<div class="callout callout-tip"><span class="callout-icon">🌟</span><p>If you got these, you're ready for the Independent Practice.</p></div>
+<div class="activity bl-slate" style="margin-top:18px;border-left-color:#C2415B;"><div class="activity-head"><div class="activity-num" style="background:#C2415B;color:#fff;">🗺️</div><div><div class="activity-title">Connection Forward: Money, Decimals, and Fractions</div><div class="activity-sub">Looking ahead</div></div></div><div class="activity-body"><p>You can now add and subtract any decimals to hundredths. Next lesson, <strong>Money, Decimals, and Fractions</strong>, puts it all together with real prices, like $3.75, and shows how cents, decimals and fractions like <span class="frac"><span class="num">75</span><span class="den">100</span></span> are three ways to write the same amount.</p></div></div>
+</div></div>
+<div class="gathered-box"><div class="gathered-head"><div class="gathered-head-icon">📋</div><div><div class="gathered-head-label">Your Math Journal</div><div class="gathered-head-title">All Answers from Today</div></div></div><div class="gathered-body"><textarea class="gathered-output" id="gatheredOutput" readonly="">Click "Gather My Answers" to collect your work.</textarea><div class="gathered-actions"><button class="purple-btn" onclick="gatherAnswers()">📋 Gather My Answers</button><button class="green-btn" onclick="copyAnswers()">Copy All Answers</button><button class="check-btn" onclick="downloadJournal()">Download My Math Journal</button></div></div></div>
+<div class="turn-in-card"><div class="turn-in-header"><div class="turn-in-header-icon">✅</div><div><div class="turn-in-header-label">Turn-In Checklist</div><div class="turn-in-header-title">Ready to Submit?</div></div></div><div class="turn-in-body"><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check"></span><span>I answered both quick checks.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check"></span><span>I filled in zeros so both numbers had the same places.</span></div><div class="turn-in-item" onclick="toggleCheck(this)"><span class="turn-in-check"></span><span>I checked by counting up or by adding back.</span></div></div></div>
+</div>
+<div class="footer">
+<div class="footer-main">🏫 <span>Optima Academy Online</span></div>
+<div class="footer-sub">Math · Grade 4 · 4.13.06</div>
+<div class="footer-standards">FL: MA.4.NSO.2.7, MTR.2.1, MTR.5.1 &middot; TX: 4.4.A</div>
+<div class="footer-copy">© 2025 Optima Academy Online</div>
+</div>
+</div>
+<canvas id="confettiCanvas"></canvas>
+
+<script>
+function F(n, d){ return '<span class="frac"><span class="num">' + n + '</span><span class="den">' + d + '</span></span>'; }
+function numVal(id){ var el = document.getElementById(id); var v = (el && el.value || "").replace(/,/g, "").replace(/°|degrees?|cm|f$/gi, "").trim(); return v === "" || isNaN(Number(v)) ? null : Number(v); }
+function showFb(prefix, ok){
+  var p = document.getElementById(prefix + "-pass"), r = document.getElementById(prefix + "-retry");
+  if(p) p.classList.remove("show");
+  if(r) r.classList.remove("show");
+  var el = ok ? p : r;
+  if(el){ el.classList.add("show"); if(ok) miniCelebrate(el); }
+}
+function hideFb(prefix){ ["pass","retry"].forEach(function(x){ var el = document.getElementById(prefix + "-" + x); if(el) el.classList.remove("show"); }); }
+function mark(id, ok){ var el = document.getElementById(id); if(el) el.style.borderColor = ok ? "#2DB87A" : "#E07B39"; }
+function clearInputs(ids){ ids.forEach(function(id){ var el = document.getElementById(id); if(el){ el.value = ""; el.style.borderColor = "#D6D6D6"; } }); }
+
+/* ── Line graph drawing (shared by every graph on the page) ──
+   cfg: { labels:[], values:[], yMin, yMax, yStep, yTitle, xTitle, title, w, h } */
+var SVGNS = "http://www.w3.org/2000/svg";
+function lgGeom(cfg){
+  var w = cfg.w || 600, h = cfg.h || 330, L = 62, R = 22, T = 34, B = 64;
+  var n = cfg.labels.length;
+  function x(i){ return L + (w - L - R) * (i + 0.5) / n; }
+  function y(v){ return T + (h - T - B) * (1 - (v - cfg.yMin) / (cfg.yMax - cfg.yMin)); }
+  return { w:w, h:h, L:L, R:R, T:T, B:B, x:x, y:y, n:n };
+}
+function lgFrame(cfg){
+  var g = lgGeom(cfg), s = "";
+  s += '<rect x="0" y="0" width="' + g.w + '" height="' + g.h + '" fill="#fff"/>';
+  if(cfg.title) s += '<text x="' + (g.w / 2) + '" y="20" text-anchor="middle" font-family="Lora,Georgia,serif" font-size="15" font-weight="700" fill="#0E1C42">' + cfg.title + '</text>';
+  var pxStep = (g.y(cfg.yMin) - g.y(cfg.yMin + cfg.yStep)), every = Math.max(1, Math.ceil(15 / pxStep));
+  for(var v = cfg.yMin, li = 0; v <= cfg.yMax; v += cfg.yStep, li++){
+    s += '<line x1="' + g.L + '" x2="' + (g.w - g.R) + '" y1="' + g.y(v) + '" y2="' + g.y(v) + '" stroke="' + (v === cfg.yMin ? '#0E1C42' : '#D6ECF7') + '" stroke-width="' + (v === cfg.yMin ? 2 : 1) + '"/>';
+    if(li % every === 0) s += '<text x="' + (g.L - 8) + '" y="' + (g.y(v) + 4) + '" text-anchor="end" font-family="Nunito,sans-serif" font-size="12" font-weight="700" fill="#3A4A6B">' + v + '</text>';
+  }
+  s += '<line x1="' + g.L + '" x2="' + g.L + '" y1="' + g.T + '" y2="' + g.y(cfg.yMin) + '" stroke="#0E1C42" stroke-width="2"/>';
+  for(var i = 0; i < g.n; i++){
+    s += '<text x="' + g.x(i) + '" y="' + (g.h - g.B + 18) + '" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#0E1C42">' + cfg.labels[i] + '</text>';
+  }
+  if(cfg.xTitle) s += '<text x="' + ((g.L + g.w - g.R) / 2) + '" y="' + (g.h - 12) + '" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="#0D3D6B">' + cfg.xTitle + '</text>';
+  if(cfg.yTitle) s += '<text transform="translate(16,' + ((g.T + g.y(cfg.yMin)) / 2) + ') rotate(-90)" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="#0D3D6B">' + cfg.yTitle + '</text>';
+  return s;
+}
+function lgLineAndDots(cfg, values, color){
+  var g = lgGeom(cfg), s = "", pts = [];
+  for(var i = 0; i < values.length; i++){ if(values[i] !== null && values[i] !== undefined) pts.push([g.x(i), g.y(values[i])]); else pts.push(null); }
+  for(var j = 0; j < pts.length - 1; j++){
+    if(pts[j] && pts[j+1]) s += '<line x1="' + pts[j][0] + '" y1="' + pts[j][1] + '" x2="' + pts[j+1][0] + '" y2="' + pts[j+1][1] + '" stroke="' + (color || '#1E5F9E') + '" stroke-width="3" stroke-linecap="round"/>';
+  }
+  pts.forEach(function(p){ if(p) s += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="6" fill="#fff" stroke="' + (color || '#1E5F9E') + '" stroke-width="3"/>'; });
+  return s;
+}
+function lgStatic(id, cfg){
+  var g = lgGeom(cfg);
+  document.getElementById(id).innerHTML = '<svg viewBox="0 0 ' + g.w + ' ' + g.h + '" width="100%" role="img" aria-label="' + (cfg.aria || cfg.title || 'line graph') + '" style="max-width:' + g.w + 'px;display:block;margin:0 auto;">' + lgFrame(cfg) + lgLineAndDots(cfg, cfg.values) + '</svg>';
+}
+
+/* ═══ Lesson 4.13.06 — Subtracting Hundredths ═══ */
+var LS_PREFIX = "g4-4-13-06-";
+var LESSON_TITLE = "Lesson 4.13.06 — Subtracting Hundredths";
+var CONFETTI_COLORS = ['#C2415B','#E88A9C','#F8D7DE','#F5C518','#2DB87A','#6B3FA0','#55C8E8'];
+var CONFETTI_EMOJIS = ['🏃','📏','🥇','⭐','✅','🎉'];
+
+function decVal(id){
+  var el = document.getElementById(id); var v = (el && el.value || "").replace(/\s|m$|meters?$/gi, "").trim();
+  if(v === "" || isNaN(Number(v))) return null; return Math.round(Number(v) * 100) / 100;
+}
+function hText(h){ return (h / 100).toFixed(2); }
+
+/* ── Readiness ── */
+function checkReadiness(){
+  var a = numVal("rd1"), b = numVal("rd2"), c = numVal("rd3");
+  mark("rd1", a === 3); mark("rd2", b === 14); mark("rd3", c === 2);
+  showFb("rd", a === 3 && b === 14 && c === 2);
+}
+function resetReadiness(){ clearInputs(["rd1","rd2","rd3"]); hideFb("rd"); }
+
+/* ── Long Jump Tape: (A) hop up the tape from the shorter jump to the longer one; (B) subtract in columns with breaks ── */
+var LJ = [
+  { story:"Field Day long jump! Mia jumped <strong>3.42 m</strong>. Leo jumped <strong>1.68 m</strong>. How much farther did Mia jump?", big:342, small:168, nb:"Mia", ns:"Leo" },
+  { story:"Ana jumped <strong>4.05 m</strong>. Kai jumped <strong>2.37 m</strong>. How much farther did Ana jump? Watch the zero!", big:405, small:237, nb:"Ana", ns:"Kai" },
+  { story:"Jack jumped <strong>5.6 m</strong>. Nora jumped <strong>2.84 m</strong>. How much farther did Jack jump?", big:560, small:284, nb:"Jack", ns:"Nora" }
+];
+function ljFresh(R){ var o = Math.floor(R.big / 100), t = Math.floor(R.big / 10) % 10, h = R.big % 10; return { hops:[], pos:R.small, top:{o:o, t:t, h:h}, brokeO:0, brokeT:0 }; }
+var LJS = { r:0, st:LJ.map(ljFresh) };
+function ljR(){ return LJ[LJS.r]; }
+function ljS(){ return LJS.st[LJS.r]; }
+function bot(R){ return { o:Math.floor(R.small / 100), t:Math.floor(R.small / 10) % 10, h:R.small % 10 }; }
+
+function ljTape(){
+  var R = ljR(), S = ljS(), lo = Math.floor(R.small / 100) * 100, hi = Math.ceil(R.big / 100) * 100;
+  var W = 600, L = 30, Rr = 570, y = 150;
+  function x(v){ return L + (Rr - L) * (v - lo) / (hi - lo); }
+  var s = '<rect x="' + (L - 10) + '" y="' + (y - 4) + '" width="' + (Rr - L + 20) + '" height="40" rx="6" fill="#FFE9A8" stroke="#C9A100" stroke-width="2"/>';
+  for(var v = lo; v <= hi; v += 10){
+    var whole = v % 100 === 0, half = v % 50 === 0;
+    s += '<line x1="' + x(v) + '" x2="' + x(v) + '" y1="' + (y - 4) + '" y2="' + (y - 4 + (whole ? 22 : (half ? 15 : 9))) + '" stroke="#5C4300" stroke-width="' + (whole ? 2.2 : 1) + '"/>';
+    if(whole) s += '<text x="' + x(v) + '" y="' + (y + 31) + '" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="#5C4300">' + (v / 100) + ' m</text>';
+  }
+  // markers for the two jumps
+  [[R.small, R.ns, "#3A6B9A"], [R.big, R.nb, "#C2415B"]].forEach(function(m){
+    s += '<line x1="' + x(m[0]) + '" x2="' + x(m[0]) + '" y1="' + (y - 4) + '" y2="' + (y + 48) + '" stroke="' + m[2] + '" stroke-width="3"/>';
+    s += '<text x="' + x(m[0]) + '" y="' + (y + 62) + '" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="' + m[2] + '">' + m[1] + ': ' + hText(m[0]) + '</text>';
+  });
+  // hops
+  var p = R.small;
+  S.hops.forEach(function(hp, i){
+    var x1 = x(p), x2 = x(p + hp), hgt = Math.max(18, Math.min(80, (x2 - x1) * 0.6));
+    s += '<path d="M' + x1 + ' ' + (y - 6) + ' Q ' + ((x1 + x2) / 2) + ' ' + (y - 6 - hgt) + ' ' + x2 + ' ' + (y - 6) + '" fill="none" stroke="#2DB87A" stroke-width="2.5"' + (i === S.hops.length - 1 ? ' class="pp-new"' : '') + '/>';
+    if(x2 - x1 > 22 || i === S.hops.length - 1) s += '<text x="' + ((x1 + x2) / 2) + '" y="' + (y - 10 - hgt) + '" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="900" fill="#1A8A5A">+' + hText(hp) + '</text>';
+    p += hp;
+  });
+  s += '<circle cx="' + x(S.pos) + '" cy="' + (y - 6) + '" r="6" fill="#2DB87A" stroke="#fff" stroke-width="2"/>';
+  document.getElementById("ljTape").innerHTML = '<svg viewBox="0 0 600 230" width="100%" role="img" aria-label="A measuring tape with two jump marks and the hops between them." style="max-width:600px;display:block;margin:0 auto;">' + s + '</svg>';
+}
+function ljRender(){
+  var R = ljR(), S = ljS(), B = bot(R);
+  document.getElementById("ljTabs").innerHTML = LJ.map(function(x, i){ return '<button class="tb-split' + (i === LJS.r ? ' on' : '') + '" onclick="ljGo(' + i + ')">Round ' + (i + 1) + '</button>'; }).join("");
+  document.getElementById("ljStory").innerHTML = R.story;
+  ljTape();
+  var gap = R.big - S.pos;
+  [["ljH1", 100], ["ljH2", 10], ["ljH3", 1]].forEach(function(b){ document.getElementById(b[0]).disabled = b[1] > gap; });
+  document.getElementById("ljHopUndo").disabled = S.hops.length === 0;
+  var tot = S.pos - R.small;
+  var groups = []; S.hops.forEach(function(h){ var g = groups[groups.length - 1]; if(g && g.h === h) g.n++; else groups.push({h:h, n:1}); });
+  document.getElementById("ljHopTotal").innerHTML = S.hops.length ? "Hops so far: " + groups.map(function(g){ return g.n > 1 ? "(" + g.n + " × " + hText(g.h) + ")" : hText(g.h); }).join(" + ") + " = <strong>" + hText(tot) + " m</strong>" : "No hops yet.";
+  document.getElementById("ljHopStatus").innerHTML = gap === 0 ? "You reached " + R.nb + "’s mark! The hops add up to the difference." : "Hop from " + R.ns + "’s mark toward " + R.nb + "’s mark. Use small hops to reach a round number, then bigger hops.";
+  // column form
+  var T = S.top, needH = T.h < B.h, needT = T.t < B.t;
+  var changed = S.brokeO || S.brokeT, A0 = ljFresh(R).top;
+  function mk(k){ return changed && T[k] !== A0[k] ? T[k] : ""; }
+  function cl(k){ return changed && T[k] !== A0[k] ? "struck" : ""; }
+  var bt = hText(R.small).split(".");
+  document.getElementById("ljCol").innerHTML =
+    '<div class="col-row h col-carry"><span></span><span>' + mk("o") + '</span><span></span><span>' + mk("t") + '</span><span>' + mk("h") + '</span></div>' +
+    '<div class="col-row h"><span></span><span class="' + cl("o") + '">' + A0.o + '</span><span class="col-pt">.</span><span class="' + cl("t") + '">' + A0.t + '</span><span class="' + cl("h") + '">' + A0.h + '</span></div>' +
+    '<div class="col-row h"><span>−</span><span>' + bt[0] + '</span><span class="col-pt">.</span><span>' + bt[1][0] + '</span><span>' + bt[1][1] + '</span></div>' +
+    '<div class="col-line"></div><div class="col-head h"><span></span><span>ones</span><span></span><span>tenths</span><span>hundredths</span></div>';
+  var bT = document.getElementById("ljBreakT"), bO = document.getElementById("ljBreakO");
+  bT.disabled = !(needH && T.t > 0); bO.disabled = !(T.o > 0 && (needT || (needH && T.t === 0)));
+  bT.classList.toggle("glow", !bT.disabled); bO.classList.toggle("glow", !bO.disabled);
+  var st = document.getElementById("ljColStatus");
+  if(needH && T.t === 0) st.innerHTML = "Hundredths: " + T.h + " take away " + B.h + "? Not enough. And there are 0 tenths to break! Break a one into 10 tenths first.";
+  else if(needH) st.innerHTML = "Hundredths: " + T.h + " take away " + B.h + "? Not enough. Break a tenth into 10 hundredths.";
+  else if(needT) st.innerHTML = "Hundredths are ready (" + T.h + " − " + B.h + "). Tenths: " + T.t + " take away " + B.t + "? Not enough. Break a one into 10 tenths.";
+  else st.innerHTML = "Every place has enough now. Subtract each column: hundredths, then tenths, then ones.";
+}
+function ljHop(n){ var R = ljR(), S = ljS(); if(S.pos + n > R.big) return; S.hops.push(n); S.pos += n; hideFb("lj"); ljRender(); }
+function ljUndo(){ var S = ljS(); if(!S.hops.length) return; S.pos -= S.hops.pop(); hideFb("lj"); ljRender(); }
+function ljBreak(k){
+  var S = ljS(), T = S.top;
+  if(k === "t" && T.t > 0){ T.t -= 1; T.h += 10; S.brokeT++; }
+  if(k === "o" && T.o > 0){ T.o -= 1; T.t += 10; S.brokeO++; }
+  hideFb("lj"); ljRender();
+}
+function ljGo(i){ LJS.r = i; var a = document.getElementById("ljAns"); a.value = ""; a.style.borderColor = "#D6D6D6"; hideFb("lj"); ljRender(); }
+function ljReset(){ LJS.st[LJS.r] = ljFresh(ljR()); ljGo(LJS.r); }
+var LJ_PASS = [
+  "Hop: 1.68 → 1.70 (+0.02) → 2.00 (+0.30) → 3.00 (+1) → 3.42 (+0.42). Total: 1.74. Columns: break a tenth (12 − 8 = 4), break a one (13 − 6 = 7), then 2 − 1 = 1. Both ways give 1.74 m.",
+  "The 0 in 4.05 means no tenths to break, so you broke a one first: 3 ones, 10 tenths. Then a tenth: 9 tenths, 15 hundredths. 15 − 7 = 8, 9 − 3 = 6, 3 − 2 = 1. That’s 1.68 m.",
+  "Write 5.6 as 5.60 so both numbers have hundredths. Break a tenth: 5 tenths, 10 hundredths. 10 − 4 = 6. Break a one: 15 tenths. 15 − 8 = 7. 4 − 2 = 2. That’s 2.76 m."
+];
+function ljCheck(){
+  var R = ljR(), S = ljS(), v = decVal("ljAns"), want = (R.big - R.small) / 100, rt = document.getElementById("ljRetry"), B = bot(R), T = S.top;
+  var hopped = S.pos === R.big, ready = T.h >= B.h && T.t >= B.t, ok = v === want && hopped && ready;
+  mark("ljAns", ok);
+  var flip = Math.abs(Math.floor(R.big / 100) - B.o) + Math.abs((Math.floor(R.big / 10) % 10) - B.t) / 10 + Math.abs(R.big % 10 - B.h) / 100;
+  if(v === want && !(hopped && ready)) rt.innerHTML = "That’s right! Finish " + (!hopped ? "hopping to " + R.nb + "’s mark" : "") + (!hopped && !ready ? " and " : "") + (!ready ? "the breaks in the column" : "") + " so both models show it.";
+  else if(v !== null && Math.abs(v - flip) < 0.001) rt.innerHTML = "It looks like you took the smaller digit from the bigger one in each column. Break a tenth or a one when the top digit is too small instead.";
+  else if(v !== null && Math.abs(v - (R.big + R.small) / 100) < 0.001) rt.innerHTML = "That’s the two jumps added together. “How much farther” means find the difference: subtract.";
+  else rt.innerHTML = "Read your hop total on the tape, and check each column of the subtraction.";
+  showFb("lj", ok);
+  if(ok){ document.getElementById("ljPassHead").textContent = "✅ " + want.toFixed(2) + " m farther."; document.getElementById("ljPassText").innerHTML = LJ_PASS[LJS.r] + (LJS.r < LJ.length - 1 ? " Try the next round." : " That’s all three rounds!"); }
+}
+
+/* ── Show What You Know ── */
+function checkSwyk1(){
+  var v = decVal("sw1"), rt = document.getElementById("sw1RetryText");
+  if(v === 3.63) rt.innerHTML = "It looks like you took the smaller digit from the bigger one in each column. In the hundredths, 1 − 4 needs a break first.";
+  else if(v === 2.47) rt.innerHTML = "Close! Check the tenths. After you break one tenth into hundredths, there is only 1 tenth left, not 2.";
+  else rt.innerHTML = "Hundredths: 1 is less than 4, so break a tenth. Then check the tenths and the ones.";
+  mark("sw1", v === 2.37); showFb("sw1", v === 2.37);
+}
+function checkSwyk2(){
+  var v = decVal("sw2"), rt = document.getElementById("sw2RetryText");
+  if(v === 5.5) rt.innerHTML = "That’s the two heights added together. How much taller means subtract.";
+  else if(v === 0.73 || v === 0.13) rt.innerHTML = "Write 3 as 3.00 so it has tenths and hundredths. Then break a one and a tenth.";
+  else rt.innerHTML = "Write the plant’s height as 3.00 m. Subtract 2.5, written as 2.50. Break what you need.";
+  mark("sw2", v === 0.5); showFb("sw2", v === 0.5);
+}
+function gatherExtra(){
+  var a = (document.getElementById("sw1").value || "").trim(), b = (document.getElementById("sw2").value || "").trim();
+  return "Show What You Know — Problem 1 answer\n" + (a || "[No answer yet]") + "\n\nShow What You Know — Problem 2 answer\n" + (b ? b + " m" : "[No answer yet]") + "\n\n";
+}
+function initLesson(){ restoreJournals(); updateProgress(); ljRender(); }
+if(document.readyState === "loading"){ document.addEventListener("DOMContentLoaded", initLesson); } else { initLesson(); }
+
+/* ── Shared page helpers ── */
+function miniCelebrate(el){if(!el)return;var emojis=['⭐','✨','🎉','💫','🌟'];for(var i=0;i<8;i++){var s=document.createElement('span');s.textContent=emojis[Math.floor(Math.random()*emojis.length)];s.style.cssText='position:absolute;font-size:'+(16+Math.random()*14)+'px;pointer-events:none;z-index:999;animation:miniPop .7s ease-out forwards;left:'+(20+Math.random()*60)+'%;top:'+(Math.random()*40)+'%;';el.style.position='relative';el.style.overflow='visible';el.appendChild(s);setTimeout(function(x){x.remove()}.bind(null,s),800)}}
+function showPageFeedback(message,type){var panel=document.querySelector('.tab-panel.active')||document.querySelector('.page-wrap')||document.body;var box=panel.querySelector(':scope > .page-feedback');if(!box){box=document.createElement('div');box.className='page-feedback';panel.insertBefore(box,panel.firstChild);}box.className='page-feedback show '+(type||'good');box.innerHTML=message;box.scrollIntoView({behavior:'smooth',block:'nearest'});}
+function switchTab(tab){document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});document.getElementById('tab-'+tab).classList.add('active');document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');if(b.dataset.tab===tab){b.classList.add('active');b.classList.add('visited')}});updateProgress();window.scrollTo({top:0,behavior:'smooth'})}
+function updateProgress(){var tabs=['warmup','learn','assignment'];var active=[].slice.call(document.querySelectorAll('.tab-btn')).findIndex(function(b){return b.classList.contains('active')});var pct=Math.round(((active+1)/tabs.length)*100);document.getElementById('progressFill').style.width=pct+'%';document.getElementById('progressPct').textContent=pct+'%'}
+function autoSave(el,dotId){try{localStorage.setItem(LS_PREFIX+el.id,el.value)}catch(e){}var dot=document.getElementById(dotId);if(dot){dot.classList.add('saved');setTimeout(function(){dot.classList.remove('saved')},900)}}
+function restoreJournals(){document.querySelectorAll('textarea.journal-box').forEach(function(t){if(t.readOnly)return;try{var v=localStorage.getItem(LS_PREFIX+t.id);if(v)t.value=v}catch(e){}})}
+function gatherAnswers(){
+  var out = LESSON_TITLE + '\n\n';
+  document.querySelectorAll('textarea.journal-box').forEach(function(t){ out += t.dataset.label + '\n' + (t.value.trim() || '[No answer yet]') + '\n\n'; });
+  if(typeof gatherExtra === 'function') out += gatherExtra();
+  document.getElementById('gatheredOutput').value = out;
+}
+function copyAnswers(){gatherAnswers();if(navigator.clipboard)navigator.clipboard.writeText(document.getElementById('gatheredOutput').value);showPageFeedback('Your answers were copied.','good');}
+function downloadJournal(){gatherAnswers();var text=document.getElementById('gatheredOutput').value;var w=window.open('','_blank');w.document.write('<pre style="font-family:Arial;white-space:pre-wrap;font-size:14px;line-height:1.5;">'+text.replace(/[&<>]/g,function(s){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[s]})+'</pre>');w.document.close();w.print()}
+function toggleCheck(item){
+  item.classList.toggle('checked');
+  var check=item.querySelector('.turn-in-check');
+  if(check) check.textContent=item.classList.contains('checked')?'✓':'';
+  var items=[].slice.call(document.querySelectorAll('.turn-in-item'));
+  var allChecked=items.length>0 && items.every(function(x){return x.classList.contains('checked')});
+  if(allChecked && !window._turnInConfettiFired){window._turnInConfettiFired=true;fireConfetti();}
+  if(!allChecked){window._turnInConfettiFired=false;}
+}
+function fireConfetti(){
+  var canvas=document.getElementById('confettiCanvas');var ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  var particles=[];var colors=CONFETTI_COLORS;
+  var emojis=CONFETTI_EMOJIS;
+  for(var i=0;i<120;i++){particles.push({type:'rect',x:Math.random()*canvas.width,y:Math.random()*-50,r:Math.random()*6+3,c:colors[Math.floor(Math.random()*colors.length)],vx:(Math.random()-0.5)*4,vy:Math.random()*3+2,rot:Math.random()*360,rv:(Math.random()-0.5)*8});}
+  for(var j=0;j<18;j++){particles.push({type:'emoji',x:Math.random()*canvas.width,y:Math.random()*-50,emoji:emojis[Math.floor(Math.random()*emojis.length)],size:Math.random()*14+26,vx:(Math.random()-0.5)*3,vy:Math.random()*2.5+1.5,rot:Math.random()*360,rv:(Math.random()-0.5)*5});}
+  var frames=0;
+  function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(function(p){ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);if(p.type==='emoji'){ctx.font=p.size+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(p.emoji,0,0);}else{ctx.fillStyle=p.c;ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);}ctx.restore();p.x+=p.vx;p.y+=p.vy;p.rot+=p.rv;p.vy+=0.04;});
+    frames++;
+    if(frames<300){if(frames>220)canvas.style.opacity=1-((frames-220)/80);requestAnimationFrame(animate);}else{ctx.clearRect(0,0,canvas.width,canvas.height);canvas.style.opacity=1;}
+  }
+  animate();
+}
+
+</script>
+<script id="fluencyScript">
+(function(){
+var FLUENCY_TITLE = "Hundredths Facts — One-Minute Check";
+var fluencyInterval = null;
+var fluencySecondsLeft = 60;
+window.fluencyStart = function(){
+  var grid = document.getElementById('fluencyGrid');
+  if(!grid) return;
+  grid.querySelectorAll('.fluency-input').forEach(function(i){ i.disabled = false; });
+  var btn = document.getElementById('fluencyStartBtn');
+  if(btn){ btn.disabled = true; btn.textContent = 'Timer Running…'; }
+  var checkBtn = document.getElementById('fluencyCheckBtn');
+  if(checkBtn) checkBtn.disabled = false;
+  fluencySecondsLeft = 60;
+  fluencyUpdateDisplay();
+  fluencyInterval = setInterval(function(){
+    fluencySecondsLeft--;
+    fluencyUpdateDisplay();
+    if(fluencySecondsLeft <= 0){
+      clearInterval(fluencyInterval);
+      grid.querySelectorAll('.fluency-input').forEach(function(i){ i.disabled = true; });
+      window.fluencyCheck();
+    }
+  }, 1000);
+};
+function fluencyUpdateDisplay(){ var el = document.getElementById('fluencyTimerDisplay'); if(el) el.textContent = fluencySecondsLeft + 's'; }
+function fluencyNormalize(s){ return (s||'').trim().toLowerCase().replace(/\s+/g,' '); }
+window.fluencyCheck = function(){
+  if(fluencyInterval){ clearInterval(fluencyInterval); fluencyInterval = null; }
+  var items = document.querySelectorAll('#fluencyGrid .fluency-item');
+  var correct = 0, total = items.length, lines = [];
+  items.forEach(function(item){
+    var input = item.querySelector('.fluency-input');
+    var q = item.querySelector('.fluency-q');
+    var qText = q.dataset.plain || q.textContent;
+    var given = (input.value || '').trim();
+    var ans = input.dataset.answer;
+    var ok = given !== '' && fluencyNormalize(given) === fluencyNormalize(ans);
+    item.classList.remove('fluency-correct','fluency-wrong');
+    if(ok){ correct++; item.classList.add('fluency-correct'); }
+    else if(given !== ''){ item.classList.add('fluency-wrong'); }
+    input.disabled = true;
+    lines.push(qText + '  answer: ' + ans + '   [answered: ' + (given || 'blank') + ']' + (ok ? ' ✓' : (given ? ' ✗' : '')));
+  });
+  var pct = total ? Math.round((correct/total)*100) : 0;
+  var timeStr = ' in ' + (60 - fluencySecondsLeft) + ' seconds';
+  var j = document.getElementById('fluencyJournal');
+  if(j) j.value = 'Fluency Warm-Up — ' + FLUENCY_TITLE + '\n' + correct + ' / ' + total + ' correct (' + pct + '%)' + timeStr + '\n\n' + lines.join('\n');
+  var resEl = document.getElementById('fluencyResult');
+  if(resEl) resEl.innerHTML = correct + ' / ' + total + ' correct (' + pct + '%)' + timeStr;
+  var checkBtn = document.getElementById('fluencyCheckBtn'); if(checkBtn) checkBtn.disabled = true;
+  var startBtn = document.getElementById('fluencyStartBtn'); if(startBtn) startBtn.textContent = 'Done';
+};
+})();
+</script>
+<!-- Video Manifest Loader -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  fetch('https://raw.githubusercontent.com/bbirchum1/optima-4th-math/main/video-manifest.json?v=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var manifest = data.videos || data;
+      document.querySelectorAll('.video-placeholder-wrap').forEach(function(wrap) {
+        var m = wrap.innerHTML.match(/<!--\s*slot:\s*([\w-]+)\s*-->/);
+        if (!m) return;
+        var entry = manifest[m[1]];
+        if (!entry || entry.status !== 'ready' || !entry.embed) return;
+        var temp = document.createElement('div');
+        temp.innerHTML = entry.embed;
+        var iframe = temp.querySelector('iframe');
+        if (!iframe) return;
+        iframe.removeAttribute('width');
+        iframe.removeAttribute('height');
+        iframe.style.cssText = 'display:block;width:100%;aspect-ratio:16/9;border:none;';
+        wrap.innerHTML = '';
+        wrap.style.cssText = 'display:block;border:none;background:#000;border-radius:14px;overflow:hidden;margin:0 0 18px;';
+        wrap.appendChild(iframe);
+      });
+    })
+    .catch(function(err) { console.warn('Video manifest load failed:', err); });
+});
+</script>
+<!-- OAO copy fix -->
+<script>
+(function(){
+  function say(text, ok){
+    var btn = document.querySelector('[onclick*="copyAnswers"]');
+    var box = document.getElementById('oaoCopyStatus');
+    if(!box){
+      box = document.createElement('p');
+      box.id = 'oaoCopyStatus';
+      box.setAttribute('role','status');
+      box.setAttribute('aria-live','polite');
+      box.style.cssText = 'margin:10px 0 0;padding:10px 14px;border-radius:10px;font-size:15px;font-weight:700;line-height:1.5;';
+      var anchor = btn ? (btn.parentNode || btn) : document.getElementById('gatheredOutput');
+      if(anchor && anchor.parentNode){ anchor.parentNode.insertBefore(box, anchor.nextSibling); } else { document.body.appendChild(box); }
+    }
+    box.textContent = text;
+    box.style.background = ok ? '#E3F8ED' : '#FFF8E6';
+    box.style.border = ok ? '2px solid #B8E8CF' : '2px solid #F5E6C8';
+    box.style.color = '#0E1C42';
+  }
+  window.copyAnswers = function(){
+    var out = document.getElementById('gatheredOutput');
+    var text = '';
+    try { var r = gatherAnswers(); text = (typeof r === 'string' && r) ? r : ''; } catch(e) {}
+    if(!text && out) text = out.value || '';
+    if(out && !out.value && text) out.value = text;
+    function fallback(){
+      var ok = false;
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = text; ta.setAttribute('readonly','');
+        ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;';
+        document.body.appendChild(ta); ta.focus(); ta.select(); ta.setSelectionRange(0, text.length);
+        ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+      } catch(e) { ok = false; }
+      if(ok){ say('Copied! Now paste your answers where your teacher asked you to turn them in.', true); }
+      else {
+        if(out){ out.focus(); out.select(); }
+        say('Your answers are highlighted in the box above. Press Ctrl + C (or Command + C on a Mac) to copy them.', false);
+      }
+    }
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(function(){ say('Copied! Now paste your answers where your teacher asked you to turn them in.', true); }, fallback);
+    } else { fallback(); }
+  };
+})();
+</script>
+<!-- OAO download fix -->
+<script>
+(function(){
+  var orig = window.downloadJournal;
+  if(typeof orig !== 'function') return;
+  window.downloadJournal = function(){
+    try { gatherAnswers(); } catch(e) {}
+    var out = document.getElementById('gatheredOutput');
+    var text = out ? (out.value || '') : '';
+    var w = null;
+    try { w = window.open('', '_blank'); } catch(e) { w = null; }
+    if(w && w.document){
+      w.document.write('<pre style="font-family:Arial;white-space:pre-wrap;font-size:14px;line-height:1.5;">' + text.replace(/[&<>]/g, function(s){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[s]; }) + '</pre>');
+      w.document.close();
+      try { w.focus(); w.print(); } catch(e) {}
+      return;
+    }
+    try {
+      var blob = new Blob([text], {type:'text/plain'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = ((document.title || 'math-journal').replace(/[^a-z0-9]+/gi,'-').toLowerCase()) + '.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+    } catch(e) {
+      if(out){ out.focus(); out.select(); }
+    }
+  };
+})();
+</script>
+</body></html>
