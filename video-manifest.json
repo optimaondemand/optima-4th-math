@@ -60,8 +60,8 @@
     "embed": ""
   },
   "g4math-04-06": {
-    "status": "pending",
-    "embed": ""
+    "status": "ready",
+    "embed": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/D1cZjfg8FDE?si=W63MvI4ZO0g7v3OE\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
   },
   "g4math-05-01": {
     "status": "ready",
@@ -116,8 +116,8 @@
     "embed": ""
   },
   "g4math-07-04": {
-    "status": "pending",
-    "embed": ""
+    "status": "ready",
+    "embed": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/8fr7UM1R5Iw?si=Zw0iVKoJiQA7pt9K\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
   },
   "g4math-07-05": {
     "status": "pending",
