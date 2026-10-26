@@ -7,6 +7,7 @@
 </head><body>
 <h1>OAO Math Kit · every tool with sample settings</h1>
 <div class="demo"><h2>Disc Mat</h2><code>OAOKit.discMat(el, cfg)</code><div id="d-disc"></div></div>
+<div class="demo"><h2>Two-Unit Mat</h2><code>OAOKit.unitMat(el, cfg)</code><div id="d-um"></div></div>
 <div class="demo"><h2>Bar Strip</h2><code>OAOKit.barStrip(el, cfg)</code><div id="d-bar"></div></div>
 <div class="demo"><h2>Stamp Signs</h2><code>OAOKit.stamps(el, cfg)</code><div id="d-stamps"></div></div>
 <div class="demo"><h2>Story Bar Model (part-whole)</h2><code>OAOKit.barModel(el, {kind:'part-whole', …})</code><div id="d-bm1"></div></div>
@@ -18,6 +19,14 @@
 <script>
 var $=function(s){return document.getElementById(s);};
 OAOKit.discMat($('d-disc'),{places:[1000,100,10,1],unit:'',tray:true,steps:[{text:'Build 2,305 with the fewest discs.',done:function(st,api){return api.value()===2305&&[1000,100,10,1].every(function(p){return st.c[p]<10;});}}],doneText:'2,305 = 2 thousands, 3 hundreds, 0 tens, 5 ones.'});
+OAOKit.unitMat($('d-um'),{places:[100,10,1],big:100,bigUnit:'m',smallUnit:'cm',tray:true,perRow:3,
+  names:{100:['meter','meters'],10:['10-cm piece','10-cm pieces'],1:['1-cm piece','1-cm pieces']},short:{100:'m',10:'10 cm',1:'1 cm'},
+  headSub:{100:'100 cm',10:'',1:''},discLabel:function(p){return {100:'1 m',10:'10',1:'1'}[p];},
+  adds:[{label:'+ Add shelf 2 (1 m 55 cm)',of:{100:1,10:5,1:5},when:function(st,api){return api.value()===155;},notYet:'Build 1 m 55 cm first.',said:'Two shelves on the mat.'}],
+  steps:[{text:'Build one shelf: <b>1 m 55 cm</b>.',done:function(st,api){return (st.adds||0)>0||api.value()===155;}},
+         {text:'Tap <b>+ Add shelf 2</b>.',done:function(st){return (st.adds||0)>0;}},
+         {text:'Trade until each small column has fewer than 10 pieces.',done:function(st,api){return st.adds>0&&api.value()===310&&st.c[10]<10&&st.c[1]<10;}}],
+  doneText:'2 × 1 m 55 cm = 2 m 110 cm = 3 m 10 cm.'});
 OAOKit.barStrip($('d-bar'),{rounds:[{name:'cm → m',label:'1 meter',bigLabel:'1 m',target:100,unit:'cm',pieces:[10],pieceLabel:function(){return '10 cm';},ticks:{every:1,major:10},scale:[0,50,100],scaleLabel:function(v){return v+' cm';},text:'How many centimeters fill 1 meter?',doneText:'100 cm = 1 m.'}]});
 OAOKit.stamps($('d-stamps'),{signs:[{id:'a',stall:'Ruler',q:'How many inches in 1 foot?',ans:'×12'},{id:'b',stall:'Yardstick',q:'How many feet in 1 yard?',ans:'×3'}],stamps:['×3','×12']});
 OAOKit.barModel($('d-bm1'),{kind:'part-whole',unit:'m',story:['Amy\'s road is ',{t:'1 km long',put:'whole',label:'1 km = 1,000 m'},'. Her cart broke down after ',{t:'400 m',put:'p0',label:'400 m'},'. How far is left?'],

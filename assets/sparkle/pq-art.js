@@ -382,6 +382,7 @@ function stand(f){
   R(x,P.ol,1,30,54,15);R(x,P.wood,2,31,52,4);R(x,P.woodHi,2,31,52,1);R(x,P.woodD,2,35,52,9);for(var k=8;k<54;k+=10)R(x,'#7A4E2C',k,35,1,9);
   R(x,'#F28C28',18,38,20,3);
   if(f.jugs){for(var j=0;j<4;j++){var X=5+j*11;R(x,P.ol,X,19,9,12);R(x,'#F28C28',X+1,20,7,10);R(x,'#FFC27A',X+2,21,2,6);R(x,P.ol,X+3,16,3,4);R(x,'#FDE1B8',X+4,17,1,2);}R(x,P.ol,47,23,7,8);R(x,'#FDE1B8',48,24,5,6);R(x,'#F28C28',48,27,5,3);}
+  if(f.flour){R(x,P.ol,54,31,10,13);R(x,'#F2E6CC',55,32,8,11);R(x,'#FFFFFF',56,33,2,6);R(x,P.ol,55,30,8,2);R(x,'#C9A26B',57,37,4,3);}
   if(f.cart){R(x,P.ol,54,30,10,9);R(x,'#C56C3F',55,31,8,7);disc(x,57,41,2.6,P.ol);disc(x,57,41,1.4,'#8E8E9A');disc(x,62,41,2.6,P.ol);}
   return c;
 }
@@ -471,6 +472,8 @@ function item(kind){
   var c=cv(16,16),x=c.getContext('2d');
   if(kind==='mm'){R(x,P.ol,6,5,4,8);R(x,'#F5C518',7,6,2,6);R(x,'#FFF3B0',7,6,1,6);}
   if(kind==='cm'){R(x,P.ol,4,4,9,9);R(x,'#55C8E8',5,5,7,7);R(x,'#A9E9F8',5,5,7,1);R(x,'#2D8DB0',5,11,7,1);for(var i=6;i<12;i+=2)R(x,'#1F6F8F',i,8,1,2);}
+  if(kind==='plank'){R(x,P.ol,0,5,16,6);R(x,'#C98A4E',1,6,14,4);R(x,'#E2AC70',1,6,14,1);R(x,'#9A6334',3,8,5,1);R(x,'#9A6334',9,7,4,1);R(x,P.ol,12,9,1,1);}
+  if(kind==='sack'){R(x,P.ol,3,3,10,12);R(x,'#F2E6CC',4,4,8,10);R(x,P.ol,5,2,6,2);R(x,'#C9A26B',6,8,4,3);R(x,'#FFFFFF',5,5,2,4);}
   if(kind==='m'){R(x,P.ol,1,6,15,5);R(x,'#E07B39',2,7,13,3);R(x,'#F4A974',2,7,13,1);for(var j=3;j<15;j+=2)R(x,P.ol,j,9,1,1);for(var j2=4;j2<15;j2+=4)R(x,P.ol,j2,8,1,2);}
   return c;
 }

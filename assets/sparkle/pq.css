@@ -528,3 +528,16 @@ details.pq-intro .intro-2col{padding:0}
 .pq-chip.on::before{content:"✓ "}
 .pq-def b{color:#0E1C42;border-bottom:2px dotted #C56C3F}
 .pq-def-m{color:#6A4FA3;font-weight:700;font-size:.92em}
+
+/* Two-Unit Mat */
+.ok-groups{display:grid;gap:6px;margin:0 0 4px;font-weight:900;font-size:13px;line-height:1;text-transform:uppercase;letter-spacing:.5px;color:#3A3550;text-align:center}
+.ok-groups span{border-bottom:3px solid #3A3550;padding:4px 0}
+.ok-unitmat .ok-sym .exp.warn{color:#B4471C;font-weight:800}
+.ok-add{background:#1E8C5A!important;color:#fff!important}
+.mm-post{font-weight:800;margin:0 6px 0 -2px}
+/* worked example: two ways side by side */
+.we-two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.we-way{background:#FFFAF5;border:2px solid #F5D4BC;border-radius:12px;padding:10px 14px}
+.we-way h5{margin:0 0 6px;font:900 15px Nunito,sans-serif;color:#0E1C42}
+.we-way ol{margin:0;padding-left:20px;line-height:1.7}
+@media(max-width:700px){.we-two{grid-template-columns:1fr}}

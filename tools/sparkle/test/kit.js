@@ -3,6 +3,15 @@ const H=require('./harness.js');const path=require('path');
 (async()=>{const {b,p,errs}=await H('tools/sparkle/kit-demo.html',1150,900);let bad=0;const ok=(c,m)=>{if(!c)bad++;console.log((c?'ok   ':'FAIL ')+m);};
 const drag=async(src,dst)=>{const a=await p.$(src);await a.scrollIntoViewIfNeeded();const r=await a.boundingBox();const t=await p.$(dst);await t.scrollIntoViewIfNeeded();const q=await t.boundingBox();
   await p.mouse.move(r.x+r.width/2,r.y+r.height/2);await p.mouse.down();await p.mouse.move(r.x+r.width/2+10,r.y+r.height/2+10,{steps:3});await p.mouse.move(q.x+q.width/2,q.y+q.height/2,{steps:8});await p.mouse.up();await p.waitForTimeout(100);};
+// two-unit mat: build by tap + drag, copy, trade both ways
+await p.click('#d-um .ok-tray .ok-disc[data-p="100"]');for(let i=0;i<5;i++)await p.click('#d-um .ok-tray .ok-disc[data-p="10"]');for(let i=0;i<4;i++)await p.click('#d-um .ok-tray .ok-disc[data-p="1"]');
+await drag('#d-um .ok-tray .ok-disc[data-p="1"]','#d-um .ok-col[data-p="1"]');
+ok((await p.$eval('#d-um .ok-sym',e=>e.textContent)).includes('1 m 55 cm'),'unit mat: built 1 m 55 cm (tap + drag)');
+await p.click('#d-um .ok-add');ok((await p.$eval('#d-um .ok-sym',e=>e.textContent)).includes('2 m 110 cm'),'unit mat: add copies the shelf, shows 2 m 110 cm + regroup warning');
+ok((await p.$eval('#d-um .ok-sym',e=>e.textContent)).includes('Trade'),'unit mat: warns when small unit is 1 m or more');
+await p.click('#d-um .ok-col[data-p="1"] .ok-colbtns .ok-btn');await p.click('#d-um .ok-col[data-p="10"] .ok-colbtns .ok-btn');
+ok((await p.$eval('#d-um .ok-sym',e=>e.textContent)).includes('3 m 10 cm'),'unit mat: trades give 3 m 10 cm');
+ok((await p.$eval('#d-um .ok-do',e=>e.textContent)).includes('Done'),'unit mat: steps done');
 // stamps by drag
 await drag('#d-stamps .mk-stamp[data-v="×12"]','#d-stamps .mk-sign[data-id="a"]');await drag('#d-stamps .mk-stamp[data-v="×3"]','#d-stamps .mk-sign[data-id="b"]');
 ok(await p.$$eval('#d-stamps .mk-sign.ok',x=>x.length)===2,'stamps: both signs stamped by drag');

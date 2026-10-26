@@ -40,14 +40,17 @@ function fly(fromRect,toRect,el,delay){if(reduce||!fromRect||!toRect)return;var 
 var NAMES={1000:'Thousands',100:'Hundreds',10:'Tens',1:'Ones'};
 function discMat(root,cfg){
   var P=cfg.places, key=cfg.key, saved=ls(key,null);
+  /* optional wording for unit mats: names {p:['meter','meters']}, short {p:'m'}, discLabel(p) */
+  function one(p){return cfg.names?cfg.names[p][0]:NAMES[p].toLowerCase().replace(/s$/,'');} function many(p){return cfg.names?cfg.names[p][1]:NAMES[p].toLowerCase();}
+  function dl(p){return cfg.discLabel?cfg.discLabel(p):fmt(p);}
   var st=saved||{c:{},z:{},doneFired:false};P.forEach(function(p){if(st.c[p]==null)st.c[p]=(cfg.start&&cfg.start[p])||0;if(st.z[p]==null)st.z[p]=0;});
   var api={value:function(){return P.reduce(function(s,p){return s+p*st.c[p];},0);},zoneValue:function(){return P.reduce(function(s,p){return s+p*st.z[p];},0);},st:st,fmt:fmt};
   root.classList.add('ok-tool');
-  root.innerHTML='<p class="ok-do" aria-live="polite"></p><div class="ok-matwrap"><div class="ok-mat" style="grid-template-columns:repeat('+P.length+',1fr)">'+
-    P.map(function(p){return '<div class="ok-col" data-p="'+p+'"><div class="ok-head"><b><span class="ok-full">'+NAMES[p]+'</span><span class="ok-short">'+{1000:'Th',100:'H',10:'T',1:'O'}[p]+'</span></b><span>'+((cfg.headSub&&cfg.headSub[p])||fmt(p)+(cfg.unit?' '+cfg.unit:''))+'</span></div><div class="ok-count">0</div><div class="ok-well" style="--per:'+(cfg.perRow||2)+'"></div><div class="ok-colbtns"></div></div>';}).join('')+
+  root.innerHTML='<p class="ok-do" aria-live="polite"></p>'+(cfg.groups?'<div class="ok-groups" style="grid-template-columns:'+cfg.groups.map(function(g){return g.span+'fr';}).join(' ')+'">'+cfg.groups.map(function(g){return '<span>'+g.label+'</span>';}).join('')+'</div>':'')+'<div class="ok-matwrap"><div class="ok-mat" style="grid-template-columns:repeat('+P.length+',1fr)">'+
+    P.map(function(p){return '<div class="ok-col" data-p="'+p+'"><div class="ok-head"><b><span class="ok-full">'+(cfg.names?cfg.names[p][1]:NAMES[p])+'</span><span class="ok-short">'+((cfg.short&&cfg.short[p])||{1000:'Th',100:'H',10:'T',1:'O'}[p])+'</span></b><span>'+((cfg.headSub&&cfg.headSub[p])||fmt(p)+(cfg.unit?' '+cfg.unit:''))+'</span></div><div class="ok-count">0</div><div class="ok-well" style="--per:'+(cfg.perRow||2)+'"></div><div class="ok-colbtns"></div></div>';}).join('')+
     '</div>'+(cfg.zone?'<div class="ok-zone '+(cfg.zone.kind==='away'?'away':'')+'"><h5>'+cfg.zone.title+'</h5><div class="ok-zwell"></div><div class="ok-ztot"></div></div>':'')+'</div>'+
-    (cfg.tray?'<div class="ok-tray"><span class="lbl">Drag a disc onto the mat (or tap it):</span>'+P.map(function(p){return '<span class="ok-src"><span class="ok-disc'+(p>=1000?' small':'')+'" data-p="'+p+'" data-src="1" tabindex="0" role="button" aria-label="Add a '+fmt(p)+' disc">'+fmt(p)+'</span></span>';}).join('')+'</div>':'')+
-    '<div class="ok-sym" aria-live="polite"></div><div class="ok-msg" aria-live="polite"></div><div class="ok-row"><button class="ok-btn ok-reset" type="button">↺ Start over</button></div>';
+    (cfg.tray?'<div class="ok-tray"><span class="lbl">Drag a disc onto the mat (or tap it):</span>'+P.map(function(p){return '<span class="ok-src"><span class="ok-disc'+(p>=1000?' small':'')+'" data-p="'+p+'" data-src="1" tabindex="0" role="button" aria-label="Add '+(cfg.names?'a '+one(p):'a '+fmt(p)+' disc')+'">'+dl(p)+'</span></span>';}).join('')+'</div>':'')+
+    '<div class="ok-sym" aria-live="polite"></div><div class="ok-msg" aria-live="polite"></div><div class="ok-row">'+(cfg.adds?'<button class="ok-btn ok-add" type="button"></button>':'')+'<button class="ok-btn ok-reset" type="button">↺ Start over</button></div>';
   var msg=$('.ok-msg',root);
   function say(t,k){msg.className='ok-msg'+(k?' '+k:'');msg.textContent=t||'';}
   function save(){lsSet(key,st);}
@@ -57,13 +60,13 @@ function discMat(root,cfg){
   function add(p){if(st.c[p]>=19){say('That column is full. Trade 10 of them for 1 bigger disc.','hint');snd.no();return;}st.c[p]++;snd.click();after({pop:[p]});}
   function remove(p){if(cfg.noRemove){say('Keep every disc on the mat for this one.','hint');snd.no();render();return;}st.c[p]--;snd.click();after({});}
   function group(p){var b=bigger(p);if(!b){say('There\'s no bigger column on this mat.','hint');snd.no();render();return;}
-    if(st.c[p]<10){say('You need 10 '+NAMES[p].toLowerCase()+' to make 1 '+NAMES[b].toLowerCase().replace(/s$/,'')+'. You have '+st.c[p]+'.','hint');snd.no();render();return;}
+    if(st.c[p]<10){say('You need 10 '+many(p)+' to make 1 '+one(b)+'. You have '+st.c[p]+'.','hint');snd.no();render();return;}
     var from=$$('.ok-well .ok-disc',colOf(p)).slice(-10).map(function(d){return d.getBoundingClientRect();}),tmpl=$('.ok-well .ok-disc',colOf(p));
-    st.c[p]-=10;st.c[b]++;snd.merge();after({pop:[b],flyFrom:from,flyTo:b,tmpl:tmpl});say('10 '+NAMES[p].toLowerCase()+' → 1 '+NAMES[b].toLowerCase().replace(/s$/,'')+'. Same amount, fewer discs.','good');}
+    st.c[p]-=10;st.c[b]++;snd.merge();after({pop:[b],flyFrom:from,flyTo:b,tmpl:tmpl});say('10 '+many(p)+' → 1 '+one(b)+'. Same amount, fewer pieces.','good');}
   function brk(p){var s=smaller(p);if(!s){say('There\'s no smaller column on this mat.','hint');snd.no();render();return;}if(!st.c[p])return;
-    if(st.c[s]+10>19){say('Trade some '+NAMES[s].toLowerCase()+' first. That column is too full.','hint');snd.no();return;}
+    if(st.c[s]+10>19){say('Trade some '+many(s)+' first. That column is too full.','hint');snd.no();return;}
     var src=$$('.ok-well .ok-disc',colOf(p)).slice(-1)[0];var r=src&&src.getBoundingClientRect();
-    st.c[p]--;st.c[s]+=10;snd.split();after({popMany:[s,10],flyFrom:r?[r]:null,flyTo:s,tmpl:src});say('1 '+NAMES[p].toLowerCase().replace(/s$/,'')+' → 10 '+NAMES[s].toLowerCase()+'. Same amount, more discs.','good');}
+    st.c[p]--;st.c[s]+=10;snd.split();after({popMany:[s,10],flyFrom:r?[r]:null,flyTo:s,tmpl:src});say('1 '+one(p)+' → 10 '+many(s)+'. Same amount, more pieces.','good');}
   function toZone(p){var z=cfg.zone;if(!z)return;if(z.accept&&z.accept.indexOf(p)<0){say(z.wrong?z.wrong(p,api):'That disc doesn\'t go there.','hint');snd.no();render();return;}
     if(z.max&&api.zoneValue()+p>z.max){say(z.over?z.over(api):'That\'s too much.','hint');snd.no();render();return;}
     st.c[p]--;st.z[p]++;snd.click();after({});}
@@ -84,7 +87,7 @@ function discMat(root,cfg){
   function after(anim){save();render(anim);if(cfg.onChange)cfg.onChange(api);}
   function render(anim){anim=anim||{};
     P.forEach(function(p){var col=colOf(p),w=$('.ok-well',col),n=st.c[p];
-      w.innerHTML='';for(var i=0;i<n;i++){var d=document.createElement('span');d.className='ok-disc'+(p>=1000?' small':'');d.dataset.p=p;d.textContent=fmt(p);d.tabIndex=-1;
+      w.innerHTML='';for(var i=0;i<n;i++){var d=document.createElement('span');d.className='ok-disc'+(p>=1000?' small':'');d.dataset.p=p;d.textContent=dl(p);d.tabIndex=-1;
         if(anim.pop&&anim.pop.indexOf(p)>=0&&i===n-1&&!anim.flyFrom)d.classList.add('ok-in');
         if(anim.popMany&&anim.popMany[0]===p&&i>=n-anim.popMany[1]){d.classList.add('ok-in');d.style.animationDelay=((i-(n-anim.popMany[1]))*35+(anim.flyFrom?380:0))+'ms';}
         if(anim.flyTo===p&&anim.pop&&i===n-1){d.style.visibility='hidden';(function(dd){setTimeout(function(){dd.style.visibility='';dd.classList.add('ok-in');},reduce?0:470);})(d);}
@@ -100,6 +103,7 @@ function discMat(root,cfg){
         d.textContent=cfg.zone.label?cfg.zone.label(p):fmt(p);(function(dd){draggable(dd,function(){return {p:p,from:'zone'};},dropDisc,null);})(d);zw.appendChild(d);}});
       $('.ok-ztot',root).innerHTML=cfg.zone.total?cfg.zone.total(api):fmt(api.zoneValue());}
     $('.ok-sym',root).innerHTML=cfg.sym?cfg.sym(api):defaultSym();
+    if(cfg.adds){var ab=$('.ok-add',root),na=cfg.adds[st.adds||0];ab.hidden=!na;if(na)ab.textContent=na.label;}
     // steps
     var steps=cfg.steps||[],i=0;while(i<steps.length&&steps[i].done(st,api))i++;
     var doEl=$('.ok-do',root);
@@ -110,7 +114,11 @@ function discMat(root,cfg){
   function defaultSym(){var v=api.value();var parts=P.filter(function(p){return st.c[p];}).map(function(p){var cls={1000:'k',100:'h',10:'t',1:'o'}[p];return '<span class="'+cls+'">'+fmt(st.c[p]*p)+'</span>';});
     return '<span class="big">'+fmt(v)+(cfg.unit?' '+cfg.unit:'')+'</span>'+(parts.length>1?'<span class="exp">= '+parts.join(' + ')+'</span>':'');}
   $$('.ok-tray .ok-disc',root).forEach(function(d){var p=+d.dataset.p;draggable(d,function(){return {p:p,from:'src'};},dropDisc,function(){add(p);});});
-  $('.ok-reset',root).onclick=function(){P.forEach(function(p){st.c[p]=(cfg.start&&cfg.start[p])||0;st.z[p]=0;});st.doneFired=false;say('');after({});};
+  $('.ok-reset',root).onclick=function(){P.forEach(function(p){st.c[p]=(cfg.start&&cfg.start[p])||0;st.z[p]=0;});st.adds=0;st.doneFired=false;say('');after({});};
+  if(cfg.adds){$('.ok-add',root).onclick=function(){var a=cfg.adds[st.adds||0];if(!a)return;
+      if(a.when&&!a.when(st,api)){say(a.notYet||'Finish the step above first.','hint');snd.no();return;}
+      if(P.some(function(p){return st.c[p]+((a.of&&a.of[p])||0)>19;})){say('A column is too full. Trade 10 small pieces for 1 bigger one first.','hint');snd.no();return;}
+      var pops=[];P.forEach(function(p){var n=(a.of&&a.of[p])||0;if(n){st.c[p]+=n;pops.push(p);}});st.adds=(st.adds||0)+1;snd.merge();say(a.said||'','good');after({pop:pops});};}
   render();
   if(st.doneFired&&cfg.onDone&&cfg.restoreDone)cfg.onDone(api,root);
   return api;
@@ -305,13 +313,14 @@ function numberBond(m,cfg){
 /* ═══════════ MENTAL MATH WARM-UP ═══════════
    One strategy, shown once with a number bond, then 4–6 quick problems.
    cfg = { key, name:'Make a hundred', how:'one sentence', example:{q:'99 + 46', bond:{whole:46, parts:[1,45]}, steps:['99 + 1 = 100','100 + 45 = 145']},
-           problems:[{q:'98 + 37', a:135, hint:'Take 2 from 37 to make 100.'}], onRight(i,el), onDone(root) } */
+           problems:[{q:'98 + 37', a:135, hint:'Take 2 from 37 to make 100.'}], onRight(i,el), onDone(root) }
+   a problem may add lead:'1 m' (before the box) and post:'cm' (after it): 60 cm + 55 cm = 1 m [__] cm */
 function mentalMath(m,cfg){
   var st=ls(cfg.key,null)||{a:{},ok:{}};var P=cfg.problems,ex=cfg.example||{};
   var bond=ex.bond?'<div class="mm-bond" aria-label="'+fmt(ex.bond.whole)+' splits into '+fmt(ex.bond.parts[0])+' and '+fmt(ex.bond.parts[1])+'"><span class="w">'+fmt(ex.bond.whole)+'</span><svg viewBox="0 0 80 26" aria-hidden="true"><path d="M40 2 L14 24 M40 2 L66 24" stroke="#3B2417" stroke-width="3"/></svg><span class="p">'+fmt(ex.bond.parts[0])+'</span><span class="p">'+fmt(ex.bond.parts[1])+'</span></div>':'';
   m.innerHTML='<div class="mm-card"><div class="mm-name">🧠 Mental math: '+esc(cfg.name)+'</div><p class="mm-how">'+cfg.how+'</p>'+
     (ex.q?'<div class="mm-ex"><div class="mm-q">'+esc(ex.q)+'</div>'+bond+'<ol class="mm-steps">'+(ex.steps||[]).map(function(s){return '<li>'+esc(s)+'</li>';}).join('')+'</ol></div>':'')+'</div>'+
-    '<div class="mm-probs">'+P.map(function(p,i){return '<form class="mm-p" data-i="'+i+'"><label for="mm-'+cfg.key+'-'+i+'">'+esc(p.q)+' =</label><input id="mm-'+cfg.key+'-'+i+'" type="text" inputmode="numeric" autocomplete="off" value="'+esc(st.a[i]||'')+'"><button type="submit" class="ok-btn">Check</button><span class="mm-fb" aria-live="polite"></span></form>';}).join('')+'</div>';
+    '<div class="mm-probs">'+P.map(function(p,i){return '<form class="mm-p" data-i="'+i+'"><label for="mm-'+cfg.key+'-'+i+'">'+esc(p.q)+' ='+(p.lead?' '+esc(p.lead):'')+'</label><input id="mm-'+cfg.key+'-'+i+'" type="text" inputmode="numeric" autocomplete="off" value="'+esc(st.a[i]||'')+'">'+(p.post?'<span class="mm-post">'+esc(p.post)+'</span>':'')+'<button type="submit" class="ok-btn">Check</button><span class="mm-fb" aria-live="polite"></span></form>';}).join('')+'</div>';
   $$('.mm-p',m).forEach(function(f){var i=+f.dataset.i,inp=$('input',f),fb=$('.mm-fb',f);
     function mark(){f.classList.add('ok');inp.disabled=true;fb.textContent='✓';}
     if(st.ok[i])mark();
@@ -338,5 +347,25 @@ function challenge(m,cfg){
   return {state:st};
 }
 
-K.stamps=stamps;K.barModel=barModel;K.numberBond=numberBond;K.mentalMath=mentalMath;K.challenge=challenge;
+/* ═══════════ TWO-UNIT MAT ═══════════
+   A Disc Mat for amounts with two units (1 m 65 cm, 2 L 750 mL, 6 kg 5 g). The big unit is one column; the small unit
+   is split into place-value pieces so students trade 10 small for 1 bigger, and 1 big = cfg.big small (100 or 1,000).
+   cfg = discMat cfg + { big:100, bigUnit:'m', smallUnit:'cm', places:[100,10,1], names, short, discLabel,
+           adds:[{label:'+ Add plank 2', of:{100:1,10:6,1:5}, when:(st,api)=>bool, notYet, said}], lead:(api)=>html } */
+function unitMat(root,cfg){
+  var big=cfg.big,bu=cfg.bigUnit,su=cfg.smallUnit;
+  function split(api){var b=api.st.c[big]||0;return [b,api.value()-b*big];}
+  var c2={};for(var k in cfg)c2[k]=cfg[k];
+  if(!c2.groups)c2.groups=[{label:bu,span:1},{label:su,span:cfg.places.length-1}];
+  if(!c2.sym)c2.sym=function(api){var x=split(api),v=api.value();
+    var s=(cfg.lead?cfg.lead(api):'')+'<span class="big">'+x[0]+' '+bu+' '+fmt(x[1])+' '+su+'</span>';
+    if(x[1]>=big)s+='<span class="exp warn">'+fmt(x[1])+' '+su+' is more than 1 '+bu+'. Trade to regroup.</span>';
+    else if(v)s+='<span class="exp">= '+fmt(v)+' '+su+' in all</span>';
+    return s;};
+  var api=K.discMat(root,c2);root.classList.add('ok-unitmat');
+  api.big=function(){return split(api)[0];};api.small=function(){return split(api)[1];};
+  api.regrouped=function(){return split(api)[1]<big;};
+  return api;
+}
+K.unitMat=unitMat;K.stamps=stamps;K.barModel=barModel;K.numberBond=numberBond;K.mentalMath=mentalMath;K.challenge=challenge;
 })(OAOKit);

@@ -6,7 +6,7 @@
  "title": "Metric Units of Measurement",
  "slots": {
   "think": {
-   "label": "Think · Amy's problem",
+   "label": "Think · Amy's counter",
    "title": "Market Day",
    "length": "about 1 min",
    "want": true,
@@ -20,19 +20,19 @@
      "rows": [
       [
        "Job 1",
-       "Learn the market's measures"
+       "Stamp the measures"
       ],
       [
        "Job 2",
-       "Build the measuring tools"
+       "Build Amy's counter"
       ],
       [
        "Job 3",
-       "Bottle Amy's juice"
+       "Add up the juice orders"
       ],
       [
        "Job 4",
-       "Plan the delivery cart"
+       "Help Millie with her flour"
       ],
       [
        "Job 5",
@@ -41,102 +41,72 @@
      ]
     },
     {
+     "label": "Three planks",
+     "tag": "THINK ABOUT IT",
+     "title": "3 planks, each 1 m 65 cm",
+     "col": "#6B3FA0",
+     "body": "Laid end to end, how long is the counter?"
+    },
+    {
      "label": "The big question",
      "tag": "ESSENTIAL QUESTION",
-     "title": "Is 2 L the same as 200 mL?",
-     "col": "#6B3FA0",
-     "body": "The Liter Well sign says it is. Is the sign right? How can you prove it?"
-    },
-    {
-     "label": "Three stall signs",
-     "tag": "JOB 1",
-     "title": "How many small pieces fit in one big piece?",
-     "col": "#C56C3F",
-     "rows": [
-      [
-       "Bead stall",
-       "mm in 1 cm"
-      ],
-      [
-       "Ribbon stall",
-       "cm in 1 m"
-      ],
-      [
-       "Market road",
-       "m in 1 km"
-      ]
-     ]
+     "title": "How do you work with 1 m 65 cm?",
+     "col": "#2DB87A",
+     "body": "Two units in one amount. Try it your way first."
     }
    ],
-   "script": "Welcome to Metric Market! Today is Market Day, and Amy wants to open her juice stand.\n\n[ON SCREEN: Market Day board]\n\nBut the Smudge mixed up every measure in town. See the Market Day board right under me? Five jobs. Each one uses today's math.\n\n[ON SCREEN: The big question]\n\nHere's our big question. The well sign says 2 liters is the same as 200 milliliters. Is that right? Don't answer yet. Just make a guess and hold on to it.\n\n[ON SCREEN: Three stall signs]\n\nYour first job is Market Measures. Each stall sign asks how many small pieces fit inside one big piece. Look closely at each picture and count. Then press Play on the game, and Opti will show you around town."
+   "script": "Welcome to Metric Market! It's Market Day, and Amy wants to open her juice stand.\n\n[ON SCREEN: Market Day board]\n\nBut the Smudge mixed up the whole town. The Market Day board right under me has five jobs. Each one uses today's math.\n\n[ON SCREEN: Three planks]\n\nHere's the first puzzle. Mo is building Amy's counter out of three planks, end to end. Each plank is 1 meter 65 centimeters long. How long is the whole counter?\n\n[ON SCREEN: The big question]\n\nThat length has two units in it, meters and centimeters. So how do we add or multiply an amount like that? Don't wait for me to show you. Try it your way first, on the Think About It bar. Write down how you did it. On the Learn tab, the Math Crew will show you two ways, and you can see if one matches yours."
   },
   "learn": {
-   "label": "Learn · fill it, then climb the stairs",
-   "title": "How Many Fit?",
+   "label": "Learn · two ways on the mat",
+   "title": "Two Ways",
    "length": "about 1½ min",
    "want": true,
-   "where": "Learn, top (before the Market Builder)",
+   "where": "Learn, top (before the Math Crew)",
    "parts": [
     {
-     "label": "The bar",
-     "tag": "THE BAR",
-     "title": "One whole unit",
+     "label": "The mat",
+     "tag": "THE TWO-UNIT MAT",
+     "title": "Meters | centimeters",
      "col": "#3A6B9A",
-     "body": "Round 1: the bar is exactly 1 centimeter."
-    },
-    {
-     "label": "The pieces",
-     "tag": "DRAG OR TAP",
-     "title": "Small pieces, always to size",
-     "col": "#E07B39",
      "rows": [
       [
-       "Round 1",
-       "1 mm pieces"
+       "1 m piece",
+       "100 cm"
       ],
       [
-       "Round 2",
-       "10 cm pieces"
+       "10 cm piece",
+       "ten 1 cm pieces"
       ],
       [
-       "Round 3",
-       "100 m pieces"
-      ],
-      [
-       "Round 4",
-       "100 mL pieces"
+       "1 cm piece",
+       "the smallest"
       ]
      ]
     },
     {
-     "label": "The number sentence",
-     "tag": "WATCH THIS",
-     "title": "The total is the factor",
-     "col": "#2DB87A",
-     "body": "10 × 1 mm = 10 mm = 1 cm"
+     "label": "Split the units",
+     "tag": "ATLAS'S WAY",
+     "title": "3 m and 195 cm",
+     "col": "#55C8E8",
+     "body": "3 × 1 m = 3 m. 3 × 65 cm = 195 cm. Then regroup."
     },
     {
-     "label": "The staircase",
-     "tag": "THE BOARD",
-     "title": "Down: multiply · Up: divide",
+     "label": "Regroup",
+     "tag": "TRADE",
+     "title": "100 cm = 1 m",
      "col": "#C56C3F",
-     "rows": [
-      [
-       "km → m",
-       "× 1,000"
-      ],
-      [
-       "m → cm",
-       "× 100"
-      ],
-      [
-       "cm → mm",
-       "× 10"
-      ]
-     ]
+     "body": "3 m 195 cm = 4 m 95 cm"
+    },
+    {
+     "label": "One unit first",
+     "tag": "FELIX'S WAY",
+     "title": "All centimeters",
+     "col": "#2DB87A",
+     "body": "165 cm × 3 = 495 cm = 4 m 95 cm"
     }
    ],
-   "script": "Welcome to the Learn tab. Amy needs her measuring tools, and you're going to build them.\n\n[ON SCREEN: The bar]\n\nThis bar is one whole unit. In round 1, it's exactly 1 centimeter.\n\n[ON SCREEN: The pieces]\n\nDrag a small piece onto the bar, or tap it. Every piece is drawn to size. Count as you go: by 1s in round 1, then by 10s or 100s.\n\n[ON SCREEN: The number sentence]\n\nWatch the number sentence under the bar. When the bar is full, the total is the factor: 10 millimeters make 1 centimeter.\n\n[ON SCREEN: The staircase]\n\nThen look at the Market Measures Board. Going down the stairs to a smaller unit, you multiply, because you need more of the small pieces. Going up to a bigger unit, you divide. Keep that staircase in your head for every job today."
+   "script": "Let's find the length of Amy's counter two ways.\n\n[ON SCREEN: The mat]\n\nThis is the Two-Unit Mat. Meters on the left, centimeters on the right. I build one plank: one meter, six tens, five ones. Then I tap Add plank, twice.\n\n[ON SCREEN: Split the units]\n\nThat's Atlas's way. Three meters, and 195 centimeters. But wait. 195 centimeters is more than a meter.\n\n[ON SCREEN: Regroup]\n\nSo I regroup. Ten 1 centimeter pieces trade for one 10. Then ten 10s trade for one meter. Now I have 4 meters 95 centimeters, and the centimeters are less than 100.\n\n[ON SCREEN: One unit first]\n\nFelix does it another way. He changes the plank to centimeters first: 165. Three times 165 is 495 centimeters. Change back: 4 meters 95 centimeters. Same answer! Pick the way that makes sense to you, then build the counter and add Amy's juice orders on the mat."
   },
   "do": {
    "label": "Do · watch me solve (screen recording)",
@@ -148,47 +118,27 @@
    "parts": [
     {
      "label": "Problem 1",
-     "tag": "GUIDED",
-     "title": "4 m = ___ cm",
+     "tag": "ON THE MAT",
+     "title": "2 × 1 m 75 cm",
      "col": "#3A6B9A",
-     "body": "Big unit to small unit: multiply by 100."
+     "body": "2 m 150 cm, then regroup."
     },
     {
      "label": "Problem 2",
-     "tag": "GUIDED",
-     "title": "3,500 mL = ___ L ___ mL",
+     "tag": "ON THE WHITEBOARD",
+     "title": "4 kg 300 g − 1 kg 600 g",
      "col": "#6B3FA0",
-     "body": "Build it on the disc mat. Each 1,000 mL disc is 1 L."
+     "body": "300 g − 600 g? Regroup 1 kg first."
     },
     {
      "label": "Problem 3",
-     "tag": "GUIDED",
-     "title": "2 km − 450 m = ___ m",
-     "col": "#2DB87A",
-     "body": "Different units? Make them match first."
-    },
-    {
-     "label": "The steps",
-     "tag": "REMEMBER",
-     "title": "Every conversion",
-     "col": "#C56C3F",
-     "rows": [
-      [
-       "1",
-       "Find the factor"
-      ],
-      [
-       "2",
-       "Smaller unit? Multiply. Bigger unit? Divide."
-      ],
-      [
-       "3",
-       "Check the unit"
-      ]
-     ]
+     "tag": "WATCH THE ZEROS",
+     "title": "8 kg 3 g = ___ g",
+     "col": "#E04F4F",
+     "body": "8,003 g. Not 83 g, not 803 g."
     }
    ],
-   "script": "Now watch me. I'll solve three problems on my screen and talk through every step.\n\n[ON SCREEN: Problem 1]\n\n4 meters is how many centimeters? Meters to centimeters is a big unit to a small unit. On the Measures Board, that's going down the stairs, so I multiply. The factor is 100. 4 times 100 is 400. So 4 meters is 400 centimeters.\n\n[ON SCREEN: Problem 2]\n\n3,500 milliliters. How many liters and milliliters? I build it on the disc mat: 3 thousands and 5 hundreds. Each 1,000 milliliter disc is 1 liter. So that's 3 liters and 500 milliliters more: 3 liters 500 milliliters.\n\n[ON SCREEN: Problem 3]\n\n2 kilometers minus 450 meters. The units don't match, so I make them match first. 2 kilometers is 2,000 meters. 2,000 minus 450 is 1,550. The answer is 1,550 meters.\n\n[ON SCREEN: The steps]\n\nEvery time: find the factor, decide multiply or divide, then check the unit. Here's the mistake I see most: using 100 for liters. Liters and milliliters use 1,000, just like kilometers and meters. Now it's your turn with Amy's juice."
+   "script": "Now watch me solve three. Pause any time.\n\n[ON SCREEN: Problem 1]\n\nTwo times 1 meter 75 centimeters. On the mat I build 1 meter 75 centimeters, then build it again. 2 meters, and 150 centimeters. 150 is more than 100, so I regroup: 1 meter 50 centimeters. That makes 3 meters 50 centimeters.\n\n[ON SCREEN: Problem 2]\n\n4 kilograms 300 grams minus 1 kilogram 600 grams. 300 minus 600 won't work. So I regroup a kilogram: 3 kilograms 1,300 grams. 1,300 minus 600 is 700. 3 minus 1 is 2. 2 kilograms 700 grams. Felix checks it in grams: 4,300 minus 1,600 is 2,700. Same.\n\n[ON SCREEN: Problem 3]\n\nLast one, and it's tricky. 8 kilograms 3 grams. How many grams? 8 kilograms is 8,000 grams. Plus 3: 8,003. Not 83, and not 803. The zeros hold the places. Watch for that on Millie's flour!"
   },
   "wrap": {
    "label": "Wrap · open the stand",
@@ -198,21 +148,28 @@
    "where": "Show What You Know, after the Liter Well sign",
    "parts": [
     {
-     "label": "The answer",
+     "label": "Two ways",
+     "tag": "TODAY",
+     "title": "Split or one unit",
+     "col": "#2DB87A",
+     "body": "Both work. Regroup when the small unit gets too big."
+    },
+    {
+     "label": "The sign",
      "tag": "YOU PROVED IT",
      "title": "2 L = 2,000 mL",
-     "col": "#2DB87A",
-     "body": "1 L = 1,000 mL, so 2 L = 2,000 mL. Not 200!"
+     "col": "#C56C3F",
+     "body": "1 L = 1,000 mL. Not 100!"
     },
     {
      "label": "Next time",
      "tag": "NEXT LESSON",
      "title": "The Foot Bridge",
-     "col": "#C56C3F",
-     "body": "Inches, feet, yards and miles."
+     "col": "#6B3FA0",
+     "body": "Feet and inches: 12 inches make a foot."
     }
    ],
-   "script": "Look how far you came!\n\n[ON SCREEN: The answer]\n\nRemember your guess from the start? You proved that 2 liters is 2,000 milliliters, not 200, because 1 liter is 1,000 milliliters. Press Play and fix the Liter Well sign so Amy can open her stand. In clean mode, you'll fix it right on the page.\n\n[ON SCREEN: Next time]\n\nNext time we cross the Foot Bridge, where people measure in inches and feet. See you there, explorers!"
+   "script": "Look how far you came!\n\n[ON SCREEN: Two ways]\n\nToday you worked with amounts that have two units. You can split the units and regroup, or change it all to one unit first. Both give the same answer.\n\n[ON SCREEN: The sign]\n\nAnd that Liter Well sign? 1 liter is 1,000 milliliters, so 2 liters is 2,000, not 200. Press Play and fix it so Amy can open. In clean mode, you'll fix it right on the page.\n\n[ON SCREEN: Next time]\n\nNext time we cross the Foot Bridge, where the trades are different: 12 inches make a foot. See you there, explorers!"
   }
  },
  "other": [],

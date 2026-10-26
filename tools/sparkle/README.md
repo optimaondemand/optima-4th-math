@@ -8,7 +8,7 @@ Read this at the start of every lesson run. The skill is `g4-math-sparkle-lesson
 |---|---|---|
 | `assets/sparkle/pq-art.js` | pixel art: characters, tiles, objects, gear | shared: a change touches every lesson |
 | `assets/sparkle/pq-engine.js` | the game (map, walking, dialog, quests, number pad, glow + arrow guidance, "all quests here done" card) | shared |
-| `assets/sparkle/oao-kit.js` | the math models (Disc Mat, Bar Strip, Stamp Signs, Story Bar Model, Number Bond, Mental Math, Bonus Quest) | shared |
+| `assets/sparkle/oao-kit.js` | the math models (Disc Mat, Two-Unit Mat, Bar Strip, Stamp Signs, Story Bar Model, Number Bond, Mental Math, Bonus Quest) | shared |
 | `assets/sparkle/pq-layer.js` | the page layer: real-problem board, coins/XP/rank, tips, clean top, Game/Clean switch, question drawer, video slots, My Math Map progress | shared |
 | `assets/sparkle/pq-music.js` | 10 original study-music loops (WebAudio, no files, no licensing) | shared |
 | `assets/sparkle/pq.css` | every style above | shared |
@@ -31,7 +31,8 @@ node    tools/sparkle/lessons/10-01/play.js      # this lesson's full play-throu
 node    tools/sparkle/test/kit.js                # every kit tool (run after any change to oao-kit.js)
 node    tools/sparkle/test/map.js                # My Math Map + certificates
 python3 tools/sparkle/build_map.py               # after a lesson is sparkled (marks it on the map)
-python3 tools/sparkle/unit_check.py page.html    # the math scan alone (also takes video.json files)
+python3 tools/sparkle/unit_check.py page.html    # the math scan alone (also takes video.json files); reads 2 m 120 cm as 320 cm,
+                                                 # but skips sums that start mid-amount (1 m 70 cm + 30 cm = 2 m): check those by hand
 ```
 
 `build_lesson.py` saves `original.html` the first time and rebuilds from it every time, so a rebuild is always safe.
@@ -83,11 +84,12 @@ A model gets `(mount, api)`; `api` = `earn(key, coins, xp, el, label)`, `setJob(
 | Tool | Use it for | Notes |
 |---|---|---|
 | `OAOKit.discMat(el, cfg)` | place value, regrouping, converting with 10/100/1,000, subtracting across units | `places`, `start`, `tray`, `zone {kind:'convert'|'away'}`, `steps[{text, done(st, api)}]`, `perRow`, `noRemove` |
+| `OAOKit.unitMat(el, cfg)` | **two-unit amounts** (1 m 65 cm, 2 L 750 mL): build, add copies, trade 10 small for 1 bigger, regroup | a Disc Mat with `big` (100 or 1,000), `bigUnit`, `smallUnit`, `names`, `short`, `discLabel`, `adds[{label, of, when, notYet, said}]`, `lead(api)`; the symbol line shows `3 m 195 cm` and warns until it's regrouped. Powers of 10 only: for 12/16/60 use Bar Strip |
 | `OAOKit.barStrip(el, cfg)` | "how many small fit in one big", fractions of a whole, fair compare on one scale | `rounds` or compare `rows`; pieces always to scale |
 | `OAOKit.stamps(el, cfg)` | match a factor/fact to a picture (warm-up sorts) | `signs[{id, stall, q, ans, svg}]`, `stamps`, `miss(sign)` |
 | `OAOKit.barModel(el, cfg)` | **every word problem**: students place each story fact on the bar, find the ?, answer | `kind:'part-whole'|'compare'`, `story` (facts with `put`), `parts`/`bars`/`diff`, `answer`, `mistakes[{value, text}]`, `sym` |
 | `OAOKit.numberBond(el, cfg)` | part-whole facts, splitting for mental math | `rounds[{whole, parts:[a,b], hide:'whole'|0|1, note}]` |
-| `OAOKit.mentalMath(el, cfg)` | the Warm-Up strategy (one strategy, 4–6 problems) | `name`, `how`, `example{q, bond, steps}`, `problems[{q, a, hint}]` |
+| `OAOKit.mentalMath(el, cfg)` | the Warm-Up strategy (one strategy, 4–6 problems) | `name`, `how`, `example{q, bond, steps}`, `problems[{q, a, hint, lead, post}]` (`lead:'1 m', post:'cm'` → 60 cm + 55 cm = 1 m [__] cm) |
 | `OAOKit.challenge(el, cfg)` | the optional Bonus quest (the teacher's guide "Extend") | `title`, `text`, `answer`, `unit`, `hint`, `explain` |
 
 Design rules for every model: plain pieces, always to scale, labels on the model, one line of directions, live number sentence,

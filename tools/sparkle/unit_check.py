@@ -25,12 +25,13 @@ def val(m, i):
     v = int(a.replace(',', '')) * U[ua][1]; kind = U[ua][0]
     if m.group(i + 2):
         ub = m.group(i + 3); b = int(m.group(i + 2).replace(',', ''))
-        if U[ub][0] == kind and U[ub][1] < U[ua][1] and b * U[ub][1] < U[ua][1]: v += b * U[ub][1]
+        if U[ub][0] == kind and (U[ub][1] < U[ua][1] or (U[ub][1] == U[ua][1] and 'and' in m.string[m.end(i + 1):m.start(i + 2)])): v += b * U[ub][1]  # 2 m 120 cm (not yet regrouped) is still 320 cm
     return kind, v
 QTY0 = N + r' ?' + UN + r'(?: ' + N + r' ?' + UN + r')?'
 EQS = [re.compile(q1 + r' ?(?:=|is|makes?|equals) ' + q2 + r'(?! ?[×÷+\-])') for q1, q2 in ((QTY0, QTY0), (QTY0, QTY))]
 ar = re.compile(r'(?<![\d,.])' + N + r'(?: ?' + UN + r')? ?([×÷+\-]) ?' + N + r'(?: ?' + UN + r')? ?= ?' + N + r'(?: ?' + UN + r')?(?![\d,])')
 INTENDED = []
+COMPOUND_TAIL = re.compile(r'\d ?' + UN + r' ?$')  # '2 kg ' just before a number: that number is the 2nd half of an amount
 
 
 def check(src, text):
@@ -40,7 +41,7 @@ def check(src, text):
     for e in EQS:
         for m in e.finditer(t): byStart.setdefault(m.start(), []).append(m)
     for st, ms in byStart.items():
-        if re.search(r'([×÷+\-] ?|\bof |\d[ ,]?)$', t[max(0, st - 4):st]): continue
+        if re.search(r'([×÷+\-] ?|\bof |\d[ ,]?)$', t[max(0, st - 4):st]) or COMPOUND_TAIL.search(t[max(0, st - 9):st]): continue
         verdicts = []
         for m in ms:
             a, b = val(m, 1), val(m, 5)
@@ -51,7 +52,7 @@ def check(src, text):
             out.append((src, 'INTENDED WRONG (story mistake students fix)', m.group(0), '')); continue
         out.append((src, 'UNIT CLAIM IS FALSE', m.group(0), t[max(0, st - 50):m.end() + 20]))
     for m in ar.finditer(t):
-        if re.search(r'[×÷+\-(] ?$', t[max(0, m.start() - 3):m.start()]): continue
+        if re.search(r'[×÷+\-(] ?$', t[max(0, m.start() - 3):m.start()]) or COMPOUND_TAIL.search(t[max(0, m.start() - 9):m.start()]): continue
         a, ua, op, b, ub, c, uc = m.groups()
         A, B, C = (int(x.replace(',', '')) for x in (a, b, c))
         if ua and ub and ua != ub: continue  # mixed units: covered by unit check
