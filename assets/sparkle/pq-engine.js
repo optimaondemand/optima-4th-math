@@ -35,9 +35,17 @@ var Snd = (function(){
 })();
 
 /* ───────── kind names ───────── */
-var BAD=['poop','stupid','dumb','idiot','hate','kill','butt','fart','suck','loser','ugly','shut','damn','crap','pee'];
+/* Names students can't use. Stored ROT13 so the list isn't readable in the page source.
+   ANY: blocked anywhere in the name; WHOLE: blocked only as a whole word (so Cassidy, Dickens, Analise still work).
+   Checked on the name with spaces/punctuation removed and repeated letters squashed ("f u u c k" → "fuck"). */
+function r13(s){return s.replace(/[a-z]/g,function(c){return String.fromCharCode((c.charCodeAt(0)-97+13)%26+97);});}
+var BAD_ANY=r13('shpx shx spx cuhpx fuvg fuvvg ovgpu ovngpu phag chffl cravf intvan obbo gvggl avtt avtn snttbg fyhg juber jnax gjng cbea frkl anmv uvgyre ergneq xvxr genaal wvmm onfgneq qbhpur nffubyr nefrubyr qhzonff wnpxnff ohggubyr qvyqb ubeal ahqr anxrq cvff cbbc gheq sneg fghcvq vqvbg qhzo ybfre htyl xvyy zheqre fhvpvqr ungr fuhghc penc qnza tbqqnz zbgures fxnax pbpxfhpx oybjwbo unaqwbo obare rerpgvba betnfz frzra fcrez grfgvp fpebghz pyvg erpghz jgs fgsh yznb bzst crqb zbyrfg greebevf jrrq pbpnvar incr pbpx qvpxurnq qvpxsnpr ohggsnpr ohggsneg').split(' '), BAD_WHOLE=r13('nff nefr qvpx gvg gvgf phz frk encr uryy ubr ubrf ub snt sntf qlxr fcvp puvax tbbx pbba jbc anmv ohgg ohggf crr qvr qrnq fhpx fhpxf tnl xxx ohz penc cbb chxr ones nahf ahg ahgf onyyf fperj zrgu qeht qehtf tha thaf obzo nany').split(' ');
+function badName(n){var l=String(n||'').toLowerCase(),words=l.split(/[^a-z]+/).filter(Boolean),flat=words.join(''),sq=flat.replace(/(.)\1+/g,'$1');
+  for(var i=0;i<BAD_ANY.length;i++){var b=BAD_ANY[i];if(flat.indexOf(b)>=0||sq.indexOf(b.replace(/(.)\1+/g,'$1'))>=0)return true;}
+  var cands=words.concat([flat,sq]);for(var j=0;j<BAD_WHOLE.length;j++)if(cands.indexOf(BAD_WHOLE[j])>=0||words.map(function(w){return w.replace(/(.)\1+/g,'$1');}).indexOf(BAD_WHOLE[j].replace(/(.)\1+/g,'$1'))>=0)return true;
+  return false;}
 function nameProblem(n){n=(n||'').trim();if(!n)return 'Type a name first.';if(n.length>14)return 'Keep it to 14 letters or fewer.';
-  if(!/^[A-Za-z][A-Za-z '\-]*$/.test(n))return 'Use letters only.';var l=n.toLowerCase();for(var i=0;i<BAD.length;i++)if(l.indexOf(BAD[i])>=0)return 'Pick a kind name for your explorer.';return '';}
+  if(!/^[A-Za-z][A-Za-z '\-]*$/.test(n))return 'Use letters only.';if(badName(n))return 'Pick a kind name for your explorer.';return '';}
 function guessName(){var p=store.get('oao.ff.profile',null)||store.get('oao.profile',null);return p&&p.name&&!nameProblem(p.name)?p.name:'';}
 
 /* ───────── world ───────── */
@@ -351,7 +359,7 @@ function onKey(e,down){
 /* ───────── init ───────── */
 function init(data){
   D=data;S=store.get(D.key,null)||{done:{},q:{},world:{},logs:{}};S.q=S.q||{};S.world=S.world||{};S.done=S.done||{};
-  avatar=store.get('oao.pq.avatar',null);if(avatar&&!avatar.name)avatar=null;if(avatar)pSheet=A.buildChar(lookOf(avatar));
+  avatar=store.get('oao.pq.avatar',null);if(avatar&&avatar.name&&nameProblem(avatar.name)){avatar.name='';store.set('oao.pq.avatar',avatar);}if(avatar&&!avatar.name)avatar=null;if(avatar)pSheet=A.buildChar(lookOf(avatar));
   buildWorld();
   live=document.createElement('div');live.className='pq-live-layer';live.tabIndex=-1;live.style.cssText='position:absolute;inset:0;outline:none';
   live.innerHTML='<canvas width="'+BW*SCALE+'" height="'+BH*SCALE+'"></canvas>'+
@@ -381,5 +389,5 @@ function init(data){
   window.PQ_FAILED=[];
 }
 function hudCoins(){var c=live&&live.querySelector('.pq-coins');if(c&&window.PQM&&PQM.wallet)c.textContent='🪙 '+PQM.wallet().coins;}
-return {_lookOf:lookOf,_hud:hudCoins,_save:save,_rebuild:function(){if(avatar)pSheet=A.buildChar(lookOf(avatar));},_full:function(){var c=A.cv(W*TS,H*TS),x=c.getContext('2d');for(var cy=0;cy<H*TS;cy+=BH)for(var cx=0;cx<W*TS;cx+=BW){var b=A.cv(BW,BH),bxx=b.getContext('2d');var X=Math.min(cx,W*TS-BW),Y=Math.min(cy,H*TS-BH);drawScene(bxx,X,Y,1.3,true);x.drawImage(b,X,Y);}return c.toDataURL();},_ents:function(){return ents;},init:init,_api:api,_state:function(){return S;},_player:player,_play:function(q){var s=document.querySelector('.pq-slot[data-quest="'+q+'"]');if(s)play(s);},_interact:function(){interact();},_advance:function(){advance();},_stop:stop,_padKey:padKey,_tp:function(x,y,d){player.x=x;player.y=y;player.px=x*16;player.py=y*16;player.dir=d||player.dir;}};
+return {nameProblem:nameProblem,badName:badName,_lookOf:lookOf,_hud:hudCoins,_save:save,_rebuild:function(){if(avatar)pSheet=A.buildChar(lookOf(avatar));},_full:function(){var c=A.cv(W*TS,H*TS),x=c.getContext('2d');for(var cy=0;cy<H*TS;cy+=BH)for(var cx=0;cx<W*TS;cx+=BW){var b=A.cv(BW,BH),bxx=b.getContext('2d');var X=Math.min(cx,W*TS-BW),Y=Math.min(cy,H*TS-BH);drawScene(bxx,X,Y,1.3,true);x.drawImage(b,X,Y);}return c.toDataURL();},_ents:function(){return ents;},init:init,_api:api,_state:function(){return S;},_player:player,_play:function(q){var s=document.querySelector('.pq-slot[data-quest="'+q+'"]');if(s)play(s);},_interact:function(){interact();},_advance:function(){advance();},_stop:stop,_padKey:padKey,_tp:function(x,y,d){player.x=x;player.y=y;player.px=x*16;player.py=y*16;player.dir=d||player.dir;}};
 })();

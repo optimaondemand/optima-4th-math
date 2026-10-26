@@ -75,7 +75,8 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp
 var RANKS=[[0,'Rookie'],[40,'Scout'],[100,'Pathfinder'],[200,'Trailblazer'],[350,'Navigator'],[550,'Wayfinder'],[800,'Master Wayfinder']];
 var av=ls('oao.pq.avatar',null),W=ls('oao.pq.wallet',{coins:0,xp:0,wear:{}})||{},P=(ls('oao.pq.progress',{})||{}).lessons||{};
 var rank=RANKS.filter(function(r){return (W.xp||0)>=r[0];}).pop()[1];
-var name=ls('oao.pq.certname',null)||(av&&av.name)||'';
+function okName(n){return !(window.PQ&&PQ.badName&&n&&PQ.badName(n));}
+var name=ls('oao.pq.certname',null)||(av&&av.name)||'';if(!okName(name))name=(av&&av.name&&okName(av.name))?av.name:'';
 function drawMe(c){if(!window.PQART)return;var x=c.getContext('2d');x.imageSmoothingEnabled=false;
   try{var look=av&&window.PQ&&PQ._lookOf?PQ._lookOf(av):null;if(look)look.gear=Object.keys(W.wear||{}).filter(function(k){return W.wear[k];});
     x.drawImage(look?PQART.buildChar(look):PQART.buildOwl(),0,0,16,20,0,0,16,20);}catch(e){x.drawImage(PQART.buildOwl(),0,0,16,20,0,0,16,20);}}
@@ -104,7 +105,7 @@ function cert(which){
    '<div class="cert-sheet"><div class="k">OPTIMA ACADEMY ONLINE · 4TH GRADE MATH</div><canvas width="16" height="20" aria-hidden="true"></canvas><h3>'+title+'</h3><p>This certifies that</p><div class="who" id="cw">'+(esc(name)||'&nbsp;')+'</div><p>'+line+'</p><p class="px" style="color:#C56C3F">RANK: '+rank.toUpperCase()+'</p>'+
    '<div class="row"><span>'+new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})+'</span><span>Teacher</span></div></div>';
   box.style.display='block';drawMe(box.querySelector('canvas'));box.scrollIntoView({behavior:'smooth'});
-  var cn=document.getElementById('cn');cn.oninput=function(){name=cn.value.trim();document.getElementById('cw').textContent=name||' ';try{localStorage.setItem('oao.pq.certname',JSON.stringify(name));}catch(e){}};
+  var cn=document.getElementById('cn');cn.oninput=function(){name=cn.value.trim();if(!okName(name)){cn.setCustomValidity('Pick a kind name.');cn.reportValidity();name='';}else cn.setCustomValidity('');document.getElementById('cw').textContent=name||' ';try{localStorage.setItem('oao.pq.certname',JSON.stringify(name));}catch(e){}};
   document.getElementById('cp').onclick=function(){window.print();};
   document.getElementById('cx').onclick=function(){box.style.display='none';};
 }
