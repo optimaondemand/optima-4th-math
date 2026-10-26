@@ -541,3 +541,16 @@ details.pq-intro .intro-2col{padding:0}
 .we-way h5{margin:0 0 6px;font:900 15px Nunito,sans-serif;color:#0E1C42}
 .we-way ol{margin:0;padding-left:20px;line-height:1.7}
 @media(max-width:700px){.we-two{grid-template-columns:1fr}}
+/* Math Crew cards wear the same colors as the Crew's 8-bit outfits (pq-art / PQ_DATA looks) */
+.tab-panel .bubble.atlas{border-left-color:#55C8E8;background:linear-gradient(135deg,#fff,#EAF8FD)}
+.tab-panel .bubble.felix{border-left-color:#2DB87A;background:linear-gradient(135deg,#fff,#EAF8F1)}
+.tab-panel .bubble.hazel{border-left-color:#F5C518;background:linear-gradient(135deg,#fff,#FEF9E3)}
+.tab-panel .bubble.cora{border-left-color:#E07B39;background:linear-gradient(135deg,#fff,#FDF1E8)}
+.tab-panel .bubble.atlas .bubble-avatar{background:#55C8E8;color:#0E1C42}
+.tab-panel .bubble.felix .bubble-avatar{background:#2DB87A;color:#fff}
+.tab-panel .bubble.hazel .bubble-avatar{background:#F5C518;color:#0E1C42}
+.tab-panel .bubble.cora .bubble-avatar{background:#E07B39;color:#fff}
+.tab-panel .bubble.atlas .bubble-name{color:#1F7FA3}
+.tab-panel .bubble.felix .bubble-name{color:#1E8C5A}
+.tab-panel .bubble.hazel .bubble-name{color:#8A6D0A}
+.tab-panel .bubble.cora .bubble-name{color:#B8541A}
