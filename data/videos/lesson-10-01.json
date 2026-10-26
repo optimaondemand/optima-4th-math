@@ -1,0 +1,222 @@
+{
+ "lesson": "10.01",
+ "grade": 4,
+ "prefix": "g4math-10-01",
+ "manifestKey": "g4math-10-01",
+ "title": "Metric Units of Measurement",
+ "slots": {
+  "think": {
+   "label": "Think · Amy's problem",
+   "title": "Market Day",
+   "length": "about 1 min",
+   "want": true,
+   "where": "Warm-Up, under the Essential Question",
+   "parts": [
+    {
+     "label": "Market Day board",
+     "tag": "TODAY'S REAL PROBLEM",
+     "title": "Help Amy open her juice stand",
+     "col": "#C56C3F",
+     "rows": [
+      [
+       "Job 1",
+       "Learn the market's measures"
+      ],
+      [
+       "Job 2",
+       "Build the measuring tools"
+      ],
+      [
+       "Job 3",
+       "Bottle Amy's juice"
+      ],
+      [
+       "Job 4",
+       "Plan the delivery cart"
+      ],
+      [
+       "Job 5",
+       "Fix the Liter Well sign"
+      ]
+     ]
+    },
+    {
+     "label": "The big question",
+     "tag": "ESSENTIAL QUESTION",
+     "title": "Is 2 L the same as 200 mL?",
+     "col": "#6B3FA0",
+     "body": "The Liter Well sign says it is. Is the sign right? How can you prove it?"
+    },
+    {
+     "label": "Three stall signs",
+     "tag": "JOB 1",
+     "title": "How many small pieces fit in one big piece?",
+     "col": "#C56C3F",
+     "rows": [
+      [
+       "Bead stall",
+       "mm in 1 cm"
+      ],
+      [
+       "Ribbon stall",
+       "cm in 1 m"
+      ],
+      [
+       "Market road",
+       "m in 1 km"
+      ]
+     ]
+    }
+   ],
+   "script": "Welcome to Metric Market! Today is Market Day, and Amy wants to open her juice stand.\n\n[ON SCREEN: Market Day board]\n\nBut the Smudge mixed up every measure in town. See the Market Day board right under me? Five jobs. Each one uses today's math.\n\n[ON SCREEN: The big question]\n\nHere's our big question. The well sign says 2 liters is the same as 200 milliliters. Is that right? Don't answer yet. Just make a guess and hold on to it.\n\n[ON SCREEN: Three stall signs]\n\nYour first job is Market Measures. Each stall sign asks how many small pieces fit inside one big piece. Look closely at each picture and count. Then press Play on the game, and Opti will show you around town."
+  },
+  "learn": {
+   "label": "Learn · fill it, then climb the stairs",
+   "title": "How Many Fit?",
+   "length": "about 1½ min",
+   "want": true,
+   "where": "Learn, top (before the Market Builder)",
+   "parts": [
+    {
+     "label": "The bar",
+     "tag": "THE BAR",
+     "title": "One whole unit",
+     "col": "#3A6B9A",
+     "body": "Round 1: the bar is exactly 1 centimeter."
+    },
+    {
+     "label": "The pieces",
+     "tag": "DRAG OR TAP",
+     "title": "Small pieces, always to size",
+     "col": "#E07B39",
+     "rows": [
+      [
+       "Round 1",
+       "1 mm pieces"
+      ],
+      [
+       "Round 2",
+       "10 cm pieces"
+      ],
+      [
+       "Round 3",
+       "100 m pieces"
+      ],
+      [
+       "Round 4",
+       "100 mL pieces"
+      ]
+     ]
+    },
+    {
+     "label": "The number sentence",
+     "tag": "WATCH THIS",
+     "title": "The total is the factor",
+     "col": "#2DB87A",
+     "body": "10 × 1 mm = 10 mm = 1 cm"
+    },
+    {
+     "label": "The staircase",
+     "tag": "THE BOARD",
+     "title": "Down: multiply · Up: divide",
+     "col": "#C56C3F",
+     "rows": [
+      [
+       "km → m",
+       "× 1,000"
+      ],
+      [
+       "m → cm",
+       "× 100"
+      ],
+      [
+       "cm → mm",
+       "× 10"
+      ]
+     ]
+    }
+   ],
+   "script": "Welcome to the Learn tab. Amy needs her measuring tools, and you're going to build them.\n\n[ON SCREEN: The bar]\n\nThis bar is one whole unit. In round 1, it's exactly 1 centimeter.\n\n[ON SCREEN: The pieces]\n\nDrag a small piece onto the bar, or tap it. Every piece is drawn to size. Count as you go: by 1s in round 1, then by 10s or 100s.\n\n[ON SCREEN: The number sentence]\n\nWatch the number sentence under the bar. When the bar is full, the total is the factor: 10 millimeters make 1 centimeter.\n\n[ON SCREEN: The staircase]\n\nThen look at the Market Measures Board. Going down the stairs to a smaller unit, you multiply, because you need more of the small pieces. Going up to a bigger unit, you divide. Keep that staircase in your head for every job today."
+  },
+  "do": {
+   "label": "Do · watch me solve (screen recording)",
+   "title": "Watch Me Solve It",
+   "length": "about 1½ min",
+   "want": true,
+   "where": "Learn, after the Market Measures Board (record your screen)",
+   "screen": true,
+   "parts": [
+    {
+     "label": "Problem 1",
+     "tag": "GUIDED",
+     "title": "4 m = ___ cm",
+     "col": "#3A6B9A",
+     "body": "Big unit to small unit: multiply by 100."
+    },
+    {
+     "label": "Problem 2",
+     "tag": "GUIDED",
+     "title": "3,500 mL = ___ L ___ mL",
+     "col": "#6B3FA0",
+     "body": "Build it on the disc mat. Each 1,000 mL disc is 1 L."
+    },
+    {
+     "label": "Problem 3",
+     "tag": "GUIDED",
+     "title": "2 km − 450 m = ___ m",
+     "col": "#2DB87A",
+     "body": "Different units? Make them match first."
+    },
+    {
+     "label": "The steps",
+     "tag": "REMEMBER",
+     "title": "Every conversion",
+     "col": "#C56C3F",
+     "rows": [
+      [
+       "1",
+       "Find the factor"
+      ],
+      [
+       "2",
+       "Smaller unit? Multiply. Bigger unit? Divide."
+      ],
+      [
+       "3",
+       "Check the unit"
+      ]
+     ]
+    }
+   ],
+   "script": "Now watch me. I'll solve three problems on my screen and talk through every step.\n\n[ON SCREEN: Problem 1]\n\n4 meters is how many centimeters? Meters to centimeters is a big unit to a small unit. On the Measures Board, that's going down the stairs, so I multiply. The factor is 100. 4 times 100 is 400. So 4 meters is 400 centimeters.\n\n[ON SCREEN: Problem 2]\n\n3,500 milliliters. How many liters and milliliters? I build it on the disc mat: 3 thousands and 5 hundreds. Each 1,000 milliliter disc is 1 liter. So that's 3 liters and 500 milliliters more: 3 liters 500 milliliters.\n\n[ON SCREEN: Problem 3]\n\n2 kilometers minus 450 meters. The units don't match, so I make them match first. 2 kilometers is 2,000 meters. 2,000 minus 450 is 1,550. The answer is 1,550 meters.\n\n[ON SCREEN: The steps]\n\nEvery time: find the factor, decide multiply or divide, then check the unit. Here's the mistake I see most: using 100 for liters. Liters and milliliters use 1,000, just like kilometers and meters. Now it's your turn with Amy's juice."
+  },
+  "wrap": {
+   "label": "Wrap · open the stand",
+   "title": "Open the Stand",
+   "length": "about 45 s",
+   "want": false,
+   "where": "Show What You Know, after the Liter Well sign",
+   "parts": [
+    {
+     "label": "The answer",
+     "tag": "YOU PROVED IT",
+     "title": "2 L = 2,000 mL",
+     "col": "#2DB87A",
+     "body": "1 L = 1,000 mL, so 2 L = 2,000 mL. Not 200!"
+    },
+    {
+     "label": "Next time",
+     "tag": "NEXT LESSON",
+     "title": "The Foot Bridge",
+     "col": "#C56C3F",
+     "body": "Inches, feet, yards and miles."
+    }
+   ],
+   "script": "Look how far you came!\n\n[ON SCREEN: The answer]\n\nRemember your guess from the start? You proved that 2 liters is 2,000 milliliters, not 200, because 1 liter is 1,000 milliliters. Press Play and fix the Liter Well sign so Amy can open her stand. In clean mode, you'll fix it right on the page.\n\n[ON SCREEN: Next time]\n\nNext time we cross the Foot Bridge, where people measure in inches and feet. See you there, explorers!"
+  }
+ },
+ "other": [],
+ "pics": {},
+ "redo": [],
+ "welcomeSlot": "think"
+}

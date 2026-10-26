@@ -1,0 +1,99 @@
+# Pixel Quest · the G4 math sparkle kit
+
+Read this at the start of every lesson run. The skill is `g4-math-sparkle-lesson`.
+
+## Files
+
+| Where | What | Edit? |
+|---|---|---|
+| `assets/sparkle/pq-art.js` | pixel art: characters, tiles, objects, gear | shared: a change touches every lesson |
+| `assets/sparkle/pq-engine.js` | the game (map, walking, dialog, quests, number pad, glow + arrow guidance, "all quests here done" card) | shared |
+| `assets/sparkle/oao-kit.js` | the math models (Disc Mat, Bar Strip, Stamp Signs, Story Bar Model, Number Bond, Mental Math, Bonus Quest) | shared |
+| `assets/sparkle/pq-layer.js` | the page layer: real-problem board, coins/XP/rank, tips, clean top, Game/Clean switch, question drawer, video slots, My Math Map progress | shared |
+| `assets/sparkle/pq-music.js` | 10 original study-music loops (WebAudio, no files, no licensing) | shared |
+| `assets/sparkle/pq.css` | every style above | shared |
+| `assets/sparkle/lessons/lesson-4-UU-LL.js` | **built**: PQ_VIDEO + PQ_DATA + PQ_LESSON | never by hand |
+| `assets/sparkle/map-data.js` | **built** by `build_map.py`: the levels My Math Map lists | never by hand |
+| `tools/sparkle/lessons/UU-LL/` | one lesson's source: `original.html`, `make.py`, `lesson.js`, `video.json`, `play.js`, `notes.md` | yes |
+| `my-math-map.html` | progress map + Level Clear and Master Wayfinder certificates | shared |
+| `parent-guide-unit-<U>.html` | the unit family guide (model: Unit 10) | per unit |
+| `data/videos/lesson-UU-LL.json` | **built**: the plan the Video Studio reads | never by hand |
+| `tools/sparkle/kit-demo.html` | every kit tool with sample settings | add a demo for every new tool |
+| `tools/sparkle/studio/` | `video_shotlist_math.py` + `add_math_to_studio.py` (installed in optima-4th-ela) | |
+
+## Commands (run from the repo root)
+
+```
+python3 tools/sparkle/build_lesson.py 10-01      # rebuild the page from original.html + make.py (+ the data file)
+python3 tools/sparkle/check_lesson.py 10-01      # math, IP overlap, jargon, answer boxes, videos, wiring: must be 0 FAIL
+node    tools/sparkle/test/smoke.js 10-01        # tabs, drawer, slots, clean mode, 1150 + 390 px screenshots → tools/sparkle/out/10-01/
+node    tools/sparkle/lessons/10-01/play.js      # this lesson's full play-through (every job, quest, model, tap and drag)
+node    tools/sparkle/test/kit.js                # every kit tool (run after any change to oao-kit.js)
+node    tools/sparkle/test/map.js                # My Math Map + certificates
+python3 tools/sparkle/build_map.py               # after a lesson is sparkled (marks it on the map)
+python3 tools/sparkle/unit_check.py page.html    # the math scan alone (also takes video.json files)
+```
+
+`build_lesson.py` saves `original.html` the first time and rebuilds from it every time, so a rebuild is always safe.
+It writes the page, the lesson data file and the studio plan, and stamps every link with `?v=` (a hash of the files).
+
+## A lesson's `make.py`
+
+Runs with `s` = the original HTML. Helpers (each asserts its anchor appears exactly once):
+`rep(a, b)`, `ins_before(marker, html)`, `ins_after(marker, html)`, `block(start)`, `replace_block(start, new)`,
+`remove_block(start)`, `sub(pattern, repl)`, `block_end(s, i)`, `answer_boxes_save()`.
+HTML builders: `game('quest')`, `video('think'|'learn'|'do'|'wrap')`, `tip('who', 'text')`, `model('name')`, `BOARD`, `TOWN`,
+`problem(n, title, parts_html)`, `part('Problem 1 (a)', html)`, `box('1a', 'aria label', 'cm')`.
+Start from the newest lesson's `make.py`; keep its section order (clean top → board + Think → Warm-Up → Learn → Show What You Know).
+
+## `lesson.js`
+
+```
+var PQ_DATA = (function(){ … return D; })();   // the game
+var PQ_LESSON = (function(){ … return {…}; })(); // the page
+```
+
+**PQ_DATA (game)**: `key` (`g4-4-UU-LL-pq`), `levelLabel`, `map` (32×22 tile rows), `speakers`, `npcs` (`{id,x,y,look|owl|smudge,show(S)}`),
+`items`, `labels` (names the guide arrow uses), `objects` (`O({id, make(A)})`), `quests.<id>` (`title`, `spawn`, `teaser`, `doneText`,
+`goal(S)`, `markers(S)`, `start`, `transcript`, `next:{tab, sel, label}` = where the "all quests here done" button sends students,
+`locked(S)` for quests that wait on a page job), `talk(id, api)`, `afterQuest(q, api)`.
+Quest ids must match the page's `game('…')` windows. 3–5 windows per lesson.
+
+**PQ_LESSON (page)**:
+`id` ('4.10.01'), `key` ('g4-4-10-01', prefix for saved model state), `title`, `unit`, `level` (level name), `standard` (the bubble),
+`boss` (world flag set when the boss is beaten, last lesson before the summative only),
+`problem:{title, text, jobWord, jobsTitle}`, `jobs:[{id, t, w, go (selector), tab, coins}]` (4–5 jobs = the page activities),
+`scene(api)` → SVG of the problem's place that changes as jobs finish (optional), `intendedWrong:['2 L = 200 mL', …]`
+(story mistakes on purpose, so the math check doesn't fail them), `models:{name: bind(fn)}`.
+A model gets `(mount, api)`; `api` = `earn(key, coins, xp, el, label)`, `setJob(id, el)`, `jobDone(id)`, `state()`, `save()`,
+`fmt`, `ls`, `lsSet`, `clean()`, `renderBoard()`, `key('x')`.
+
+## Kit tools (see `kit-demo.html` for working settings)
+
+| Tool | Use it for | Notes |
+|---|---|---|
+| `OAOKit.discMat(el, cfg)` | place value, regrouping, converting with 10/100/1,000, subtracting across units | `places`, `start`, `tray`, `zone {kind:'convert'|'away'}`, `steps[{text, done(st, api)}]`, `perRow`, `noRemove` |
+| `OAOKit.barStrip(el, cfg)` | "how many small fit in one big", fractions of a whole, fair compare on one scale | `rounds` or compare `rows`; pieces always to scale |
+| `OAOKit.stamps(el, cfg)` | match a factor/fact to a picture (warm-up sorts) | `signs[{id, stall, q, ans, svg}]`, `stamps`, `miss(sign)` |
+| `OAOKit.barModel(el, cfg)` | **every word problem**: students place each story fact on the bar, find the ?, answer | `kind:'part-whole'|'compare'`, `story` (facts with `put`), `parts`/`bars`/`diff`, `answer`, `mistakes[{value, text}]`, `sym` |
+| `OAOKit.numberBond(el, cfg)` | part-whole facts, splitting for mental math | `rounds[{whole, parts:[a,b], hide:'whole'|0|1, note}]` |
+| `OAOKit.mentalMath(el, cfg)` | the Warm-Up strategy (one strategy, 4–6 problems) | `name`, `how`, `example{q, bond, steps}`, `problems[{q, a, hint}]` |
+| `OAOKit.challenge(el, cfg)` | the optional Bonus quest (the teacher's guide "Extend") | `title`, `text`, `answer`, `unit`, `hint`, `explain` |
+
+Design rules for every model: plain pieces, always to scale, labels on the model, one line of directions, live number sentence,
+drag AND tap, fixed place-value colors (1,000 violet · 100 blue · 10 green · 1 orange), gentle hints that point where to look,
+nothing moves under reduced motion. A new tool goes in `oao-kit.js` (+ styles in `pq.css`), gets a demo in `kit-demo.html`
+and a check in `test/kit.js`, and every sparkled lesson is re-checked.
+
+## Video plan (`video.json`)
+
+`lesson`, `grade`, `prefix` (`g4math-UU-LL`), `manifestKey`, `title`, `welcomeSlot` (the slot the old manifest welcome video may fill), `off` (slots to hide until re-recorded),
+`slots.think|learn|do|wrap` = `{label, title, length, want, where, screen (do only), parts:[cards], script}`.
+Scripts: under 2 minutes (≤ 230 words; aim 80–160). `[ON SCREEN: Card label]` cues on their own line must match a card's `label`.
+Files the studio saves: `assets/video/teacher/<prefix>-<slot>.mp4` (+ `.jpg`, `.vtt`). Slots stay invisible until the file exists; `?review` on the lesson URL shows empty slots with their scripts.
+
+## Saved on the student's device (localStorage)
+
+`oao.pq.avatar` · `oao.pq.wallet` (coins, XP, gear; earned keys are `<lesson id>:<thing>`) · `oao.pq.progress` (My Math Map) ·
+`oao.pq.mute` · `oao.pq.clean` · `oao.pq.music` · `oao.pq.year` · `oao.pq.certname` · `g4-4-UU-LL-pq` (the lesson's world) ·
+`g4-4-UU-LL-*` (each model). Lessons and My Math Map share these only because they live on the same site.

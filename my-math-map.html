@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Math Map · 4th Grade Math · Optima Academy Online</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Lora:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;700;800;900&display=swap">
+<style>
+:root{--navy:#0E1C42;--ink:#3A4A6B;--muted:#5E6C8C;--brown:#3B2417;--terra:#C56C3F;--cream:#FFF8EC;--line:#E8DCC8;--green:#2DB87A;--gold:#F5C518}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:'Nunito',sans-serif;font-size:17px;line-height:1.5}
+.px{font-family:'DotGothic16','Nunito',sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:20px 16px 48px}
+.top{background:var(--navy);color:#fff;border:3px solid var(--brown);border-radius:18px;padding:20px 22px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.top canvas{width:64px;height:80px;image-rendering:pixelated;background:#24305A;border:3px solid #fff;border-radius:10px}
+.top h1{font-family:'Lora',serif;margin:0;font-size:28px;color:#fff}
+.top .sub{color:#BFD0EE;font-size:15px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.stat{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:3px 12px;font-weight:800;font-size:15px}
+.note{font-size:14px;color:var(--muted);margin:10px 4px 0}
+.path{display:grid;gap:16px;margin-top:18px}
+.lvl{background:#fff;border:3px solid var(--brown);border-radius:16px;padding:16px 18px;box-shadow:0 4px 0 rgba(59,36,23,.12);position:relative}
+.lvl.locked{opacity:.65}
+.lvl-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.lvl-badge{width:54px;height:54px;border-radius:12px;border:3px solid var(--brown);display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;background:var(--terra);flex:none}
+.lvl.clear .lvl-badge{background:var(--green)}
+.lvl h2{font-family:'Lora',serif;color:var(--navy);margin:0;font-size:21px}
+.lvl .topic{font-size:14px;color:var(--muted)}
+.lvl .bar{height:10px;background:#F1E6D2;border-radius:6px;overflow:hidden;margin:10px 0 8px;border:1.5px solid var(--brown)}
+.lvl .bar i{display:block;height:100%;background:var(--green)}
+.lessons{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px}
+.lessons li{display:flex;gap:8px;align-items:center;font-size:15px;padding:4px 8px;border-radius:8px;background:#FBF6EC}
+.lessons .st{width:22px;text-align:center;font-weight:900}
+.lessons li.done{background:#E6F7EE}.lessons li.done .st{color:#1E8C5A}
+.lessons li.seen .st{color:var(--terra)}
+.lessons a{color:var(--navy);text-decoration:none;font-weight:700}
+.lessons a:hover{text-decoration:underline}
+.boss{font-size:14px;margin-top:8px;color:#7A5A40}
+.cert-btn{margin-top:10px;font:900 15px 'Nunito',sans-serif;color:#fff;background:var(--green);border:2px solid var(--brown);border-radius:10px;padding:7px 14px;cursor:pointer}
+.year{background:linear-gradient(135deg,#FFF6D8,#FFE9B8);border:3px solid var(--brown);border-radius:16px;padding:16px 18px;margin-top:18px}
+.year h2{font-family:'Lora',serif;margin:0 0 4px;color:var(--navy)}
+/* certificate */
+#cert{display:none}
+.cert-sheet{width:100%;max-width:980px;aspect-ratio:11/8.5;margin:0 auto;background:#FFFDF6;border:14px solid var(--navy);outline:4px solid var(--gold);outline-offset:-22px;padding:46px 56px;text-align:center;position:relative;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.cert-sheet .k{font-family:'DotGothic16','Nunito',sans-serif;color:var(--terra);font-size:20px;letter-spacing:.08em}
+.cert-sheet h3{font-family:'Lora',serif;font-size:44px;color:var(--navy);margin:4px 0}
+.cert-sheet .who{font-family:'Lora',serif;font-style:italic;font-size:40px;color:var(--navy);border-bottom:2px solid var(--brown);display:inline-block;padding:0 30px;margin:6px auto}
+.cert-sheet p{font-size:19px;margin:4px 0}
+.cert-sheet canvas{width:72px;height:90px;image-rendering:pixelated;margin:0 auto}
+.cert-sheet .row{display:flex;justify-content:space-between;margin-top:22px;font-size:15px;color:var(--muted)}
+.cert-sheet .row span{border-top:1.5px solid var(--brown);padding-top:4px;min-width:200px}
+.cert-tools{text-align:center;margin:14px 0}
+.cert-tools input{font:800 16px 'Nunito',sans-serif;padding:6px 10px;border:2px solid var(--brown);border-radius:8px}
+.cert-tools button{font:900 15px 'Nunito',sans-serif;border:2px solid var(--brown);border-radius:10px;padding:7px 14px;cursor:pointer;margin-left:6px}
+@media(max-width:600px){.top h1{font-size:23px}.cert-sheet{padding:24px 18px;border-width:8px}.cert-sheet h3{font-size:26px}.cert-sheet .who{font-size:26px}.cert-sheet{aspect-ratio:auto}.cert-sheet .row{gap:10px}.cert-sheet .row span{min-width:0;flex:1}.lessons{grid-template-columns:1fr}}
+@media print{@page{size:landscape;margin:0.4in}body{background:#fff}.wrap>*:not(#cert){display:none!important}#cert{display:block!important}.cert-tools{display:none}.cert-sheet{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"><canvas id="me" width="16" height="20" aria-hidden="true"></canvas>
+    <div><div class="px sub">MY MATH MAP · 4TH GRADE MATH</div><h1 id="hello">Your quest so far</h1><div class="stats" id="stats"></div></div></header>
+  <p class="note">This map shows the work saved on <strong>this computer and browser</strong>. If you switch computers, your map starts fresh there. Your teacher sees your real work in Canvas.</p>
+  <div class="path" id="path"></div>
+  <section class="year" id="year"></section>
+  <section id="cert" aria-live="polite"></section>
+</div>
+<script src="assets/sparkle/pq-art.js"></script>
+<script src="assets/sparkle/pq-engine.js"></script>
+<script src="assets/sparkle/map-data.js"></script>
+<script>
+(function(){
+function ls(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+var RANKS=[[0,'Rookie'],[40,'Scout'],[100,'Pathfinder'],[200,'Trailblazer'],[350,'Navigator'],[550,'Wayfinder'],[800,'Master Wayfinder']];
+var av=ls('oao.pq.avatar',null),W=ls('oao.pq.wallet',{coins:0,xp:0,wear:{}})||{},P=(ls('oao.pq.progress',{})||{}).lessons||{};
+var rank=RANKS.filter(function(r){return (W.xp||0)>=r[0];}).pop()[1];
+var name=ls('oao.pq.certname',null)||(av&&av.name)||'';
+function drawMe(c){if(!window.PQART)return;var x=c.getContext('2d');x.imageSmoothingEnabled=false;
+  try{var look=av&&window.PQ&&PQ._lookOf?PQ._lookOf(av):null;if(look)look.gear=Object.keys(W.wear||{}).filter(function(k){return W.wear[k];});
+    x.drawImage(look?PQART.buildChar(look):PQART.buildOwl(),0,0,16,20,0,0,16,20);}catch(e){x.drawImage(PQART.buildOwl(),0,0,16,20,0,0,16,20);}}
+drawMe(document.getElementById('me'));
+document.getElementById('hello').textContent=name?name+'’s quest so far':'Your quest so far';
+var M=window.PQ_MAP||[],cleared=0,total=0;
+document.getElementById('stats').innerHTML='<span class="stat">🪙 '+(W.coins||0)+' coins</span><span class="stat">⭐ '+(W.xp||0)+' XP</span><span class="stat">🏅 '+rank+'</span>';
+var html='';
+M.forEach(function(L,li){
+  var n=L.lessons.length,done=L.lessons.filter(function(x){return P[x.id]&&P[x.id].done;}).length,seen=L.lessons.filter(function(x){return P[x.id];}).length;
+  var clear=n&&done===n;if(clear)cleared++;total++;
+  var anySpark=L.lessons.some(function(x){return x.sparkled;});
+  html+='<article class="lvl'+(clear?' clear':'')+(!anySpark&&!seen?' locked':'')+'" data-unit="'+L.unit+'"><div class="lvl-head"><div class="lvl-badge px">'+(clear?'✓':L.unit)+'</div><div><h2>Level '+L.unit+': '+esc(L.name)+'</h2><div class="topic">Unit '+L.unit+' · '+esc(L.topic)+'</div></div></div>'+
+   '<div class="bar" aria-label="'+done+' of '+n+' lessons done"><i style="width:'+(n?Math.round(done/n*100):0)+'%"></i></div>'+
+   '<ul class="lessons">'+L.lessons.map(function(x){var p=P[x.id],st=p&&p.done?'done':p?'seen':'';
+     return '<li class="'+st+'"><span class="st">'+(st==='done'?'✓':st==='seen'?'●':'○')+'</span><a href="'+esc(x.file)+'">'+x.id.slice(2)+' '+esc(x.title)+'</a></li>';}).join('')+'</ul>'+
+   '<div class="boss">Boss: '+esc(L.boss)+(clear?' · defeated!':'')+'</div>'+
+   (clear?'<button class="cert-btn" type="button" data-cert="'+li+'">🎓 Print my Level '+L.unit+' certificate</button>':'')+'</article>';
+});
+document.getElementById('path').innerHTML=html;
+document.getElementById('year').innerHTML='<h2>🏆 Master Wayfinder</h2><p style="margin:0">Clear all '+total+' levels to earn the end-of-year certificate. Levels cleared: <b>'+cleared+' of '+total+'</b>.</p>'+(cleared===total&&total?'<button class="cert-btn" type="button" data-cert="year">🎓 Print my Master Wayfinder certificate</button>':'');
+function cert(which){
+  var L=which==='year'?null:M[+which],box=document.getElementById('cert');
+  var title=L?'Level '+L.unit+' Clear!':'Master Wayfinder',line=L?'cleared <b>Level '+L.unit+': '+esc(L.name)+'</b> and defeated the '+esc(L.boss)+', mastering <b>'+esc(L.topic.toLowerCase())+'</b>.':'cleared every level of the 4th grade math quest, from Metric Market to the Toy Workshop.';
+  box.innerHTML='<div class="cert-tools"><label>Name on the certificate: <input id="cn" value="'+esc(name)+'" maxlength="30"></label><button type="button" id="cp">🖨️ Print</button><button type="button" id="cx">Close</button></div>'+
+   '<div class="cert-sheet"><div class="k">OPTIMA ACADEMY ONLINE · 4TH GRADE MATH</div><canvas width="16" height="20" aria-hidden="true"></canvas><h3>'+title+'</h3><p>This certifies that</p><div class="who" id="cw">'+(esc(name)||'&nbsp;')+'</div><p>'+line+'</p><p class="px" style="color:#C56C3F">RANK: '+rank.toUpperCase()+'</p>'+
+   '<div class="row"><span>'+new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})+'</span><span>Teacher</span></div></div>';
+  box.style.display='block';drawMe(box.querySelector('canvas'));box.scrollIntoView({behavior:'smooth'});
+  var cn=document.getElementById('cn');cn.oninput=function(){name=cn.value.trim();document.getElementById('cw').textContent=name||' ';try{localStorage.setItem('oao.pq.certname',JSON.stringify(name));}catch(e){}};
+  document.getElementById('cp').onclick=function(){window.print();};
+  document.getElementById('cx').onclick=function(){box.style.display='none';};
+}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-cert]');if(b)cert(b.dataset.cert);});
+})();
+</script>
+</body>
+</html>

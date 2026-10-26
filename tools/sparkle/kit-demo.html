@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OAO Math Kit · every tool</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Lora:wght@400;700&family=Nunito:wght@400;700;800;900&display=swap">
+<link rel="stylesheet" href="../../assets/sparkle/pq.css">
+<style>body{font-family:Nunito,sans-serif;background:#FFF8EC;margin:0;padding:20px;color:#3A4A6B}.demo{max-width:900px;margin:0 auto 22px;background:#fff;border:3px solid #3B2417;border-radius:14px;padding:16px 18px}h1{font-family:Lora,serif;color:#0E1C42;max-width:900px;margin:0 auto 14px}h2{font-family:Lora,serif;color:#0E1C42;margin:0 0 4px;font-size:20px}code{font-size:13px;color:#7A5A40}</style>
+</head><body>
+<h1>OAO Math Kit · every tool with sample settings</h1>
+<div class="demo"><h2>Disc Mat</h2><code>OAOKit.discMat(el, cfg)</code><div id="d-disc"></div></div>
+<div class="demo"><h2>Bar Strip</h2><code>OAOKit.barStrip(el, cfg)</code><div id="d-bar"></div></div>
+<div class="demo"><h2>Stamp Signs</h2><code>OAOKit.stamps(el, cfg)</code><div id="d-stamps"></div></div>
+<div class="demo"><h2>Story Bar Model (part-whole)</h2><code>OAOKit.barModel(el, {kind:'part-whole', …})</code><div id="d-bm1"></div></div>
+<div class="demo"><h2>Story Bar Model (compare)</h2><code>OAOKit.barModel(el, {kind:'compare', …})</code><div id="d-bm2"></div></div>
+<div class="demo"><h2>Number Bond</h2><code>OAOKit.numberBond(el, cfg)</code><div id="d-nb"></div></div>
+<div class="demo"><h2>Mental Math warm-up</h2><code>OAOKit.mentalMath(el, cfg)</code><div id="d-mm"></div></div>
+<div class="demo"><h2>Bonus Quest</h2><code>OAOKit.challenge(el, cfg)</code><div id="d-ch"></div></div>
+<script src="../../assets/sparkle/oao-kit.js"></script>
+<script>
+var $=function(s){return document.getElementById(s);};
+OAOKit.discMat($('d-disc'),{places:[1000,100,10,1],unit:'',tray:true,steps:[{text:'Build 2,305 with the fewest discs.',done:function(st,api){return api.value()===2305&&[1000,100,10,1].every(function(p){return st.c[p]<10;});}}],doneText:'2,305 = 2 thousands, 3 hundreds, 0 tens, 5 ones.'});
+OAOKit.barStrip($('d-bar'),{rounds:[{name:'cm → m',label:'1 meter',bigLabel:'1 m',target:100,unit:'cm',pieces:[10],pieceLabel:function(){return '10 cm';},ticks:{every:1,major:10},scale:[0,50,100],scaleLabel:function(v){return v+' cm';},text:'How many centimeters fill 1 meter?',doneText:'100 cm = 1 m.'}]});
+OAOKit.stamps($('d-stamps'),{signs:[{id:'a',stall:'Ruler',q:'How many inches in 1 foot?',ans:'×12'},{id:'b',stall:'Yardstick',q:'How many feet in 1 yard?',ans:'×3'}],stamps:['×3','×12']});
+OAOKit.barModel($('d-bm1'),{kind:'part-whole',unit:'m',story:['Amy\'s road is ',{t:'1 km long',put:'whole',label:'1 km = 1,000 m'},'. Her cart broke down after ',{t:'400 m',put:'p0',label:'400 m'},'. How far is left?'],
+  whole:{name:'road'},partsName:'cart',parts:[{id:'p0',value:400,name:'driven'},{id:'p1',value:600,name:'left',unknown:true}],
+  question:'How many meters are left?',answer:600,mistakes:[{value:1400,text:'The road is the whole bar. The part left is smaller than the whole, so subtract.'},{value:700,text:'Check the subtraction: 1,000 − 400.'}],sym:'1,000 m − 400 m = 600 m'});
+OAOKit.barModel($('d-bm2'),{kind:'compare',unit:'oz',story:[{t:'Mo\'s pumpkin weighs 44 oz.',put:'b0',label:'44 oz'},' ',{t:'Wren\'s weighs 26 oz.',put:'b1',label:'26 oz'},' How much heavier is Mo\'s?'],
+  bars:[{id:'b0',name:'Mo',value:44},{id:'b1',name:'Wren',value:26}],diff:{value:18,unknown:true},question:'How many ounces heavier?',answer:18,sym:'44 − 26 = 18 oz'});
+OAOKit.numberBond($('d-nb'),{text:'Split the number to make a hundred.',rounds:[{whole:46,parts:[1,45],hide:1,note:'99 + 46 = 100 + 45'},{whole:37,parts:[2,35],hide:0},{whole:250,parts:[200,50],hide:'whole'}]});
+OAOKit.mentalMath($('d-mm'),{name:'Make a hundred',how:'Take a little from one number to make the other a hundred.',example:{q:'99 + 46',bond:{whole:46,parts:[1,45]},steps:['99 + 1 = 100','100 + 45 = 145']},problems:[{q:'98 + 37',a:135,hint:'Take 2 from 37.'},{q:'99 + 58',a:157},{q:'97 + 24',a:121}]});
+OAOKit.challenge($('d-ch'),{title:'Bonus quest',text:'<p>How many 250 mL cups fill 3 L?</p>',answer:12,unit:'cups',hint:'4 cups fill 1 L.',explain:'<p>3 × 4 = 12 cups.</p>'});
+</script></body></html>
