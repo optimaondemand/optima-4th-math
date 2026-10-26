@@ -130,12 +130,12 @@ def box(id,lab,unit=''):
     return '<input class="ans-box" id="ans-%s" type="text" inputmode="numeric" autocomplete="off" aria-label="%s" oninput="autoSave(this,\'dot-%s\')"/>%s'%(id,lab,id[0],(' '+unit) if unit else '')
 def part(lab,html):return '<div class="ans-part" data-label="%s">%s</div>'%(lab,html)
 SW=('<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Convert.</strong> <span class="saved-dot" id="dot-1"></span></p><div class="ans-parts">'
- +part('Problem 1 (a)','(a) 6 m = '+box('1a','Problem 1 a, centimeters','cm'))
- +part('Problem 1 (b)','(b) 5,450 cm = '+box('1b1','Problem 1 b, meters','m')+' '+box('1b2','Problem 1 b, centimeters','cm'))+'</div></div>'
+ +part('Problem 1 (a)','(a) 8 m = '+box('1a','Problem 1 a, centimeters','cm'))
+ +part('Problem 1 (b)','(b) 3,270 cm = '+box('1b1','Problem 1 b, meters','m')+' '+box('1b2','Problem 1 b, centimeters','cm'))+'</div></div>'
  +'<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Multiply lengths.</strong> <span class="saved-dot" id="dot-2"></span></p><div class="ans-parts">'
- +part('Problem 2 (a)','(a) 3 × 8 m = '+box('2a','Problem 2 a, meters','m'))
- +part('Problem 2 (b)','(b) 3 × 42 cm = '+box('2b','Problem 2 b, centimeters','cm'))+'</div></div>'
- +'<div class="q-block"><p class="q-text"><span class="q-num">3</span><strong>Word problem: Amy\'s juice.</strong> Amy bought 5 bottles of juice. Each bottle holds 650 mL. <span class="saved-dot" id="dot-3"></span></p><div class="ans-parts">'
+ +part('Problem 2 (a)','(a) 4 × 9 m = '+box('2a','Problem 2 a, meters','m'))
+ +part('Problem 2 (b)','(b) 3 × 35 cm = '+box('2b','Problem 2 b, centimeters','cm'))+'</div></div>'
+ +'<div class="q-block"><p class="q-text"><span class="q-num">3</span><strong>Word problem: Amy\'s juice.</strong> Amy bought 6 bottles of juice. Each bottle holds 450 mL. <span class="saved-dot" id="dot-3"></span></p><div class="ans-parts">'
  +part('Problem 3 (a) total mL','(a) How many milliliters in all? '+box('3a','Problem 3 a, milliliters','mL'))
  +part('Problem 3 (b) in L and mL','(b) Write that amount in liters and milliliters. '+box('3b1','Problem 3 b, liters','L')+' '+box('3b2','Problem 3 b, milliliters','mL'))+'</div></div>')
 i=s.find('<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Convert length.</strong>');j=s.find('<div class="activity bl-violet" id="mk-prove">',i);assert i>0 and j>i

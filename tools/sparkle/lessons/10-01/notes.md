@@ -6,5 +6,5 @@ Reference lesson for the kit (ported from the Oct 2026 mockup).
 - **Teacher's guide photos:** not used yet (Dimensions 4B, Chapter 10, Lesson 1). The four video scripts are **drafts until photos**; rerun the skill's § 2 and § 7 on this lesson when Bethany sends them.
 - **Not yet in the Dimensions shape:** the Math Crew card and its rule still sit on the Warm-Up (they give the rule before the Think). The skill's first run on 10.01 should move the Crew's methods to Learn.
 - **Numbers changed so no IP problem is solved on the page:** bottle 5,450 → 4,350 mL; cart 1 km − 300 m → 1 km − 400 m; bonus cups 250 mL → 200 mL.
-- **Show What You Know** still repeats IP 1(d) and IP 5 numbers (5,450 cm; 5 × 650 mL) — WARN, Bethany to decide.
-- The old YouTube welcome video (manifest `g4math-10-01`) still fills the Think slot until a new Think video is recorded (`welcomeSlot`). Add `"off":["think"]` to video.json to hide it.
+- **Show What You Know** uses new numbers (Bethany, 26 Oct 2026): 8 m, 3,270 cm, 4 × 9 m, 3 × 35 cm, 6 × 450 mL.
+- The old YouTube welcome video (manifest `g4math-10-01`) still fills the Think slot until a new Think video is recorded (`welcomeSlot`). Bethany (26 Oct 2026): keep old welcome videos in the Think slot until she records a new one (a new mp4 replaces it automatically).
