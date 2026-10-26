@@ -216,6 +216,23 @@ def main(code):
         out('WARN', '%d game windows; 3–5 keeps the page calm' % len(quests))
     out('ok', 'wiring: %d models, %d game windows' % (len(mounted), len(quests)))
 
+
+    # 8b helpers (the social studies set): hint ladders, writing help, defined words
+    boxes = [i for i in re.findall(r'<textarea class="journal-box"[^>]*id="([\w-]+)"', s) if 'readonly' not in re.search(r'<textarea[^>]*id="%s"[^>]*>' % i, s).group(0)]
+    wr = set(re.findall(r"'(journal-[\w-]+)':\{min:", lesson_js))
+    for b in boxes:
+        if b not in wr:
+            out('WARN', 'writing box #%s has no word counter / "Your answer needs" chips (PQ_LESSON.writing)' % b)
+    nq = len(re.findall(r'<div class="q-block">', tab(s, 'assignment')))
+    nh = len(re.findall(r"sel:'#tab-assignment \.q-block'", lesson_js))
+    if nh < nq:
+        out('WARN', '%d Show What You Know problems but %d hint ladders (PQ_LESSON.hints)' % (nq, nh))
+    for rung_set in re.findall(r"rungs:\[(.*?)\]\}", lesson_js, re.S):
+        if len(re.findall(r"'(?:[^'\\]|\\.)*'", rung_set)) != 3:
+            out('WARN', 'a hint ladder without exactly 3 rungs')
+    if not re.search(r"words:\[\{w:", lesson_js):
+        out('WARN', 'no new words defined in the sentence (PQ_LESSON.words)')
+    out('ok', 'helpers: %d writing boxes with chips, %d hint ladders, %d defined words' % (len(wr), len(re.findall(r'rungs:\[', lesson_js)), len(re.findall(r"\{w:'", lesson_js))))
     # 9 duplicates across the unit + lean budget
     words = len(vis.split())
     (out('WARN', 'about %d words on the page (budget ~%d)' % (words, VISIBLE_BUDGET)) if words > VISIBLE_BUDGET

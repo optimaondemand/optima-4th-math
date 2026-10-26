@@ -175,6 +175,50 @@ function slots(){
   window.addEventListener('blur',function(){setTimeout(function(){var a=document.activeElement;if(a&&a.tagName==='IFRAME'){var b=a.closest('.pq-vslot');if(b)earn('video-'+b.dataset.slot,0,10,b,'for watching your teacher');}},0);});
 }
 
+
+/* ───────── helpers students can choose (the social studies set) ───────── */
+/* 1. "Need a hint?" ladder: PQ_LESSON.hints = [{sel, i, rungs:[nudge, where to look, a start with different numbers]}] */
+function hints(){
+  (L.hints||[]).forEach(function(h,k){var c=$$(h.sel);if(h.text)c=c.filter(function(e){return e.textContent.indexOf(h.text)>=0;});var t=c[h.i||0];if(!t){fail('hint '+k,'no element '+h.sel+' #'+(h.i||0));return;}
+    var box=el('<div class="pq-hint" data-hint="'+k+'"><button type="button" class="pq-hint-btn">💡 Need a hint?</button><ol class="pq-hint-list" aria-live="polite"></ol></div>');
+    var at=h.after?$(h.after,t)||t:t;if(h.inside)at.appendChild(box);else at.parentNode.insertBefore(box,at.nextSibling);
+    var n=0,btn=$('.pq-hint-btn',box),list=$('.pq-hint-list',box),R=h.rungs;
+    btn.onclick=function(){if(n>=R.length)return;list.insertAdjacentHTML('beforeend','<li><b>Hint '+(n+1)+' of '+R.length+'.</b> '+R[n]+'</li>');n++;
+      btn.textContent=n<R.length?'💡 Another hint':'That\'s every hint';btn.disabled=n>=R.length;};
+  });
+}
+/* 2. writing help: PQ_LESSON.writing = {'<textarea id>': {min:10, chips:[{label, words:[…]}]}} → live word counter + "Your answer needs" chips */
+function norm(t){return ' '+String(t||'').toLowerCase().replace(/(\d),(?=\d{3})/g,'$1').replace(/[’']/g,"'").replace(/\s+/g,' ')+' ';}
+function hit(text,w){w=norm(w).trim();if(!w)return false;var esc2=w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(^|[^a-z0-9])'+esc2+'(?=[^a-z0-9]|$)').test(text);}
+function writing(){
+  var Wr=L.writing||{};Object.keys(Wr).forEach(function(id){var t=document.getElementById(id),cfg=Wr[id];if(!t){fail('writing','no box #'+id);return;}
+    var ui=el('<div class="pq-write"><span class="pq-count"></span>'+(cfg.chips&&cfg.chips.length?'<span class="pq-needs">Your answer needs:</span>'+cfg.chips.map(function(c,i){return '<span class="pq-chip" data-i="'+i+'">'+esc(c.label)+'</span>';}).join(''):'')+'</div>');
+    t.parentNode.insertBefore(ui,t.nextSibling);
+    function upd(){var v=t.value,n=(v.trim().match(/\S+/g)||[]).length,txt=norm(v),min=cfg.min||8;
+      var c=$('.pq-count',ui);c.textContent='📝 '+Math.min(n,min)+' of '+min+' words'+(n>=min?' ✓':n?'. Keep going…':'');c.classList.toggle('met',n>=min);
+      $$('.pq-chip',ui).forEach(function(ch){var C=cfg.chips[+ch.dataset.i];ch.classList.toggle('on',C.words.some(function(w){return hit(txt,w);}));});}
+    t.addEventListener('input',upd);setTimeout(upd,300);
+  });
+}
+/* 3. new words defined in the sentence, the first time a student meets them: PQ_LESSON.words = [{w, d}] (reading order) */
+var SKIP='script,style,textarea,input,button,select,svg,canvas,summary,.pq-slot,.pq-vslot,.mk-board-mount,[data-mk-model],.flip-card,.pq-def,.mk-tip-name,.header,.standards-panel,.gathered-box,.turn-in-card,.pq-hint,.pq-write';
+function defineWords(){
+  var root=$('.tab-panel')?$('.tab-panel').parentNode:document.body,scope=$$('.tab-panel');
+  (L.words||[]).forEach(function(W){
+    var re=new RegExp('\\b('+W.w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')\\b','i'),done=false;
+    scope.forEach(function(sc){if(done)return;
+      var tw=document.createTreeWalker(sc,NodeFilter.SHOW_TEXT,{acceptNode:function(n){var p=n.parentElement;return p&&!p.closest(SKIP)&&re.test(n.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT;}});
+      var n=tw.nextNode();if(!n)return;done=true;var m=n.nodeValue.match(re),i=n.nodeValue.search(re);
+      var after=n.splitText(i);after.nodeValue=after.nodeValue.slice(m[1].length);
+      var span=el('<span class="pq-def"><b>'+esc(m[1])+'</b> <span class="pq-def-m">('+esc(W.d)+')</span></span>');
+      n.parentNode.insertBefore(span,after);});
+    if(!done)fail('word','"'+W.w+'" not found on the page');
+  });
+  // the journal lists the words
+  var g=window.gatherAnswers;if(g&&(L.words||[]).length)window.gatherAnswers=function(){var r=g.apply(this,arguments);var o=document.getElementById('gatheredOutput');
+    if(o)o.value+='\nWords I learned today\n'+L.words.map(function(W){return '• '+W.w+': '+W.d;}).join('\n')+'\n';return r;};
+}
+
 function init(){
   L=window.PQ_LESSON;if(!L){fail('layer','no PQ_LESSON');return;}
   if(ls('oao.pq.clean',false))document.body.classList.add('pq-clean');
@@ -190,6 +234,9 @@ function init(){
   renderPouch(false);try{renderBoard();}catch(e){fail('board',e);}
   try{tips();}catch(e){fail('tips',e);}
   models();hooks();progress();
+  try{defineWords();}catch(e){fail('words',e);}
+  try{hints();}catch(e){fail('hints',e);}
+  try{writing();}catch(e){fail('writing',e);}
 }
 return {init:init,earn:earn,spend:spend,wallet:function(){return W;},saveWallet:function(){lsSet(KEY,W);renderPouch(true);},jobDone:jobDone,setJob:setJob,renderBoard:renderBoard,rankOf:rankOf,setClean:setClean,progress:progress};
 })();

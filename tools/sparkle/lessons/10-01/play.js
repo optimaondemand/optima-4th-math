@@ -37,6 +37,18 @@ await p.evaluate(()=>switchTab('warmup'));for(const [i,a] of [[0,'900'],[1,'250'
 const mm=await p.$$eval('.mm-p.ok',x=>x.length);console.log('mental math right:',mm);
 await p.evaluate(()=>switchTab('assignment'));await p.click('.ch-card summary');await p.fill('.ch-form input','10');await p.click('.ch-form button[type=submit]');const hint=await p.$eval('.ch-hint',e=>!e.hidden);await p.fill('.ch-form input','15');await p.click('.ch-form button[type=submit]');
 console.log('bonus: hint after miss',hint,'| done',await p.$eval('.ch-explain',e=>!e.hidden));
+// helpers: defined words, hint ladder, writing chips + counter
+const defs=await p.$$eval('.pq-def b',x=>x.map(e=>e.textContent));console.log('defined words:',defs.join(', '));
+await p.evaluate(()=>switchTab('assignment'));const hb='#tab-assignment .q-block:nth-of-type(1) .pq-hint-btn';
+for(let i=0;i<3;i++)await p.click('.pq-hint[data-hint="1"] .pq-hint-btn');const rungs=await p.$$eval('.pq-hint[data-hint="1"] li',x=>x.length);console.log('hint rungs shown:',rungs);
+await p.evaluate(()=>switchTab('warmup'));
+const chipsFor=async(id,txt)=>{await p.fill('#'+id,txt);await p.dispatchEvent('#'+id,'input');return p.$$eval('#'+id+' + .pq-write .pq-chip',x=>x.filter(e=>e.classList.contains('on')).length);};
+const nat=[['journal-r1','km and m, kg and g, and L and mL',3],['journal-think','because the unit is bigger so you need fewer of them like 500 cm is 5 m',3]];
+let chipsOK=true;for(const [id,t,want] of nat){const n=await chipsFor(id,t);console.log(id,'natural answer lights',n,'of',want);if(n<want-0)chipsOK=false;const j=await chipsFor(id,'idk');if(j>0){chipsOK=false;console.log(id,'junk lit',j);}}
+await p.evaluate(()=>switchTab('learn'));const ns=await chipsFor('journal-soc','1,000 mL make 1 L but only 100 cm make 1 m so the groups are different sizes');console.log('journal-soc lights',ns,'of 3');if(ns<3)chipsOK=false;
+const cnt=await p.$eval('#journal-soc + .pq-write .pq-count',e=>e.textContent);console.log('counter:',cnt);
+await p.evaluate(()=>gatherAnswers());const jw=(await p.$eval('#gatheredOutput',e=>e.value)).includes('Words I learned today');console.log('journal lists words:',jw);
+const helpersOK=defs.length===5&&rungs===3&&chipsOK&&jw&&cnt.includes('✓');console.log(helpersOK?'helpers ok':'HELPERS FAILED');
 const J=await p.evaluate(()=>PQ._state().world.jobs);const ok=['j1','j2','j3','j4','j5'].every(k=>J[k]);
 const P=await p.evaluate(()=>JSON.parse(localStorage.getItem('oao.pq.progress')||'{}'));console.log('progress',JSON.stringify(P.lessons&&P.lessons['4.10.01']));
-const f=await failed();console.log(ok&&mm===4&&!errs.length&&!f.length?'PLAY PASSED':'PLAY FAILED '+JSON.stringify(J)+errs.join('\n')+f.join('|'));await b.close();})();
+const f=await failed();console.log(ok&&helpersOK&&mm===4&&!errs.length&&!f.length?'PLAY PASSED':'PLAY FAILED '+JSON.stringify(J)+errs.join('\n')+f.join('|'));await b.close();})();

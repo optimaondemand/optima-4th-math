@@ -511,3 +511,20 @@ details.pq-intro .intro-2col{padding:0}
 .ans-part{font-size:17px;color:#0E1C42;font-weight:700;line-height:2}
 .ans-box{width:96px;font-family:'Nunito',sans-serif;font-size:18px;font-weight:800;text-align:center;color:#0E1C42;border:2px solid #CBD5E8;border-radius:10px;padding:4px 6px;margin:0 2px;background:#FAFBFF}
 .ans-box:focus{outline:none;border-color:#6B3FA0;box-shadow:0 0 0 3px rgba(107,63,160,.15)}
+
+/* ── helpers: hint ladder, writing help, defined words ── */
+.pq-hint{margin:8px 0 12px}
+.pq-hint-btn{font:800 14px 'Nunito',sans-serif;color:#7A5A00;background:#FFF6D8;border:2px dashed #C9A20F;border-radius:999px;padding:5px 14px;cursor:pointer}
+.pq-hint-btn:disabled{opacity:.6;cursor:default}
+.pq-hint-btn:focus-visible{outline:3px solid #55C8E8;outline-offset:2px}
+.pq-hint-list{margin:6px 0 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.pq-hint-list li{background:#FFFBEA;border-left:4px solid #C9A20F;border-radius:8px;padding:7px 12px;font-size:15px;color:#0E1C42;line-height:1.5}
+.pq-write{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0 10px;font-size:13px}
+.pq-count{font-weight:800;color:#8A5A00;margin-right:8px}
+.pq-count.met{color:#1E8C5A}
+.pq-needs{font-weight:800;color:#5E6C8C}
+.pq-chip{border:1.5px solid #CBD5E8;background:#F6F7FB;color:#5E6C8C;border-radius:999px;padding:2px 10px;font-weight:700}
+.pq-chip.on{border-color:#2DB87A;background:#E3F8ED;color:#1E6B45}
+.pq-chip.on::before{content:"✓ "}
+.pq-def b{color:#0E1C42;border-bottom:2px dotted #C56C3F}
+.pq-def-m{color:#6A4FA3;font-weight:700;font-size:.92em}

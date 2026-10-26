@@ -65,6 +65,16 @@ Quest ids must match the page's `game('…')` windows. 3–5 windows per lesson.
 `problem:{title, text, jobWord, jobsTitle}`, `jobs:[{id, t, w, go (selector), tab, coins}]` (4–5 jobs = the page activities),
 `scene(api)` → SVG of the problem's place that changes as jobs finish (optional), `intendedWrong:['2 L = 200 mL', …]`
 (story mistakes on purpose, so the math check doesn't fail them), `models:{name: bind(fn)}`.
+
+**Helpers students can choose** (the social studies set, in every lesson):
+- `hints:[{sel, i, text, inside, rungs:[3]}]` → a "💡 Need a hint?" button after (or `inside`) the element; each tap shows the
+  next rung: 1 a nudge, 2 the fact or picture they need *right there* (never "go back"), 3 a start with **different numbers**
+  (never the problem's or the IP's). One ladder per Show What You Know problem + one on the Think problem.
+- `writing:{'<textarea id>': {min, chips:[{label, words:[…]}]}}` → a live "📝 6 of 10 words" counter + "Your answer needs" chips
+  that light as the student writes. Write **wide** word lists (synonyms, numbers with and without commas, plain kid phrasing);
+  test 2 natural answers (should light every chip) and "idk" (lights none). Never a hidden requirement or a lock.
+- `words:[{w, d}]` → the first time a word appears in the tabs it becomes **word (meaning)** in the sentence; the journal
+  lists them under "Words I learned today". 3–6 words a lesson, the ones a 4th grader won't know.
 A model gets `(mount, api)`; `api` = `earn(key, coins, xp, el, label)`, `setJob(id, el)`, `jobDone(id)`, `state()`, `save()`,
 `fmt`, `ls`, `lsSet`, `clean()`, `renderBoard()`, `key('x')`.
 

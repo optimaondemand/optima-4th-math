@@ -437,6 +437,17 @@ return {
     {id:'j4',t:'Plan the delivery cart',w:'Learn · Delivery Cart',go:'#mk-cart',tab:'learn',r:'2deg',coins:6},
     {id:'j5',t:'Fix the Liter Well sign',w:'Show What You Know',go:'.pq-slot[data-quest="sign"]',tab:'assignment',r:'-1.5deg',coins:10}],
   scene:function(a){api=a;return standSVG();},
+  hints:[
+    {sel:'#tab-warmup .callout-think',text:'ribbon spool',rungs:['Millimeters to centimeters goes to a bigger unit. A bigger unit means you need fewer of them. Multiply or divide?','10 mm fill 1 cm, so the factor is 10. Then 100 cm fill 1 m, so that factor is 100.','Try a smaller one first: 80 mm ÷ 10 = 8 cm. Now do the same steps with 5,000 mm.']},
+    {sel:'#tab-assignment .q-block',i:0,inside:true,rungs:['Meters to centimeters is a step down the staircase, to a smaller unit. Down means multiply.','The factor for meters and centimeters is 100, because 100 cm = 1 m. For (b), go up to meters: divide by 100.','Here are different numbers: 5 m = 5 × 100 = 500 cm. And 1,460 cm is 14 whole meters (1,400 cm) with 60 cm left: 14 m 60 cm.']},
+    {sel:'#tab-assignment .q-block',i:1,inside:true,rungs:['These are multiplication problems. You are not changing units.','Multiply the numbers, then write the same unit after your answer.','Here are different numbers: 2 × 7 m = 14 m, and 4 × 15 cm = 60 cm.']},
+    {sel:'#tab-assignment .q-block',i:2,inside:true,rungs:['Every bottle holds the same amount. To find the total, multiply.','For (b), 1,000 mL make 1 L. Count the whole thousands in your total for liters. What\'s left is milliliters.','Here are different numbers: 3 × 400 mL = 1,200 mL. That\'s 1 L and 200 mL more, so 1 L 200 mL.']}],
+  writing:{
+    'journal-r1':{min:6,chips:[{label:'meters and kilometers',words:['km','kilometer','kilometers','kilometre']},{label:'grams and kilograms',words:['kg','kilogram','kilograms','gram','grams']},{label:'milliliters and liters',words:['ml','milliliter','milliliters','liter','liters','litre','l and ml','ml and l']}]},
+    'journal-think':{min:10,chips:[{label:'the unit gets bigger',words:['bigger','larger','big','large','longer','greater','grows']},{label:'you need fewer of them',words:['fewer','less','not as many','smaller number','fewer of','takes less','need less','lower']},{label:'an example',words:['mm','cm','m','5000','500','5','meter','meters','centimeter','centimeters','millimeter','millimeters']}]},
+    'journal-soc':{min:12,chips:[{label:'1,000 mL in 1 L',words:['1000','thousand']},{label:'100 cm in 1 m',words:['100','hundred']},{label:'how many fit',words:['fit','fits','fill','fills','make','makes','in one','in 1','equal','equals','=','are in','go into','goes into','is the same as']}]}},
+  words:[{w:'metric',d:'the measuring system that uses 10, 100 and 1,000, like meters, grams and liters'},{w:'convert',d:'change a measurement into a different unit without changing the amount'},
+    {w:'mass',d:'how heavy something is'},{w:'volume',d:'how much space something takes up, like the juice in a jug'},{w:'factor',d:'the number you multiply or divide by to change units'}],
   intendedWrong:['2 L = 200 mL','2 L is 200 mL'],
   models:{stamps:bind(modelStamps),builder:bind(modelBuilder),bottle:bind(modelBottle),cart:bind(modelCart),prove:bind(modelProve),mental:bind(modelMental),bonus:bind(modelBonus),cleanSign:bind(modelCleanSign)}
 };
