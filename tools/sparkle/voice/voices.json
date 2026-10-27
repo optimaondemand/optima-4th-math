@@ -1,12 +1,10 @@
 {
- "_note": "ElevenLabs voice id for each character, shared by every G4 math lesson. Empty = that character keeps the sprite garble (Bethany, 27 Oct 2026: voice only the year-long cast + key level characters).",
+ "_note": "ElevenLabs voice ids shared by every G4 math lesson. Year-long cast: opti, atlas, felix, hazel, cora, smudge. A level's key characters reuse secondary_man / secondary_woman (map them in _cast). Anyone else keeps the sprite garble.",
  "opti": "WdZjiN0nNcik2LBjOHiv",
  "atlas": "xCyfAutjCrYQhbBDS4l8",
  "felix": "s3TPKV1kjDlVtZbl4Ksh",
  "hazel": "TmK7x2BFDD7TOVlR69J2",
  "cora": "gJx1vCzNCD1EQHT212Ls",
- "amy": "WtA85syCrJwasGeHGH2p",
- "mo": "UpphzPau5vxibPYV2NeV",
  "millie": "",
  "penny": "",
  "smudge": "03UxGYCWKFAlC28C7ugZ",
@@ -17,5 +15,11 @@
   "sign",
   "item-plank",
   "item-sack"
- ]
+ ],
+ "secondary_man": "pwMBn0SsmN1220Aorv15",
+ "secondary_woman": "yK2Ny0mq8WplixhD1td3",
+ "_cast": {
+  "mo": "secondary_man",
+  "amy": "secondary_woman"
+ }
 }

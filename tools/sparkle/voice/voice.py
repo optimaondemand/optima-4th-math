@@ -38,9 +38,14 @@ def lines(code):
     return out
 
 def speaker(who):
+    """The voice key for a speaker: a cast member, a key character mapped in _cast, or the narrator; None = sprite garble."""
+    if who in VOICES.get('_cast', {}): return who
     if who in VOICES and not who.startswith('_'): return who if VOICES[who] else None
     if who in VOICES.get('_narrated', []) and VOICES.get('narrator'): return 'narrator'
-    return None   # 'me' (the student) and anyone without a voice keep the sprite garble                                               # 'me' (the student) stays silent
+    return None   # 'me' (the student) and anyone without a voice keep the sprite garble
+
+def voice_id(sp):
+    return VOICES.get(VOICES.get('_cast', {}).get(sp, sp), '')
 
 UNITS = {'mm': 'millimeter', 'cm': 'centimeter', 'km': 'kilometer', 'm': 'meter', 'mL': 'milliliter', 'L': 'liter',
          'kg': 'kilogram', 'g': 'gram', 'in': 'inch', 'ft': 'foot', 'yd': 'yard', 'mi': 'mile', 'lb': 'pound', 'oz': 'ounce'}
@@ -62,7 +67,7 @@ def cmd_lines(code):
     for l in L:
         sp = speaker(l['who'])
         if sp: by.setdefault(sp, []).append(l)
-    plan = {sp: {'voice_id': VOICES.get(sp, ''), 'lines': ls,
+    plan = {sp: {'voice_id': voice_id(sp), 'lines': ls,
                  'prompt': ' <break time="1.5s" /> '.join(spoken(l['t']) for l in ls)} for sp, ls in by.items()}
     json.dump(plan, open(os.path.join(REPO, 'tools/sparkle/lessons', code, 'voice-lines.json'), 'w', encoding='utf8'), ensure_ascii=False, indent=1)
     for sp, p in plan.items():
