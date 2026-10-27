@@ -77,7 +77,7 @@ s=s[:i]+(video('learn')+CREW
    tip('felix','1 L = 1,000 mL. So 10 pieces of 100 mL make 1 L. Watch the milliliters when you add.')+model('juice'),cls='bl-violet'))+s[kend:]
 
 # ── F. Metric Chart → Market Measures Board (staircase review + the two ways)
-stairs=('<svg viewBox="0 0 640 250" class="mk-svg" role="img" aria-label="Staircase: kilometer at the top, then meter, centimeter, millimeter. Going down, multiply by 1,000, 100, 10. Going up, divide."><rect width="640" height="250" rx="12" fill="#FFF8EF"/>')
+stairs=('<svg viewBox="0 0 640 250" class="mk-svg" role="img" aria-label="Staircase: kilometer at the top, then meter, centimeter, millimeter. Going down, multiply by 1,000, 100, 10. Going up, regroup."><rect width="640" height="250" rx="12" fill="#FFF8EF"/>')
 steps=[('km','kilometer','#6B3FA0'),('m','meter','#3A6B9A'),('cm','centimeter','#2DB87A'),('mm','millimeter','#E07B39')]
 fac=['×1,000','×100','×10']
 for n,(u,name,col) in enumerate(steps):
@@ -88,12 +88,12 @@ for n,(u,name,col) in enumerate(steps):
         stairs+='<path d="M%d %d q34 0 40 34" fill="none" stroke="#C56C3F" stroke-width="3.5" marker-end="url(#mkar)"/><text x="%d" y="%d" font-family="Nunito" font-weight="900" font-size="15" fill="#C56C3F">%s</text>'%(x+92,y-6,x+112,y-10,fac[n])
 stairs+='<defs><marker id="mkar" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#C56C3F"/></marker></defs>'
 stairs+='<text x="520" y="40" text-anchor="middle" font-family="DotGothic16,Nunito" font-weight="400" font-size="15" fill="#3B2417">DOWN the stairs:</text><text x="520" y="60" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="14" fill="#C56C3F">smaller unit → multiply</text>'
-stairs+='<text x="520" y="88" text-anchor="middle" font-family="DotGothic16,Nunito" font-weight="400" font-size="15" fill="#3B2417">UP the stairs:</text><text x="520" y="108" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="14" fill="#3A6B9A">bigger unit → divide</text></svg>'
+stairs+='<text x="520" y="88" text-anchor="middle" font-family="DotGothic16,Nunito" font-weight="400" font-size="15" fill="#3B2417">UP the stairs:</text><text x="520" y="108" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="14" fill="#3A6B9A">bigger unit → regroup</text><text x="520" y="126" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="12" fill="#3A6B9A">every 100 cm makes 1 m</text></svg>'
 replace_block('<div class="key-concept" style="margin-top:16px;"><div class="key-concept-label">📐 The Metric Chart',
  '<div class="key-concept" id="mk-board-kc" style="margin-top:16px;"><div class="key-concept-label">📐 The Market Measures Board</div>'+stairs+
  '<p><strong>Length:</strong> 10 mm = 1 cm. 100 cm = 1 m. 1,000 m = 1 km.</p><p><strong>Mass:</strong> 1,000 g = 1 kg. (Millie\'s flour)</p><p><strong>Capacity:</strong> 1,000 mL = 1 L. (Amy\'s juice jugs)</p>'
  '<p><strong>Two units at once?</strong> Pick a way. <em>Split:</em> work on each unit, then regroup. <em>One unit:</em> change it all to the small unit, work, then change back.</p>'
- +tip('cora','Exact words: <b>regroup</b> means trading small units for a big one (100 cm for 1 m) or a big one for small ones (1 kg for 1,000 g).')+'</div><div class="pq-vslot" data-slot="do"></div>')
+ +tip('cora','Exact words: <b>regroup</b> means trading small units for a big one (100 cm for 1 m) or a big one for small ones (1 kg for 1,000 g).')+'</div><div class="pq-vslot" data-slot="do"></div><!--WE-->')
 
 # ── G. Picture It → Millie's flour (Story Bar Model, subtracting two-unit amounts)
 pic_start='<div class="activity bl-violet" style="margin-top:16px;"><div class="activity-head">'
@@ -112,14 +112,15 @@ WE=('<div class="activity bl-slate" id="mk-worked"><div class="activity-head"><d
  '<div class="we-way"><h5>One unit first (Felix)</h5><ol><li>Change: 3 m 20 cm = 320 cm. 1 m 45 cm = 145 cm.</li><li>Subtract: 320 cm − 145 cm = 175 cm.</li><li>Change back: 175 cm = <b>1 m 75 cm</b>.</li></ol></div></div>'
  '<p style="margin:8px 0;font-weight:700;color:#3A4A6B;">Check (Cora): 1 m 75 cm + 1 m 45 cm = 2 m 120 cm = 3 m 20 cm ✓</p>')
 ONEPIC=("<div class=\"key-concept pq-onepic\" style=\"margin-top:14px;\"><div class=\"key-concept-label\">⚖️ The Whole Lesson in One Picture</div>"
- "<div class=\"op-grid\"><figure class=\"op-stairs\"><svg viewBox=\"0 0 300 196\" role=\"img\" aria-label=\"Metric staircase: kilometer, meter, centimeter, millimeter. Going down a step you multiply by 1,000, then 100, then 10.\">"
+ "<div class=\"op-grid\"><figure class=\"op-stairs\"><svg viewBox=\"0 0 300 196\" role=\"img\" aria-label=\"Metric staircase: kilometer, meter, centimeter, millimeter. Going down a step you multiply by 1,000, then 100, then 10. Going up, you regroup.\">"
  +''.join('<rect x="%d" y="%d" width="74" height="%d" fill="%s" stroke="#3B2417" stroke-width="2.5"/><text x="%d" y="%d" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="17" fill="#0E1C42">%s</text>'%(4+i*74,14+i*42,180-i*42,c,41+i*74,40+i*42,u) for i,(u,c) in enumerate([('km','#FCE7C8'),('m','#FDEFD9'),('cm','#FFF6E8'),('mm','#FFFBF3')]))
  +''.join('<rect x="%d" y="%d" width="62" height="20" rx="10" fill="#C56C3F"/><text x="%d" y="%d" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="14" fill="#fff">%s</text>'%(10+(i+1)*74,(i+1)*42-14,41+(i+1)*74,(i+1)*42+1,f) for i,f in enumerate(['×1,000','×100','×10']))
- +"</svg><figcaption><span class=\"op-dn\">⬇ Down to a smaller unit: <b>multiply</b></span><span class=\"op-up\">⬆ Up to a bigger unit: <b>divide</b></span></figcaption></figure>"
+ +"</svg><figcaption><span class=\"op-dn\">⬇ Down to a smaller unit: <b>multiply</b></span><span class=\"op-up\">⬆ Up to a bigger unit: <b>regroup</b> (100 cm → 1 m)</span></figcaption></figure>"
  "<div class=\"op-ex\"><div class=\"op-h\" style=\"margin-bottom:6px\">2 × 1 m 70 cm, two ways</div>"
  "<div class=\"op-card\"><div class=\"op-h\">Split, then regroup</div><p>2 × 1 m = 2 m. 2 × 70 cm = 140 cm.</p><div class=\"op-eq\">2 m 140 cm = <b>3 m 40 cm</b></div></div>"
  "<div class=\"op-card\"><div class=\"op-h\">One unit first</div><p>1 m 70 cm = 170 cm. 2 × 170 cm = 340 cm.</p><div class=\"op-eq\">340 cm = <b>3 m 40 cm</b></div></div></div></div></div>")
-s=s[:i]+WE+ONEPIC+'</div></div>'+s[j:]
+s=s[:i]+ONEPIC+s[j:]
+s=s.replace('<!--WE-->',WE+'</div></div>',1)  # worked example right after the Do video, before Millie's Flour
 
 # ── I. Show What You Know: tips, per-part answer boxes, bonus, prove it, final quest
 for a,b in [('<div class="activity-sub">For each problem, convert between metric units. Show your work.</div>','<div class="activity-sub">Type each answer in its own box.</div>'),

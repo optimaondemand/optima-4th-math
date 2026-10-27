@@ -275,6 +275,7 @@ function barModel(m,cfg){
           if(vs.some(function(x){return x==null;})){say('Type a number in each box.','hint');return;}
           var rate=cfg.rate||100;v=vs[0]*rate+vs[1];var want=cfg.answer[0]*rate+cfg.answer[1];
           ok=vs[0]===cfg.answer[0]&&vs[1]===cfg.answer[1];
+          if(!ok&&v===want&&cfg.anyForm){st.answered=true;save();snd.done();say(cfg.anyFormText||cfg.doneText||'Yes! That is the right amount.','good');render();if(cfg.onDone&&!st.fired){st.fired=1;save();cfg.onDone(m);}return;}
           if(!ok&&v===want){snd.no();say('That\'s the right amount! But '+fmt(vs[1])+' '+U[1]+' is '+fmt(rate)+' '+U[1]+' or more. Can you trade '+fmt(rate)+' '+U[1]+' for 1 '+U[0]+'?','hint');return;}}
         else{v=num(inp.value);st.ans=inp.value;save();
           if(v==null){say('Type a number first.','hint');return;}

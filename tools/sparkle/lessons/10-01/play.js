@@ -19,8 +19,7 @@ ok(await p.$$eval('.mm-p.ok',x=>x.length)===4,'mental math: make 100, 4 right');
 const T='#mk-think';for(const i of [1,3,5]){await p.click(`${T} .bm-fact[data-i="${i}"]`);await p.click(`${T} .bm-seg[data-seg="p${(i-1)/2}"]`);}
 const tb=async(mv,cv)=>{const I=await p.$$(`${T} .bm-form input`);await I[0].fill(mv);await I[1].fill(cv);await p.click(`${T} .bm-form button`);};
 await tb('1','95');ok((await msg(`${T} .ok-msg`)).includes('1 m in it'),'think: 1 m 95 cm (195 cm) gets the "forgot the meters" hint');
-await tb('3','195');ok((await msg(`${T} .ok-msg`)).includes('right amount'),'think: 3 m 195 cm gets the "can you trade?" nudge');
-await tb('4','95');ok((await p.$eval(`${T} .ok-msg`,e=>e.className)).includes('good'),'think: 4 m 95 cm accepted');
+await tb('0','495');ok((await p.$eval(`${T} .ok-msg`,e=>e.className)).includes('good')&&(await msg(`${T} .ok-msg`)).includes('4 m 95 cm'),'think: 0 m 495 cm (all centimeters) accepted before Learn, any method');
 // ── planks quest
 await p.evaluate(()=>PQ._play('planks'));await p.waitForTimeout(600);await drain();
 for(const [x,y,k] of [[11,17,'ArrowDown'],[1,5,'ArrowUp'],[29,8,'ArrowDown']]){await p.evaluate(([x,y])=>PQ._tp(x,y,'down'),[x,y]);if(x==29){await p.evaluate(()=>PQ._tp(29,6,'down'));}await p.keyboard.down(k);await p.waitForTimeout(140);await p.keyboard.up(k);await p.waitForTimeout(400);await drain();}

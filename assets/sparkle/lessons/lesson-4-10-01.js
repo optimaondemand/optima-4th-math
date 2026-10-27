@@ -369,7 +369,7 @@ function standSVG(){S=api.state();
 }
 function svgBead(){var s='<svg viewBox="0 0 170 64" class="mk-svg" style="max-width:190px" aria-hidden="true"><rect x="10" y="10" width="150" height="26" rx="3" fill="#FFF3DE" stroke="#3B2417" stroke-width="2.5"/>';
   for(var i=0;i<10;i++)s+='<rect x="'+(13+i*14.6)+'" y="14" width="11" height="18" rx="3" fill="'+(i%2?'#F5C518':'#F2A93B')+'" stroke="#3B2417" stroke-width="1.5"/>';
-  return s+'<path d="M10 44v6M160 44v6M10 47h150" stroke="#C56C3F" stroke-width="2"/><text x="85" y="61" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="11" fill="#5B2E10">1 cm of beads, zoomed in</text></svg>';}
+  return s+'<path d="M10 44v6M160 44v6M10 47h150" stroke="#C56C3F" stroke-width="2"/><text x="85" y="61" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="11" fill="#5B2E10">1 cm · each bead = 1 mm</text></svg>';}
 function svgStick(){var s='<svg viewBox="0 0 170 64" class="mk-svg" style="max-width:190px" aria-hidden="true"><rect x="8" y="12" width="154" height="20" rx="2" fill="#F5C518" stroke="#3B2417" stroke-width="2.5"/>';
   for(var i=0;i<=100;i++){var x=10+i*1.5;s+='<path d="M'+x.toFixed(1)+' 12v'+(i%10===0?10:4)+'" stroke="#3B2417" stroke-width="'+(i%10===0?1.4:.6)+'"/>';}
   s+='<path d="M10 22 q20 14 40 2 t40 2 t40 -2 t30 4" fill="none" stroke="#E04F6A" stroke-width="4"/>';
@@ -381,7 +381,7 @@ function svgRoad(){var s='<svg viewBox="0 0 170 64" class="mk-svg" style="max-wi
 function modelStamps(m){
   OAOKit.stamps(m,{key:'g4-4-10-01-mk-stamps',
     todo:['Look at each picture. How many of the small unit fit inside the big one? Skip-count when a piece is bigger than 1.','Drag a stamp onto the sign it matches, or tap a stamp and then tap the sign.'],
-    signs:[{id:'mmcm',stall:'Bead stall',q:'How many mm fit in 1 cm?',ans:'×10',svg:svgBead()},
+    signs:[{id:'mmcm',stall:'Bead stall',q:'Each bead is 1 millimeter (mm), a tiny unit. How many mm fit in 1 cm?',ans:'×10',svg:svgBead()},
            {id:'cmm',stall:'Ribbon stall',q:'How many cm fit in 1 m?',ans:'×100',svg:svgStick()},
            {id:'mkm',stall:'Market road',q:'How many m fit in 1 km?',ans:'×1,000',svg:svgRoad()}],
     stamps:['×10','×100','×1,000'],
@@ -396,10 +396,11 @@ function modelThink(m){
     story:['Mo lays 3 planks end to end for Amy\'s counter. ',{t:'The first plank is 1 m 65 cm.',put:'p0',label:PLANK.label},' ',{t:'The second plank is the same length.',put:'p1',label:PLANK.label},' ',{t:'So is the third.',put:'p2',label:PLANK.label},' How long is the counter?'],
     whole:{name:'counter',unknown:true},partsName:'planks',
     parts:[{id:'p0',value:165,name:'plank 1'},{id:'p1',value:165,name:'plank 2'},{id:'p2',value:165,name:'plank 3'}],
-    question:'How long is the counter?',answer:[4,95],
+    question:'How long is the counter? Use the boxes your way. (Worked in centimeters only? Put 0 in the m box.)',answer:[4,95],anyForm:true,
+    anyFormText:'Yes! That\'s the whole counter. On the Learn tab, the Math Crew shows two ways to get there, and how to write it as 4 m 95 cm.',
     mistakes:[{value:195,text:'That\'s only the centimeter parts: 3 × 65 cm. Each plank also has 1 m in it.'},
               {value:365,text:'That\'s 3 m and only 65 cm. Each plank has 65 cm, so the centimeters need 3 times, too.'}],
-    hint:'1 m = 100 cm, so each plank is 165 cm. The counter is 3 planks long.',
+    hint:'Look at the bar: 3 equal planks. Every plank has meters AND centimeters. Add all 3, or multiply one plank by 3.',
     sym:'1 m 65 cm + 1 m 65 cm + 1 m 65 cm = 4 m 95 cm',
     doneText:'Yes! 4 m 95 cm. On the Learn tab, the Math Crew shows two ways to get there.',
     onDone:function(root){earn('think',4,4,root,'You tried it first!');}});
@@ -495,7 +496,7 @@ return {
     {id:'j5',t:'Fix the Liter Well sign',w:'Show What You Know',go:'.pq-slot[data-quest="sign"]',tab:'assignment',r:'-1.5deg',coins:10}],
   scene:function(a){api=a;return standSVG();},
   hints:[
-    {sel:'#mk-think .callout-think',rungs:['Each plank is 1 m 65 cm, and the counter is 3 planks long. You can add the planks or multiply by 3.','1 m = 100 cm. So one plank is 100 cm + 65 cm.','Here are different numbers: 2 shelves of 1 m 20 cm are 2 × 120 cm = 240 cm.']},
+    {sel:'#mk-think .callout-think',rungs:['Each plank is 1 m 65 cm, and the counter is 3 planks long. You can add the planks or multiply by 3.','Picture the 3 planks in a row. Every plank has 1 m and 65 cm. Use any way you like to add them all up.','Here are different numbers: 2 ribbons are each 1 m 10 cm. Together they are 2 m and 20 cm.']},
     {sel:'#tab-assignment .q-block',i:0,inside:true,rungs:['Meters to centimeters is a step down to a smaller unit, so multiply. For (b), how many whole meters fit in 3,270 cm?','100 cm = 1 m. Every 100 cm makes 1 whole meter. What is left over stays in centimeters.','Here are different numbers: 6 m = 6 × 100 = 600 cm. And 1,480 cm is 14 m 80 cm, because 1,400 cm makes 14 whole meters.']},
     {sel:'#tab-assignment .q-block',i:1,inside:true,rungs:['Pick a way: split the meters and centimeters, or change everything to centimeters first.','If the centimeters reach 100 or more, regroup: 100 cm = 1 m.','Here are different numbers: 1 m 60 cm + 1 m 70 cm = 2 m 130 cm = 3 m 30 cm. And 2 × 1 m 55 cm = 2 m 110 cm = 3 m 10 cm.']},
     {sel:'#tab-assignment .q-block',i:2,inside:true,rungs:['Every bottle holds the same amount. To find the total, multiply.','For (b), 1,000 mL = 1 L. Count the whole thousands for liters. What is left is milliliters.','Here are different numbers: 3 × 400 mL = 1,200 mL. That is 1 L and 200 mL more: 1 L 200 mL.']},
@@ -504,7 +505,7 @@ return {
     'journal-r1':{min:6,chips:[{label:'meters and kilometers',words:['km','kilometer','kilometers','kilometre']},{label:'grams and kilograms',words:['kg','kilogram','kilograms','gram','grams']},{label:'milliliters and liters',words:['ml','milliliter','milliliters','liter','liters','litre','l and ml','ml and l']}]},
     'journal-think':{min:10,chips:[{label:'one plank\'s length',words:['165','1 m 65','1m 65','65 cm','65','one plank','each plank']},{label:'3 planks',words:['3','three','times','×','x 3','plus','+','add','added','adding','multiply','multiplied']},{label:'your answer',words:['495','4 m 95','4m 95','4 m and 95']}]},
     'journal-soc':{min:12,chips:[{label:'6 kg is 6,000 g',words:['6000','6,000','thousand','1000','1,000']},{label:'the right amount',words:['6005','6,005']},{label:'why 65 g is wrong',words:['zero','zeros','0','too small','way less','much less','tiny','place','places','wrong','not right','isnt','isn\'t','not 65','not the same']}]}},
-  words:[{w:'metric',d:'the measuring system that uses 10, 100 and 1,000, like meters, grams and liters'},{w:'factor',d:'the number you multiply or divide by to change units'},
+  words:[{w:'metric',d:'the measuring system that uses 10, 100 and 1,000, like meters, grams and liters'},{w:'factor',d:'the number you multiply by to change to a smaller unit, like ×100 for meters to centimeters'},
     {w:'regroup',d:'trade small units for a bigger one, like 100 cm for 1 m'},{w:'mass',d:'how heavy something is'},{w:'capacity',d:'how much a container can hold'}],
   intendedWrong:['2 L = 200 mL','2 L is 200 mL','6 kg 5 g is the same as 65 g'],
   intro:{card:false,len:7.7,
