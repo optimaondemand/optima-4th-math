@@ -46,6 +46,9 @@ def main(code):
     data_rel = 'assets/sparkle/lessons/lesson-4-%s-%s.js' % (uu, ll)
     data = '/* built by tools/sparkle/build_lesson.py from tools/sparkle/lessons/%s — edit there, not here */\n' % code
     data += 'window.PQ_VIDEO=' + json.dumps(video, ensure_ascii=False) + ';\n' + lesson_js
+    vpath = os.path.join(d, 'voice.json')   # written by tools/sparkle/voice/voice.py once the character clips exist
+    if os.path.exists(vpath):
+        data += '\nPQ_DATA.voice=' + json.dumps(json.load(open(vpath, encoding='utf8')), ensure_ascii=False) + ';\n'
     open(os.path.join(REPO, data_rel), 'w', encoding='utf8').write(data)
     os.makedirs(os.path.join(REPO, 'data', 'videos'), exist_ok=True)
     json.dump(video, open(os.path.join(REPO, 'data', 'videos', 'lesson-%s-%s.json' % (uu, ll)), 'w', encoding='utf8'),

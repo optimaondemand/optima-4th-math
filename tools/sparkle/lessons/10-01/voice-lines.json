@@ -1,0 +1,315 @@
+{
+ "mo": {
+  "voice_id": "UpphzPau5vxibPYV2NeV",
+  "lines": [
+   {
+    "who": "mo",
+    "t": "Hi! I'm Mo. I build things around town. Today I'm building Amy's counter.",
+    "key": "52394fa0"
+   },
+   {
+    "who": "mo",
+    "t": "But the Smudge blew my 3 planks all over the market. Each one is 1 m 65 cm long.",
+    "key": "32269e8a"
+   },
+   {
+    "who": "mo",
+    "t": "Look for anything that sparkles, {name}. Walk right onto it to pick it up.",
+    "key": "23670ef0"
+   },
+   {
+    "who": "mo",
+    "t": "All 3 planks! Thank you, {name}.",
+    "key": "527f500d"
+   },
+   {
+    "who": "mo",
+    "t": "Each one is 1 m 65 cm. Laid end to end, how long will Amy's counter be?",
+    "key": "faa0a631"
+   },
+   {
+    "who": "mo",
+    "t": "Work it out on the Two-Unit Mat on the Learn tab. Then come back and tell me.",
+    "key": "ea503017"
+   },
+   {
+    "who": "mo",
+    "t": "Type the length in centimeters, then press OK.",
+    "key": "c3d16308"
+   },
+   {
+    "who": "mo",
+    "t": "495 cm! That's 4 m 95 cm. Same as on your mat.",
+    "key": "4442627a"
+   },
+   {
+    "who": "mo",
+    "t": "Stand back. Counter time!",
+    "key": "f6b71426"
+   },
+   {
+    "who": "mo",
+    "t": "You built the counter on the mat? Then you're just the helper I need.",
+    "key": "df0c25b2"
+   },
+   {
+    "who": "mo",
+    "t": "My saw only shows centimeters.",
+    "key": "e5a55c83"
+   },
+   {
+    "who": "mo",
+    "t": "How many centimeters long is the whole counter?",
+    "key": "3dbb8c7c"
+   },
+   {
+    "who": "mo",
+    "t": "That counter came out just right. 4 m 95 cm, measured twice!",
+    "key": "69bcd6ea"
+   },
+   {
+    "who": "mo",
+    "t": "I'm Mo. I build things around town. Wood comes in meters and centimeters, but my saw reads only centimeters. Tricky!",
+    "key": "07af9d5f"
+   }
+  ],
+  "prompt": "Hi! I'm Mo. I build things around town. Today I'm building Amy's counter. <break time=\"1.5s\" /> But the Smudge blew my 3 planks all over the market. Each one is 1 meter 65 centimeters long. <break time=\"1.5s\" /> Look for anything that sparkles, explorer. Walk right onto it to pick it up. <break time=\"1.5s\" /> All 3 planks! Thank you, explorer. <break time=\"1.5s\" /> Each one is 1 meter 65 centimeters. Laid end to end, how long will Amy's counter be? <break time=\"1.5s\" /> Work it out on the Two-Unit Mat on the Learn tab. Then come back and tell me. <break time=\"1.5s\" /> Type the length in centimeters, then press OK. <break time=\"1.5s\" /> 495 centimeters! That's 4 meters 95 centimeters. Same as on your mat. <break time=\"1.5s\" /> Stand back. Counter time! <break time=\"1.5s\" /> You built the counter on the mat? Then you're just the helper I need. <break time=\"1.5s\" /> My saw only shows centimeters. <break time=\"1.5s\" /> How many centimeters long is the whole counter? <break time=\"1.5s\" /> That counter came out just right. 4 meters 95 centimeters, measured twice! <break time=\"1.5s\" /> I'm Mo. I build things around town. Wood comes in meters and centimeters, but my saw reads only centimeters. Tricky!"
+ },
+ "amy": {
+  "voice_id": "WtA85syCrJwasGeHGH2p",
+  "lines": [
+   {
+    "who": "amy",
+    "t": "{name}! My counter is built and my juice orders are ready. But I can't sell anything with that wrong sign on the well.",
+    "key": "7f9d320b"
+   },
+   {
+    "who": "amy",
+    "t": "Is that flour from Millie? 6,005 g of it! Thank you, {name}.",
+    "key": "5bcd3613"
+   },
+   {
+    "who": "amy",
+    "t": "Now I can bake muffins to sell with my juice.",
+    "key": "5fca8a13"
+   },
+   {
+    "who": "amy",
+    "t": "Fresh juice and warm muffins! Thanks for everything, {name}!",
+    "key": "932424c2"
+   },
+   {
+    "who": "amy",
+    "t": "I don't even have a counter yet. Mo the builder is working on it.",
+    "key": "85e0f653"
+   },
+   {
+    "who": "amy",
+    "t": "Nice counter, right? Now I have two juice orders to add up: 2 L 750 mL and 1 L 400 mL. That's the Juice Orders job.",
+    "key": "a7c9a395"
+   },
+   {
+    "who": "amy",
+    "t": "Millie is bringing flour for my muffins. Can you help her with her sack? That's Millie's Flour on the Learn tab.",
+    "key": "4c71204a"
+   },
+   {
+    "who": "amy",
+    "t": "Almost ready. I just need that Liter Well sign fixed so people trust my measures.",
+    "key": "b92f12e0"
+   },
+   {
+    "who": "amy",
+    "t": "Clean water and the right measures. Market Day is ON! My stand is OPEN!",
+    "key": "9ea0755e"
+   },
+   {
+    "who": "amy",
+    "t": "My counter! It's perfect. Next I need my two juice orders added up. That's the Juice Orders job on the Learn tab.",
+    "key": "f1e1e416"
+   }
+  ],
+  "prompt": "Explorer! My counter is built and my juice orders are ready. But I can't sell anything with that wrong sign on the well. <break time=\"1.5s\" /> Is that flour from Millie? 6,005 grams of it! Thank you, explorer. <break time=\"1.5s\" /> Now I can bake muffins to sell with my juice. <break time=\"1.5s\" /> Fresh juice and warm muffins! Thanks for everything, explorer! <break time=\"1.5s\" /> I don't even have a counter yet. Mo the builder is working on it. <break time=\"1.5s\" /> Nice counter, right? Now I have two juice orders to add up: 2 liters 750 milliliters and 1 liter 400 milliliters. That's the Juice Orders job. <break time=\"1.5s\" /> Millie is bringing flour for my muffins. Can you help her with her sack? That's Millie's Flour on the Learn tab. <break time=\"1.5s\" /> Almost ready. I just need that Liter Well sign fixed so people trust my measures. <break time=\"1.5s\" /> Clean water and the right measures. Market Day is ON! My stand is OPEN! <break time=\"1.5s\" /> My counter! It's perfect. Next I need my two juice orders added up. That's the Juice Orders job on the Learn tab."
+ },
+ "smudge": {
+  "voice_id": "03UxGYCWKFAlC28C7ugZ",
+  "lines": [
+   {
+    "who": "smudge",
+    "t": "Heh heh heh. Don't touch my sign. It's PERFECT. 2 L is 200 mL. Everybody knows that!",
+    "key": "2ae5ddd3"
+   },
+   {
+    "who": "smudge",
+    "t": "Go ahead. Try to fix my sign. You can't!",
+    "key": "e2b1eb08"
+   },
+   {
+    "who": "smudge",
+    "t": "WHAT?! You fixed it!",
+    "key": "50ca19fb"
+   },
+   {
+    "who": "smudge",
+    "t": "Fine. Enjoy your one little sign.",
+    "key": "3af869f9"
+   },
+   {
+    "who": "smudge",
+    "t": "At the end of Level 10, my Brick Golem is coming. It will mix up EVERY unit in Metric Market! Heh heh heh…",
+    "key": "cfad3cbd"
+   }
+  ],
+  "prompt": "Heh heh heh. Don't touch my sign. It's PERFECT. 2 liters is 200 milliliters. Everybody knows that! <break time=\"1.5s\" /> Go ahead. Try to fix my sign. You can't! <break time=\"1.5s\" /> WHAT?! You fixed it! <break time=\"1.5s\" /> Fine. Enjoy your one little sign. <break time=\"1.5s\" /> At the end of Level 10, my Brick Golem is coming. It will mix up EVERY unit in Metric Market! Heh heh heh..."
+ },
+ "opti": {
+  "voice_id": "WdZjiN0nNcik2LBjOHiv",
+  "lines": [
+   {
+    "who": "opti",
+    "t": "Hoo! You made it, {name}! Today is Market Day in Metric Market.",
+    "key": "bccc202d"
+   },
+   {
+    "who": "opti",
+    "t": "I'm Opti. I'll travel with you and the Math Crew all year.",
+    "key": "7e5d3f14"
+   },
+   {
+    "who": "opti",
+    "t": "Amy wants to open her juice stand today. But last night the Smudge rolled through town.",
+    "key": "fc1ad336"
+   },
+   {
+    "who": "opti",
+    "t": "The Smudge is a grumpy gray cloud. It mixed up every measure in town.",
+    "key": "da581563"
+   },
+   {
+    "who": "opti",
+    "t": "Mo is building Amy's counter, Millie is bringing flour, and Amy has juice orders to fill. The Market Day board on the page lists every job.",
+    "key": "2eb45d0c"
+   },
+   {
+    "who": "opti",
+    "t": "Let's start here. Walk over to the Liter Well and read its sign. Tell me if it looks right.",
+    "key": "daf8f742"
+   },
+   {
+    "who": "opti",
+    "t": "The Liter Well is east of the fountain. Look for the stone well with the little red roof.",
+    "key": "2d409093"
+   },
+   {
+    "who": "opti",
+    "t": "Listen to that line at Amy's stand! Nice work, {name}.",
+    "key": "0813ce30"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! Every job on the Market Day board gets Amy one step closer to opening.",
+    "key": "af45b40f"
+   },
+   {
+    "who": "opti",
+    "t": "(calling from the platform) Keep that question in your pocket, {name}. By the end of this lesson, you'll prove the answer.",
+    "key": "6bcc4cd2"
+   },
+   {
+    "who": "opti",
+    "t": "You proved it, {name}. 1 L is 1,000 mL, so 2 L is 2,000 mL. Not 200!",
+    "key": "715f3f16"
+   },
+   {
+    "who": "opti",
+    "t": "Rest up. Next lesson we cross the Foot Bridge, where people measure in inches and feet.",
+    "key": "246809af"
+   }
+  ],
+  "prompt": "Hoo! You made it, explorer! Today is Market Day in Metric Market. <break time=\"1.5s\" /> I'm Opti. I'll travel with you and the Math Crew all year. <break time=\"1.5s\" /> Amy wants to open her juice stand today. But last night the Smudge rolled through town. <break time=\"1.5s\" /> The Smudge is a grumpy gray cloud. It mixed up every measure in town. <break time=\"1.5s\" /> Mo is building Amy's counter, Millie is bringing flour, and Amy has juice orders to fill. The Market Day board on the page lists every job. <break time=\"1.5s\" /> Let's start here. Walk over to the Liter Well and read its sign. Tell me if it looks right. <break time=\"1.5s\" /> The Liter Well is east of the fountain. Look for the stone well with the little red roof. <break time=\"1.5s\" /> Listen to that line at Amy's stand! Nice work, explorer. <break time=\"1.5s\" /> Hoo! Every job on the Market Day board gets Amy one step closer to opening. <break time=\"1.5s\" /> Keep that question in your pocket, explorer. By the end of this lesson, you'll prove the answer. <break time=\"1.5s\" /> You proved it, explorer. 1 liter is 1,000 milliliters, so 2 liters is 2,000 milliliters. Not 200! <break time=\"1.5s\" /> Rest up. Next lesson we cross the Foot Bridge, where people measure in inches and feet."
+ },
+ "cora": {
+  "voice_id": "gJx1vCzNCD1EQHT212Ls",
+  "lines": [
+   {
+    "who": "cora",
+    "t": "Careful! 6 kg is 6,000 g, not 60 g or 600 g. Then add the 5 g. The zeros hold the places.",
+    "key": "6b72fe69"
+   },
+   {
+    "who": "cora",
+    "t": "Regroup first. 195 cm is 1 m 95 cm. So 3 m 195 cm is 4 m 95 cm. How many centimeters is that?",
+    "key": "bcc1c5ab"
+   },
+   {
+    "who": "cora",
+    "t": "That's what the Smudge wrote! 1 L = 1,000 mL, not 100 mL. So what is 2 L?",
+    "key": "90ed58ad"
+   },
+   {
+    "who": "cora",
+    "t": "When the centimeters reach 100, trade them for 1 m. That's regrouping!",
+    "key": "b8c85beb"
+   }
+  ],
+  "prompt": "Careful! 6 kilograms is 6,000 grams, not 60 grams or 600 grams. Then add the 5 grams. The zeros hold the places. <break time=\"1.5s\" /> Regroup first. 195 centimeters is 1 meter 95 centimeters. So 3 meters 195 centimeters is 4 meters 95 centimeters. How many centimeters is that? <break time=\"1.5s\" /> That's what the Smudge wrote! 1 liter equals 1,000 milliliters, not 100 milliliters. So what is 2 liters? <break time=\"1.5s\" /> When the centimeters reach 100, trade them for 1 meter. That's regrouping!"
+ },
+ "felix": {
+  "voice_id": "s3TPKV1kjDlVtZbl4Ksh",
+  "lines": [
+   {
+    "who": "felix",
+    "t": "I tested that. 6,050 g would be 6 kg 50 g. The sack has only 5 g more than 6 kg.",
+    "key": "052b9ac3"
+   },
+   {
+    "who": "felix",
+    "t": "Try my way. 1 m 65 cm = 165 cm. What is 3 × 165?",
+    "key": "2ca7b21a"
+   },
+   {
+    "who": "felix",
+    "t": "I change it all to one unit first. 1 m 65 cm is 165 cm. Then I work and change back.",
+    "key": "2c6b411f"
+   }
+  ],
+  "prompt": "I tested that. 6,050 grams would be 6 kilograms 50 grams. The sack has only 5 grams more than 6 kilograms. <break time=\"1.5s\" /> Try my way. 1 meter 65 centimeters equals 165 centimeters. What is 3 times 165? <break time=\"1.5s\" /> I change it all to one unit first. 1 meter 65 centimeters is 165 centimeters. Then I work and change back."
+ },
+ "atlas": {
+  "voice_id": "xCyfAutjCrYQhbBDS4l8",
+  "lines": [
+   {
+    "who": "atlas",
+    "t": "Split it: 6 kg = 6,000 g. Then 6,000 g + 5 g = ?",
+    "key": "dbfe5c1c"
+   },
+   {
+    "who": "atlas",
+    "t": "That's just the centimeters: 3 × 65 cm. Each plank has 1 m too. Add the 3 m.",
+    "key": "6b6a411f"
+   },
+   {
+    "who": "atlas",
+    "t": "Each liter is 1,000 mL. Two liters is two of those.",
+    "key": "efab4038"
+   },
+   {
+    "who": "atlas",
+    "t": "I split two-unit amounts: meters with meters, centimeters with centimeters. Then I regroup.",
+    "key": "e095ca71"
+   }
+  ],
+  "prompt": "Split it: 6 kilograms equals 6,000 grams. Then 6,000 grams plus 5 grams equals what? <break time=\"1.5s\" /> That's just the centimeters: 3 times 65 centimeters. Each plank has 1 meter too. Add the 3 meters. <break time=\"1.5s\" /> Each liter is 1,000 milliliters. Two liters is two of those. <break time=\"1.5s\" /> I split two-unit amounts: meters with meters, centimeters with centimeters. Then I regroup."
+ },
+ "hazel": {
+  "voice_id": "TmK7x2BFDD7TOVlR69J2",
+  "lines": [
+   {
+    "who": "hazel",
+    "t": "I draw a bar for every story. Equal planks get equal parts.",
+    "key": "fcb37efc"
+   }
+  ],
+  "prompt": "I draw a bar for every story. Equal planks get equal parts."
+ }
+}

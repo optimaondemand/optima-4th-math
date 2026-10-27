@@ -109,3 +109,17 @@ Files the studio saves: `assets/video/teacher/<prefix>-<slot>.mp4` (+ `.jpg`, `.
 `oao.pq.avatar` · `oao.pq.wallet` (coins, XP, gear; earned keys are `<lesson id>:<thing>`) · `oao.pq.progress` (My Math Map) ·
 `oao.pq.mute` · `oao.pq.clean` · `oao.pq.music` · `oao.pq.year` · `oao.pq.certname` · `g4-4-UU-LL-pq` (the lesson's world) ·
 `g4-4-UU-LL-*` (each model). Lessons and My Math Map share these only because they live on the same site.
+
+## Character voices (`tools/sparkle/voice/`)
+
+Only the year-long cast is voiced (Opti, Atlas, Felix, Hazel, Cora, the Smudge) plus a level's key characters (Level 10: Amy, Mo).
+Everyone else, and the student, keeps the sprite garble. Voice ids live in `voice/voices.json` (shared by every lesson).
+
+```
+python3 tools/sparkle/voice/voice.py lines 10-01                 # writes lessons/10-01/voice-lines.json: one prompt per character
+#   generate each prompt in ElevenLabs (eleven_multilingual_v2, the <break time="1.5s" /> tags split the lines), download the takes
+python3 tools/sparkle/voice/voice.py split 10-01 opti take.mp3   # cuts on the longest pauses, levels, writes assets/audio/lessons/10-01/ + voice.json
+python3 tools/sparkle/build_lesson.py 10-01                      # adds PQ_DATA.voice to the lesson data file
+```
+A clip plays when its line matches the text in `lesson.js` exactly (FNV-1a key of who|line). Reword a line and it goes back to
+the garble until it is re-voiced. Units are spoken in full ("1 meter 65 centimeters"), and {name} is read as "explorer".
