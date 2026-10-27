@@ -4,7 +4,7 @@ const {chromium}=require('playwright');const fs=require('fs'),path=require('path
 const REPO=path.resolve(__dirname,'../../..');
 function fontCSS(){const nm=[path.join(process.cwd(),'node_modules'),path.join(REPO,'node_modules'),'/home/claude/gm/node_modules'].find(d=>fs.existsSync(path.join(d,'@fontsource')));if(!nm)return '';
   const F=(fam,dir,w,st='normal')=>{const f=path.join(nm,`@fontsource/${dir}/files/${dir}-latin-${w}-${st}.woff2`);return fs.existsSync(f)?`@font-face{font-family:'${fam}';font-style:${st};font-weight:${w};src:url(data:font/woff2;base64,${fs.readFileSync(f).toString('base64')}) format('woff2');}`:'';};
-  return [F('DotGothic16','dotgothic16',400),...[400,600,700,800,900].map(w=>F('Nunito','nunito',w)),...[400,600,700].map(w=>F('Lora','lora',w)),F('Lora','lora',400,'italic')].join('\n');}
+  return [F('DotGothic16','dotgothic16',400),F('Press Start 2P','press-start-2p',400),...[400,600,700,800,900].map(w=>F('Nunito','nunito',w)),...[400,600,700].map(w=>F('Lora','lora',w)),F('Lora','lora',400,'italic')].join('\n');}
 module.exports=async function(page,vw,vh,opts={}){const b=await chromium.launch();const ctx=await b.newContext({viewport:{width:vw,height:vh},...opts});
   const css=fontCSS();await ctx.route(/fonts\.googleapis\.com/,r=>css?r.fulfill({status:200,contentType:'text/css',body:css}):r.abort());
   await ctx.route(/youtube|gstatic|githubusercontent/,r=>r.abort());

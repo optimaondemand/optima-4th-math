@@ -16,7 +16,7 @@ REPO = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, HERE)
 import sparkle_lib as L  # noqa: E402
 
-SHARED_JS = ['pq-art.js', 'pq-engine.js', 'oao-kit.js', 'pq-music.js', 'pq-layer.js']
+SHARED_JS = ['pq-art.js', 'pq-engine.js', 'oao-kit.js', 'pq-music.js', 'pq-layer.js', 'pq-intro.js']
 
 
 def main(code):
@@ -64,7 +64,7 @@ def main(code):
     s = s.replace('</head>', '<link rel="stylesheet" href="assets/sparkle/pq.css?v=%s">\n</head>' % v, 1)
     tags = ''.join('<script src="assets/sparkle/%s?v=%s"></script>\n' % (f, v) for f in SHARED_JS)
     tags += '<script src="%s?v=%s"></script>\n' % (data_rel, v)
-    tags += '<script>try{PQ.init(PQ_DATA);}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("game: "+e.message);}PQM.init();</script>\n'
+    tags += '<script>try{PQ.init(PQ_DATA);}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("game: "+e.message);}PQM.init();try{PQIntro.init();}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("intro: "+e.message);}</script>\n'
     i = s.rindex('</body>')
     s = s[:i] + tags + s[i:]
     open(page, 'w', encoding='utf8').write(s)

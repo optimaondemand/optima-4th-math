@@ -10,6 +10,7 @@ Read this at the start of every lesson run. The skill is `g4-math-sparkle-lesson
 | `assets/sparkle/pq-engine.js` | the game (map, walking, dialog, quests, number pad, glow + arrow guidance, "all quests here done" card) | shared |
 | `assets/sparkle/oao-kit.js` | the math models (Disc Mat, Two-Unit Mat, Bar Strip, Stamp Signs, Story Bar Model, Number Bond, Mental Math, Bonus Quest) | shared |
 | `assets/sparkle/pq-layer.js` | the page layer: real-problem board, coins/XP/rank, tips, clean top, Game/Clean switch, question drawer, video slots, My Math Map progress | shared |
+| `assets/sparkle/pq-intro.js` | the cinematic opening: an 8-bit curtain that draws the lesson's math, lands a title card + today's puzzle, then dissolves into the page (once per session, skippable, Replay button, still picture under reduced motion) | shared |
 | `assets/sparkle/pq-music.js` | 10 original study-music loops (WebAudio, no files, no licensing) | shared |
 | `assets/sparkle/pq.css` | every style above | shared |
 | `assets/sparkle/lessons/lesson-4-UU-LL.js` | **built**: PQ_VIDEO + PQ_DATA + PQ_LESSON | never by hand |
@@ -28,6 +29,7 @@ python3 tools/sparkle/build_lesson.py 10-01      # rebuild the page from origina
 python3 tools/sparkle/check_lesson.py 10-01      # math, IP overlap, jargon, answer boxes, videos, wiring: must be 0 FAIL
 node    tools/sparkle/test/smoke.js 10-01        # tabs, drawer, slots, clean mode, 1150 + 390 px screenshots → tools/sparkle/out/10-01/
 node    tools/sparkle/lessons/10-01/play.js      # this lesson's full play-through (every job, quest, model, tap and drag)
+node    tools/sparkle/test/intro.js 10-01        # the cinematic opening: frames at 1150 + 390 px, closes, skips, plays once, Replay, reduced motion
 node    tools/sparkle/test/kit.js                # every kit tool (run after any change to oao-kit.js)
 node    tools/sparkle/test/map.js                # My Math Map + certificates
 python3 tools/sparkle/build_map.py               # after a lesson is sparkled (marks it on the map)
@@ -64,6 +66,7 @@ Quest ids must match the page's `game('…')` windows. 3–5 windows per lesson.
 `id` ('4.10.01'), `key` ('g4-4-10-01', prefix for saved model state), `title`, `unit`, `level` (level name), `standard` (the bubble),
 `boss` (world flag set when the boss is beaten, last lesson before the summative only),
 `problem:{title, text, jobWord, jobsTitle}`, `jobs:[{id, t, w, go (selector), tab, coins}]` (4–5 jobs = the page activities),
+`intro:{kicker, ask, alt, len, scene(g,t)}` → the cinematic opening (see the top of `pq-intro.js` for the drawing kit `g`). It DRAWS the lesson's own model with the place-value colors (the same pieces students meet on the page), about 7 s. **Pictures and counters only** (Bethany: no sentences, no title card): use `card:false`; live counters on the model and a walking character are the good parts. Keep ONE unit on the counter (no switching cm → m cm) and no tiny 1-unit pieces (use one chunk, e.g. a 5 cm piece). Lay things out the way the story does (planks END TO END): pull the camera back to fit instead of stacking. End on the Think puzzle as a picture (e.g. a character with a "?"); never show its answer. `alt` says in words what the animation shows. Model: 10-01 `introScene`.
 `scene(api)` → SVG of the problem's place that changes as jobs finish (optional), `intendedWrong:['2 L = 200 mL', …]`
 (story mistakes on purpose, so the math check doesn't fail them), `models:{name: bind(fn)}`.
 

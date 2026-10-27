@@ -554,3 +554,24 @@ details.pq-intro .intro-2col{padding:0}
 .tab-panel .bubble.felix .bubble-name{color:#1E8C5A}
 .tab-panel .bubble.hazel .bubble-name{color:#8A6D0A}
 .tab-panel .bubble.cora .bubble-name{color:#B8541A}
+
+/* ───────── cinematic opening (pq-intro.js) ───────── */
+body.pqi-pre::after{content:'';position:fixed;inset:0;background:#0E1C42;z-index:99998}
+body.pqi-on{overflow:hidden}
+.pqi{position:fixed;inset:0;z-index:99999;background:transparent;overflow:hidden;cursor:pointer;display:flex;align-items:flex-end;justify-content:center;padding-bottom:max(70px,11vh);box-sizing:border-box}
+.pqi canvas{position:absolute;left:0;top:0;image-rendering:pixelated;image-rendering:crisp-edges;transition:filter .5s}
+.pqi.title canvas{filter:brightness(.42) saturate(.8)}
+.pqi.out canvas{filter:none}
+.pqi-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.pqi-card{position:relative;max-width:min(92vw,720px);padding:0 16px;text-align:center;opacity:0;transform:translateY(14px) scale(.96);transition:opacity .45s,transform .45s cubic-bezier(.2,1.4,.4,1);pointer-events:none}
+.pqi.title .pqi-card{opacity:1;transform:none}
+.pqi.out .pqi-card{opacity:0;transition:opacity .25s}
+.pqi-kick{font-family:'Press Start 2P',monospace;font-size:clamp(9px,1.6vw,12px);color:#F5C518;letter-spacing:1px;line-height:1.7;margin-bottom:14px}
+.pqi-title{font-family:'Press Start 2P',monospace;font-weight:400;font-size:clamp(18px,4.2vw,36px);color:#fff;line-height:1.45;margin:0 0 18px;text-shadow:3px 3px 0 #C56C3F,6px 6px 0 #0E1C42}
+.pqi-ask{display:inline-block;font-family:'DotGothic16','Nunito',sans-serif;font-size:clamp(17px,2.8vw,24px);color:#0E1C42;background:#F5C518;border:3px solid #3B2417;box-shadow:0 4px 0 #3B2417;padding:8px 14px 9px;line-height:1.35}
+.pqi-ask span{display:block;font-family:'Press Start 2P',monospace;font-size:9px;color:#5B2E10;margin-bottom:5px;letter-spacing:.5px}
+.pqi-skip{position:absolute;right:16px;bottom:16px;font-family:'Press Start 2P',monospace;font-size:10px;color:#fff;background:rgba(14,28,66,.75);border:2px solid #fff;padding:9px 12px;cursor:pointer;line-height:1}
+.pqi-skip:hover{background:#C56C3F}
+.pqi-skip:focus-visible{outline:3px solid #F5C518;outline-offset:3px}
+.pqi.out .pqi-skip{opacity:0}
+@media (prefers-reduced-motion: reduce){.pqi-card,.pqi canvas{transition:none}}

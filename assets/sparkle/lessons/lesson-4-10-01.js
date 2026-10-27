@@ -301,6 +301,49 @@ function jobDone(id){return api.jobDone(id);}
 function setJob(id,src){api.setJob(id,src);}
 function earn(k,c,x,s,l){return api.earn(k,c,x,s,l);}
 function ls(k,d){return api.ls(k,d);}
+/* the cinematic opening (assets/sparkle/pq-intro.js): pictures and one counter, no sentences.
+   ten 10 cm pieces fill a ruler (10 cm … 100 cm) → they snap into 1 m → 6 more tens and a 5 cm piece (110 … 165 cm, one unit the whole way)
+   → it becomes a plank → the camera pulls back → 2 more planks slide in END TO END → Amy walks up and wonders "?" (the Think puzzle; never its answer). */
+function introScene(g,t){
+  var C=g.C,W=g.W,H=g.H,m=12,i,a,p;
+  var M1=Math.min(Math.floor((W-2*m)/1.65),150),M2=Math.floor((W-2*m)/4.95),bh=g.portrait?9:10;
+  var z=g.ease(g.p(t,4.7,5.4)),M=g.lerp(M1,M2,z),cm=M/100;                       // the camera pulls back
+  var x0=Math.round(g.lerp(g.cx-1.65*M1/2,g.cx-4.95*M2/2,z)),y0=Math.round(H*.4),capY=y0-24,full=Math.round(1.65*M);
+  function px(c){return Math.round(c*cm);}
+  g.owl(W-30,H-30-Math.ceil(52/g.s),t);
+  if(t>6.1){var wp=g.ease(g.p(t,6.1,6.9)),ax=Math.round(g.lerp(-18,g.cx-8,wp));g.char('amy',ax,H-30,wp<1?'right':'up',wp<1?Math.floor(t*8)%4:0);
+    if(t>6.95&&!g.clean){var bp=g.back(g.p(t,6.95,7.2)),by=H-50-Math.round(4*bp);if(g.once('q'))g.blip(660,.2);
+      g.box(ax+3,by,10,11,C.white);g.text('?',ax+8,by+2,{col:Math.floor(t*3)%2?C.ink:'#C56C3F',shadow:false});}}
+  // ── an empty 1 m ruler fills with ten 10 cm pieces
+  if(t<2.35){
+    var ra=g.ease(g.p(t,.1,.5));
+    g.rect(x0-1,y0-1,M+2,bh+2,'rgba(255,255,255,'+(.6*ra)+')');g.rect(x0,y0,M,bh,'rgba(10,21,51,'+ra+')');
+    for(i=0;i<=10;i++)g.rect(Math.min(x0+px(i*10),x0+M-1),y0+bh-(i%5?3:5),1,i%5?3:5,'rgba(255,255,255,'+(.45*ra)+')');
+    var n=0;
+    for(i=0;i<10;i++){a=.4+i*.16;p=g.p(t,a,a+.22);if(p<=0)continue;if(p>=1){n++;if(g.once('ten'+i))g.blip(392+i*44);}
+      g.box(x0+px(i*10),Math.round(g.lerp(y0-34,y0,g.back(p))),px((i+1)*10)-px(i*10)-1,bh,C[10]);}
+    if(n)g.text(n*10+' cm',g.cx,capY,{col:n===10?C.gold:C.white});
+    return;
+  }
+  // ── they snap into one meter; 6 more tens and one 5 cm piece make the plank (counter stays in cm)
+  var pk=g.p(t,4.4,4.7),cnt=100;
+  if(pk<1){
+    for(i=0;i<6;i++){a=2.95+i*.14;p=g.p(t,a,a+.2);if(p<=0)continue;if(p>=1){cnt+=10;if(g.once('t2'+i))g.blip(523+i*30);}
+      g.box(x0+M+px(i*10),Math.round(g.lerp(y0-26,y0,g.back(p))),px((i+1)*10)-px(i*10)-1,bh,C[10]);}
+    p=g.p(t,3.9,4.12);if(p>0){if(p>=1){cnt+=5;if(g.once('five'))g.blip(784,.08);}
+      g.box(x0+M+px(60),Math.round(g.lerp(y0-26,y0,g.back(p))),px(65)-px(60),bh,C[1]);}
+    g.box(x0,y0,M,bh,C[100]);g.text('1 m',x0+M/2,y0+Math.round((bh-8)/2)+1,{shadow:false});
+    var fl=1-g.p(t,2.35,2.6);if(fl>0){g.rect(x0,y0,M,bh,'rgba(255,255,255,'+fl+')');if(g.once('m'))g.blip(988,.18);}
+    if(t<2.95){g.sparkle(x0-4,y0-4,t,C.gold);g.sparkle(x0+M+1,y0+bh,t+.5,C.white);}
+  }else cnt=165;
+  var ca=1-g.p(t,4.7,4.95);if(ca>0)g.text(cnt+' cm',g.cx,capY,{col:cnt===165?'rgba(245,197,24,'+ca+')':'rgba(255,255,255,'+ca+')'});
+  // ── it becomes a plank; the camera pulls back; 2 more planks slide in end to end
+  function plank(X,al){g.x.globalAlpha=al;g.box(X,y0,full,bh,C.wood);g.rect(X,y0+1,full,1,C.woodHi);
+    for(var k=1;k<4;k++)g.rect(X+Math.round(full*k/4)+(k%2?2:-3),y0+3+(k%3),Math.max(3,Math.round(full/8)),1,C.woodD);g.x.globalAlpha=1;}
+  if(pk>0)plank(x0,pk);
+  for(i=1;i<3;i++){a=5.5+(i-1)*.45;p=g.p(t,a,a+.35);if(p<=0)continue;if(p>=1&&g.once('pl'+i))g.blip(196,.14);
+    var to=x0+i*full;plank(Math.round(g.lerp(W+4,to,g.ease(p))),1);}
+}
 function standSVG(){S=api.state();
   var cl=document.body.classList.contains('pq-clean');var c=!!S.world.counter||(cl&&jobDone('j2')),jg=jobDone('j3'),fl=!!S.world.flour||(cl&&jobDone('j4')),op=!!S.world.open||jobDone('j5');
   var s='<svg viewBox="0 0 190 120" class="mk-svg" role="img" aria-label="Amy\'s juice stand">';
@@ -465,6 +508,9 @@ return {
   words:[{w:'metric',d:'the measuring system that uses 10, 100 and 1,000, like meters, grams and liters'},{w:'factor',d:'the number you multiply or divide by to change units'},
     {w:'regroup',d:'trade small units for a bigger one, like 100 cm for 1 m'},{w:'mass',d:'how heavy something is'},{w:'capacity',d:'how much a container can hold'}],
   intendedWrong:['2 L = 200 mL','2 L is 200 mL','6 kg 5 g is the same as 65 g'],
+  intro:{card:false,len:7.7,
+    alt:'Ten 10 cm pieces fill a ruler: 100 cm makes 1 meter. Six more 10 cm pieces and a 5 cm piece make a plank 165 cm long. Two more planks slide in end to end. Amy walks up and wonders how long the three planks are together.',
+    scene:introScene},
   models:{stamps:bind(modelStamps),think:bind(modelThink),counter:bind(modelCounter),juice:bind(modelJuice),flour:bind(modelFlour),prove:bind(modelProve),mental:bind(modelMental),bonus:bind(modelBonus),cleanSign:bind(modelCleanSign)}
 };
 })();
