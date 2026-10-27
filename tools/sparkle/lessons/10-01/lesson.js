@@ -456,13 +456,13 @@ function modelProve(m){
     onDone:function(root){earn('prove',5,5,root,'You proved it!');}});
 }
 function modelMental(m){
-  OAOKit.mentalMath(m,{key:'g4-4-10-01-mm',name:'Make the next meter',
+  OAOKit.mentalMath(m,{key:'g4-4-10-01-mm2',name:'Make the next meter',
     how:'Split the centimeters you add. Use one part to finish the meter, then add the rest.',
     example:{q:'1 m 70 cm + 50 cm',bond:{whole:50,parts:[30,20]},steps:['1 m 70 cm + 30 cm = 2 m','2 m + 20 cm = 2 m 20 cm']},
-    problems:[{q:'60 cm + 55 cm',lead:'1 m',post:'cm',a:15,hint:'40 cm finishes the meter. Split 55 into 40 and 15.'},
-              {q:'2 m 75 cm + 30 cm',lead:'3 m',post:'cm',a:5,hint:'25 cm finishes the meter. Split 30 into 25 and 5.'},
-              {q:'1 m 90 cm + 45 cm',lead:'2 m',post:'cm',a:35,hint:'10 cm finishes the meter. Split 45 into 10 and 35.'},
-              {q:'3 m 85 cm + 60 cm',lead:'4 m',post:'cm',a:45,hint:'15 cm finishes the meter. Split 60 into 15 and 45.'}],
+    problems:[{q:'60 cm + 55 cm',units:['m','cm'],a:[1,15],hint:'40 cm finishes the meter. Split 55 into 40 and 15.'},
+              {q:'2 m 75 cm + 30 cm',units:['m','cm'],a:[3,5],hint:'25 cm finishes the meter. Split 30 into 25 and 5.'},
+              {q:'1 m 90 cm + 45 cm',units:['m','cm'],a:[2,35],hint:'10 cm finishes the meter. Split 45 into 10 and 35.'},
+              {q:'3 m 85 cm + 60 cm',units:['m','cm'],a:[4,45],hint:'15 cm finishes the meter. Split 60 into 15 and 45.'}],
     onRight:function(i,el){earn('mm-'+i,1,0,el,'');},onDone:function(root){earn('mm-all',2,3,root,'Mental math done!');}});
 }
 function modelBonus(m){

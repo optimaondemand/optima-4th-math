@@ -13,7 +13,8 @@ const drag=async(src,dst)=>{const a=await p.$(src);await a.scrollIntoViewIfNeede
 // ── Warm-Up: job 1 stamps (tap), mental math, Think bar model
 for(const [v,id] of [['×10','mmcm'],['×100','cmm'],['×1,000','mkm']]){await p.click(`.mk-stamp[data-v="${v}"]`);await p.click(`.mk-sign[data-id="${id}"]`);}
 ok(await job('j1'),'job 1: stamps');
-for(const [i,a] of [[0,'15'],[1,'5'],[2,'35'],[3,'45']]){await p.fill(`#mm-g4-4-10-01-mm-${i}`,a);await p.click(`.mm-p[data-i="${i}"] button`);}
+await p.fill('#mm-g4-4-10-01-mm2-0','0');await p.fill('#mm-g4-4-10-01-mm2-0-1','115');await p.click('.mm-p[data-i="0"] button');ok((await msg('.mm-p[data-i="0"] .mm-fb')).includes('Trade each 100 cm'),'mental math: 0 m 115 cm gets the trade hint');
+for(const [i,mv,cv] of [[0,'1','15'],[1,'3','5'],[2,'2','35'],[3,'4','45']]){await p.fill(`#mm-g4-4-10-01-mm2-${i}`,mv);await p.fill(`#mm-g4-4-10-01-mm2-${i}-1`,cv);await p.click(`.mm-p[data-i="${i}"] button`);}
 ok(await p.$$eval('.mm-p.ok',x=>x.length)===4,'mental math: make the next meter, 4 right');
 const T='#mk-think';for(const i of [1,3,5]){await p.click(`${T} .bm-fact[data-i="${i}"]`);await p.click(`${T} .bm-seg[data-seg="p${(i-1)/2}"]`);}
 await p.fill(`${T} .bm-form input`,'195');await p.click(`${T} .bm-form button`);ok((await msg(`${T} .ok-msg`)).includes('1 m in it'),'think: 195 gets the "forgot the meters" hint');

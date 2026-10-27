@@ -314,20 +314,32 @@ function numberBond(m,cfg){
    One strategy, shown once with a number bond, then 4–6 quick problems.
    cfg = { key, name:'Make a hundred', how:'one sentence', example:{q:'99 + 46', bond:{whole:46, parts:[1,45]}, steps:['99 + 1 = 100','100 + 45 = 145']},
            problems:[{q:'98 + 37', a:135, hint:'Take 2 from 37 to make 100.'}], onRight(i,el), onDone(root) }
-   a problem may add lead:'1 m' (before the box) and post:'cm' (after it): 60 cm + 55 cm = 1 m [__] cm */
+   a problem may add lead:'1 m' (before the box) and post:'cm' (after it): 60 cm + 55 cm = 1 m [__] cm
+   or a two-unit answer: {q:'60 cm + 55 cm', units:['m','cm'], a:[1,15], rate:100} → '60 cm + 55 cm = ?' then [__] m [__] cm */
 function mentalMath(m,cfg){
   var st=ls(cfg.key,null)||{a:{},ok:{}};var P=cfg.problems,ex=cfg.example||{};
   var bond=ex.bond?'<div class="mm-bond" aria-label="'+fmt(ex.bond.whole)+' splits into '+fmt(ex.bond.parts[0])+' and '+fmt(ex.bond.parts[1])+'"><span class="w">'+fmt(ex.bond.whole)+'</span><svg viewBox="0 0 80 26" aria-hidden="true"><path d="M40 2 L14 24 M40 2 L66 24" stroke="#3B2417" stroke-width="3"/></svg><span class="p">'+fmt(ex.bond.parts[0])+'</span><span class="p">'+fmt(ex.bond.parts[1])+'</span></div>':'';
   m.innerHTML='<div class="mm-card"><div class="mm-name">🧠 Mental math: '+esc(cfg.name)+'</div><p class="mm-how">'+cfg.how+'</p>'+
     (ex.q?'<div class="mm-ex"><div class="mm-q">'+esc(ex.q)+'</div>'+bond+'<ol class="mm-steps">'+(ex.steps||[]).map(function(s){return '<li>'+esc(s)+'</li>';}).join('')+'</ol></div>':'')+'</div>'+
-    '<div class="mm-probs">'+P.map(function(p,i){return '<form class="mm-p" data-i="'+i+'"><label for="mm-'+cfg.key+'-'+i+'">'+esc(p.q)+' ='+(p.lead?' '+esc(p.lead):'')+'</label><input id="mm-'+cfg.key+'-'+i+'" type="text" inputmode="numeric" autocomplete="off" value="'+esc(st.a[i]||'')+'">'+(p.post?'<span class="mm-post">'+esc(p.post)+'</span>':'')+'<button type="submit" class="ok-btn">Check</button><span class="mm-fb" aria-live="polite"></span></form>';}).join('')+'</div>';
-  $$('.mm-p',m).forEach(function(f){var i=+f.dataset.i,inp=$('input',f),fb=$('.mm-fb',f);
-    function mark(){f.classList.add('ok');inp.disabled=true;fb.textContent='✓';}
+    '<div class="mm-probs">'+P.map(function(p,i){var id='mm-'+cfg.key+'-'+i;
+      if(p.units){var sv=st.a[i]||[];return '<form class="mm-p mm-two" data-i="'+i+'"><div class="mm-q2">'+esc(p.q)+' = ?</div><div class="mm-ins">'+
+        p.units.map(function(u,k){return '<input id="'+id+(k?'-'+k:'')+'" type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc(p.q)+', '+(u==='m'?'meters':u==='cm'?'centimeters':u)+'" value="'+esc(sv[k]||'')+'"><span class="mm-u">'+esc(u)+'</span>';}).join('')+
+        '<button type="submit" class="ok-btn">Check</button></div><span class="mm-fb" aria-live="polite"></span></form>';}
+      return '<form class="mm-p" data-i="'+i+'"><label for="'+id+'">'+esc(p.q)+' ='+(p.lead?' '+esc(p.lead):'')+'</label><input id="'+id+'" type="text" inputmode="numeric" autocomplete="off" value="'+esc(st.a[i]||'')+'">'+(p.post?'<span class="mm-post">'+esc(p.post)+'</span>':'')+'<button type="submit" class="ok-btn">Check</button><span class="mm-fb" aria-live="polite"></span></form>';}).join('')+'</div>';
+  $$('.mm-p',m).forEach(function(f){var i=+f.dataset.i,ins=$$('input',f),fb=$('.mm-fb',f),p=P[i];
+    function mark(){f.classList.add('ok');ins.forEach(function(x){x.disabled=true;});fb.textContent='✓';}
+    function miss(t){snd.no();f.classList.remove('no');void f.offsetWidth;f.classList.add('no');fb.textContent=t;}
     if(st.ok[i])mark();
-    f.onsubmit=function(e){e.preventDefault();var v=num(inp.value);st.a[i]=inp.value;lsSet(cfg.key,st);if(v==null){fb.textContent='Type a number.';return;}
-      if(v===P[i].a){st.ok[i]=1;lsSet(cfg.key,st);snd.merge();mark();if(cfg.onRight)cfg.onRight(i,f);
-        if(Object.keys(st.ok).length===P.length&&cfg.onDone&&!st.fired){st.fired=1;lsSet(cfg.key,st);cfg.onDone(m);}}
-      else{snd.no();f.classList.remove('no');void f.offsetWidth;f.classList.add('no');fb.textContent=P[i].hint||('Try the strategy: '+cfg.name.toLowerCase()+'.');}};});
+    f.onsubmit=function(e){e.preventDefault();
+      if(p.units){var vs=ins.map(function(x){return num(x.value);});st.a[i]=ins.map(function(x){return x.value;});lsSet(cfg.key,st);
+        if(vs.some(function(v){return v==null;}))return miss('Type a number in each box.');
+        var ok=vs.every(function(v,k){return v===p.a[k];});
+        if(!ok){var rate=p.rate||100,tot=vs[0]*rate+vs[1],want=p.a[0]*rate+p.a[1];
+          if(tot===want&&vs[1]>=rate)return miss('Right amount, but '+fmt(vs[1])+' '+p.units[1]+' is too many. Trade each '+fmt(rate)+' '+p.units[1]+' for 1 '+p.units[0]+'.');
+          return miss(p.hint||('Try the strategy: '+cfg.name.toLowerCase()+'.'));}}
+      else{var v=num(ins[0].value);st.a[i]=ins[0].value;lsSet(cfg.key,st);if(v==null)return miss('Type a number.');if(v!==p.a)return miss(p.hint||('Try the strategy: '+cfg.name.toLowerCase()+'.'));}
+      st.ok[i]=1;lsSet(cfg.key,st);snd.merge();mark();if(cfg.onRight)cfg.onRight(i,f);
+      if(Object.keys(st.ok).length===P.length&&cfg.onDone&&!st.fired){st.fired=1;lsSet(cfg.key,st);cfg.onDone(m);}};});
   return {state:st};
 }
 

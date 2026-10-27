@@ -575,3 +575,11 @@ body.pqi-on{overflow:hidden}
 .pqi-skip:focus-visible{outline:3px solid #F5C518;outline-offset:3px}
 .pqi.out .pqi-skip{opacity:0}
 @media (prefers-reduced-motion: reduce){.pqi-card,.pqi canvas{transition:none}}
+
+/* Mental math with a two-unit answer: question on top, boxes below */
+.mm-two{flex-direction:column;align-items:flex-start}
+.mm-q2{font-size:19px}
+.mm-ins{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.mm-two input{width:64px}
+.mm-u{font-weight:800;margin-right:6px}
+.mm-two .mm-fb{flex-basis:auto;align-self:stretch}
