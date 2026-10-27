@@ -224,6 +224,7 @@ function stamps(m,cfg){
    Students tap (or drag) each fact in the story onto the part of the bar it describes, find the "?", then answer.
    cfg = { key, kind:'part-whole'|'compare', unit:'m',
            story:[ 'plain text', {t:'Amy\'s road is 1 km long.', put:'whole', label:'1 km = 1,000 m'}, … ],
+           units:['m','cm'] + answer:[4,95] + rate:100 → two answer boxes; mistakes are matched on the total in the small unit
            part-whole → whole:{label}, parts:[{id:'p0', value:400, name:'already driven'}, {id:'p1', value:600, name:'still to go', unknown:true}]
            compare    → bars:[{id:'b0', name:'Amy', value:900}, {id:'b1', name:'Mo', value:600}], diff:{value:300, unknown:true}
            question, answer, accept:[…], mistakes:[{value:1400, text:'…'}], hint, sym:'1,000 − 400 = 600', doneText, onDone(root) }
@@ -266,14 +267,21 @@ function barModel(m,cfg){
       s.onclick=function(){if(sel!=null)put(sel,s.dataset.seg);else if(!allPlaced())say('First tap a fact in the story.','hint');};
       s.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();s.onclick();}};});
     if(allPlaced()){
-      askEl.innerHTML='<p class="bm-qtext">'+esc(cfg.question)+'</p><form class="bm-form"><input type="text" inputmode="numeric" autocomplete="off" aria-label="Your answer" value="'+esc(st.ans||'')+'">'+(cfg.unit?'<span class="bm-u">'+esc(cfg.unit)+'</span>':'')+'<button type="submit" class="ok-btn">Check</button></form>'+(st.answered?'<div class="ok-sym"><span class="big">'+esc(cfg.sym||'')+'</span></div>':'');
+      var U=cfg.units,sa=st.ans||(U?[]:'');
+      askEl.innerHTML='<p class="bm-qtext">'+esc(cfg.question)+'</p><form class="bm-form">'+(U?U.map(function(u,k){return '<input type="text" inputmode="numeric" autocomplete="off" aria-label="Your answer, '+esc(u)+'" value="'+esc(sa[k]||'')+'"><span class="bm-u">'+esc(u)+'</span>';}).join(''):'<input type="text" inputmode="numeric" autocomplete="off" aria-label="Your answer" value="'+esc(sa)+'">'+(cfg.unit?'<span class="bm-u">'+esc(cfg.unit)+'</span>':''))+'<button type="submit" class="ok-btn">Check</button></form>'+(st.answered?'<div class="ok-sym"><span class="big">'+esc(cfg.sym||'')+'</span></div>':'');
       var f=$('form',askEl),inp=$('input',f);
-      f.onsubmit=function(e){e.preventDefault();var v=num(inp.value);st.ans=inp.value;save();
-        if(v==null){say('Type a number first.','hint');return;}
-        var ok=[cfg.answer].concat(cfg.accept||[]).some(function(a){return num(a)===v;});
+      f.onsubmit=function(e){e.preventDefault();var v,ok,ins=$$('input',f);
+        if(U){var vs=ins.map(function(x){return num(x.value);});st.ans=ins.map(function(x){return x.value;});save();
+          if(vs.some(function(x){return x==null;})){say('Type a number in each box.','hint');return;}
+          var rate=cfg.rate||100;v=vs[0]*rate+vs[1];var want=cfg.answer[0]*rate+cfg.answer[1];
+          ok=vs[0]===cfg.answer[0]&&vs[1]===cfg.answer[1];
+          if(!ok&&v===want){snd.no();say('That\'s the right amount! But '+fmt(vs[1])+' '+U[1]+' is '+fmt(rate)+' '+U[1]+' or more. Can you trade '+fmt(rate)+' '+U[1]+' for 1 '+U[0]+'?','hint');return;}}
+        else{v=num(inp.value);st.ans=inp.value;save();
+          if(v==null){say('Type a number first.','hint');return;}
+          ok=[cfg.answer].concat(cfg.accept||[]).some(function(a){return num(a)===v;});}
         if(ok){st.answered=true;save();snd.done();say(cfg.doneText||'Yes! The bar model shows it.','good');render();if(cfg.onDone&&!st.fired){st.fired=1;save();cfg.onDone(m);}return;}
         var mk=(cfg.mistakes||[]).filter(function(z){return num(z.value)===v;})[0];snd.no();say(mk?mk.text:(cfg.hint||'Look at the bar again. Is the ? the whole bar or one part?'),'hint');};
-      if(st.answered)inp.disabled=true;
+      if(st.answered)$$('input',f).forEach(function(x){x.disabled=true;});
     }else askEl.innerHTML='';
   }
   function put(i,seg){var f=facts.filter(function(x){return x.i===i;})[0];if(!f)return;
@@ -315,6 +323,7 @@ function numberBond(m,cfg){
    cfg = { key, name:'Make a hundred', how:'one sentence', example:{q:'99 + 46', bond:{whole:46, parts:[1,45]}, steps:['99 + 1 = 100','100 + 45 = 145']},
            problems:[{q:'98 + 37', a:135, hint:'Take 2 from 37 to make 100.'}], onRight(i,el), onDone(root) }
    a problem may add lead:'1 m' (before the box) and post:'cm' (after it): 60 cm + 55 cm = 1 m [__] cm
+   or the box in the middle: {pre:'65 cm +', post:'cm = 1 m', a:35}
    or a two-unit answer: {q:'60 cm + 55 cm', units:['m','cm'], a:[1,15], rate:100} → '60 cm + 55 cm = ?' then [__] m [__] cm */
 function mentalMath(m,cfg){
   var st=ls(cfg.key,null)||{a:{},ok:{}};var P=cfg.problems,ex=cfg.example||{};
@@ -325,6 +334,7 @@ function mentalMath(m,cfg){
       if(p.units){var sv=st.a[i]||[];return '<form class="mm-p mm-two" data-i="'+i+'"><div class="mm-q2">'+esc(p.q)+' = ?</div><div class="mm-ins">'+
         p.units.map(function(u,k){return '<input id="'+id+(k?'-'+k:'')+'" type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc(p.q)+', '+(u==='m'?'meters':u==='cm'?'centimeters':u)+'" value="'+esc(sv[k]||'')+'"><span class="mm-u">'+esc(u)+'</span>';}).join('')+
         '<button type="submit" class="ok-btn">Check</button></div><span class="mm-fb" aria-live="polite"></span></form>';}
+      if(p.pre)return '<form class="mm-p" data-i="'+i+'"><span class="mm-eq"><label for="'+id+'">'+esc(p.pre)+'</label><input id="'+id+'" type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc(p.pre+' ? '+(p.post||''))+'" value="'+esc(st.a[i]||'')+'"><span class="mm-post">'+esc(p.post||'')+'</span></span><button type="submit" class="ok-btn">Check</button><span class="mm-fb" aria-live="polite"></span></form>';
       return '<form class="mm-p" data-i="'+i+'"><label for="'+id+'">'+esc(p.q)+' ='+(p.lead?' '+esc(p.lead):'')+'</label><input id="'+id+'" type="text" inputmode="numeric" autocomplete="off" value="'+esc(st.a[i]||'')+'">'+(p.post?'<span class="mm-post">'+esc(p.post)+'</span>':'')+'<button type="submit" class="ok-btn">Check</button><span class="mm-fb" aria-live="polite"></span></form>';}).join('')+'</div>';
   $$('.mm-p',m).forEach(function(f){var i=+f.dataset.i,ins=$$('input',f),fb=$('.mm-fb',f),p=P[i];
     function mark(){f.classList.add('ok');ins.forEach(function(x){x.disabled=true;});fb.textContent='✓';}

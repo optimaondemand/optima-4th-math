@@ -43,9 +43,10 @@ CREW=('<div class="activity bl-violet" id="mk-crew"><div class="activity-head"><
 # ── C. readiness → Market Measures (stamps, a short review of the factors)
 m=re.search(r'<div class="journal-label">✏️ Which pairs of units use ×1,000\?.*?</textarea>',s,re.S);journal_r1=m.group(0)
 reveal=re.search(r'<div class="reveal-box" id="readinessReveal">.*?</div>',s,re.S).group(0)
+reveal='<div class="reveal-box" id="readinessReveal">10 mm make 1 cm. 100 cm make 1 m. 1,000 m make 1 km. And 1,000 g make 1 kg, and 1,000 mL make 1 L.</div>'
 replace_block('<div class="activity bl-yellow"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🔎</div>',
  '<div class="activity bl-yellow" id="mk-measures"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🔎</div><div><div class="activity-title">Warm-Up: Market Measures</div><div class="activity-sub">Job 1 · Stamp each stall sign with its factor</div></div><span class="activity-time" style="background:#F5C518;color:#0E1C42;">~4 min</span></div><div class="activity-body">'
- +tip('atlas','You met the metric units in third grade. How many of the small unit fit inside the big one?')
+ +tip('atlas','Count how many of the small unit fit inside the big one. The pictures show you. Every metric unit uses 10, 100 or 1,000.')
  +'<div data-mk-model="stamps"></div>'+reveal+journal_r1+'</div></div>')
 
 # ── D. Think About It → Amy's counter (3 planks), Story Bar Model, no teaching yet

@@ -390,17 +390,16 @@ function modelStamps(m){
 }
 var PLANK={label:'1 m 65 cm'};
 function modelThink(m){
-  OAOKit.barModel(m,{key:'g4-4-10-01-bm-think',kind:'part-whole',unit:'cm',
+  OAOKit.barModel(m,{key:'g4-4-10-01-bm-think2',kind:'part-whole',units:['m','cm'],rate:100,
     story:['Mo lays 3 planks end to end for Amy\'s counter. ',{t:'The first plank is 1 m 65 cm.',put:'p0',label:PLANK.label},' ',{t:'The second plank is the same length.',put:'p1',label:PLANK.label},' ',{t:'So is the third.',put:'p2',label:PLANK.label},' How long is the counter?'],
     whole:{name:'counter',unknown:true},partsName:'planks',
     parts:[{id:'p0',value:165,name:'plank 1'},{id:'p1',value:165,name:'plank 2'},{id:'p2',value:165,name:'plank 3'}],
-    question:'How long is the counter, in centimeters?',answer:495,
+    question:'How long is the counter?',answer:[4,95],
     mistakes:[{value:195,text:'That\'s only the centimeter parts: 3 × 65 cm. Each plank also has 1 m in it.'},
-              {value:3195,text:'3 m 195 cm is a good start! The box wants centimeters, and 3 m = 300 cm.'},
               {value:365,text:'That\'s 3 m and only 65 cm. Each plank has 65 cm, so the centimeters need 3 times, too.'}],
     hint:'1 m = 100 cm, so each plank is 165 cm. The counter is 3 planks long.',
-    sym:'1 m 65 cm + 1 m 65 cm + 1 m 65 cm = 495 cm',
-    doneText:'Yes! 495 cm. On the Learn tab, the Math Crew shows two ways to get there.',
+    sym:'1 m 65 cm + 1 m 65 cm + 1 m 65 cm = 4 m 95 cm',
+    doneText:'Yes! 4 m 95 cm. On the Learn tab, the Math Crew shows two ways to get there.',
     onDone:function(root){earn('think',4,4,root,'You tried it first!');}});
 }
 var CM={places:[100,10,1],big:100,bigUnit:'m',smallUnit:'cm',tray:true,perRow:3,
@@ -456,13 +455,13 @@ function modelProve(m){
     onDone:function(root){earn('prove',5,5,root,'You proved it!');}});
 }
 function modelMental(m){
-  OAOKit.mentalMath(m,{key:'g4-4-10-01-mm2',name:'Make the next meter',
-    how:'Split the centimeters you add. Use one part to finish the meter, then add the rest.',
-    example:{q:'1 m 70 cm + 50 cm',bond:{whole:50,parts:[30,20]},steps:['1 m 70 cm + 30 cm = 2 m','2 m + 20 cm = 2 m 20 cm']},
-    problems:[{q:'60 cm + 55 cm',units:['m','cm'],a:[1,15],hint:'40 cm finishes the meter. Split 55 into 40 and 15.'},
-              {q:'2 m 75 cm + 30 cm',units:['m','cm'],a:[3,5],hint:'25 cm finishes the meter. Split 30 into 25 and 5.'},
-              {q:'1 m 90 cm + 45 cm',units:['m','cm'],a:[2,35],hint:'10 cm finishes the meter. Split 45 into 10 and 35.'},
-              {q:'3 m 85 cm + 60 cm',units:['m','cm'],a:[4,45],hint:'15 cm finishes the meter. Split 60 into 15 and 45.'}],
+  OAOKit.mentalMath(m,{key:'g4-4-10-01-mm3',name:'Make 100',
+    how:'1 m is 100 cm. Find the number that goes with the centimeters to make 100. Count up to the next ten, then to 100.',
+    example:{q:'70 cm + ? = 1 m',bond:{whole:100,parts:[70,30]},steps:['1 m is 100 cm.','70 + 30 = 100','So 70 cm + 30 cm = 1 m.']},
+    problems:[{q:'65 cm + ? = 1 m',pre:'65 cm +',post:'cm = 1 m',a:35,hint:'Count up: 65 to 70 is 5, then 70 to 100 is 30. 5 + 30 = ?'},
+              {q:'45 cm + ? = 1 m',pre:'45 cm +',post:'cm = 1 m',a:55,hint:'45 to 50 is 5, then 50 to 100 is 50.'},
+              {q:'82 cm + ? = 1 m',pre:'82 cm +',post:'cm = 1 m',a:18,hint:'82 to 90 is 8, then 90 to 100 is 10.'},
+              {q:'38 cm + ? = 1 m',pre:'38 cm +',post:'cm = 1 m',a:62,hint:'38 to 40 is 2, then 40 to 100 is 60.'}],
     onRight:function(i,el){earn('mm-'+i,1,0,el,'');},onDone:function(root){earn('mm-all',2,3,root,'Mental math done!');}});
 }
 function modelBonus(m){

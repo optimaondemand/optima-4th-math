@@ -232,6 +232,16 @@ def main(code):
             out('WARN', 'a hint ladder without exactly 3 rungs')
     if not re.search(r"words:\[\{w:", lesson_js):
         out('WARN', 'no new words defined in the sentence (PQ_LESSON.words)')
+    # 9b readiness: the Warm-Up must not need today's new skill (Bethany, 27 Oct 2026)
+    think = re.search(r"function modelThink\(m\)\{(.*?)\n\}", lesson_js, re.S)
+    if think and re.search(r"question:'[^']*\bin (centimeters|meters|grams|kilograms|milliliters|liters|inches|feet|ounces|pounds|cups|minutes|seconds)\?'", think.group(1)):
+        out('WARN', 'READINESS: the Think question asks for one unit only ("in centimeters?"), which pushes every student into one method before Learn. Ask "How long…?" with a box per unit (units:[...]).')
+    mm = re.search(r"OAOKit\.mentalMath\(m,\{[^}]*?name:'([^']*)'", lesson_js)
+    if mm and re.search(r'next|regroup|trade', mm.group(1), re.I) and code.endswith('-01'):
+        out('WARN', 'READINESS: the first lesson of a unit warms up with "%s", which uses the unit\'s new skill. Warm up with something students already know (check the chapter notes).' % mm.group(1))
+    if re.search(r"(in|from) (third|3rd|second|2nd) grade", strip(tab(s, 'warmup')), re.I):
+        out('WARN', 'READINESS: the Warm-Up says students learned something in an earlier grade. Check it against the chapter notes (4.10.01 said this about millimeters, which are new in Lesson 1).')
+    out('ok', 'readiness checks run (Think answer format, warm-up strategy, prior-grade claims)')
     out('ok', 'helpers: %d writing boxes with chips, %d hint ladders, %d defined words' % (len(wr), len(re.findall(r'rungs:\[', lesson_js)), len(re.findall(r"\{w:'", lesson_js))))
     # 9 duplicates across the unit + lean budget
     words = len(vis.split())

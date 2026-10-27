@@ -56,6 +56,9 @@ def check(src, text):
         a, ua, op, b, ub, c, uc = m.groups()
         A, B, C = (int(x.replace(',', '')) for x in (a, b, c))
         if ua and ub and ua != ub: continue  # mixed units: covered by unit check
+        if op in '+-' and ua and uc and ua != uc:   # 70 cm + 30 cm = 1 m: compare in the smaller unit
+            if U[ua][0] != U[uc][0]: continue
+            A, B, C = A * U[ua][1], B * U[ub or ua][1], C * U[uc][1]
         r = {'×': A * B, '÷': A / B if B else None, '+': A + B, '-': A - B}[op]
         if r is not None and r != C:
             out.append((src, 'ARITHMETIC IS WRONG', m.group(0), t[max(0, m.start() - 50):m.end() + 20]))

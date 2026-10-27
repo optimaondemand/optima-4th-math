@@ -13,12 +13,14 @@ const drag=async(src,dst)=>{const a=await p.$(src);await a.scrollIntoViewIfNeede
 // ── Warm-Up: job 1 stamps (tap), mental math, Think bar model
 for(const [v,id] of [['×10','mmcm'],['×100','cmm'],['×1,000','mkm']]){await p.click(`.mk-stamp[data-v="${v}"]`);await p.click(`.mk-sign[data-id="${id}"]`);}
 ok(await job('j1'),'job 1: stamps');
-await p.fill('#mm-g4-4-10-01-mm2-0','0');await p.fill('#mm-g4-4-10-01-mm2-0-1','115');await p.click('.mm-p[data-i="0"] button');ok((await msg('.mm-p[data-i="0"] .mm-fb')).includes('Trade each 100 cm'),'mental math: 0 m 115 cm gets the trade hint');
-for(const [i,mv,cv] of [[0,'1','15'],[1,'3','5'],[2,'2','35'],[3,'4','45']]){await p.fill(`#mm-g4-4-10-01-mm2-${i}`,mv);await p.fill(`#mm-g4-4-10-01-mm2-${i}-1`,cv);await p.click(`.mm-p[data-i="${i}"] button`);}
-ok(await p.$$eval('.mm-p.ok',x=>x.length)===4,'mental math: make the next meter, 4 right');
+await p.fill('#mm-g4-4-10-01-mm3-0','30');await p.click('.mm-p[data-i="0"] button');ok((await msg('.mm-p[data-i="0"] .mm-fb')).includes('Count up'),'mental math: a wrong answer gets the count-up hint');
+for(const [i,a] of [[0,'35'],[1,'55'],[2,'18'],[3,'62']]){await p.fill(`#mm-g4-4-10-01-mm3-${i}`,a);await p.click(`.mm-p[data-i="${i}"] button`);}
+ok(await p.$$eval('.mm-p.ok',x=>x.length)===4,'mental math: make 100, 4 right');
 const T='#mk-think';for(const i of [1,3,5]){await p.click(`${T} .bm-fact[data-i="${i}"]`);await p.click(`${T} .bm-seg[data-seg="p${(i-1)/2}"]`);}
-await p.fill(`${T} .bm-form input`,'195');await p.click(`${T} .bm-form button`);ok((await msg(`${T} .ok-msg`)).includes('1 m in it'),'think: 195 gets the "forgot the meters" hint');
-await p.fill(`${T} .bm-form input`,'495');await p.click(`${T} .bm-form button`);ok((await p.$eval(`${T} .ok-msg`,e=>e.className)).includes('good'),'think: 495 cm accepted');
+const tb=async(mv,cv)=>{const I=await p.$$(`${T} .bm-form input`);await I[0].fill(mv);await I[1].fill(cv);await p.click(`${T} .bm-form button`);};
+await tb('1','95');ok((await msg(`${T} .ok-msg`)).includes('1 m in it'),'think: 1 m 95 cm (195 cm) gets the "forgot the meters" hint');
+await tb('3','195');ok((await msg(`${T} .ok-msg`)).includes('right amount'),'think: 3 m 195 cm gets the "can you trade?" nudge');
+await tb('4','95');ok((await p.$eval(`${T} .ok-msg`,e=>e.className)).includes('good'),'think: 4 m 95 cm accepted');
 // ── planks quest
 await p.evaluate(()=>PQ._play('planks'));await p.waitForTimeout(600);await drain();
 for(const [x,y,k] of [[11,17,'ArrowDown'],[1,5,'ArrowUp'],[29,8,'ArrowDown']]){await p.evaluate(([x,y])=>PQ._tp(x,y,'down'),[x,y]);if(x==29){await p.evaluate(()=>PQ._tp(29,6,'down'));}await p.keyboard.down(k);await p.waitForTimeout(140);await p.keyboard.up(k);await p.waitForTimeout(400);await drain();}

@@ -583,3 +583,6 @@ body.pqi-on{overflow:hidden}
 .mm-two input{width:64px}
 .mm-u{font-weight:800;margin-right:6px}
 .mm-two .mm-fb{flex-basis:auto;align-self:stretch}
+.mm-eq{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.mm-eq input{width:58px}
+.mm-eq .mm-post{margin:0}
