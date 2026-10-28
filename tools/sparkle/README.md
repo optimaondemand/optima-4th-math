@@ -118,6 +118,9 @@ Files the studio saves: `assets/video/teacher/<prefix>-<slot>.mp4` (+ `.jpg`, `.
 In `lesson.js`, the Crew has two sets of lines. `HELLO` (they introduce themselves and talk about today's place, no math) plays
 until the page teaches their methods. `IDLE` (each Crew member's method) unlocks after `CREW_TAUGHT`, the Learn job that teaches
 it (4.10.01: `'j2'`, Build the Counter). `check_lesson.py` fails a lesson that has `IDLE` without `HELLO` and `CREW_TAUGHT`.
+Opti never says "Hoo" in a clip: write "Hoo!" in his line and the game plays a soft 8-bit hoot (`Snd.hoot`) before the clip
+(`voice.py` strips it from the script). `voice.py` also respells names the voices misread (`SAY`: Liter Well → Leeter Well), and
+`build_lesson.py` tags every clip link with `?v=<hash>` so a re-recorded clip is never served from the browser cache.
 Add a single new voiced line without re-recording everyone: `python3 tools/sparkle/voice/voice.py one 10-01 atlas "Hi, I'm Atlas" take.mp3`.
 
 ## Character voices (`tools/sparkle/voice/`)

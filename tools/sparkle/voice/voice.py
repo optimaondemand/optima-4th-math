@@ -54,6 +54,7 @@ SAY = {'Liter Well': 'Leeter Well'}  # names the voices misread (Opti said 'ligh
 def spoken(t):
     """What the voice actor reads: units spelled out (TTS says "em" for m), symbols in words, no {name}."""
     t = t.replace('{name}', 'explorer')
+    t = re.sub(r'^Hoo+[!,.]*\s*', '', t)  # Opti's "Hoo!" is a game sound (Snd.hoot), never spoken
     for w, say in SAY.items(): t = t.replace(w, say)
     t = re.sub(r'\s*\((?:calling[^)]*)\)\s*', ' ', t)
     def unit(m):

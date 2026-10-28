@@ -29,6 +29,11 @@ var Snd = (function(){
     bad:function(){tone(300,0.12,'square',0.03);tone(220,0.18,'square',0.03,0.1);},
     item:function(){[523,659,784,1047].forEach(function(f,i){tone(f,0.13,'square',0.035,i*0.09);});tone(1047,0.35,'triangle',0.04,0.36);},
     clear:function(){[523,523,523,659,784,659,784,1047].forEach(function(f,i){tone(f,0.14,i<3?'square':'square',0.035,[0,.12,.24,.36,.6,.84,.96,1.2][i]);});tone(1047,0.5,'triangle',0.05,1.2);},
+    hoot:function(){var a=ctx0();if(!a||muted)return;  // Opti's soft 8-bit "hoo-hoo" (replaces a spoken "Hoo!")
+      [[0,0.2,440,400],[0.32,0.38,420,350]].forEach(function(n){var o=a.createOscillator(),g=a.createGain(),s=a.currentTime+n[0];o.type='triangle';
+        o.frequency.setValueAtTime(n[2],s);o.frequency.exponentialRampToValueAtTime(n[3],s+n[1]);
+        g.gain.setValueAtTime(0.0001,s);g.gain.exponentialRampToValueAtTime(0.09,s+0.05);g.gain.exponentialRampToValueAtTime(0.0001,s+n[1]);
+        o.connect(g);g.connect(a.destination);o.start(s);o.stop(s+n[1]+0.03);});},
     poof:function(){var a=ctx0();if(!a||muted)return;for(var i=0;i<8;i++)tone(200-i*15,0.08,'sawtooth',0.02,i*0.04);},
     get muted(){return muted;}, toggle:function(){muted=!muted;store.set('oao.pq.mute',muted);return muted;}
   };
@@ -179,11 +184,12 @@ function tapAt(ev){
    PQ_DATA.voice = {dir:'assets/audio/lessons/10-01/', clips:{'<key>':'mo-1a2b3c4d.mp3'}} (built by tools/sparkle/voice/voice.py).
    key = FNV-1a hash of who + '|' + the line exactly as written in lesson.js ({name} included), so a reworded line simply goes quiet
    until it is re-voiced. Lines with no clip (or with the game muted) keep the typing blips. */
-var Voice=(function(){var cur=null;
+var Voice=(function(){var cur=null,wait=0;
   function key(who,t){var h=0x811c9dc5,s=who+'|'+t;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)>>>0;}return ('0000000'+h.toString(16)).slice(-8);}
-  function stop(){if(cur){try{cur.pause();}catch(e){}cur=null;}}
+  function stop(){clearTimeout(wait);if(cur){try{cur.pause();}catch(e){}cur=null;}}
   function play(who,t){stop();var V=D.voice;if(!V||!V.clips||Snd.muted||!t)return false;var f=V.clips[key(who,t)];if(!f)return false;
-    try{cur=new Audio(V.dir+f);cur.volume=0.9;var pr=cur.play();if(pr&&pr.catch)pr.catch(function(){});}catch(e){return false;}return true;}
+    var hoo=who==='opti'&&/^Hoo+\b/.test(t);if(hoo)Snd.hoot();  // the clip itself never says "Hoo" (voice.py strips it)
+    try{cur=new Audio(V.dir+f);cur.volume=0.9;var a=cur;wait=setTimeout(function(){if(cur!==a)return;var pr=a.play();if(pr&&pr.catch)pr.catch(function(){});},hoo?750:0);}catch(e){return false;}return true;}
   return {play:play,stop:stop,key:key};})();
 
 /* ───────── dialog ───────── */

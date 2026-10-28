@@ -8,7 +8,7 @@ const drain=async()=>{for(let i=0;i<40;i++){if(!await p.evaluate(()=>!!document.
 const pad=async v=>{for(const k of String(v))await p.evaluate(k=>PQ._padKey(k),k);await p.evaluate(()=>PQ._padKey('OK'));await p.waitForTimeout(300);};
 const job=id=>p.evaluate(id=>PQM.jobDone(id),id);
 const msg=sel=>p.$eval(sel,e=>e.textContent);
-const drag=async(src,dst)=>{const a=await p.$(src);await a.scrollIntoViewIfNeeded();const r=await a.boundingBox();const t=await p.$(dst);const q=await t.boundingBox();
+const drag=async(src,dst)=>{const a=await p.$(src);await a.evaluate(e=>{(e.closest('.oao-kit,.activity')||e).scrollIntoView({block:'center',behavior:'instant'});});await p.waitForTimeout(150);const r=await a.boundingBox();const t=await p.$(dst);const q=await t.boundingBox();
   await p.mouse.move(r.x+r.width/2,r.y+r.height/2);await p.mouse.down();await p.mouse.move(r.x+r.width/2+10,r.y+r.height/2+10,{steps:3});await p.mouse.move(q.x+q.width/2,q.y+q.height/2,{steps:8});await p.mouse.up();await p.waitForTimeout(100);};
 const crewSays=id=>p.evaluate(id=>{let said=null;PQ_DATA.talk(id,{S:PQ._state(),say:l=>{said=l[0].t;},save:()=>{},goal:()=>{}});return said;},id);
 {const t=await crewSays('felix');ok(/I'm Felix/.test(t)&&!/165|cm/.test(t),'crew before Learn: Felix says hello and talks about the market (no math yet)');}
@@ -37,6 +37,7 @@ const C='#mk-counter';await p.click(`${C} .ok-add`);ok((await msg(`${C} .ok-msg`
 await p.click(`${C} .ok-tray .ok-disc[data-p="100"]`);for(let i=0;i<6;i++)await p.click(`${C} .ok-tray .ok-disc[data-p="10"]`);for(let i=0;i<4;i++)await p.click(`${C} .ok-tray .ok-disc[data-p="1"]`);
 await drag(`${C} .ok-tray .ok-disc[data-p="1"]`,`${C} .ok-col[data-p="1"]`);
 await p.click(`${C} .ok-add`);await p.click(`${C} .ok-add`);
+await p.waitForFunction(s=>(document.querySelector(s)||{}).textContent.includes('Trade'),`${C} .ok-sym`,{timeout:3000}).catch(()=>{});
 const sym=await msg(`${C} .ok-sym`);ok(sym.includes('3 × 1 m 65 cm')&&sym.includes('3 m 195 cm')&&sym.includes('Trade'),'counter: 3 planks show 3 × 1 m 65 cm = 3 m 195 cm + regroup warning');
 await p.screenshot({path:path.join(OUT,'counter-before.png'),clip:await (await p.$(C)).boundingBox()});
 await p.click(`${C} .ok-col[data-p="1"] .ok-colbtns .ok-btn`);await p.click(`${C} .ok-col[data-p="10"] .ok-colbtns .ok-btn`);

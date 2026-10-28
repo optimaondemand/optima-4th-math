@@ -48,7 +48,12 @@ def main(code):
     data += 'window.PQ_VIDEO=' + json.dumps(video, ensure_ascii=False) + ';\n' + lesson_js
     vpath = os.path.join(d, 'voice.json')   # written by tools/sparkle/voice/voice.py once the character clips exist
     if os.path.exists(vpath):
-        data += '\nPQ_DATA.voice=' + json.dumps(json.load(open(vpath, encoding='utf8')), ensure_ascii=False) + ';\n'
+        V = json.load(open(vpath, encoding='utf8'))
+        import hashlib  # a version tag per clip, so a re-recorded clip is never served from the browser cache
+        for k, f in V['clips'].items():
+            fp = os.path.join(REPO, V['dir'], f)
+            if os.path.exists(fp): V['clips'][k] = f + '?v=' + hashlib.md5(open(fp, 'rb').read()).hexdigest()[:8]
+        data += '\nPQ_DATA.voice=' + json.dumps(V, ensure_ascii=False) + ';\n'
     open(os.path.join(REPO, data_rel), 'w', encoding='utf8').write(data)
     os.makedirs(os.path.join(REPO, 'data', 'videos'), exist_ok=True)
     json.dump(video, open(os.path.join(REPO, 'data', 'videos', 'lesson-%s-%s.json' % (uu, ll)), 'w', encoding='utf8'),
