@@ -1,10 +1,10 @@
 {
  "_note": "ElevenLabs voice ids shared by every G4 math lesson. Year-long cast: opti, atlas, felix, hazel, cora, smudge. A level's key characters reuse secondary_man / secondary_woman (map them in _cast). Anyone else keeps the sprite garble.",
  "opti": "WdZjiN0nNcik2LBjOHiv",
- "atlas": "xCyfAutjCrYQhbBDS4l8",
- "felix": "s3TPKV1kjDlVtZbl4Ksh",
- "hazel": "TmK7x2BFDD7TOVlR69J2",
- "cora": "gJx1vCzNCD1EQHT212Ls",
+ "atlas": "unWb9iRIK7Xxf4A5Hfis",
+ "felix": "PJeatLZlmAT5jz5L5p7U",
+ "hazel": "MkTSSXNgnBULS6ek4pon",
+ "cora": "5T4Pk1MOGKVVSf9tJnWM",
  "millie": "",
  "penny": "",
  "smudge": "03UxGYCWKFAlC28C7ugZ",
@@ -16,15 +16,14 @@
   "item-plank",
   "item-sack"
  ],
- "secondary_man": "pwMBn0SsmN1220Aorv15",
- "secondary_woman": "yK2Ny0mq8WplixhD1td3",
+ "secondary_man": "b0BlLcowQPmtf6a9cuP5",
+ "secondary_woman": "vjcrpGpR31efFHsvJ0ym",
  "_cast": {
   "mo": "secondary_man",
   "amy": "secondary_woman"
  },
  "_fx": {
-  "_note": "8-bit sound on every voice except Opti (Bethany, 27 Oct 2026). Names are presets in voice.py FX.",
-  "default": "handheld",
-  "opti": ""
+  "_note": "Optional sound effect per character (presets in voice.py FX). Off since 27 Oct 2026: Bethany found the 8-bit \"handheld\" sound tinny and switched to animated ElevenLabs voices instead.",
+  "default": ""
  }
 }

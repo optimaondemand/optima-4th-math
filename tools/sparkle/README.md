@@ -119,7 +119,7 @@ Only the year-long cast is voiced (Opti, Atlas, Felix, Hazel, Cora, the Smudge) 
 Everyone else, and the student, keeps the sprite garble. Voice ids live in `voice/voices.json` (shared by every lesson).
 Key level characters share two secondary voices: `secondary_man` (Matt) and `secondary_woman` (Caroline). Map each one in `_cast`
 in `voices.json` (for example `"mo": "secondary_man"`); never give a level character its own voice id.
-`voice.py split` also gives every clip the 8-bit "handheld" sound (`_fx` in `voices.json`: default `handheld`, Opti clean).
+Voices are animated ElevenLabs voices generated with `eleven_v4`: write each character's lines with emotion tags (`[excited]`, `[gasps]`) and `[long pause]` between lines (about 1–2 s, enough for `split`). `_fx` in `voices.json` can add a sound effect per character; it is off (Bethany found the 8-bit sound tinny).
 
 ```
 python3 tools/sparkle/voice/voice.py lines 10-01                 # writes lessons/10-01/voice-lines.json: one prompt per character
