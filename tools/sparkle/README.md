@@ -131,9 +131,9 @@ beside the video. Chrome asks once to share the tab (pick this tab → Share); o
 behind Bethany. Script it with `[ON SCREEN: Live: …]` and say what to move with `[DO: …]` (🖐 in the prompter, not spoken).
 Every board has a pen bar under the video: ✏️ Pen, colors, Undo, Clear, Board off (D still toggles the pen).
 
-## Every Learn job: a goal, steps and hints
+## Every job: a goal, steps and hints
 
-Each Learn job opens with `job(story, steps)` in `make.py`: a **Your job** box (the story and the question it answers) and a
+Every job, on every tab (Learn and Show What You Know), opens with `job(story, steps)` in `make.py`: a **Your job** box (the story and the question it answers) and a
 **What to do** list, then the tip and the model. Each job also gets a 3-rung hint ladder in `PQ_LESSON.hints` (where to start →
 the trade or step students miss → the same idea with different numbers). Add new hints at the END of the list (`play.js`
 counts them by position). Unit labels are never uppercased (mL, cm).
