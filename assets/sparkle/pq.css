@@ -425,7 +425,7 @@ body{background:#EFE3CF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .ch-explain{background:#fff;border:2px solid #2DB87A;border-radius:10px;padding:10px 12px;margin-top:8px;font-size:15px}
 
 .bm-seg,.bm-track{box-sizing:border-box}
-.bm-model .ok-btn,.bm-ask .ok-btn,.nb-nav .ok-btn,.mm-p .ok-btn,.ch-form .ok-btn{font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;color:#fff;background:#C56C3F;border:2px solid #3B2417;border-radius:8px;padding:6px 14px;cursor:pointer}
+.bm-model .ok-btn,.bm-ask .ok-btn,.mk-two .ok-btn,.nb-nav .ok-btn,.mm-p .ok-btn,.ch-form .ok-btn{font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;color:#fff;background:#C56C3F;border:2px solid #3B2417;border-radius:8px;padding:6px 14px;cursor:pointer}
 .ch-form .ch-hint{background:#fff;color:#3B2417}
 .nb-nav .ok-next{background:#2DB87A}
 @media(prefers-reduced-motion:reduce){.bm-q{animation:none}.mm-p.no{animation:none}}

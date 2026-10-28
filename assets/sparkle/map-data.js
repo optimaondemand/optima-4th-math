@@ -16,7 +16,7 @@ window.PQ_MAP=[
 "id": "4.10.02",
 "title": "Customary Units of Length",
 "file": "math-lesson-4-10-02-customary-length.html",
-"sparkled": false
+"sparkled": true
 },
 {
 "id": "4.10.03",

@@ -20,7 +20,9 @@
  "secondary_woman": "vjcrpGpR31efFHsvJ0ym",
  "_cast": {
   "mo": "secondary_man",
-  "amy": "secondary_woman"
+  "amy": "secondary_woman",
+  "gus": "secondary_man",
+  "rosa": "secondary_woman"
  },
  "_fx": {
   "_note": "Optional sound effect per character (presets in voice.py FX). Only Opti has one: a light \"robot\" tinniness (Bethany, 28 Oct 2026). Everyone else is clean (she found the full 8-bit \"handheld\" filter tinny on the cast).",

@@ -57,7 +57,7 @@ def main(code):
     vpath = os.path.join(d, 'voice.json')   # written by tools/sparkle/voice/voice.py once the character clips exist
     if os.path.exists(vpath):
         V = json.load(open(vpath, encoding='utf8'))
-        import hashlib  # a version tag per clip, so a re-recorded clip is never served from the browser cache
+        # a version tag per clip, so a re-recorded clip is never served from the browser cache
         for k, f in V['clips'].items():
             fp = os.path.join(REPO, V['dir'], f)
             if os.path.exists(fp): V['clips'][k] = f + '?v=' + hashlib.md5(open(fp, 'rb').read()).hexdigest()[:8]
