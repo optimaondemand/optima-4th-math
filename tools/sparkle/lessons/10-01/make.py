@@ -105,7 +105,8 @@ s=s[:i]+act('mk-flour','#6B3FA0','🌾','Millie\'s Flour: 6 kg 5 g − 2 kg 750 
 
 # ── H. Worked example (new numbers, both ways) + one-picture summary
 i=s.index('<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🔍</div><div><div class="activity-title">Worked Example: 1 km − 300 m</div>');j=block_end(s,i)
-WE=('<div class="activity bl-slate" id="mk-worked"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🔍</div><div><div class="activity-title">Worked Example: Mo\'s Board</div><div class="activity-sub">Subtract two-unit amounts, two ways</div></div></div><div class="activity-body">'
+WE=('<div class="activity bl-slate" id="mk-worked"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🔍</div><div><div class="activity-title">Study It: How Mo Cut His Board</div><div class="activity-sub">Already solved for you. Read it, then try Millie\'s Flour.</div></div></div><div class="activity-body">'
+ '<p style="margin:0 0 10px;font-weight:700;color:#3A4A6B;">👀 Nothing to type here. Read each step and see how Atlas and Felix each solve it. You will use the same steps on Millie\'s Flour next.</p>'
  '<div class="task-box"><div class="task-label">Problem</div><p>Mo has a board <strong>3 m 20 cm</strong> long. He cuts off <strong>1 m 45 cm</strong>. How long is the piece that is left?</p></div>'
  +tip('atlas','20 cm − 45 cm won\'t work. Regroup first: trade 1 m for 100 cm.')+
  '<div class="we-two"><div class="we-way"><h5>Split the units (Atlas)</h5><ol><li>Regroup: 3 m 20 cm = 2 m 120 cm.</li><li>Centimeters: 120 cm − 45 cm = 75 cm.</li><li>Meters: 2 m − 1 m = 1 m.</li><li>Answer: <b>1 m 75 cm</b>.</li></ol></div>'

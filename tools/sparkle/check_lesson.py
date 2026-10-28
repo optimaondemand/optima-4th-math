@@ -23,7 +23,7 @@ import unit_check  # noqa: E402
 JARGON = ['socratic', 'maintenance', 'fluency', 'reasonableness', 'powers of 10', 'power of 10', 'scaffold', 'cpa',
           'concrete-pictorial', 'pictorial', 'abstract', 'metacognit', 'manipulative', 'benchmark', 'formative',
           'summative', 'mastery', 'rigor', 'dok', 'readiness', 'differentiat', 'remediat', 'enrichment', 'i do, we do',
-          'gradual release', 'productive struggle', 'heuristic', 'systematic variation', 'connection forward']
+          'gradual release', 'productive struggle', 'heuristic', 'systematic variation', 'connection forward', 'worked example']
 PLACEHOLDERS = ['message from your teacher', 'video-placeholder', '[game mockup]', 'recording script', 'lorem', 'todo', 'tbd',
                 'in your notebook', 'go back to', 'click here to']
 MAX_WORDS = 230      # a 2-minute script at a calm pace
