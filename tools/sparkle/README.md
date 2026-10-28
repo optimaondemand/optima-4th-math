@@ -119,6 +119,7 @@ Only the year-long cast is voiced (Opti, Atlas, Felix, Hazel, Cora, the Smudge) 
 Everyone else, and the student, keeps the sprite garble. Voice ids live in `voice/voices.json` (shared by every lesson).
 Key level characters share two secondary voices: `secondary_man` (Matt) and `secondary_woman` (Caroline). Map each one in `_cast`
 in `voices.json` (for example `"mo": "secondary_man"`); never give a level character its own voice id.
+`voice.py split` also gives every clip the 8-bit "handheld" sound (`_fx` in `voices.json`: default `handheld`, Opti clean).
 
 ```
 python3 tools/sparkle/voice/voice.py lines 10-01                 # writes lessons/10-01/voice-lines.json: one prompt per character

@@ -21,5 +21,10 @@
  "_cast": {
   "mo": "secondary_man",
   "amy": "secondary_woman"
+ },
+ "_fx": {
+  "_note": "8-bit sound on every voice except Opti (Bethany, 27 Oct 2026). Names are presets in voice.py FX.",
+  "default": "handheld",
+  "opti": ""
  }
 }

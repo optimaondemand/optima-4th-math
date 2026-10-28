@@ -74,6 +74,14 @@ def cmd_lines(code):
         print('%-9s %2d lines %5d chars  voice=%s' % (sp, len(p['lines']), len(p['prompt']), p['voice_id'] or '(none yet)'))
     print('total chars', sum(len(p['prompt']) for p in plan.values()))
 
+FX = {  # 8-bit treatments, chosen per character in voices.json "_fx" (Bethany picked "handheld", 27 Oct 2026)
+    'handheld': 'rubberband=pitch=1.12,highpass=f=250,lowpass=f=3800,aresample=11025,acrusher=bits=8:mode=lin:mix=1:aa=1,aresample=44100',
+    '': ''}
+
+def fx_for(sp):
+    f = json.load(open(os.path.join(REPO, 'tools/sparkle/voice/voices.json'), encoding='utf8')).get('_fx', {})
+    return FX[f.get(sp, f.get('default', ''))]
+
 def cmd_split(code, sp, take):
     plan = json.load(open(os.path.join(REPO, 'tools/sparkle/lessons', code, 'voice-lines.json'), encoding='utf8'))[sp]
     n = len(plan['lines'])
@@ -92,10 +100,11 @@ def cmd_split(code, sp, take):
     outdir = os.path.join(REPO, 'assets/audio/lessons', code); os.makedirs(outdir, exist_ok=True)
     vp = os.path.join(REPO, 'tools/sparkle/lessons', code, 'voice.json')
     V = json.load(open(vp, encoding='utf8')) if os.path.exists(vp) else {'dir': 'assets/audio/lessons/%s/' % code, 'clips': {}}
+    fx = fx_for(sp)
     for (a, b), l in zip(cuts, plan['lines']):
         f = '%s-%s.mp3' % (l['who'], l['key'])
         subprocess.run(['ffmpeg', '-y', '-v', 'error', '-ss', '%.3f' % max(0, a - 0.05), '-to', '%.3f' % (b + 0.12), '-i', take,
-                        '-af', 'afade=t=in:d=0.02,areverse,afade=t=in:d=0.08,areverse,loudnorm=I=-18:TP=-2', '-ac', '1', '-b:a', '64k', os.path.join(outdir, f)], check=True)
+                        '-af', 'afade=t=in:d=0.02,areverse,afade=t=in:d=0.08,areverse,' + (fx + ',' if fx else '') + 'loudnorm=I=-18:TP=-2', '-ac', '1', '-ar', '44100', '-b:a', '64k', os.path.join(outdir, f)], check=True)
         V['clips'][l['key']] = f
     json.dump(V, open(vp, 'w', encoding='utf8'), ensure_ascii=False, indent=1)
     print('%s: %d clips written' % (sp, n))
