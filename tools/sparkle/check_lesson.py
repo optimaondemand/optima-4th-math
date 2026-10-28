@@ -169,8 +169,20 @@ def main(code):
     names = list(slots)
     if [n for n in names if n not in ('think', 'learn', 'do', 'wrap')] or not all(k in names for k in ('think', 'learn', 'do')):
         out('FAIL', 'video slots must be think, learn, do (+ optional wrap); found ' + ', '.join(names))
-    if not slots.get('do', {}).get('screen'):
-        out('FAIL', 'the "do" video is the screen recording: set "screen": true')
+    # math videos teach on boards (tools/sparkle/boards.js): Learn and Do each show and draw on at least one
+    for n in ('learn', 'do'):
+        if n in slots and not any(p.get('kind') == 'board' for p in slots[n].get('parts', [])) and not (n == 'do' and slots[n].get('screen')):
+            out('FAIL', 'the "%s" video has no board to draw on (add "kind":"board" parts and run node tools/sparkle/boards.js %s)' % (n, code))
+    for n, v in slots.items():
+        bds = [p for p in v.get('parts', []) if p.get('kind') == 'board']
+        for p in bds:
+            if not os.path.exists(os.path.join(REPO, 'assets', 'video', 'boards', code, p.get('pic', '') + '.png')):
+                out('FAIL', 'video "%s": board "%s" has no picture yet (node tools/sparkle/boards.js %s)' % (n, p.get('label'), code))
+        sc = v.get('script', '')
+        for p in bds:
+            m = re.search(r'\[ON SCREEN:[^\]]*' + re.escape(p.get('label', '')) + r'[^\]]*\]\s*(\S.{0,8})', sc)
+            if m and not m.group(1).startswith('[DRAW'):
+                out('WARN', 'video "%s": board "%s" has no [DRAW: …] direction right after its cue' % (n, p.get('label')))
     page_slots = re.findall(r'class="pq-vslot" data-slot="([a-z]+)"', s)
     for n in names:
         if n not in page_slots:
@@ -180,7 +192,7 @@ def main(code):
             out('FAIL', 'page has a video slot "%s" with no script' % n)
     for n, v in slots.items():
         sc = v.get('script', '')
-        w = len(re.sub(r'\[ON SCREEN:[^\]]*\]', '', sc).split())
+        w = len(re.sub(r'\[(?:ON SCREEN|DRAW):[^\]]*\]', '', sc).split())  # pen directions aren't spoken
         if w > MAX_WORDS:
             out('FAIL', 'video "%s" is %d words (over 2 minutes; keep it under %d)' % (n, w, MAX_WORDS))
         elif w > WANT_WORDS:
@@ -191,7 +203,7 @@ def main(code):
                 c2 = re.sub(r'[^\w\s]', '', c).strip().lower()
                 if c2 and c2 not in labels and c2 != 'confetti':
                     out('FAIL', 'video "%s": [ON SCREEN: %s] matches no card label (%s)' % (n, c.strip(), ', '.join(sorted(labels))))
-    out('ok', 'video plan: %s · %s words' % (', '.join(names), ', '.join(str(len(re.sub(r'\[ON SCREEN:[^\]]*\]', '', v.get('script', '')).split())) for v in slots.values())))
+    out('ok', 'video plan: %s · %s words' % (', '.join(names), ', '.join(str(len(re.sub(r'\[(?:ON SCREEN|DRAW):[^\]]*\]', '', v.get('script', '')).split())) for v in slots.values())))
 
     # 8 wiring
     mounted = set(re.findall(r'data-mk-model="(\w+)"', s))

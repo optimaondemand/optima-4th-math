@@ -41,7 +41,7 @@ def check(src, text):
     for e in EQS:
         for m in e.finditer(t): byStart.setdefault(m.start(), []).append(m)
     for st, ms in byStart.items():
-        if re.search(r'([×÷+\-] ?|\bof |\d[ ,]?)$', t[max(0, st - 4):st]) or COMPOUND_TAIL.search(t[max(0, st - 9):st]): continue
+        if re.search(r'([×÷+\-] ?|\bof |\btimes |\d[ ,]?)$', t[max(0, st - 7):st]) or COMPOUND_TAIL.search(t[max(0, st - 9):st]): continue  # '3 times 65 cm is 195 cm' is a product, not a unit claim
         verdicts = []
         for m in ms:
             a, b = val(m, 1), val(m, 5)

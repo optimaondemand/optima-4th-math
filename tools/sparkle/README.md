@@ -113,6 +113,17 @@ Files the studio saves: `assets/video/teacher/<prefix>-<slot>.mp4` (+ `.jpg`, `.
 `oao.pq.mute` · `oao.pq.clean` · `oao.pq.music` · `oao.pq.year` · `oao.pq.certname` · `g4-4-UU-LL-pq` (the lesson's world) ·
 `g4-4-UU-LL-*` (each model). Lessons and My Math Map share these only because they live on the same site.
 
+## Video boards (math teacher videos)
+
+The Learn and Do videos teach on **boards**: pictures that fill the video in the Video Studio, with Bethany in a corner bubble,
+drawn on with the studio pen (ink stays until she switches boards). Each board is a part in `video.json` with
+`"kind":"board"`, a `pic` name and a `board` spec; `node tools/sparkle/boards.js <UU-LL>` draws them into
+`assets/video/boards/<UU-LL>/` (1600×900, bottom-right corner left empty for the camera). Types: `problem` (big problem +
+an empty bar model, two-unit chart, number bond or "two ways" side by side), `mistake` (a wrong answer to circle and fix),
+`page` (a clean capture of the page's own model, built with real `clicks`). Scripts cue a board with
+`[ON SCREEN: Board: …]` and say what to draw with `[DRAW: …]` right after (shown in green in the prompter, not counted as
+spoken words). `build_lesson.py` hands the boards to the studio shot list; the studio loads each one from the math site.
+
 ## Every Learn job: a goal, steps and hints
 
 Each Learn job opens with `job(story, steps)` in `make.py`: a **Your job** box (the story and the question it answers) and a

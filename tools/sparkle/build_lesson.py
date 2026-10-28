@@ -42,6 +42,12 @@ def main(code):
 
     # 2. the lesson data file
     video = json.load(open(os.path.join(d, 'video.json'), encoding='utf8'))
+    # video boards (tools/sparkle/boards.js) travel to the Video Studio as pictures; the drawing spec stays in video.json
+    for sl in video['slots'].values():
+        for p in sl.get('parts', []):
+            if p.get('kind') == 'board':
+                p.pop('board', None)
+                video.setdefault('pics', {})[p['pic']] = {'src': 'assets/video/boards/%s/%s.png' % (code, p['pic']), 'cap': p.get('label', '')}
     lesson_js = open(os.path.join(d, 'lesson.js'), encoding='utf8').read()
     data_rel = 'assets/sparkle/lessons/lesson-4-%s-%s.js' % (uu, ll)
     data = '/* built by tools/sparkle/build_lesson.py from tools/sparkle/lessons/%s — edit there, not here */\n' % code
