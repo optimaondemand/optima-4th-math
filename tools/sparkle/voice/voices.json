@@ -23,7 +23,8 @@
   "amy": "secondary_woman"
  },
  "_fx": {
-  "_note": "Optional sound effect per character (presets in voice.py FX). Off since 27 Oct 2026: Bethany found the 8-bit \"handheld\" sound tinny and switched to animated ElevenLabs voices instead.",
-  "default": ""
+  "_note": "Optional sound effect per character (presets in voice.py FX). Only Opti has one: a light \"robot\" tinniness (Bethany, 28 Oct 2026). Everyone else is clean (she found the full 8-bit \"handheld\" filter tinny on the cast).",
+  "default": "",
+  "opti": "robot"
  }
 }

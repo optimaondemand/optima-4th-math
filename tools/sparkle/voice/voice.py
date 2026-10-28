@@ -49,9 +49,12 @@ def voice_id(sp):
 UNITS = {'mm': 'millimeter', 'cm': 'centimeter', 'km': 'kilometer', 'm': 'meter', 'mL': 'milliliter', 'L': 'liter',
          'kg': 'kilogram', 'g': 'gram', 'in': 'inch', 'ft': 'foot', 'yd': 'yard', 'mi': 'mile', 'lb': 'pound', 'oz': 'ounce'}
 PLURAL = {'inch': 'inches', 'foot': 'feet'}
+SAY = {'Liter Well': 'Leeter Well'}  # names the voices misread (Opti said 'lighter', Cora 'litter'); eleven_v4 can take IPA instead: /ˈliːtər/
+
 def spoken(t):
     """What the voice actor reads: units spelled out (TTS says "em" for m), symbols in words, no {name}."""
     t = t.replace('{name}', 'explorer')
+    for w, say in SAY.items(): t = t.replace(w, say)
     t = re.sub(r'\s*\((?:calling[^)]*)\)\s*', ' ', t)
     def unit(m):
         n, u = m.group(1), m.group(2); w = UNITS[u]
@@ -75,6 +78,7 @@ def cmd_lines(code):
 
 FX = {  # 8-bit treatments, chosen per character in voices.json "_fx" (Bethany picked "handheld", 27 Oct 2026)
     'handheld': 'rubberband=pitch=1.12,highpass=f=250,lowpass=f=3800,aresample=11025,acrusher=bits=8:mode=lin:mix=1:aa=1,aresample=44100',
+    'robot': 'highpass=f=320,lowpass=f=5200,equalizer=f=2400:t=q:w=1:g=4,acrusher=bits=10:mode=lin:mix=0.45:aa=1',  # Opti: a little tinny (Bethany, 28 Oct 2026)
     '': ''}
 
 def fx_for(sp):
