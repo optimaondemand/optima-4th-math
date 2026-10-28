@@ -79,10 +79,10 @@ function renderBoard(){
   var n=J.filter(function(j){return jobDone(j.id);}).length,scene=L.scene?L.scene(api):'';
   $$('.mk-board-mount').forEach(function(m){
     m.innerHTML='<div class="mk-board"><div class="mk-board-top"><div class="mk-bt"><div class="mk-q">★ TODAY\'S REAL PROBLEM · '+n+' of '+J.length+' jobs done</div><h3>'+P.title+'</h3><p>'+P.text+'</p></div>'+(scene?'<div class="mk-stand-wrap">'+scene+'</div>':'')+'</div>'+
-      '<div class="mk-jobs">'+J.map(function(j,i){return '<div class="mk-job'+(jobDone(j.id)?' done':'')+'" style="--r:'+(j.r||((i%2?1:-1)*(1+i%3*0.5))+'deg')+'" role="button" tabindex="0" data-go="'+esc(j.go)+'" data-tab="'+j.tab+'"><span class="n">JOB '+(i+1)+' · +'+j.coins+' 🪙</span><b>'+j.t+'</b><span class="w">'+j.w+'</span><span class="stamp">DONE</span></div>';}).join('')+'</div></div>';
+      '<div class="mk-jobs">'+J.map(function(j,i){return '<div class="mk-job'+(jobDone(j.id)?' done':'')+'" style="--r:'+(j.r||((i%2?1:-1)*(1+i%3*0.5))+'deg')+'"><span class="n">JOB '+(i+1)+' · +'+j.coins+' 🪙</span><b>'+j.t+'</b><span class="w">'+j.w+'</span><span class="stamp">DONE</span></div>';}).join('')+'</div></div>';
   });
   $$('.mk-stand-mount').forEach(function(m){m.innerHTML=scene;});
-  $$('.mk-job').forEach(function(b){function go(){var t=b.dataset.tab;if(window.switchTab)switchTab(t);setTimeout(function(){var e=$(b.dataset.go);if(e)e.scrollIntoView({behavior:'smooth',block:'center'});},350);}b.onclick=go;b.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};});
+  // job notes are the plan only: no links that let students skip ahead (Bethany, 28 Oct 2026)
 }
 
 /* ───────── pixel tip-givers on the page ───────── */
@@ -129,6 +129,14 @@ function header(){
   if(window.PQ_DATA){var mode=document.createElement('button');mode.type='button';mode.className='pq-pill pq-mode';tools.appendChild(mode);
     var paint=function(){var c=clean();mode.innerHTML=c?'🧘 Clean mode <b>ON</b>':'🎮 Game <b>ON</b>';mode.title=c?'Turn the game back on':'Turn on clean mode: just the lesson, no game';mode.setAttribute('aria-pressed',c);};
     mode.onclick=function(){setClean(!clean());paint();};paint();}
+  var ra=document.getElementById('optima-read-aloud');
+  if(ra){var hdr=$('.header'),strip=$('.pq-town-strip');var after=strip||hdr;if(after)after.parentNode.insertBefore(ra,after.nextSibling);  // opens right under the header
+    ra.classList.add('pq-ra','pq-ra-closed');
+    var rb=document.createElement('button');rb.type='button';rb.className='pq-pill pq-ra-btn';rb.setAttribute('aria-expanded','false');rb.setAttribute('aria-controls','optima-read-aloud');
+    rb.innerHTML='🔊 Read aloud <span aria-hidden="true">▾</span>';rb.title='Open the read-aloud player';
+    rb.onclick=function(){var on=ra.classList.contains('pq-ra-closed');ra.classList.toggle('pq-ra-closed',!on);rb.setAttribute('aria-expanded',on);
+      rb.title=on?'Close the read-aloud player':'Open the read-aloud player';if(on){var pb=document.getElementById('ora-play');if(pb&&!pb.disabled)pb.focus();}};
+    tools.insertBefore(rb,tools.firstChild);}
   if(window.PQMusic)PQMusic.mount(tools);
 }
 function setClean(on){
