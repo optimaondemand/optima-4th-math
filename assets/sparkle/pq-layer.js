@@ -240,3 +240,34 @@ function init(){
 }
 return {init:init,earn:earn,spend:spend,wallet:function(){return W;},saveWallet:function(){lsSet(KEY,W);renderPouch(true);},jobDone:jobDone,setJob:setJob,renderBoard:renderBoard,rankOf:rankOf,setClean:setClean,progress:progress};
 })();
+
+/* Flow fix (Oct 28 2026, parent feedback): remember the open tab, so a
+   Canvas reload (after Submit) reopens where the student was instead of
+   on the first tab. One key per lesson page. */
+(function () {
+  var KEY = 'oao-tab-' + location.pathname;
+  function put(v) { try { localStorage.setItem(KEY, v); } catch (e) { try { sessionStorage.setItem(KEY, v); } catch (e2) {} } }
+  function get() { try { return localStorage.getItem(KEY); } catch (e) { try { return sessionStorage.getItem(KEY); } catch (e2) { return null; } } }
+  function tabIdOf(b) {
+    return b.getAttribute('data-tab') || (b.id || '').replace(/^btn-/, '') ||
+      ((b.getAttribute('onclick') || '').match(/switchTab\(\s*['"]([\w-]+)/) || [])[1] || '';
+  }
+  function hook() {
+    var cur = window.switchTab;
+    if (typeof cur !== 'function' || cur._remembers) return;
+    var wrapped = function (id) { var r = cur.apply(this, arguments); put(id); return r; };
+    wrapped._remembers = true;
+    window.switchTab = wrapped;
+    var b = document.querySelector('.tab-btn'), first = b ? tabIdOf(b) : '', last = get();
+    if (!last || last === first) return;
+    if (!document.getElementById('tab-' + last) && !document.getElementById('panel-' + last)) return;
+    setTimeout(function () {                 /* after the page's own layers have set up */
+      var sT = window.scrollTo, sIV = Element.prototype.scrollIntoView;
+      window.scrollTo = function () {}; Element.prototype.scrollIntoView = function () {};  /* no jump on restore */
+      try { window.switchTab(last); } catch (e) {}
+      window.scrollTo = sT; Element.prototype.scrollIntoView = sIV;
+    }, 0);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', hook);
+  else hook();
+})();
