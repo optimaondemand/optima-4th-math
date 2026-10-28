@@ -5,6 +5,13 @@
    - clean top: 8-bit Opti on the lesson tag, standards bubble, Game/Clean switch, study music
    - Essential Question drawer (open on the first tab only), section video slots (hidden until a video exists)
    - progress for My Math Map (oao.pq.progress) */
+/* Live board mode (?board=<model>): the Video Studio shows one model of this page, big, while the teacher uses it live.
+   Nothing the teacher does there touches a student's saved work: storage goes to memory for this page load. */
+var PQ_BOARD=(location.search.match(/[?&]board=([\w-]+)/)||[])[1]||'';
+if(PQ_BOARD){(function(){var mem={},P=Storage.prototype,g=P.getItem,st=P.setItem,rm=P.removeItem;
+  P.getItem=function(k){return Object.prototype.hasOwnProperty.call(mem,k)?mem[k]:(k==='oao.pq.mute'?g.call(this,k):null);};
+  P.setItem=function(k,v){mem[k]=String(v);};P.removeItem=function(k){delete mem[k];};})();
+  document.documentElement.classList.add('pq-boardmode');}
 var PQM = (function(){
 'use strict';
 var L, W, S, pouch, panel;
@@ -227,6 +234,21 @@ function defineWords(){
     if(o)o.value+='\nWords I learned today\n'+L.words.map(function(W){return '• '+W.w+': '+W.d;}).join('\n')+'\n';return r;};
 }
 
+/* show only one model, scaled to fill the window (the studio films this) */
+function boardMode(){
+  document.body.classList.add('pq-clean');
+  var m=document.querySelector('[data-mk-model="'+PQ_BOARD+'"]');if(!m){fail('board mode','no model "'+PQ_BOARD+'"');return;}
+  var host=document.createElement('div');host.id='pq-boardhost';var inner=document.createElement('div');inner.id='pq-boardin';
+  host.appendChild(inner);document.body.appendChild(host);inner.appendChild(m);
+  var css=document.createElement('style');css.textContent='html.pq-boardmode body>*:not(#pq-boardhost){display:none!important}'
+    +'html.pq-boardmode,html.pq-boardmode body{margin:0;height:100%;overflow:hidden;background:#FFFDF8}'
+    +'#pq-boardhost{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#FFFDF8}'
+    +'#pq-boardin{width:1040px;padding:18px 22px;background:#fff;border-radius:16px}';
+  document.head.appendChild(css);
+  function fit(){inner.style.zoom=1;var w=inner.offsetWidth,h=inner.offsetHeight,z=Math.min((innerWidth-24)/w,(innerHeight-24)/h);inner.style.zoom=Math.max(.3,z);}
+  fit();addEventListener('resize',fit);new MutationObserver(function(){clearTimeout(fit.t);fit.t=setTimeout(fit,60);}).observe(inner,{childList:true,subtree:true});
+}
+
 function init(){
   L=window.PQ_LESSON;if(!L){fail('layer','no PQ_LESSON');return;}
   if(ls('oao.pq.clean',false))document.body.classList.add('pq-clean');
@@ -244,6 +266,7 @@ function init(){
   models();hooks();progress();
   try{defineWords();}catch(e){fail('words',e);}
   try{hints();}catch(e){fail('hints',e);}
+  if(PQ_BOARD)try{boardMode();}catch(e){fail('board mode',e);}
   try{writing();}catch(e){fail('writing',e);}
 }
 return {init:init,earn:earn,spend:spend,wallet:function(){return W;},saveWallet:function(){lsSet(KEY,W);renderPouch(true);},jobDone:jobDone,setJob:setJob,renderBoard:renderBoard,rankOf:rankOf,setClean:setClean,progress:progress};

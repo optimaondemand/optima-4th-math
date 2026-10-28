@@ -45,6 +45,8 @@ def main(code):
     # video boards (tools/sparkle/boards.js) travel to the Video Studio as pictures; the drawing spec stays in video.json
     for sl in video['slots'].values():
         for p in sl.get('parts', []):
+            if p.get('kind') == 'live':   # a live board: this lesson page in board mode (?board=<model>)
+                p['page'] = os.path.basename(page)
             if p.get('kind') == 'board':
                 p.pop('board', None)
                 video.setdefault('pics', {})[p['pic']] = {'src': 'assets/video/boards/%s/%s.png' % (code, p['pic']), 'cap': p.get('label', '')}

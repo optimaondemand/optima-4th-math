@@ -124,6 +124,13 @@ an empty bar model, two-unit chart, number bond or "two ways" side by side), `mi
 `[ON SCREEN: Board: …]` and say what to draw with `[DRAW: …]` right after (shown in green in the prompter, not counted as
 spoken words). `build_lesson.py` hands the boards to the studio shot list; the studio loads each one from the math site.
 
+**Live boards.** When moving the pieces is the teaching (discs on the mat, trades), use a live board instead of a picture:
+a part with `"kind":"live"` and `"model":"<data-mk-model name>"` (e.g. `counter`). In the studio it opens the lesson page in
+board mode (`<page>.html?board=<model>`: only that model, zoomed to fit, nothing saved to the student's progress) in a panel
+beside the video. Chrome asks once to share the tab (pick this tab → Share); only the panel goes in the video, full screen
+behind Bethany. Script it with `[ON SCREEN: Live: …]` and say what to move with `[DO: …]` (🖐 in the prompter, not spoken).
+Every board has a pen bar under the video: ✏️ Pen, colors, Undo, Clear, Board off (D still toggles the pen).
+
 ## Every Learn job: a goal, steps and hints
 
 Each Learn job opens with `job(story, steps)` in `make.py`: a **Your job** box (the story and the question it answers) and a
