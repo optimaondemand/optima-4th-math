@@ -302,7 +302,7 @@ body{background:#EFE3CF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .ok-col.over{border-color:#55C8E8;box-shadow:0 0 0 3px rgba(85,200,232,.35)}
 .ok-col.full{border-color:#F5C518;box-shadow:0 0 0 3px rgba(245,197,24,.4)}
 .ok-head{color:#fff;text-align:center;padding:6px 4px;border-radius:8px 8px 0 0;line-height:1.15}
-.ok-head b{display:block;font-size:13px;letter-spacing:.3px;text-transform:uppercase}
+.ok-head b{display:block;font-size:13px;letter-spacing:.3px}.ok-head b::first-letter{text-transform:uppercase}  /* keep mL / cm as written */
 .ok-head span{font-size:12px;font-weight:700;opacity:.92}
 .ok-col[data-p="1000"] .ok-head{background:var(--ok-k)}.ok-col[data-p="100"] .ok-head{background:var(--ok-h)}.ok-col[data-p="10"] .ok-head{background:var(--ok-t)}.ok-col[data-p="1"] .ok-head{background:var(--ok-o)}
 .ok-well{flex:1;display:grid;grid-template-columns:repeat(var(--per,2),42px);grid-auto-rows:42px;gap:5px;justify-content:center;align-content:start;padding:8px 4px;min-height:236px}
@@ -529,7 +529,7 @@ details.pq-intro .intro-2col{padding:0}
 .pq-def-m{color:#6A4FA3;font-weight:700;font-size:.92em}
 
 /* Two-Unit Mat */
-.ok-groups{display:grid;gap:6px;margin:0 0 4px;font-weight:900;font-size:13px;line-height:1;text-transform:uppercase;letter-spacing:.5px;color:#3A3550;text-align:center}
+.ok-groups{display:grid;gap:6px;margin:0 0 4px;font-weight:900;font-size:13px;line-height:1;letter-spacing:.5px;color:#3A3550;text-align:center}  /* no uppercase: mL and cm must keep their case */
 .ok-groups span{border-bottom:3px solid #3A3550;padding:4px 0}
 .ok-unitmat .ok-sym .exp.warn{color:#B4471C;font-weight:800}
 .ok-add{background:#1E8C5A!important;color:#fff!important}

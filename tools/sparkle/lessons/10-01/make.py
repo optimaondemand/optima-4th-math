@@ -7,6 +7,11 @@ CLEAN_SIGN=('<div class="pq-clean-sign" data-mk-model="cleanSign"><h4>Fix the Li
  '<div class="cs-board"><small>LITER WELL</small><span class="cs-eq">2 L = <span>200</span> mL</span></div>'
  '<form><label for="csIn">2 L =</label><input id="csIn" inputmode="numeric" autocomplete="off" aria-label="Milliliters in 2 liters"> mL <button type="submit">Fix it</button></form><div class="cs-msg" aria-live="polite"></div></div>')
 
+def job(story, steps):
+    # every Learn job opens with the story it solves and what to do, so students know the goal before touching the model
+    return ('<div class="task-box"><div class="task-label">Your job</div><p>%s</p></div>' % story
+            + '<div class="mk-todo"><b>What to do</b><ol>' + ''.join('<li>%s</li>' % x for x in steps) + '</ol></div>')
+
 def act(id, color, icon, title, sub, body, cls='bl-slate', extra=''):
     return ('<div class="activity %s" id="%s"%s><div class="activity-head"><div class="activity-num" style="background:%s;">%s</div><div><div class="activity-title">%s</div>'
             '<div class="activity-sub">%s</div></div></div><div class="activity-body">%s</div></div>') % (cls, id, extra, color, icon, title, sub, body)
@@ -71,10 +76,20 @@ j=block_end(s,i); k=s.index('<div class="activity bl-slate">',j); kend=block_end
 assert 'Unit Builder' in s[k:kend]
 s=s[:i]+(video('learn')+CREW
  +act('mk-counter','#C56C3F','🪵','Build the Counter: 3 × 1 m 65 cm','Job 2 · Use the Two-Unit Mat',
-   tip('cora','Meters on the left, centimeters on the right. When a small column gets 10 pieces, trade them for 1 bigger piece.')+model('counter'))
+   job('Mo lays 3 planks end to end to build Amy\'s counter. Each plank is <strong>1 m 65 cm</strong> long. <strong>How long is the counter?</strong>',
+       ['Build <strong>one</strong> plank on the mat: 1 m 65 cm. Drag or tap pieces from the tray.',
+        'Tap <strong>+ Add plank 2</strong>, then <strong>+ Add plank 3</strong>.',
+        'Trade: 10 small pieces make 1 bigger piece. Keep trading until every small column has fewer than 10.',
+        'Read the total under the mat. That is how long the counter is.'])
+   +tip('cora','Meters on the left, centimeters on the right. When a small column gets 10 pieces, trade them for 1 bigger piece.')+model('counter'))
  +slot('counter')
  +act('mk-juice','#6B3FA0','🧃','Juice Orders: 2 L 750 mL + 1 L 400 mL','Job 3 · Add two orders on the mat',
-   tip('felix','1 L = 1,000 mL. So 10 pieces of 100 mL make 1 L. Watch the milliliters when you add.')+model('juice'),cls='bl-violet'))+s[kend:]
+   job('Amy has two juice orders to fill. Order 1 is <strong>2 L 750 mL</strong>. Order 2 is <strong>1 L 400 mL</strong>. <strong>How much juice is that in all?</strong>',
+       ['Build order 1 on the mat: 2 L 750 mL. Liters go in the L column, milliliters in the mL columns.',
+        'Tap <strong>+ Pour in order 2</strong> to add 1 L 400 mL.',
+        'Count the 100-mL pieces. If there are 10 or more, trade 10 of them for 1 liter.',
+        'Read the total under the mat, in liters and milliliters.'])
+   +tip('felix','1 L = 1,000 mL. So 10 pieces of 100 mL make 1 L. Watch the milliliters when you add.')+model('juice'),cls='bl-violet'))+s[kend:]
 
 # ── F. Metric Chart → Market Measures Board (staircase review + the two ways)
 stairs=('<svg viewBox="0 0 640 250" class="mk-svg" role="img" aria-label="Staircase: kilometer at the top, then meter, centimeter, millimeter. Going down, multiply by 1,000, 100, 10. Going up, regroup."><rect width="640" height="250" rx="12" fill="#FFF8EF"/>')
