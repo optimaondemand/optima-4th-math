@@ -156,7 +156,12 @@ SW=('<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>
  +part('Problem 4','How many grams is that? '+box('4','Problem 4, grams','g'))+'</div></div>')
 i=s.find('<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Convert length.</strong>');j=s.find('<div class="activity bl-slate" style="margin-top:18px;border-left-color:#0E8A8C;">',i);assert i>0 and j>i
 s=s[:i]+tip('opti','Hoo! Before each problem, ask: do I need to regroup?')+SW+model('bonus')+(
- '<div class="activity bl-violet" id="mk-prove"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">⚖️</div><div><div class="activity-title">Last Job: Is 2 L the same as 200 mL?</div><div class="activity-sub">The Liter Well sign, checked with bars</div></div></div><div class="activity-body">'
+ '<div class="activity bl-violet" id="mk-prove"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">⚖️</div><div><div class="activity-title">Last Job: Is 2 L the same as 200 mL?</div><div class="activity-sub">Job 5 · Check the Liter Well sign with bars</div></div></div><div class="activity-body">'
+ +job('The Smudge painted a new sign over the Liter Well: <strong>2 L = 200 mL</strong>. Amy sells juice by the liter, so if the sign is wrong, her customers get the wrong amount and she can\'t open her stand. <strong>Is 2 L really the same as 200 mL?</strong>',
+      ['Top bar: Amy\'s jug holds <strong>2 L</strong>. Drag or tap 1 L pieces until the bar shows 2 L.',
+       'Bottom bar: the sign says <strong>200 mL</strong>. Drag or tap 100 mL pieces until it shows 200 mL.',
+       'Both bars use the same ruler. Compare them: are they the same length?',
+       'Use what you found to fix the sign: in the game, walk to the Liter Well (in clean mode, fix it in the box below).'])
  +tip('cora','Same scale, fair compare. If the bars are different lengths, the amounts are different.')+model('prove')+'</div></div>'+CLEAN_SIGN+slot('sign')+video('wrap'))+s[j:]
 ins_before('<div class="gathered-box">',tip('cora','Check every answer for a unit. "75" isn\'t finished. "1 m 75 cm" is.'))
 

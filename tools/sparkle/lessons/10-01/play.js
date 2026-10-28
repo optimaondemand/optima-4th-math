@@ -73,7 +73,7 @@ const defs=await p.$$eval('.pq-def b',x=>x.map(e=>e.textContent));ok(defs.length
 for(let i=0;i<3;i++)await p.click('.pq-hint[data-hint="1"] .pq-hint-btn');ok(await p.$$eval('.pq-hint[data-hint="1"] li',x=>x.length)===3,'hint ladder: 3 rungs');
 ok(await p.$$eval('#tab-assignment .q-block .pq-hint',x=>x.length)===4,'every Show What You Know problem has a hint ladder');
 await p.evaluate(()=>switchTab('learn'));await p.waitForTimeout(300);
-for(const [sel,name] of [['#mk-counter','counter'],['#mk-juice','juice'],['#mk-flour','flour']]){const n=await p.$$eval(`${sel} .pq-hint`,x=>x.length);ok(n===1&&await p.$(`${sel} .task-box, ${sel} .mk-todo`),'Learn job '+name+': story/what-to-do + a hint ladder');}
+for(const [sel,name] of [['#mk-counter','counter'],['#mk-juice','juice'],['#mk-flour','flour'],['#mk-prove','sign']]){const n=await p.$$eval(`${sel} .pq-hint`,x=>x.length);ok(n===1&&await p.$(`${sel} .task-box, ${sel} .mk-todo`),'Learn job '+name+': story/what-to-do + a hint ladder');}
 const chipsFor=async(id,txt)=>{await p.fill('#'+id,txt);await p.dispatchEvent('#'+id,'input');return p.$$eval('#'+id+' + .pq-write .pq-chip',x=>x.filter(e=>e.classList.contains('on')).length);};
 await p.evaluate(()=>switchTab('warmup'));
 for(const [id,t] of [['journal-r1','km and m, kg and g, and L and mL'],['journal-think','each plank is 165 cm so I did 165 times 3 and got 495 cm'],['journal-think','I added 1 m 65 cm three times and got 4 m 95 cm']]){const n=await chipsFor(id,t);ok(n===3,id+' natural answer lights '+n+' of 3');}
