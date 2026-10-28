@@ -171,6 +171,15 @@ D.quests.sign={
 };
 
 /* ───────── talk ───────── */
+/* The Crew says hello and talks about today's place first (HELLO). Their method lines (IDLE) unlock only after the page
+   teaches the methods: CREW_TAUGHT is the job that does it (Build the Counter, the Crew card + Two-Unit Mat on Learn). */
+var CREW_TAUGHT='j2';
+var HELLO={
+  atlas:'Hi, I\'m Atlas! I love finding my way around. Metric Market has a stall for everything today!',
+  felix:'Hey, I\'m Felix! I like to test things twice. Did you see the big flour sack Millie is carrying?',
+  hazel:'Hi! I\'m Hazel. I\'m drawing the whole market, from the bead stall all the way to the Liter Well.',
+  cora:'Hello, I\'m Cora. I like every word to be exact. That sign on the Liter Well looks wrong to me.'
+};
 var IDLE={
   atlas:'I split two-unit amounts: meters with meters, centimeters with centimeters. Then I regroup.',
   felix:'I change it all to one unit first. 1 m 65 cm is 165 cm. Then I work and change back.',
@@ -202,7 +211,7 @@ D.talk=function(id,api){
     if(S.world.open)return api.say([{who:'opti',t:'Listen to that line at Amy\'s stand! Nice work, {name}.'}]);
     return api.say([{who:'opti',t:'Hoo! Every job on the Market Day board gets Amy one step closer to opening.'}]);
   }
-  if(IDLE[id])return api.say([{who:id,t:IDLE[id]}]);
+  if(IDLE[id])return api.say([{who:id,t:(PQM.jobDone(CREW_TAUGHT)?IDLE:HELLO)[id]}]);
   if(id==='amy'){
     if(q==='flour'&&S.q.flour.labeled&&!S.world.flour){return api.say([{who:'amy',t:'Is that flour from Millie? 6,005 g of it! Thank you, {name}.'},{who:'amy',t:'Now I can bake muffins to sell with my juice.'},
       {fn:function(b){b.S.world.flour=true;b.save();if(window.PQM)PQM.renderBoard();}}],function(a){a.goal(D.quests.flour.goal(a.S));a.complete();});}

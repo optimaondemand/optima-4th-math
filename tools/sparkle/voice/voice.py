@@ -32,8 +32,7 @@ def lines(code):
         seen.add(k); out.append({'who': who, 't': t, 'key': k})
     for m in re.finditer(r"\{who:'([\w-]+)',t:'((?:[^'\\]|\\.)*)'\s*(?=[,}])", js):
         add(m.group(1), unesc(m.group(2)))
-    idle = re.search(r"var IDLE=\{(.*?)\n\};", js, re.S)
-    if idle:
+    for idle in re.finditer(r"var (?:IDLE|HELLO)=\{(.*?)\n\};", js, re.S):
         for m in re.finditer(r"(\w+):'((?:[^'\\]|\\.)*)'", idle.group(1)): add(m.group(1), unesc(m.group(2)))
     return out
 
@@ -109,7 +108,24 @@ def cmd_split(code, sp, take):
     json.dump(V, open(vp, 'w', encoding='utf8'), ensure_ascii=False, indent=1)
     print('%s: %d clips written' % (sp, n))
 
+def cmd_one(code, who, text_start, take):
+    """Add ONE line from its own take (no splitting): voice.py one 10-01 atlas "Hi, I'm Atlas" take.mp3"""
+    plan = json.load(open(os.path.join(REPO, 'tools/sparkle/lessons', code, 'voice-lines.json'), encoding='utf8'))[who]
+    hit = [l for l in plan['lines'] if l['t'].startswith(text_start)]
+    if len(hit) != 1: sys.exit('%s: %d lines start with %r' % (who, len(hit), text_start))
+    l = hit[0]; f = '%s-%s.mp3' % (l['who'], l['key'])
+    outdir = os.path.join(REPO, 'assets/audio/lessons', code)
+    fx = fx_for(who)
+    trim = 'silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,'
+    subprocess.run(['ffmpeg', '-y', '-v', 'error', '-i', take, '-af', trim + 'afade=t=in:d=0.02,' + (fx + ',' if fx else '') + 'loudnorm=I=-18:TP=-2',
+                    '-ac', '1', '-ar', '44100', '-b:a', '64k', os.path.join(outdir, f)], check=True)
+    vp = os.path.join(REPO, 'tools/sparkle/lessons', code, 'voice.json')
+    V = json.load(open(vp, encoding='utf8')); V['clips'][l['key']] = f
+    json.dump(V, open(vp, 'w', encoding='utf8'), ensure_ascii=False, indent=1)
+    print('%s: wrote %s' % (who, f))
+
 if __name__ == '__main__':
     a = sys.argv[1:]
     if a[0] == 'lines': cmd_lines(a[1])
     elif a[0] == 'split': cmd_split(a[1], a[2], a[3])
+    elif a[0] == 'one': cmd_one(a[1], a[2], a[3], a[4])

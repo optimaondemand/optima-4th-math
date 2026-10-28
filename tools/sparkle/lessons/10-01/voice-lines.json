@@ -248,11 +248,16 @@
    },
    {
     "who": "cora",
+    "t": "Hello, I'm Cora. I like every word to be exact. That sign on the Liter Well looks wrong to me.",
+    "key": "e68d344a"
+   },
+   {
+    "who": "cora",
     "t": "When the centimeters reach 100, trade them for 1 m. That's regrouping!",
     "key": "b8c85beb"
    }
   ],
-  "prompt": "Careful! 6 kilograms is 6,000 grams, not 60 grams or 600 grams. Then add the 5 grams. The zeros hold the places. <break time=\"1.5s\" /> Regroup first. 195 centimeters is 1 meter 95 centimeters. So 3 meters 195 centimeters is 4 meters 95 centimeters. How many centimeters is that? <break time=\"1.5s\" /> That's what the Smudge wrote! 1 liter equals 1,000 milliliters, not 100 milliliters. So what is 2 liters? <break time=\"1.5s\" /> When the centimeters reach 100, trade them for 1 meter. That's regrouping!"
+  "prompt": "Careful! 6 kilograms is 6,000 grams, not 60 grams or 600 grams. Then add the 5 grams. The zeros hold the places. <break time=\"1.5s\" /> Regroup first. 195 centimeters is 1 meter 95 centimeters. So 3 meters 195 centimeters is 4 meters 95 centimeters. How many centimeters is that? <break time=\"1.5s\" /> That's what the Smudge wrote! 1 liter equals 1,000 milliliters, not 100 milliliters. So what is 2 liters? <break time=\"1.5s\" /> Hello, I'm Cora. I like every word to be exact. That sign on the Liter Well looks wrong to me. <break time=\"1.5s\" /> When the centimeters reach 100, trade them for 1 meter. That's regrouping!"
  },
  "felix": {
   "voice_id": "PJeatLZlmAT5jz5L5p7U",
@@ -269,11 +274,16 @@
    },
    {
     "who": "felix",
+    "t": "Hey, I'm Felix! I like to test things twice. Did you see the big flour sack Millie is carrying?",
+    "key": "04914953"
+   },
+   {
+    "who": "felix",
     "t": "I change it all to one unit first. 1 m 65 cm is 165 cm. Then I work and change back.",
     "key": "2c6b411f"
    }
   ],
-  "prompt": "I tested that. 6,050 grams would be 6 kilograms 50 grams. The sack has only 5 grams more than 6 kilograms. <break time=\"1.5s\" /> Try my way. 1 meter 65 centimeters equals 165 centimeters. What is 3 times 165? <break time=\"1.5s\" /> I change it all to one unit first. 1 meter 65 centimeters is 165 centimeters. Then I work and change back."
+  "prompt": "I tested that. 6,050 grams would be 6 kilograms 50 grams. The sack has only 5 grams more than 6 kilograms. <break time=\"1.5s\" /> Try my way. 1 meter 65 centimeters equals 165 centimeters. What is 3 times 165? <break time=\"1.5s\" /> Hey, I'm Felix! I like to test things twice. Did you see the big flour sack Millie is carrying? <break time=\"1.5s\" /> I change it all to one unit first. 1 meter 65 centimeters is 165 centimeters. Then I work and change back."
  },
  "atlas": {
   "voice_id": "unWb9iRIK7Xxf4A5Hfis",
@@ -295,21 +305,31 @@
    },
    {
     "who": "atlas",
+    "t": "Hi, I'm Atlas! I love finding my way around. Metric Market has a stall for everything today!",
+    "key": "b19f9f31"
+   },
+   {
+    "who": "atlas",
     "t": "I split two-unit amounts: meters with meters, centimeters with centimeters. Then I regroup.",
     "key": "e095ca71"
    }
   ],
-  "prompt": "Split it: 6 kilograms equals 6,000 grams. Then 6,000 grams plus 5 grams equals what? <break time=\"1.5s\" /> That's just the centimeters: 3 times 65 centimeters. Each plank has 1 meter too. Add the 3 meters. <break time=\"1.5s\" /> Each liter is 1,000 milliliters. Two liters is two of those. <break time=\"1.5s\" /> I split two-unit amounts: meters with meters, centimeters with centimeters. Then I regroup."
+  "prompt": "Split it: 6 kilograms equals 6,000 grams. Then 6,000 grams plus 5 grams equals what? <break time=\"1.5s\" /> That's just the centimeters: 3 times 65 centimeters. Each plank has 1 meter too. Add the 3 meters. <break time=\"1.5s\" /> Each liter is 1,000 milliliters. Two liters is two of those. <break time=\"1.5s\" /> Hi, I'm Atlas! I love finding my way around. Metric Market has a stall for everything today! <break time=\"1.5s\" /> I split two-unit amounts: meters with meters, centimeters with centimeters. Then I regroup."
  },
  "hazel": {
   "voice_id": "MkTSSXNgnBULS6ek4pon",
   "lines": [
    {
     "who": "hazel",
+    "t": "Hi! I'm Hazel. I'm drawing the whole market, from the bead stall all the way to the Liter Well.",
+    "key": "6c4ebfc9"
+   },
+   {
+    "who": "hazel",
     "t": "I draw a bar for every story. Equal planks get equal parts.",
     "key": "fcb37efc"
    }
   ],
-  "prompt": "I draw a bar for every story. Equal planks get equal parts."
+  "prompt": "Hi! I'm Hazel. I'm drawing the whole market, from the bead stall all the way to the Liter Well. <break time=\"1.5s\" /> I draw a bar for every story. Equal planks get equal parts."
  }
 }

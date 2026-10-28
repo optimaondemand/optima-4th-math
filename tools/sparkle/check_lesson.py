@@ -242,6 +242,8 @@ def main(code):
     if re.search(r"(in|from) (third|3rd|second|2nd) grade", strip(tab(s, 'warmup')), re.I):
         out('WARN', 'READINESS: the Warm-Up says students learned something in an earlier grade. Check it against the chapter notes (4.10.01 said this about millimeters, which are new in Lesson 1).')
     out('ok', 'readiness checks run (Think answer format, warm-up strategy, prior-grade claims)')
+    if re.search(r"var IDLE=\{", lesson_js) and not (re.search(r"var HELLO=\{", lesson_js) and re.search(r"var CREW_TAUGHT='j\d'", lesson_js)):
+        out('FAIL', 'READINESS: the Math Crew\'s method lines (IDLE) play before the page teaches them. Add HELLO (hello + today\'s place, no math) and CREW_TAUGHT (the Learn job that teaches the methods).')
     out('ok', 'helpers: %d writing boxes with chips, %d hint ladders, %d defined words' % (len(wr), len(re.findall(r'rungs:\[', lesson_js)), len(re.findall(r"\{w:'", lesson_js))))
     # 9 duplicates across the unit + lean budget
     words = len(vis.split())

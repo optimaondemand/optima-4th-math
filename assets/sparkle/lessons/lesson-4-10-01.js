@@ -173,6 +173,15 @@ D.quests.sign={
 };
 
 /* ───────── talk ───────── */
+/* The Crew says hello and talks about today's place first (HELLO). Their method lines (IDLE) unlock only after the page
+   teaches the methods: CREW_TAUGHT is the job that does it (Build the Counter, the Crew card + Two-Unit Mat on Learn). */
+var CREW_TAUGHT='j2';
+var HELLO={
+  atlas:'Hi, I\'m Atlas! I love finding my way around. Metric Market has a stall for everything today!',
+  felix:'Hey, I\'m Felix! I like to test things twice. Did you see the big flour sack Millie is carrying?',
+  hazel:'Hi! I\'m Hazel. I\'m drawing the whole market, from the bead stall all the way to the Liter Well.',
+  cora:'Hello, I\'m Cora. I like every word to be exact. That sign on the Liter Well looks wrong to me.'
+};
 var IDLE={
   atlas:'I split two-unit amounts: meters with meters, centimeters with centimeters. Then I regroup.',
   felix:'I change it all to one unit first. 1 m 65 cm is 165 cm. Then I work and change back.',
@@ -204,7 +213,7 @@ D.talk=function(id,api){
     if(S.world.open)return api.say([{who:'opti',t:'Listen to that line at Amy\'s stand! Nice work, {name}.'}]);
     return api.say([{who:'opti',t:'Hoo! Every job on the Market Day board gets Amy one step closer to opening.'}]);
   }
-  if(IDLE[id])return api.say([{who:id,t:IDLE[id]}]);
+  if(IDLE[id])return api.say([{who:id,t:(PQM.jobDone(CREW_TAUGHT)?IDLE:HELLO)[id]}]);
   if(id==='amy'){
     if(q==='flour'&&S.q.flour.labeled&&!S.world.flour){return api.say([{who:'amy',t:'Is that flour from Millie? 6,005 g of it! Thank you, {name}.'},{who:'amy',t:'Now I can bake muffins to sell with my juice.'},
       {fn:function(b){b.S.world.flour=true;b.save();if(window.PQM)PQM.renderBoard();}}],function(a){a.goal(D.quests.flour.goal(a.S));a.complete();});}
@@ -515,4 +524,4 @@ return {
 };
 })();
 
-PQ_DATA.voice={"dir": "assets/audio/lessons/10-01/", "clips": {"bccc202d": "opti-bccc202d.mp3", "7e5d3f14": "opti-7e5d3f14.mp3", "fc1ad336": "opti-fc1ad336.mp3", "da581563": "opti-da581563.mp3", "2eb45d0c": "opti-2eb45d0c.mp3", "daf8f742": "opti-daf8f742.mp3", "2d409093": "opti-2d409093.mp3", "0813ce30": "opti-0813ce30.mp3", "af45b40f": "opti-af45b40f.mp3", "6bcc4cd2": "opti-6bcc4cd2.mp3", "715f3f16": "opti-715f3f16.mp3", "246809af": "opti-246809af.mp3", "52394fa0": "mo-52394fa0.mp3", "32269e8a": "mo-32269e8a.mp3", "23670ef0": "mo-23670ef0.mp3", "527f500d": "mo-527f500d.mp3", "faa0a631": "mo-faa0a631.mp3", "ea503017": "mo-ea503017.mp3", "c3d16308": "mo-c3d16308.mp3", "4442627a": "mo-4442627a.mp3", "f6b71426": "mo-f6b71426.mp3", "df0c25b2": "mo-df0c25b2.mp3", "e5a55c83": "mo-e5a55c83.mp3", "3dbb8c7c": "mo-3dbb8c7c.mp3", "69bcd6ea": "mo-69bcd6ea.mp3", "07af9d5f": "mo-07af9d5f.mp3", "7f9d320b": "amy-7f9d320b.mp3", "5bcd3613": "amy-5bcd3613.mp3", "5fca8a13": "amy-5fca8a13.mp3", "932424c2": "amy-932424c2.mp3", "85e0f653": "amy-85e0f653.mp3", "a7c9a395": "amy-a7c9a395.mp3", "4c71204a": "amy-4c71204a.mp3", "b92f12e0": "amy-b92f12e0.mp3", "9ea0755e": "amy-9ea0755e.mp3", "f1e1e416": "amy-f1e1e416.mp3", "2ae5ddd3": "smudge-2ae5ddd3.mp3", "e2b1eb08": "smudge-e2b1eb08.mp3", "50ca19fb": "smudge-50ca19fb.mp3", "3af869f9": "smudge-3af869f9.mp3", "cfad3cbd": "smudge-cfad3cbd.mp3", "052b9ac3": "felix-052b9ac3.mp3", "2ca7b21a": "felix-2ca7b21a.mp3", "2c6b411f": "felix-2c6b411f.mp3", "fcb37efc": "hazel-fcb37efc.mp3", "6b72fe69": "cora-6b72fe69.mp3", "bcc1c5ab": "cora-bcc1c5ab.mp3", "90ed58ad": "cora-90ed58ad.mp3", "b8c85beb": "cora-b8c85beb.mp3", "dbfe5c1c": "atlas-dbfe5c1c.mp3", "6b6a411f": "atlas-6b6a411f.mp3", "efab4038": "atlas-efab4038.mp3", "e095ca71": "atlas-e095ca71.mp3"}};
+PQ_DATA.voice={"dir": "assets/audio/lessons/10-01/", "clips": {"bccc202d": "opti-bccc202d.mp3", "7e5d3f14": "opti-7e5d3f14.mp3", "fc1ad336": "opti-fc1ad336.mp3", "da581563": "opti-da581563.mp3", "2eb45d0c": "opti-2eb45d0c.mp3", "daf8f742": "opti-daf8f742.mp3", "2d409093": "opti-2d409093.mp3", "0813ce30": "opti-0813ce30.mp3", "af45b40f": "opti-af45b40f.mp3", "6bcc4cd2": "opti-6bcc4cd2.mp3", "715f3f16": "opti-715f3f16.mp3", "246809af": "opti-246809af.mp3", "52394fa0": "mo-52394fa0.mp3", "32269e8a": "mo-32269e8a.mp3", "23670ef0": "mo-23670ef0.mp3", "527f500d": "mo-527f500d.mp3", "faa0a631": "mo-faa0a631.mp3", "ea503017": "mo-ea503017.mp3", "c3d16308": "mo-c3d16308.mp3", "4442627a": "mo-4442627a.mp3", "f6b71426": "mo-f6b71426.mp3", "df0c25b2": "mo-df0c25b2.mp3", "e5a55c83": "mo-e5a55c83.mp3", "3dbb8c7c": "mo-3dbb8c7c.mp3", "69bcd6ea": "mo-69bcd6ea.mp3", "07af9d5f": "mo-07af9d5f.mp3", "7f9d320b": "amy-7f9d320b.mp3", "5bcd3613": "amy-5bcd3613.mp3", "5fca8a13": "amy-5fca8a13.mp3", "932424c2": "amy-932424c2.mp3", "85e0f653": "amy-85e0f653.mp3", "a7c9a395": "amy-a7c9a395.mp3", "4c71204a": "amy-4c71204a.mp3", "b92f12e0": "amy-b92f12e0.mp3", "9ea0755e": "amy-9ea0755e.mp3", "f1e1e416": "amy-f1e1e416.mp3", "2ae5ddd3": "smudge-2ae5ddd3.mp3", "e2b1eb08": "smudge-e2b1eb08.mp3", "50ca19fb": "smudge-50ca19fb.mp3", "3af869f9": "smudge-3af869f9.mp3", "cfad3cbd": "smudge-cfad3cbd.mp3", "052b9ac3": "felix-052b9ac3.mp3", "2ca7b21a": "felix-2ca7b21a.mp3", "2c6b411f": "felix-2c6b411f.mp3", "fcb37efc": "hazel-fcb37efc.mp3", "6b72fe69": "cora-6b72fe69.mp3", "bcc1c5ab": "cora-bcc1c5ab.mp3", "90ed58ad": "cora-90ed58ad.mp3", "b8c85beb": "cora-b8c85beb.mp3", "dbfe5c1c": "atlas-dbfe5c1c.mp3", "6b6a411f": "atlas-6b6a411f.mp3", "efab4038": "atlas-efab4038.mp3", "e095ca71": "atlas-e095ca71.mp3", "b19f9f31": "atlas-b19f9f31.mp3", "04914953": "felix-04914953.mp3", "6c4ebfc9": "hazel-6c4ebfc9.mp3", "e68d344a": "cora-e68d344a.mp3"}};

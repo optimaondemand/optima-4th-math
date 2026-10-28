@@ -10,6 +10,8 @@ const job=id=>p.evaluate(id=>PQM.jobDone(id),id);
 const msg=sel=>p.$eval(sel,e=>e.textContent);
 const drag=async(src,dst)=>{const a=await p.$(src);await a.scrollIntoViewIfNeeded();const r=await a.boundingBox();const t=await p.$(dst);const q=await t.boundingBox();
   await p.mouse.move(r.x+r.width/2,r.y+r.height/2);await p.mouse.down();await p.mouse.move(r.x+r.width/2+10,r.y+r.height/2+10,{steps:3});await p.mouse.move(q.x+q.width/2,q.y+q.height/2,{steps:8});await p.mouse.up();await p.waitForTimeout(100);};
+const crewSays=id=>p.evaluate(id=>{let said=null;PQ_DATA.talk(id,{S:PQ._state(),say:l=>{said=l[0].t;},save:()=>{},goal:()=>{}});return said;},id);
+{const t=await crewSays('felix');ok(/I'm Felix/.test(t)&&!/165|cm/.test(t),'crew before Learn: Felix says hello and talks about the market (no math yet)');}
 // ── Warm-Up: job 1 stamps (tap), mental math, Think bar model
 for(const [v,id] of [['×10','mmcm'],['×100','cmm'],['×1,000','mkm']]){await p.click(`.mk-stamp[data-v="${v}"]`);await p.click(`.mk-sign[data-id="${id}"]`);}
 ok(await job('j1'),'job 1: stamps');
@@ -39,6 +41,7 @@ const sym=await msg(`${C} .ok-sym`);ok(sym.includes('3 × 1 m 65 cm')&&sym.inclu
 await p.screenshot({path:path.join(OUT,'counter-before.png'),clip:await (await p.$(C)).boundingBox()});
 await p.click(`${C} .ok-col[data-p="1"] .ok-colbtns .ok-btn`);await p.click(`${C} .ok-col[data-p="10"] .ok-colbtns .ok-btn`);
 ok((await msg(`${C} .ok-sym`)).includes('4 m 95 cm')&&await job('j2'),'job 2: counter = 4 m 95 cm');
+{const t=await crewSays('felix');ok(/165 cm/.test(t),'crew after the counter job: Felix shares his one-unit method');}
 await p.waitForTimeout(1200);ok(!(await p.$eval('.pq-slot[data-quest="counter"]',e=>e.className)).includes('lock'),'counter quest unlocks');
 await p.evaluate(()=>PQ._play('counter'));await p.waitForTimeout(700);await p.evaluate(()=>PQ._tp(22,9,'up'));await p.evaluate(()=>PQ._interact());await p.waitForTimeout(300);await drain();
 await pad(195);await drain();await pad(495);await drain();await p.waitForTimeout(1500);await drain();await p.waitForTimeout(2800);

@@ -113,6 +113,13 @@ Files the studio saves: `assets/video/teacher/<prefix>-<slot>.mp4` (+ `.jpg`, `.
 `oao.pq.mute` · `oao.pq.clean` · `oao.pq.music` · `oao.pq.year` · `oao.pq.certname` · `g4-4-UU-LL-pq` (the lesson's world) ·
 `g4-4-UU-LL-*` (each model). Lessons and My Math Map share these only because they live on the same site.
 
+## Math Crew talk in the game (readiness)
+
+In `lesson.js`, the Crew has two sets of lines. `HELLO` (they introduce themselves and talk about today's place, no math) plays
+until the page teaches their methods. `IDLE` (each Crew member's method) unlocks after `CREW_TAUGHT`, the Learn job that teaches
+it (4.10.01: `'j2'`, Build the Counter). `check_lesson.py` fails a lesson that has `IDLE` without `HELLO` and `CREW_TAUGHT`.
+Add a single new voiced line without re-recording everyone: `python3 tools/sparkle/voice/voice.py one 10-01 atlas "Hi, I'm Atlas" take.mp3`.
+
 ## Character voices (`tools/sparkle/voice/`)
 
 Only the year-long cast is voiced (Opti, Atlas, Felix, Hazel, Cora, the Smudge) plus a level's key characters (Level 10: Amy, Mo).
