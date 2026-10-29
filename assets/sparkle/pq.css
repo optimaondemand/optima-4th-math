@@ -589,3 +589,8 @@ body.pqi-on{overflow:hidden}
 /* read-aloud player: closed until the 🔊 Read aloud button in the header opens it (Bethany, 28 Oct 2026) */
 #optima-read-aloud.pq-ra{margin:12px 20px 4px}
 #optima-read-aloud.pq-ra-closed{display:none}
+/* the lesson's big idea, the one clear statement on top of "The Whole Lesson in One Picture" (also first in the journal) */
+.pq-onepic .op-big{margin:6px 0 12px;padding:12px 16px;border:3px solid #3B2417;border-radius:10px;background:#FFF3C4;font-size:17px;line-height:1.45;color:#0E1C42;box-shadow:3px 3px 0 #3B2417}
+/* a step chain under a model: one step per line (4.10.02 Rope Order) */
+.mk-chain{flex-direction:column;align-items:flex-start;gap:8px}
+.mk-chain .mk-step{display:flex;align-items:center;gap:8px;flex-wrap:wrap}

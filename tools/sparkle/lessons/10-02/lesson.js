@@ -142,9 +142,9 @@ D.quests.build={
 D.quests.chase={
   title:'Chase the Smudge',spawn:[11,10,'right'],next:{tab:'assignment',sel:'.gathered-box',label:'Gather your answers'},
   teaser:'The rail is fixed, but the Smudge is blocking the bridge with wrong measures. Chase it all the way to Eastside!',
-  lockText:'Finish Measure the Rail on the Learn tab first. You\'ll need yards and feet to catch the Smudge.',
+  lockText:'Finish the Rope Order on the Learn tab first. You\'ll need yards, feet and inches to catch the Smudge.',
   locked:function(){return !job('j4');},
-  doneText:'29 ft = 9 yd 2 ft. 80 in = 6 ft 8 in. 3 yd = 9 ft. You chased the Smudge across the bridge, and Eastside is open!',
+  doneText:'9 yd = 27 ft. 80 in = 6 ft 8 in. 2 ft 6 in = 30 in. You chased the Smudge across the bridge, and Eastside is open!',
   goal:function(S){var q=S.q.chase||{},k=q.stop||0;return S.world.east?'Eastside is open!':'Catch <b>the Smudge</b> ('+k+'/3).';},
   markers:function(S){return S.world.east?[]:[{id:'smudge'}];},
   start:function(api){var q=api.q();if(!api.S.world.rail){api.S.world.rail=true;api.S.world.tagFixed=true;}
@@ -153,7 +153,7 @@ D.quests.chase={
     else placeSmudge(api);},
   reset:function(S){S.world.east=false;S.q.chase={};},
   skip:function(S){S.world.east=true;S.world.rail=true;S.world.tagFixed=true;},
-  transcript:['The Smudge: Your rail is 29 feet. That\'s 2 yards 9 feet!','Cora: Count the yards first. Each yard is 3 feet: 3, 6, 9 … 27. That\'s 9 yards, and 2 feet are left over.','The Smudge: Your rope is 80 inches. That\'s 8 feet!','You: 80 in = 6 ft 8 in.','The Smudge: The Eastside gate is 3 yards wide. That\'s 6 feet!','You: 3 yd = 9 ft.','Opti: Eastside is open! Next lesson, the Eastside General Store weighs things in pounds and ounces.']
+  transcript:['The Smudge: Your rail is 9 yards long. That\'s 12 feet!','Cora: 12 is the inches in a foot. A yard is 3 feet, so 9 yards is 27 feet.','The Smudge: Your rope is 80 inches. That\'s 8 feet!','You: 80 in = 6 ft 8 in.','The Smudge: The Eastside gate is 2 feet 6 inches wide. That\'s 26 inches!','You: 2 ft 6 in = 30 in.','Opti: Eastside is open! Next lesson, the Eastside General Store weighs things in pounds and ounces.']
 };
 var STOPS=[[16,10],[22,10],[26,10]];
 function placeSmudge(api){var e=api.ent('smudge');if(!e)return;var k=Math.min((api.S.q.chase||{}).stop||0,2);e.x=STOPS[k][0];e.y=STOPS[k][1];e.alpha=1;e.flyOff=0;e.dxOff=0;e.tick=null;}
@@ -241,20 +241,17 @@ D.talk=function(id,api){
   if(id==='postS'){
     if(q==='build'&&S.world.tagFixed&&!S.world.rail){return api.say([{who:'sys',t:'You tie the rope tight around the post.'},{fn:function(b){b.snd.item();b.S.world.rail=true;b.save();if(window.PQM)PQM.renderBoard();
         b.fx({t:0,update:function(dt){this.t+=dt;return this.t<1.2;},draw:function(x,cx,cy,tt){for(var k=0;k<8;k++){var px=14*16+k*12-cx,py=10*16-cy+(k%2?14:0);b.A.sparkle(x,px,py,tt+k,k%2?'#F5C518':'#FFFFFF');}}});}},
-        {who:'gus',t:'The rail is back! Now people can hold on all the way across.'},{who:'gus',t:'Eastside has a question about my whole rail. Read the Foot Bridge Board on your page, then help me measure it.'}],function(a){a.goal(D.quests.build.goal(a.S));a.complete();});}
+        {who:'gus',t:'The rail is back! Now people can hold on all the way across.'},{who:'gus',t:'Eastside wants rope for its side of the bridge, too. Read the Foot Bridge Board on your page, then help Rosa fill their order.'}],function(a){a.goal(D.quests.build.goal(a.S));a.complete();});}
     return api.say([{who:'sys',t:'The south post of the Foot Bridge.'}]);
   }
   if(id==='smudge'){
     if(q!=='chase'||S.world.east)return;
     var C=S.q.chase,k=C.stop||0;
-    if(k===0){var y2=padOf('me','How many feet are left over?','29 ft = 9 yd','ft',function(v,a,me){
-          if(v===2){a.snd.good();a.S.q.chase.stop=1;a.save();hop(a,1);a.say([{who:'smudge',t:'Grr! 9 yards 2 feet. Fine! Catch me if you can!'}],function(b){b.goal(D.quests.chase.goal(b.S));});}
-          else {a.snd.bad();a.say([{who:'hazel',t:'9 yards is 9 × 3 = 27 feet. How many more feet make 29?'},me]);}}),
-        y1=padOf('me','How many yards? Type it, then press OK.','29 ft =','yd',function(v,a,me){
-          if(v===9){a.snd.good();a.say([y2]);}
-          else if(v===2){a.snd.bad();a.say([{who:'cora',t:'That\'s the Smudge\'s trick: it swapped them! Yards are the big 3-foot pieces. Count them: 3, 6, 9 … 27 is 9 yards. The leftover feet must be less than 3.'},me]);}
-          else {a.snd.bad();a.say([{who:'atlas',t:'Each yard is 3 feet. How many 3-foot pieces fit in 29 feet? Skip-count by 3s.'},me]);}});
-      return api.say([{who:'smudge',t:'Your rail is 29 feet. That\'s 2 yards 9 feet! Heh heh!'},{who:'me',t:'9 feet is more than a yard. Something\'s wrong.'},y1]);}
+    if(k===0){var y1=padOf('me','How many feet? Type it, then press OK.','9 yd =','ft',function(v,a,me){
+          if(v===27){a.snd.good();a.S.q.chase.stop=1;a.save();hop(a,1);a.say([{who:'smudge',t:'Grr! 27 feet. Fine! Catch me if you can!'}],function(b){b.goal(D.quests.chase.goal(b.S));});}
+          else if(v===12){a.snd.bad();a.say([{who:'cora',t:'That\'s the Smudge\'s trick! 12 is the inches in a foot. A yard is 3 feet, so 9 yards is 9 × 3 feet.'},me]);}
+          else {a.snd.bad();a.say([{who:'atlas',t:'Each yard is 3 feet. Count by 3s nine times, or multiply 9 × 3.'},me]);}});
+      return api.say([{who:'smudge',t:'Your rail is 9 yards long. That\'s 12 feet! Heh heh!'},{who:'me',t:'Hmm. A yard isn\'t 12 feet. Something\'s wrong.'},y1]);}
     if(k===1){var f2=padOf('me','How many inches are left over?','80 in = 6 ft','in',function(v,a,me){
           if(v===8){a.snd.good();a.S.q.chase.stop=2;a.save();hop(a,2);a.say([{who:'smudge',t:'6 feet 8 inches?! Ugh. You\'ll never get past the gate!'}],function(b){b.goal(D.quests.chase.goal(b.S));});}
           else {a.snd.bad();a.say([{who:'felix',t:'6 feet is 72 inches. 72 and how many more make 80?'},me]);}}),
@@ -263,16 +260,16 @@ D.talk=function(id,api){
           else if(v===8){a.snd.bad();a.say([{who:'cora',t:'That\'s the Smudge\'s trick! 8 feet would be 96 inches, way too many. A foot is 12 inches, not 10. Count by 12s.'},me]);}
           else {a.snd.bad();a.say([{who:'atlas',t:'Count by 12s until the next one is too big. When you pass 80, stop and go back one.'},me]);}});
       return api.say([{who:'smudge',t:'Your rope is 80 inches. That\'s 8 feet!'},f1]);}
-    var g1=padOf('me','How many feet wide? Type it, then press OK.','3 yd =','ft',function(v,a,me){
-        if(v===9){a.snd.good();a.S.world.east=true;a.S.q.chase.stop=3;a.S.q.chase.fleeing=1;a.save();
-          a.say([{who:'smudge',t:'NINE feet?! You measured everything right!'},{who:'smudge',t:'Fine. Keep your silly bridge. My Brick Golem will be ready at the end of Level 10. Heh heh heh…'},
+    var g1=padOf('me','How many inches wide? Type it, then press OK.','2 ft 6 in =','in',function(v,a,me){
+        if(v===30){a.snd.good();a.S.world.east=true;a.S.q.chase.stop=3;a.S.q.chase.fleeing=1;a.save();
+          a.say([{who:'smudge',t:'THIRTY inches?! You measured everything right!'},{who:'smudge',t:'Fine. Keep your silly bridge. My Brick Golem will be ready at the end of Level 10. Heh heh heh…'},
             {fn:function(b){b.snd.poof();var sm=b.ent('smudge');sm.tick=function(dt,e){e.flyOff=(e.flyOff||0)+dt*30;e.dxOff=(e.dxOff||0)+dt*40;e.alpha=Math.max(0,1-(e.flyOff/40));if(e.alpha<=0){e.tick=null;b.S.q.chase.fleeing=0;b.save();}};}},
             {who:'sys',t:'Something small drops out of the cloud: a gray brick chip, stamped with a letter G.'},
             {who:'opti',t:'Hoo! A brick chip? I wonder what the Smudge is building. Keep it, {name}. It\'s a clue.'},
             {who:'opti',t:'The gate is open. Eastside is ours to explore! Next lesson we visit the General Store, where they weigh things in pounds and ounces.'}],function(b){b.goal(D.quests.chase.goal(b.S));b.complete();});}
-        else if(v===6){a.snd.bad();a.say([{who:'hazel',t:'Picture 3 yardsticks end to end. Each one is 3 feet: 3 + 3 + 3.'},me]);}
-        else {a.snd.bad();a.say([{who:'felix',t:'1 yard is 3 feet. So 3 yards is 3 × 3 feet.'},me]);}});
-    return api.say([{who:'smudge',t:'The Eastside gate is 3 yards wide. That\'s 6 feet! Wrong measure, no entry!'},g1]);
+        else if(v===26){a.snd.bad();a.say([{who:'hazel',t:'Picture the ruler. 2 feet is 2 groups of 12 inches, not 20. That\'s 24 inches, and 6 more.'},me]);}
+        else {a.snd.bad();a.say([{who:'felix',t:'2 feet is 24 inches. Add the 6 inches.'},me]);}});
+    return api.say([{who:'smudge',t:'The Eastside gate is 2 feet 6 inches wide. That\'s 26 inches! Wrong measure, no entry!'},g1]);
   }
   if(id==='penny'||id==='outfitters')return shop(api);
   var SIGNS={
@@ -448,9 +445,7 @@ function modelNext(m){
   OAOKit.mentalMath(m,{key:'g4-4-10-02-mm-next',name:'Make the next foot',
     how:'Split the inches you add with a number bond. Use part of them to make 12 inches, a whole new foot. Then add what is left.',
     example:{q:'2 ft 9 in + 5 in',bond:{whole:5,parts:[3,2]},steps:['9 in + 3 in = 12 in = 1 ft, so 2 ft 9 in + 3 in = 3 ft.','3 ft + 2 in = 3 ft 2 in.']},
-    problems:[{q:'1 ft 9 in + 4 in',units:['ft','in'],a:[2,1],rate:12,hint:'9 in + 3 in make a foot. Split 4 into 3 and 1.'},
-              {q:'3 ft 8 in + 6 in',units:['ft','in'],a:[4,2],rate:12,hint:'8 in + 4 in make a foot. Split 6 into 4 and 2.'},
-              {q:'2 ft 7 in + 9 in',units:['ft','in'],a:[3,4],rate:12,hint:'7 in + 5 in make a foot. Split 9 into 5 and 4.'}],
+    problems:[{q:'3 ft 8 in + 6 in',units:['ft','in'],a:[4,2],rate:12,hint:'8 in + 4 in make a foot. Split 6 into 4 and 2.'}],
     onRight:function(i,el){earn('next-'+i,1,0,el,'');},onDone:function(root){earn('next-all',2,3,root,'Next foot made!');}});
 }
 function modelSplice(m){
@@ -467,20 +462,28 @@ function modelSplice(m){
     doneText:'Yes! 3 ft 15 in = 4 ft 3 in. Felix\'s way gives the same: 32 in + 19 in = 51 in = 4 ft 3 in.',
     onDone:function(root){setJob('j3',root);}});
 }
-/* Job 4 · Measure the Rail (Bar Strip with yard pieces): 29 ft = 9 yd 2 ft */
-function modelYards(m){
+/* Job 4 · Rope Order (Bar Strip with yard, foot and inch pieces + a step chain): 2 yd 2 ft 7 in = 103 in, IP 3's direction */
+function modelOrder(m){
   var a=mount(m),c=mount(m);
-  OAOKit.barStrip(a,{key:'g4-4-10-02-ok-yards',
-    intro:'The rail is <b>29 ft</b> long. Lay 1-yard pieces (3 ft each) until no more fit. Fill the rest with 1-foot pieces.',
-    rows:[{label:'Bridge rail: 29 ft',target:29,max:29,unit:'ft',pieces:[3,1],base:0.03,pieceLabel:function(v){return v===3?'1 yd':'1 ft';},ticks:{every:1,major:3},scale:[0,6,12,18,24],scaleLabel:function(v){return v+' ft';},
-      overMsg:'That piece would go past 29 ft. Try a 1-foot piece.',trayText:'Drag pieces (or tap them):'}],
-    sym:function(s,st){var y=count(st,0,3),f=count(st,0,1);return '<span class="big">'+(y?y+' × 3 ft':'')+(y&&f?' + ':'')+(f?f+' ft':'')+(s[0]?' = '+s[0]+' ft':'0 ft')+'</span>'+(s[0]===29&&f>=3?'<span class="exp">3 of those 1-foot pieces make another yard. Take off 3 one-foot pieces and put on a 1-yard piece instead.</span>':'');}});
-  twoBox(c,{key:'g4-4-10-02-two-yards2',q:'29 ft =',units:['yd','ft'],aria:['Bridge rail, yards','Bridge rail, feet'],answer:[9,2],rate:3,
-    mistakes:[{v:[2,9],text:'Careful, the yards and feet swapped places! Yards are the 3-foot pieces you counted. The leftover feet must be less than 3.'},
-              {v:[9,29],text:'29 ft is the whole rail. After you count the whole yards, how many feet are left?'}],
-    hint:'Count the 1-yard pieces on the bar. Each one is 3 feet. Then count the leftover feet.',
-    doneText:'29 ft = <b>9 yd 2 ft</b>. 9 yards is 27 feet, and 2 feet are left over.',
-    onDone:function(root){setJob('j4',root);}});
+  OAOKit.barStrip(a,{key:'g4-4-10-02-ok-order',
+    intro:'Build the order: <b>2 yd 2 ft 7 in</b>. Use yard pieces first, then foot pieces, then inch pieces.',
+    rows:[{label:'Eastside\'s order: 2 yd 2 ft 7 in',target:103,max:108,hideTarget:true,unit:'in',pieces:[36,12,1],base:0.36,pieceLabel:function(v){return v===36?'1 yd':v===12?'1 ft':'1 in';},
+      ticks:{every:1,major:12},scale:[0,36,72,108],scaleLabel:function(v){return v?(v/36)+' yd':'0';},overMsg:'That piece would go past the order. Try a smaller piece.',trayText:'Drag pieces (or tap them):'}],
+    sym:function(s,st){var y=count(st,0,36),f=count(st,0,12),n=count(st,0,1);return '<span class="big">'+(y+' yd '+f+' ft '+n+' in')+'</span>'+(s[0]===103&&y===2&&f===2?'<span class="exp">Now change it to inches, one step at a time.</span>':'');}});
+  var S=[{q:'Change 2 yd to feet:',u:'ft',a:6,miss:{24:'That is 2 × 12. Yards change to feet, and each yard is 3 feet.',2:'Each yard is 3 feet, so 2 yards is 3 + 3.'}},
+         {q:'Add the 2 extra feet:',u:'ft',a:8,miss:{6:'Don\'t forget the 2 extra feet in the order.',4:'2 yd is 6 ft, not 2 ft. Then add the 2 extra feet.'}},
+         {q:'Change all the feet to inches:',u:'in',a:96,miss:{80:'That treats feet like tens. Each foot is 12 inches, so multiply the feet by 12.',24:'That is 8 × 3. Feet change to inches, and each foot is 12 inches.'}},
+         {q:'Add the 7 extra inches:',u:'in',a:103,miss:{96:'Don\'t forget the 7 extra inches in the order.'}}];
+  var st=ls('g4-4-10-02-order-steps',null)||{a:['','','',''],ok:false};
+  c.innerHTML='<form class="bm-form mk-two mk-chain">'+S.map(function(x,k){return '<div class="mk-step"><span class="mk-two-q">'+(k+1)+'. '+x.q+'</span><input type="text" inputmode="numeric" autocomplete="off" aria-label="Step '+(k+1)+': '+esc(x.q)+' how many '+(x.u==='ft'?'feet':'inches')+'" value="'+esc(st.a[k]||'')+'"><span class="bm-u">'+x.u+'</span></div>';}).join('')+'<button type="submit" class="ok-btn">Check</button></form><div class="ok-msg" aria-live="polite"></div>';
+  var f=c.querySelector('form'),ins=[].slice.call(f.querySelectorAll('input')),msg=c.querySelector('.ok-msg');
+  function say(t,k){msg.className='ok-msg'+(k?' '+k:'');msg.innerHTML=t;}
+  var DONE='2 yd 2 ft 7 in = <b>103 in</b>. Yards to feet (× 3), feet to inches (× 12), then add the extra inches.';
+  function lock(){ins.forEach(function(x){x.disabled=true;});say(DONE,'good');}
+  if(st.ok)lock();
+  f.onsubmit=function(e){e.preventDefault();var v=ins.map(function(x){return num(x.value);});st.a=ins.map(function(x){return x.value;});lsSet('g4-4-10-02-order-steps',st);
+    for(var k=0;k<S.length;k++){if(v[k]==null)return say('Fill in step '+(k+1)+'.','hint');if(v[k]!==S[k].a){OAOKit._snd.no();return say('Step '+(k+1)+': '+(S[k].miss[v[k]]||'Look at the ruler and try that step again.'),'hint');}}
+    st.ok=true;lsSet('g4-4-10-02-order-steps',st);OAOKit._snd.done();lock();setJob('j4',c);};
 }
 /* Last job · Prove the Smudge wrong: is 2 ft 15 in the same as 3 ft 5 in? Same scale, fair compare */
 function modelProve(m){
@@ -493,9 +496,9 @@ function modelProve(m){
 }
 function modelBonus(m){
   OAOKit.challenge(m,{key:'g4-4-10-02-bonus',title:'Bonus quest: the rope cutter',
-    text:'<p>Rosa has a rope <strong>2 yd</strong> long. She cuts it into pieces that are each <strong>8 in</strong> long. How many pieces does she get?</p>',
-    answer:9,unit:'pieces',hint:'Change 2 yards to inches first. 1 yd = 3 ft, and 1 ft = 12 in.',
-    explain:'<p>2 yd = 6 ft. 6 ft = 6 × 12 = 72 in. 72 ÷ 8 = <strong>9 pieces</strong>.</p>',
+    text:'<p>Rosa has a rope <strong>3 yd</strong> long. She cuts it into pieces that are each <strong>9 in</strong> long. How many pieces does she get?</p>',
+    answer:12,unit:'pieces',hint:'Change 3 yards to inches first. 1 yd = 3 ft, and 1 ft = 12 in.',
+    explain:'<p>3 yd = 9 ft. 9 ft = 9 × 12 = 108 in. 108 ÷ 9 = <strong>12 pieces</strong>.</p>',
     onDone:function(root){earn('bonus',8,8,root,'Bonus quest!');}});
 }
 function bind(f){return function(m,a){api=a;return f(m);};}
@@ -506,28 +509,29 @@ return {
     {id:'j1',t:'Build a foot',w:'Warm-Up · Build a Foot',go:'#mk-foot',tab:'warmup',r:'-2deg',coins:5},
     {id:'j2',t:'Measure Rosa\'s rope',w:'Learn · Rope Ruler',go:'#mk-rope',tab:'learn',r:'1.5deg',coins:8},
     {id:'j3',t:'Join the two ropes',w:'Learn · Join the Ropes',go:'#mk-splice',tab:'learn',r:'-1deg',coins:6},
-    {id:'j4',t:'Measure the rail for Eastside',w:'Learn · Measure the Rail',go:'#mk-yards',tab:'learn',r:'2deg',coins:6},
+    {id:'j4',t:'Fill Eastside\'s rope order',w:'Learn · Rope Order',go:'#mk-order',tab:'learn',r:'2deg',coins:6},
     {id:'j5',t:'Prove the Smudge\'s banner wrong',w:'Show What You Know',go:'#mk-prove',tab:'assignment',r:'-1.5deg',coins:10}],
   scene:function(a){api=a;return bridgeSVG();},
   hints:[
     {sel:'#mk-think .callout-think',rungs:['You want to compare two heights. One is in feet and inches, and one is only in inches. Try to get them in the same unit.','Build each post on the bars: 1-foot pieces are 12 inches, and 1-inch pieces fill in the rest. Which bar is longer?','Here are different numbers: 2 ft 1 in is 12 + 12 + 1 = 25 in. That is taller than 23 in, by 2 in.']},
     {sel:'#tab-assignment .q-block',i:0,inside:true,rungs:['Feet to inches is a step down to a smaller unit, so multiply by 12. Yards to feet: multiply by 3.','For (c), count by 12s to find the whole feet in 67 inches. What is left stays in inches.','Here are different numbers: 3 ft = 3 × 12 = 36 in. 4 yd = 4 × 3 = 12 ft. And 30 in is 2 ft 6 in, because 24 in make 2 feet.']},
     {sel:'#tab-assignment .q-block',i:1,inside:true,rungs:['Add (or subtract) the feet, then the inches.','If the inches reach 12 or more, trade 12 in for 1 ft. If you can\'t take away the inches, trade 1 ft for 12 in first.','Here are different numbers: 1 ft 9 in + 1 ft 5 in = 2 ft 14 in = 3 ft 2 in. And 4 ft 1 in − 1 ft 6 in: trade first, 3 ft 13 in − 1 ft 6 in = 2 ft 7 in.']},
-    {sel:'#tab-assignment .q-block',i:2,inside:true,rungs:['Yards are groups of 3 feet. How many groups of 3 fit in 34?','Skip-count by 3s: 3, 6, 9 … Stop before you pass 34. The leftover feet must be less than 3.','Here are different numbers: 20 ft. 6 yards is 18 ft, and 2 ft are left. So 20 ft = 6 yd 2 ft.']},
-    {sel:'#mk-rope .activity-body > .mk-todo',rungs:['Start with 1-foot pieces. Each one is 12 inches. How many fit before you pass 46?','3 feet is 36 inches. A 4th foot would make 48 inches, and that is past 46. Fill the rest with 1-inch pieces.','Here are different numbers: 29 in. Two feet is 24 in, and 5 in are left. So 29 in = 2 ft 5 in.']},
+    {sel:'#tab-assignment .q-block',i:2,inside:true,rungs:['Change the yards to feet first. Each yard is 3 feet. Then add the extra feet.','For (b), change all the feet to inches. Each foot is 12 inches.','Here are different numbers: 5 yd 1 ft. 5 yd = 15 ft, and 15 ft + 1 ft = 16 ft. 16 ft = 16 × 12 = 192 in.']},
+    {sel:'#mk-rope .activity-body > .mk-todo',rungs:['Start with 1-foot pieces. Each one is 12 inches. How many fit before you pass 46?','3 feet is 36 inches. One more foot would go past 46. Fill the rest with 1-inch pieces.','Here are different numbers: 29 in. Two feet is 24 in, and 5 in are left. So 29 in = 2 ft 5 in.']},
     {sel:'#mk-splice .activity-body > .mk-todo',rungs:['Add the feet first: 2 ft + 1 ft. Then add the inches: 8 in + 7 in.','15 inches is more than a foot. Trade 12 inches for 1 foot. What is left over?','Here are different numbers: 1 ft 6 in + 2 ft 10 in = 3 ft 16 in. 16 in = 1 ft 4 in, so that is 4 ft 4 in.']},
-    {sel:'#mk-yards .activity-body > .mk-todo',rungs:['Use the 1-yard pieces first. Each one is 3 feet.','Count by 3s: 3, 6, 9 … 27. One more yard would be 30, past 29. Fill the rest with 1-foot pieces.','Here are different numbers: 17 ft. 5 yards is 15 ft, and 2 ft are left. So 17 ft = 5 yd 2 ft.']},
+    {sel:'#mk-order .activity-body > .mk-todo',rungs:['Build the order on the ruler first: 2 yard pieces, 2 foot pieces and 7 inch pieces.','Change one step at a time. Yards to feet: multiply by 3. Then all the feet to inches: multiply by 12. Then add the extra inches.','Here are different numbers: 4 yd 1 ft 2 in. 4 yd = 12 ft, and 12 ft + 1 ft = 13 ft. 13 ft = 156 in, and 156 in + 2 in = 158 in.']},
     {sel:'#mk-foot .activity-body > .mk-todo',rungs:['Tap the 1-inch piece over and over, or drag it onto the ruler. Count each one.','The ruler is full at 12 pieces. For round 2, each piece is a whole foot: 12 inches.','Here are different numbers: 3 one-foot pieces make 12 + 12 + 12 = 36 inches.']},
     {sel:'#mk-prove .activity-body > .mk-todo',rungs:['Build each length with 1-foot pieces first, then 1-inch pieces. 15 inches is more than one foot, so the top bar needs some extra inches.','2 ft 15 in is 12 + 12 + 15 inches. 3 ft 5 in is 12 + 12 + 12 + 5 inches. Which is longer?','Here are different numbers: 1 ft 14 in is 26 in, and 2 ft 4 in is 28 in. They are not the same. 14 in = 1 ft 2 in, so 1 ft 14 in = 2 ft 2 in.']}],
   writing:{
     'journal-think':{min:10,chips:[{label:'which post is taller',words:['south']},{label:'by how much',words:['2','two','2 in','2 inches']},{label:'how you knew',words:['12','72','77','79','inches','inch','feet','foot','ft','bar','bars','built','build','changed','change','turned','times','added','plus','minus','subtract','compare','compared','bigger','longer','taller']}]},
-    'journal-soc':{min:12,chips:[{label:'yes or no',words:['yes','yeah','right','correct','same','equal','true','she is','she\'s right']},{label:'14 in = 1 ft 2 in',words:['14','12','1 ft 2','1 foot 2','1 foot and 2','foot and 2','trade','traded','regroup']},{label:'4 ft 2 in',words:['4 ft 2','4 feet 2','4ft 2','4 feet and 2','4 ft and 2','50']}]}},
+    'journal-big':{min:12,chips:[{label:'multiply',words:['multiply','multiplied','times','×','x 3','x 12','x3','x12','groups of']},{label:'3 or 12',words:['3','12','three','twelve']},{label:'change to a smaller unit',words:['inches','inch','feet','foot','in','ft','smaller','same unit','change','turn']}]}},
+  bigIdea:'To work with yards, feet and inches, change everything to the same smaller unit: multiply yards by 3 to get feet, multiply feet by 12 to get inches, then add the extra.',
   words:[{w:'customary',d:'the measuring system that uses inches, feet and other units like them'},{w:'splice',d:'join two ropes end to end into one rope'},
     {w:'yard',d:'3 feet, about one big step'},{w:'mile',d:'5,280 feet, about a 20-minute walk'}],
-  intendedWrong:['3 ft 15 in = 4 ft 5 in','3 ft 15 in = 4 ft','15 in make 1 ft and 5 in','2 ft 15 in = 3 ft 5 in','29 ft = 2 yd 9 ft','3 yd = 6 ft','2 yards 9 feet','80 in = 8 ft','29 ft = 9 yd','80 in = 6 ft','6 ft 5 in is the same as 65 in'],
+  intendedWrong:['3 ft 15 in = 4 ft 5 in','3 ft 15 in = 4 ft','15 in make 1 ft and 5 in','2 ft 15 in = 3 ft 5 in','80 in = 8 ft','80 in = 6 ft','6 ft 5 in is the same as 65 in'],
   intro:{card:false,len:7.2,
     alt:'Twelve 1-inch pieces fill a ruler: 12 inches make 1 foot. Five more feet and a 5-inch piece slide in end to end, 77 inches in all, as tall as Gus\'s north post. Gus walks up and wonders which of his posts is taller.',
     scene:introScene},
-  models:{foot:bind(modelFoot),mental:bind(modelMental),think:bind(modelThink),rope:bind(modelRope),next:bind(modelNext),splice:bind(modelSplice),yards:bind(modelYards),prove:bind(modelProve),bonus:bind(modelBonus)}
+  models:{foot:bind(modelFoot),mental:bind(modelMental),think:bind(modelThink),rope:bind(modelRope),next:bind(modelNext),splice:bind(modelSplice),order:bind(modelOrder),prove:bind(modelProve),bonus:bind(modelBonus)}
 };
 })();

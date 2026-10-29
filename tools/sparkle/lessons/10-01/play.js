@@ -81,7 +81,9 @@ for(const id of ['journal-r1','journal-think']){ok(await chipsFor(id,'idk')===0,
 await p.evaluate(()=>switchTab('learn'));for(const t of ['6 kg is 6,000 g so it is 6,005 g not 65 g','no because 6 kg is 6000 grams and 5 more is 6005 so 65 is way too small']){const n=await chipsFor('journal-soc',t);ok(n===3,'journal-soc natural answer lights '+n+' of 3');}
 ok(await chipsFor('journal-soc','idk')===0,'journal-soc: "idk" lights nothing');
 await chipsFor('journal-soc','6 kg is 6,000 g so it is 6,005 g not 65 g because the zeros matter');ok((await msg('#journal-soc + .pq-write .pq-count')).includes('✓'),'word counter');
-await p.evaluate(()=>gatherAnswers());ok((await p.$eval('#gatheredOutput',e=>e.value)).includes('Words I learned today'),'journal lists the words');
+await p.evaluate(()=>switchTab('learn'));await p.waitForTimeout(250);for(const t of ['you work on the meters and the centimeters and trade 100 cm for 1 m when there are too many','add each unit then regroup, like 1,000 g make 1 kg so 1 kg 900 g plus 200 g is 2 kg 100 g']){const n=await chipsFor('journal-big',t);ok(n===3,'journal-big natural answer lights '+n+' of 3');}
+ok(await chipsFor('journal-big','idk')===0,'journal-big: "idk" lights nothing');ok(await p.$('#mk-onepic .op-big'),'one picture: the big idea sentence');
+await p.evaluate(()=>gatherAnswers());{const g=await p.$eval('#gatheredOutput',e=>e.value);ok(g.includes('Words I learned today')&&g.indexOf("Today's big idea")>0&&g.indexOf("Today's big idea")<200,'journal: big idea at the top, words at the end');}
 const P=await p.evaluate(()=>JSON.parse(localStorage.getItem('oao.pq.progress')||'{}'));console.log('progress',JSON.stringify(P.lessons&&P.lessons['4.10.01']));
 const f=await failed();console.log(JSON.stringify(await p.evaluate(()=>PQM.wallet().coins)),'coins');
 console.log(!bad&&!errs.length&&!f.length?'PLAY PASSED':'PLAY FAILED '+bad+' '+errs.join('\n')+f.join('|'));await b.close();})();

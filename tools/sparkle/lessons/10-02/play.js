@@ -55,8 +55,8 @@ await two(R,'3','10');ok(await job('j2'),'job 2: 46 in = 3 ft 10 in');
 {const t=await crewSays('felix');ok(/24 inches/.test(t),'crew after job 2: Felix shares his all-inches way');}
 // job 3: make the next foot + splice bar model
 const X='#mk-splice';const mm=async(i,a,c)=>{const I=await p.$$(`${X} .mm-p[data-i="${i}"] input`);await I[0].fill(a);await I[1].fill(c);await p.click(`${X} .mm-p[data-i="${i}"] button`);};
-await mm(0,'1','13');ok((await msg(`${X} .mm-p[data-i="0"] .mm-fb`)).includes('Trade each 12'),'next foot: 1 ft 14 in gets the trade nudge');
-for(const [i,a,c] of [[0,'2','1'],[1,'4','2'],[2,'3','4']])await mm(i,a,c);ok(await p.$$eval(`${X} .mm-p.ok`,x=>x.length)===3,'make the next foot: 3 right');
+await mm(0,'3','14');ok((await msg(`${X} .mm-p[data-i="0"] .mm-fb`)).includes('Trade each 12'),'next foot: 3 ft 14 in gets the trade nudge');
+await mm(0,'4','2');ok(await p.$$eval(`${X} .mm-p.ok`,x=>x.length)===1,'make the next foot: 3 ft 8 in + 6 in = 4 ft 2 in');
 await p.click(`${X} .bm-fact[data-i="1"]`);await p.click(`${X} .bm-seg[data-seg="p0"]`);await drag(`${X} .bm-fact[data-i="3"]`,`${X} .bm-seg[data-seg="p1"]`);
 const sb=async(a,c)=>{const I=await p.$$(`${X} .bm-form input`);await I[0].fill(a);await I[1].fill(c);await p.click(`${X} .bm-form button`);await p.waitForTimeout(60);return msg(`${X} .bm-ask + .ok-msg`);};
 ok((await sb('4','5')).includes('tens and ones'),'splice: 4 ft 5 in (trade-10) gets the hint');
@@ -72,39 +72,39 @@ await pad(5);await drain();ok((await lastLog('build')).includes('tens and ones')
 await talkTo(13,10,'down');await p.waitForTimeout(2900);ok(await p.evaluate(()=>!!PQ._state().world.rail&&!!PQ._state().done.build),'build quest: tag fixed, rail tied');
 await p.evaluate(()=>PQ._play('build'));await p.waitForTimeout(500);await drain();await p.evaluate(()=>PQ._tp(13,10,'right'));await p.waitForTimeout(300);await shot('build','g-rail.png');await p.evaluate(()=>PQ._stop());
 // job 4 yards
-const Y='#mk-yards';await tapN(`${Y} .ok-src-piece[data-v="3"]`,10);ok((await msg(`${Y} .ok-msg`)).includes('past 29'),'yards: a 10th yard goes past 29 ft (hint)');
-await drag(`${Y} .ok-src-piece[data-v="1"]`,`${Y} .ok-bar`);await tapN(`${Y} .ok-src-piece[data-v="1"]`,1);ok((await msg(`${Y} .ok-sym`)).includes('9 × 3 ft + 2 ft = 29 ft'),'yards: 9 × 3 ft + 2 ft = 29 ft');
-ok((await two(Y,'2','9')).includes('swapped'),'yards: 2 yd 9 ft (swapped) gets the remainder hint');
-await two(Y,'9','2');ok(await job('j4'),'job 4: 29 ft = 9 yd 2 ft');
+const Y='#mk-order';await tapN(`${Y} .ok-src-piece[data-v="36"]`,3);ok((await msg(`${Y} .ok-msg`)).includes('past the order'),'order: a 3rd yard goes past the order (hint)');
+await tapN(`${Y} .ok-src-piece[data-v="12"]`,2);await drag(`${Y} .ok-src-piece[data-v="1"]`,`${Y} .ok-bar`);await tapN(`${Y} .ok-src-piece[data-v="1"]`,6);ok((await msg(`${Y} .ok-sym`)).includes('2 yd 2 ft 7 in'),'order: built 2 yd 2 ft 7 in (tap + drag)');
+const ch=async v=>{const I=await p.$$(`${Y} .mk-chain input`);for(let k=0;k<4;k++)await I[k].fill(v[k]);await p.click(`${Y} .mk-chain button`);await p.waitForTimeout(80);return msg(`${Y} .mk-chain + .ok-msg`);};ok((await ch(['24','8','96','103'])).includes('2 × 12'),'order: 2 yd = 24 ft gets the ×3 hint');ok((await ch(['6','8','80','103'])).includes('tens'),'order: 8 ft = 80 in gets the 12-not-10 hint');
+await ch(['6','8','96','103']);ok(await job('j4'),'job 4: 2 yd 2 ft 7 in = 103 in');
 // ── Show What You Know: prove it, chase, bonus
 await p.evaluate(()=>switchTab('assignment'));await p.waitForTimeout(800);
 const P='#mk-prove';await tapN(`${P} .ok-barrow[data-i="0"] .ok-src-piece[data-v="12"]`,3);await tapN(`${P} .ok-barrow[data-i="0"] .ok-src-piece[data-v="1"]`,3);
 await tapN(`${P} .ok-barrow[data-i="1"] .ok-src-piece[data-v="12"]`,3);await tapN(`${P} .ok-barrow[data-i="1"] .ok-src-piece[data-v="1"]`,5);
 ok((await msg(`${P} .ok-sym`)).includes('39 in is not 41 in')&&await job('j5'),'job 5: 2 ft 15 in (39 in) ≠ 3 ft 5 in (41 in)');
 await p.waitForTimeout(1300);await p.evaluate(()=>PQ._play('chase'));await p.waitForTimeout(800);await drain();
-await talkTo(15,10,'right');await pad(2);await drain();ok((await lastLog('chase')).includes('swapped them'),'chase: 2 yd → Cora\'s swapped-remainder hint');
-await pad(9);await drain();await pad(1);await drain();ok((await lastLog('chase')).includes('27 feet'),'chase: 9 yd 1 ft → Hazel hint');await pad(2);await drain();await p.waitForTimeout(900);
+await talkTo(15,10,'right');await pad(12);await drain();ok((await lastLog('chase')).includes('inches in a foot'),'chase: 9 yd = 12 ft → Cora\'s 3-not-12 hint');
+await pad(27);await drain();await p.waitForTimeout(900);
 await talkTo(21,10,'right');await pad(8);await drain();ok((await lastLog('chase')).includes('96 inches'),'chase: 8 ft (80 in read as tens) → Cora\'s hint');await pad(6);await drain();await pad(8);await drain();await p.waitForTimeout(900);
-await talkTo(25,10,'right');await pad(6);await drain();await pad(9);for(let i=0;i<8;i++){await adv();await p.waitForTimeout(200);}await p.evaluate(()=>PQ._tp(26,10,'right'));await p.waitForTimeout(500);await shot('chase','g-east.png');await drain();await p.waitForTimeout(3000);
+await talkTo(25,10,'right');await pad(26);await drain();ok((await lastLog('chase')).includes('not 20'),'chase: 26 in → Hazel\'s 12-not-10 hint');await pad(30);for(let i=0;i<8;i++){await adv();await p.waitForTimeout(200);}await p.evaluate(()=>PQ._tp(26,10,'right'));await p.waitForTimeout(500);await shot('chase','g-east.png');await drain();await p.waitForTimeout(3000);
 ok(await p.evaluate(()=>!!PQ._state().world.east&&!!PQ._state().done.chase),'chase quest: 3 stops, Eastside open');
 await p.evaluate(()=>switchTab('warmup'));await p.waitForTimeout(400);const bd=await p.$('.mk-board');await bd.scrollIntoViewIfNeeded();await bd.screenshot({path:path.join(OUT,'g-board.png')});
-await p.evaluate(()=>switchTab('assignment'));await p.click('.ch-card summary');await p.fill('.ch-form input','6');await p.click('.ch-form button[type=submit]');const hint=await p.$eval('.ch-hint',e=>!e.hidden);await p.fill('.ch-form input','9');await p.click('.ch-form button[type=submit]');
-ok(hint&&await p.$eval('.ch-explain',e=>!e.hidden),'bonus: hint after a miss, 9 pieces solves it');
+await p.evaluate(()=>switchTab('assignment'));await p.click('.ch-card summary');await p.fill('.ch-form input','8');await p.click('.ch-form button[type=submit]');const hint=await p.$eval('.ch-hint',e=>!e.hidden);await p.fill('.ch-form input','12');await p.click('.ch-form button[type=submit]');
+ok(hint&&await p.$eval('.ch-explain',e=>!e.hidden),'bonus: hint after a miss, 12 pieces solves it');
 // ── helpers: defined words, hint ladders, writing chips + counter
 const defs=await p.$$eval('.pq-def b',x=>x.map(e=>e.textContent));ok(defs.length===4,'defined words: '+defs.join(', '));
 for(let i=0;i<3;i++)await p.click('.pq-hint[data-hint="1"] .pq-hint-btn');ok(await p.$$eval('.pq-hint[data-hint="1"] li',x=>x.length)===3,'hint ladder: 3 rungs');
 ok(await p.$$eval('#tab-assignment .q-block .pq-hint',x=>x.length)===3,'every Show What You Know problem has a hint ladder');
 await p.evaluate(()=>switchTab('learn'));await p.waitForTimeout(300);
-for(const [sel,name] of [['#mk-rope','rope'],['#mk-splice','splice'],['#mk-yards','yards']]){const n=await p.$$eval(`${sel} .pq-hint`,x=>x.length);ok(n===1&&await p.$(`${sel} .task-box`)&&await p.$(`${sel} .mk-todo`),'Learn job '+name+': Your job + What to do + a hint ladder');}
+for(const [sel,name] of [['#mk-rope','rope'],['#mk-splice','splice'],['#mk-order','order']]){const n=await p.$$eval(`${sel} .pq-hint`,x=>x.length);ok(n===1&&await p.$(`${sel} .task-box`)&&await p.$(`${sel} .mk-todo`),'Learn job '+name+': Your job + What to do + a hint ladder');}
 for(const [tab,sel] of [['warmup','#mk-foot'],['assignment','#mk-prove']]){await p.evaluate(t=>switchTab(t),tab);await p.waitForTimeout(250);const n=await p.$$eval(`${sel} .pq-hint`,x=>x.length);ok(n===1&&await p.$(`${sel} .task-box`)&&await p.$(`${sel} .mk-todo`),'job '+sel+': Your job + What to do + a hint ladder');}
 const chipsFor=async(id,txt)=>{await p.fill('#'+id,txt);await p.dispatchEvent('#'+id,'input');return p.$$eval('#'+id+' + .pq-write .pq-chip',x=>x.filter(e=>e.classList.contains('on')).length);};
 await p.evaluate(()=>switchTab('warmup'));
 for(const t of ['The south post is taller by 2 inches because 6 ft is 72 in and 5 more is 77','I built both bars and the south bar was longer by two inches']){const n=await chipsFor('journal-think',t);ok(n===3,'journal-think natural answer lights '+n+' of 3');}
 ok(await chipsFor('journal-think','idk')===0,'journal-think: "idk" lights nothing');
-await p.evaluate(()=>switchTab('learn'));for(const t of ['yes she is right because 14 in is 1 ft 2 in so 3 ft 14 in is 4 ft 2 in','yes they are the same, trade 12 inches for a foot and you get 4 feet 2 inches']){const n=await chipsFor('journal-soc',t);ok(n===3,'journal-soc natural answer lights '+n+' of 3');}
-ok(await chipsFor('journal-soc','idk')===0,'journal-soc: "idk" lights nothing');
-ok((await msg('#journal-soc + .pq-write .pq-count')).length>0,'word counter');
-await p.evaluate(()=>gatherAnswers());ok((await p.$eval('#gatheredOutput',e=>e.value)).includes('Words I learned today'),'journal lists the words');
+await p.evaluate(()=>switchTab('learn'));await p.waitForTimeout(250);for(const t of ['To change yards to inches you multiply by 3 to get feet and then times 12, like 1 yd is 36 in','you turn everything into the smaller unit, times 3 for yards and times twelve for feet']){const n=await chipsFor('journal-big',t);ok(n===3,'journal-big natural answer lights '+n+' of 3');}
+ok(await chipsFor('journal-big','idk')===0,'journal-big: "idk" lights nothing');
+ok((await msg('#journal-big + .pq-write .pq-count')).length>0,'word counter');
+await p.evaluate(()=>gatherAnswers());{const g=await p.$eval('#gatheredOutput',e=>e.value);ok(g.includes('Words I learned today')&&g.indexOf('Today\'s big idea')>0&&g.indexOf('Today\'s big idea')<200,'journal: big idea at the top, words at the end');}
 // ── board mode for the Learn video's live board
 const p2=await p.context().newPage();await p2.goto('file://'+path.join(H.REPO,'math-lesson-4-10-02-customary-length.html')+'?board=rope');await p2.waitForTimeout(900);
 await p2.click('#pq-boardhost .ok-src-piece[data-v="12"]');ok((await p2.$eval('#pq-boardhost .ok-sym',e=>e.textContent)).includes('1 × 12 in = 12 in'),'board mode ?board=rope: the Rope Ruler alone, taps work');await p2.screenshot({path:path.join(OUT,'board-rope.png')});await p2.close();

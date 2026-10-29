@@ -135,6 +135,12 @@ ONEPIC=("<div class=\"key-concept pq-onepic\" style=\"margin-top:14px;\"><div cl
  "<div class=\"op-ex\"><div class=\"op-h\" style=\"margin-bottom:6px\">2 × 1 m 70 cm, two ways</div>"
  "<div class=\"op-card\"><div class=\"op-h\">Split, then regroup</div><p>2 × 1 m = 2 m. 2 × 70 cm = 140 cm.</p><div class=\"op-eq\">2 m 140 cm = <b>3 m 40 cm</b></div></div>"
  "<div class=\"op-card\"><div class=\"op-h\">One unit first</div><p>1 m 70 cm = 170 cm. 2 × 170 cm = 340 cm.</p><div class=\"op-eq\">340 cm = <b>3 m 40 cm</b></div></div></div></div></div>")
+BIG='To add, subtract or multiply amounts like 1 m 65 cm, work on each unit, then trade when the small unit fills a big one: 100 cm make 1 m, 1,000 g make 1 kg and 1,000 mL make 1 L.'
+assert ONEPIC.endswith('</div>')
+ONEPIC=(ONEPIC.replace('<div class="key-concept pq-onepic" style="margin-top:14px;">','<div class="key-concept pq-onepic" id="mk-onepic" style="margin-top:14px;">',1)
+ .replace('⚖️ The Whole Lesson in One Picture</div>','⚖️ The Whole Lesson in One Picture</div><p class="op-big"><strong>'+BIG+'</strong></p>',1)[:-6]
+ +'<div class="journal-label">✏️ Put the big idea in your own words. Use an example of your own. <span class="saved-dot" id="dot-big"></span></div>'
+ '<textarea class="journal-box" data-label="Learn — The big idea in my own words" id="journal-big" oninput="autoSave(this,\'dot-big\')" placeholder=""></textarea></div>')
 s=s[:i]+ONEPIC+s[j:]
 s=s.replace('<!--WE-->',WE+'</div></div>',1)  # worked example right after the Do video, before Millie's Flour
 

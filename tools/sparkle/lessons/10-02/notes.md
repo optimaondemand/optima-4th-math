@@ -27,3 +27,9 @@ Built 28 Oct 2026 to the Dimensions 4B Chapter 10 Lesson 2 shape. Guide notes: `
 - 🟡 yard (3 ft = 36 in), mile (5,280 ft) — Foot Bridge Board, before Measure the Rail and SWYK
 - 🟡 feet → yd ft — Measure the Rail (job 4), before the chase and SWYK 3
 - Game: sort needs only 12 in = 1 ft (locked until job 1); Crew method lines unlock at j2; build locked until j3; chase locked until j4.
+
+## Revision 29 Oct 2026 (IP alignment + One Picture)
+- **IP coverage:** IP 3 (composite → single, yards → feet → inches) had no hands-on job; the page practiced the other direction. Measure the Rail (29 ft = 9 yd 2 ft) became **Rope Order** (Job 4): 2 yd 2 ft 7 in → 6 ft → 8 ft → 96 in → 103 in, Bar Strip with yd/ft/in pieces (hidden target) + a 4-step chain. Feet → yards left the page (not on the IP).
+- **Cut from Learn:** the "3 ft 14 in = 4 ft 2 in" writing box, the Board's two-ways paragraph, 2 of the 3 make-the-next-foot problems.
+- **One Picture:** big idea "To work with yards, feet and inches, change everything to the same smaller unit: multiply yards by 3 to get feet, multiply feet by 12 to get inches, then add the extra." + yards ×3 feet ×12 inches picture + 3 yd 1 ft 4 in = 124 in + "Put the big idea in your own words" box (`journal-big`). `bigIdea` tops the journal.
+- **Follow-on changes:** SWYK 3 = 4 yd 2 ft → 14 ft → 168 in; chase stops 9 yd = 27 ft, 80 in = 6 ft 8 in, 2 ft 6 in = 30 in (mistake moments: ×12 for a yard, 2 ft as 20 in, 80 in as 8 ft); bonus 3 yd into 9-in pieces = 12; Do problem 3 = 3 yd 2 ft 5 in = 137 in; 9 voice lines re-recorded. The yards/feet swapped-remainder moment went away with feet → yards.

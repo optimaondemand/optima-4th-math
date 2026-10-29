@@ -107,30 +107,25 @@ BOARDSVG = ('<svg viewBox="0 0 640 230" class="mk-svg" role="img" aria-label="A 
  + '<path d="M40 92v12M580 92v12M40 98h540" stroke="#3A6B9A" stroke-width="3"/><text x="310" y="124" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="18" fill="#3A6B9A">1 yd = 3 ft = 36 in</text>'
  '<text x="40" y="28" font-family="DotGothic16,Nunito" font-size="16" fill="#3B2417">a yardstick</text>'
  '<rect x="40" y="148" width="560" height="62" rx="10" fill="#FFFFFF" stroke="#F5D4BC" stroke-width="2"/>'
- '<text x="60" y="174" font-family="Nunito" font-weight="900" font-size="15" fill="#2DB87A">Smaller unit → multiply: 3 ft = 3 × 12 in = 36 in</text>'
- '<text x="60" y="198" font-family="Nunito" font-weight="900" font-size="15" fill="#C56C3F">Bigger unit → count by 12s (or 3s), keep the leftover: 46 in = 36 in + 10 in = 3 ft 10 in</text></svg>')
+ '<text x="60" y="174" font-family="Nunito" font-weight="900" font-size="15" fill="#2DB87A">To a smaller unit, multiply: yards × 3 = feet, feet × 12 = inches</text>'
+ '<text x="60" y="198" font-family="Nunito" font-weight="900" font-size="15" fill="#C56C3F">To a bigger unit, count by 12s (or 3s) and keep the leftover</text></svg>')
 replace_block('<div class="key-concept" style="margin-top:16px;"><div class="key-concept-label">📐 The Customary Length Chart',
  '<div class="key-concept" id="mk-board-kc" style="margin-top:16px;"><div class="key-concept-label">📐 The Foot Bridge Board</div>' + BOARDSVG
  + '<p>Two more units of length are the yard and the mile. We write yd for yards and mi for miles.</p>'
  '<p><strong>Length:</strong> 12 in = 1 ft. 3 ft = 1 yd, so 1 yd = 36 in. 1 mi = 5,280 ft.</p>'
- '<p><strong>Two units at once?</strong> Pick a way. <em>Feet and inches:</em> work on each unit, then trade 12 inches for 1 foot. <em>All inches:</em> change it all to inches, work, then change back.</p>'
  + tip('cora', 'Exact words: <b>regroup</b> means trading small units for a big one (12 in for 1 ft) or a big one for small ones (1 ft for 12 in).') + '</div><div class="pq-vslot" data-slot="do"></div><!--WE-->')
 
-# ── G. Picture It (it solved an IP problem) → Job 4 Measure the Rail (yard pieces) + the think question
+# ── G. Picture It (it solved an IP problem) → Job 4 Rope Order: yards → feet → inches (IP 3's direction, new numbers)
 pic_start = '<div class="activity bl-violet" style="margin-top:16px;"><div class="activity-head">'
-i = s.index(pic_start); j = block_end(s, i); blk = s[i:j]
-soc = re.search(r'<div class="socratic-box">.*?</textarea></div>', blk, re.S).group(0)
-soc = soc.replace('🧠 Socratic — Think Like a Mathematician', '🧠 Think Like a Mathematician')
-soc = re.sub(r'<p class="socratic-q">.*?</p>', '<p class="socratic-q">Rosa says 3 ft 14 in and 4 ft 2 in are the same length. Is she right? How do you know?</p>', soc, flags=re.S)
-soc = soc.replace('data-label="Learn — Socratic: 2 yd 1 ft 5 in"', 'data-label="Learn — Think: 3 ft 14 in"')
-s = s[:i] + act('mk-yards', '#3A6B9A', '🌉', 'Measure the Rail: 29 ft = ? yd ? ft', 'Job 4 · Lay yard pieces on the rail',
-  job('Eastside orders rope by the yard. Gus\'s whole rail is <strong>29 ft</strong> long. <strong>How many yards and feet is that?</strong>',
-      ['Lay 1-yard pieces (3 ft each) on the rail until no more fit.',
-       'Fill the rest with 1-foot pieces.',
-       'Count the yard pieces. That is the number of yards. The 1-foot pieces left over are the feet.',
-       'Type the length in yards and feet.'])
-  + tip('hazel', 'The yard pieces are the big ones. The leftover feet must be fewer than 3, or they would make another yard.')
-  + model('yards') + soc, cls='bl-slate', extra=' style="margin-top:16px;"') + s[j:]
+i = s.index(pic_start); j = block_end(s, i)
+s = s[:i] + act('mk-order', '#3A6B9A', '🧵', 'Rope Order: 2 yd 2 ft 7 in = ? in', 'Job 4 · Change yards and feet to inches',
+  job('Eastside wants rope for its side of the bridge: <strong>2 yd 2 ft 7 in</strong>. Rosa\'s cutting machine only reads inches. <strong>How many inches long should she cut it?</strong>',
+      ['Build the order on the ruler: yard pieces first, then foot pieces, then inch pieces.',
+       'Change the yards to feet. Each yard is 3 feet.',
+       'Change all the feet to inches. Each foot is 12 inches.',
+       'Add the extra inches. Type each answer in its box.'])
+  + tip('hazel', 'A yard is 3 feet, and each foot is 12 inches. Go one step at a time: yards to feet, then feet to inches.')
+  + model('order'), cls='bl-slate', extra=' style="margin-top:16px;"') + s[j:]
 
 # ── H. the track-lap worked example (IP 5) → Study It (subtracting with a trade) + the whole lesson in one picture
 i = s.index('<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🔍</div><div><div class="activity-title">Worked Example: Track Lap</div>'); j = block_end(s, i)
@@ -141,21 +136,25 @@ WE = ('<div class="activity bl-slate" id="mk-worked"><div class="activity-head">
  '<div class="we-two"><div class="we-way"><h5>Way 1: feet and inches</h5><ol><li>Trade 1 foot for 12 inches. 6 ft 2 in becomes 5 ft 14 in.</li><li>Take away the inches: 14 in − 10 in = 4 in.</li><li>Take away the feet: 5 ft − 2 ft = 3 ft.</li><li>The piece left is <b>3 ft 4 in</b>.</li></ol></div>'
  '<div class="we-way"><h5>Way 2: all inches</h5><ol><li>6 ft 2 in is 74 in. (6 × 12 = 72, and 2 more)</li><li>2 ft 10 in is 34 in. (2 × 12 = 24, and 10 more)</li><li>Take away: 74 in − 34 in = 40 in.</li><li>Change back: 36 in make 3 ft, and 4 in are left. The piece left is <b>3 ft 4 in</b>.</li></ol></div></div>'
  '<p style="margin:8px 0;font-weight:700;color:#3A4A6B;">Check it: put the cut piece back. 3 ft 4 in + 2 ft 10 in = 5 ft 14 in. 14 in is 1 ft 2 in, so that is 6 ft 2 in, the whole rope. ✓</p>')
-ONEPIC = ("<div class=\"key-concept pq-onepic\" style=\"margin-top:14px;\"><div class=\"key-concept-label\">⚖️ The Whole Lesson in One Picture</div>"
- "<div class=\"op-grid\"><figure class=\"op-stairs\"><svg viewBox=\"0 0 300 120\" role=\"img\" aria-label=\"A ruler 2 feet 7 inches long: two green 1-foot pieces of 12 inches and 7 orange inches. Under it: 2 feet 7 inches equals 31 inches.\">"
- + ruler(2, 7, '2 ft 7 in', 300).replace('y="30"', 'y="34"').replace('y="50"', 'y="54"')
- + "<text x=\"150\" y=\"100\" text-anchor=\"middle\" font-family=\"Nunito\" font-weight=\"900\" font-size=\"16\" fill=\"#3B2417\">12 + 12 + 7 = 31 in</text></svg>"
- "<figcaption><span class=\"op-dn\">⬇ To inches: <b>multiply the feet by 12</b>, add the inches</span><span class=\"op-up\">⬆ To feet: <b>count by 12s</b> (12 in → 1 ft), keep the leftover</span></figcaption></figure>"
- "<div class=\"op-ex\"><div class=\"op-h\" style=\"margin-bottom:6px\">1 ft 9 in + 1 ft 10 in, two ways</div>"
- "<div class=\"op-card\"><div class=\"op-h\">Feet and inches, then trade</div><p>1 ft + 1 ft = 2 ft. 9 in + 10 in = 19 in.</p><div class=\"op-eq\">2 ft 19 in = <b>3 ft 7 in</b></div></div>"
- "<div class=\"op-card\"><div class=\"op-h\">All inches first</div><p>21 in + 22 in = 43 in.</p><div class=\"op-eq\">36 in make 3 ft, 7 in left: <b>3 ft 7 in</b></div></div></div></div></div>")
+BIG = 'To work with yards, feet and inches, change everything to the same smaller unit: multiply yards by 3 to get feet, multiply feet by 12 to get inches, then add the extra.'
+CHAIN = ('<svg viewBox="0 0 520 150" class="mk-svg" role="img" aria-label="Yards times 3 make feet. Feet times 12 make inches. Example: 3 yards 1 foot 4 inches is 9 feet plus 1 foot, 10 feet, which is 120 inches plus 4 inches, 124 inches.">'
+ '<rect width="520" height="150" rx="12" fill="#FFF8EF"/>'
+ + ''.join('<rect x="%d" y="24" width="110" height="44" rx="8" fill="%s" stroke="#3B2417" stroke-width="3"/><text x="%d" y="53" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="20" fill="#fff">%s</text>' % (20 + k * 180, c, 75 + k * 180, u) for k, (u, c) in enumerate([('yards', '#3A7BD5'), ('feet', '#2DB87A'), ('inches', '#F28C28')]))
+ + ''.join('<path d="M%d 46h44" stroke="#C56C3F" stroke-width="4" marker-end="url(#opar)"/><text x="%d" y="14" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="17" fill="#C56C3F">%s</text>' % (136 + k * 180, 158 + k * 180, f) for k, f in enumerate(['× 3', '× 12']))
+ + '<defs><marker id="opar" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#C56C3F"/></marker></defs>'
+ '<text x="260" y="98" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="16" fill="#3B2417">3 yd 1 ft 4 in → 9 ft + 1 ft = 10 ft → 120 in + 4 in = 124 in</text>'
+ '<text x="260" y="128" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="14" fill="#3A6B9A">Adding or subtracting? Trade 12 in for 1 ft when you need to.</text></svg>')
+ONEPIC = ('<div class="key-concept pq-onepic" id="mk-onepic" style="margin-top:14px;"><div class="key-concept-label">⚖️ The Whole Lesson in One Picture</div>'
+ '<p class="op-big"><strong>' + BIG + '</strong></p>' + CHAIN
+ + '<div class="journal-label">✏️ Put the big idea in your own words. Use an example of your own. <span class="saved-dot" id="dot-big"></span></div>'
+ '<textarea class="journal-box" data-label="Learn — The big idea in my own words" id="journal-big" oninput="autoSave(this,\'dot-big\')" placeholder=""></textarea></div>')
 s = s[:i] + ONEPIC + s[j:]
-s = s.replace('<!--WE-->', WE + '</div></div>', 1)  # Study It right after the Do video, before Measure the Rail
+s = s.replace('<!--WE-->', WE + '</div></div>', 1)  # Study It right after the Do video, before the Rope Order
 rep('You stacked inches and feet. Now practice.', 'Four bridge jobs down. One to go: prove the Smudge wrong.')
 
 # ── I. Show What You Know: per-part answer boxes, bonus, prove it, the chase, What's Next
 for a, b in [('<div class="activity-sub">For each problem, convert between customary units of length. Show your work.</div>', '<div class="activity-sub">Type each answer in its own box.</div>'),
-             ('<p>Use the chart: 12 in = 1 ft, 3 ft = 1 yd, 36 in = 1 yd, 5,280 ft = 1 mi.</p>', '<p>Use the board: 12 in = 1 ft, 3 ft = 1 yd. Work in feet and inches or all in inches, whichever you like.</p>'),
+             ('<p>Use the chart: 12 in = 1 ft, 3 ft = 1 yd, 36 in = 1 yd, 5,280 ft = 1 mi.</p>', '<p>Use the board: 12 in = 1 ft, 3 ft = 1 yd. To change to a smaller unit, multiply.</p>'),
              ('<p><strong>Before each problem, ask:</strong> Which units am I converting between, and how many of the smaller unit fit inside the bigger one?</p>', '<p>Show your thinking on paper if it helps, then type each answer.</p>')]:
     rep(a, b)
 SW = ('<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Change the units.</strong> <span class="saved-dot" id="dot-1"></span></p><div class="ans-parts">'
@@ -165,8 +164,9 @@ SW = ('<div class="q-block"><p class="q-text"><span class="q-num">1</span><stron
  + '<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Add and subtract lengths.</strong> <span class="saved-dot" id="dot-2"></span></p><div class="ans-parts">'
  + part('Problem 2 (a)', '(a) 3 ft 9 in + 2 ft 6 in = ' + box('2a1', 'Problem 2 a, feet', 'ft') + ' ' + box('2a2', 'Problem 2 a, inches', 'in'))
  + part('Problem 2 (b)', '(b) 6 ft 4 in − 2 ft 8 in = ' + box('2b1', 'Problem 2 b, feet', 'ft') + ' ' + box('2b2', 'Problem 2 b, inches', 'in')) + '</div></div>'
- + '<div class="q-block"><p class="q-text"><span class="q-num">3</span><strong>Word problem: Eastside\'s fence.</strong> The fence by the Eastside gate is 34 ft long. How long is it in yards and feet? <span class="saved-dot" id="dot-3"></span></p><div class="ans-parts">'
- + part('Problem 3', '34 ft = ' + box('3a', 'Problem 3, yards', 'yd') + ' ' + box('3b', 'Problem 3, feet', 'ft')) + '</div></div>')
+ + '<div class="q-block"><p class="q-text"><span class="q-num">3</span><strong>Word problem: Eastside\'s fence.</strong> The fence by the Eastside gate is 4 yd 2 ft long. <span class="saved-dot" id="dot-3"></span></p><div class="ans-parts">'
+ + part('Problem 3 (a) in feet', '(a) How many feet long is the fence? ' + box('3a', 'Problem 3 a, feet', 'ft'))
+ + part('Problem 3 (b) in inches', '(b) How many inches long is it? ' + box('3b', 'Problem 3 b, inches', 'in')) + '</div></div>')
 i = s.find('<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Single conversions.</strong>'); j = s.find('<div class="activity bl-slate" style="margin-top:18px;border-left-color:#0E8A8C;">', i); assert i > 0 and j > i
 s = s[:i] + tip('opti', 'Hoo! Before each problem, ask: do I need to trade? 12 or more inches make a new foot. Too few inches to take away? Trade 1 foot for 12 inches.') + SW + model('bonus') + (
  '<div class="activity bl-violet" id="mk-prove"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">⚖️</div><div><div class="activity-title">Last Job: Is 2 ft 15 in the same as 3 ft 5 in?</div><div class="activity-sub">Job 5 · Check the Smudge\'s banner with bars</div></div></div><div class="activity-body">'

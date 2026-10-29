@@ -230,8 +230,10 @@ function defineWords(){
     if(!done)fail('word','"'+W.w+'" not found on the page');
   });
   // the journal lists the words
-  var g=window.gatherAnswers;if(g&&(L.words||[]).length)window.gatherAnswers=function(){var r=g.apply(this,arguments);var o=document.getElementById('gatheredOutput');
-    if(o)o.value+='\nWords I learned today\n'+L.words.map(function(W){return '• '+W.w+': '+W.d;}).join('\n')+'\n';return r;};
+  // the journal opens with the lesson's big idea (PQ_LESSON.bigIdea) and ends with the words
+  var g=window.gatherAnswers;if(g&&((L.words||[]).length||L.bigIdea))window.gatherAnswers=function(){var r=g.apply(this,arguments);var o=document.getElementById('gatheredOutput');
+    if(o&&L.bigIdea){var v=o.value,k=v.indexOf('\n');o.value=(k<0?v+'\n':v.slice(0,k+1))+'\nToday\'s big idea\n'+L.bigIdea+'\n'+(k<0?'':v.slice(k+1));}
+    if(o&&(L.words||[]).length)o.value+='\nWords I learned today\n'+L.words.map(function(W){return '• '+W.w+': '+W.d;}).join('\n')+'\n';return r;};
 }
 
 /* show only one model, scaled to fill the window (the studio films this) */

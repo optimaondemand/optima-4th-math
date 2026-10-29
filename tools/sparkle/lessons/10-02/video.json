@@ -36,7 +36,7 @@
       ],
       [
        "Job 4",
-       "Measure the rail for Eastside"
+       "Fill Eastside's rope order"
       ],
       [
        "Job 5",
@@ -190,14 +190,22 @@
      "tag": "Problem 3",
      "board": {
       "type": "problem",
-      "title": "23 ft = ? yd ? ft",
-      "sub": "Count by 3s. The leftover feet must be fewer than 3.",
+      "title": "3 yd 2 ft 5 in = ? in",
+      "sub": "Yards to feet: × 3. Feet to inches: × 12. Then add the extra inches.",
       "model": {
-       "bond": {
-        "whole": "23 ft",
-        "parts": [
-         "",
-         ""
+       "chart": {
+        "cols": [
+         "yd",
+         "ft",
+         "in"
+        ],
+        "rows": 3,
+        "given": [
+         [
+          "3",
+          "2",
+          "5"
+         ]
         ]
        }
       }
@@ -216,7 +224,7 @@
      }
     }
    ],
-   "script": "Now watch me solve three. Pause any time.\n\n[ON SCREEN: Board: Problem 1]\n\n[DRAW: write 3 | 7 in row 1 and 1 | 8 in row 2. Add down: 4 | 15. Cross out 15, write 3, and add 1 to the feet: 5 | 3.]\n\n3 feet 7 inches plus 1 foot 8 inches. Feet: 4. Inches: 15. That's more than a foot, so I trade 12 inches for 1 foot. 5 feet 3 inches.\n\n[ON SCREEN: Board: Problem 2]\n\n[DRAW: write 4 | 3 on top and 2 | 7 under it. Cross out 4, write 3. Cross out 3 in, write 15. Subtract each column: 1 | 8.]\n\n4 feet 3 inches minus 2 feet 7 inches. 3 minus 7 won't work. So I trade 1 foot for 12 inches: 3 feet 15 inches. 15 minus 7 is 8. 3 minus 2 is 1. 1 foot 8 inches. Felix checks it in inches: 51 minus 31 is 20, and 20 inches is 1 foot 8 inches. Same!\n\n[ON SCREEN: Board: Problem 3]\n\n[DRAW: skip-count 3, 6, 9 up to 21 under the bond. Write 21 ft and 2 ft in the parts, then 7 yd 2 ft.]\n\n23 feet in yards and feet. I count by 3s up to 21. That's 7 yards, with 2 feet left over. 7 yards 2 feet.\n\n[ON SCREEN: Board: Spot the mistake]\n\n[DRAW: circle 3 ft 3 in. Write 13 in = 12 in + 1 in, then 3 ft 1 in.]\n\nIs this right? Someone treated inches like tens and ones. But a foot is 12 inches, not 10. 13 inches is 12 and 1, so it's 3 feet 1 inch. Watch for that on the rail!"
+   "script": "Now watch me solve three. Pause any time.\n\n[ON SCREEN: Board: Problem 1]\n\n[DRAW: write 3 | 7 in row 1 and 1 | 8 in row 2. Add down: 4 | 15. Cross out 15, write 3, and add 1 to the feet: 5 | 3.]\n\n3 feet 7 inches plus 1 foot 8 inches. Feet: 4. Inches: 15. That's more than a foot, so I trade 12 inches for 1 foot. 5 feet 3 inches.\n\n[ON SCREEN: Board: Problem 2]\n\n[DRAW: write 4 | 3 on top and 2 | 7 under it. Cross out 4, write 3. Cross out 3 in, write 15. Subtract each column: 1 | 8.]\n\n4 feet 3 inches minus 2 feet 7 inches. 3 minus 7 won't work. So I trade 1 foot for 12 inches: 3 feet 15 inches. 15 minus 7 is 8. 3 minus 2 is 1. 1 foot 8 inches. Felix checks it in inches: 51 minus 31 is 20, and 20 inches is 1 foot 8 inches. Same!\n\n[ON SCREEN: Board: Problem 3]\n\n[DRAW: under 3 yd write 9 ft. Add the 2 ft: 11 ft. Write 11 × 12 = 132 in, then + 5 in = 137 in.]\n\n3 yards 2 feet 5 inches, all in inches. One step at a time. 3 yards is 9 feet. 9 feet and 2 more feet make 11 feet. Each foot is 12 inches, so 11 feet is 132 inches. Add the 5 inches: 137 inches.\n\n[ON SCREEN: Board: Spot the mistake]\n\n[DRAW: circle 3 ft 3 in. Write 13 in = 12 in + 1 in, then 3 ft 1 in.]\n\nIs this right? Someone treated inches like tens and ones. But a foot is 12 inches, not 10. 13 inches is 12 and 1, so it's 3 feet 1 inch. Watch for that on the rope order!"
   },
   "wrap": {
    "label": "Wrap · open the bridge",
