@@ -135,12 +135,12 @@ s = s[:i] + act('mk-yards', '#3A6B9A', '🌉', 'Measure the Rail: 29 ft = ? yd ?
 # ── H. the track-lap worked example (IP 5) → Study It (subtracting with a trade) + the whole lesson in one picture
 i = s.index('<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🔍</div><div><div class="activity-title">Worked Example: Track Lap</div>'); j = block_end(s, i)
 WE = ('<div class="activity bl-slate" id="mk-worked"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🔍</div><div><div class="activity-title">Study It: How Gus Cut His Rope</div><div class="activity-sub">Already solved for you. Read it, then measure the rail.</div></div></div><div class="activity-body">'
- '<p style="margin:0 0 10px;font-weight:700;color:#3A4A6B;">👀 Nothing to type here. Read each step and see how Atlas and Felix each solve it. Subtracting works like adding: you may need to trade.</p>'
+ '<p style="margin:0 0 10px;font-weight:700;color:#3A4A6B;">👀 Nothing to type here. This problem is solved two ways. Both ways get the same answer. Read the one that makes more sense to you.</p>'
  '<div class="task-box"><div class="task-label">Problem</div><p>Gus has a rope <strong>6 ft 2 in</strong> long. He cuts off <strong>2 ft 10 in</strong>. How long is the piece that is left?</p></div>'
- + tip('atlas', '2 in − 10 in won\'t work. Regroup first: trade 1 ft for 12 in.') +
- '<div class="we-two"><div class="we-way"><h5>Feet and inches (Atlas)</h5><ol><li>Regroup: 6 ft 2 in = 5 ft 14 in.</li><li>Inches: 14 in − 10 in = 4 in.</li><li>Feet: 5 ft − 2 ft = 3 ft.</li><li>Answer: <b>3 ft 4 in</b>.</li></ol></div>'
- '<div class="we-way"><h5>All inches (Felix)</h5><ol><li>Change: 6 ft 2 in = 72 in + 2 in = 74 in. 2 ft 10 in = 24 in + 10 in = 34 in.</li><li>Subtract: 74 in − 34 in = 40 in.</li><li>Change back: 36 in make 3 ft, and 4 in are left. 40 in = <b>3 ft 4 in</b>.</li></ol></div></div>'
- '<p style="margin:8px 0;font-weight:700;color:#3A4A6B;">Check (Cora): 3 ft 4 in + 2 ft 10 in = 5 ft 14 in = 6 ft 2 in ✓</p>')
+ + tip('atlas', 'You can\'t take 10 inches away from 2 inches. So first, trade 1 foot for 12 inches.') +
+ '<div class="we-two"><div class="we-way"><h5>Way 1: feet and inches</h5><ol><li>Trade 1 foot for 12 inches. 6 ft 2 in becomes 5 ft 14 in.</li><li>Take away the inches: 14 in − 10 in = 4 in.</li><li>Take away the feet: 5 ft − 2 ft = 3 ft.</li><li>The piece left is <b>3 ft 4 in</b>.</li></ol></div>'
+ '<div class="we-way"><h5>Way 2: all inches</h5><ol><li>6 ft 2 in is 74 in. (6 × 12 = 72, and 2 more)</li><li>2 ft 10 in is 34 in. (2 × 12 = 24, and 10 more)</li><li>Take away: 74 in − 34 in = 40 in.</li><li>Change back: 36 in make 3 ft, and 4 in are left. The piece left is <b>3 ft 4 in</b>.</li></ol></div></div>'
+ '<p style="margin:8px 0;font-weight:700;color:#3A4A6B;">Check it: put the cut piece back. 3 ft 4 in + 2 ft 10 in = 5 ft 14 in. 14 in is 1 ft 2 in, so that is 6 ft 2 in, the whole rope. ✓</p>')
 ONEPIC = ("<div class=\"key-concept pq-onepic\" style=\"margin-top:14px;\"><div class=\"key-concept-label\">⚖️ The Whole Lesson in One Picture</div>"
  "<div class=\"op-grid\"><figure class=\"op-stairs\"><svg viewBox=\"0 0 300 120\" role=\"img\" aria-label=\"A ruler 2 feet 7 inches long: two green 1-foot pieces of 12 inches and 7 orange inches. Under it: 2 feet 7 inches equals 31 inches.\">"
  + ruler(2, 7, '2 ft 7 in', 300).replace('y="30"', 'y="34"').replace('y="50"', 'y="54"')
