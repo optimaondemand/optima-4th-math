@@ -33,3 +33,14 @@ Built 28 Oct 2026 to the Dimensions 4B Chapter 10 Lesson 2 shape. Guide notes: `
 - **Cut from Learn:** the "3 ft 14 in = 4 ft 2 in" writing box, the Board's two-ways paragraph, 2 of the 3 make-the-next-foot problems.
 - **One Picture:** big idea "To work with yards, feet and inches, change everything to the same smaller unit: multiply yards by 3 to get feet, multiply feet by 12 to get inches, then add the extra." + yards ×3 feet ×12 inches picture + 3 yd 1 ft 4 in = 124 in + "Put the big idea in your own words" box (`journal-big`). `bigIdea` tops the journal.
 - **Follow-on changes:** SWYK 3 = 4 yd 2 ft → 14 ft → 168 in; chase stops 9 yd = 27 ft, 80 in = 6 ft 8 in, 2 ft 6 in = 30 in (mistake moments: ×12 for a yard, 2 ft as 20 in, 80 in as 8 ft); bonus 3 yd into 9-in pieces = 12; Do problem 3 = 3 yd 2 ft 5 in = 137 in; 9 voice lines re-recorded. The yards/feet swapped-remainder moment went away with feet → yards.
+
+## Revision 29 Oct 2026 (review fixes: subtraction job, discussion, giveaways)
+- **New Job 4 · Cut the Rope** (Trade Mat, new kit tool `OAOKit.tradeMat`, rate 12): 5 ft 1 in − 2 ft 6 in = 2 ft 7 in, hands-on take-away with a break (IP 4(d)'s shape, which only Study It and the Do video covered before). Two quick ones with the answer in inches (IP 4(a)/(b)'s shape): 1 ft − 5 in = 7 in, 2 ft + 9 in = 33 in. Rope Order is Job 5, the banner is Job 6 (chase unlocks after Job 5).
+- **Notice / wonder** box on the Think (`journal-notice`); **compare-your-way** box after the Crew card (`journal-compare`, "which way for 150 in and why").
+- **Giveaways closed:** Build a Foot round 1 and both Prove bars hide their targets (the question was the target).
+- **Stale text fixed:** objective 3 (yards, feet and inches → inches), Join the Ropes step 1 (one make-the-next-foot problem), Study It subtitle (cut a rope yourself), the bar model's second What-to-do list removed, Essential Question (Which is longer, 6 ft 5 in or 79 in? How can you be sure?), six jobs everywhere.
+- **Big idea is two ways** (trade 12 in for 1 ft as you go, or change everything to inches first); journal-big chips match.
+- **SWYK 2(c)/(d):** 1 ft − 4 in = 8 in, 3 ft + 2 in = 38 in.
+- **Scripts:** Think names six jobs and asks for notice/wonder first; Learn opens with the noticing, adds "pause and say which way is like yours"; Do adds "your turn first" before Problem 2 and points at Cut the Rope. check_lesson counts live-board moves toward the 2-minute cap (8 words each) and allows one spoken line between a board cue and its DRAW.
+- **Phones:** Bar Strips hide minor ticks under 520 px.
+- Left as is: the Learn video still demonstrates Rosa's 46 in rope on the live Rope Ruler (the same numbers as Job 2) — imitation before independence; the bond pre-fills 36.

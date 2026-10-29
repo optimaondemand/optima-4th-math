@@ -180,8 +180,8 @@ def main(code):
                 out('FAIL', 'video "%s": board "%s" has no picture yet (node tools/sparkle/boards.js %s)' % (n, p.get('label'), code))
         sc = v.get('script', '')
         for p in bds:
-            m = re.search(r'\[ON SCREEN:[^\]]*' + re.escape(p.get('label', '')) + r'[^\]]*\]\s*(\S.{0,8})', sc)
-            if m and not m.group(1).startswith('[DRAW'):
+            m = re.search(r'\[ON SCREEN:[^\]]*' + re.escape(p.get('label', '')) + r'[^\]]*\]\s*((?:[^\[\n]*\n\s*){0,2})(\S.{0,8})', sc)
+            if m and not m.group(2).startswith('[DRAW'):  # one spoken "you try" line between the cue and the DRAW is fine
                 out('WARN', 'video "%s": board "%s" has no [DRAW: …] direction right after its cue' % (n, p.get('label')))
         for p in [p for p in v.get('parts', []) if p.get('kind') == 'live']:
             if not re.search(r"\b%s\s*:\s*bind\(" % re.escape(p.get('model', '')), lesson_js):
@@ -199,6 +199,10 @@ def main(code):
     for n, v in slots.items():
         sc = v.get('script', '')
         w = len(re.sub(r'\[(?:ON SCREEN|DRAW|DO):[^\]]*\]', '', sc).split())  # pen and hands-on directions aren't spoken
+        moves = sum(len([x for x in re.split(r'[.;]\s+', d) if x.strip()]) for d in re.findall(r'\[DO:([^\]]*)\]', sc))
+        w += 8 * moves  # each live-board move costs about 4 s of silence: budget it as 8 words
+        if moves and w > MAX_WORDS:
+            out('FAIL', 'video "%s" is over 2 minutes once its %d live-board moves are counted (about 4 s each)' % (n, moves))
         if w > MAX_WORDS:
             out('FAIL', 'video "%s" is %d words (over 2 minutes; keep it under %d)' % (n, w, MAX_WORDS))
         elif w > WANT_WORDS:

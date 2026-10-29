@@ -8,7 +8,7 @@ Read this at the start of every lesson run. The skill is `g4-math-sparkle-lesson
 |---|---|---|
 | `assets/sparkle/pq-art.js` | pixel art: characters, tiles, objects, gear | shared: a change touches every lesson |
 | `assets/sparkle/pq-engine.js` | the game (map, walking, dialog, quests, number pad, glow + arrow guidance, "all quests here done" card) | shared |
-| `assets/sparkle/oao-kit.js` | the math models (Disc Mat, Two-Unit Mat, Bar Strip, Stamp Signs, Story Bar Model, Number Bond, Mental Math, Bonus Quest) | shared |
+| `assets/sparkle/oao-kit.js` | the math models (Disc Mat, Two-Unit Mat, **Trade Mat**, Bar Strip, Stamp Signs, Story Bar Model, Number Bond, Mental Math, Bonus Quest) | shared |
 | `assets/sparkle/pq-layer.js` | the page layer: real-problem board, coins/XP/rank, tips, clean top, Game/Clean switch, question drawer, video slots, My Math Map progress | shared |
 | `assets/sparkle/pq-intro.js` | the cinematic opening: an 8-bit curtain that draws the lesson's math, lands a title card + today's puzzle, then dissolves into the page (once per session, skippable, Replay button, still picture under reduced motion) | shared |
 | `assets/sparkle/pq-music.js` | 10 original study-music loops (WebAudio, no files, no licensing) | shared |
@@ -89,7 +89,8 @@ A model gets `(mount, api)`; `api` = `earn(key, coins, xp, el, label)`, `setJob(
 |---|---|---|
 | `OAOKit.discMat(el, cfg)` | place value, regrouping, converting with 10/100/1,000, subtracting across units | `places`, `start`, `tray`, `zone {kind:'convert'|'away'}`, `steps[{text, done(st, api)}]`, `perRow`, `noRemove` |
 | `OAOKit.unitMat(el, cfg)` | **two-unit amounts** (1 m 65 cm, 2 L 750 mL): build, add copies, trade 10 small for 1 bigger, regroup | a Disc Mat with `big` (100 or 1,000), `bigUnit`, `smallUnit`, `names`, `short`, `discLabel`, `adds[{label, of, when, notYet, said}]`, `lead(api)`; the symbol line shows `3 m 195 cm` and warns until it's regrouped. Powers of 10 only: for 12/16/60 use Bar Strip |
-| `OAOKit.barStrip(el, cfg)` | "how many small fit in one big", fractions of a whole, fair compare on one scale | `rounds` or compare `rows`; pieces always to scale |
+| `OAOKit.tradeMat(el, cfg)` | **add and subtract with a trade that isn't a power of ten** (12 in = 1 ft, 16 oz = 1 lb): build, trade `rate` small discs for 1 big, break 1 big into `rate` small, take an amount away into a box | `rate`, `big:{unit,name:[one,many]}`, `small:{…}`, `start`, `tray`, `zone:{title, btn, want:{big,small}, over}`, `steps[{text, done(st, api)}]` (`st` = `{b, s, zb, zs}`), `sym(api)`, `noBreak`, `noAdd`. Discs count units (not to scale): use it for the arithmetic, the Bar Strip for lengths you compare by eye. A rate of 60 makes too many discs: time gets its own tool |
+| `OAOKit.barStrip(el, cfg)` | "how many small fit in one big", fractions of a whole, fair compare on one scale | `rounds` or compare `rows`; pieces always to scale; `hideTarget:true` on any row whose target IS the question's answer ("how many pieces fill it?", a fair compare); on phones only the major ticks show |
 | `OAOKit.stamps(el, cfg)` | match a factor/fact to a picture (warm-up sorts) | `signs[{id, stall, q, ans, svg}]`, `stamps`, `miss(sign)` |
 | `OAOKit.barModel(el, cfg)` | **every word problem**: students place each story fact on the bar, find the ?, answer | `kind:'part-whole'|'compare'`, `story` (facts with `put`), `parts`/`bars`/`diff`, `answer`, `mistakes[{value, text}]`, `sym` |
 | `OAOKit.numberBond(el, cfg)` | part-whole facts, splitting for mental math | `rounds[{whole, parts:[a,b], hide:'whole'|0|1, note}]` |
@@ -131,6 +132,15 @@ board mode (`<page>.html?board=<model>`: only that model, zoomed to fit, nothing
 beside the video. Chrome asks once to share the tab (pick this tab → Share); only the panel goes in the video, full screen
 behind Bethany. Script it with `[ON SCREEN: Live: …]` and say what to move with `[DO: …]` (🖐 in the prompter, not spoken).
 Every board has a pen bar under the video: ✏️ Pen, colors, Undo, Clear, Board off (D still toggles the pen).
+
+## Two writing moments every lesson keeps (Dimensions discussion, Bethany 29 Oct 2026)
+
+- **Notice / wonder** on the Think problem, before the model: one `journal-notice` box ("What do you notice about …? What do you wonder?",
+  placeholder "I notice… I wonder…", `min:6`, two chips: I notice / I wonder). No right answer; it earns the writing XP like any box.
+- **Compare your way** right after the Math Crew card: a `journal-compare` box ("Which Crew way is most like yours? Which way would you
+  use for a bigger number, like 150 in, and why?", `min:12`, chips: a Crew member's way · what you would do for the bigger number · why).
+  This is where students answer the card's "Which way would you pick?" instead of just reading it.
+- A kit model inside a job gets `todo:[]` (Story Bar Model) so the job's own **What to do** is the only list.
 
 ## Every job: a goal, steps and hints
 

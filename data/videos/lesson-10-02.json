@@ -61,10 +61,14 @@
       ],
       [
        "Job 4",
-       "Fill Eastside's rope order"
+       "Cut Gus's spare rope"
       ],
       [
        "Job 5",
+       "Fill Eastside's rope order"
+      ],
+      [
+       "Job 6",
        "Prove the Smudge's banner wrong"
       ]
      ]
@@ -79,12 +83,12 @@
     {
      "label": "The big question",
      "tag": "ESSENTIAL QUESTION",
-     "title": "How do you compare and add lengths like 4 ft 5 in?",
+     "title": "Which is longer, 6 ft 5 in or 79 in? How can you be sure?",
      "col": "#2DB87A",
-     "body": "Two units in one length. Try it your way first."
+     "body": "Two units in one length. Notice, wonder, then try it your way."
     }
    ],
-   "script": "Welcome to the Foot Bridge!\n\n[ON SCREEN: Bridge board]\n\nLast night the Smudge snapped Gus's rope rail, so nobody can cross to Eastside. The board right under me has five bridge jobs. Each one uses today's math.\n\n[ON SCREEN: Two posts]\n\nHere's the first puzzle. Gus has two tall posts at the ends of his bridge. The north post is 6 feet 5 inches tall. The tag on the south post says 79 inches. Which post is taller, and by how many inches?\n\n[ON SCREEN: The big question]\n\nOne height has two units, feet and inches. The other has only inches. So how do you compare them? Don't wait for me to show you. First, build a foot on Gus's ruler, so you know how many inches make a foot. Then try the post puzzle your own way, and write down how you did it. On the Learn tab, the Math Crew will show you two ways, and you can see if one matches yours."
+   "script": "Welcome to the Foot Bridge!\n\n[ON SCREEN: Bridge board]\n\nLast night the Smudge snapped Gus's rope rail, so nobody can cross to Eastside. The board right under me has six bridge jobs. Each one uses today's math.\n\n[ON SCREEN: Two posts]\n\nHere's the first puzzle. Gus has two tall posts at the ends of his bridge. The north post is 6 feet 5 inches tall. The tag on the south post says 79 inches. Which post is taller, and by how many inches?\n\n[ON SCREEN: The big question]\n\nBefore you touch a single piece, look at the two heights. What do you notice? What do you wonder? Write that down first. Then build a foot on Gus's ruler, so you know how many inches make a foot, and try the post puzzle your own way. Hold on to your answer. On the Learn tab, the Math Crew will show you two ways. See if one matches yours."
   },
   "learn": {
    "label": "Learn · two ways on the Rope Ruler",
@@ -113,7 +117,7 @@
      "page": "math-lesson-4-10-02-customary-length.html"
     }
    ],
-   "script": "Let's find out which post is taller, two ways.\n\n[ON SCREEN: Board: The posts]\n\n[DRAW: point to the north post's row, 6 | 5. Write 79 in beside the empty row for the south post.]\n\nThe north post is 6 feet 5 inches. The south post is 79 inches. They're written two different ways, so we can't compare them yet. We need them in the same unit.\n\n[ON SCREEN: Board: Two ways]\n\n[DRAW: fill in Atlas's blanks as you say them, then Felix's.]\n\nAtlas changes the south post to feet and inches. He splits 79 with a number bond: 72 and 7. 72 inches is 6 feet. So the south post is 6 feet 7 inches, and 7 inches is 2 more than 5. Felix changes the north post to inches instead. 6 times 12 is 72, plus 5 is 77 inches. 79 minus 77 is 2. Both ways say the south post, by 2 inches!\n\n[ON SCREEN: Live: The Rope Ruler]\n\n[DO: tap the 1 ft piece 3 times. Tap the 1 in piece 10 times. Point to the number sentence. Type 10 in the empty circle of the number bond and tap Check.]\n\nNow Rosa's rope, 46 inches. On the Rope Ruler, I lay whole feet first: 12, 24, 36. One more foot would make 48. Too long! So I fill in with inches: 37, 38, all the way to 46. In the bond, 36 inches and 10 inches. 3 feet 10 inches.\n\nRemember, 12 inches make a foot, not 10. Now build Rosa's rope on your page."
+   "script": "Look at the two heights one more time. One has feet and inches. One has only inches. That's the whole problem: we can't compare them until they're written the same way.\n\n[ON SCREEN: Board: The posts]\n\n[DRAW: point to the north post's row, 6 | 5. Write 79 in beside the empty row for the south post.]\n\nNorth post, 6 feet 5 inches. South post, 79 inches. We need them in the same unit.\n\n[ON SCREEN: Board: Two ways]\n\n[DRAW: fill in Atlas's blanks as you say them, then Felix's.]\n\nAtlas changes the south post to feet and inches. He splits 79 with a number bond: 72 and 7. 72 inches is 6 feet. So the south post is 6 feet 7 inches, and 7 is 2 more than 5. Felix changes the north post to inches instead. 6 times 12 is 72, plus 5 is 77. 79 minus 77 is 2. Both ways say the south post, by 2 inches.\n\nPause here. Say out loud which way is more like what you did.\n\n[ON SCREEN: Live: The Rope Ruler]\n\n[DO: tap the 1 ft piece 3 times. Tap the 1 in piece 10 times. Point to the number sentence. Type 10 in the empty circle of the number bond and tap Check.]\n\nNow Rosa's rope, 46 inches. On the Rope Ruler I lay whole feet first: 12, 24, 36. One more foot would be 48. Too long! So I fill in with inches, up to 46. In the bond: 36 and 10. 3 feet 10 inches.\n\nRemember, 12 inches make a foot, not 10. Now build Rosa's rope on your page."
   },
   "do": {
    "label": "Do · watch me solve (boards)",
@@ -147,7 +151,7 @@
      "tag": "Spot the mistake"
     }
    ],
-   "script": "Now watch me solve three. Pause any time.\n\n[ON SCREEN: Board: Problem 1]\n\n[DRAW: write 3 | 7 in row 1 and 1 | 8 in row 2. Add down: 4 | 15. Cross out 15, write 3, and add 1 to the feet: 5 | 3.]\n\n3 feet 7 inches plus 1 foot 8 inches. Feet: 4. Inches: 15. That's more than a foot, so I trade 12 inches for 1 foot. 5 feet 3 inches.\n\n[ON SCREEN: Board: Problem 2]\n\n[DRAW: write 4 | 3 on top and 2 | 7 under it. Cross out 4, write 3. Cross out 3 in, write 15. Subtract each column: 1 | 8.]\n\n4 feet 3 inches minus 2 feet 7 inches. 3 minus 7 won't work. So I trade 1 foot for 12 inches: 3 feet 15 inches. 15 minus 7 is 8. 3 minus 2 is 1. 1 foot 8 inches. Felix checks it in inches: 51 minus 31 is 20, and 20 inches is 1 foot 8 inches. Same!\n\n[ON SCREEN: Board: Problem 3]\n\n[DRAW: under 3 yd write 9 ft. Add the 2 ft: 11 ft. Write 11 × 12 = 132 in, then + 5 in = 137 in.]\n\n3 yards 2 feet 5 inches, all in inches. One step at a time. 3 yards is 9 feet. 9 feet and 2 more feet make 11 feet. Each foot is 12 inches, so 11 feet is 132 inches. Add the 5 inches: 137 inches.\n\n[ON SCREEN: Board: Spot the mistake]\n\n[DRAW: circle 3 ft 3 in. Write 13 in = 12 in + 1 in, then 3 ft 1 in.]\n\nIs this right? Someone treated inches like tens and ones. But a foot is 12 inches, not 10. 13 inches is 12 and 1, so it's 3 feet 1 inch. Watch for that on the rope order!"
+   "script": "Now watch me solve three. Pause any time.\n\n[ON SCREEN: Board: Problem 1]\n\n[DRAW: write 3 | 7 in row 1 and 1 | 8 in row 2. Add down: 4 | 15. Cross out 15, write 3, and add 1 to the feet: 5 | 3.]\n\n3 feet 7 inches plus 1 foot 8 inches. Feet: 4. Inches: 15. That's more than a foot, so I trade 12 inches for 1 foot. 5 feet 3 inches.\n\n[ON SCREEN: Board: Problem 2]\n\nYour turn first. Pause the video and try this one on paper. Then press play and check.\n\n[DRAW: write 4 | 3 on top and 2 | 7 under it. Cross out 4, write 3. Cross out 3 in, write 15. Subtract each column: 1 | 8.]\n\n4 feet 3 inches minus 2 feet 7 inches. 3 minus 7 won't work. So I trade 1 foot for 12 inches: 3 feet 15 inches. 15 minus 7 is 8. 3 minus 2 is 1. 1 foot 8 inches. Felix checks it in inches: 51 minus 31 is 20, and 20 inches is 1 foot 8 inches. Same!\n\n[ON SCREEN: Board: Problem 3]\n\n[DRAW: under 3 yd write 9 ft. Add the 2 ft: 11 ft. Write 11 × 12 = 132 in, then + 5 in = 137 in.]\n\n3 yards 2 feet 5 inches, all in inches. One step at a time. 3 yards is 9 feet. 9 and 2 more make 11 feet. Each foot is 12 inches, so 11 feet is 132 inches. Add the 5: 137 inches.\n\n[ON SCREEN: Board: Spot the mistake]\n\n[DRAW: circle 3 ft 3 in. Write 13 in = 12 in + 1 in, then 3 ft 1 in.]\n\nIs this right? Someone treated inches like tens and ones. A foot is 12 inches, not 10. 13 inches is 12 and 1, so it's 3 feet 1 inch. Watch for that when you cut the rope!"
   },
   "wrap": {
    "label": "Wrap · open the bridge",
@@ -178,7 +182,7 @@
      "body": "Pounds and ounces: 16 ounces make a pound."
     }
    ],
-   "script": "Look how far you came!\n\n[ON SCREEN: Two ways]\n\nToday you compared, added and subtracted lengths with feet and inches. You can work in feet and inches and trade 12 inches for a foot, or change it all to inches first. Both give the same answer.\n\n[ON SCREEN: The banner]\n\nAnd the Smudge's banner? 2 feet 15 inches is 39 inches, but 3 feet 5 inches is 41 inches. They don't match! 15 inches is 1 foot and 3 inches, so the banner should say 3 feet 3 inches. And you chased the Smudge all the way to Eastside!\n\n[ON SCREEN: Next time]\n\nNext time we walk into the General Store in Eastside, where 16 ounces make a pound. See you there, explorers!"
+   "script": "Look how far you came!\n\n[ON SCREEN: Two ways]\n\nToday you compared, added and subtracted lengths with feet and inches, and cut a rope on the Trade Mat. You can work in feet and inches and trade 12 inches for a foot, or change it all to inches first. Both give the same answer.\n\n[ON SCREEN: The banner]\n\nAnd the Smudge's banner? 2 feet 15 inches is 39 inches, but 3 feet 5 inches is 41 inches. They don't match! 15 inches is 1 foot and 3 inches, so the banner should say 3 feet 3 inches. And you chased the Smudge all the way to Eastside!\n\n[ON SCREEN: Next time]\n\nNext time we walk into the General Store in Eastside, where 16 ounces make a pound. See you there, explorers!"
   }
  }
 }

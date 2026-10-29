@@ -335,6 +335,7 @@ body{background:#EFE3CF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .ok-bar.done{box-shadow:0 0 0 4px rgba(45,184,122,.35)}
 .ok-ticks{position:absolute;inset:0;pointer-events:none}
 .ok-ticks i{position:absolute;bottom:0;width:1px;background:#B9BFCF}
+@media(max-width:520px){.ok-ticks i:not(.maj){display:none}.ok-scale{font-size:11px}}  /* phones: a 108-inch ruler is about 3 px per inch, so only the big marks show */
 .ok-fill{position:absolute;top:0;bottom:0;left:0;right:0;display:flex}
 .ok-piece{height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:13px;border-right:2px solid rgba(255,255,255,.85);box-sizing:border-box;white-space:nowrap;overflow:hidden;font-variant-numeric:tabular-nums}
 .ok-piece[data-c="1000"]{background:var(--ok-k)}.ok-piece[data-c="100"]{background:var(--ok-h)}.ok-piece[data-c="10"]{background:var(--ok-t)}.ok-piece[data-c="1"]{background:var(--ok-o)}

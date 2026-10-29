@@ -12,6 +12,18 @@ ok((await p.$eval('#d-um .ok-sym',e=>e.textContent)).includes('Trade'),'unit mat
 await p.click('#d-um .ok-col[data-p="1"] .ok-colbtns .ok-btn');await p.click('#d-um .ok-col[data-p="10"] .ok-colbtns .ok-btn');
 ok((await p.$eval('#d-um .ok-sym',e=>e.textContent)).includes('3 m 10 cm'),'unit mat: trades give 3 m 10 cm');
 ok((await p.$eval('#d-um .ok-do',e=>e.textContent)).includes('Done'),'unit mat: steps done');
+// trade mat (rate 12): build by tap + drag, take away, break 1 into 12, trade back
+for(let i=0;i<3;i++)await p.click('#d-tm .ok-tray .ok-disc[data-k="big"]');await p.click('#d-tm .ok-tray .ok-disc[data-k="small"]');await drag('#d-tm .ok-tray .ok-disc[data-k="small"]','#d-tm .ok-col[data-k="small"]');
+ok((await p.$eval('#d-tm .ok-sym',e=>e.textContent)).includes('3 ft 2 in')&&(await p.$eval('#d-tm .ok-sym',e=>e.textContent)).includes('38 in'),'trade mat: built 3 ft 2 in = 38 in (tap + drag)');
+await drag('#d-tm .ok-col[data-k="big"] .ok-well .ok-disc','#d-tm .ok-zone');ok(await p.$eval('#d-tm .ok-ztot',e=>e.textContent.includes('1 ft 0 in')),'trade mat: dragged 1 ft into the take-away box');
+await p.click('#d-tm .ok-col[data-k="small"] .ok-colbtns .ok-btn:last-child');await p.click('#d-tm .ok-col[data-k="small"] .ok-colbtns .ok-btn:last-child');
+ok(await p.$eval('#d-tm .ok-col[data-k="small"] .ok-count',e=>e.textContent==='0'),'trade mat: 2 inches taken, none left');
+await drag('#d-tm .ok-col[data-k="big"] .ok-well .ok-disc','#d-tm .ok-col[data-k="small"]');ok(await p.$eval('#d-tm .ok-col[data-k="small"] .ok-count',e=>e.textContent==='12'),'trade mat: drag 1 ft onto the inches column breaks it into 12 in');
+for(let i=0;i<6;i++)await p.click('#d-tm .ok-col[data-k="small"] .ok-colbtns .ok-btn:last-child');
+ok((await p.$eval('#d-tm .ok-do',e=>e.textContent)).includes('Done')&&(await p.$eval('#d-tm .ok-sym',e=>e.textContent)).includes('1 ft 6 in'),'trade mat: 3 ft 2 in − 1 ft 8 in = 1 ft 6 in, steps done');
+await p.click('#d-tm .ok-col[data-k="small"] .ok-colbtns .ok-btn:last-child');ok((await p.$eval('#d-tm .ok-msg',e=>e.textContent)).includes('exactly'),'trade mat: taking more than the amount is refused');
+await p.click('#d-tm .ok-reset');for(let i=0;i<12;i++)await p.click('#d-tm .ok-tray .ok-disc[data-k="small"]');ok((await p.$eval('#d-tm .ok-sym',e=>e.textContent)).includes('Trade'),'trade mat: 12 inches warns to trade');
+await p.click('#d-tm .ok-col[data-k="small"] .ok-colbtns .ok-btn');ok(await p.$eval('#d-tm .ok-col[data-k="big"] .ok-count',e=>e.textContent==='1'),'trade mat: 12 in → 1 ft');
 // stamps by drag
 await drag('#d-stamps .mk-stamp[data-v="×12"]','#d-stamps .mk-sign[data-id="a"]');await drag('#d-stamps .mk-stamp[data-v="×3"]','#d-stamps .mk-sign[data-id="b"]');
 ok(await p.$$eval('#d-stamps .mk-sign.ok',x=>x.length)===2,'stamps: both signs stamped by drag');

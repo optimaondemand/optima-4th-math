@@ -153,7 +153,7 @@ function barStrip(root,cfg){
     var bars=$('.ok-bars',root);bars.innerHTML='';
     var bw=Math.max(200,bars.clientWidth-12);visible().forEach(function(i){var r=rows[i],s=sum(i),max=r.max||r.target;
       var row=document.createElement('div');row.className='ok-barrow';row.dataset.i=i;
-      var ticks='';if(r.ticks){for(var t=r.ticks.every;t<max;t+=r.ticks.every){var maj=r.ticks.major&&t%r.ticks.major===0;ticks+='<i style="left:'+(t/max*100)+'%;height:'+(maj?'45%':'22%')+'"></i>';}}
+      var ticks='';if(r.ticks){for(var t=r.ticks.every;t<max;t+=r.ticks.every){var maj=r.ticks.major&&t%r.ticks.major===0;ticks+='<i'+(maj?' class="maj"':'')+' style="left:'+(t/max*100)+'%;height:'+(maj?'45%':'22%')+'"></i>';}}
       var pieces=st.fill[i].map(function(v,k){var w=v/max*100;var lab=(r.pieceLabel?r.pieceLabel(v):fmt(v)+' '+r.unit);return '<span class="ok-piece'+(k%2?' alt':'')+(anim.pop===i&&k===st.fill[i].length-1?' ok-in':'')+'" data-c="'+colorOf(v,r.base)+'" style="width:'+w+'%" title="'+lab+'">'+(w/100*bw>=46?lab:'')+'</span>';}).join('');
       var targetMark=r.max&&r.max!==r.target&&!r.hideTarget?'<i style="position:absolute;top:-3px;bottom:-3px;left:'+(r.target/max*100)+'%;width:0;border-left:3px dashed #2B3040"></i>':'';
       row.innerHTML='<div class="ok-barlab"><span>'+r.label+'</span><span class="val">'+fmt(s)+' '+r.unit+(r.target!==s?(r.hideTarget?'':' <span style="color:#8A90A6;font-size:14px">of '+fmt(r.target)+' '+r.unit+'</span>'):' ✓')+'</span></div>'+
@@ -390,5 +390,91 @@ function unitMat(root,cfg){
   api.regrouped=function(){return split(api)[1]<big;};
   return api;
 }
-K.unitMat=unitMat;K.stamps=stamps;K.barModel=barModel;K.numberBond=numberBond;K.mentalMath=mentalMath;K.challenge=challenge;
+/* ═══════════ TRADE MAT (any rate: 12 in = 1 ft, 16 oz = 1 lb, 60 s = 1 min) ═══════════
+   Two columns (the big unit and the small unit) and a trade rate that is not a power of ten. Students build an amount,
+   trade `rate` small discs for 1 big one (or break 1 big into `rate` small), and take an amount away into the take-away box,
+   so adding and subtracting with a trade is hands-on. Big discs are green (data-p 10), small discs orange (data-p 1).
+   cfg = { key, rate:12, big:{unit:'ft', name:['foot','feet']}, small:{unit:'in', name:['inch','inches']},
+           start:{big:0, small:0}, tray:true, perRow:{big:2, small:4}, noBreak, noAdd,
+           zone:{title:'Take away', btn:'Take away 1 →', want:{big:2, small:6}, over:(api)=>text},   // optional take-away box
+           steps:[{text, done:(st,api)=>bool}], sym:(api)=>html, doneText, doneMsg, onDone(api,root), onChange(api) } */
+function tradeMat(root,cfg){
+  var R=cfg.rate,B=cfg.big,Sm=cfg.small,key=cfg.key,Z=cfg.zone;
+  var st=ls(key,null)||{b:(cfg.start&&cfg.start.big)||0,s:(cfg.start&&cfg.start.small)||0,zb:0,zs:0,doneFired:false};
+  var CAP=2*R-1;
+  function nm(u,n){return n===1?u.name[0]:u.name[1];}
+  function amt(b,s){return b+' '+B.unit+' '+s+' '+Sm.unit;}
+  var api={st:st,fmt:fmt,value:function(){return st.b*R+st.s;},zoneValue:function(){return st.zb*R+st.zs;},text:function(){return amt(st.b,st.s);},zoneText:function(){return amt(st.zb,st.zs);},rate:R};
+  root.classList.add('ok-tool');root.classList.add('ok-trademat');
+  root.innerHTML='<p class="ok-do" aria-live="polite"></p><div class="ok-matwrap"><div class="ok-mat" style="grid-template-columns:1fr 1fr">'
+    +[['10',B,'big'],['1',Sm,'small']].map(function(c){var u=c[1];return '<div class="ok-col" data-p="'+c[0]+'" data-k="'+c[2]+'"><div class="ok-head"><b><span class="ok-full">'+esc(u.name[1])+'</span><span class="ok-short">'+esc(u.unit)+'</span></b><span>'+(c[2]==='big'?'1 '+esc(u.unit)+' = '+R+' '+esc(Sm.unit):'1 '+esc(u.unit)+' each')+'</span></div><div class="ok-count">0</div><div class="ok-well" style="--per:'+((cfg.perRow||{})[c[2]]||(c[2]==='big'?2:4))+'"></div><div class="ok-colbtns"></div></div>';}).join('')
+    +'</div>'+(Z?'<div class="ok-zone away"><h5>'+Z.title+'</h5><div class="ok-zwell"></div><div class="ok-ztot"></div></div>':'')+'</div>'
+    +(cfg.tray!==false?'<div class="ok-tray"><span class="lbl">'+(cfg.trayText||'Drag a disc onto the mat (or tap it):')+'</span><span class="ok-src"><span class="ok-disc" data-p="10" data-k="big" data-src="1" tabindex="0" role="button" aria-label="Add 1 '+esc(B.name[0])+'">1 '+esc(B.unit)+'</span></span><span class="ok-src"><span class="ok-disc" data-p="1" data-k="small" data-src="1" tabindex="0" role="button" aria-label="Add 1 '+esc(Sm.name[0])+'">1 '+esc(Sm.unit)+'</span></span></div>':'')
+    +'<div class="ok-sym" aria-live="polite"></div><div class="ok-msg" aria-live="polite"></div><div class="ok-row"><button class="ok-btn ok-reset" type="button">↺ Start over</button></div>';
+  var msg=$('.ok-msg',root);
+  function say(t,k){msg.className='ok-msg'+(k?' '+k:'');msg.textContent=t||'';}
+  function save(){lsSet(key,st);}
+  function col(k){return $('.ok-col[data-k="'+k+'"]',root);}
+  function add(k){if(cfg.noAdd){say(cfg.noAddText||'This one starts with the amount already built. Trade, break or take away instead.','hint');snd.no();render();return;}
+    if(k==='small'&&st.s>=CAP){say('That column is full. Trade '+R+' '+Sm.name[1]+' for 1 '+B.name[0]+'.','hint');snd.no();return;}
+    if(k==='big'&&st.b>=19){say('That column is full.','hint');snd.no();return;}
+    st[k==='big'?'b':'s']++;snd.click();after({pop:k});}
+  function remove(k){if(cfg.noRemove){say('Keep every disc on the mat for this one.','hint');snd.no();render();return;}st[k==='big'?'b':'s']--;snd.click();after({});}
+  function trade(){if(st.s<R){say('You need '+R+' '+Sm.name[1]+' to make 1 '+B.name[0]+'. You have '+st.s+'.','hint');snd.no();render();return;}
+    var from=$$('.ok-well .ok-disc',col('small')).slice(-R).map(function(d){return d.getBoundingClientRect();}),tmpl=$('.ok-well .ok-disc',col('small'));
+    st.s-=R;st.b++;snd.merge();after({pop:'big',flyFrom:from,flyTo:'big',tmpl:tmpl});say(R+' '+Sm.name[1]+' → 1 '+B.name[0]+'. Same amount, fewer pieces.','good');}
+  function brk(){if(!st.b)return;if(st.s+R>CAP){say('Trade some '+Sm.name[1]+' first. That column is too full.','hint');snd.no();return;}
+    var src=$$('.ok-well .ok-disc',col('big')).slice(-1)[0];var r=src&&src.getBoundingClientRect();
+    st.b--;st.s+=R;snd.split();after({popMany:['small',R],flyFrom:r?[r]:null,flyTo:'small',tmpl:src});say('1 '+B.name[0]+' → '+R+' '+Sm.name[1]+'. Same amount, more pieces.','good');}
+  function toZone(k){if(!Z)return;var want=Z.want;
+    if(want){var nb=st.zb+(k==='big'?1:0),ns=st.zs+(k==='small'?1:0);
+      if(nb>want.big||ns>want.small){say(Z.over?Z.over(api,k):'That is more than you need to take away. Take away exactly '+amt(want.big,want.small)+'.','hint');snd.no();render();return;}}
+    if(k==='big'){if(!st.b)return;st.b--;st.zb++;}else{if(!st.s){say('There are no '+Sm.name[1]+' to take. Break 1 '+B.name[0]+' into '+R+' '+Sm.name[1]+' first.','hint');snd.no();render();return;}st.s--;st.zs++;}
+    snd.click();after({});}
+  function fromZone(k){if(k==='big'){st.zb--;st.b++;}else{st.zs--;st.s++;}snd.click();after({});}
+  function dropDisc(target,pl){
+    if(!target){if(pl.from==='col')remove(pl.k);render();return;}
+    var c=target.closest('.ok-col'),zone=target.closest('.ok-zone'),tray=target.closest('.ok-tray');
+    if(pl.from==='src'){if(c||target.closest('.ok-mat'))add(pl.k);return;}
+    if(pl.from==='zone'){if(c||target.closest('.ok-mat'))fromZone(pl.k);return;}
+    if(zone){toZone(pl.k);return;}
+    if(c){var q=c.dataset.k;if(q===pl.k){render();return;}if(pl.k==='small'&&q==='big')return trade();if(pl.k==='big'&&q==='small')return brk();}
+    if(tray||!target.closest('.ok-tool'))return remove(pl.k);
+    render();
+  }
+  function after(anim){save();render(anim);if(cfg.onChange)cfg.onChange(api);}
+  function render(anim){anim=anim||{};
+    [['big','b','10'],['small','s','1']].forEach(function(c){var k=c[0],n=st[c[1]],cEl=col(k),w=$('.ok-well',cEl),u=k==='big'?B:Sm;
+      w.innerHTML='';for(var i=0;i<n;i++){var d=document.createElement('span');d.className='ok-disc';d.dataset.p=c[2];d.dataset.k=k;d.textContent='1 '+u.unit;d.tabIndex=-1;
+        if(anim.pop===k&&i===n-1&&!anim.flyFrom)d.classList.add('ok-in');
+        if(anim.popMany&&anim.popMany[0]===k&&i>=n-anim.popMany[1]){d.classList.add('ok-in');d.style.animationDelay=((i-(n-anim.popMany[1]))*35+(anim.flyFrom?380:0))+'ms';}
+        if(anim.flyTo===k&&anim.pop===k&&i===n-1){d.style.visibility='hidden';(function(dd){setTimeout(function(){dd.style.visibility='';dd.classList.add('ok-in');},K._reduce?0:470);})(d);}
+        (function(dd){draggable(dd,function(){return {k:k,from:'col'};},dropDisc,null);})(d);w.appendChild(d);}
+      $('.ok-count',cEl).textContent=n;cEl.classList.toggle('full',k==='small'&&n>=R);
+      var bb=$('.ok-colbtns',cEl);bb.innerHTML='';
+      if(k==='small'&&n>=R){var g=document.createElement('button');g.className='ok-btn';g.type='button';g.textContent='← Trade '+R+' for 1';g.onclick=trade;bb.appendChild(g);}
+      if(k==='big'&&n>0&&!cfg.noBreak){var bk=document.createElement('button');bk.className='ok-btn';bk.type='button';bk.textContent='Break 1 into '+R+' →';bk.onclick=brk;bb.appendChild(bk);}
+      if(Z&&n>0){var zb=document.createElement('button');zb.className='ok-btn';zb.type='button';zb.textContent=Z.btn||'Take away 1 →';zb.onclick=function(){toZone(k);};bb.appendChild(zb);}
+    });
+    if(anim.flyFrom&&anim.tmpl){var tw=$('.ok-well',col(anim.flyTo)),tl=$$('.ok-disc',tw);var tr=(tl[tl.length-1]||tw).getBoundingClientRect();anim.flyFrom.forEach(function(r,i){K._fly(r,tr,anim.tmpl,i*25);});}
+    if(Z){var zw=$('.ok-zwell',root);zw.innerHTML='';[['big',st.zb,'10',B],['small',st.zs,'1',Sm]].forEach(function(c){for(var i=0;i<c[1];i++){var d=document.createElement('span');d.className='ok-disc';d.dataset.p=c[2];d.dataset.k=c[0];d.textContent='1 '+c[3].unit;(function(dd,k){draggable(dd,function(){return {k:k,from:'zone'};},dropDisc,null);})(d,c[0]);zw.appendChild(d);}});
+      $('.ok-ztot',root).innerHTML=Z.total?Z.total(api):(st.zb||st.zs?amt(st.zb,st.zs):'');}
+    $('.ok-sym',root).innerHTML=cfg.sym?cfg.sym(api):defaultSym();
+    var steps=cfg.steps||[],i=0;while(i<steps.length&&steps[i].done(st,api))i++;
+    var doEl=$('.ok-do',root);
+    if(i<steps.length){doEl.innerHTML=(steps.length>1?'<span class="ok-step">Step '+(i+1)+' of '+steps.length+'</span>':'')+steps[i].text;}
+    else{doEl.innerHTML='<span class="ok-step" style="background:#1E8C5A">Done</span>'+(cfg.doneText||'Nice work.');
+      if(!st.doneFired){st.doneFired=true;save();snd.done();say(cfg.doneMsg||'',cfg.doneMsg?'good':'');if(cfg.onDone)cfg.onDone(api,root);}}
+  }
+  function defaultSym(){var s='<span class="big">'+amt(st.b,st.s)+'</span>';
+    if(st.s>=R)s+='<span class="exp warn">'+st.s+' '+Sm.name[1]+' is '+R+' or more. Trade '+R+' '+Sm.name[1]+' for 1 '+B.name[0]+'.</span>';
+    else if(st.b||st.s)s+='<span class="exp">= '+fmt(api.value())+' '+Sm.unit+' in all</span>';
+    return s;}
+  $$('.ok-tray .ok-disc',root).forEach(function(d){var k=d.dataset.k;draggable(d,function(){return {k:k,from:'src'};},dropDisc,function(){add(k);});});
+  $('.ok-reset',root).onclick=function(){st.b=(cfg.start&&cfg.start.big)||0;st.s=(cfg.start&&cfg.start.small)||0;st.zb=0;st.zs=0;st.doneFired=false;say('');after({});};
+  render();
+  if(st.doneFired&&cfg.onDone&&cfg.restoreDone)cfg.onDone(api,root);
+  return api;
+}
+K.unitMat=unitMat;K.tradeMat=tradeMat;K.stamps=stamps;K.barModel=barModel;K.numberBond=numberBond;K.mentalMath=mentalMath;K.challenge=challenge;
 })(OAOKit);

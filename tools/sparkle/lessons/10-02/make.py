@@ -27,13 +27,13 @@ ins_before('<div class="quote-strip">', '<div class="pq-town-strip" aria-hidden=
 for mk in ['<div class="quote-strip">', '<div class="standards-toggle-bar"', '<div class="info-strip">', '<div class="explorer-strip">', '<div class="need-strip">']:
     replace_block(mk, '')
 m = re.search(r'<div class="intro-2col">', s); i = m.start(); j = block_end(s, i); intro = s[i:j]
-intro = re.sub(r'<div class="intro-card-head-title">Coach Daniels.*?</div>', '<div class="intro-card-head-title">How do you compare and add lengths like 4 ft 5 in?</div>', intro, flags=re.S)
+intro = re.sub(r'<div class="intro-card-head-title">Coach Daniels.*?</div>', '<div class="intro-card-head-title">Which is longer, 6 ft 5 in or 79 in? How can you be sure?</div>', intro, flags=re.S)
 intro = re.sub(r'(<div class="intro-card theme-question">.*?<div class="intro-card-body">).*?(</div></div><div class="intro-card theme-objectives">)',
-  r'\1<p class="pq-eq-note">Some lengths use two units at once, like 4 ft 5 in. You will find two ways to work with them. You will prove the answer by the end of the lesson.</p>\2', intro, flags=re.S)
+  r'\1<p class="pq-eq-note">Some lengths use two units at once, like 6 ft 5 in. You will find two ways to work with them. You will prove the answer by the end of the lesson.</p>\2', intro, flags=re.S)
 intro = re.sub(r'(<div class="intro-card theme-objectives">.*?<div class="intro-card-body">).*$',
   r'\1<div class="obj-line"><span class="obj-icon">📏</span><span><strong>Change</strong> feet and inches to inches, and inches to feet and inches.</span></div>'
   r'<div class="obj-line"><span class="obj-icon">🔁</span><span><strong>Add and subtract</strong> feet and inches, trading 12 inches for 1 foot.</span></div>'
-  r'<div class="obj-line"><span class="obj-icon">🌉</span><span><strong>Measure the bridge rail</strong> in yards and feet.</span></div></div></div></div>', intro, flags=re.S)
+  r'<div class="obj-line"><span class="obj-icon">🌉</span><span><strong>Change yards, feet and inches</strong> to inches, one step at a time.</span></div></div></div></div>', intro, flags=re.S)
 s = s[:i] + '<details class="pq-intro" open><summary>❓ Essential Question &amp; 🎯 Objectives</summary>' + intro + '</details>' + s[j:]
 
 # ── A. Think video + the bridge board (the first game window comes after Build a Foot, which it needs)
@@ -50,7 +50,9 @@ CREW = ('<div class="activity bl-violet" id="mk-crew"><div class="activity-head"
  '</div><div class="bubble-row">'
  '<div class="bubble hazel"><div class="bubble-avatar">H</div><div class="bubble-body"><div class="bubble-name">Hazel: picture a ruler</div><div class="bubble-text">"I picture a ruler. Every 12 little inch marks make one foot. So 6 feet is 6 groups of 12 inches."</div></div></div>'
  '<div class="bubble cora"><div class="bubble-avatar">C</div><div class="bubble-body"><div class="bubble-name">Cora: trade 12, not 10</div><div class="bubble-text">"In meters we traded 100 centimeters. Here we trade 12 inches for 1 foot. When the inches reach 12, trade them!"</div></div></div>'
- '</div><div class="callout callout-tip" style="margin-top:8px;"><span class="callout-icon">💡</span><p>Crew rule: <em>Picture the ruler (Hazel). Pick a way: feet and inches, or all inches (Atlas, Felix). Trade 12 inches for a foot and check the units (Cora).</em></p></div></div></div>')
+ '</div><div class="callout callout-tip" style="margin-top:8px;"><span class="callout-icon">💡</span><p>Crew rule: <em>Picture the ruler (Hazel). Pick a way: feet and inches, or all inches (Atlas, Felix). Trade 12 inches for a foot and check the units (Cora).</em></p></div>'
+ '<div class="journal-label">✏️ Which Crew way is most like yours? Which way would you use for a bigger number, like 150 in, and why? <span class="saved-dot" id="dot-compare"></span></div>'
+ '<textarea class="journal-box" data-label="Learn — My way and the Crew\'s ways" id="journal-compare" oninput="autoSave(this,\'dot-compare\')" placeholder=""></textarea></div></div>')
 
 # ── C. readiness chart → Job 1 Build a Foot (Bar Strip) + the first game window + Mental Math "Make a foot"
 replace_block('<div class="activity bl-yellow"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🔎</div>',
@@ -69,6 +71,8 @@ replace_block('<div class="activity bl-yellow"><div class="activity-head"><div c
 i = s.index('<div class="activity bl-yellow"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🤔</div>'); j = block_end(s, i)
 s = s[:i] + act('mk-think', '#F5C518;color:#0E1C42', '🤔', 'Think About It: Gus\'s Two Posts', 'Try it your way first',
   '<div class="callout callout-think"><span class="callout-icon">📏</span><p>Gus has two tall posts at the ends of his bridge. The north post is <strong>6 ft 5 in</strong> tall. The tag on the south post says <strong>79 in</strong>. Which post is taller, and by how many inches?</p></div>'
+  + '<div class="journal-label">👀 What do you notice about the two heights? What do you wonder? <span class="saved-dot" id="dot-notice"></span></div>'
+  + '<textarea class="journal-box" data-label="Warm-Up — I notice, I wonder" id="journal-notice" oninput="autoSave(this,\'dot-notice\')" placeholder="I notice… I wonder…"></textarea>'
   + tip('atlas', 'One height is in feet and inches. The other is only in inches. How can you compare them fairly?')
   + model('think')
   + '<div class="journal-label">✏️ How did you find out which post is taller? Tell your steps. <span class="saved-dot" id="dot-think"></span></div>'
@@ -91,7 +95,7 @@ s = s[:i] + (video('learn') + CREW
    + tip('cora', 'Each 1-foot piece is 12 inches. Count by 12s: 12, 24, 36 … and stop before you go past 46.') + model('rope'))
  + act('mk-splice', '#6B3FA0', '🧶', 'Join the Ropes: 2 ft 8 in + 1 ft 7 in', 'Job 3 · Make the next foot, then draw the story',
    job('The snapped rail has a gap. Rosa will <strong>splice</strong> two short ropes to make the piece that fills it. One rope is <strong>2 ft 8 in</strong>. The other is <strong>1 ft 7 in</strong>. <strong>How long is the new rope?</strong>',
-       ['Warm up with the three "make the next foot" problems.',
+       ['Warm up with the "make the next foot" problem.',
         'Tap each fact in the story, then tap the part of the bar it tells about.',
         'Add the feet, then add the inches. If the inches reach 12 or more, trade 12 in for 1 ft.',
         'Type the length of the new rope in feet and inches.'])
@@ -118,7 +122,7 @@ replace_block('<div class="key-concept" style="margin-top:16px;"><div class="key
 # ── G. Picture It (it solved an IP problem) → Job 4 Rope Order: yards → feet → inches (IP 3's direction, new numbers)
 pic_start = '<div class="activity bl-violet" style="margin-top:16px;"><div class="activity-head">'
 i = s.index(pic_start); j = block_end(s, i)
-s = s[:i] + act('mk-order', '#3A6B9A', '🧵', 'Rope Order: 2 yd 2 ft 7 in = ? in', 'Job 4 · Change yards and feet to inches',
+s = s[:i] + act('mk-order', '#3A6B9A', '🧵', 'Rope Order: 2 yd 2 ft 7 in = ? in', 'Job 5 · Change yards and feet to inches',
   job('Eastside wants rope for its side of the bridge: <strong>2 yd 2 ft 7 in</strong>. Rosa\'s cutting machine only reads inches. <strong>How many inches long should she cut it?</strong>',
       ['Build the order on the ruler: yard pieces first, then foot pieces, then inch pieces.',
        'Change the yards to feet. Each yard is 3 feet.',
@@ -129,28 +133,36 @@ s = s[:i] + act('mk-order', '#3A6B9A', '🧵', 'Rope Order: 2 yd 2 ft 7 in = ? i
 
 # ── H. the track-lap worked example (IP 5) → Study It (subtracting with a trade) + the whole lesson in one picture
 i = s.index('<div class="activity bl-slate"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🔍</div><div><div class="activity-title">Worked Example: Track Lap</div>'); j = block_end(s, i)
-WE = ('<div class="activity bl-slate" id="mk-worked"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🔍</div><div><div class="activity-title">Study It: How Gus Cut His Rope</div><div class="activity-sub">Already solved for you. Read it, then measure the rail.</div></div></div><div class="activity-body">'
+WE = ('<div class="activity bl-slate" id="mk-worked"><div class="activity-head"><div class="activity-num" style="background:#3A6B9A;">🔍</div><div><div class="activity-title">Study It: How Gus Cut His Rope</div><div class="activity-sub">Already solved for you. Read it, then cut a rope yourself.</div></div></div><div class="activity-body">'
  '<p style="margin:0 0 10px;font-weight:700;color:#3A4A6B;">👀 Nothing to type here. This problem is solved two ways. Both ways get the same answer. Read the one that makes more sense to you.</p>'
  '<div class="task-box"><div class="task-label">Problem</div><p>Gus has a rope <strong>6 ft 2 in</strong> long. He cuts off <strong>2 ft 10 in</strong>. How long is the piece that is left?</p></div>'
  + tip('atlas', 'You can\'t take 10 inches away from 2 inches. So first, trade 1 foot for 12 inches.') +
  '<div class="we-two"><div class="we-way"><h5>Way 1: feet and inches</h5><ol><li>Trade 1 foot for 12 inches. 6 ft 2 in becomes 5 ft 14 in.</li><li>Take away the inches: 14 in − 10 in = 4 in.</li><li>Take away the feet: 5 ft − 2 ft = 3 ft.</li><li>The piece left is <b>3 ft 4 in</b>.</li></ol></div>'
  '<div class="we-way"><h5>Way 2: all inches</h5><ol><li>6 ft 2 in is 74 in. (6 × 12 = 72, and 2 more)</li><li>2 ft 10 in is 34 in. (2 × 12 = 24, and 10 more)</li><li>Take away: 74 in − 34 in = 40 in.</li><li>Change back: 36 in make 3 ft, and 4 in are left. The piece left is <b>3 ft 4 in</b>.</li></ol></div></div>'
  '<p style="margin:8px 0;font-weight:700;color:#3A4A6B;">Check it: put the cut piece back. 3 ft 4 in + 2 ft 10 in = 5 ft 14 in. 14 in is 1 ft 2 in, so that is 6 ft 2 in, the whole rope. ✓</p>')
-BIG = 'To work with yards, feet and inches, change everything to the same smaller unit: multiply yards by 3 to get feet, multiply feet by 12 to get inches, then add the extra.'
+BIG = 'To compare, add or subtract lengths with two units, pick a way: work in feet and inches and trade 12 inches for 1 foot when you need to, or change everything to inches first (yards × 3 = feet, feet × 12 = inches). Both ways give the same answer.'
 CHAIN = ('<svg viewBox="0 0 520 150" class="mk-svg" role="img" aria-label="Yards times 3 make feet. Feet times 12 make inches. Example: 3 yards 1 foot 4 inches is 9 feet plus 1 foot, 10 feet, which is 120 inches plus 4 inches, 124 inches.">'
  '<rect width="520" height="150" rx="12" fill="#FFF8EF"/>'
  + ''.join('<rect x="%d" y="24" width="110" height="44" rx="8" fill="%s" stroke="#3B2417" stroke-width="3"/><text x="%d" y="53" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="20" fill="#fff">%s</text>' % (20 + k * 180, c, 75 + k * 180, u) for k, (u, c) in enumerate([('yards', '#3A7BD5'), ('feet', '#2DB87A'), ('inches', '#F28C28')]))
  + ''.join('<path d="M%d 46h44" stroke="#C56C3F" stroke-width="4" marker-end="url(#opar)"/><text x="%d" y="14" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="17" fill="#C56C3F">%s</text>' % (136 + k * 180, 158 + k * 180, f) for k, f in enumerate(['× 3', '× 12']))
  + '<defs><marker id="opar" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#C56C3F"/></marker></defs>'
  '<text x="260" y="98" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="16" fill="#3B2417">3 yd 1 ft 4 in → 9 ft + 1 ft = 10 ft → 120 in + 4 in = 124 in</text>'
- '<text x="260" y="128" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="14" fill="#3A6B9A">Adding or subtracting? Trade 12 in for 1 ft when you need to.</text></svg>')
+ '<text x="260" y="128" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="14" fill="#3A6B9A">Or stay in feet and inches: trade 12 in for 1 ft when you need to.</text></svg>')
 ONEPIC = ('<div class="key-concept pq-onepic" id="mk-onepic" style="margin-top:14px;"><div class="key-concept-label">⚖️ The Whole Lesson in One Picture</div>'
  '<p class="op-big"><strong>' + BIG + '</strong></p>' + CHAIN
  + '<div class="journal-label">✏️ Put the big idea in your own words. Use an example of your own. <span class="saved-dot" id="dot-big"></span></div>'
  '<textarea class="journal-box" data-label="Learn — The big idea in my own words" id="journal-big" oninput="autoSave(this,\'dot-big\')" placeholder=""></textarea></div>')
 s = s[:i] + ONEPIC + s[j:]
-s = s.replace('<!--WE-->', WE + '</div></div>', 1)  # Study It right after the Do video, before the Rope Order
-rep('You stacked inches and feet. Now practice.', 'Four bridge jobs down. One to go: prove the Smudge wrong.')
+CUT = act('mk-cut', '#C56C3F', '✂️', 'Cut the Rope: 5 ft 1 in − 2 ft 6 in', 'Job 4 · Take away on the Trade Mat',
+  job('Gus has a spare rope <strong>5 ft 1 in</strong> long. He cuts off <strong>2 ft 6 in</strong> to tie the gate. <strong>How long is the piece that is left?</strong>',
+      ['Build the spare rope on the mat: 5 foot discs and 1 inch disc.',
+       'Take away the feet first: move 2 foot discs to the take-away box.',
+       'Take away 6 inches. There is only 1 inch, so break 1 foot into 12 inches first, then move 6.',
+       'Read what is left on the mat. Type it in feet and inches, then try the two quick ones in inches.'])
+  + tip('cora', 'Not enough inches to take away? Break 1 foot into 12 inches. Then there are plenty.')
+  + model('cut'), cls='bl-slate', extra=' style="margin-top:16px;"')
+s = s.replace('<!--WE-->', WE + '</div></div>' + CUT, 1)  # Study It right after the Do video, then Cut the Rope, then the Rope Order
+rep('You stacked inches and feet. Now practice.', 'Five bridge jobs down. One to go: prove the Smudge wrong.')
 
 # ── I. Show What You Know: per-part answer boxes, bonus, prove it, the chase, What's Next
 for a, b in [('<div class="activity-sub">For each problem, convert between customary units of length. Show your work.</div>', '<div class="activity-sub">Type each answer in its own box.</div>'),
@@ -163,13 +175,15 @@ SW = ('<div class="q-block"><p class="q-text"><span class="q-num">1</span><stron
  + part('Problem 1 (c)', '(c) 67 in = ' + box('1c1', 'Problem 1 c, feet', 'ft') + ' ' + box('1c2', 'Problem 1 c, inches', 'in')) + '</div></div>'
  + '<div class="q-block"><p class="q-text"><span class="q-num">2</span><strong>Add and subtract lengths.</strong> <span class="saved-dot" id="dot-2"></span></p><div class="ans-parts">'
  + part('Problem 2 (a)', '(a) 3 ft 9 in + 2 ft 6 in = ' + box('2a1', 'Problem 2 a, feet', 'ft') + ' ' + box('2a2', 'Problem 2 a, inches', 'in'))
- + part('Problem 2 (b)', '(b) 6 ft 4 in − 2 ft 8 in = ' + box('2b1', 'Problem 2 b, feet', 'ft') + ' ' + box('2b2', 'Problem 2 b, inches', 'in')) + '</div></div>'
+ + part('Problem 2 (b)', '(b) 6 ft 4 in − 2 ft 8 in = ' + box('2b1', 'Problem 2 b, feet', 'ft') + ' ' + box('2b2', 'Problem 2 b, inches', 'in'))
+ + part('Problem 2 (c)', '(c) 1 ft − 4 in = ' + box('2c', 'Problem 2 c, inches', 'in'))
+ + part('Problem 2 (d)', '(d) 3 ft + 2 in = ' + box('2d', 'Problem 2 d, inches', 'in')) + '</div></div>'
  + '<div class="q-block"><p class="q-text"><span class="q-num">3</span><strong>Word problem: Eastside\'s fence.</strong> The fence by the Eastside gate is 4 yd 2 ft long. <span class="saved-dot" id="dot-3"></span></p><div class="ans-parts">'
  + part('Problem 3 (a) in feet', '(a) How many feet long is the fence? ' + box('3a', 'Problem 3 a, feet', 'ft'))
  + part('Problem 3 (b) in inches', '(b) How many inches long is it? ' + box('3b', 'Problem 3 b, inches', 'in')) + '</div></div>')
 i = s.find('<div class="q-block"><p class="q-text"><span class="q-num">1</span><strong>Single conversions.</strong>'); j = s.find('<div class="activity bl-slate" style="margin-top:18px;border-left-color:#0E8A8C;">', i); assert i > 0 and j > i
 s = s[:i] + tip('opti', 'Hoo! Before each problem, ask: do I need to trade? 12 or more inches make a new foot. Too few inches to take away? Trade 1 foot for 12 inches.') + SW + model('bonus') + (
- '<div class="activity bl-violet" id="mk-prove"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">⚖️</div><div><div class="activity-title">Last Job: Is 2 ft 15 in the same as 3 ft 5 in?</div><div class="activity-sub">Job 5 · Check the Smudge\'s banner with bars</div></div></div><div class="activity-body">'
+ '<div class="activity bl-violet" id="mk-prove"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">⚖️</div><div><div class="activity-title">Last Job: Is 2 ft 15 in the same as 3 ft 5 in?</div><div class="activity-sub">Job 6 · Check the Smudge\'s banner with bars</div></div></div><div class="activity-body">'
  +job('The Smudge hung a banner on the bridge: <strong>2 ft 15 in = 3 ft 5 in</strong>. If people believe it, every rope cut in Eastside will be the wrong length. <strong>Is 2 ft 15 in really the same as 3 ft 5 in?</strong>',
       ['Top bar: build <strong>2 ft 15 in</strong> with 1-foot pieces and 1-inch pieces.',
        'Bottom bar: build <strong>3 ft 5 in</strong> the same way.',
@@ -185,7 +199,7 @@ for a, b in [('<div class="fluency-head-label">FLUENCY WARM-UP</div><div class="
              ('<div class="activity-title">Connection Forward: Customary Length</div><div class="activity-sub">What comes next in Unit 10</div>', '<div class="activity-title">What\'s Next</div><div class="activity-sub">Coming up in Unit 10</div>'),
              ('Next lesson, we measure WEIGHT instead of length — ounces and pounds — using the exact same convert-then-compute strategy, but with a new factor: 16.',
               'Next lesson, you\'ll visit the Eastside General Store and measure weight in pounds and ounces. The trade changes again: 16 ounces make 1 pound. The two ways you used today still work.'),
-             ('<span>I completed both quick checks above.</span>', '<span>I finished all five bridge jobs.</span>'),
+             ('<span>I completed both quick checks above.</span>', '<span>I finished all six bridge jobs.</span>'),
              ('<span>I showed my model or my steps for each problem.</span>', '<span>I typed an answer in every box.</span>')]:
     rep(a, b)
 s = re.sub(r'var FLUENCY_TITLE = "Mixed Division Facts — Maintenance";', 'var FLUENCY_TITLE = "Mixed Division Facts";', s)
