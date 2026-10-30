@@ -108,9 +108,9 @@
   <svg class="deco" viewBox="0 0 300 200" aria-hidden="true"><circle cx="60" cy="60" r="40" fill="#7C4DFF"/><circle cx="150" cy="60" r="40" fill="#2F6FDE"/><circle cx="240" cy="60" r="40" fill="#23915A"/><rect x="20" y="130" width="260" height="30" fill="#F2B705"/><path d="M20 130v30M85 130v30M150 130v30M215 130v30" stroke="#0E1C42" stroke-width="4"/></svg>
   <div class="lib-wrap">
     <h1>Math Manipulatives Library</h1>
-    <p>On-screen versions of every tool in the Dimensions Math kits for Grades 3, 4 and 5, plus the bar models, number bonds and number lines from the books. Each tool is tagged to the OAO lessons it fits. Open one, set it up, and share it.</p>
+    <p>Hand students a manipulative, any time, for any problem. These are open, on-screen versions of every tool in the Dimensions Math kits for Grades 3, 4 and 5, plus the bar models, number bonds and number lines from the books. Share a link, put one on a Canvas page, or project it.</p>
     <div class="lookup" role="search">
-      <label for="q">Find a lesson</label>
+      <label for="q">Which tools fit a lesson?</label>
       <input id="q" list="lessonlist" placeholder="Type a lesson number like 4.06.02, or a topic like rounding" autocomplete="off">
       <datalist id="lessonlist"></datalist>
     </div>
@@ -118,8 +118,8 @@
 </header>
 
 <nav class="lib-tabs" role="tablist" aria-label="Library views">
-  <button role="tab" data-v="lessons" aria-selected="true">By lesson</button>
-  <button role="tab" data-v="tools" aria-selected="false">All tools</button>
+  <button role="tab" data-v="tools" aria-selected="true">All tools</button>
+  <button role="tab" data-v="lessons" aria-selected="false">By lesson</button>
   <button role="tab" data-v="kit" aria-selected="false">Hands-on kit list</button>
   <button role="tab" data-v="guide" aria-selected="false">How to use this with students</button>
 </nav>
@@ -135,7 +135,7 @@
   var toolById = {}; D.tools.forEach(function (t) { toolById[t.id] = t; });
   var view = document.getElementById('view');
   function store(k, v) { try { if (v === undefined) return localStorage.getItem('oaom.' + k); localStorage.setItem('oaom.' + k, v); } catch (e) { return null; } }
-  var st = { v: store('v') || 'lessons', g: +(store('g') || 4), tg: store('tg') || 'all', grp: 'all', find: '' };
+  var st = { v: store('v') || 'tools', g: +(store('g') || 4), tg: store('tg') || 'all', grp: 'all', find: '' };
 
   /* Official Dimensions Math classroom kit contents (singaporemath.com, Grades 3–5) mapped to tools */
   var KIT = {
@@ -153,12 +153,12 @@
 
   function lessonCard(l) {
     var h = '<article class="lres"><h2>Lesson ' + l.id + ': ' + esc(l.title) + '</h2><p class="meta">Grade ' + l.g + ' · Unit ' + (+l.unit.slice(2)) + ': ' + esc(l.unitName) + ' · <a href="' + esc(l.url) + '" target="_blank" rel="noopener">Open the lesson ↗</a></p>' +
-      '<div class="om-row" style="margin:0 0 .8rem">' + openBtn(OAOM.lessonURL(l.id), 'Open all ' + l.tools.length + ' tools together', 'primary') + '<button class="om-btn small" data-lshare="' + l.id + '">Share with students</button>' + openBtn(OAOM.lessonURL(l.id, '&board=1'), 'Big screen') + '</div><div class="ltools">';
+      '<div class="om-row" style="margin:0 0 .8rem">' + openBtn(OAOM.lessonURL(l.id), 'Open these ' + l.tools.length + ' tools as tabs', 'primary') + '<button class="om-btn small" data-lshare="' + l.id + '">Share with students</button>' + openBtn(OAOM.lessonURL(l.id, '&board=1'), 'Big screen') + '</div><div class="ltools">';
     l.tools.forEach(function (t, i) {
       var m = toolById[t.t];
-      h += '<div class="ltool' + (i === 0 ? ' main' : '') + '"><div class="hd">' + I[t.t] + '<span>' + esc(m.name) + '<br><small class="role">' + (i === 0 ? 'Main tool' : 'Also try') + '</small></span></div>' +
-        (t.goal ? '<div class="goal">🎯 ' + esc(t.goal) + ' <span>(checks the answer, with hints)</span></div>' : '') +
-        (t.s ? '<div class="try"><b style="color:var(--green)">Try this:</b> ' + esc(t.s) + '</div>' : '') +
+      h += '<div class="ltool' + (i === 0 ? ' main' : '') + '"><div class="hd">' + I[t.t] + '<span>' + esc(m.name) + '<br><small class="role">' + (i === 0 ? 'Best fit' : 'Also fits') + '</small></span></div>' +
+        '<div class="try">' + esc(m.what) + '</div>' +
+        (t.idea ? '<div class="tip"><b>Idea for this lesson:</b> ' + esc(t.idea) + '</div>' : '') +
         (t.tip ? '<div class="tip"><b>Teacher tip:</b> ' + esc(t.tip) + '</div>' : '') +
         '<div class="om-row">' + openBtn(toolLink(t), 'Open') + '<button class="om-btn small" data-tshare="' + l.id + '|' + i + '">Share</button></div></div>';
     });
@@ -189,7 +189,7 @@
       h += '<details class="unit"><summary><span class="num">Unit ' + (+u.slice(2)) + '</span>' + esc(ls[0].unitName) + ' <span style="color:var(--mute);font-weight:600">· ' + ls.length + ' lessons</span><span class="chips">' + Object.keys(tset).slice(0, 7).map(function (k) { return I[k]; }).join('') + '</span></summary>';
       ls.forEach(function (l) {
         h += '<div class="lrow"><span class="id">' + l.id + '</span><div><div class="t"><a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.title) + '</a></div><div class="tl">' +
-          l.tools.map(function (t, k) { return '<a class="chip' + (k === 0 ? ' main' : '') + '" href="' + esc(toolLink(t)) + '" target="_blank" rel="noopener" title="' + esc(t.s || '') + '">' + I[t.t] + esc(toolById[t.t].name) + '</a>'; }).join('') +
+          l.tools.map(function (t, k) { return '<a class="chip' + (k === 0 ? ' main' : '') + '" href="' + esc(toolLink(t)) + '" target="_blank" rel="noopener" title="' + esc(t.idea || '') + '">' + I[t.t] + esc(toolById[t.t].name) + '</a>'; }).join('') +
           '</div></div><div class="acts"><button class="om-btn small" data-lopen="' + l.id + '">Details</button><button class="om-btn small primary" data-lshare="' + l.id + '">Share</button></div></div>';
       });
       h += '</details>';
@@ -239,9 +239,10 @@
 
   function renderGuide() {
     view.innerHTML = '<div class="guide">' +
-      '<h2>Share a tool that is already set up</h2><ol><li>Open a tool and set it up the way you want: the number on the disc mat, the fraction rows, the bar model, and so on.</li><li>Tap <b>Share</b>. The student link opens the tool exactly as you left it.</li><li>Students can change anything. <b>Start over</b> takes them back to your setup.</li></ol>' +
-      '<h2>Put it in Canvas</h2><ol><li>Tap <b>Share</b> and copy the <b>Canvas embed code</b>. It has the student directions and the tool together.</li><li>In Canvas, edit the page, open the HTML editor (&lt;/&gt;), and paste.</li><li>For a whole lesson, use <b>Share</b> on the lesson row. One link opens every tool for that lesson as tabs, each with its own Try this.</li></ol>' +
-      '<h2>Hands on, not buttons</h2><ul><li>Students move the pieces with their hand: drag a disc onto the mat, drag it up to trade 10 for 1, stretch a band, swing the compass, pour the beaker. The small buttons are only there for keyboard users.</li><li>Each lesson has one <b>main tool</b> and up to two to <b>also try</b>. Start with the main tool.</li><li>When a Try this asks a question, the totals start hidden. Students work it out, then tap <b>Check my answer</b>. Tools with a 🎯 goal show ✓ when it’s right and a hint that points where to look when it’s a common mistake.</li></ul>' +
+      '<h2>Open tools, any problem</h2><ul><li>Every tool opens clean, like handing a student the real manipulative. Use it with any problem: the lesson, the workbook, the Independent Practice, a question in live class.</li><li>Lesson tags only suggest which tools fit and set them up sensibly (decimal places on the disc mat for decimals, feet and inches on the Trade Mat for customary length). They never set a problem.</li></ul>' +
+      '<h2>Share a tool your way</h2><ol><li>Open a tool. If you like, set it up first: which places show, which fraction rows, which units, or even a number to start from.</li><li>Tap <b>Share</b>. The student link opens the tool exactly as you left it.</li><li>Students can change anything. <b>Start over</b> takes them back to your setup.</li></ol>' +
+      '<h2>Put it in Canvas</h2><ol><li>Tap <b>Share</b> and copy the <b>Canvas embed code</b>. It has the student directions and the tool together.</li><li>In Canvas, edit the page, open the HTML editor (&lt;/&gt;), and paste.</li><li>For a lesson, use <b>Share</b> on the lesson row. One link opens the tools that fit it as tabs.</li></ol>' +
+      '<h2>Hands on, not buttons</h2><ul><li>Students move the pieces with their hand: drag a disc onto the mat, drag it up to trade 10 for 1, stretch a band, swing the compass, pour the beaker. The small buttons are only there for keyboard users.</li><li>Want students to work it out before they see the total? Tap <b>Hide totals</b> before you share. It is saved in the link.</li></ul>' +
       '<h2>Live class</h2><ul><li><b>Big screen</b> makes the tool large and hides the setup panel. Use <b>Dark</b> for projectors and <b>Full screen</b> to hide the browser.</li><li><b>Hide totals</b> hides the readout so students have to count or read the tool themselves. This setting is saved in the link you share.</li><li>Each Share box has a <b>QR code</b> so students on tablets can scan and open the same setup.</li></ul>' +
       '<h2>Touch it, see it, write it</h2><ul><li>When students have the kit, start with the real thing, then use the screen tool to show the same idea big. Ask them to write the numbers last.</li><li>Ask students to tell you what the tool shows before they look at the readout: “How did you know?”</li><li>Fade the tool once students can explain it. The goal is the math, not the tool.</li></ul>' +
       '<h2>Print</h2><ul><li><b>Print</b> on any tool prints the current picture with a name and date line. Clear the tool first to print a blank template, like a place-value chart, hundred chart or dot paper.</li></ul>' +
@@ -250,7 +251,7 @@
 
   function bindShare() {
     view.querySelectorAll('[data-lshare]').forEach(function (b) { b.onclick = function () { OAOM.share(OAOM.lessonShare(b.dataset.lshare)); }; });
-    view.querySelectorAll('[data-tshare]').forEach(function (b) { b.onclick = function () { var p = b.dataset.tshare.split('|'), l = D.lessonById(p[0]), t = l.tools[+p[1]]; OAOM.share(OAOM.toolShare(t.t, t.p, t.s)); }; });
+    view.querySelectorAll('[data-tshare]').forEach(function (b) { b.onclick = function () { var p = b.dataset.tshare.split('|'), l = D.lessonById(p[0]), t = l.tools[+p[1]]; OAOM.share(OAOM.toolShare(t.t, t.p)); }; });
   }
 
   function render() {

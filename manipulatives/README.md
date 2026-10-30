@@ -14,7 +14,7 @@ Open `index.html` on GitHub Pages. Teachers find a lesson, open its tools alread
   - Each tool has its kit item, an at-home stand-in and student directions (`HOW`).
   - Each unit (`U['4.06']`) lists its tools.
   - A lesson can add its own entries under `L`.
-  - Each entry is `T(toolId, preset, 'Try this for students', 'Teacher tip')`.
+  - Each entry is `T(toolId, setup, 'Idea for this lesson (teacher-facing)', 'Teacher tip')`. Only setup keys listed in `CONFIG` are kept.
 - `vendor/qrcode.js`: QR code generator (MIT, Kazuhiko Arase).
 
 ## Making a preset
@@ -27,10 +27,12 @@ To store a setup in a lesson tag, write the same settings as a plain object in `
 
 Lesson links for Grade 3 and Grade 5 point to `optimaondemand.github.io/optima-3rd-math/` and `.../optima-5th-math/`. Change `base` in `data.js` if those sites move.
 
-## Rules from the sparkle work (Oct 2026)
+## How it's meant to be used
+
+These are **open manipulatives**: a way to hand students a tool outside a Canvas assignment, or to drop one onto a Canvas page. A tool opens clean and works for any problem. Lesson tags only say which tools fit a lesson and set them up sensibly (places, units, fraction rows); they never set a problem, a goal or a starting amount. Teachers can still set a tool up their own way and share that link.
+
+## Model rules (from the sparkle work, Oct 2026)
 
 - **Hands on:** every operation is done by dragging the pieces (add, trade, break, take away, stretch, pour, swing). Buttons are a small keyboard-only path.
-- **Don't give the answer away:** when a Try this asks a question, the totals start hidden and students tap Check my answer.
-- **Goals:** a lesson tag can carry a goal (`T(..., [what to do, answer, [[wrong answer, hint]], report key])`). It shows ✓ when right and a hint that points where to look on a common mistake. The setup panel folds away so students build instead of typing the answer.
 - **Models:** plain pieces, to scale, labels on the model, fixed place-value colors, a live number sentence, motion you can see when a trade happens (none under reduced motion), stacked fractions only.
-- **One main tool per lesson,** plus up to two to also try.
+- **Hide totals** is the teacher's choice, saved in a share link.

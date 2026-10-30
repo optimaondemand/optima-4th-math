@@ -233,7 +233,7 @@
     return g;
   }
   O.register('blocks', {
-    defaults: { c: { 3: 1, 2: 2, 1: 3, 0: 4 } },
+    defaults: { c: {} },
     mount: function (api) {
       var S = api.S, NM = { 3: 'Thousands', 2: 'Hundreds', 1: 'Tens', 0: 'Ones' }, ONE = { 3: 'thousand', 2: 'hundred', 1: 'ten', 0: 'one' }, CW = { 3: 160, 2: 150, 1: 168, 0: 128 }, busyF = false;
       function busy() { return busyF; }
@@ -371,7 +371,7 @@
 
   /* ============ NUMBER BOND ============ */
   O.register('bond', {
-    defaults: { parts: 2, w: '10', p: ['6', '?', '', ''], dir: 'top' },
+    defaults: { parts: 2, w: '', p: ['', '', '', ''], dir: 'top' },
     mount: function (api) {
       var S = api.S;
       api.say('Tap a circle and type a number. Use ? for the number you need to find.');
@@ -430,7 +430,7 @@
     blank: { bars: [{ n: '', t: '', tp: 'above', p: [{ v: '', l: '', c: 0 }] }], cmp: { on: 0, a: 0, b: 1, l: '' } }
   };
   O.register('bar', {
-    defaults: O.clone(BAR_START.pw),
+    defaults: O.clone(BAR_START.blank || BAR_START.pw),
     mount: function (api) {
       var S = api.S;
       api.say('Draw the story with bars. Drag the edge of a piece with no number to make it longer or shorter. Tap a piece to color it.');

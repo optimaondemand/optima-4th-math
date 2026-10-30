@@ -700,7 +700,7 @@
   /* ═════════ BEAKERS & MEASURING CUPS ═════════ */
   function cupText(c) { var n = Math.round(c * 4), g = O.gcd(n, 4); return n ? O.mixed(n / g, 4 / g) : '0'; }
   O.register('beaker', {
-    defaults: { u: 'ml', mx: 1000, tk: 100, c: 1, a0: 400, a1: 0 },
+    defaults: { u: 'ml', mx: 1000, tk: 100, c: 1, a0: 0, a1: 0 },
     mount: function (api) {
       var S = api.S, mlMx, mlTk, cupTk, qtTk, a0In, a1In;
       api.say('Drag up or down inside a beaker to fill it. To pour, drag the yellow handle over the other beaker.');

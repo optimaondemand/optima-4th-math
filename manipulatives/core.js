@@ -62,7 +62,7 @@ var OAOM = (function () {
     var h = '<div style="font-family:Nunito,Arial,sans-serif;color:#1B2238;border-left:6px solid #6B46C1;background:#F4F0FC;border-radius:10px;padding:12px 16px;margin:0 0 12px">' +
       '<h3 style="margin:0 0 6px;color:#0E1C42">' + esc(o.title) + '</h3>' + (o.intro ? '<p style="margin:0 0 6px">' + esc(o.intro) + '</p>' : '');
     if (o.steps && o.steps.length) h += '<p style="margin:6px 0 2px"><strong>How to use it:</strong></p><ol style="margin:0 0 6px 20px;padding:0">' + o.steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol>';
-    if (o.tries && o.tries.length) h += '<p style="margin:6px 0 2px"><strong>Try this:</strong></p><ul style="margin:0 0 6px 20px;padding:0">' + o.tries.map(function (t) { return '<li>' + (t[0] ? '<strong>' + esc(t[0]) + ':</strong> ' : '') + esc(t[1]) + '</li>'; }).join('') + '</ul>';
+    if (o.tries && o.tries.length) h += '<p style="margin:6px 0 2px"><strong>Your tools:</strong></p><ul style="margin:0 0 6px 20px;padding:0">' + o.tries.map(function (t) { return '<li>' + (t[0] ? '<strong>' + esc(t[0]) + ':</strong> ' : '') + esc(t[1]) + '</li>'; }).join('') + '</ul>';
     h += '<p style="margin:6px 0 0;font-size:.9em">Made a mistake? Tap <strong>Start over</strong>. Want more room? Tap <strong>All tools</strong> to open it in a new tab.</p></div>';
     return h;
   }
@@ -173,7 +173,7 @@ var OAOM = (function () {
     aside.classList.toggle('folded', !!S._g);
     h2.innerHTML = S._g ? '<button type="button" class="om-fold" aria-expanded="false">Set up (for teachers) ▸</button>' : 'Set up';
     var fb = h2.querySelector('button'); if (fb) fb.onclick = function () { var open = aside.classList.toggle('folded') === false; fb.setAttribute('aria-expanded', open); fb.textContent = 'Set up (for teachers) ' + (open ? '▾' : '▸'); };
-    $('#om-printhead').innerHTML = '<span><b>' + esc(m.name) + '</b>' + (cur.lessonId ? ' · Lesson ' + cur.lessonId : '') + '</span><span>Name: ______________________ &nbsp; Date: __________</span>';
+    $('#om-printhead').innerHTML = '<span><b>' + esc(m.name) + '</b>' + '' + '</span><span>Name: ______________________ &nbsp; Date: __________</span>';
   }
 
   /* ---------- goal + check-my-answer ----------
@@ -241,8 +241,8 @@ var OAOM = (function () {
         [].forEach.call(tabs.children, function (b, k) { b.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
         mount(tt.t, states[i] || clone(tt.p || {}));
         cur.lessonId = lid; cur.lessonStates = states; cur.tab = i; cur.initial = clone(tt.p ? Object.assign(clone(tools[tt.t] ? tools[tt.t].defaults : {}), tt.p) : cur.initial);
-        note.innerHTML = '<b>Lesson ' + esc(lid) + ': ' + esc(L.title) + '.</b> ' + (tt.s ? '<span class="om-try">Try this:</span> ' + esc(tt.s) : esc(meta(tt.t).what || ''));
-        $('#om-title').textContent = 'Lesson ' + lid + ' Tools';
+        note.innerHTML = '<b>' + esc(meta(tt.t).name) + ':</b> ' + esc(meta(tt.t).what || '');
+        $('#om-title').textContent = 'Math Tools';
       }
       L.tools.forEach(function (tt, i) { var b = el('button', { type: 'button', role: 'tab' }, esc(meta(tt.t).name)); b.onclick = function () { if (cur) states[cur.tab] = clone(cur.S); show(i); }; tabs.appendChild(b); });
       show(0);
@@ -253,10 +253,10 @@ var OAOM = (function () {
   function lessonShare(lid) {
     var L = lesson(lid); if (!L) return null;
     var names = L.tools.map(function (t) { return meta(t.t).name; });
-    return { title: 'Lesson ' + lid + ' math tools', url: lessonURL(lid), note: 'One link opens every tool picked for this lesson (' + names.join(', ') + '), already set up.',
-      dir: { title: 'Math tools for Lesson ' + lid + ': ' + L.title, intro: 'Use these tools while you work. Tap a tab at the top to switch tools. Each tool has a “How to use this tool” box.', tries: L.tools.map(function (t) { return [meta(t.t).name, t.s || meta(t.t).what]; }) } };
+    return { title: 'Math tools for Lesson ' + lid, url: lessonURL(lid), note: 'One link opens the tools that fit this lesson (' + names.join(', ') + ') as tabs. They are open tools, ready for any problem.',
+      dir: { title: 'Math tools', intro: 'Use these tools on any problem while you work. Tap a tab at the top to switch tools. Each tool has a “How to use this tool” box.', tries: L.tools.map(function (t) { return [meta(t.t).name, meta(t.t).what]; }) } };
   }
-  function toolShare(id, state, s) { var mm = meta(id); return { title: mm.name, url: toolURL(id, state), dir: { title: 'Math tool: ' + mm.name, intro: mm.what, steps: mm.how, tries: s ? [['', s]] : null } }; }
+  function toolShare(id, state) { var mm = meta(id); return { title: mm.name, url: toolURL(id, state), dir: { title: 'Math tool: ' + mm.name, intro: mm.what, steps: mm.how } }; }
   function currentURL(extra) { if (params.get('lesson')) return lessonURL(params.get('lesson'), extra); return toolURL(cur.id, cur.S, extra); }
 
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;

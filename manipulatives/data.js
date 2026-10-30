@@ -516,11 +516,24 @@ window.OAOM_DATA = (function () {
   };
   /* tools whose readout would give away an answer the Try this asks for */
   var READOUT = { discs: 1, pvcards: 1, blocks: 1, numberline: 1, counters: 1, fbars: 1, fcircles: 1, decgrid: 1, money: 1, ruler: 1, scale: 1, beaker: 1, clock: 1, tiles: 1, geoboard: 1, protractor: 1, compass: 1, cubes: 1, trademat: 1, barstrip: 1, pattern: 1 };
+  /* Open manipulatives: a lesson tag only picks the tool and how it is set up (places, units, rows),
+     never a problem, a goal, a starting amount or hidden totals. Students get a clean tool for any problem. */
+  var CONFIG = {
+    discs: ['hi', 'lo', 'cap'], pvcards: [], blocks: [], bond: ['parts', 'dir'], bar: [],
+    numberline: ['a', 'b', 'parts', 'mode', 'lab', 'two', 'parts2', 'simp'], counters: ['mode', 'r', 'c', 'n', 'g'],
+    hundred: ['mode', 'start'], dice: ['mode', 'k', 'sides', 'op', 'lo', 'hi'],
+    fbars: ['d', 'w', 'lab', 'bm'], fcircles: ['c', 'n', 'per', 'ns', 'lab'], decgrid: ['m', 'c', 'pct'], money: [],
+    ruler: ['u', 'q'], scale: ['m', 'u', 'mx', 'tk'], beaker: ['u', 'mx', 'tk', 'c'], clock: ['sn', 'dg', 'el', 'tmr'],
+    trademat: ['u'], barstrip: ['mode', 'unit', 'whole', 'wl', 'piece', 'pl', 'p2', 'p2l'],
+    tiles: ['cols', 'rows', 'unit', 'edge'], geoboard: ['n', 'mode', 'mirror'], whiteboard: ['bg'], tangram: ['pz'],
+    pattern: ['frac', 'mirror'], protractor: ['full', 'three', 'show'], setsquare: ['mode'], compass: [], cubes: ['n', 'cm']
+  };
+  var EMPTY = { discs: { c: {} }, trademat: { b0: 0, s0: 0, b: 0, sp: [0, 0, 0], take: 0 }, bond: { w: '', p: ['', '', '', ''] } };
   function finish(t) {
-    var p = Object.assign({}, t.p || {});
-    if (t.g) p._g = { t: t.g[0], v: t.g[1], m: t.g[2] || [], k: t.g[3] || 'v' };
-    if (READOUT[t.t] && (t.g || /\?/.test(t.s))) p._r = 0;
-    return { t: t.t, p: Object.keys(p).length ? p : null, s: t.s, tip: t.tip, goal: t.g ? t.g[0] : '' };
+    var p = {}, src = t.p || {};
+    (CONFIG[t.t] || []).forEach(function (k) { if (src[k] !== undefined) p[k] = src[k]; });
+    if (EMPTY[t.t]) Object.assign(p, EMPTY[t.t]);
+    return { t: t.t, p: Object.keys(p).length ? p : null, idea: t.s, tip: t.tip };
   }
 
   LESSONS.forEach(function (x) {

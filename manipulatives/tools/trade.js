@@ -49,7 +49,7 @@
     lml: ['L', 'mL', 1000, 'Liters', 'Milliliters'], kgg: ['kg', 'g', 1000, 'Kilograms', 'Grams'], hmin: ['h', 'min', 60, 'Hours', 'Minutes']
   };
   O.register('trademat', {
-    defaults: { u: 'ftin', big: 'ft', small: 'in', rate: 12, b0: 5, s0: 1, b: 5, sp: [1], take: 1, tb: 2, ts: 6, zb: 0, zp: [0] },
+    defaults: { u: 'ftin', big: 'ft', small: 'in', rate: 12, b0: 0, s0: 0, b: 0, sp: [0], take: 0, tb: 2, ts: 6, zb: 0, zp: [0] },
     mount: function (api) {
       var S = api.S;
       function U() { var u = UNITS[S.u]; return u ? { big: u[0], small: u[1], rate: u[2], B: u[3], Sm: u[4] } : { big: S.big || 'big', small: S.small || 'small', rate: Math.max(2, +S.rate || 10), B: 'Big: ' + (S.big || 'big'), Sm: 'Small: ' + (S.small || 'small') }; }
@@ -112,7 +112,7 @@
         cBig.parentNode.style.display = cSm.parentNode.style.display = cRate.parentNode.style.display = S.u === 'custom' ? '' : 'none';
         hint60.style.display = u.rate === 60 ? '' : 'none';
         tbI.parentNode.style.display = tsI.parentNode.style.display = take ? '' : 'none';
-        api.say(take ? 'Drag pieces into the box to take them away. Need more ' + u.small + '? Drag 1 ' + u.big + ' onto the ' + u.Sm + ' column to break it.' : 'Drag pieces from the tray onto the mat. Drag ' + u.small + ' onto the ' + u.B + ' column to trade ' + O.fmt(u.rate) + ' ' + u.small + ' for 1 ' + u.big + '; drag 1 ' + u.big + ' onto the ' + u.Sm + ' column to break it.');
+        api.say(take ? 'Drag pieces into the box to take them away. Need more ' + u.small + '? Drag 1 ' + u.big + ' onto the ' + u.Sm + ' column to break it.' : 'Drag pieces onto the mat. To trade, drag 1 ' + u.small + ' up onto the ' + u.B + ' column. To break, drag 1 ' + u.big + ' onto the ' + u.Sm + ' column.');
         /* layout */
         var bx = 8, bw = nar ? 140 : 210, sx = bx + bw + 8, sw = nar ? W - sx - 8 : (take ? 330 : W - sx - 8), boxR = null;
         var BR = 21, SRr = z.length > 1 ? 19 : 16, bPer = Math.max(1, Math.floor((bw - 12) / (BR * 2 + 6))), sPer = Math.max(1, Math.floor((sw - 12) / (SRr * 2 + 5)));
