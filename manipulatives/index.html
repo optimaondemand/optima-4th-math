@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Math Manipulatives Library · OAO Grades 3–5</title>
+<link rel="stylesheet" href="lib.css">
+<style>
+.lib-hero{background:var(--navy);color:#fff;padding:1.6rem 1rem 2.2rem;position:relative;overflow:hidden}
+.lib-hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,var(--violet) 0 33%,var(--green) 33% 66%,var(--yellow) 66%)}
+.lib-wrap{max-width:1180px;margin:0 auto}
+.lib-hero h1{margin:0 0 .3rem;font-size:clamp(1.6rem,4vw,2.3rem)}
+.lib-hero p{margin:0;opacity:.9;max-width:62ch}
+.lib-hero .deco{position:absolute;right:-10px;top:8px;opacity:.16;width:300px;pointer-events:none}
+.lookup{margin-top:1.1rem;background:#fff;color:var(--ink);border-radius:16px;padding:.9rem;display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;max-width:760px;box-shadow:0 6px 24px rgba(0,0,0,.2)}
+.lookup label{font-weight:800;color:var(--navy)}
+.lookup input{flex:1;min-width:200px;border:2px solid var(--line);border-radius:10px;padding:.5em .7em;font-size:1.05rem}
+.lookup input:focus{outline:none;border-color:var(--violet)}
+.lib-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin:1.2rem auto .8rem;max-width:1180px;padding:0 1rem}
+.lib-tabs button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:.45em 1em;font-weight:800;cursor:pointer;min-height:42px}
+.lib-tabs button[aria-selected="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.lib-body{max-width:1180px;margin:0 auto;padding:0 1rem 3rem}
+.pills{display:flex;gap:.35rem;flex-wrap:wrap;align-items:center;margin:.2rem 0 1rem}
+.pills b{margin-right:.3rem;color:var(--mute);font-size:.9rem}
+.pills button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:.25em .8em;font-weight:700;cursor:pointer;min-height:36px}
+.pills button[aria-pressed="true"]{background:var(--violet);border-color:var(--violet);color:#fff}
+.search{border:2px solid var(--line);border-radius:999px;padding:.4em .9em;min-width:220px;flex:1;max-width:340px}
+/* lesson result */
+.lres{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:1rem 1.1rem;margin:0 0 1.2rem;border-left:6px solid var(--violet)}
+.lres h2{margin:.1rem 0 .2rem;font-size:1.3rem;color:var(--navy)}
+.lres .meta{color:var(--mute);font-weight:700;margin:0 0 .7rem}
+.ltools{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:.7rem}
+.ltool{border:2px solid var(--line);border-radius:14px;padding:.7rem;display:flex;flex-direction:column;gap:.35rem}
+.ltool .hd{display:flex;gap:.55rem;align-items:center;font-weight:800}
+.ltool .hd svg{width:36px;height:36px;flex:none}
+.ltool .try{font-size:.93rem}
+.ltool .tip{font-size:.85rem;color:var(--mute);background:var(--bg);border-radius:8px;padding:.35rem .5rem}
+.ltool .tip b{color:var(--navy)}
+.ltool .om-row{margin-top:auto}
+/* units */
+.unit{background:#fff;border-radius:14px;box-shadow:var(--shadow);margin:0 0 .7rem;overflow:hidden}
+.unit>summary{list-style:none;cursor:pointer;padding:.8rem 1rem;display:flex;gap:.7rem;align-items:center;font-weight:800}
+.unit>summary::-webkit-details-marker{display:none}
+.unit>summary .num{background:var(--violet-l);color:var(--violet);border-radius:10px;padding:.15em .55em;font-size:.9rem}
+.unit>summary .chips{margin-left:auto;display:flex;gap:2px}
+.unit>summary .chips svg{width:26px;height:26px}
+.unit>summary::after{content:"▸";color:var(--mute);margin-left:.4rem;transition:transform .15s}
+.unit[open]>summary::after{transform:rotate(90deg)}
+.lrow{display:grid;grid-template-columns:70px minmax(0,1fr) auto;gap:.6rem;align-items:center;padding:.55rem 1rem;border-top:1px solid var(--line)}
+.lrow .id{font-weight:800;color:var(--violet)}
+.lrow .t{font-weight:700}
+.lrow .t a{color:var(--ink);text-decoration:none}
+.lrow .t a:hover{text-decoration:underline}
+.lrow .tl{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem}
+.chip{display:inline-flex;align-items:center;gap:.25rem;border:1.5px solid var(--line);border-radius:999px;padding:.1em .55em .1em .2em;font-size:.82rem;font-weight:700;text-decoration:none;color:var(--ink);background:#fff}
+.chip:hover{border-color:var(--violet);color:var(--violet)}
+.chip svg{width:22px;height:22px}
+.lrow .acts{display:flex;gap:.3rem;flex-wrap:wrap;justify-content:flex-end}
+/* tool cards */
+.group h2{font-size:1.15rem;margin:1.4rem 0 .6rem;color:var(--navy)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:.9rem}
+.card{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:1rem;display:flex;flex-direction:column;gap:.45rem;border-top:5px solid var(--violet)}
+.card[data-src="model"]{border-top-color:var(--green)}
+.card .hd{display:flex;gap:.7rem;align-items:center}
+.card h3{margin:0;font-size:1.12rem}
+.badges{display:flex;gap:.25rem;flex-wrap:wrap}
+.badge{font-size:.72rem;font-weight:800;border-radius:999px;padding:.1em .55em;background:var(--violet-l);color:var(--violet)}
+.badge.kit{background:var(--green-l);color:var(--green)}
+.badge.model{background:var(--yellow-l);color:#8a6400}
+.card .what{margin:0}
+.card .kitl{font-size:.86rem;color:var(--mute);margin:0}
+.card .kitl b{color:var(--ink)}
+.card details{font-size:.86rem}
+.card details summary{cursor:pointer;font-weight:700;color:var(--violet)}
+.card details .ll{max-height:180px;overflow:auto;margin-top:.3rem;display:flex;flex-direction:column;gap:.15rem}
+.card details .ll a{color:var(--ink)}
+.card .om-row{margin-top:auto}
+/* kit table + guide */
+.kitgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem}
+.kitcol{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:1rem}
+.kitcol h2{margin:.1rem 0 .6rem;color:var(--navy);font-size:1.2rem}
+.kitcol ul{list-style:none;margin:0;padding:0}
+.kitcol li{display:flex;gap:.5rem;align-items:flex-start;padding:.35rem 0;border-top:1px solid var(--line);font-size:.93rem}
+.kitcol li input{margin-top:.25rem;width:18px;height:18px;accent-color:var(--green)}
+.kitcol li a{margin-left:auto;font-size:.82rem;font-weight:700;white-space:nowrap}
+.guide{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:1.2rem 1.4rem;max-width:860px}
+.guide h2{color:var(--navy);margin:1.2rem 0 .4rem;font-size:1.2rem}
+.guide h2:first-child{margin-top:0}
+.guide li{margin:.25rem 0}
+.src{font-size:.82rem;color:var(--mute);margin-top:1.4rem}
+.empty{color:var(--mute);font-weight:700}
+@media (max-width:640px){
+  .lrow{grid-template-columns:56px minmax(0,1fr)}
+  .lrow .acts{grid-column:1/-1;justify-content:flex-start}
+  .unit>summary .chips{display:none}
+}
+@media print{.lib-hero .lookup,.lib-tabs,.pills,.om-row,.lrow .acts,.noprint{display:none!important}.lib-hero{background:#fff;color:#000}.card,.unit,.kitcol,.guide,.lres{box-shadow:none;border:1px solid #bbb}}
+</style>
+</head>
+<body>
+<header class="lib-hero">
+  <svg class="deco" viewBox="0 0 300 200" aria-hidden="true"><circle cx="60" cy="60" r="40" fill="#7C4DFF"/><circle cx="150" cy="60" r="40" fill="#2F6FDE"/><circle cx="240" cy="60" r="40" fill="#23915A"/><rect x="20" y="130" width="260" height="30" fill="#F2B705"/><path d="M20 130v30M85 130v30M150 130v30M215 130v30" stroke="#0E1C42" stroke-width="4"/></svg>
+  <div class="lib-wrap">
+    <h1>Math Manipulatives Library</h1>
+    <p>On-screen versions of every tool in the Dimensions Math kits for Grades 3, 4 and 5, plus the bar models, number bonds and number lines from the books. Each tool is tagged to the OAO lessons it fits. Open one, set it up, and share it.</p>
+    <div class="lookup" role="search">
+      <label for="q">Find a lesson</label>
+      <input id="q" list="lessonlist" placeholder="Type a lesson number like 4.06.02, or a topic like rounding" autocomplete="off">
+      <datalist id="lessonlist"></datalist>
+    </div>
+  </div>
+</header>
+
+<nav class="lib-tabs" role="tablist" aria-label="Library views">
+  <button role="tab" data-v="lessons" aria-selected="true">By lesson</button>
+  <button role="tab" data-v="tools" aria-selected="false">All tools</button>
+  <button role="tab" data-v="kit" aria-selected="false">Hands-on kit list</button>
+  <button role="tab" data-v="guide" aria-selected="false">How to use this with students</button>
+</nav>
+<main class="lib-body" id="view"></main>
+
+<script src="vendor/qrcode.js"></script>
+<script src="data.js"></script>
+<script src="icons.js"></script>
+<script src="core.js"></script>
+<script>
+(function () {
+  var D = OAOM_DATA, I = OAOM_ICONS, esc = OAOM.esc, el = OAOM.el;
+  var toolById = {}; D.tools.forEach(function (t) { toolById[t.id] = t; });
+  var view = document.getElementById('view');
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem('oaom.' + k); localStorage.setItem('oaom.' + k, v); } catch (e) { return null; } }
+  var st = { v: store('v') || 'lessons', g: +(store('g') || 4), tg: store('tg') || 'all', grp: 'all', find: '' };
+
+  /* Official Dimensions Math classroom kit contents (singaporemath.com, Grades 3–5) mapped to tools */
+  var KIT = {
+    3: [['Place Value Discs: 4-Value Whole Numbers', 'discs'], ['Place Value Cards: 4-Value Whole Numbers', 'pvcards'], ['Two-Color Counters (red/yellow)', 'counters'], ['Color Tiles', 'tiles'], ['Base Ten Units and Rods', 'blocks'], ['Blank Dice and 10-Sided Dice (0–9)', 'dice'], ['Multiplication and Division Fact Cards, Playing Cards', 'dice'], ['12-inch Rulers', 'ruler'], ['English/Metric Tape Measure', 'ruler'], ['Folding Meter/Yard Stick', 'ruler'], ['Platform Scale, Metric Weights and Balance', 'scale'], ['Metric Beakers (graduated)', 'beaker'], ['Demonstration Clock, Student Clocks, Digital Timer', 'clock'], ['Classroom Money Kit / Magnetic Money', 'money'], ['11 × 11 Pin Geoboard', 'geoboard'], ['Fraction Tiles with Tray', 'fbars'], ['Tangrams', 'tangram'], ['Triangle Ruler Set (30°/60° and 45°/90°)', 'setsquare'], ['Safety Compass', 'compass'], ['Centimeter Grid Dry-Erase Boards, Dry-Erase Sleeves', 'whiteboard']],
+    4: [['Place Value Discs: 10-Value, Decimals to Whole Numbers', 'discs'], ['Place Value Cards: 10-Value, Decimals to Whole Numbers', 'pvcards'], ['Two-Color Counters (red/yellow)', 'counters'], ['10-Sided Dice (0–9)', 'dice'], ['Color Tiles', 'tiles'], ['12-inch Rulers', 'ruler'], ['English/Metric Tape Measure', 'ruler'], ['Folding Meter/Yard Stick', 'ruler'], ['Platform Scale, Metric and U.S. Weight Sets, Balance', 'scale'], ['Liquid Measuring Set, Graduated Beakers', 'beaker'], ['Classroom Money Kit', 'money'], ['Pattern Blocks', 'pattern'], ['Tangrams', 'tangram'], ['Fraction Tiles with Tray', 'fbars'], ['Fraction Circles', 'fcircles'], ['Triangle Ruler Set (30°/60° and 45°/90°)', 'setsquare'], ['Safety Compass', 'compass'], ['4-inch Clear Protractor', 'protractor'], ['Centimeter Grid Dry-Erase Boards, Dry-Erase Sleeves', 'whiteboard']],
+    5: [['Place Value Discs: 10-Value, Decimals to Whole Numbers', 'discs'], ['Place Value Cards: 10-Value, Decimals to Whole Numbers', 'pvcards'], ['Two-Color Counters (red/yellow)', 'counters'], ['Base Ten Units, Rods, Flats and Thousand Cube', 'blocks'], ['Centimeter Cubes', 'cubes'], ['Linking Cubes (Katie Kubes)', 'cubes'], ['Liter Cube with Lid', 'beaker'], ['10-Sided Dice (0–9)', 'dice'], ['12-inch Rulers', 'ruler'], ['Folding Meter/Yard Stick', 'ruler'], ['Metric Beakers', 'beaker'], ['Pattern Blocks', 'pattern'], ['11 × 11 Pin Geoboard', 'geoboard'], ['Fraction Tiles with Tray', 'fbars'], ['Fraction Circles', 'fcircles'], ['Triangle Ruler Set (30°/60° and 45°/90°)', 'setsquare'], ['Safety Compass', 'compass'], ['4-inch Clear Protractor', 'protractor'], ['Centimeter Grid Dry-Erase Boards, Dry-Erase Sleeves', 'whiteboard']]
+  };
+
+  /* datalist for lookup */
+  var dl = document.getElementById('lessonlist');
+  D.lessons.forEach(function (l) { var o = document.createElement('option'); o.value = l.id; o.label = l.title; dl.appendChild(o); });
+
+  function toolLink(t) { return OAOM.toolURL(t.t, t.p ? Object.assign({}, t.p) : null); }
+  function openBtn(href, label, cls) { return '<a class="om-btn small ' + (cls || '') + '" href="' + esc(href) + '" target="_blank" rel="noopener">' + label + '</a>'; }
+
+  function lessonCard(l) {
+    var h = '<article class="lres"><h2>Lesson ' + l.id + ': ' + esc(l.title) + '</h2><p class="meta">Grade ' + l.g + ' · Unit ' + (+l.unit.slice(2)) + ': ' + esc(l.unitName) + ' · <a href="' + esc(l.url) + '" target="_blank" rel="noopener">Open the lesson ↗</a></p>' +
+      '<div class="om-row" style="margin:0 0 .8rem">' + openBtn(OAOM.lessonURL(l.id), 'Open all ' + l.tools.length + ' tools together', 'primary') + '<button class="om-btn small" data-lshare="' + l.id + '">Share with students</button>' + openBtn(OAOM.lessonURL(l.id, '&board=1'), 'Big screen') + '</div><div class="ltools">';
+    l.tools.forEach(function (t, i) {
+      var m = toolById[t.t];
+      h += '<div class="ltool"><div class="hd">' + I[t.t] + '<span>' + esc(m.name) + '</span></div>' +
+        (t.s ? '<div class="try"><b style="color:var(--green)">Try this:</b> ' + esc(t.s) + '</div>' : '') +
+        (t.tip ? '<div class="tip"><b>Teacher tip:</b> ' + esc(t.tip) + '</div>' : '') +
+        '<div class="om-row">' + openBtn(toolLink(t), 'Open') + '<button class="om-btn small" data-tshare="' + l.id + '|' + i + '">Share</button></div></div>';
+    });
+    return h + '</div></article>';
+  }
+
+  function findLessons(q) {
+    q = q.trim().toLowerCase(); if (!q) return [];
+    var exact = D.lessonById(q); if (exact) return [exact];
+    var qs = q.replace(/[^0-9.]/g, '');
+    return D.lessons.filter(function (l) { return (qs && qs.length >= 3 && l.id.indexOf(qs) === 0) || l.title.toLowerCase().indexOf(q) > -1 || l.unitName.toLowerCase().indexOf(q) > -1; }).slice(0, 12);
+  }
+
+  function renderLessons() {
+    var h = '';
+    if (st.find) {
+      var res = findLessons(st.find);
+      if (res.length === 1) h += lessonCard(res[0]);
+      else if (res.length) { h += '<p class="empty">' + res.length + ' lessons match “' + esc(st.find) + '”:</p>'; res.forEach(function (l) { h += lessonCard(l); }); }
+      else h += '<p class="empty">No lesson matches “' + esc(st.find) + '”. Try a number like 3.09.02.</p>';
+      h += '<p><button class="om-btn small" id="clearfind">Show all lessons</button></p>';
+      view.innerHTML = h; bindShare(); document.getElementById('clearfind').onclick = function () { st.find = ''; document.getElementById('q').value = ''; render(); }; return;
+    }
+    h += '<div class="pills" role="group" aria-label="Grade"><b>Grade</b>' + [3, 4, 5].map(function (g) { return '<button data-g="' + g + '" aria-pressed="' + (st.g === g) + '">Grade ' + g + '</button>'; }).join('') + '</div>';
+    var byUnit = {}; D.lessons.filter(function (l) { return l.g === st.g; }).forEach(function (l) { (byUnit[l.unit] = byUnit[l.unit] || []).push(l); });
+    Object.keys(byUnit).sort().forEach(function (u) {
+      var ls = byUnit[u], tset = {}; ls.forEach(function (l) { l.tools.forEach(function (t) { tset[t.t] = 1; }); });
+      h += '<details class="unit"><summary><span class="num">Unit ' + (+u.slice(2)) + '</span>' + esc(ls[0].unitName) + ' <span style="color:var(--mute);font-weight:600">· ' + ls.length + ' lessons</span><span class="chips">' + Object.keys(tset).slice(0, 7).map(function (k) { return I[k]; }).join('') + '</span></summary>';
+      ls.forEach(function (l) {
+        h += '<div class="lrow"><span class="id">' + l.id + '</span><div><div class="t"><a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.title) + '</a></div><div class="tl">' +
+          l.tools.map(function (t) { return '<a class="chip" href="' + esc(toolLink(t)) + '" target="_blank" rel="noopener" title="' + esc(t.s || '') + '">' + I[t.t] + esc(toolById[t.t].name) + '</a>'; }).join('') +
+          '</div></div><div class="acts"><button class="om-btn small" data-lopen="' + l.id + '">Details</button><button class="om-btn small primary" data-lshare="' + l.id + '">Share</button></div></div>';
+      });
+      h += '</details>';
+    });
+    view.innerHTML = h;
+    view.querySelectorAll('[data-g]').forEach(function (b) { b.onclick = function () { st.g = +b.dataset.g; store('g', st.g); render(); }; });
+    view.querySelectorAll('[data-lopen]').forEach(function (b) { b.onclick = function () { st.find = b.dataset.lopen; document.getElementById('q').value = st.find; render(); window.scrollTo({ top: document.querySelector('.lib-tabs').offsetTop - 8, behavior: 'smooth' }); }; });
+    bindShare();
+  }
+
+  function renderTools() {
+    var h = '<div class="pills" role="group" aria-label="Filter tools"><b>Grade</b>' + ['all', '3', '4', '5'].map(function (g) { return '<button data-tg="' + g + '" aria-pressed="' + (st.tg === g) + '">' + (g === 'all' ? 'All' : 'Grade ' + g) + '</button>'; }).join('') +
+      '<input class="search" id="tsearch" type="search" placeholder="Search tools (fractions, angles…)" aria-label="Search tools" value="' + esc(st.ts || '') + '"></div><div id="cardsout"></div>';
+    view.innerHTML = h;
+    view.querySelectorAll('[data-tg]').forEach(function (b) { b.onclick = function () { st.tg = b.dataset.tg; store('tg', st.tg); render(); }; });
+    var si = document.getElementById('tsearch'); si.oninput = function () { st.ts = si.value; cards(); };
+    cards();
+  }
+  function cards() {
+    var q = (st.ts || '').toLowerCase(), out = '';
+    D.groups.forEach(function (gname) {
+      var list = D.tools.filter(function (t) { return t.g === gname && (st.tg === 'all' || t.grades.indexOf(+st.tg) > -1) && (!q || (t.name + ' ' + t.what + ' ' + t.kit + ' ' + t.g).toLowerCase().indexOf(q) > -1); });
+      if (!list.length) return;
+      out += '<section class="group"><h2>' + esc(gname) + '</h2><div class="cards">';
+      list.forEach(function (t) {
+        var used = D.lessons.filter(function (l) { return (st.tg === 'all' || l.g === +st.tg) && l.tools.some(function (x) { return x.t === t.id; }); });
+        out += '<article class="card" data-src="' + t.src + '"><div class="hd">' + I[t.id] + '<div><h3>' + esc(t.name) + '</h3><div class="badges">' + t.grades.map(function (g) { return '<span class="badge">Gr ' + g + '</span>'; }).join('') + '<span class="badge ' + (t.src === 'kit' ? 'kit">Kit tool' : 'model">Book model') + '</span></div></div></div>' +
+          '<p class="what">' + esc(t.what) + '</p><p class="kitl"><b>Hands-on:</b> ' + esc(t.kit) + '<br><b>At home:</b> ' + esc(t.home) + '</p>' +
+          '<details><summary>Student directions</summary><ol style="margin:.3rem 0 0 1.1rem;padding:0">' + t.how.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol></details>' +
+          '<details><summary>Fits ' + used.length + ' lesson' + (used.length === 1 ? '' : 's') + '</summary><div class="ll">' + used.map(function (l) { var tt = l.tools.filter(function (x) { return x.t === t.id; })[0]; return '<a href="' + esc(toolLink(tt)) + '" target="_blank" rel="noopener"><b>' + l.id + '</b> ' + esc(l.title) + '</a>'; }).join('') + '</div></details>' +
+          '<div class="om-row">' + openBtn(OAOM.toolURL(t.id), 'Open', 'primary') + openBtn(OAOM.toolURL(t.id, null, '&board=1'), 'Big screen') + '<button class="om-btn small" data-share="' + t.id + '">Share</button></div></article>';
+      });
+      out += '</div></section>';
+    });
+    var co = document.getElementById('cardsout'); co.innerHTML = out || '<p class="empty">No tools match.</p>';
+    co.querySelectorAll('[data-share]').forEach(function (b) { b.onclick = function () { OAOM.share(OAOM.toolShare(b.dataset.share, null)); }; });
+  }
+
+  function renderKit() {
+    var h = '<p style="max-width:70ch">These are the items in the Dimensions Math classroom manipulative kits for each grade. Use the checklist to take stock of your room or to tell families what to look for at home. Every item has an on-screen version here.</p><div class="om-row noprint" style="margin-bottom:1rem"><button class="om-btn small" onclick="window.print()">Print the checklist</button></div><div class="kitgrid">';
+    [3, 4, 5].forEach(function (g) {
+      h += '<section class="kitcol"><h2>Grade ' + g + ' kit</h2><ul>' + KIT[g].map(function (k, i) { var id = 'k' + g + '_' + i; return '<li><input type="checkbox" id="' + id + '"><label for="' + id + '">' + esc(k[0]) + '</label><a href="' + esc(OAOM.toolURL(k[1])) + '" target="_blank" rel="noopener">' + esc(toolById[k[1]].name) + ' ↗</a></li>'; }).join('') + '</ul></section>';
+    });
+    h += '</div><p class="src">Kit lists: Singapore Math Inc., Dimensions Math Classroom Manipulative Kits for Grades 3, 4 and 5, and the Dimensions Math PK–5 homeschool kit grade notes (singaporemath.com, checked October 2026).</p>';
+    view.innerHTML = h;
+  }
+
+  function renderGuide() {
+    view.innerHTML = '<div class="guide">' +
+      '<h2>Share a tool that is already set up</h2><ol><li>Open a tool and set it up the way you want: the number on the disc mat, the fraction rows, the bar model, and so on.</li><li>Tap <b>Share</b>. The student link opens the tool exactly as you left it.</li><li>Students can change anything. <b>Start over</b> takes them back to your setup.</li></ol>' +
+      '<h2>Put it in Canvas</h2><ol><li>Tap <b>Share</b> and copy the <b>Canvas embed code</b>. It has the student directions and the tool together.</li><li>In Canvas, edit the page, open the HTML editor (&lt;/&gt;), and paste.</li><li>For a whole lesson, use <b>Share</b> on the lesson row. One link opens every tool for that lesson as tabs, each with its own Try this.</li></ol>' +
+      '<h2>Live class</h2><ul><li><b>Big screen</b> makes the tool large and hides the setup panel. Use <b>Dark</b> for projectors and <b>Full screen</b> to hide the browser.</li><li><b>Hide totals</b> hides the readout so students have to count or read the tool themselves. This setting is saved in the link you share.</li><li>Each Share box has a <b>QR code</b> so students on tablets can scan and open the same setup.</li></ul>' +
+      '<h2>Touch it, see it, write it</h2><ul><li>When students have the kit, start with the real thing, then use the screen tool to show the same idea big. Ask them to write the numbers last.</li><li>Ask students to tell you what the tool shows before they look at the readout: “How did you know?”</li><li>Fade the tool once students can explain it. The goal is the math, not the tool.</li></ul>' +
+      '<h2>Print</h2><ul><li><b>Print</b> on any tool prints the current picture with a name and date line. Clear the tool first to print a blank template, like a place-value chart, hundred chart or dot paper.</li></ul>' +
+      '<h2>Students at home</h2><ul><li>Every tool card lists an <b>At home</b> stand-in, like coins for discs or paper strips for fraction tiles.</li><li>The tools work on Chromebooks, tablets and phones, and with a mouse, a finger or a keyboard (Tab and Enter).</li></ul></div>';
+  }
+
+  function bindShare() {
+    view.querySelectorAll('[data-lshare]').forEach(function (b) { b.onclick = function () { OAOM.share(OAOM.lessonShare(b.dataset.lshare)); }; });
+    view.querySelectorAll('[data-tshare]').forEach(function (b) { b.onclick = function () { var p = b.dataset.tshare.split('|'), l = D.lessonById(p[0]), t = l.tools[+p[1]]; OAOM.share(OAOM.toolShare(t.t, t.p, t.s)); }; });
+  }
+
+  function render() {
+    document.querySelectorAll('.lib-tabs button').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.v === st.v ? 'true' : 'false'); });
+    ({ lessons: renderLessons, tools: renderTools, kit: renderKit, guide: renderGuide })[st.v]();
+  }
+  document.querySelectorAll('.lib-tabs button').forEach(function (b) { b.onclick = function () { st.v = b.dataset.v; store('v', st.v); if (st.v !== 'lessons') st.find = ''; render(); }; });
+  var q = document.getElementById('q'), qt;
+  q.addEventListener('input', function () { clearTimeout(qt); qt = setTimeout(function () { st.find = q.value.trim(); st.v = 'lessons'; render(); }, 250); });
+  /* deep link: index.html#4.06.02 */
+  var hl = decodeURIComponent(location.hash.slice(1)); if (hl && D.lessonById(hl)) { st.find = hl; st.v = 'lessons'; q.value = hl; }
+  render();
+})();
+</script>
+</body>
+</html>
