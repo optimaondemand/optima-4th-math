@@ -39,9 +39,9 @@
   O.register('tiles', {
     defaults: { cols: 10, rows: 8, unit: '', cells: {}, col: 0, edge: false },
     mount: function (api) {
-      var S = api.S, C = [RED, YEL, GRN, BLUE], CN = ['Red', 'Yellow', 'Green', 'Blue'], Z = 40, M = 14;
+      var S = api.S, C = [RED, YEL, GRN, BLUE], CN = ['Red', 'Yellow', 'Green', 'Blue'], Z = 40, M = 14, TY = 56;
       var UN = { '': ['unit', 'units'], cm: ['centimeter', 'centimeters'], m: ['meter', 'meters'], in: ['inch', 'inches'], ft: ['foot', 'feet'] };
-      api.say('Tap or drag across the grid to lay tiles. Tap a tile to pick it up.');
+      api.say('Drag a tile from the tray onto the grid, or drag across the grid to lay tiles. Drag a tile off the grid to pick it up.');
       var bar = toolbar(api);
       api.seg('', 'col', C.map(function (c, i) { return [i, '<span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:' + c + ';vertical-align:-2px"></span> ' + CN[i]]; }), null, bar);
       api.button('Clear', function () { S.cells = {}; api.redraw(); }, '', bar);
@@ -54,29 +54,48 @@
       function has(x, y) { return S.cells[x + '_' + y] != null; }
       function apply(k, mode) { if (mode === 'fill') S.cells[k] = S.col; else delete S.cells[k]; }
       function draw() {
-        clear(v); var W = S.cols * Z + 2 * M, H = S.rows * Z + 2 * M; size(v, W, H);
+        clear(v); var W = Math.max(S.cols * Z + 2 * M, 300), H = S.rows * Z + 2 * M; size(v, W, H + TY);
+        /* tray of kit color tiles */
+        O.s('rect', { x: 4, y: 4, width: W - 8, height: TY - 10, rx: 10, fill: '#F1EDFB' }, v);
+        O.s('text', { x: 14, y: TY / 2 + 2, 'font-size': 13, fill: NAVY, text: 'Tiles:' }, v);
+        C.forEach(function (c, i) { var tr = O.s('rect', { x: 64 + i * 46, y: TY / 2 - 18, width: 34, height: 34, rx: 5, fill: c, stroke: i === S.col ? NAVY : 'rgba(0,0,0,.25)', 'stroke-width': i === S.col ? 3 : 1.5, 'data-tray': i, style: 'cursor:grab' }, v);
+          keyTap(tr, function () { S.col = i; api.redraw(); }, CN[i] + ' tile'); });
+        var gG = O.s('g', { transform: 'translate(0 ' + TY + ')' }, v);
         for (var y = 0; y < S.rows; y++) for (var x = 0; x < S.cols; x++) {
-          var k = x + '_' + y, r = O.s('rect', { x: M + x * Z, y: M + y * Z, width: Z, height: Z, fill: '#fff', stroke: LINE, 'stroke-width': 1.5, class: 'paper', 'data-c': k }, v);
+          var k = x + '_' + y, r = O.s('rect', { x: M + x * Z, y: M + y * Z, width: Z, height: Z, fill: '#fff', stroke: LINE, 'stroke-width': 1.5, class: 'paper', 'data-c': k }, gG);
           (function (k) { keyTap(r, function () { apply(k, S.cells[k] != null ? 'erase' : 'fill'); api.redraw(); }, 'Square ' + k.replace('_', ', ')); })(k);
-          if (S.cells[k] != null) O.s('rect', { x: M + x * Z + 2, y: M + y * Z + 2, width: Z - 4, height: Z - 4, rx: 5, fill: C[S.cells[k]] || VIO, stroke: 'rgba(0,0,0,.25)', 'stroke-width': 1.5, 'data-c': k, style: 'pointer-events:none' }, v);
+          if (S.cells[k] != null) O.s('rect', { x: M + x * Z + 2, y: M + y * Z + 2, width: Z - 4, height: Z - 4, rx: 5, fill: C[S.cells[k]] || VIO, stroke: 'rgba(0,0,0,.25)', 'stroke-width': 1.5, 'data-c': k, style: 'pointer-events:none' }, gG);
         }
         var area = 0, per = 0, edges = [];
         Object.keys(S.cells).forEach(function (k) { var a = k.split('_'), x = +a[0], y = +a[1]; area++;
           [[0, -1, x, y, x + 1, y], [0, 1, x, y + 1, x + 1, y + 1], [-1, 0, x, y, x, y + 1], [1, 0, x + 1, y, x + 1, y + 1]].forEach(function (d) { if (!has(x + d[0], y + d[1])) { per++; edges.push(d.slice(2)); } }); });
         if (S.edge) edges.forEach(function (e) {
-          O.s('line', { x1: M + e[0] * Z, y1: M + e[1] * Z, x2: M + e[2] * Z, y2: M + e[3] * Z, stroke: VIO, 'stroke-width': 5, 'stroke-linecap': 'round', style: 'pointer-events:none' }, v);
-          O.s('circle', { cx: M + (e[0] + e[2]) / 2 * Z, cy: M + (e[1] + e[3]) / 2 * Z, r: 4, fill: YEL, stroke: NAVY, 'stroke-width': 1, class: 'om-num', style: 'pointer-events:none' }, v);
+          O.s('line', { x1: M + e[0] * Z, y1: M + e[1] * Z, x2: M + e[2] * Z, y2: M + e[3] * Z, stroke: VIO, 'stroke-width': 5, 'stroke-linecap': 'round', style: 'pointer-events:none' }, gG);
+          O.s('circle', { cx: M + (e[0] + e[2]) / 2 * Z, cy: M + (e[1] + e[3]) / 2 * Z, r: 4, fill: YEL, stroke: NAVY, 'stroke-width': 1, class: 'om-num', style: 'pointer-events:none' }, gG);
         });
         var u = UN[S.unit] || UN[''], ks = Object.keys(S.cells), out = '<span>Area: <b>' + plural(area, 'square ' + u[0], 'square ' + u[1]) + '</b></span><span>Perimeter: <b>' + plural(per, u[0], u[1]) + '</b></span>';
         if (area) { var xs = ks.map(function (k) { return +k.split('_')[0]; }), ys = ks.map(function (k) { return +k.split('_')[1]; });
           var bw = Math.max.apply(0, xs) - Math.min.apply(0, xs) + 1, bh = Math.max.apply(0, ys) - Math.min.apply(0, ys) + 1;
           if (bw * bh === area) out += '<span>Rectangle: ' + bw + ' × ' + bh + ' = ' + area + '</span>'; }
         api.readout(area ? out : '');
+        api.report({ v: String(area), p: String(per) });
       }
+      function cellAt(p) { var x = Math.floor((p.x - M) / Z), y = Math.floor((p.y - TY - M) / Z); return x < 0 || y < 0 || x >= S.cols || y >= S.rows ? null : x + '_' + y; }
       rootDrag(v, {
-        down: function (p, e) { var t = e.target.closest && e.target.closest('[data-c]'); if (!t) return null; var k = t.getAttribute('data-c'), mode = S.cells[k] != null ? 'erase' : 'fill'; apply(k, mode); draw(); return { mode: mode, last: k }; },
-        move: function (p, c) { var x = Math.floor((p.x - M) / Z), y = Math.floor((p.y - M) / Z); if (x < 0 || y < 0 || x >= S.cols || y >= S.rows) return; var k = x + '_' + y; if (k === c.last) return; c.last = k; apply(k, c.mode); draw(); },
-        up: function () { api.redraw(); }
+        down: function (p, e) {
+          var tr = e.target.closest && e.target.closest('[data-tray]');
+          if (tr) { S.col = +tr.getAttribute('data-tray'); draw(); var gh = O.s('rect', { x: p.x - 17, y: p.y - 17, width: 34, height: 34, rx: 5, fill: C[S.col], opacity: .85, style: 'pointer-events:none' }, v); return { tray: 1, gh: gh }; }
+          var t = e.target.closest && e.target.closest('[data-c]'); if (!t) return null; var k = t.getAttribute('data-c');
+          if (S.cells[k] != null) return { lift: k, col: S.cells[k], last: k };
+          apply(k, 'fill'); draw(); return { mode: 'fill', last: k }; },
+        move: function (p, c, moved) {
+          if (c.tray || c.lift) { if (c.lift && !c.gh && moved) { delete S.cells[c.lift]; draw(); c.gh = O.s('rect', { x: 0, y: 0, width: 34, height: 34, rx: 5, fill: C[c.col] || VIO, opacity: .85, style: 'pointer-events:none' }, v); }
+            if (c.gh) { if (!c.gh.parentNode) v.appendChild(c.gh); c.gh.setAttribute('x', p.x - 17); c.gh.setAttribute('y', p.y - 17); } return; }
+          var k = cellAt(p); if (!k || k === c.last) return; c.last = k; apply(k, c.mode); draw(); },
+        up: function (p, c, moved) {
+          if (c.tray) { var k = cellAt(p); if (k) S.cells[k] = S.col; else if (!moved) O.toast('Drag the tile onto the grid.'); }
+          else if (c.lift) { if (!moved) delete S.cells[c.lift]; else { var k2 = cellAt(p); if (k2) S.cells[k2] = c.col; } }
+          api.redraw(); }
       });
       api.onRedraw(draw);
     }
@@ -87,7 +106,7 @@
     defaults: { n: 11, bands: [], mode: 'band', mirror: 'none', sel: -1, cur: -1 },
     mount: function (api) {
       var S = api.S, COLS = [VIO, GRN, RED, BLUE, ORG], B = 440, MG = 30;
-      api.say('Tap pins to stretch a band. Tap the first pin again to close the shape.');
+      api.say('Press a pin and drag the band to the next pin. Drag back to the first pin to close the shape. Drag a corner to move it.');
       var bar = toolbar(api);
       api.seg('', 'mode', [['band', 'Shape band'], ['line', 'Straight line']], function () { S.cur = -1; }, bar);
       api.button('Undo pin', function () { var b = S.bands[S.cur]; if (b) { b.p.pop(); if (!b.p.length) { S.bands.splice(S.cur, 1); S.cur = -1; } } else if (S.bands.length) { S.bands.pop(); S.sel = -1; } api.redraw(); }, '', bar);
@@ -102,7 +121,27 @@
         var m = S.n - 1; S.bands.push({ p: b.p.map(function (q) { return S.mirror === 'v' ? [m - q[0], q[1]] : S.mirror === 'h' ? [q[0], m - q[1]] : [q[1], q[0]]; }), k: b.k, c: (b.c + 1) % 5 }); S.sel = S.bands.length - 1; api.redraw();
       }, '', api.row());
       var v = holder(api, B, B, 'Geoboard');
+      var lastDrag = 0;
       function sp() { return (B - 2 * MG) / (S.n - 1); }
+      function pinAt(p) { var x = Math.round((p.x - MG) / sp()), y = Math.round((p.y - MG) / sp()); if (x < 0 || y < 0 || x >= S.n || y >= S.n) return null; var c = P([x, y]); return Math.hypot(p.x - c[0], p.y - c[1]) < sp() * 0.45 ? [x, y] : null; }
+      function same(a, b) { return a && b && a[0] === b[0] && a[1] === b[1]; }
+      rootDrag(v, {
+        down: function (p) { var q = pinAt(p); if (!q) return null;
+          var cb = S.bands[S.cur], sb = S.bands[S.sel];
+          if (!cb && sb) { var vi = -1; sb.p.forEach(function (r, k) { if (same(r, q)) vi = k; }); if (vi >= 0) return { corner: vi, band: S.sel, from: q }; }
+          lastDrag = Date.now(); if (!cb || !same(cb.p[cb.p.length - 1], q)) { pin(q[0], q[1]); }
+          var nb = S.bands[S.cur]; if (!nb || S.mode === 'line' && nb.p.length > 1) return null;
+          return { from: q }; },
+        move: function (p, c, moved) { if (!moved) return;
+          if (!c.ln) { c.ln = O.s('line', { stroke: c.corner != null ? GRAY : COLS[(S.bands[S.cur] || {}).c % 5 || 0], 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-dasharray': c.corner != null ? '6 5' : '', style: 'pointer-events:none' }, v); }
+          if (!c.ln.parentNode) v.appendChild(c.ln);
+          var f = P(c.from), q = pinAt(p), e = q ? P(q) : [p.x, p.y];
+          c.ln.setAttribute('x1', f[0]); c.ln.setAttribute('y1', f[1]); c.ln.setAttribute('x2', e[0]); c.ln.setAttribute('y2', e[1]); },
+        up: function (p, c, moved) { if (!moved) return; lastDrag = Date.now(); if (c.ln && c.ln.parentNode) c.ln.remove(); var q = pinAt(p);
+          if (c.corner != null) { var b = S.bands[c.band]; if (q && b && !b.p.some(function (r, k) { return k !== c.corner && same(r, q); })) { b.p[c.corner] = q; } api.redraw(); return; }
+          if (!q) { O.toast('Let go on a pin to hook the band.'); return; }
+          pin(q[0], q[1]); }
+      });
       function P(q) { return [MG + q[0] * sp(), MG + q[1] * sp()]; }
       function pin(x, y) {
         var b = S.bands[S.cur];
@@ -146,19 +185,20 @@
           O.s('circle', { cx: c[0], cy: c[1], r: sp() * 0.45, fill: 'transparent' }, g);
           if (cb && cb.p[0][0] === x && cb.p[0][1] === y) O.s('circle', { cx: c[0], cy: c[1], r: 11, fill: 'none', stroke: COLS[cb.c % 5], 'stroke-width': 3 }, g);
           O.s('circle', { cx: c[0], cy: c[1], r: S.n > 6 ? 5 : 8, fill: '#6B7280', stroke: '#fff', 'stroke-width': 1.5 }, g);
-          (function (x, y) { O.tap(g, function () { pin(x, y); }, 'Pin ' + (x + 1) + ', ' + (y + 1)); })(x, y);
+          (function (x, y) { O.tap(g, function () { if (Date.now() - lastDrag < 400) return; pin(x, y); }, 'Pin ' + (x + 1) + ', ' + (y + 1)); })(x, y);
         }
         /* readout */
-        var b = S.bands[S.sel] || S.bands[S.bands.length - 1], out = '';
+        var b = S.bands[S.sel] || S.bands[S.bands.length - 1], out = '', rep = { v: '', s: '' };
         if (b && b.k) { var p = clean(b.p), ra = rights(p), A = 0; p.forEach(function (q, i) { var r = p[(i + 1) % p.length]; A += q[0] * r[1] - r[0] * q[1]; }); A = Math.abs(A) / 2;
           out = '<span>It is ' + art(name(p, ra)) + ' <b>' + name(p, ra) + '</b></span><span>Sides: <b>' + p.length + '</b></span><span>Right angles: <b>' + ra.filter(Boolean).length + '</b></span><span>Area: <b>' + half(A) + '</b> square units</span>';
           var axis = p.every(function (q, i) { var r = p[(i + 1) % p.length]; return q[0] === r[0] || q[1] === r[1]; });
-          if (axis) { var per = 0; p.forEach(function (q, i) { var r = p[(i + 1) % p.length]; per += Math.abs(q[0] - r[0]) + Math.abs(q[1] - r[1]); }); out += '<span>Perimeter: <b>' + per + '</b> units</span>'; } }
+          if (axis) { var per = 0; p.forEach(function (q, i) { var r = p[(i + 1) % p.length]; per += Math.abs(q[0] - r[0]) + Math.abs(q[1] - r[1]); }); out += '<span>Perimeter: <b>' + per + '</b> units</span>'; }
+          rep = { v: String(A), s: String(p.length) }; }
         else if (b && b.p.length === 2) { var a = b.p[0], c2 = b.p[1]; if (a[0] === c2[0] || a[1] === c2[1]) out = '<span>Line: <b>' + (Math.abs(a[0] - c2[0]) + Math.abs(a[1] - c2[1])) + '</b> units long</span>'; }
         var lines = S.bands.filter(function (q) { return !q.k && q.p.length === 2; });
         if (lines.length >= 2) { var l1 = lines[lines.length - 2].p, l2 = lines[lines.length - 1].p, dot = (l1[1][0] - l1[0][0]) * (l2[1][0] - l2[0][0]) + (l1[1][1] - l1[0][1]) * (l2[1][1] - l2[0][1]);
           out += par(l1[0], l1[1], l2[0], l2[1]) ? '<span>The last two lines are <b>parallel</b></span>' : dot === 0 ? '<span>The last two lines are <b>perpendicular</b></span>' : ''; }
-        api.readout(out);
+        api.readout(out); api.report(rep);
       }
       api.onRedraw(draw);
     }
@@ -180,7 +220,7 @@
       var v = holder(api, W, H, 'Whiteboard'); v.style.touchAction = 'none';
       var ink;
       function path(p) { var d = 'M' + p[0] + ' ' + p[1]; for (var i = 2; i < p.length; i += 2) d += 'L' + p[i] + ' ' + p[i + 1]; if (p.length === 2) d += 'l0.1 0'; return d; }
-      function draw() {
+      function draw() { api.report({});
         clear(v); O.s('rect', { x: 0, y: 0, width: W, height: H, fill: '#fff', class: 'paper' }, v);
         var x, y;
         if (S.bg === 'grid') { for (x = 0; x <= W; x += G) O.s('line', { x1: x, y1: 0, x2: x, y2: H, stroke: x % (G * 4) ? '#E3E7F1' : '#C9D0E3', 'stroke-width': 1 }, v); for (y = 0; y <= H; y += G) O.s('line', { x1: 0, y1: y, x2: W, y2: y, stroke: y % (G * 4) ? '#E3E7F1' : '#C9D0E3', 'stroke-width': 1 }, v); }
@@ -238,9 +278,9 @@
     defaults: { pz: 'sq7', pc: TDEF, sol: false, sel: -1 },
     mount: function (api) {
       var S = api.S, W = 760, H = 500, SX = 440, SY = 80;
-      api.say('Drag the pieces into the gray shape. Tap a piece, then turn or flip it.');
+      api.say('Drag the pieces into the gray shape. To turn a piece, drag its round ⟳ handle. Flip it with the Flip button.');
       var bar = toolbar(api);
-      api.button('↺ Turn', function () { turn(-45); }, '', bar); api.button('↻ Turn', function () { turn(45); }, '', bar); api.button('⇋ Flip', function () { var q = S.pc[S.sel]; if (!q) return pick(); q[3] = q[3] ? 0 : 1; api.redraw(); }, '', bar);
+      api.button('↺', function () { turn(-45); }, '', bar).title = 'Turn left (keyboard)'; api.button('↻', function () { turn(45); }, '', bar).title = 'Turn right (keyboard)'; api.button('⇋ Flip', function () { var q = S.pc[S.sel]; if (!q) return pick(); q[3] = q[3] ? 0 : 1; api.redraw(); }, '', bar);
       api.button('Mix up', function () { S.pc = O.clone(TDEF); S.sel = -1; api.redraw(); }, '', bar);
       api.select('Puzzle', 'pz', Object.keys(PUZ).map(function (k) { return [k, PUZ[k].n]; }));
       api.check('Show the answer', 'sol');
@@ -248,6 +288,12 @@
       function turn(d) { var q = S.pc[S.sel]; if (!q) return pick(); q[2] = (q[2] + d + 360) % 360; api.redraw(); }
       var v = holder(api, W, H, 'Tangram pieces and puzzle');
       function abs(i) { var q = S.pc[i]; return xf(TP[i].sh, q[0], q[1], q[2], q[3]); }
+      function handle(cx, cy, pts, rot) { var md = 0; pts.forEach(function (p) { md = Math.max(md, Math.hypot(p[0] - cx, p[1] - cy)); }); var a = (rot - 90) * RAD, hx = cx + (md + 24) * Math.cos(a), hy = cy + (md + 24) * Math.sin(a);
+        var vb = v.viewBox.baseVal; if (hx < 18 || hy < 18 || hx > vb.width - 18 || hy > vb.height - 18) { hx = cx - (md + 24) * Math.cos(a); hy = cy - (md + 24) * Math.sin(a); }
+        hx = O.clamp(hx, 18, vb.width - 18); hy = O.clamp(hy, 18, vb.height - 18);
+        O.s('line', { x1: cx, y1: cy, x2: hx, y2: hy, stroke: NAVY, 'stroke-width': 2, 'stroke-dasharray': '4 4', style: 'pointer-events:none' }, v);
+        var h = O.s('circle', { cx: hx, cy: hy, r: 15, fill: '#fff', stroke: NAVY, 'stroke-width': 3, 'data-rot': 1, style: 'cursor:grab' }, v);
+        O.s('text', { x: hx, y: hy + 5, 'text-anchor': 'middle', 'font-size': 15, fill: NAVY, text: '⟳', style: 'pointer-events:none' }, v); return h; }
       function sil() { var pz = PUZ[S.pz] || PUZ.free; return pz.p.map(function (pp) { return pp.map(function (p) { return [SX + p[0] * TU, SY + p[1] * TU]; }); }); }
       function draw() {
         clear(v); O.s('rect', { x: 0, y: 0, width: W, height: H, rx: 14, fill: '#fff', class: 'paper' }, v);
@@ -257,19 +303,22 @@
         var order = [0, 1, 2, 3, 4, 5, 6].filter(function (i) { return i !== S.sel; }); if (S.sel >= 0) order.push(S.sel);
         order.forEach(function (i) { var g = O.s('polygon', { points: poly(abs(i)), fill: TP[i].c, 'fill-opacity': .92, stroke: i === S.sel ? NAVY : '#fff', 'stroke-width': i === S.sel ? 3 : 2, 'stroke-linejoin': 'round', 'data-i': i, style: 'cursor:grab' }, v);
           keyTap(g, function () { S.sel = i; api.redraw(); }, TP[i].n); });
+        if (S.sel >= 0 && S.pc[S.sel]) handle(S.pc[S.sel][0], S.pc[S.sel][1], abs(S.sel), S.pc[S.sel][2]);
         /* readout: how many pieces sit inside, and solved? */
-        var pz = PUZ[S.pz] || PUZ.free; if (!pz.p.length) { api.readout(''); return; }
+        var pz = PUZ[S.pz] || PUZ.free; if (!pz.p.length) { api.readout(''); api.report({ v: '' }); return; }
         var inside = 0; for (var i = 0; i < 7; i++) if (abs(i).every(function (p) { return sp.some(function (pp) { return inPoly(p, pp); }); })) inside++;
         var tot = 0, hit = 0, xs = [], ys = []; sp.forEach(function (pp) { pp.forEach(function (p) { xs.push(p[0]); ys.push(p[1]); }); });
         for (var x = Math.min.apply(0, xs) + 4; x < Math.max.apply(0, xs); x += 8) for (var y = Math.min.apply(0, ys) + 4; y < Math.max.apply(0, ys); y += 8) {
           if (!sp.some(function (pp) { return inPoly([x, y], pp); })) continue; tot++; for (var j = 0; j < 7; j++) if (inPoly([x, y], abs(j))) { hit++; break; } }
         var done = tot && hit / tot > 0.97 && inside === pz.p.length;
         api.readout('<span>Puzzle: <b>' + pz.n + '</b></span><span>Pieces in the shape: <b>' + inside + ' of ' + pz.p.length + '</b></span>' + (done ? '<span style="color:' + GRN + '">You solved it!</span>' : ''));
+        api.report({ v: done ? 'solved' : '' });
       }
       rootDrag(v, {
-        down: function (p, e) { var t = e.target.closest && e.target.closest('[data-i]'); if (!t) { if (S.sel >= 0) { S.sel = -1; draw(); } return null; } var i = +t.getAttribute('data-i'); S.sel = i; draw(); return { i: i, dx: S.pc[i][0] - p.x, dy: S.pc[i][1] - p.y }; },
-        move: function (p, c) { var q = S.pc[c.i]; q[0] = O.clamp(p.x + c.dx, 10, W - 10); q[1] = O.clamp(p.y + c.dy, 10, H - 10); draw(); },
+        down: function (p, e) { if (e.target.closest && e.target.closest('[data-rot]') && S.pc[S.sel]) { var q0 = S.pc[S.sel]; return { rot: S.sel, off: Math.atan2(p.y - q0[1], p.x - q0[0]) / RAD - q0[2] }; } var t = e.target.closest && e.target.closest('[data-i]'); if (!t) { if (S.sel >= 0) { S.sel = -1; draw(); } return null; } var i = +t.getAttribute('data-i'); S.sel = i; draw(); return { i: i, dx: S.pc[i][0] - p.x, dy: S.pc[i][1] - p.y }; },
+        move: function (p, c) { if (c.rot != null) { var qr = S.pc[c.rot]; qr[2] = ((Math.round((Math.atan2(p.y - qr[1], p.x - qr[0]) / RAD - c.off) / 45) * 45) % 360 + 360) % 360; draw(); return; } var q = S.pc[c.i]; q[0] = O.clamp(p.x + c.dx, 10, W - 10); q[1] = O.clamp(p.y + c.dy, 10, H - 10); draw(); },
         up: function (p, c, moved) {
+          if (c.rot != null) { api.redraw(); return; }
           if (moved) { var tg = []; sil().forEach(function (pp) { tg = tg.concat(pp); }); for (var j = 0; j < 7; j++) if (j !== c.i) tg = tg.concat(abs(j));
             var sh = snapShift(abs(c.i), tg, 16); if (sh) { S.pc[c.i][0] += sh[0]; S.pc[c.i][1] += sh[1]; }
             S.pc[c.i][0] = Math.round(S.pc[c.i][0] * 10) / 10; S.pc[c.i][1] = Math.round(S.pc[c.i][1] * 10) / 10; }
@@ -297,15 +346,21 @@
     defaults: { b: [], mirror: 'none', frac: false, sel: -1 },
     mount: function (api) {
       var S = api.S, W = 720, H = 500, TRAY = 100;
-      api.say('Drag blocks from the top onto the mat. Tap a block, then turn it. Drag it back to the top to put it away.');
+      api.say('Drag blocks from the top onto the mat. To turn a block, drag its round ⟳ handle. Drag a block back to the top to put it away.');
       var bar = toolbar(api);
-      api.button('↺ Turn', function () { turn(-30); }, '', bar); api.button('↻ Turn', function () { turn(30); }, '', bar);
+      api.button('↺', function () { turn(-30); }, '', bar).title = 'Turn left (keyboard)'; api.button('↻', function () { turn(30); }, '', bar).title = 'Turn right (keyboard)';
       api.button('Remove', function () { if (S.sel < 0) return O.toast('Tap a block first.'); S.b.splice(S.sel, 1); S.sel = -1; api.redraw(); }, '', bar);
       api.button('Clear', function () { S.b = []; S.sel = -1; api.redraw(); }, '', bar);
       api.select('Mirror line', 'mirror', [['none', 'None'], ['v', 'Up and down'], ['h', 'Across']]);
       api.check('Fractions: the hexagon is 1 whole', 'frac');
       function turn(d) { var q = S.b[S.sel]; if (!q) return O.toast('Tap a block first.'); q[3] = (q[3] + d + 360) % 360; api.redraw(); }
       var v = holder(api, W, H, 'Pattern block mat');
+      function handle(cx, cy, pts, rot) { var md = 0; pts.forEach(function (p) { md = Math.max(md, Math.hypot(p[0] - cx, p[1] - cy)); }); var a = (rot - 90) * RAD, hx = cx + (md + 24) * Math.cos(a), hy = cy + (md + 24) * Math.sin(a);
+        var vb = v.viewBox.baseVal; if (hx < 18 || hy < 18 || hx > vb.width - 18 || hy > vb.height - 18) { hx = cx - (md + 24) * Math.cos(a); hy = cy - (md + 24) * Math.sin(a); }
+        hx = O.clamp(hx, 18, vb.width - 18); hy = O.clamp(hy, 18, vb.height - 18);
+        O.s('line', { x1: cx, y1: cy, x2: hx, y2: hy, stroke: NAVY, 'stroke-width': 2, 'stroke-dasharray': '4 4', style: 'pointer-events:none' }, v);
+        var h = O.s('circle', { cx: hx, cy: hy, r: 15, fill: '#fff', stroke: NAVY, 'stroke-width': 3, 'data-rot': 1, style: 'cursor:grab' }, v);
+        O.s('text', { x: hx, y: hy + 5, 'text-anchor': 'middle', 'font-size': 15, fill: NAVY, text: '⟳', style: 'pointer-events:none' }, v); return h; }
       function abs(q) { return xf(PB[q[0]].p, q[1], q[2], q[3], 0); }
       var MX = W / 2, MY = TRAY + (H - TRAY) / 2;
       function draw() {
@@ -319,21 +374,25 @@
         var order = S.b.map(function (q, i) { return i; }).filter(function (i) { return i !== S.sel; }); if (S.sel >= 0 && S.b[S.sel]) order.push(S.sel);
         order.forEach(function (i) { var q = S.b[i], g = O.s('polygon', { points: poly(abs(q)), fill: PB[q[0]].c, stroke: i === S.sel ? NAVY : 'rgba(0,0,0,.35)', 'stroke-width': i === S.sel ? 3 : 1.5, 'stroke-linejoin': 'round', 'data-i': i, style: 'cursor:grab' }, v);
           keyTap(g, function () { S.sel = i; api.redraw(); }, PB[q[0]].n[0]); });
+        if (S.sel >= 0 && S.b[S.sel]) handle(S.b[S.sel][1], S.b[S.sel][2], abs(S.b[S.sel]), S.b[S.sel][3]);
         /* readout */
         var cnt = {}, six = 0; S.b.forEach(function (q) { cnt[q[0]] = (cnt[q[0]] || 0) + 1; six += PB[q[0]].v; });
         var parts = PORD.filter(function (t) { return cnt[t]; }).map(function (t) { return cnt[t] + ' ' + PB[t].n[cnt[t] === 1 ? 0 : 1]; }), out = parts.length ? '<span>' + parts.join(', ') + '</span>' : '';
         if (S.frac && S.b.length) { var w = Math.floor(six / 6), r = six % 6, g2 = O.gcd(r, 6); out += '<span>Value: <b>' + (r ? (w ? '<span class="mixed">' + w + O.frac(r / g2, 6 / g2) + '</span>' : O.frac(r / g2, 6 / g2)) : w) + '</b> ' + (six && six <= 6 && !r ? 'whole' : 'wholes') + '</span>'; }
+        var pv = ''; if (S.frac && S.b.length) { var gg = O.gcd(six, 6); pv = six % 6 === 0 ? String(six / 6) : (six / gg) + '/' + (6 / gg); }
+        api.report({ v: pv });
         if (S.mirror !== 'none' && S.b.length) out += '<span>' + (symmetric() ? '<b style="color:' + GRN + '">The design is symmetric!</b>' : 'Not symmetric yet') + '</span>';
         api.readout(out);
       }
       function key(t, pts) { return t + ':' + pts.map(function (p) { return Math.round(p[0] / 4) + ',' + Math.round(p[1] / 4); }).sort().join(';'); }
       function symmetric() { var a = S.b.map(function (q) { return key(q[0], abs(q)); }).sort(), b = S.b.map(function (q) { return key(q[0], abs(q).map(function (p) { return S.mirror === 'v' ? [2 * MX - p[0], p[1]] : [p[0], 2 * MY - p[1]]; })); }).sort(); return a.join('|') === b.join('|'); }
       rootDrag(v, {
-        down: function (p, e) { var t = e.target.closest && e.target.closest('[data-i],[data-t]'); if (!t) { if (S.sel >= 0) { S.sel = -1; draw(); } return null; }
+        down: function (p, e) { if (e.target.closest && e.target.closest('[data-rot]') && S.b[S.sel]) { var q0 = S.b[S.sel]; return { rot: S.sel, off: Math.atan2(p.y - q0[2], p.x - q0[1]) / RAD - q0[3] }; } var t = e.target.closest && e.target.closest('[data-i],[data-t]'); if (!t) { if (S.sel >= 0) { S.sel = -1; draw(); } return null; }
           if (t.hasAttribute('data-t')) { S.b.push([t.getAttribute('data-t'), p.x, p.y, 0]); S.sel = S.b.length - 1; draw(); return { i: S.sel, dx: 0, dy: 0, fresh: 1 }; }
           var i = +t.getAttribute('data-i'); S.sel = i; draw(); return { i: i, dx: S.b[i][1] - p.x, dy: S.b[i][2] - p.y }; },
-        move: function (p, c) { var q = S.b[c.i]; q[1] = O.clamp(p.x + c.dx, 10, W - 10); q[2] = O.clamp(p.y + c.dy, 10, H - 10); draw(); },
+        move: function (p, c) { if (c.rot != null) { var qr = S.b[c.rot]; qr[3] = ((Math.round((Math.atan2(p.y - qr[2], p.x - qr[1]) / RAD - c.off) / 30) * 30) % 360 + 360) % 360; draw(); return; } var q = S.b[c.i]; q[1] = O.clamp(p.x + c.dx, 10, W - 10); q[2] = O.clamp(p.y + c.dy, 10, H - 10); draw(); },
         up: function (p, c, moved) {
+          if (c.rot != null) { api.redraw(); return; }
           var q = S.b[c.i];
           if (q[2] < TRAY && (moved || c.fresh)) { if (moved) { S.b.splice(c.i, 1); S.sel = -1; } else { q[1] = MX; q[2] = MY; } api.redraw(); return; }
           if (moved) { var tg = []; S.b.forEach(function (o, j) { if (j !== c.i) tg = tg.concat(abs(o)); }); var sh = snapShift(abs(q), tg, 12); if (sh) { q[1] += sh[0]; q[2] += sh[1]; } q[1] = Math.round(q[1] * 10) / 10; q[2] = Math.round(q[2] * 10) / 10; }
@@ -347,13 +406,14 @@
   /* ================= PROTRACTOR ================= */
   function angType(a) { return a === 0 ? 'zero angle' : a < 90 ? 'acute angle' : a === 90 ? 'right angle' : a < 180 ? 'obtuse angle' : a === 180 ? 'straight angle' : a < 360 ? 'reflex angle' : 'full turn'; }
   O.register('protractor', {
-    defaults: { base: 0, a: 50, three: false, c: 110, full: false, show: true, target: '' },
+    defaults: { base: 0, a: 50, three: false, c: 110, full: false, show: true, target: '', place: false, px: 0, py: 0, pr: 0 },
     mount: function (api) {
       var S = api.S;
       api.num('Turn the bottom arm (degrees)', 'base', 0, 359, 1);
       api.check('Circle protractor (for reflex angles)', 'full', function () { clampAll(); });
       api.check('Add a third arm (add two angles)', 'three', function () { clampAll(); });
       api.check('Show the protractor', 'show');
+      api.check('Place the protractor yourself (practice lining it up)', 'place', function (on) { if (on) { S.px = -150; S.py = -70; S.pr = (S.base + 25) % 360; } else { S.px = S.py = 0; S.pr = S.base; } });
       api.heading('Challenge');
       api.text('Ask students to make this angle', 'target', null, 'like 135');
       var v = holder(api, 640, 370, 'Protractor');
@@ -363,19 +423,20 @@
       function P(deg, r) { return [cx + r * Math.cos(deg * RAD), cy - r * Math.sin(deg * RAD)]; }
       function arc(a0, a1, r) { var pts = []; for (var t = a0; t <= a1 + 0.01; t += Math.max(1, (a1 - a0) / 60)) pts.push(P(t, r)); pts.push(P(a1, r)); return poly(pts); }
       function draw() {
-        clear(v); var square = S.full || S.base !== 0;
+        clear(v); var square = S.full || S.base !== 0 || S.place;
         if (square) { size(v, 640, 640); cx = 320; cy = 320; R = 235; } else { size(v, 640, 370); cx = 320; cy = 335; R = 255; }
         O.s('rect', { x: 0, y: 0, width: 640, height: square ? 640 : 370, rx: 14, fill: '#fff', class: 'paper' }, v);
         if (S.show) {
-          var g = O.s('g', { transform: 'rotate(' + (-S.base) + ' ' + cx + ' ' + cy + ')' }, v), top = S.full ? 360 : 180;
-          if (S.full) O.s('circle', { cx: cx, cy: cy, r: R, fill: 'rgba(107,70,193,.07)', stroke: VIO, 'stroke-width': 2 }, g);
-          else O.s('path', { d: 'M' + (cx - R) + ' ' + cy + ' A' + R + ' ' + R + ' 0 0 1 ' + (cx + R) + ' ' + cy + ' Z', fill: 'rgba(107,70,193,.07)', stroke: VIO, 'stroke-width': 2 }, g);
+          var g = O.s('g', { transform: S.place ? 'translate(' + S.px + ' ' + S.py + ') rotate(' + (-S.pr) + ' ' + cx + ' ' + cy + ')' : 'rotate(' + (-S.base) + ' ' + cx + ' ' + cy + ')' }, v), top = S.full ? 360 : 180;
+          if (S.full) O.s('circle', { cx: cx, cy: cy, r: R, fill: 'rgba(107,70,193,.07)', stroke: VIO, 'stroke-width': 2, 'data-pbody': 1 }, g);
+          else O.s('path', { d: 'M' + (cx - R) + ' ' + cy + ' A' + R + ' ' + R + ' 0 0 1 ' + (cx + R) + ' ' + cy + ' Z', fill: 'rgba(107,70,193,.07)', stroke: VIO, 'stroke-width': 2, 'data-pbody': 1 }, g);
           for (var d = 0; d < top + (S.full ? 0 : 1); d++) { var L = d % 10 === 0 ? 18 : d % 5 === 0 ? 12 : 6, a = P(d, R), b = P(d, R - L); O.s('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: NAVY, 'stroke-width': d % 10 ? 1 : 1.6, class: 'inks' }, g);
             if (d % 10 === 0) { var t1 = P(d, R - 30); O.s('text', { x: t1[0], y: t1[1] + 4, 'text-anchor': 'middle', 'font-size': 12, fill: NAVY, class: 'ink', text: d }, g);
               if (!S.full) { var t2 = P(d, R - 52); O.s('text', { x: t2[0], y: t2[1] + 4, 'text-anchor': 'middle', 'font-size': 10.5, fill: VIO, text: 180 - d }, g); } } }
           O.s('line', { x1: cx - (S.full ? R : R), y1: cy, x2: cx + R, y2: cy, stroke: VIO, 'stroke-width': 1.5 }, g);
           O.s('circle', { cx: cx, cy: cy, r: 4, fill: VIO }, g);
           O.s('line', { x1: cx, y1: cy - 12, x2: cx, y2: cy, stroke: VIO, 'stroke-width': 1.5 }, g);
+          if (S.place) { g.setAttribute('data-pbody', 1); g.style.cursor = 'grab'; var ph = O.s('circle', { cx: cx + R + 24, cy: cy, r: 16, fill: '#fff', stroke: VIO, 'stroke-width': 3, 'data-h': 'prot', style: 'cursor:grab' }, g); O.s('text', { x: cx + R + 24, y: cy + 5, 'text-anchor': 'middle', 'font-size': 15, fill: VIO, text: '⟳', style: 'pointer-events:none' }, g); }
         }
         /* angle arcs */
         var A = S.base, arms = [[A, NAVY, 'base'], [A + S.a, GRN, 'a']]; if (S.three) arms.push([A + S.c, RED, 'c']);
@@ -390,9 +451,14 @@
         O.s('circle', { cx: cx, cy: cy, r: 6, fill: NAVY, class: 'ink' }, v);
         var out = S.three ? '<span>Angles: <b>' + lo + '°</b> and <b>' + (hi - lo) + '°</b></span><span>Together: <b>' + hi + '°</b> (' + angType(hi) + ')</span>' : '<span>Angle: <b>' + S.a + '°</b></span><span>It is ' + art(angType(S.a)) + ' <b>' + angType(S.a) + '</b></span>';
         api.readout(out);
+        api.report(S.three ? { v: String(hi), a: String(lo), b: String(hi - lo) } : { v: String(S.a), a: String(S.a), b: '' });
         var tg = parseInt(S.target, 10);
-        if (!isNaN(tg)) api.say('Make an angle of <b>' + tg + '°</b>. Drag the green arm.' + ((S.three ? hi : S.a) === tg ? ' <span style="color:' + GRN + '">✓ That is ' + tg + '°!</span>' : ''));
-        else api.say('Drag the green arm to make an angle. Read the scale that starts at 0 on the bottom arm.');
+        var pm = '';
+        if (S.place && S.show) { var c1 = !S.px && !S.py, c2 = ((S.pr - S.base) % 360 + 360) % 360 === 0;
+          pm = 'Drag the protractor so its center dot sits on the corner, then turn it with the round ⟳ handle until 0 is on the bottom arm. ' + (c1 ? '<span style="color:' + GRN + '">✓ Center on the corner.</span> ' : '') + (c2 ? '<span style="color:' + GRN + '">✓ 0 on the bottom arm.</span> ' : '') + (c1 && c2 ? '' : '<br>'); }
+        if (pm && !(!S.px && !S.py && ((S.pr - S.base) % 360 + 360) % 360 === 0)) api.say(pm);
+        else if (!isNaN(tg)) api.say(pm + 'Make an angle of <b>' + tg + '°</b>. Drag the green arm.' + ((S.three ? hi : S.a) === tg ? ' <span style="color:' + GRN + '">✓ That is ' + tg + '°!</span>' : ''));
+        else api.say(pm + 'Drag the green arm to make an angle. Read the scale that starts at 0 on the bottom arm.');
       }
       function keyTapArrows(h, which) { h.setAttribute('tabindex', '0'); h.setAttribute('role', 'slider'); h.setAttribute('aria-label', which === 'base' ? 'Bottom arm' : 'Arm'); h.addEventListener('keydown', function (e) { var d = e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? 1 : e.key === 'ArrowRight' || e.key === 'ArrowDown' ? -1 : 0; if (!d) return; e.preventDefault(); setArm(which, (which === 'base' ? S.base : S[which]) + d); api.redraw(); var n = v.querySelector('[data-h="' + which + '"]'); if (n) n.focus(); }); }
       function setArm(which, deg) {
@@ -400,9 +466,15 @@
         var rel = ((Math.round(deg) % 360) + 360) % 360; if (!S.full && rel > 180) rel = rel > 270 ? 0 : 180; S[which] = rel;
       }
       rootDrag(v, {
-        down: function (p, e) { var t = e.target.closest && e.target.closest('[data-h]'); if (!t) return null; return { h: t.getAttribute('data-h') }; },
-        move: function (p, c) { var deg = Math.atan2(cy - p.y, p.x - cx) / RAD; if (c.h === 'base') { var keep = [S.a, S.c]; setArm('base', deg); } else setArm(c.h, deg - S.base); draw(); },
-        up: function () { api.redraw(); }
+        down: function (p, e) { var t = e.target.closest && e.target.closest('[data-h]');
+          if (!t && S.place && e.target.closest && e.target.closest('[data-pbody]')) return { body: 1, dx: S.px - p.x, dy: S.py - p.y };
+          if (!t) return null; return { h: t.getAttribute('data-h') }; },
+        move: function (p, c) {
+          if (c.body) { S.px = Math.round(p.x + c.dx); S.py = Math.round(p.y + c.dy); draw(); return; }
+          if (c.h === 'prot') { S.pr = ((Math.round(Math.atan2(cy + S.py - p.y, p.x - cx - S.px) / RAD) % 360) + 360) % 360; draw(); return; } var deg = Math.atan2(cy - p.y, p.x - cx) / RAD; if (c.h === 'base') { var keep = [S.a, S.c]; setArm('base', deg); } else setArm(c.h, deg - S.base); draw(); },
+        up: function (p, c) { if (c.body && Math.hypot(S.px, S.py) < 12) { S.px = 0; S.py = 0; }
+          if (c.h === 'prot') { var df = ((S.pr - S.base) % 360 + 360) % 360; if (df < 4 || df > 356) S.pr = S.base; }
+          api.redraw(); }
       });
       api.onRedraw(draw);
     }
@@ -444,6 +516,7 @@
         for (var i = 0; i < L.length; i++) for (var j = i + 1; j < L.length; j++) { var a1 = Math.atan2(L[i][3] - L[i][1], L[i][2] - L[i][0]) / RAD, a2 = Math.atan2(L[j][3] - L[j][1], L[j][2] - L[j][0]) / RAD, d = Math.abs(((a1 - a2) % 180 + 180) % 180); d = Math.min(d, 180 - d);
           if (d <= 1) rel.push('Lines ' + (i + 1) + ' and ' + (j + 1) + ' are <b>parallel</b>'); else if (Math.abs(d - 90) <= 1) rel.push('Lines ' + (i + 1) + ' and ' + (j + 1) + ' are <b>perpendicular</b>'); }
         api.readout(rel.slice(-6).map(function (r) { return '<span>' + r + '.</span>'; }).join(''));
+        var lastRel = rel.length ? rel[rel.length - 1] : ''; api.report({ v: /perpendicular/.test(lastRel) ? 'perpendicular' : /parallel/.test(lastRel) ? 'parallel' : '' });
       }
       rootDrag(v, {
         down: function (p, e) {
@@ -474,9 +547,9 @@
     defaults: { cx: 9, cy: 6, r: 3, a: 0, circ: [], lines: true },
     mount: function (api) {
       var S = api.S, CM = 30, M = 20, GW = 18, GH = 12, W = GW * CM + 2 * M, H = GH * CM + 2 * M, busy = false;
-      api.say('Drag the gray point to the center and the yellow pencil to set the radius. Then tap Draw a circle.');
+      api.say('Drag the gray point to the center. Drag the yellow pencil out to open the compass, then drag it all the way around to draw the circle.');
       var bar = toolbar(api);
-      api.button('◯ Draw a circle', swing, 'primary', bar);
+      api.button('Draw it for me', swing, '', bar);
       api.button('↶ Undo', function () { S.circ.pop(); api.redraw(); }, '', bar); api.button('Clear', function () { S.circ = []; api.redraw(); }, '', bar);
       var rIn = api.num('Radius (cm)', 'r', 0.5, 8, 0.5);
       api.check('Show radius and diameter', 'lines');
@@ -496,18 +569,19 @@
           O.s('text', { x: (c0[0] + e1[0]) / 2 - 6, y: (c0[1] + e1[1]) / 2 - 8, 'font-size': 13, fill: GRN, 'text-anchor': 'end', class: 'om-num', text: 'radius ' + last[2] + ' cm' }, v);
           O.s('line', { x1: c0[0] - rr, y1: c0[1], x2: c0[0] + rr, y2: c0[1], stroke: VIO, 'stroke-width': 3 }, v);
           O.s('text', { x: c0[0], y: c0[1] + 18, 'font-size': 13, fill: VIO, 'text-anchor': 'middle', class: 'om-num', text: 'diameter ' + (last[2] * 2) + ' cm' }, v); }
-        if (sweep) O.s('polyline', { points: poly(cpts(S.cx, S.cy, S.r, S.a, S.a + sweep)), fill: 'none', stroke: NAVY, 'stroke-width': 2.5, class: 'inks' }, v);
+        if (sweep) O.s('polyline', { points: poly(cpts(S.cx, S.cy, S.r, Math.min(S.a, S.a + sweep), Math.max(S.a, S.a + sweep))), fill: 'none', stroke: NAVY, 'stroke-width': 2.5, class: 'inks' }, v);
         /* compass */
         var ang = S.a + (sweep || 0), n = [X(S.cx), X(S.cy)], pp = [X(S.cx + S.r * Math.cos(ang * RAD)), X(S.cy - S.r * Math.sin(ang * RAD))], mid = [(n[0] + pp[0]) / 2, (n[1] + pp[1]) / 2], d = Math.hypot(pp[0] - n[0], pp[1] - n[1]), Lg = 270, hh = Math.sqrt(Math.max(Lg * Lg - d * d / 4, 0)) * 0.45;
         var ux = d ? (pp[0] - n[0]) / d : 1, uy = d ? (pp[1] - n[1]) / d : 0, hinge = [mid[0] + uy * hh, mid[1] - ux * hh]; if (hinge[1] > mid[1]) hinge = [mid[0] - uy * hh, mid[1] + ux * hh];
         O.s('line', { x1: n[0], y1: n[1], x2: hinge[0], y2: hinge[1], stroke: GRAY, 'stroke-width': 7, 'stroke-linecap': 'round', opacity: .85 }, v);
         O.s('line', { x1: pp[0], y1: pp[1], x2: hinge[0], y2: hinge[1], stroke: VIO, 'stroke-width': 7, 'stroke-linecap': 'round', opacity: .85 }, v);
-        O.s('circle', { cx: hinge[0], cy: hinge[1], r: 8, fill: NAVY }, v);
+        O.s('circle', { cx: hinge[0], cy: hinge[1], r: 10, fill: NAVY, 'data-h': 'p', style: 'cursor:grab' }, v);
         O.s('line', { x1: n[0], y1: n[1], x2: pp[0], y2: pp[1], stroke: YEL, 'stroke-width': 2, 'stroke-dasharray': '4 4' }, v);
         var hn = O.s('circle', { cx: n[0], cy: n[1], r: 14, fill: 'rgba(91,100,120,.25)', stroke: GRAY, 'stroke-width': 2, 'data-h': 'n', style: 'cursor:grab' }, v); O.s('circle', { cx: n[0], cy: n[1], r: 3, fill: NAVY, style: 'pointer-events:none' }, v);
         var hp = O.s('circle', { cx: pp[0], cy: pp[1], r: 14, fill: YEL, stroke: NAVY, 'stroke-width': 2, 'data-h': 'p', style: 'cursor:grab' }, v);
         keyMove(hn, 'n'); keyMove(hp, 'p');
         api.readout(last ? '<span>Last circle: radius <b>' + last[2] + ' cm</b></span><span>Diameter <b>' + (last[2] * 2) + ' cm</b></span>' : '<span>The compass is set to <b>' + S.r + ' cm</b>.</span>');
+        api.report({ v: last ? String(last[2]) : '' });
       }
       function keyMove(h, w) { h.setAttribute('tabindex', '0'); h.setAttribute('role', 'button'); h.setAttribute('aria-label', w === 'n' ? 'Needle point. Use arrow keys to move.' : 'Pencil. Arrow keys change the radius.');
         h.addEventListener('keydown', function (e) { var k = e.key, dx = k === 'ArrowRight' ? .5 : k === 'ArrowLeft' ? -.5 : 0, dy = k === 'ArrowDown' ? .5 : k === 'ArrowUp' ? -.5 : 0; if (!dx && !dy) return; e.preventDefault();
@@ -516,12 +590,18 @@
         (function step(t) { var k = Math.min(1, (t - t0) / 1100); draw(k * 360); if (k < 1) requestAnimationFrame(step); else done(); })(t0); }
       function done() { busy = false; S.circ.push([S.cx, S.cy, S.r]); api.redraw(); }
       rootDrag(v, {
-        down: function (p, e) { if (busy) return null; var t = e.target.closest && e.target.closest('[data-h]'); return t ? { h: t.getAttribute('data-h') } : null; },
+        down: function (p, e) { if (busy) return null; var t = e.target.closest && e.target.closest('[data-h]'); if (!t) return null; var gx = (p.x - M) / CM, gy = (p.y - M) / CM, a0 = Math.atan2(S.cy - gy, gx - S.cx) / RAD;
+          return { h: t.getAttribute('data-h'), start: S.a, prev: a0, acc: 0, drawing: false }; },
         move: function (p, c) { var gx = (p.x - M) / CM, gy = (p.y - M) / CM;
-          if (c.h === 'n') { S.cx = O.clamp(Math.round(gx * 2) / 2, 0, GW); S.cy = O.clamp(Math.round(gy * 2) / 2, 0, GH); }
-          else { var r = Math.hypot(gx - S.cx, gy - S.cy); S.r = O.clamp(Math.round(r * 2) / 2, .5, 8); S.a = Math.round(Math.atan2(S.cy - gy, gx - S.cx) / RAD); rIn.value = S.r; }
-          draw(); },
-        up: function () { api.redraw(); }
+          if (c.h === 'n') { S.cx = O.clamp(Math.round(gx * 2) / 2, 0, GW); S.cy = O.clamp(Math.round(gy * 2) / 2, 0, GH); draw(); return; }
+          if (c.fin) return;
+          var r = Math.hypot(gx - S.cx, gy - S.cy), ang = Math.atan2(S.cy - gy, gx - S.cx) / RAD;
+          if (!c.drawing && Math.abs(r - S.r) >= 0.5) { S.r = O.clamp(Math.round(r * 2) / 2, .5, 8); S.a = Math.round(ang); c.start = S.a; c.prev = ang; c.acc = 0; rIn.value = S.r; draw(); return; }
+          var d = ang - c.prev; if (d > 180) d -= 360; if (d < -180) d += 360; c.acc += d; c.prev = ang;
+          if (Math.abs(c.acc) > 8) c.drawing = true;
+          if (Math.abs(c.acc) >= 356) { c.fin = true; S.circ.push([S.cx, S.cy, S.r]); S.a = Math.round(c.start + c.acc); api.redraw(); return; }
+          S.a = c.start; draw(c.drawing ? c.acc : 0); },
+        up: function (p, c) { if (c.h === 'p' && c.drawing && !c.fin) { S.a = Math.round(c.start + c.acc); O.toast('Keep going all the way around to finish the circle.'); } api.redraw(); }
       });
       api.onRedraw(function () { draw(0); });
     }
@@ -533,7 +613,7 @@
     mount: function (api) {
       var S = api.S, s = 30, a = s * 0.866, b = s / 2, MAXH = 8;
       var LC = [VIO, GRN, YEL, BLUE, ORG, RED, TEAL, '#D6457A'];
-      api.say('Tap the grid to stack a cube. Switch to Take away to remove the top cube.');
+      api.say('Drag a cube from the tray onto a square to stack it. Drag the top cube off the board to take it away.');
       var bar = toolbar(api);
       api.seg('', 'mode', [['add', '＋ Add a cube'], ['remove', '－ Take away']], null, bar);
       api.button('⟲ Turn', function () { S.rot = (S.rot + 3) % 4; api.redraw(); }, '', bar); api.button('⟳ Turn', function () { S.rot = (S.rot + 1) % 4; api.redraw(); }, '', bar);
@@ -568,9 +648,26 @@
         if (vol) { var xs = ks.map(function (k) { return +k.split('_')[0]; }), ys = ks.map(function (k) { return +k.split('_')[1]; }), bw = Math.max.apply(0, xs) - Math.min.apply(0, xs) + 1, bl = Math.max.apply(0, ys) - Math.min.apply(0, ys) + 1, h0 = S.h[ks[0]];
           if (ks.length === bw * bl && ks.every(function (k) { return S.h[k] === h0; })) out += '<span>Box: length ' + bw + ' × width ' + bl + ' × height ' + h0 + ' = ' + vol + '</span><span>A cuboid has 6 faces, 12 edges and 8 vertices.</span>';
           if (S.lay) { var mx = 0; ks.forEach(function (k) { mx = Math.max(mx, S.h[k]); }); var ls = []; for (var z = 0; z < mx; z++) ls.push('Layer ' + (z + 1) + ': ' + ks.filter(function (k) { return S.h[k] > z; }).length); out += '<span>' + ls.join(' · ') + '</span>'; } }
-        api.readout(out);
+        /* cube tray */
+        var tg = O.s('g', { 'data-tray': 1, style: 'cursor:grab' }, v); O.s('rect', { x: 8, y: 8, width: 92, height: 74, rx: 10, fill: '#F1EDFB' }, tg); iso(tg, 54, 30, 16, VIO); O.s('text', { x: 54, y: 74, 'text-anchor': 'middle', 'font-size': 11.5, fill: NAVY, text: 'Drag a cube', style: 'pointer-events:none' }, tg);
+        api.readout(out); api.report({ v: String(vol) });
       }
-      v.addEventListener('click', function (e) { var t = e.target.closest && e.target.closest('[data-k]'); if (t) act(t.getAttribute('data-k')); });
+      v.addEventListener('click', function (e) { if (Date.now() - lastDrag < 400) return; var t = e.target.closest && e.target.closest('[data-k]'); if (t) act(t.getAttribute('data-k')); });
+      var lastDrag = 0;
+      function iso(par, x, y, sz, col) { var A = sz * 0.866, Bh = sz / 2, st = { stroke: 'rgba(14,28,66,.55)', 'stroke-width': 1, 'stroke-linejoin': 'round', style: 'pointer-events:none' };
+        O.s('polygon', Object.assign({ points: poly([[x, y], [x + A, y - Bh], [x, y - 2 * Bh], [x - A, y - Bh]]), fill: shade(col, 1.35) }, st), par);
+        O.s('polygon', Object.assign({ points: poly([[x - A, y - Bh], [x, y], [x, y + sz], [x - A, y + sz - Bh]]), fill: shade(col, 0.82) }, st), par);
+        O.s('polygon', Object.assign({ points: poly([[x + A, y - Bh], [x, y], [x, y + sz], [x + A, y + sz - Bh]]), fill: shade(col, 0.62) }, st), par); }
+      function cellUnder(p) { var m = v.getScreenCTM(); if (!m) return null; var el = document.elementFromPoint(m.a * p.x + m.c * p.y + m.e, m.b * p.x + m.d * p.y + m.f); var t = el && el.closest && el.closest('[data-k]'); return t ? t.getAttribute('data-k') : null; }
+      rootDrag(v, {
+        down: function (p, e) { if (e.target.closest && e.target.closest('[data-tray]')) return { add: 1 };
+          var cg = e.target.closest && e.target.closest('g[data-k]'); if (cg) return { lift: cg.getAttribute('data-k') }; return null; },
+        move: function (p, c, moved) { if (!moved) return; if (!c.gh) { c.gh = O.s('g', { style: 'pointer-events:none', opacity: .85 }, v); iso(c.gh, 0, 0, 22, VIO); } if (!c.gh.parentNode) v.appendChild(c.gh); c.gh.setAttribute('transform', 'translate(' + p.x + ' ' + (p.y - 10) + ')'); },
+        up: function (p, c, moved) { if (c.gh && c.gh.parentNode) c.gh.remove(); if (!moved) { if (c.add) O.toast('Drag the cube onto a square.'); return; } lastDrag = Date.now();
+          var k = cellUnder(p);
+          if (c.add) { if (!k) return; var cur = S.h[k] || 0; if (cur >= MAXH) { O.toast('That stack is as tall as it can go.'); return; } S.h[k] = cur + 1; api.redraw(); return; }
+          if (c.lift) { if (k === c.lift) return; var h0 = S.h[c.lift] || 0; if (!h0) return; if (h0 === 1) delete S.h[c.lift]; else S.h[c.lift] = h0 - 1; if (k) { var c2 = S.h[k] || 0; if (c2 < MAXH) S.h[k] = c2 + 1; } api.redraw(); } }
+      });
       api.onRedraw(draw);
     }
   });

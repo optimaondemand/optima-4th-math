@@ -74,6 +74,20 @@ a{color:var(--violet)}
 .om-hint{font-size:.85rem;color:var(--mute);margin:.2rem 0 .6rem}
 .om-sidetoggle{display:none}
 
+/* folded setup (lessons with a goal) */
+.om-side.folded #om-setup{display:none}
+.om-fold{all:unset;cursor:pointer;font-family:'Lora',Georgia,serif;font-weight:700;color:var(--navy)}
+.om-fold:focus-visible{outline:3px solid var(--yellow)}
+
+/* goal bar */
+.om-goal{display:flex;flex-wrap:wrap;gap:.5rem 1rem;align-items:center;margin:0 0 .7rem;padding:.5rem .8rem;border:2px dashed var(--violet);border-radius:12px;font-weight:800}
+.om-goal[hidden]{display:none}
+.om-gt{color:var(--navy)}
+.om-gs{font-weight:700}
+.om-gs.ok{color:var(--green);font-weight:800}
+.om-gs.hint{color:#B45309}
+body.board.dark .om-gt{color:#fff}
+
 /* student directions */
 .om-how{margin:0 0 .7rem;background:var(--yellow-l);border-radius:12px;padding:.5rem .9rem}
 .om-how summary{font-weight:800;cursor:pointer;color:var(--navy)}

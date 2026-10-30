@@ -81,6 +81,12 @@ window.OAOM_DATA = (function () {
     { id: 'compass', g: 'Geometry', name: 'Compass', grades: [3, 4, 5], src: 'kit',
       kit: 'Plastic Safety Compass', home: 'A pencil tied to a string with a pushpin.',
       what: 'Set the radius and swing the pencil to draw circles.' },
+    { id: 'trademat', g: 'Measurement', name: 'Trade Mat', grades: [3, 4, 5], src: 'model',
+      kit: 'Place Value Discs used as “big” and “small” units, like the kit’s disc mat', home: 'Two kinds of coins or buttons: one kind is the big unit, the other the small unit.',
+      what: 'Add and take away amounts with two units, like feet and inches, trading 1 big for 12, 16 or 100 small.' },
+    { id: 'barstrip', g: 'Measurement', name: 'Bar Strip', grades: [3, 4, 5], src: 'model',
+      kit: 'Fraction Tiles and a Folding Meter/Yard Stick', home: 'Paper strips cut to the same length.',
+      what: 'Fill one long bar with smaller pieces to see how many fit, or compare two amounts on the same scale.' },
     { id: 'cubes', g: 'Geometry', name: 'Unit Cubes', grades: [4, 5], src: 'kit',
       kit: 'Centimeter Cubes, Linking Cubes, Liter Cube', home: 'Sugar cubes or small blocks.',
       what: 'Stack cubes to build boxes and find volume.' }
@@ -93,32 +99,34 @@ window.OAOM_DATA = (function () {
 
   /* ───── Student directions (shown on every tool page, in lesson bundles and in the Canvas embed code) ───── */
   var HOW = {
-    discs: ['Tap + under a column to add a disc. Tap − to take one away.', 'Tap a disc to break it into 10 discs of the next smaller place.', 'When a column has 10 or more, tap Trade 10 to swap them for 1 bigger disc.', 'Read the value under the chart. Does it match your number?'],
-    pvcards: ['Type a number in the box, or use the number your teacher set.', 'Tap the cards to pull them apart. Each card shows what one digit is worth.', 'Tap again to push them back together into one number.', 'Say the number out loud, then read the expanded form.'],
-    blocks: ['Tap + to add a thousand, hundred, ten or one.', 'Tap a block to break it into 10 smaller blocks.', 'When a column has 10 or more, tap Group 10 to make 1 bigger block.', 'Read the total under the mat.'],
+    discs: ['Drag a disc from the tray onto its column to add it.', 'Drag a disc onto the next smaller column to break it into 10.', 'Got 10 or more? Drag one up onto the bigger column to trade 10 for 1.', 'Drag a disc off the mat to take it away. Read your number below.'],
+    pvcards: ['Drag a card down to pull it out of the stack.', 'Each card shows what one digit is worth.', 'Drag the cards back up to push them together into one number.', 'Say the number, then say what each card is worth.'],
+    blocks: ['Drag a block from the tray onto its column to add it.', 'Drag a block onto the next smaller column to break it into 10.', 'Got 10 or more? Drag one up onto the bigger column to group 10 into 1.', 'Drag a block off the mat to take it away.'],
     bond: ['Tap a circle and type a number.', 'Type ? in the circle for the number you need to find.', 'Parts go in the small circles. The whole goes in the big circle.', 'Check: do the parts add up to the whole?'],
-    bar: ['Start from a bar model in Set up, or build your own bars.', 'Give each bar a name and type the numbers you know.', 'Put ? where the number you need to find goes.', 'Tap a piece to color it. Then write the number sentence on your paper.'],
-    numberline: ['Look at the numbers at each end of the line.', 'Tap a mark to put a dot on it. Tap the dot again to take it off.', 'To show a jump, turn on Hops. Tap where the hop starts, then where it lands.', 'Say the number at each dot before you check.'],
-    counters: ['Array: tap a counter to flip it from red to yellow.', 'Tap between two columns to split the array into two smaller arrays.', 'Share: tap Deal one to share counters into the groups, one at a time.', 'Count what is in each group and what is left over.'],
-    hundred: ['Tap a number to color it. Tap again to change the color.', 'In Set up, choose a number to skip-count by. Those numbers light up.', 'Pick a second number to see where both colors land.', 'Look for a pattern. Say what you notice.'],
+    bar: ['Start from a bar model in Set up, or build your own bars.', 'Type the numbers you know. Put ? where the number you need to find goes.', 'Drag the end of a piece to make it longer or shorter.', 'Tap a piece to color it. Then write the number sentence on your paper.'],
+    numberline: ['Drag a dot from the cup onto the line. It snaps to a mark.', 'Slide a dot along the line, or drag it off to take it away.', 'To show a jump, turn on Hops and drag from one mark to another.', 'Say the number at each dot before you check.'],
+    counters: ['Array: drag across counters to flip them from red to yellow.', 'Drag the scissors between two columns to split the array.', 'Share: drag counters from the pile into the groups.', 'Make the groups equal. What is left over?'],
+    hundred: ['Tap a number, or drag across numbers, to color them.', 'In Set up, choose a number to skip-count by. Those numbers light up.', 'Pick a second number to see where both colors land.', 'Look for a pattern. Say what you notice.'],
     dice: ['Pick dice, number cards or fact cards.', 'Tap Roll, or tap Next card.', 'For a number game, tap a box to place each digit.', 'Say your number or answer before you check.'],
-    fbars: ['The top bar is 1 whole. Every row below is the same whole cut into equal tiles.', 'Tap tiles to shade them.', 'Drag the yellow line to see which tiles line up.', 'Tiles that end at the same line are equal amounts.'],
-    fcircles: ['Each circle is 1 whole cut into equal slices.', 'Tap slices to shade them.', 'Fill a whole circle before you start the next one.', 'Read your amount as a fraction and as a mixed number.'],
-    decgrid: ['One whole grid is 1.', 'Tap or drag across squares to shade them.', 'A column of 10 small squares is 1 tenth.', 'Read your shaded amount as a decimal and as a fraction.'],
-    money: ['Tap coins and bills in the tray to put them on the mat.', 'Tap money on the mat to take it off.', 'Count from the biggest bill or coin to the smallest.', 'Making change? Count up from the price to the amount paid.'],
+    fbars: ['The top bar is 1 whole.', 'Drag fraction tiles from the tray onto the bar. They line up end to end.', 'Drag a tile off the bar to take it away.', 'Do your tiles fill the whole? Read the sum below the bar.'],
+    fcircles: ['Each circle is 1 whole cut into equal slices.', 'Drag a slice from the tray into a circle, or drag across slices to shade them.', 'Fill a whole circle before you start the next one.', 'Read your amount as a fraction and as a mixed number.'],
+    decgrid: ['One whole grid is 1.', 'Drag across squares to shade them.', 'A column of 10 small squares is 1 tenth.', 'Read your shaded amount as a decimal and as a fraction.'],
+    money: ['Drag coins and bills from the tray onto the mat.', 'Drag money off the mat to take it away.', 'Count from the biggest bill or coin to the smallest.', 'Making change? Count up from the price, and drag the change into the box.'],
     ruler: ['Drag the ribbon so its left end is on 0.', 'Drag the round end to make the ribbon longer or shorter.', 'Read the mark at the right end.', 'Say the length and the unit, like “7 centimeters”.'],
-    scale: ['Scale: read where the red pointer stops. Count by the small marks.', 'You can drag the pointer to show a weight.', 'Balance: tap weights to put them on the right pan.', 'When the pans are level, the box weighs the same as the weights.'],
-    beaker: ['Drag up or down inside a beaker to fill it.', 'Read the mark at the top of the water. Count by the small marks.', 'Tap Pour to move water from one beaker to the other.', 'Say the amount and the unit, like “650 milliliters”.'],
-    clock: ['Drag the long hand to move the minutes. The short hand follows.', 'Read the hour first, then the minutes.', 'For time passed, set a start time, then move the hands to the end time.', 'Count the hours, then the minutes, from start to end.'],
-    tiles: ['Tap or drag across the grid to lay square tiles.', 'Tap a tile to pick it up again.', 'Count the squares to find the area.', 'Turn on the outline and count the edges to find the perimeter.'],
-    geoboard: ['Tap pins one at a time to stretch a band.', 'Tap the first pin again to close the shape.', 'Count the sides and look for square corners.', 'Tap Remove band to start a new shape.'],
+    scale: ['Drag the box onto the scale. Read where the red pointer stops.', 'Count by the small marks to find what each one is worth.', 'Balance: drag weights onto the right pan until the pans are level.', 'Level pans mean the box weighs the same as the weights.'],
+    beaker: ['Drag up or down inside a beaker to fill it.', 'Read the mark at the top of the water. Count by the small marks.', 'Drag the yellow pour handle over the other beaker to pour.', 'Say the amount and the unit, like “650 milliliters”.'],
+    clock: ['Drag the long hand to move the minutes. The short hand follows.', 'Read the hour first, then the minutes.', 'For time passed, set the start time, then drag the long hand forward.', 'Count the hours, then the minutes, from start to end.'],
+    trademat: ['Drag pieces from the tray onto the mat to build the amount.', 'Drag a big piece onto the small column to break it.', 'Got enough small pieces? Drag one onto the big column to trade.', 'Taking away? Drag pieces into the box. Read what is left.'],
+    barstrip: ['The long bar is the whole.', 'Drag pieces from the tray onto the bar. They line up end to end.', 'Drag a piece off the bar to take it away.', 'How many pieces fill the bar? Comparing? Fill both bars and look.'],
+    tiles: ['Drag a color tile onto the grid, or drag across the grid to lay tiles.', 'Drag a tile off the grid to pick it up.', 'Count the squares to find the area.', 'Turn on the outline and count the edges to find the perimeter.'],
+    geoboard: ['Press on a pin and stretch the band to another pin.', 'Keep stretching from pin to pin. End on the first pin to close the shape.', 'Drag a corner to a new pin to change the shape.', 'Count the sides and look for square corners.'],
     whiteboard: ['Pick grid, dots, lines or blank paper.', 'Pick a color and draw with your finger or mouse.', 'Use the line tool for straight lines and Undo to fix a mistake.', 'Show every step of your thinking.'],
-    tangram: ['Drag a piece into the gray shape.', 'Tap a piece, then tap Turn or Flip.', 'Keep going until every piece fits with no gaps.', 'Stuck? Ask your teacher before you peek at the answer.'],
-    pattern: ['Drag blocks from the top onto the mat.', 'Tap a block, then tap Turn.', 'Drag a block back to the top to put it away.', 'Fractions: if the yellow hexagon is 1 whole, how much is each block?'],
-    protractor: ['Put the center of the protractor on the corner of the angle.', 'Line up one arm with 0.', 'Drag the green arm. Read the scale that starts at 0.', 'Ask yourself: is the angle smaller or bigger than a right angle?'],
-    setsquare: ['Pick Move to slide or turn a ruler or triangle.', 'Pick Draw, then drag along an edge to draw a straight line.', 'Perpendicular: draw along both short edges of a triangle corner.', 'Parallel: slide the triangle along the ruler and draw again.'],
-    compass: ['Drag the gray point to where the center goes.', 'Drag the yellow pencil to set how wide the circle is.', 'Tap Draw a circle.', 'The radius goes from the center to the edge. The diameter goes all the way across.'],
-    cubes: ['Tap a square on the grid to stack a cube there.', 'Pick Take away to remove the top cube.', 'Turn the view to see the back.', 'Count the cubes. That is the volume.']
+    tangram: ['Drag a piece into the gray shape.', 'Drag the round handle to turn a piece.', 'Keep going until every piece fits with no gaps.', 'Stuck? Ask your teacher before you peek at the answer.'],
+    pattern: ['Drag blocks from the top onto the mat.', 'Drag the round handle to turn a block.', 'Drag a block back to the top to put it away.', 'Fractions: if the yellow hexagon is 1 whole, how much is each block?'],
+    protractor: ['The center of the protractor sits on the corner of the angle.', 'One arm lines up with 0.', 'Drag the green arm. Read the scale that starts at 0.', 'Ask yourself: is the angle smaller or bigger than a right angle?'],
+    setsquare: ['Drag a ruler or triangle to slide it. Drag its handle to turn it.', 'Pick Draw, then drag along an edge to draw a straight line.', 'Perpendicular: draw along both short edges of a triangle corner.', 'Parallel: slide the triangle along the ruler and draw again.'],
+    compass: ['Drag the gray point to where the center goes.', 'Drag the yellow pencil out to open the compass.', 'Drag the pencil all the way around to draw the circle.', 'The radius goes from the center to the edge. The diameter goes all the way across.'],
+    cubes: ['Drag a cube from the tray onto a square to stack it.', 'Drag the top cube off to take it away.', 'Turn the view to see the back.', 'Count the cubes. That is the volume.']
   };
   tools.forEach(function (t) { t.how = HOW[t.id] || []; });
 
@@ -129,7 +137,8 @@ window.OAOM_DATA = (function () {
   function BAR(rows, cmp) { return { bars: rows, cmp: cmp ? { on: 1, a: cmp[0], b: cmp[1], l: cmp[2] } : { on: 0, a: 0, b: 1, l: '' } }; }
   function RECT(w, h, x0, y0, col) { var c = {}; for (var x = 0; x < w; x++) for (var y = 0; y < h; y++) c[(x + (x0 || 0)) + '_' + (y + (y0 || 0))] = col || 0; return c; }
   function BOX(L, W, H) { var h = {}; for (var x = 0; x < L; x++) for (var y = 0; y < W; y++) h[x + '_' + y] = H; return h; }
-  function T(t, p, s, tip) { return { t: t, p: p || null, s: s || '', tip: tip || '' }; }
+  function T(t, p, s, tip, g) { return { t: t, p: p || null, s: s || '', tip: tip || '', g: g || null }; }
+  /* goal: [what to do, answer, [[wrong answer, hint that points where to look]...], report key] */
 
   var U = {
     /* ═════════ GRADE 3 ═════════ */
@@ -234,7 +243,7 @@ window.OAOM_DATA = (function () {
       L: {
         '3.11.03': [T('bond', { parts: 2, w: '1 km', p: ['650 m', '?'] }, 'What goes with 650 m to make 1 kilometer?', '1 km = 1,000 m.'), T('numberline', { a: 0, b: 2000, parts: 20, mode: 'whole', lab: 'ends' }, 'Put a dot on 1 km 300 m. How many meters is that?', '')],
         '3.11.04': [T('bond', { parts: 2, w: '1,000', p: ['375', '?'] }, 'Take 375 m away from 1 km. Use the bond.', '')],
-        '3.11.05': [T('beaker', { u: 'ml', mx: 2000, tk: 100, c: 2, a0: 1250, a1: 600 }, 'How much water is in each beaker? How much in all?', '1 L = 1,000 mL.')],
+        '3.11.05': [T('beaker', { u: 'ml', mx: 2000, tk: 100, c: 2, tk: 50, a0: 1250, a1: 600 }, 'How much water is in each beaker? How much in all?', '1 L = 1,000 mL.')],
         '3.11.06': [T('scale', { m: 'dial', u: 'kg', mx: 1, tk: 20, w: 640 }, 'What does the scale show? How many more grams make 1 kg?', 'Count the small marks to find their value first.'), T('scale', { m: 'bal', bw: 350 }, 'Balance the box. How heavy is it?', '')],
         '3.11.07': [T('bar', BAR([R('', '2 kg', 'above', [['', '750 g', 1], ['', '?', 0]])]), 'Find the missing part. Change kilograms to grams first.', '')]
       } },
@@ -336,7 +345,7 @@ window.OAOM_DATA = (function () {
     '4.10': { name: 'Measurement', tools: [
       T('ruler', { u: 'cm', a: 0, b: 7.5, len: 7.5 }, 'How long is the ribbon in centimeters? In millimeters?', ''),
       T('bar', BAR([R('1 ft', '12 in', 'above', 3)]), 'One foot is 12 inches. What is 1 unit? 2 units?', 'Bar Strip with 12 pieces works well here.'),
-      T('bond', { parts: 2, w: '2 m 35 cm', p: ['2 m', '?'] }, 'Split the measurement into two parts.', 'Number bonds for compound units.') ],
+      T('trademat', { u: 'ftin', b0: 3, s0: 8, take: 0 }, 'Add 1 ft 6 in to the mat. Trade 12 inches for 1 foot when you can.', 'The Trade Mat makes the 12-for-1 trade a hand move.') ],
       L: {
         '4.10.02': [T('ruler', { u: 'yd', a: 0, b: 27, len: 27 }, 'How long is the ribbon in inches? In feet and inches?', '')],
         '4.10.03': [T('scale', { m: 'dial', u: 'lb', mx: 5, tk: 2, w: 38 }, 'Read the scale in pounds and ounces.', '1 lb = 16 oz.')],
@@ -473,12 +482,53 @@ window.OAOM_DATA = (function () {
 
   /* build lesson records */
   var unitNames = {};
+
+  /* ───── Goals (✓ + mistake hints) and hands-on extras. These go FIRST for the lesson, so the goal tool is the main tool. ───── */
+  var FIRST = {
+    '3.01.01': [T('blocks', { c: {} }, 'Build 1,234 with blocks.', 'Students build from the biggest block down.', ['Build 1,234 with blocks.', '1234', [['1243', 'Check the tens and ones. 1,234 has 3 tens and 4 ones.']]])],
+    '3.01.02': [T('discs', { hi: 3, lo: 0, c: {} }, 'Build 4,072 with discs.', 'The empty hundreds column is the point: we still write the 0.', ['Build 4,072.', '4072', [['472', 'Look at the thousands. 4,072 starts with 4 thousands.'], ['4720', 'Check the tens and ones. 4,072 has 7 tens and 2 ones.'], ['4702', 'Check the tens. 4,072 has 7 tens and 0 hundreds.']]])],
+    '3.03.01': [T('discs', { hi: 3, lo: 0, c: { 2: 4, 1: 7, 0: 8 } }, 'The mat shows 478. Add 365, then trade until no column has 10 or more.', 'The answer is right only after every trade is made.', ['Add 365 and make every trade.', '0,8,4,3', [['0,7,13,13', 'Look at the ones: 13 ones. Drag one up to trade 10 ones for 1 ten.'], ['0,7,14,3', 'Look at the tens: 14 tens. Drag one up to trade 10 tens for 1 hundred.'], ['0,8,3,13', 'Look at the ones: 13 ones. Trade 10 of them for 1 ten.']], 'places'])],
+    '3.03.02': [T('discs', { hi: 2, lo: 0, c: { 2: 5, 1: 2, 0: 3 } }, 'Take away 168 from 523. Break a disc when you don’t have enough.', 'Students break a ten, then a hundred, before they subtract.', ['Take away 168.', '355', [['691', 'You added. Drag 168 off the mat instead.']]])],
+    '3.03.03': [T('discs', { hi: 3, lo: 0, c: { 3: 1 } }, 'Take away 1 from 1,000. Break one disc at a time.', 'Subtracting across zeros: break 1,000 → 10 hundreds → 9 hundreds 10 tens, and so on.', ['Take away 1.', '999'])],
+    '3.04.05': [T('counters', { mode: 'share', n: 14, g: 3 }, 'Share 14 counters into 3 equal groups. How many are left over?', 'The remainder must be less than the number of groups.', ['Share 14 into 3 equal groups.', '4'])],
+    '3.09.01': [T('fcircles', { c: 1, n: 4 }, 'Shade 3 fourths of the circle.', 'Equal parts first.', ['Shade 3 fourths.', '3/4', [['1/4', 'That is 1 fourth. Shade 2 more slices.'], ['1', 'That is the whole circle. Take one slice away.']]])],
+    '3.10.06': [T('fbars', { bm: 'build', d: [5], bt: [] }, 'Build 2 fifths, then add 2 more fifths.', 'Add like fractions by counting unit fractions.', ['Show 2 fifths + 2 fifths.', '4/5'])],
+    '3.11.02': [T('trademat', { u: 'mcm', b0: 1, s0: 0, b: 1, sp: [0, 0], take: 1, tb: 0, ts: 64, zb: 0, zp: [0, 0] }, 'Take 64 cm away from 1 m. Break the meter first.', 'Breaking 1 m into 100 cm is the key move.', ['Take away 64 cm.', '36'])],
+    '3.11.04': [T('trademat', { u: 'kmm', b0: 1, s0: 0, take: 1, tb: 0, ts: 375 }, 'Take 375 m away from 1 km.', '1 km = 1,000 m.', ['Take away 375 m.', '625'])],
+    '3.12.07': [T('compass', { r: 2 }, 'Open the compass to 4 cm and draw a circle.', 'Practice on screen, then with the safety compass.', ['Draw a circle with a 4 cm radius.', '4', [['8', 'That is the diameter. The radius is half as long.']]])],
+    '4.01.01': [T('discs', { hi: 5, lo: 0, c: {} }, 'Build 230,406 with discs.', 'Read the thousands period, then the ones period.', ['Build 230,406.', '230406', [['23406', 'Look at the ten thousands. 230,406 has 3 ten thousands and 0 thousands.'], ['234060', 'Check each column against the number, one place at a time.']]])],
+    '4.06.01': [T('fbars', { bm: 'build', d: [6], bt: [] }, 'Use sixth tiles to make the same amount as 2 thirds.', 'Build it, then line it up against thirds.', ['Make 2 thirds out of sixths.', '2/3', [['1/2', 'That is 3 sixths. Line it up with 2 thirds. Is it as long?']]])],
+    '4.07.01': [T('fbars', { bm: 'build', d: [8], bt: [] }, 'Build 3 eighths, then add 4 more eighths.', '', ['Show 3 eighths + 4 eighths.', '7/8', [['7/16', 'Eighths stay eighths. Count the tiles: how many eighths?']]])],
+    '4.10.01': [T('trademat', { u: 'mcm', b0: 2, s0: 35, take: 0 }, 'Add 1 m 80 cm to the mat. Then trade 100 cm for 1 m.', 'Two-unit adding with a trade.', ['Add 1 m 80 cm and trade.', '4', [['3', 'You have 115 cm. That is more than 1 m. Trade 100 cm for 1 m.']], 'b'])],
+    '4.10.02': [T('trademat', { u: 'ftin', b0: 5, s0: 1, b: 5, sp: [1], take: 1, tb: 2, ts: 6 }, 'Take 2 ft 6 in away from 5 ft 1 in.', 'Break a foot into 12 inches when the inches run out.', ['Take away 2 ft 6 in.', '31', [['37', 'Look in the box. It should hold 2 ft and 6 in.']]]),
+                T('barstrip', { mode: 'fill', whole: 12, wl: '1 ft', piece: 1, unit: 'in', hide: 1 }, 'How many inches fill 1 foot?', '', ['Fill the foot with inches.', '12'])],
+    '4.10.03': [T('trademat', { u: 'lboz', b0: 3, s0: 4, b: 3, sp: [4], take: 1, tb: 1, ts: 9 }, 'Take 1 lb 9 oz away from 3 lb 4 oz.', '1 lb = 16 oz.', ['Take away 1 lb 9 oz.', '27'])],
+    '4.10.04': [T('trademat', { u: 'galqt', b0: 2, s0: 1, take: 0 }, 'Add 1 gal 3 qt. Then trade 4 quarts for 1 gallon.', '1 gal = 4 qt.', ['Add 1 gal 3 qt and trade.', '4', [['3', 'You have 4 quarts or more. Trade 4 quarts for 1 gallon.']], 'b'])],
+    '4.10.05': [T('trademat', { u: 'hmin', b0: 1, s0: 40, take: 0 }, 'Add 35 minutes. Then trade 60 minutes for 1 hour.', '1 h = 60 min.', ['Add 35 min and trade.', '2', [['1', 'You have 60 minutes or more. Trade them for 1 hour.']], 'b'])],
+    '4.10.06': [T('barstrip', { mode: 'fill', whole: 12, wl: '1 ft', piece: 3, pl: '3 in', unit: 'in', hide: 1 }, 'How many 3-inch pieces fill 1 foot? So 3 inches is what fraction of a foot?', '', ['Fill the foot with 3-inch pieces.', '4'])],
+    '4.11.01': [T('tiles', { cols: 10, rows: 8, unit: 'cm' }, 'Make a rectangle 6 tiles long and 4 tiles wide.', 'Rows × columns leads to length × width.', ['Make a 6 by 4 rectangle.', '24'])],
+    '4.11.04': [T('tiles', { cols: 12, rows: 8, edge: true, unit: 'm' }, 'Make a rectangle with a perimeter of 14 m.', '', ['Make a perimeter of 14 m.', '14', [], 'p'])],
+    '4.12.03': [T('decgrid', { m: 'h', c: 1 }, 'Shade 0.35 of the grid.', 'Tenths are columns, hundredths are squares.', ['Shade 0.35.', '0.35', [['0.53', 'Look at the columns. 0.35 is 3 tenths (columns) and 5 hundredths (squares).'], ['3.5', 'One whole grid is 1. Is 0.35 more than a whole?']]])],
+    '4.15.02': [T('protractor', { target: '135' }, 'Make an angle of 135°.', 'Which scale starts at 0 on the arm?', ['Make 135°.', '135', [['45', 'You read the other scale. Start at 0 on the bottom arm and count up.']]])],
+    '4.15.03': [T('protractor', { target: '70' }, 'Draw a 70° angle.', '', ['Make 70°.', '70', [['110', 'You read the other scale. Start at 0 on the bottom arm.']]])],
+    '5.08.02': [T('cubes', { n: 6, cm: true }, 'Build a box 4 cubes long, 3 wide and 2 high.', 'Layers lead to length × width × height.', ['Build a 4 by 3 by 2 box.', '24', [['12', 'That is one layer. How many layers high is the box?']]])],
+    '5.09.01': [T('decgrid', { m: 'th' }, 'Shade 0.125 of the grid.', '', ['Shade 0.125.', '0.125', [['0.25', 'Look at the thousandths. 0.125 has 1 tenth, 2 hundredths and 5 thousandths.']]])]
+  };
+  /* tools whose readout would give away an answer the Try this asks for */
+  var READOUT = { discs: 1, pvcards: 1, blocks: 1, numberline: 1, counters: 1, fbars: 1, fcircles: 1, decgrid: 1, money: 1, ruler: 1, scale: 1, beaker: 1, clock: 1, tiles: 1, geoboard: 1, protractor: 1, compass: 1, cubes: 1, trademat: 1, barstrip: 1, pattern: 1 };
+  function finish(t) {
+    var p = Object.assign({}, t.p || {});
+    if (t.g) p._g = { t: t.g[0], v: t.g[1], m: t.g[2] || [], k: t.g[3] || 'v' };
+    if (READOUT[t.t] && (t.g || /\?/.test(t.s))) p._r = 0;
+    return { t: t.t, p: Object.keys(p).length ? p : null, s: t.s, tip: t.tip, goal: t.g ? t.g[0] : '' };
+  }
+
   LESSONS.forEach(function (x) {
     var id = x[0], g = +id[0], uid = id.slice(0, 4), u = U[uid] || { name: 'Unit ' + uid.slice(2), tools: [] };
-    var extra = (u.L && u.L[id]) || [], have = {}, list = extra.slice();
-    extra.forEach(function (t) { have[t.t] = 1; });
+    var extra = (FIRST[id] || []).concat((u.L && u.L[id]) || []), have = {}, list = [];
+    extra.forEach(function (t) { if (!have[t.t]) { have[t.t] = 1; list.push(t); } });
     u.tools.forEach(function (t) { if (!have[t.t]) list.push(t); });
-    lessons.push({ id: id, g: g, unit: uid, unitName: u.name, title: x[1], file: x[2], url: base[g] + x[2], tools: list.slice(0, 4) });
+    lessons.push({ id: id, g: g, unit: uid, unitName: u.name, title: x[1], file: x[2], url: base[g] + x[2], tools: list.slice(0, 3).map(finish) });
     units[uid] = { id: uid, g: g, name: u.name };
   });
 

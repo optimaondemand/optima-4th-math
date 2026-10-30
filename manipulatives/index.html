@@ -34,6 +34,12 @@
 .ltool .hd{display:flex;gap:.55rem;align-items:center;font-weight:800}
 .ltool .hd svg{width:36px;height:36px;flex:none}
 .ltool .try{font-size:.93rem}
+.ltool.main{border-color:var(--violet);border-width:3px}
+.ltool .role{font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mute)}
+.ltool.main .role{color:var(--violet)}
+.ltool .goal{font-size:.88rem;font-weight:800;color:var(--navy)}
+.ltool .goal span{font-weight:600;color:var(--mute)}
+.chip.main{border-color:var(--violet);border-width:2px}
 .ltool .tip{font-size:.85rem;color:var(--mute);background:var(--bg);border-radius:8px;padding:.35rem .5rem}
 .ltool .tip b{color:var(--navy)}
 .ltool .om-row{margin-top:auto}
@@ -150,7 +156,8 @@
       '<div class="om-row" style="margin:0 0 .8rem">' + openBtn(OAOM.lessonURL(l.id), 'Open all ' + l.tools.length + ' tools together', 'primary') + '<button class="om-btn small" data-lshare="' + l.id + '">Share with students</button>' + openBtn(OAOM.lessonURL(l.id, '&board=1'), 'Big screen') + '</div><div class="ltools">';
     l.tools.forEach(function (t, i) {
       var m = toolById[t.t];
-      h += '<div class="ltool"><div class="hd">' + I[t.t] + '<span>' + esc(m.name) + '</span></div>' +
+      h += '<div class="ltool' + (i === 0 ? ' main' : '') + '"><div class="hd">' + I[t.t] + '<span>' + esc(m.name) + '<br><small class="role">' + (i === 0 ? 'Main tool' : 'Also try') + '</small></span></div>' +
+        (t.goal ? '<div class="goal">🎯 ' + esc(t.goal) + ' <span>(checks the answer, with hints)</span></div>' : '') +
         (t.s ? '<div class="try"><b style="color:var(--green)">Try this:</b> ' + esc(t.s) + '</div>' : '') +
         (t.tip ? '<div class="tip"><b>Teacher tip:</b> ' + esc(t.tip) + '</div>' : '') +
         '<div class="om-row">' + openBtn(toolLink(t), 'Open') + '<button class="om-btn small" data-tshare="' + l.id + '|' + i + '">Share</button></div></div>';
@@ -182,7 +189,7 @@
       h += '<details class="unit"><summary><span class="num">Unit ' + (+u.slice(2)) + '</span>' + esc(ls[0].unitName) + ' <span style="color:var(--mute);font-weight:600">· ' + ls.length + ' lessons</span><span class="chips">' + Object.keys(tset).slice(0, 7).map(function (k) { return I[k]; }).join('') + '</span></summary>';
       ls.forEach(function (l) {
         h += '<div class="lrow"><span class="id">' + l.id + '</span><div><div class="t"><a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.title) + '</a></div><div class="tl">' +
-          l.tools.map(function (t) { return '<a class="chip" href="' + esc(toolLink(t)) + '" target="_blank" rel="noopener" title="' + esc(t.s || '') + '">' + I[t.t] + esc(toolById[t.t].name) + '</a>'; }).join('') +
+          l.tools.map(function (t, k) { return '<a class="chip' + (k === 0 ? ' main' : '') + '" href="' + esc(toolLink(t)) + '" target="_blank" rel="noopener" title="' + esc(t.s || '') + '">' + I[t.t] + esc(toolById[t.t].name) + '</a>'; }).join('') +
           '</div></div><div class="acts"><button class="om-btn small" data-lopen="' + l.id + '">Details</button><button class="om-btn small primary" data-lshare="' + l.id + '">Share</button></div></div>';
       });
       h += '</details>';
@@ -234,6 +241,7 @@
     view.innerHTML = '<div class="guide">' +
       '<h2>Share a tool that is already set up</h2><ol><li>Open a tool and set it up the way you want: the number on the disc mat, the fraction rows, the bar model, and so on.</li><li>Tap <b>Share</b>. The student link opens the tool exactly as you left it.</li><li>Students can change anything. <b>Start over</b> takes them back to your setup.</li></ol>' +
       '<h2>Put it in Canvas</h2><ol><li>Tap <b>Share</b> and copy the <b>Canvas embed code</b>. It has the student directions and the tool together.</li><li>In Canvas, edit the page, open the HTML editor (&lt;/&gt;), and paste.</li><li>For a whole lesson, use <b>Share</b> on the lesson row. One link opens every tool for that lesson as tabs, each with its own Try this.</li></ol>' +
+      '<h2>Hands on, not buttons</h2><ul><li>Students move the pieces with their hand: drag a disc onto the mat, drag it up to trade 10 for 1, stretch a band, swing the compass, pour the beaker. The small buttons are only there for keyboard users.</li><li>Each lesson has one <b>main tool</b> and up to two to <b>also try</b>. Start with the main tool.</li><li>When a Try this asks a question, the totals start hidden. Students work it out, then tap <b>Check my answer</b>. Tools with a 🎯 goal show ✓ when it’s right and a hint that points where to look when it’s a common mistake.</li></ul>' +
       '<h2>Live class</h2><ul><li><b>Big screen</b> makes the tool large and hides the setup panel. Use <b>Dark</b> for projectors and <b>Full screen</b> to hide the browser.</li><li><b>Hide totals</b> hides the readout so students have to count or read the tool themselves. This setting is saved in the link you share.</li><li>Each Share box has a <b>QR code</b> so students on tablets can scan and open the same setup.</li></ul>' +
       '<h2>Touch it, see it, write it</h2><ul><li>When students have the kit, start with the real thing, then use the screen tool to show the same idea big. Ask them to write the numbers last.</li><li>Ask students to tell you what the tool shows before they look at the readout: “How did you know?”</li><li>Fade the tool once students can explain it. The goal is the math, not the tool.</li></ul>' +
       '<h2>Print</h2><ul><li><b>Print</b> on any tool prints the current picture with a name and date line. Clear the tool first to print a blank template, like a place-value chart, hundred chart or dot paper.</li></ul>' +

@@ -17,6 +17,17 @@
     });
   }
   function P(host, e) { return O.pt(host.querySelector('svg'), e); }
+  /* carry(host, t, e, drop): drag a copy of svg node t with the pointer; drop(p, moved) on release (moved=false means a tap) */
+  function carry(host, t, e, drop, opt) {
+    var svg = host.querySelector('svg'), p0 = P(host, e), ghost = null, moved = false; opt = opt || {};
+    return { move: function (ev) {
+      var p = P(host, ev);
+      if (!moved && Math.hypot(p.x - p0.x, p.y - p0.y) < 6) return;
+      if (!moved) { moved = true; ghost = t.cloneNode(true); ghost.removeAttribute('data-drag'); ghost.style.opacity = .9; ghost.style.pointerEvents = 'none'; svg.appendChild(ghost); if (opt.dim) t.style.opacity = .3; }
+      ghost.setAttribute('transform', 'translate(' + (p.x - p0.x) + ' ' + (p.y - p0.y) + ')');
+      if (opt.over) opt.over(p, ghost);
+    }, end: function (ev) { if (ghost) ghost.remove(); drop(P(host, ev), moved); } };
+  }
   /* arrow keys on an svg handle */
   function keys(node, fn, label) {
     node.setAttribute('tabindex', '0'); node.setAttribute('role', 'slider'); if (label) node.setAttribute('aria-label', label);
@@ -34,6 +45,10 @@
     return g;
   }
   function lcm(a, b) { return a / O.gcd(a, b) * b; }
+  /* k out of d as a report string: 'a/b' simplified, or a whole number */
+  function fracStr(k, d) { if (!k) return '0'; var g = O.gcd(k, d); return d / g === 1 ? String(k / g) : (k / g) + '/' + (d / g); }
+  /* tap after a drag: the click that follows a paint/drag must not toggle again */
+  function guard() { var on = false; return { set: function () { on = true; setTimeout(function () { on = false; }, 60); }, hit: function () { if (on) { on = false; return true; } return false; } }; }
   /* k out of d, written the way a 4th grader would: 3/4, 6/4 = 1 1/2, 4/4 = 1 */
   function fracWords(k, d) {
     if (k === 0) return '0';
@@ -60,11 +75,13 @@
 
   /* ═════════ FRACTION TILES ═════════ */
   O.register('fbars', {
-    defaults: { d: [2, 3, 4, 6, 8, 12], w: 1, lab: 1, sh: {}, gd: 1, gx: 0.5 },
+    defaults: { d: [2, 3, 4, 6, 8, 12], w: 1, lab: 1, sh: {}, gd: 1, gx: 0.5, bm: 'build', bt: [] },
     mount: function (api) {
-      var S = api.S;
-      api.say('Tap tiles to shade them. Drag the yellow line to see which tiles line up.');
-      api.heading('Rows to show');
+      var S = api.S; if (!S.bt) S.bt = [];
+      /* an older link with shaded wall tiles opens on the wall */
+      if (!S.bt.length && Object.keys(S.sh || {}).some(function (k) { return S.sh[k].length; })) S.bm = 'wall';
+      api.seg('How to use the tiles', 'bm', [['build', 'Build with tiles'], ['wall', 'Shade the wall']]);
+      api.heading('Tiles to use');
       var wrap = O.el('div', { class: 'om-field' }), g = O.el('div', { class: 'om-seg', role: 'group', 'aria-label': 'Rows to show' });
       for (var dd = 2; dd <= 12; dd++) (function (d) {
         var b = O.el('button', { type: 'button', 'aria-label': DNAME[d] }, String(d)); b.setAttribute('aria-pressed', S.d.indexOf(d) > -1);
@@ -76,23 +93,64 @@
       api.seg('Wholes in each row', 'w', [[1, '1'], [2, '2'], [3, '3']], function () { Object.keys(S.sh).forEach(function (d) { S.sh[d] = S.sh[d].filter(function (i) { return i < d * S.w; }); }); });
       api.check('Write the fraction on each tile', 'lab');
       api.check('Show the line-up guide', 'gd');
-      api.button('Clear shading', function () { S.sh = {}; api.redraw(); }, '', api.row());
+      api.button('Clear', function () { S.sh = {}; S.bt = []; api.redraw(); }, '', api.row());
 
       var holder = O.el('div'); api.stage.appendChild(holder);
-      var BW = 680, LX = 10, RH = 44, GAP = 7, Y0 = 34;
+      var BW = 680, LX = 10, RH = 44, GAP = 7, Y0 = 34, BL = null;
+      function sumBt() { var L = S.bt.reduce(lcm, 1), n = 0; S.bt.forEach(function (d) { n += L / d; }); return [n, L]; }
+      function tile(p, x, y, w, d, on) {
+        var col = DCOL[d], t = O.s('g', {}, p);
+        O.s('rect', { x: x + 1, y: y, width: w - 2, height: RH, rx: 6, fill: on ? col : '#fff', stroke: col, 'stroke-width': 2, class: on ? '' : 'paper' }, t);
+        if (S.lab && w >= 30) sFrac(t, x + w / 2, y + RH / 2 - 1, 1, d, w >= 44 ? 15 : 12, on ? '#fff' : col);
+        return t;
+      }
+      function drawBuild() {
+        api.say('Drag tiles from the tray onto the bar under the 1. Drag a tile off the bar to take it away.');
+        var WW = BW / S.w, by = Y0 + RH + GAP + 6, ty = by + RH + 40, rowsT = [[]], x = 0;
+        S.d.forEach(function (d) { var w = WW / d; if (x + w > BW + 0.5 && rowsT[rowsT.length - 1].length) { rowsT.push([]); x = 0; } rowsT[rowsT.length - 1].push([d, x, w]); x += w + 10; });
+        var H = ty + 22 + rowsT.length * (RH + 12) + 6;
+        var v = O.svg(BW + 2 * LX, H, holder, 'Fraction tiles: build'); v.style.width = '100%';
+        for (var k = 0; k < S.w; k++) { var w1 = O.s('g', {}, v); O.s('rect', { x: LX + k * WW + 1, y: Y0, width: WW - 2, height: RH, rx: 6, fill: NAVY }, w1); O.s('text', { x: LX + k * WW + WW / 2, y: Y0 + RH / 2 + 7, 'text-anchor': 'middle', 'font-size': 20, fill: '#fff', text: '1' }, w1); }
+        O.s('rect', { x: LX, y: by, width: BW, height: RH, rx: 6, fill: '#F6F7FB', stroke: '#AEB6CC', 'stroke-width': 2, 'stroke-dasharray': '6 5', class: 'paper' }, v);
+        var bx = LX;
+        S.bt.forEach(function (d, i) {
+          var w = WW / d, t = tile(v, bx, by, w, d, true); t.setAttribute('data-drag', 'bt'); t.setAttribute('data-i', i);
+          O.tap(t, function () { if (gd.hit()) return; S.bt.splice(i, 1); api.redraw(); }, 'Take away a ' + DNAME[d].toLowerCase().replace(/s$/, '') + ' tile');
+          bx += w;
+        });
+        O.s('text', { x: LX, y: ty - 6, 'font-size': 12, fill: MUTE, class: 'ink', text: 'TRAY' }, v);
+        rowsT.forEach(function (r, ri) { r.forEach(function (q) {
+          var t = tile(v, LX + q[1], ty + ri * (RH + 12), q[2], q[0], false); t.setAttribute('data-drag', 'tt'); t.setAttribute('data-d', q[0]);
+          O.tap(t, function () { if (gd.hit()) return; add(q[0]); }, 'Add a ' + DNAME[q[0]].toLowerCase().replace(/s$/, '') + ' tile');
+        }); });
+        BL = { by: by, ty: ty };
+        var s = sumBt();
+        if (!S.bt.length) api.readout('<span>On the bar: <b>0</b></span>');
+        else {
+          var terms = [], cur = null; S.bt.forEach(function (d) { terms.push(O.frac(1, d)); });
+          api.readout('<span>On the bar: <b>' + (terms.length > 1 ? terms.join(' + ') + ' = ' : '') + fracWords(s[0], s[1]) + '</b></span>' + (s[0] === s[1] * S.w ? '<span style="color:' + GRN + '">The bar is full.</span>' : ''));
+        }
+        api.report({ v: fracStr(s[0], s[1]), rows: 'build:' + S.bt.join(',') });
+      }
+      function add(d) {
+        var s = sumBt(); if (s[0] / s[1] + 1 / d > S.w + 1e-9) { O.toast('That tile won’t fit. Try a smaller tile.'); return; }
+        S.bt.push(d); api.redraw();
+      }
       function draw() {
         holder.innerHTML = '';
+        if (S.bm === 'build') return drawBuild();
+        api.say('Drag across tiles to shade them. Drag the yellow line to see which tiles line up.');
         var rows = [1].concat(S.d), H = Y0 + rows.length * (RH + GAP) + 6, WW = BW / S.w;
         var v = O.svg(BW + 2 * LX, H, holder, 'Fraction tiles'); v.style.width = '100%';
         rows.forEach(function (d, r) {
           var y = Y0 + r * (RH + GAP), n = d * S.w, tw = WW / d, sh = S.sh[d] || [];
           for (var i = 0; i < n; i++) {
             var x = LX + i * tw, on = d === 1 || sh.indexOf(i) > -1, col = d === 1 ? NAVY : DCOL[d];
-            var t = O.s('g', {}, v);
+            var t = O.s('g', d > 1 ? { 'data-drag': 'tile' } : {}, v);
             O.s('rect', { x: x + 1, y: y, width: tw - 2, height: RH, rx: 6, fill: on ? col : '#fff', stroke: col, 'stroke-width': 2, class: on ? '' : 'paper' }, t);
             if (d === 1) O.s('text', { x: x + tw / 2, y: y + RH / 2 + 7, 'text-anchor': 'middle', 'font-size': 20, fill: '#fff', text: '1' }, t);
             else if (S.lab && tw >= 30) sFrac(t, x + tw / 2, y + RH / 2 - 1, 1, d, tw >= 44 ? 15 : 12, on ? '#fff' : col);
-            if (d > 1) (function (d, i) { O.tap(t, function () { var a = S.sh[d] || (S.sh[d] = []), k = a.indexOf(i); if (k > -1) a.splice(k, 1); else a.push(i); api.redraw(); }, (sh.indexOf(i) > -1 ? 'Unshade' : 'Shade') + ' tile ' + (i + 1) + ' of ' + DNAME[d].toLowerCase()); })(d, i);
+            if (d > 1) (function (d, i) { O.tap(t, function () { if (gd.hit()) return; var a = S.sh[d] || (S.sh[d] = []), k = a.indexOf(i); if (k > -1) a.splice(k, 1); else a.push(i); api.redraw(); }, (sh.indexOf(i) > -1 ? 'Unshade' : 'Shade') + ' tile ' + (i + 1) + ' of ' + DNAME[d].toLowerCase()); })(d, i);
           }
         });
         if (S.gd) {
@@ -107,8 +165,35 @@
         var out = [];
         S.d.forEach(function (d) { var k = (S.sh[d] || []).length; if (k) out.push('<span>' + DNAME[d] + ': <b>' + fracWords(k, d) + '</b></span>'); });
         api.readout(out.join(''));
+        var d0 = S.d[0];
+        api.report({ v: fracStr((S.sh[d0] || []).length, d0), rows: S.d.map(function (d) { return d + ':' + (S.sh[d] || []).length; }).join(',') });
       }
-      dragOn(holder, function () {
+      var gd = guard();
+      function tileAt(p, d) { /* index of the tile under p in row d, or -1 */
+        var r = [1].concat(S.d).indexOf(d), y = Y0 + r * (RH + GAP), n = d * S.w, tw = BW / S.w / d;
+        if (p.y < y - GAP / 2 || p.y > y + RH + GAP / 2) return -1;
+        var i = Math.floor((p.x - LX) / tw); return i >= 0 && i < n ? i : -1;
+      }
+      dragOn(holder, function (e, t) {
+        var kind = t.getAttribute('data-drag');
+        if (kind === 'tt' || kind === 'bt') {
+          return carry(holder, t, e, function (p, moved) {
+            gd.set();
+            var onBar = p.y >= BL.by - 30 && p.y <= BL.by + RH + 30 && p.x >= LX - 20 && p.x <= LX + BW + 20;
+            if (kind === 'tt') { if (!moved || onBar) add(+t.getAttribute('data-d')); else api.redraw(); }
+            else { if (!moved || !onBar) S.bt.splice(+t.getAttribute('data-i'), 1); api.redraw(); }
+          }, { dim: kind === 'bt' });
+        }
+        if (kind === 'tile') {
+          var p0 = P(holder, e), row = -1;
+          [1].concat(S.d).forEach(function (d, r) { var y = Y0 + r * (RH + GAP); if (p0.y >= y && p0.y <= y + RH) row = d; });
+          if (row < 2) return null;
+          var i0 = tileAt(p0, row); if (i0 < 0) return null;
+          var a = S.sh[row] || (S.sh[row] = []), val = a.indexOf(i0) < 0, moved = false;
+          function paint(i) { var k = a.indexOf(i); if (val && k < 0) a.push(i); else if (!val && k > -1) a.splice(k, 1); }
+          return { move: function (ev) { var i = tileAt(P(holder, ev), row); if (i < 0) return; if (i !== i0 || moved) { if (!moved) { paint(i0); moved = true; } paint(i); draw(); } },
+            end: function () { if (!moved) paint(i0); gd.set(); api.redraw(); } };
+        }
         return { move: function (e) {
           var p = P(holder, e), f = O.clamp((p.x - LX) / BW, 0, 1), best = f, bd = 1;
           S.d.concat([1]).forEach(function (d) { var n = d * S.w; for (var i = 0; i <= n; i++) { var b = i / n, dist = Math.abs(b - f) * BW; if (dist < 7 && dist < bd * BW) { best = b; bd = dist / BW; } } });
@@ -124,7 +209,7 @@
     defaults: { c: 1, n: 4, per: 0, ns: [4, 4, 4, 4], lab: 0, sh: [[], [], [], []] },
     mount: function (api) {
       var S = api.S;
-      api.say('Tap slices to shade them.');
+      api.say('Drag a slice from the tray into a circle, or drag across a circle to shade it. Drag a slice out to take it away.');
       api.num('How many circles', 'c', 1, 4, 1);
       api.select('Slices in each circle', 'n', [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(function (k) { return [k, k + ' slices']; }), function (v) { S.ns = [v, v, v, v]; trim(); syncSel(); });
       api.check('Give each circle its own number of slices', 'per', function (on) { if (!on) { S.ns = [S.n, S.n, S.n, S.n]; trim(); syncSel(); } showG(perG, on); });
@@ -146,28 +231,76 @@
       var holder = O.el('div'); api.stage.appendChild(holder);
       function draw() {
         holder.innerHTML = '';
-        var c = S.c, cols = c === 4 ? 2 : c, rowsN = Math.ceil(c / cols), CW = 240, R = 104;
-        var v = O.svg(cols * CW, rowsN * CW, holder, 'Fraction circles'); v.style.width = '100%'; v.style.maxWidth = (cols * 330) + 'px';
+        var c = S.c, cols = c === 4 ? 2 : c, rowsN = Math.ceil(c / cols);
+        var ns = [], TR = 66; S.ns.slice(0, c).forEach(function (n) { if (ns.indexOf(n) < 0) ns.push(n); });
+        var VW = Math.max(cols * CW, ns.length * 130 + 20), TY = rowsN * CW, VH = TY + 128;
+        var v = O.svg(VW, VH, holder, 'Fraction circles'); v.style.width = '100%'; v.style.maxWidth = (Math.max(cols, 2) * 330) + 'px';
+        /* tray: one slice of each size in use */
+        O.s('rect', { x: 4, y: TY + 4, width: VW - 8, height: 118, rx: 12, fill: '#F1F3F8', stroke: LINE, 'stroke-width': 2 }, v);
+        O.s('text', { x: 14, y: TY + 20, 'font-size': 12, fill: MUTE, text: 'TRAY' }, v);
+        ns.forEach(function (n, j) {
+          var ax = 20 + 130 * j + 65, ay = TY + 112, half = 180 / n, g = O.s('g', { 'data-drag': 'ts', 'data-n': n }, v);
+          O.s('path', { d: n === 1 ? pie(ax, ay - TR, TR, 0, 360) : pie(ax, ay, Math.min(TR + 18, n <= 2 ? TR : TR + 18), -half, half), fill: VIO, stroke: NAVY, 'stroke-width': 2.5, 'stroke-linejoin': 'round' }, g);
+          var lab = sFrac(g, ax, ay - (n <= 2 ? 40 : 52), 1, n, 13, '#fff'); lab.style.pointerEvents = 'none';
+          O.tap(g, function () { if (cg.hit()) return; drop(n, -1); }, 'Add a slice of ' + n);
+        });
         for (var ci = 0; ci < c; ci++) {
           var cx = (ci % cols) * CW + CW / 2, cy = Math.floor(ci / cols) * CW + CW / 2, n = S.ns[ci], sh = S.sh[ci];
           for (var k = 0; k < n; k++) {
             var on = sh.indexOf(k) > -1, a0 = k * 360 / n, a1 = (k + 1) * 360 / n;
-            var p = O.s('path', { d: pie(cx, cy, R, a0, a1), fill: on ? VIO : '#fff', stroke: NAVY, 'stroke-width': 2.5, 'stroke-linejoin': 'round', class: on ? '' : 'paper' }, v);
-            (function (ci, k) { O.tap(p, function () { var a = S.sh[ci], i = a.indexOf(k); if (i > -1) a.splice(i, 1); else a.push(k); api.redraw(); }, 'Slice ' + (k + 1) + ' of circle ' + (ci + 1)); })(ci, k);
+            var p = O.s('path', { d: pie(cx, cy, R, a0, a1), fill: on ? VIO : '#fff', stroke: NAVY, 'stroke-width': 2.5, 'stroke-linejoin': 'round', class: on ? '' : 'paper', 'data-drag': 'slice', 'data-k': ci + '_' + k }, v);
+            (function (ci, k) { O.tap(p, function () { if (cg.hit()) return; var a = S.sh[ci], i = a.indexOf(k); if (i > -1) a.splice(i, 1); else a.push(k); api.redraw(); }, 'Slice ' + (k + 1) + ' of circle ' + (ci + 1)); })(ci, k);
             if (S.lab) { var mid = ((a0 + a1) / 2 - 90) * Math.PI / 180, rr = n === 1 ? 0 : R * 0.64, fs = n > 8 ? 12 : 16; var lab = sFrac(v, cx + rr * Math.cos(mid), cy + rr * Math.sin(mid) - 2, 1, n, fs, on ? '#fff' : NAVY, on ? '' : 'ink'); lab.style.pointerEvents = 'none'; }
           }
         }
         /* readout */
         var used = S.ns.slice(0, c), same = used.every(function (n) { return n === used[0]; }), ks = S.sh.slice(0, c).map(function (a) { return a.length; });
-        var tot = ks.reduce(function (a, b) { return a + b; }, 0);
+        var tot = ks.reduce(function (a, b) { return a + b; }, 0), L = used.reduce(lcm), sum = 0, parts = [];
+        ks.forEach(function (k, i) { if (k) { parts.push(O.frac(k, used[i])); sum += k * L / used[i]; } });
+        api.report({ v: fracStr(sum, L) });
         if (!tot) { api.readout('<span>Shaded: <b>0</b></span>'); return; }
-        if (same) api.readout('<span>Shaded: <b>' + fracWords(tot, used[0]) + '</b></span>');
-        else {
-          var L = used.reduce(lcm), sum = 0, parts = [];
-          ks.forEach(function (k, i) { if (k) { parts.push(O.frac(k, used[i])); sum += k * L / used[i]; } });
-          api.readout('<span>Shaded: <b>' + parts.join(' + ') + ' = ' + fracWords(sum, L) + '</b></span>');
-        }
+        if (same) api.readout('<span>Shaded: <b>' + (parts.length > 1 ? parts.join(' + ') + ' = ' : '') + fracWords(tot, used[0]) + '</b></span>');
+        else api.readout('<span>Shaded: <b>' + parts.join(' + ') + ' = ' + fracWords(sum, L) + '</b></span>');
       }
+      var cg = guard(), CW = 240, R = 104;
+      /* put one slice of size n into circle ci (or the first circle that fits it when ci < 0) */
+      function drop(n, ci) {
+        var list = ci >= 0 ? [ci] : [0, 1, 2, 3].slice(0, S.c);
+        for (var j = 0; j < list.length; j++) {
+          var i = list[j];
+          if (S.ns[i] !== n) { if (ci >= 0) { O.toast('That slice is a different size. Use a slice that matches this circle.'); return; } continue; }
+          for (var k = 0; k < n; k++) if (S.sh[i].indexOf(k) < 0) { S.sh[i].push(k); api.redraw(); return; }
+          if (ci >= 0) { O.toast('That circle is full. Try the next circle.'); return; }
+        }
+        O.toast('There is no room for that slice.');
+      }
+      function circleAt(p) { var c = S.c, cols = c === 4 ? 2 : c; for (var ci = 0; ci < c; ci++) { var cx = (ci % cols) * CW + CW / 2, cy = Math.floor(ci / cols) * CW + CW / 2; if (Math.hypot(p.x - cx, p.y - cy) <= R + 14) return ci; } return -1; }
+      function sliceAt(p) {
+        var c = S.c, cols = c === 4 ? 2 : c;
+        for (var ci = 0; ci < c; ci++) {
+          var cx = (ci % cols) * CW + CW / 2, cy = Math.floor(ci / cols) * CW + CW / 2, dx = p.x - cx, dy = p.y - cy;
+          if (dx * dx + dy * dy > R * R) continue;
+          var a = Math.atan2(dx, -dy) * 180 / Math.PI; if (a < 0) a += 360;
+          return [ci, Math.min(S.ns[ci] - 1, Math.floor(a / (360 / S.ns[ci])))];
+        }
+        return null;
+      }
+      dragOn(holder, function (e, t) {
+        if (t.getAttribute('data-drag') === 'ts') return carry(holder, t, e, function (p, moved) { cg.set(); var n = +t.getAttribute('data-n'); if (!moved) drop(n, -1); else { var ci = circleAt(p); if (ci < 0) api.redraw(); else drop(n, ci); } });
+        var h0 = sliceAt(P(holder, e)); if (!h0) return null;
+        var val = S.sh[h0[0]].indexOf(h0[1]) < 0, moved = false, out = false, ghost = null;
+        function paint(h) { var a = S.sh[h[0]], k = a.indexOf(h[1]); if (val && k < 0) a.push(h[1]); else if (!val && k > -1) a.splice(k, 1); }
+        var p0 = P(holder, e);
+        return { move: function (ev) {
+            var p = P(holder, ev), h = sliceAt(p);
+            if (!h) { /* dragging a shaded slice out of the circle */
+              if (!val && circleAt(p) < 0) { out = true; if (!ghost) { var src = holder.querySelectorAll('[data-drag=slice]'); src.forEach(function (n) { if (n.getAttribute('data-k') === h0[0] + '_' + h0[1]) { ghost = n.cloneNode(); ghost.style.pointerEvents = 'none'; ghost.style.opacity = .85; n.parentNode.appendChild(ghost); n.setAttribute('fill', '#fff'); } }); }
+                if (ghost) ghost.setAttribute('transform', 'translate(' + (p.x - p0.x) + ' ' + (p.y - p0.y) + ')'); }
+              return; }
+            out = false; if (ghost) { ghost.remove(); ghost = null; draw(); }
+            if (moved || h[0] !== h0[0] || h[1] !== h0[1]) { if (!moved) { paint(h0); moved = true; } paint(h); draw(); } },
+          end: function () { if (ghost) ghost.remove(); if (out || !moved) paint(h0); cg.set(); api.redraw(); } };
+      });
       api.onRedraw(draw);
     }
   });
@@ -240,7 +373,12 @@
         for (var q = 0; q < dp; q++) { var dg = Math.floor(rest / Math.pow(10, dp - 1 - q)) % 10; pv.push(dg + ' ' + names[q][dg === 1 ? 0 : 1]); }
         var fr = u >= L && u % L === 0 ? String(u / L) : (u > L ? O.mixed(u, L) + ' = ' + O.frac(u, L) : O.frac(u, L));
         var pctS = S.pct ? '<span>Percent: <b>' + Number((u / L * 100).toFixed(1)) + '%</b></span>' : '';
-        api.readout('<span>Decimal: <b>' + dec + '</b></span><span>Fraction: <b>' + (u ? fr : '0') + '</b></span>' + pctS + '<span>' + pv.join(', ') + '</span>');
+        var dTrim = dec.indexOf('.') > -1 ? dec.replace(/0+$/, '').replace(/\.$/, '') : dec; if (dTrim === '') dTrim = '0';
+        var terms = []; if (ones) terms.push(String(ones));
+        for (var q2 = 0; q2 < dp; q2++) { var dg2 = Math.floor(rest / Math.pow(10, dp - 1 - q2)) % 10; if (dg2) terms.push('0.' + '0'.repeat(q2) + dg2); }
+        var sent = terms.length > 1 ? '<span>' + terms.join(' + ') + ' = <b>' + dTrim + '</b></span>' : '';
+        api.readout('<span>Decimal: <b>' + dec + '</b></span><span>Fraction: <b>' + (u ? fr : '0') + '</b></span>' + pctS + sent + '<span>' + pv.join(', ') + '</span>');
+        api.report({ v: dTrim });
       }
       var raf = 0;
       dragOn(holder, function (e) {
@@ -283,10 +421,13 @@
       api.button('Clear the mat', function () { S.it = []; api.redraw(); }, '', api.row());
 
       var holder = O.el('div'); api.stage.appendChild(holder);
+      var mg = guard(), fly = null, L = null; /* L = layout of the last draw */
+      function cashName(val) { return val >= 100 ? 'a $' + val / 100 + ' bill' : 'a ' + COIN[val][1]; }
+      function lab(val) { return val >= 100 ? '$' + val / 100 : val + '¢'; }
       function draw() {
         holder.innerHTML = '';
-        if (S.mode === 'change') api.say('The price is <b>' + money(Math.round(S.pr * 100)) + '</b>. You paid <b>' + money(Math.round(S.pd * 100)) + '</b>. Count up from the price and put the change on the mat.');
-        else api.say('Tap money in the tray to put it on the mat. Tap money on the mat to take it off.');
+        if (S.mode === 'change') api.say('The price is <b>' + money(Math.round(S.pr * 100)) + '</b>. You paid <b>' + money(Math.round(S.pd * 100)) + '</b>. Count up from the price. Drag the change from the tray into the change box.');
+        else api.say('Drag money from the tray onto the mat. Drag it off the mat to take it away.');
         S.it.sort(function (a, b) { return b - a; });
         var W = Math.max(360, Math.min(760, api.stage.clientWidth || 700)), rowH = 56;
         function flow(list, x0, y0, gap) { var x = x0, y = y0, pos = []; list.forEach(function (val) { var w = val >= 100 ? 104 : 2 * COIN[val][0] + 6; if (x + w > W - 12) { x = x0; y += rowH; } pos.push([x, y]); x += w + gap; }); return { pos: pos, bottom: y + rowH }; }
@@ -296,13 +437,22 @@
         var v = O.svg(W, H, holder, 'Coins and bills');
         O.s('rect', { x: 4, y: 4, width: W - 8, height: tray.bottom - 2, rx: 12, fill: '#F1F3F8', stroke: LINE, 'stroke-width': 2 }, v);
         O.s('text', { x: 14, y: 20, 'font-size': 12, fill: MUTE, class: 'ink', text: 'TRAY' }, v);
-        CASH.forEach(function (c, i) { var r = drawCash(v, c[0], tray.pos[i][0], tray.pos[i][1]); var lab = c[0] >= 100 ? 'a ' + c[1] + ' bill' : 'a ' + COIN[c[0]][1]; O.tap(r[0], function () { if (S.it.length >= 60) { O.toast('The mat is full.'); return; } S.it.push(c[0]); api.redraw(); }, 'Add ' + lab); });
+        L = { W: W, H: H, matTop: matTop };
+        CASH.forEach(function (c, i) { var r = drawCash(v, c[0], tray.pos[i][0], tray.pos[i][1]); r[0].setAttribute('data-drag', 'tray'); r[0].setAttribute('data-v', c[0]);
+          O.tap(r[0], function () { if (mg.hit()) return; if (S.it.length >= 60) { O.toast('The mat is full.'); return; } fly = { val: c[0], x: tray.pos[i][0], y: tray.pos[i][1] }; S.it.push(c[0]); api.redraw(); }, 'Add ' + cashName(c[0])); });
         O.s('rect', { x: 4, y: matTop, width: W - 8, height: H - matTop - 4, rx: 12, fill: '#fff', stroke: LINE, 'stroke-width': 2, class: 'paper' }, v);
-        O.s('text', { x: 14, y: matTop + 18, 'font-size': 12, fill: MUTE, class: 'ink', text: 'MAT' }, v);
+        O.s('text', { x: 14, y: matTop + 18, 'font-size': 12, fill: MUTE, class: 'ink', text: S.mode === 'change' ? 'CHANGE' : 'MAT' }, v);
         var pos = mat.pos;
-        S.it.forEach(function (val, i) { var r = drawCash(v, val, pos[i][0], pos[i][1]); O.tap(r[0], function () { S.it.splice(i, 1); api.redraw(); }, 'Take off ' + (val >= 100 ? 'a $' + val / 100 + ' bill' : 'a ' + COIN[val][1])); });
+        var flyTo = fly ? S.it.lastIndexOf(fly.val) : -1;
+        S.it.forEach(function (val, i) { var r = drawCash(v, val, pos[i][0], pos[i][1]); r[0].setAttribute('data-drag', 'mat'); r[0].setAttribute('data-i', i);
+          O.tap(r[0], function () { if (mg.hit()) return; S.it.splice(i, 1); api.redraw(); }, 'Take off ' + cashName(val));
+          if (i === flyTo) O.anim(r[0], { tx: fly.x - pos[i][0], ty: fly.y - pos[i][1] }, { tx: 0, ty: 0 }, 380); });
+        fly = null;
         var tot = S.it.reduce(function (a, b) { return a + b; }, 0);
-        var out = '<span>On the mat: <b>' + money(tot) + '</b></span><span>' + tot.toLocaleString('en-US') + (tot === 1 ? ' cent' : ' cents') + '</span>';
+        /* number sentence, biggest first, repeats grouped: $1 + 25¢ + 3 × 10¢ = $1.35 */
+        var groups = []; S.it.forEach(function (val) { var g = groups[groups.length - 1]; if (g && g[0] === val) g[1]++; else groups.push([val, 1]); });
+        var sent = groups.length && (groups.length > 1 || groups[0][1] > 1) ? '<span>' + groups.map(function (g) { return (g[1] > 1 ? g[1] + ' × ' : '') + lab(g[0]); }).join(' + ') + ' = <b>' + money(tot) + '</b></span>' : '';
+        var out = '<span>On the mat: <b>' + money(tot) + '</b></span><span>' + tot.toLocaleString('en-US') + (tot === 1 ? ' cent' : ' cents') + '</span>' + sent;
         if (S.mode === 'change') {
           var ch = Math.round(S.pd * 100) - Math.round(S.pr * 100);
           if (ch < 0) out += '<span>The amount paid must be more than the price.</span>';
@@ -311,7 +461,31 @@
           else out += '<span>That is more than the change. Take some away.</span>';
         }
         api.readout(out);
+        api.report({ v: String(tot) });
       }
+      /* drag from the tray onto the mat, or off the mat to take it away */
+      dragOn(holder, function (e, t) {
+        var kind = t.getAttribute('data-drag'); if (kind !== 'tray' && kind !== 'mat') return null;
+        var svg = holder.querySelector('svg'), p0 = P(holder, e), ghost = null, moved = false;
+        return { move: function (ev) {
+          var p = P(holder, ev);
+          if (!moved && Math.hypot(p.x - p0.x, p.y - p0.y) < 6) return;
+          if (!moved) { moved = true; ghost = t.cloneNode(true); ghost.removeAttribute('data-drag'); ghost.style.opacity = .85; ghost.style.pointerEvents = 'none'; svg.appendChild(ghost); if (kind === 'mat') t.style.opacity = .3; }
+          ghost.setAttribute('transform', 'translate(' + (p.x - p0.x) + ' ' + (p.y - p0.y) + ')');
+        }, end: function (ev) {
+          mg.set();
+          if (!moved) { /* a plain tap */
+            if (kind === 'tray') { var val = +t.getAttribute('data-v'), r = t.getBBox(); if (S.it.length >= 60) { O.toast('The mat is full.'); return; } fly = { val: val, x: r.x, y: r.y - (val >= 100 ? 0 : 24 - COIN[val][0]) }; S.it.push(val); }
+            else S.it.splice(+t.getAttribute('data-i'), 1);
+            api.redraw(); return;
+          }
+          if (ghost) ghost.remove();
+          var p = P(holder, ev), onMat = p.y >= L.matTop && p.y <= L.H && p.x >= 0 && p.x <= L.W;
+          if (kind === 'tray' && onMat) { if (S.it.length >= 60) O.toast('The mat is full.'); else S.it.push(+t.getAttribute('data-v')); }
+          else if (kind === 'mat' && !onMat) S.it.splice(+t.getAttribute('data-i'), 1);
+          api.redraw();
+        } };
+      });
       api.onRedraw(draw);
     }
   });
@@ -327,7 +501,7 @@
       function place() { var c = rc(); S.a = S.nz ? c.nz : 0; S.b = Math.min(c.max, snap(S.a + S.len)); if (S.b <= S.a) S.b = snap(S.a + step()); }
       api.say('Drag the ribbon or its round ends. Read the length on the ruler.');
       api.seg('Ruler', 'u', [['cm', 'Centimeters'], ['m', 'Meter stick'], ['in', 'Inches'], ['yd', 'Yard stick']], function (u) { S.len = RU[u].len; lenIn.value = S.len; place(); showG(qG, u === 'in'); });
-      var qG = grp(api, function () { api.seg('Inch marks', 'q', [[2, '½'], [4, '¼'], [8, '⅛']], function () { S.a = snap(S.a); S.b = snap(S.b); }); });
+      var qG = grp(api, function () { api.seg('Inch marks', 'q', [[2, O.frac(1, 2)], [4, O.frac(1, 4)], [8, O.frac(1, 8)]], function () { S.a = snap(S.a); S.b = snap(S.b); }); });
       showG(qG, S.u === 'in');
       var lenIn = api.num('Ribbon length (in the ruler’s unit)', 'len', 0.1, 100, 'any', function () { S.len = snap(S.len); place(); });
       api.check('Start the ribbon at a mark that isn’t 0', 'nz', place);
@@ -369,6 +543,7 @@
         else if (S.u === 'in') { var nn = Math.round(L * S.q), g = O.gcd(nn, S.q); r = '<b>' + O.mixed(nn / g, S.q / g) + ' in</b>'; }
         else r = '<b>' + L + ' in</b>' + (L >= 12 ? ' = ' + Math.floor(L / 12) + ' ft' + (L % 12 ? ' ' + (L % 12) + ' in' : '') : '');
         function at(u) { if (S.u === 'in') { var n2 = Math.round(u * S.q), g2 = O.gcd(n2, S.q); return O.mixed(n2 / g2, S.q / g2); } return O.fmt(u, 1); }
+        api.report({ v: String(L) });
         api.readout('<span>Length: ' + r + '</span>' + (S.a ? '<span>From ' + at(S.a) + ' to ' + at(S.b) + ' ' + (S.u === 'cm' ? 'cm' : S.u === 'm' ? 'cm' : 'in') + '</span>' : ''));
       }
       dragOn(holder, function (e, t) {
@@ -391,7 +566,7 @@
   function kgg(g) { var k = Math.floor(g / 1000), r = g % 1000; return k ? k + ' kg' + (r ? ' ' + r + ' g' : '') : r + ' g'; }
   function lboz(o) { var l = Math.floor(o / 16), r = o % 16; return l ? l + ' lb' + (r ? ' ' + r + ' oz' : '') : r + ' oz'; }
   O.register('scale', {
-    defaults: { m: 'dial', u: 'kg', mx: 5, tk: 100, w: 2400, bw: 350, L: [] },
+    defaults: { m: 'dial', u: 'kg', mx: 5, tk: 100, w: 2400, bw: 350, L: [], off: 0 },
     mount: function (api) {
       var S = api.S;
       function wMax() { return S.u === 'kg' ? S.mx * 1000 : S.mx * 16; }
@@ -422,13 +597,14 @@
       function draw() {
         holder.innerHTML = '';
         if (S.m === 'dial') {
-          api.say('Read the scale. You can drag the red pointer too.');
+          api.say(S.off ? 'Drag the box onto the scale. Then read the dial.' : 'Read the dial. Drag the box off and on again, or drag the red pointer.');
           var mx = wMax(), tk = S.tk, nT = mx / tk; if (nT > 200) tk = tk * Math.ceil(nT / 200);
           var major = S.u === 'kg' ? (S.mx === 1 ? 100 : 1000) : (S.mx === 1 ? 4 : 16);
-          var v = O.svg(400, 400, holder, 'Platform scale'); v.style.width = '100%'; v.style.maxWidth = '460px';
+          var v = O.svg(560, 450, holder, 'Platform scale'); v.setAttribute('viewBox', '-160 -50 560 450'); v.style.width = '100%'; v.style.maxWidth = '560px';
+          O.s('line', { x1: -160, y1: 392, x2: 400, y2: 392, stroke: '#C9CFDF', 'stroke-width': 3 }, v);
           O.s('rect', { x: 60, y: 22, width: 280, height: 22, rx: 6, fill: '#AEB6CC' }, v);
           O.s('rect', { x: 190, y: 44, width: 20, height: 22, fill: '#AEB6CC' }, v);
-          if (S.w > 0) { O.s('rect', { x: 150, y: -6, width: 100, height: 28, rx: 3, fill: '#D9A35F', stroke: '#9A6A2E', 'stroke-width': 2 }, v); }
+          var shown = S.off ? 0 : S.w;
           O.s('rect', { x: 30, y: 62, width: 340, height: 330, rx: 40, fill: '#E7EAF2', stroke: '#AEB6CC', 'stroke-width': 3 }, v);
           O.s('circle', { cx: CX, cy: CY, r: R + 8, fill: '#fff', stroke: NAVY, 'stroke-width': 3, class: 'paper' }, v);
           var tp = '';
@@ -439,19 +615,26 @@
             O.s('text', { x: CX + (R - 36) * Math.sin(aa), y: CY - (R - 36) * Math.cos(aa) + 5, 'text-anchor': 'middle', 'font-size': 14, fill: NAVY, class: 'ink', text: m === 0 ? (S.u === 'kg' ? '0 ' + (S.mx === 1 ? '1 kg' : '') : '0') : t }, v);
           }
           if (S.u === 'kg' && S.mx === 1) O.s('text', { x: CX, y: CY + 42, 'text-anchor': 'middle', 'font-size': 13, fill: MUTE, text: 'grams' }, v);
-          var ang = Math.min(S.w, mx) / mx * 2 * Math.PI, px = CX + (R - 6) * Math.sin(ang), py = CY - (R - 6) * Math.cos(ang);
-          var pg = O.s('g', { 'data-drag': 'p', style: 'cursor:grab' }, v);
-          O.s('line', { x1: CX, y1: CY, x2: px, y2: py, stroke: 'transparent', 'stroke-width': 26, 'data-drag': 'p' }, pg);
-          O.s('line', { x1: CX, y1: CY, x2: px, y2: py, stroke: '#D2453B', 'stroke-width': 4, 'stroke-linecap': 'round', 'data-drag': 'p' }, pg);
+          var deg = (spinA != null ? spinA : Math.min(shown, mx) / mx * 360);
+          var pg = O.s('g', { 'data-drag': 'p', style: 'cursor:grab', transform: 'rotate(' + deg + ' ' + CX + ' ' + CY + ')' }, v);
+          O.s('line', { x1: CX, y1: CY, x2: CX, y2: CY - R + 6, stroke: 'transparent', 'stroke-width': 26, 'data-drag': 'p' }, pg);
+          O.s('line', { x1: CX, y1: CY, x2: CX, y2: CY - R + 6, stroke: '#D2453B', 'stroke-width': 4, 'stroke-linecap': 'round', 'data-drag': 'p' }, pg);
           O.s('circle', { cx: CX, cy: CY, r: 9, fill: '#D2453B' }, v);
-          keys(pg, function (d) { S.w = O.clamp(S.w + d * S.tk, 0, mx); api.redraw(); }, 'Scale pointer');
-          api.readout('<span>Weight: <b>' + (S.u === 'kg' ? kgg(S.w) : lboz(S.w)) + '</b></span><span>= ' + (S.u === 'kg' ? S.w.toLocaleString('en-US') + ' g' : S.w + ' oz') + '</span>');
+          keys(pg, function (d) { S.off = 0; S.w = O.clamp(S.w + d * S.tk, 0, mx); api.redraw(); }, 'Scale pointer');
+          /* the box: on the platform, or on the floor beside the scale */
+          var bg = O.s('g', { 'data-drag': 'box', style: 'cursor:grab' }, v), bx = S.off ? -140 : 145, byy = S.off ? 340 : -30;
+          O.s('rect', { x: bx, y: byy, width: 110, height: 52, rx: 4, fill: '#D9A35F', stroke: '#9A6A2E', 'stroke-width': 2 }, bg);
+          O.s('text', { x: bx + 55, y: byy + 36, 'text-anchor': 'middle', 'font-size': 28, fill: '#5A3A12', text: '?' }, bg);
+          O.tap(bg, function () { if (sg.hit()) return; boxTo(!S.off); }, S.off ? 'Put the box on the scale' : 'Take the box off the scale');
+          api.readout('<span>Weight: <b>' + (S.u === 'kg' ? kgg(shown) : lboz(shown)) + '</b></span><span>= ' + (S.u === 'kg' ? shown.toLocaleString('en-US') + ' g' : shown + ' oz') + '</span>');
+          api.report({ v: String(shown), b: S.bw === S.L.reduce(function (a, b) { return a + b; }, 0) ? 'yes' : 'no' });
         } else {
-          api.say('Tap weights to put them on the right pan. Make the pans balance to find the weight of the box.');
+          api.say('Drag weights onto the right pan. Drag them off to take them away. Make the pans level.');
           var nw = api.stage.clientWidth > 0 && api.stage.clientWidth < 560, BW2 = nw ? 440 : 700, MID = BW2 / 2, ARM = nw ? 150 : 210, per = nw ? 5 : 9, TRY = 292, TH = nw ? 136 : 80;
           var v2 = O.svg(BW2, TRY + TH + 8, holder, 'Pan balance'); v2.style.width = '100%';
           var left = S.bw, right = S.L.reduce(function (a, b) { return a + b; }, 0);
-          var th = left === right ? 0 : O.clamp((right - left) / Math.max(left, right) * 16, -14, 14), rad = th * Math.PI / 180;
+          var th = thAnim != null ? thAnim : tiltOf(left, right), rad = th * Math.PI / 180;
+          BAL = { MID: MID, TRY: TRY };
           O.s('path', { d: 'M' + MID + ',120L' + (MID - 30) + ',250H' + (MID + 30) + 'Z', fill: '#AEB6CC' }, v2);
           O.s('rect', { x: MID - 80, y: 248, width: 160, height: 12, rx: 4, fill: '#8E98B3' }, v2);
           var ex = ARM * Math.cos(rad), ey = ARM * Math.sin(rad);
@@ -466,27 +649,44 @@
           sorted.forEach(function (g) {
             var w = g >= 500 ? 40 : g >= 50 ? 32 : 24, h = g >= 500 ? 26 : g >= 50 ? 20 : 15;
             if (wx + w > 140) { wx = 0; wy += 26; }
-            var x0 = rx - 70 + wx, y0 = ry - h - wy, gg = O.s('g', {}, v2);
+            var x0 = rx - 70 + wx, y0 = ry - h - wy, gg = O.s('g', { 'data-drag': 'pw', 'data-g': g }, v2);
             O.s('rect', { x: x0, y: y0, width: w - 2, height: h, rx: 3, fill: '#B8BFCC', stroke: '#5B6478', 'stroke-width': 1.5 }, gg);
             O.s('text', { x: x0 + w / 2 - 1, y: y0 + h / 2 + 4, 'text-anchor': 'middle', 'font-size': g >= 100 ? 9 : 10, fill: '#1B2238', text: wLabel(g) }, gg);
-            O.tap(gg, function () { var i = S.L.indexOf(g); if (i > -1) S.L.splice(i, 1); api.redraw(); }, 'Take off ' + wLabel(g));
+            O.tap(gg, function () { if (sg.hit()) return; setL(function () { var i = S.L.indexOf(g); if (i > -1) S.L.splice(i, 1); }); }, 'Take off ' + wLabel(g));
             wx += w;
           });
           O.s('rect', { x: 10, y: TRY, width: BW2 - 20, height: TH, rx: 12, fill: '#F1F3F8', stroke: LINE, 'stroke-width': 2 }, v2);
           O.s('text', { x: 20, y: TRY + 16, 'font-size': 12, fill: MUTE, text: 'WEIGHTS' }, v2);
           var colW = (BW2 - 40) / per;
           WTS.forEach(function (g, i) {
-            var cx = 20 + colW * (i % per) + colW / 2, base = TRY + 68 + Math.floor(i / per) * 56, gg = O.s('g', {}, v2), h = g >= 500 ? 40 : g >= 50 ? 32 : 26, w = Math.min(colW - 8, g >= 500 ? 62 : g >= 50 ? 54 : 46);
+            var cx = 20 + colW * (i % per) + colW / 2, base = TRY + 68 + Math.floor(i / per) * 56, gg = O.s('g', { 'data-drag': 'wt', 'data-g': g }, v2), h = g >= 500 ? 40 : g >= 50 ? 32 : 26, w = Math.min(colW - 8, g >= 500 ? 62 : g >= 50 ? 54 : 46);
             O.s('rect', { x: cx - w / 2, y: base - h, width: w, height: h, rx: 5, fill: '#B8BFCC', stroke: '#5B6478', 'stroke-width': 2 }, gg);
             O.s('text', { x: cx, y: base - h / 2 + 5, 'text-anchor': 'middle', 'font-size': 13, fill: '#1B2238', text: wLabel(g) }, gg);
-            O.tap(gg, function () { if (S.L.length >= 24) { O.toast('The pan is full.'); return; } S.L.push(g); api.redraw(); }, 'Put ' + wLabel(g) + ' on the right pan');
+            O.tap(gg, function () { if (sg.hit()) return; addW(g); }, 'Put ' + wLabel(g) + ' on the right pan');
           });
           var msg = left === right ? '<span style="color:' + GRN + '">Balanced! The box weighs ' + kgg(left) + '.</span>' : left > right ? '<span>The box is heavier. Add more weights.</span>' : '<span>The weights are heavier. Take some off.</span>';
           api.readout('<span>Weights on the pan: <b>' + kgg(right) + '</b></span>' + msg);
+          api.report({ v: String(S.w), b: left === right ? 'yes' : 'no' });
         }
       }
-      dragOn(holder, function () {
+      var sg = guard(), thAnim = null, spinA = null, BAL = null;
+      function tiltOf(l, r) { return l === r ? 0 : O.clamp((r - l) / Math.max(l, r) * 16, -14, 14); }
+      function tween(from, to, ms, set, done) { if (O.reduce) { done(); return; } var t0 = performance.now(); (function f(t) { var k = Math.min(1, (t - t0) / ms), e = 1 - Math.pow(1 - k, 3); set(from + (to - from) * e); if (k < 1) requestAnimationFrame(f); else done(); })(t0); }
+      /* change the right pan, then let the beam swing to its new tilt */
+      function setL(fn) { var r0 = S.L.reduce(function (a, b) { return a + b; }, 0), a0 = tiltOf(S.bw, r0); fn(); var a1 = tiltOf(S.bw, S.L.reduce(function (a, b) { return a + b; }, 0));
+        api.redraw(); if (a0 !== a1) tween(a0, a1, 450, function (x) { thAnim = x; draw(); }, function () { thAnim = null; draw(); }); }
+      function addW(g) { if (S.L.length >= 24) { O.toast('The pan is full.'); return; } setL(function () { S.L.push(g); }); }
+      /* put the box on or off the platform; the pointer swings */
+      function boxTo(on) { var mx = wMax(), a0 = S.off ? 0 : Math.min(S.w, mx) / mx * 360; S.off = on ? 0 : 1; var a1 = S.off ? 0 : Math.min(S.w, mx) / mx * 360;
+        api.redraw(); tween(a0, a1, 700, function (x) { spinA = x; draw(); }, function () { spinA = null; draw(); }); }
+      dragOn(holder, function (e, t) {
+        var kind = t.getAttribute('data-drag');
+        if (kind === 'box') return carry(holder, t, e, function (p, moved) { sg.set(); if (!moved) { boxTo(!!S.off); return; }
+          var onPlat = p.x > 20 && p.x < 380 && p.y < 90; if (onPlat !== !S.off) boxTo(onPlat); else api.redraw(); }, { dim: true });
+        if (kind === 'wt') return carry(holder, t, e, function (p, moved) { sg.set(); if (!moved || p.y < BAL.TRY) addW(+t.getAttribute('data-g')); });
+        if (kind === 'pw') return carry(holder, t, e, function (p, moved) { sg.set(); var g = +t.getAttribute('data-g'); if (!moved || p.y >= BAL.TRY - 10 || p.x < BAL.MID - 20) setL(function () { var i = S.L.indexOf(g); if (i > -1) S.L.splice(i, 1); }); else api.redraw(); }, { dim: true });
         return { move: function (e) {
+          S.off = 0;
           var p = P(holder, e), a = Math.atan2(p.x - CX, CY - p.y); if (a < 0) a += 2 * Math.PI;
           var mx = wMax(), w = Math.round(a / (2 * Math.PI) * mx / S.tk) * S.tk;
           if (Math.abs(w - S.w) > mx / 2) w = S.w > mx / 2 ? mx : 0;
@@ -503,7 +703,7 @@
     defaults: { u: 'ml', mx: 1000, tk: 100, c: 1, a0: 400, a1: 0 },
     mount: function (api) {
       var S = api.S, mlMx, mlTk, cupTk, qtTk, a0In, a1In;
-      api.say('Drag up or down inside a beaker to fill it. Read the marks on the side.');
+      api.say('Drag up or down inside a beaker to fill it. To pour, drag the yellow handle over the other beaker.');
       api.seg('Units', 'u', [['ml', 'Milliliters'], ['cup', 'Cups'], ['qt', 'Gallon jug']], function (u) {
         if (u === 'ml') { S.mx = 1000; S.tk = 100; S.a0 = 400; } else if (u === 'cup') { S.mx = 4; S.tk = 0.25; S.a0 = 1.5; } else { S.mx = 4; S.tk = 1; S.a0 = 3; }
         S.a1 = 0; mlMx.value = S.mx; [mlTk, cupTk, qtTk].forEach(function (s) { s.value = S.tk; }); a0In.value = S.a0; a1In.value = 0;
@@ -513,7 +713,7 @@
         mlMx = api.select('Biggest amount', 'mx', [[500, '500 mL'], [1000, '1 L (1,000 mL)'], [2000, '2 L (2,000 mL)']], fit);
         mlTk = api.select('Small marks every', 'tk', [[10, '10 mL'], [25, '25 mL'], [50, '50 mL'], [100, '100 mL'], [200, '200 mL']], fit);
       });
-      var cG = grp(api, function () { cupTk = api.select('Small marks every', 'tk', [[0.25, '¼ cup'], [0.5, '½ cup']], fit); });
+      var cG = grp(api, function () { var sg = api.seg('Small marks every', 'tk', [[0.25, O.frac(1, 4) + ' cup'], [0.5, O.frac(1, 2) + ' cup']], fit); cupTk = { set value(x) { sg.paint(); } }; });
       var qG = grp(api, function () { qtTk = api.select('Small marks every', 'tk', [[0.25, '1 cup'], [0.5, '1 pint'], [1, '1 quart']], fit); });
       showG(mG, S.u === 'ml'); showG(cG, S.u === 'cup'); showG(qG, S.u === 'qt');
       api.num('How many beakers', 'c', 1, 2, 1);
@@ -531,40 +731,72 @@
       var GT = 50, GB = 350, BWd = 130;
       function tickLab(q) {
         if (S.u === 'ml') return q === 1000 ? '1 L' : q === 2000 ? '2 L' : q + ' mL';
-        if (S.u === 'cup') return q % 1 ? (Math.floor(q) || '') + '½' : q + (q === 1 ? ' cup' : ' cups');
+        if (S.u === 'cup') return q % 1 ? null : q + (q === 1 ? ' cup' : ' cups'); /* halves are drawn stacked */
         return q === 4 ? '1 gal' : q + ' qt';
       }
+      /* a mixed number like 1 and one half, stacked, right-aligned at x */
+      function halfLab(p, x, y, q) { var w = Math.floor(q), fx = x - 8; sFrac(p, fx, y - 1, 1, 2, 11, NAVY, 'ink'); if (w) O.s('text', { x: fx - 10, y: y + 5, 'text-anchor': 'end', 'font-size': 13, fill: NAVY, class: 'ink', text: String(w) }, p); }
+      var water = [], lastLv = null;
       function lv(i) { return i ? S.a1 : S.a0; }
       function setLv(i, x) { x = O.clamp(snap(x), 0, S.mx); if (i) S.a1 = x; else S.a0 = x; (i ? a1In : a0In).value = x; }
       function draw() {
         holder.innerHTML = ''; btns.innerHTML = '';
-        var v = O.svg(S.c * 260, 400, holder, 'Beakers'); v.style.width = '100%'; v.style.maxWidth = (S.c * 300) + 'px';
+        var v = O.svg(S.c * 260, 460, holder, 'Beakers'); if (S.c > 1) v.setAttribute('viewBox', '0 -60 ' + (S.c * 260) + ' 460'); else v.setAttribute('viewBox', '0 0 260 400'), v.setAttribute('height', 400); v.style.width = '100%'; v.style.maxWidth = (S.c * 300) + 'px';
         var nT = S.mx / S.tk, lstep = S.tk; [1, 2, 4, 5, 10, 20].some(function (k) { lstep = S.tk * k; return S.mx / lstep <= 10 && Math.abs(Math.round(S.mx / lstep) - S.mx / lstep) < 1e-9; });
         if (S.u !== 'ml') lstep = S.u === 'cup' ? (S.tk === 0.25 ? 0.5 : 1) : 1;
         for (var i = 0; i < S.c; i++) {
-          var ox = i * 260 + 90, H = GB - GT, y = function (x) { return GB - x / S.mx * H; }, jug = S.u === 'qt';
-          O.s('rect', { x: ox, y: GT - 10, width: BWd, height: H + 10, rx: jug ? 22 : 4, fill: '#F4FAFF', stroke: '#7E9CC0', 'stroke-width': 3, class: 'paper' }, v);
-          var L = lv(i); if (L > 0) O.s('rect', { x: ox + 3, y: y(L), width: BWd - 6, height: GB - y(L) - 2, rx: 3, fill: '#5DB3EA', opacity: .85 }, v);
-          if (L > 0) O.s('rect', { x: ox + 3, y: y(L), width: BWd - 6, height: 4, fill: '#2F8FD0' }, v);
+          var ox = i * 260 + 90, H = GB - GT, y = function (x) { return GB - x / S.mx * H; }, jug = S.u === 'qt', gB = O.s('g', {}, v);
+          O.s('rect', { x: ox, y: GT - 10, width: BWd, height: H + 10, rx: jug ? 22 : 4, fill: '#F4FAFF', stroke: '#7E9CC0', 'stroke-width': 3, class: 'paper' }, gB);
+          var L = lv(i), wy = y(L), wr = O.s('rect', { x: ox + 3, y: wy, width: BWd - 6, height: Math.max(0, GB - wy - 2), rx: 3, fill: '#5DB3EA', opacity: L > 0 ? .85 : 0 }, gB);
+          var wl = O.s('rect', { x: ox + 3, y: wy, width: BWd - 6, height: 4, fill: '#2F8FD0', opacity: L > 0 ? 1 : 0 }, gB);
+          water[i] = { r: wr, l: wl, y: y, g: gB, ox: ox };
           var tp = '';
           for (var k = 0; k <= nT + 1e-9; k++) { var q = Math.round(k * S.tk * 1000) / 1000, isL = Math.abs(q / lstep - Math.round(q / lstep)) < 1e-9; tp += 'M' + ox + ',' + y(q).toFixed(1) + 'h' + (isL ? 26 : 13);
-            if (isL && q > 0) O.s('text', { x: ox - 8, y: y(q) + 5, 'text-anchor': 'end', 'font-size': 13, fill: NAVY, class: 'ink', text: tickLab(q) }, v); }
-          O.s('path', { d: tp, stroke: NAVY, 'stroke-width': 1.6, class: 'inks' }, v);
-          if (jug) O.s('text', { x: ox + BWd / 2, y: GT - 16, 'text-anchor': 'middle', 'font-size': 13, fill: MUTE, text: '1 gallon jug' }, v);
-          O.s('text', { x: ox + BWd / 2, y: GB + 34, 'text-anchor': 'middle', 'font-size': 20, fill: NAVY, class: 'ink', text: S.c > 1 ? (i ? 'B' : 'A') : '' }, v);
-          var hit = O.s('rect', { x: ox, y: GT - 10, width: BWd, height: H + 14, fill: 'transparent', 'data-drag': String(i), style: 'cursor:ns-resize' }, v);
+            if (isL && q > 0) { var tl = tickLab(q); if (tl === null) halfLab(gB, ox - 4, y(q), q); else O.s('text', { x: ox - 8, y: y(q) + 5, 'text-anchor': 'end', 'font-size': 13, fill: NAVY, class: 'ink', text: tl }, gB); } }
+          O.s('path', { d: tp, stroke: NAVY, 'stroke-width': 1.6, class: 'inks' }, gB);
+          if (jug && S.c === 1) O.s('text', { x: ox + BWd / 2, y: GT - 16, 'text-anchor': 'middle', 'font-size': 13, fill: MUTE, text: '1 gallon jug' }, gB);
+          O.s('text', { x: ox + BWd / 2, y: GB + 34, 'text-anchor': 'middle', 'font-size': 20, fill: NAVY, class: 'ink', text: S.c > 1 ? (i ? 'B' : 'A') : '' }, gB);
+          var hit = O.s('rect', { x: ox, y: GT - 10, width: BWd, height: H + 14, fill: 'transparent', 'data-drag': String(i), style: 'cursor:ns-resize' }, gB);
           (function (i) { keys(hit, function (d) { setLv(i, lv(i) + d * S.tk); api.redraw(); }, 'Water in beaker ' + (i ? 'B' : 'A')); })(i);
+          if (S.c > 1) { var gr = O.s('g', { 'data-drag': 'pour', 'data-i': i, style: 'cursor:grab' }, gB);
+            O.s('rect', { x: ox + 10, y: GT - 48, width: BWd - 20, height: 30, rx: 9, fill: YEL, stroke: NAVY, 'stroke-width': 1.5 }, gr);
+            O.s('text', { x: ox + BWd / 2, y: GT - 28, 'text-anchor': 'middle', 'font-size': 13, fill: NAVY, text: 'Drag to pour' }, gr); }
         }
         if (S.c > 1) {
-          api.button('Pour A into B', function () { var m = Math.min(S.a0, S.mx - S.a1); setLv(0, S.a0 - m); setLv(1, S.a1 + m); api.redraw(); }, '', btns);
-          api.button('Pour B into A', function () { var m = Math.min(S.a1, S.mx - S.a0); setLv(1, S.a1 - m); setLv(0, S.a0 + m); api.redraw(); }, '', btns);
+          api.button('Pour A into B', function () { var m = Math.min(S.a0, S.mx - S.a1); pour(function () { setLv(0, S.a0 - m); setLv(1, S.a1 + m); }); }, '', btns);
+          api.button('Pour B into A', function () { var m = Math.min(S.a1, S.mx - S.a0); pour(function () { setLv(1, S.a1 - m); setLv(0, S.a0 + m); }); }, '', btns);
         }
         api.button('Empty' + (S.c > 1 ? ' both' : ''), function () { setLv(0, 0); setLv(1, 0); api.redraw(); }, '', btns);
         var out = '<span>' + (S.c > 1 ? 'A: ' : '') + amt(S.a0) + '</span>';
         if (S.c > 1) out += '<span>B: ' + amt(S.a1) + '</span><span>Together: ' + amt(Math.round((S.a0 + S.a1) * 1000) / 1000) + '</span>';
         api.readout(out);
+        api.report({ v: String(S.u === 'qt' ? Math.round(S.a0 * 4 * 1000) / 1000 : S.a0) });
+      }
+      /* pour: change the levels, redraw, then slide the water from the old level to the new one */
+      function pour(fn) {
+        var old = [S.a0, S.a1]; fn(); api.redraw();
+        [0, 1].forEach(function (i) { var w = water[i]; if (!w || old[i] === lv(i)) return;
+          var y0 = w.y(old[i]), y1 = w.y(lv(i));
+          w.r.setAttribute('opacity', .85); w.l.setAttribute('opacity', 1);
+          O.anim(w.r, { y: y0, height: Math.max(0, GB - y0 - 2) }, { y: y1, height: Math.max(0, GB - y1 - 2) }, 600, function () { if (!lv(i)) { w.r.setAttribute('opacity', 0); w.l.setAttribute('opacity', 0); } });
+          O.anim(w.l, { y: y0 }, { y: y1 }, 600); });
       }
       dragOn(holder, function (e, t) {
+        if (t.getAttribute('data-drag') === 'pour') {
+          var i0 = +t.getAttribute('data-i'), j = 1 - i0, w = water[i0], tw = water[j], p0 = P(holder, e), over = false, dx = 0, dy = 0, dir = tw.ox > w.ox ? 1 : -1;
+          return { move: function (ev) {
+            var p = P(holder, ev); dx = p.x - p0.x; dy = Math.min(p.y - p0.y, 0); if (w.g.nextSibling) w.g.parentNode.appendChild(w.g);
+            var cx = w.ox + BWd / 2 + dx; over = Math.abs(cx - (tw.ox + BWd / 2 - dir * BWd * 0.6)) < BWd * 0.8 && dy < -20;
+            w.g.setAttribute('transform', 'translate(' + dx + ' ' + dy + ')' + (over ? ' rotate(' + (dir * 42) + ' ' + (w.ox + BWd / 2) + ' ' + GT + ') translate(' + (w.ox + BWd / 2) + ' ' + GT + ') scale(.72) translate(' + -(w.ox + BWd / 2) + ' ' + -GT + ')' : ''));
+          }, end: function () {
+            if (!over) { api.redraw(); return; }
+            var m = i0 === 0 ? Math.min(S.a0, S.mx - S.a1) : Math.min(S.a1, S.mx - S.a0);
+            if (!m) { O.toast(lv(i0) ? 'The other beaker is full.' : 'This beaker is empty.'); api.redraw(); return; }
+            var mx = w.ox + BWd / 2 + dx + dir * 45, my = GT + dy + 35;
+            var st = O.s('path', { d: 'M' + mx + ',' + my + 'Q' + (mx + dir * 20) + ',' + (my + 40) + ' ' + (tw.ox + BWd / 2) + ',' + (tw.y(lv(j)) - 2), stroke: '#5DB3EA', 'stroke-width': 8, fill: 'none', 'stroke-linecap': 'round' }, holder.querySelector('svg'));
+            setTimeout(function () { st.remove(); pour(function () { if (i0 === 0) { setLv(0, S.a0 - m); setLv(1, S.a1 + m); } else { setLv(1, S.a1 - m); setLv(0, S.a0 + m); } }); }, O.reduce ? 0 : 450);
+          } };
+        }
         var i = +t.getAttribute('data-drag');
         function at(ev) { var p = P(holder, ev); setLv(i, (GB - p.y) / (GB - GT) * S.mx); draw(); }
         at(e); return { move: at, end: function () { api.redraw(); } };
@@ -604,6 +836,7 @@
       }
       function draw() {
         holder.innerHTML = ''; ctr.innerHTML = '';
+        api.say(S.el ? 'Tap Set start time. Then drag the long hand forward and watch the time that passes fill in.' : 'Drag the long hand or the short hand to set the time.');
         var v = O.svg(400, 400, holder, 'Clock showing ' + hm(S.t)); v.style.width = '100%'; v.style.maxWidth = '470px';
         O.s('circle', { cx: CX, cy: CY, r: R + 12, fill: VIO }, v);
         O.s('circle', { cx: CX, cy: CY, r: R, fill: '#fff', class: 'paper' }, v);
@@ -626,8 +859,10 @@
         tbox.style.display = S.tmr ? '' : 'none';
         var out = '';
         if (S.dg) out += '<span>Time: <b>' + hm(S.t) + '</b></span>';
-        if (S.el) out += '<span>Start: <b>' + hm(S.st) + '</b></span><span>End: <b>' + hm(S.t) + '</b></span><span>Time passed: <b>' + dur(((S.t - S.st) % 1440 + 1440) % 1440) + '</b></span>';
+        var el = ((S.t - S.st) % 1440 + 1440) % 1440;
+        if (S.el) out += '<span>Start: <b>' + hm(S.st) + '</b></span><span>End: <b>' + hm(S.t) + '</b></span><span>Time passed: <b>' + dur(el) + '</b></span>';
         api.readout(out);
+        var rep = { v: hm(S.t).replace(/ [ap]\.m\.$/, '') }; if (S.el) rep.e = String(el); api.report(rep);
       }
       /* timer panel (not saved in the link) */
       var tm = { mode: 'up', sec: 0, set: 300, run: false };

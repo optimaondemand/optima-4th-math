@@ -128,6 +128,8 @@ var OAOM = (function () {
       S: S, stage: stage, setup: side, board: document.body.classList.contains('board'),
       say: function (t) { sayEl.innerHTML = t || ''; },
       readout: function (h) { out.innerHTML = h || ''; },
+      /* report(o): the tool's current answer(s) as strings, e.g. {v:'2407'}; checked against the goal S._g */
+      report: function (o) { cur.rep = o || {}; goalCheck(); },
       changed: function () { clearTimeout(saveT); saveT = setTimeout(function () { if (!params.get('lesson')) history.replaceState(null, '', '#s=' + enc(cur.S)); else cur.lessonStates[cur.tab] = clone(cur.S); }, 250); },
       onRedraw: function (f) { redrawFn = f; },
       redraw: function () { redrawFn(); api.changed(); },
@@ -160,12 +162,43 @@ var OAOM = (function () {
       button: function (label, fn, cls, parent) { var b = el('button', { type: 'button', class: 'om-btn small ' + (cls || '') }, label); b.addEventListener('click', fn); (parent || side).appendChild(b); return b; },
       row: function (parent) { var r = el('div', { class: 'om-row' }); (parent || side).appendChild(r); return r; }
     };
+    goalBar();
     def.mount(api);
     redrawFn();
     /* kit note */
     if (m.kit) side.appendChild(el('div', { class: 'om-kit' }, '<b>Hands-on:</b> ' + m.kit + (m.home ? '<br><b>At home:</b> ' + m.home : '')));
     $('#om-main').classList.toggle('nosetup', !side.children.length);
+    /* with a goal, the setup panel starts folded so students build by hand instead of typing the answer in */
+    var aside = side.parentNode, h2 = aside.querySelector('h2');
+    aside.classList.toggle('folded', !!S._g);
+    h2.innerHTML = S._g ? '<button type="button" class="om-fold" aria-expanded="false">Set up (for teachers) ▸</button>' : 'Set up';
+    var fb = h2.querySelector('button'); if (fb) fb.onclick = function () { var open = aside.classList.toggle('folded') === false; fb.setAttribute('aria-expanded', open); fb.textContent = 'Set up (for teachers) ' + (open ? '▾' : '▸'); };
     $('#om-printhead').innerHTML = '<span><b>' + esc(m.name) + '</b>' + (cur.lessonId ? ' · Lesson ' + cur.lessonId : '') + '</span><span>Name: ______________________ &nbsp; Date: __________</span>';
+  }
+
+  /* ---------- goal + check-my-answer ----------
+     S._g = {t:'Build 2,407', k:'v', v:'2407', m:[['247','Look at the tens. Did you leave a spot for 0 tens?']]}
+     Goals live in the state, so they travel with share links. */
+  function norm(x) { return String(x == null ? '' : x).toLowerCase().replace(/[\s,$]/g, ''); }
+  function goalBar() {
+    var g = $('#om-goal'); if (!g) return; var S = cur.S;
+    var hidden = S._r === 0;
+    if (!S._g && !hidden) { g.hidden = true; g.innerHTML = ''; return; }
+    g.hidden = false;
+    g.innerHTML = (S._g ? '<span class="om-gt">🎯 ' + esc(S._g.t) + '</span>' : '<span class="om-gt">Work it out, then check.</span>') +
+      '<span class="om-gs" aria-live="polite"></span>' + (hidden ? '<button type="button" class="om-btn small" id="om-check">Check my answer</button>' : '');
+    var cb = $('#om-check'); if (cb) cb.onclick = function () { document.body.classList.remove('hide-nums'); cb.remove(); goalCheck(true); };
+  }
+  function goalCheck(force) {
+    var S = cur && cur.S, gs = $('#om-goal .om-gs'); if (!S || !S._g || !gs) return;
+    var k = S._g.k || 'v', val = norm((cur.rep || {})[k]), want = norm(S._g.v);
+    var revealed = S._r !== 0 || !document.body.classList.contains('hide-nums');
+    var ok = val !== '' && val === want, mis = (S._g.m || []).filter(function (m) { return norm(m[0]) === val; })[0];
+    gs.className = 'om-gs' + (ok ? ' ok' : mis ? ' hint' : '');
+    if (ok && (revealed || force)) { gs.textContent = '✓ You did it!'; if (!cur.cheered) { cur.cheered = 1; } }
+    else if (ok) gs.textContent = 'Ready? Tap Check my answer.';
+    else if (mis) gs.textContent = mis[1];
+    else gs.textContent = '';
   }
 
   function boot() {
@@ -182,11 +215,11 @@ var OAOM = (function () {
       '<button class="om-btn small" id="om-print" title="Print"><span class="lbl">Print</span><span aria-hidden="true">🖨</span></button>' +
       '<button class="om-btn small primary" id="om-share"><span class="lbl">Share</span><span aria-hidden="true">🔗</span></button></div></header>' +
       '<nav class="om-tabs" id="om-tabs" role="tablist" hidden></nav><p class="om-lessonnote" id="om-lnote" hidden></p>' +
-      '<main class="om-main" id="om-main"><section class="om-stagecard"><div class="om-printhead" id="om-printhead"></div><details class="om-how" id="om-how"' + (isEmbed ? '' : ' open') + '><summary>How to use this tool</summary><ol id="om-howlist"></ol></details><p class="om-say" id="om-say" aria-live="polite"></p><div class="om-stage" id="om-stage"></div><div class="om-readout om-num" id="om-readout" aria-live="polite"></div></section>' +
+      '<main class="om-main" id="om-main"><section class="om-stagecard"><div class="om-printhead" id="om-printhead"></div><details class="om-how" id="om-how"' + (isEmbed ? '' : ' open') + '><summary>How to use this tool</summary><ol id="om-howlist"></ol></details><p class="om-say" id="om-say" aria-live="polite"></p><div class="om-goal" id="om-goal" hidden></div><div class="om-stage" id="om-stage"></div><div class="om-readout om-num" id="om-readout" aria-live="polite"></div></section>' +
       '<aside class="om-side"><h2>Set up</h2><div id="om-setup"></div></aside></main>';
 
     $('#om-reset').onclick = function () { if (!cur) return; mount(cur.id, clone(cur.initial)); if (!lid) history.replaceState(null, '', '#s=' + enc(cur.initial)); };
-    $('#om-nums').onclick = function () { if (!cur) return; cur.S._r = cur.S._r === 0 ? 1 : 0; document.body.classList.toggle('hide-nums', cur.S._r === 0); this.setAttribute('aria-pressed', cur.S._r === 0 ? 'true' : 'false'); if (!lid) history.replaceState(null, '', '#s=' + enc(cur.S)); };
+    $('#om-nums').onclick = function () { if (!cur) return; cur.S._r = cur.S._r === 0 ? 1 : 0; document.body.classList.toggle('hide-nums', cur.S._r === 0); this.setAttribute('aria-pressed', cur.S._r === 0 ? 'true' : 'false'); goalBar(); goalCheck(); if (!lid) history.replaceState(null, '', '#s=' + enc(cur.S)); };
     $('#om-print').onclick = function () { window.print(); };
     $('#om-setbtn').onclick = function () { var on = document.body.classList.toggle('show-setup'); this.setAttribute('aria-pressed', on); };
     var big = $('#om-big'); if (big) big.onclick = function () { location.href = currentURL('&board=1'); };
@@ -226,6 +259,16 @@ var OAOM = (function () {
   function toolShare(id, state, s) { var mm = meta(id); return { title: mm.name, url: toolURL(id, state), dir: { title: 'Math tool: ' + mm.name, intro: mm.what, steps: mm.how, tries: s ? [['', s]] : null } }; }
   function currentURL(extra) { if (params.get('lesson')) return lessonURL(params.get('lesson'), extra); return toolURL(cur.id, cur.S, extra); }
 
-  return { register: register, boot: boot, tools: tools, s: s, svg: svg, el: el, pt: pt, drag: drag, tap: tap, clone: clone, clamp: clamp, gcd: gcd, fmt: fmt, frac: frac, mixed: mixed, esc: esc,
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* anim(node, attrs, ms): tween numeric SVG attributes (x, y, cx, cy, opacity, transform via 'tx','ty'); skipped under reduced motion */
+  function anim(node, from, to, ms, done) {
+    if (reduce || !node) { if (done) done(); return; }
+    var t0 = performance.now(); ms = ms || 350;
+    function step(t) { var k = Math.min(1, (t - t0) / ms), e = 1 - Math.pow(1 - k, 3);
+      for (var a in to) { var v = from[a] + (to[a] - from[a]) * e; if (a === 'tx' || a === 'ty') { var tx = a === 'tx' ? v : (node._tx || 0), ty = a === 'ty' ? v : (node._ty || 0); node._tx = tx; node._ty = ty; node.setAttribute('transform', 'translate(' + tx + ' ' + ty + ')'); } else node.setAttribute(a, v); }
+      if (k < 1) requestAnimationFrame(step); else if (done) done(); }
+    requestAnimationFrame(step);
+  }
+  return { reduce: reduce, anim: anim, register: register, boot: boot, tools: tools, s: s, svg: svg, el: el, pt: pt, drag: drag, tap: tap, clone: clone, clamp: clamp, gcd: gcd, fmt: fmt, frac: frac, mixed: mixed, esc: esc,
     enc: enc, dec: dec, directions: directions, lessonShare: lessonShare, toolShare: toolShare, toolURL: toolURL, lessonURL: lessonURL, share: share, copy: copy, toast: toast, meta: meta };
 })();
