@@ -80,26 +80,58 @@ var OAOM = (function () {
   };
   function addSt(u) { return /[?&]st=1/.test(u) ? u : u.replace(/(\?[^#]*)/, '$1&st=1'); }
   /* ---------- Turn in my work (students): a picture + a link to their exact work ---------- */
-  function workPicture(done) {
-    var svgs = [].slice.call(document.querySelectorAll('#om-stage svg')).filter(function (v) { var r = v.getBoundingClientRect(); return r.width > 60 && r.height > 30 && !v.closest('svg svg'); });
-    var title = (cur ? meta(cur.id).name : 'Math tool'), readout = document.body.classList.contains('hide-nums') || !$('#om-readout') ? '' : ([].map.call($('#om-readout').children, function (x) { return x.textContent.trim(); }).filter(Boolean).join('    ') || $('#om-readout').textContent.trim());
-    var sc = 2, pad = 24, W = 0, H = 0, parts = [];
-    svgs.forEach(function (v) { var r = v.getBoundingClientRect(); parts.push({ v: v, w: r.width, h: r.height }); W = Math.max(W, r.width); H += r.height + 12; });
-    W = Math.max(W, 420) + pad * 2; H += 70 + (readout ? 50 : 0) + pad;
-    var c = document.createElement('canvas'); c.width = W * sc; c.height = H * sc; var g = c.getContext('2d'); g.scale(sc, sc);
-    g.fillStyle = '#fff'; g.fillRect(0, 0, W, H); g.fillStyle = '#0E1C42'; g.font = 'bold 20px Nunito, Arial, sans-serif'; g.fillText(title, pad, 36);
-    g.font = '13px Nunito, Arial, sans-serif'; g.fillStyle = '#5B6478'; g.fillText(new Date().toLocaleString(), pad, 56);
-    var y = 70, i = 0;
+  /* picture of the tool: every svg drawn where it sits on the stage (pen ink on top); opts = {title, date, totals} */
+  function workPicture(done, opts) {
+    opts = Object.assign({ title: true, date: true, totals: true }, opts || {});
+    var stage = $('#om-stage'), sr = stage.getBoundingClientRect();
+    var svgs = [].slice.call(stage.querySelectorAll('svg')).filter(function (v) { var r = v.getBoundingClientRect(); return r.width > 30 && r.height > 20 && v.parentNode.closest('svg') === null && (v.id !== 'om-ink' || (cur && cur.S._ink && cur.S._ink.length)); });
+    svgs.sort(function (a, b) { return (a.id === 'om-ink') - (b.id === 'om-ink'); });
+    var title = (cur ? meta(cur.id).name : 'Math tool');
+    var readout = !opts.totals || document.body.classList.contains('hide-nums') || !$('#om-readout') ? '' : ([].map.call($('#om-readout').children, function (x) { return x.textContent.trim(); }).filter(Boolean).join('    ') || $('#om-readout').textContent.trim());
+    var sc = 2, pad = 24, parts = [], minX = 1e9, minY = 1e9, maxX = 0, maxY = 0;
+    svgs.forEach(function (v) { var r = v.getBoundingClientRect(), x = r.left - sr.left, y = r.top - sr.top;
+      if (v.id === 'om-ink') { parts.push({ v: v, x: x, y: y, w: r.width, h: r.height, ink: true }); return; }
+      parts.push({ v: v, x: x, y: y, w: r.width, h: r.height }); minX = Math.min(minX, x); minY = Math.min(minY, y); maxX = Math.max(maxX, x + r.width); maxY = Math.max(maxY, y + r.height); });
+    if (minX > maxX) { minX = 0; minY = 0; maxX = 420; maxY = 200; }
+    var head = (opts.title ? 34 : 0) + (opts.date ? 20 : 0) + (opts.title || opts.date ? 12 : 0);
+    var W = Math.max(maxX - minX, 300) + pad * 2, H = head + (maxY - minY) + (readout ? 56 : 0) + pad * 2;
+    var cv = document.createElement('canvas'); cv.width = W * sc; cv.height = H * sc; var g = cv.getContext('2d'); g.scale(sc, sc);
+    g.fillStyle = '#fff'; g.fillRect(0, 0, W, H);
+    var ty = pad; if (opts.title) { g.fillStyle = '#0E1C42'; g.font = 'bold 22px Nunito, Arial, sans-serif'; g.fillText(title, pad, ty + 22); ty += 34; }
+    if (opts.date) { g.font = '13px Nunito, Arial, sans-serif'; g.fillStyle = '#5B6478'; g.fillText(new Date().toLocaleString(), pad, ty + 14); ty += 20; }
+    var oy = pad + head - minY, ox = pad - minX, i = 0;
     (function next() {
       if (i >= parts.length) {
-        if (readout) { g.fillStyle = '#EFE9FB'; g.fillRect(pad, y, W - pad * 2, 38); g.fillStyle = '#0E1C42'; g.font = 'bold 16px Nunito, Arial, sans-serif'; g.fillText(readout.slice(0, 90), pad + 10, y + 25); }
-        done(c); return;
+        if (readout) { var ry = oy + maxY + 14; g.fillStyle = '#EFE9FB'; g.fillRect(pad, ry, W - pad * 2, 40); g.fillStyle = '#0E1C42'; g.font = 'bold 17px Nunito, Arial, sans-serif'; g.fillText(readout.slice(0, 95), pad + 12, ry + 27); }
+        done(cv); return;
       }
       var p = parts[i++], cl = p.v.cloneNode(true); cl.setAttribute('xmlns', 'http://www.w3.org/2000/svg'); cl.setAttribute('width', p.w); cl.setAttribute('height', p.h);
       var st = document.createElementNS('http://www.w3.org/2000/svg', 'style'); st.textContent = 'text{font-family:Nunito,Arial,sans-serif;font-weight:700}'; cl.insertBefore(st, cl.firstChild);
-      var img = new Image(); img.onload = function () { g.drawImage(img, pad, y, p.w, p.h); y += p.h + 12; next(); }; img.onerror = function () { y += p.h + 12; next(); };
+      var img = new Image(); img.onload = function () { g.drawImage(img, ox + p.x, oy + p.y, p.w, p.h); next(); }; img.onerror = function () { next(); };
       img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(cl));
     })();
+  }
+  /* ---------- Download picture (teacher): PNG or JPEG for slides and anchor charts ---------- */
+  function picture() {
+    if (!cur) return;
+    if (!modal) { modal = el('div', { class: 'om-modal', hidden: '' }); document.body.appendChild(modal); modal.addEventListener('click', function (e) { if (e.target === modal) closeShare(); }); document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeShare(); }); }
+    var opt = { title: false, date: false, totals: true };
+    modal.innerHTML = '<div class="om-dialog" role="dialog" aria-modal="true" aria-labelledby="om-pic-t"><h2 id="om-pic-t">Download a picture</h2>' +
+      '<p class="sub">A picture of the tool just as it looks now, for slides, anchor charts or a Canvas page.</p>' +
+      '<div class="om-row" style="margin:0 0 .4rem"><label class="om-check"><input type="checkbox" data-o="title"> Tool name on top</label><label class="om-check"><input type="checkbox" data-o="totals" checked> Totals under the tool</label></div>' +
+      '<div class="om-tipic"><p class="om-hint">Making the picture…</p></div>' +
+      '<div class="om-row"><button class="om-btn small primary" data-k="png">Download PNG</button><button class="om-btn small" data-k="jpg">Download JPEG</button><button class="om-btn small" data-k="copy">Copy picture</button></div>' +
+      '<p class="om-hint">PNG stays sharp in slides. JPEG makes a smaller file. Tip: Hide totals first if the picture should not show the answer.</p>' +
+      '<div class="om-row" style="justify-content:flex-end"><button class="om-btn small" data-x>Close</button></div></div>';
+    modal.hidden = false; modal.querySelector('[data-x]').onclick = closeShare;
+    var canvas = null, name = meta(cur.id).name.replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+    function render() { workPicture(function (cv) { canvas = cv; var box = modal.querySelector('.om-tipic'); box.innerHTML = ''; var im = new Image(); im.src = cv.toDataURL('image/png'); im.alt = 'Picture of the tool'; box.appendChild(im); }, opt); }
+    [].forEach.call(modal.querySelectorAll('[data-o]'), function (b) { b.onchange = function () { opt[b.dataset.o] = b.checked; render(); }; });
+    function dl(type, ext) { if (!canvas) return; var a = el('a', { href: canvas.toDataURL(type, 0.92), download: name + '.' + ext }); document.body.appendChild(a); a.click(); a.remove(); }
+    modal.querySelector('[data-k="png"]').onclick = function () { dl('image/png', 'png'); };
+    modal.querySelector('[data-k="jpg"]').onclick = function () { dl('image/jpeg', 'jpg'); };
+    modal.querySelector('[data-k="copy"]').onclick = function () { if (!canvas) return; if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) canvas.toBlob(function (b) { navigator.clipboard.write([new ClipboardItem({ 'image/png': b })]).then(function () { toast('Picture copied. Paste it into your slide.'); }, function () { toast('Copying didn’t work here. Use Download PNG.'); }); }); else toast('Use Download PNG in this browser.'); };
+    render();
   }
   function turnIn() {
     if (!cur) return;
@@ -358,7 +390,7 @@ var OAOM = (function () {
       '<button class="om-btn small om-sidetoggle" id="om-setbtn" aria-pressed="false"><span class="lbl">Set up</span><span aria-hidden="true">⚙</span></button>' +
       (isBoard ? '<button class="om-btn small" id="om-dark" aria-pressed="false"><span class="lbl">Dark</span><span aria-hidden="true">◐</span></button><button class="om-btn small" id="om-full"><span class="lbl">Full screen</span><span aria-hidden="true">⛶</span></button>' : '<button class="om-btn small" id="om-big" title="Big-screen mode"><span class="lbl">Big screen</span><span aria-hidden="true">⛶</span></button>') +
       '<button class="om-btn small" id="om-print" title="Print"><span class="lbl">Print</span><span aria-hidden="true">🖨</span></button>' +
-      (isStudent ? '<button class="om-btn small primary" id="om-turnin"><span class="lbl">Turn in my work</span><span aria-hidden="true">📤</span></button>' : '<button class="om-btn small" id="om-save" title="Save this setup to My setups"><span class="lbl">Save setup</span><span aria-hidden="true">💾</span></button><button class="om-btn small primary" id="om-share"><span class="lbl">Share</span><span aria-hidden="true">🔗</span></button>') + '</div></header>' +
+      (isStudent ? '<button class="om-btn small primary" id="om-turnin"><span class="lbl">Turn in my work</span><span aria-hidden="true">📤</span></button>' : '<button class="om-btn small" id="om-pic" title="Download a picture (PNG or JPEG)"><span class="lbl">Picture</span><span aria-hidden="true">🖼</span></button>'+'<button class="om-btn small" id="om-save" title="Save this setup to My setups"><span class="lbl">Save setup</span><span aria-hidden="true">💾</span></button><button class="om-btn small primary" id="om-share"><span class="lbl">Share</span><span aria-hidden="true">🔗</span></button>') + '</div></header>' +
       '<nav class="om-tabs" id="om-tabs" role="tablist" hidden></nav><p class="om-lessonnote" id="om-lnote" hidden></p>' +
       '<main class="om-main" id="om-main"><section class="om-stagecard"><div class="om-printhead" id="om-printhead"></div><details class="om-how" id="om-how"' + (isEmbed ? '' : ' open') + '><summary>How to use this tool</summary><button type="button" class="om-btn small om-read" id="om-read">🔊 Read to me</button><ol id="om-howlist"></ol></details>' +
       '<div class="om-toolbar om-noprint" role="toolbar" aria-label="Tool actions"><button type="button" class="om-btn small" id="om-undo" aria-label="Undo" title="Undo (Ctrl+Z)" disabled>↶ <span class="lbl">Undo</span></button><button type="button" class="om-btn small" id="om-redo" aria-label="Redo" title="Redo (Ctrl+Y)" disabled>↷ <span class="lbl">Redo</span></button>' +
@@ -376,6 +408,7 @@ var OAOM = (function () {
     var full = $('#om-full'); if (full) full.onclick = function () { if (document.fullscreenElement) document.exitFullscreen(); else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); };
     if ($('#om-turnin')) $('#om-turnin').onclick = turnIn;
     if ($('#om-save')) $('#om-save').onclick = saveSetup;
+    if ($('#om-pic')) $('#om-pic').onclick = picture;
     $('#om-undo').onclick = undo; $('#om-redo').onclick = redo;
     $('#om-pen').onclick = function () { setPen(!penOn); };
     [].forEach.call(document.querySelectorAll('.om-sw'), function (b) { b.onclick = function () { penCol = b.dataset.c; [].forEach.call(document.querySelectorAll('.om-sw'), function (x) { x.classList.toggle('sel', x === b); }); }; });
