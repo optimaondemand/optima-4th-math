@@ -14,6 +14,16 @@
    },
    {
     "who": "cora",
+    "t": "With feet, we traded 12 inches. With weight, we trade 16 ounces for 1 pound.",
+    "key": "8dd20a9b"
+   },
+   {
+    "who": "cora",
+    "t": "Watch the ounces. When they reach 16, trade them for a new pound. Never at 10!",
+    "key": "2a1c6b3a"
+   },
+   {
+    "who": "cora",
     "t": "You changed the 2 pounds: 2 × 16 = 32 ounces. Now add the 12 extra ounces too.",
     "key": "b32ce5ce"
    },
@@ -38,7 +48,7 @@
     "key": "a01ab7e9"
    }
   ],
-  "prompt": "That's the Smudge's label! A pound isn't 10 ounces. Count the little marks between 0 and 1 pound on the scale. <break time=\"1.5s\" /> Half of 10 is 5, but a pound is 16 ounces. What is half of 16? <break time=\"1.5s\" /> You changed the 2 pounds: 2 times 16 equals 32 ounces. Now add the 12 extra ounces too. <break time=\"1.5s\" /> A pound isn't 10 ounces. Count the little ounce marks from 0 to 1 pound. <break time=\"1.5s\" /> That trades 10 ounces. A pound is 16 ounces, not 10. 19 take away 16 is? <break time=\"1.5s\" /> Hello, I'm Cora. Mrs. Mabel puts a label on every sack in her store. I love a good label. <break time=\"1.5s\" /> When the ounces reach 16, trade them for 1 pound. Not 10. Sixteen!"
+  "prompt": "That's the Smudge's label! A pound isn't 10 ounces. Count the little marks between 0 and 1 pound on the scale. <break time=\"1.5s\" /> Half of 10 is 5, but a pound is 16 ounces. What is half of 16? <break time=\"1.5s\" /> With feet, we traded 12 inches. With weight, we trade 16 ounces for 1 pound. <break time=\"1.5s\" /> Watch the ounces. When they reach 16, trade them for a new pound. Never at 10! <break time=\"1.5s\" /> You changed the 2 pounds: 2 times 16 equals 32 ounces. Now add the 12 extra ounces too. <break time=\"1.5s\" /> A pound isn't 10 ounces. Count the little ounce marks from 0 to 1 pound. <break time=\"1.5s\" /> That trades 10 ounces. A pound is 16 ounces, not 10. 19 take away 16 is? <break time=\"1.5s\" /> Hello, I'm Cora. Mrs. Mabel puts a label on every sack in her store. I love a good label. <break time=\"1.5s\" /> When the ounces reach 16, trade them for 1 pound. Not 10. Sixteen!"
  },
  "hazel": {
   "voice_id": "MkTSSXNgnBULS6ek4pon",
@@ -47,6 +57,21 @@
     "who": "hazel",
     "t": "Picture the scale. 1-ounce weights filled it all the way to 1 lb. How many weights was that?",
     "key": "fafc4b06"
+   },
+   {
+    "who": "hazel",
+    "t": "I picture Mrs. Mabel's scale.",
+    "key": "64e04657"
+   },
+   {
+    "who": "hazel",
+    "t": "Every pound has 16 little marks, one for each ounce. So 2 pounds is 2 groups of 16 marks.",
+    "key": "6591b8c8"
+   },
+   {
+    "who": "hazel",
+    "t": "The pineapple's needle stops 9 marks past 2 pounds. The melon's needle stops 11 marks past. They are 2 marks apart!",
+    "key": "fcabfa31"
    },
    {
     "who": "hazel",
@@ -74,7 +99,7 @@
     "key": "ba26d777"
    }
   ],
-  "prompt": "Picture the scale. 1-ounce weights filled it all the way to 1 pound. How many weights was that? <break time=\"1.5s\" /> 2 pounds 12 ounces isn't 212 ounces. Picture the scale: 2 pounds is 2 groups of 16 ounce marks, then 12 more. <break time=\"1.5s\" /> Picture the dial: 1 pound has one little mark for every ounce. How many marks? <break time=\"1.5s\" /> Split 19 ounces with a number bond: 16 and 3. The 16 ounces make the new pound. <break time=\"1.5s\" /> Hi! I'm Hazel. I'm drawing the General Store. Look at that purple roof and the big brass scale out front! <break time=\"1.5s\" /> I picture the scale. Every 16 little ounce marks make one big pound."
+  "prompt": "Picture the scale. 1-ounce weights filled it all the way to 1 pound. How many weights was that? <break time=\"1.5s\" /> I picture Mrs. Mabel's scale. <break time=\"1.5s\" /> Every pound has 16 little marks, one for each ounce. So 2 pounds is 2 groups of 16 marks. <break time=\"1.5s\" /> The pineapple's needle stops 9 marks past 2 pounds. The melon's needle stops 11 marks past. They are 2 marks apart! <break time=\"1.5s\" /> 2 pounds 12 ounces isn't 212 ounces. Picture the scale: 2 pounds is 2 groups of 16 ounce marks, then 12 more. <break time=\"1.5s\" /> Picture the dial: 1 pound has one little mark for every ounce. How many marks? <break time=\"1.5s\" /> Split 19 ounces with a number bond: 16 and 3. The 16 ounces make the new pound. <break time=\"1.5s\" /> Hi! I'm Hazel. I'm drawing the General Store. Look at that purple roof and the big brass scale out front! <break time=\"1.5s\" /> I picture the scale. Every 16 little ounce marks make one big pound."
  },
  "felix": {
   "voice_id": "PJeatLZlmAT5jz5L5p7U",
@@ -88,6 +113,26 @@
     "who": "felix",
     "t": "Count up from 9 to 16: 10, 11, 12 … How many did you count?",
     "key": "6918a46f"
+   },
+   {
+    "who": "felix",
+    "t": "My way is all ounces.",
+    "key": "eccae10a"
+   },
+   {
+    "who": "felix",
+    "t": "I change the pineapple to ounces. 2 pounds is 2 × 16, so 32 ounces.",
+    "key": "d61d1be6"
+   },
+   {
+    "who": "felix",
+    "t": "32 ounces and 9 more ounces make 41 ounces. The melon is 43 ounces.",
+    "key": "94984d4f"
+   },
+   {
+    "who": "felix",
+    "t": "43 − 41 = 2. The melon is heavier by 2 ounces. Same answer as Atlas!",
+    "key": "38d0a39e"
    },
    {
     "who": "felix",
@@ -110,7 +155,7 @@
     "key": "8dd869bc"
    }
   ],
-  "prompt": "9 plus 1 makes 10. But a pound is 16 ounces, not 10. Count up from 9 to 16. <break time=\"1.5s\" /> Count up from 9 to 16: 10, 11, 12 ... How many did you count? <break time=\"1.5s\" /> Change the pounds first: 2 times 16 equals 32 ounces. Then add the 12 extra ounces. <break time=\"1.5s\" /> That trades 10 ounces, like tens and ones. 10 plus 9 equals 19 ounces, and 16 of them make the new pound. How many are left? <break time=\"1.5s\" /> Hey, I'm Felix! I tapped on every barrel by the store. They're all full. And something in there smells like cinnamon! <break time=\"1.5s\" /> I change it all to ounces first. 5 pounds is 5 times 16, so 80 ounces. Add 11 more: 91 ounces."
+  "prompt": "9 plus 1 makes 10. But a pound is 16 ounces, not 10. Count up from 9 to 16. <break time=\"1.5s\" /> Count up from 9 to 16: 10, 11, 12 ... How many did you count? <break time=\"1.5s\" /> My way is all ounces. <break time=\"1.5s\" /> I change the pineapple to ounces. 2 pounds is 2 times 16, so 32 ounces. <break time=\"1.5s\" /> 32 ounces and 9 more ounces make 41 ounces. The melon is 43 ounces. <break time=\"1.5s\" /> 43 − 41 equals 2. The melon is heavier by 2 ounces. Same answer as Atlas! <break time=\"1.5s\" /> Change the pounds first: 2 times 16 equals 32 ounces. Then add the 12 extra ounces. <break time=\"1.5s\" /> That trades 10 ounces, like tens and ones. 10 plus 9 equals 19 ounces, and 16 of them make the new pound. How many are left? <break time=\"1.5s\" /> Hey, I'm Felix! I tapped on every barrel by the store. They're all full. And something in there smells like cinnamon! <break time=\"1.5s\" /> I change it all to ounces first. 5 pounds is 5 times 16, so 80 ounces. Add 11 more: 91 ounces."
  },
  "atlas": {
   "voice_id": "unWb9iRIK7Xxf4A5Hfis",
@@ -119,6 +164,26 @@
     "who": "atlas",
     "t": "1 pound is 16 ounces. Split 16 into 2 equal parts.",
     "key": "87f29a78"
+   },
+   {
+    "who": "atlas",
+    "t": "My way is pounds and ounces.",
+    "key": "70457910"
+   },
+   {
+    "who": "atlas",
+    "t": "I change the melon's 43 ounces to pounds and ounces. I count by 16s: 16, 32. The next one, 48, is too many.",
+    "key": "d5075d35"
+   },
+   {
+    "who": "atlas",
+    "t": "So I split 43 into 32 and 11. 32 ounces is 2 pounds, so the melon is 2 lb 11 oz.",
+    "key": "8f9d8256"
+   },
+   {
+    "who": "atlas",
+    "t": "Both fruits are 2 pounds, and 11 ounces is 2 more than 9 ounces. The melon is heavier by 2 ounces!",
+    "key": "76665fbe"
    },
    {
     "who": "atlas",
@@ -146,7 +211,7 @@
     "key": "6e892272"
    }
   ],
-  "prompt": "1 pound is 16 ounces. Split 16 into 2 equal parts. <break time=\"1.5s\" /> 19 ounces is more than 16. Split it with a number bond: 16 and 3. The 16 make the new pound. What is left? <break time=\"1.5s\" /> Add the ounces: 10 plus 9 equals 19. Then trade 16 of them for 1 pound. <break time=\"1.5s\" /> 19 ounces is more than a pound. Trade 16 ounces for 1 pound. How many ounces are left? <break time=\"1.5s\" /> Hi, I'm Atlas! We made it to Eastside! I want to peek down every street in this town. <break time=\"1.5s\" /> I change ounces to pounds and ounces. I count by 16s and keep the leftover. 45 ounces is 32 ounces and 13 ounces, so it's 2 pounds 13 ounces."
+  "prompt": "1 pound is 16 ounces. Split 16 into 2 equal parts. <break time=\"1.5s\" /> My way is pounds and ounces. <break time=\"1.5s\" /> I change the melon's 43 ounces to pounds and ounces. I count by 16s: 16, 32. The next one, 48, is too many. <break time=\"1.5s\" /> So I split 43 into 32 and 11. 32 ounces is 2 pounds, so the melon is 2 pounds 11 ounces. <break time=\"1.5s\" /> Both fruits are 2 pounds, and 11 ounces is 2 more than 9 ounces. The melon is heavier by 2 ounces! <break time=\"1.5s\" /> 19 ounces is more than 16. Split it with a number bond: 16 and 3. The 16 make the new pound. What is left? <break time=\"1.5s\" /> Add the ounces: 10 plus 9 equals 19. Then trade 16 of them for 1 pound. <break time=\"1.5s\" /> 19 ounces is more than a pound. Trade 16 ounces for 1 pound. How many ounces are left? <break time=\"1.5s\" /> Hi, I'm Atlas! We made it to Eastside! I want to peek down every street in this town. <break time=\"1.5s\" /> I change ounces to pounds and ounces. I count by 16s and keep the leftover. 45 ounces is 32 ounces and 13 ounces, so it's 2 pounds 13 ounces."
  },
  "opti": {
   "voice_id": "WdZjiN0nNcik2LBjOHiv",
@@ -165,6 +230,31 @@
     "who": "opti",
     "t": "That big building is the General Store. Mrs. Mabel weighs everything she sells. Go say hello.",
     "key": "f340a789"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! The Math Crew solved the pineapple and melon puzzle. They each found the answer their own way.",
+    "key": "78b7c10b"
+   },
+   {
+    "who": "opti",
+    "t": "Walk up to each of them and listen. Then come back and tell me.",
+    "key": "dd07f9b6"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! Two ways, and one answer: the melon is heavier by 2 ounces.",
+    "key": "f95e912d"
+   },
+   {
+    "who": "opti",
+    "t": "Which way is most like yours? Write about it on your page, right under the Crew's card.",
+    "key": "6eba99ec"
+   },
+   {
+    "who": "opti",
+    "t": "Walk up to each Crew member and listen to their way first.",
+    "key": "b722791e"
    },
    {
     "who": "opti",
@@ -187,7 +277,7 @@
     "key": "6b945d8b"
    }
   ],
-  "prompt": "Welcome to Eastside, explorer. Last time you fixed the Foot Bridge and chased the Smudge across it. <break time=\"1.5s\" /> Do you still have that gray brick chip stamped with a G? Keep it safe. I think the Smudge came this way. <break time=\"1.5s\" /> That big building is the General Store. Mrs. Mabel weighs everything she sells. Go say hello. <break time=\"1.5s\" /> Gray fuzz that smells like hay. Next time we climb to the Hilltop Dairy, explorer. <break time=\"1.5s\" /> Every store job on the page helps Mrs. Mabel open for the day. <break time=\"1.5s\" /> Gray fuzz, just like the Smudge. And it smells like hay. <break time=\"1.5s\" /> Hay means cows, and cows mean the Hilltop Dairy. Keep the fuzz with your brick chip, explorer. Next lesson, we climb the hill."
+  "prompt": "Welcome to Eastside, explorer. Last time you fixed the Foot Bridge and chased the Smudge across it. <break time=\"1.5s\" /> Do you still have that gray brick chip stamped with a G? Keep it safe. I think the Smudge came this way. <break time=\"1.5s\" /> That big building is the General Store. Mrs. Mabel weighs everything she sells. Go say hello. <break time=\"1.5s\" /> The Math Crew solved the pineapple and melon puzzle. They each found the answer their own way. <break time=\"1.5s\" /> Walk up to each of them and listen. Then come back and tell me. <break time=\"1.5s\" /> Two ways, and one answer: the melon is heavier by 2 ounces. <break time=\"1.5s\" /> Which way is most like yours? Write about it on your page, right under the Crew's card. <break time=\"1.5s\" /> Walk up to each Crew member and listen to their way first. <break time=\"1.5s\" /> Gray fuzz that smells like hay. Next time we climb to the Hilltop Dairy, explorer. <break time=\"1.5s\" /> Every store job on the page helps Mrs. Mabel open for the day. <break time=\"1.5s\" /> Gray fuzz, just like the Smudge. And it smells like hay. <break time=\"1.5s\" /> Hay means cows, and cows mean the Hilltop Dairy. Keep the fuzz with your brick chip, explorer. Next lesson, we climb the hill."
  },
  "mabel": {
   "voice_id": "vjcrpGpR31efFHsvJ0ym",

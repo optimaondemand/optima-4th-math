@@ -160,6 +160,33 @@ D.quests.fix={
   transcript:['Mrs. Mabel: That sack by the door has a label I never wrote: 2 lb 19 oz. Can a label even say that?','Cora: 19 ounces is more than 16. Trade 16 ounces for 1 pound.','You: 2 lb 19 oz = 3 lb 3 oz.','Under the label: a tuft of gray fuzz.','Opti: Gray fuzz, like the Smudge. It smells like hay. Hay means cows, and cows mean the Hilltop Dairy!']
 };
 
+D.quests.crew={
+  title:'Hear the Crew\'s Ways',spawn:[6,13,'down'],next:{tab:'learn',sel:'#journal-compare',label:'Which way is like yours?'},
+  teaser:'The Math Crew solved the pineapple and melon puzzle. Walk to each of them and hear how they did it.',
+  doneText:'Atlas changed the melon to pounds and ounces. Felix changed the pineapple to ounces. Hazel pictured the scale, and Cora traded 16, not 10. Next: which way is most like yours?',
+  goal:function(S){var q=S.q.crew||{},n=Object.keys(q.heard||{}).length;return n<4?'Walk to each Math Crew member and hear their way <b>('+n+'/4)</b>':'Tell <b>Opti</b> what you heard.';},
+  markers:function(S){var h=(S.q.crew||{}).heard||{};var m=['atlas','felix','hazel','cora'].filter(function(c){return !h[c];}).map(function(c){return {id:c};});return m.length?m:[{id:'opti'}];},
+  start:function(api){var q=api.q();if(!q.seen){q.seen=1;api.save();
+    api.say([{who:'opti',t:'Hoo! The Math Crew solved the pineapple and melon puzzle. They each found the answer their own way.'},
+      {who:'opti',t:'Walk up to each of them and listen. Then come back and tell me.'}],function(a){a.goal(D.quests.crew.goal(a.S));});}},
+  reset:function(S){S.q.crew={};},
+  transcript:['Atlas (pounds and ounces): change the melon\'s 43 oz to pounds and ounces. Count by 16s: 16, 32. 43 = 32 + 11, so 2 lb 11 oz. 11 oz is 2 more than 9 oz.','Felix (all ounces): 2 lb = 2 × 16 = 32 oz. 32 + 9 = 41 oz. 43 − 41 = 2.','Hazel (picture the scale): every pound has 16 little marks. The needles are 2 marks apart.','Cora (trade 16, not 10): when the ounces reach 16, trade them for a pound.','Opti: Two ways, one answer. The melon is heavier by 2 ounces.']
+};
+var WAYS={
+  atlas:[{who:'atlas',t:'My way is pounds and ounces.'},
+    {who:'atlas',t:'I change the melon\'s 43 ounces to pounds and ounces. I count by 16s: 16, 32. The next one, 48, is too many.'},
+    {who:'atlas',t:'So I split 43 into 32 and 11. 32 ounces is 2 pounds, so the melon is 2 lb 11 oz.'},
+    {who:'atlas',t:'Both fruits are 2 pounds, and 11 ounces is 2 more than 9 ounces. The melon is heavier by 2 ounces!'}],
+  felix:[{who:'felix',t:'My way is all ounces.'},
+    {who:'felix',t:'I change the pineapple to ounces. 2 pounds is 2 × 16, so 32 ounces.'},
+    {who:'felix',t:'32 ounces and 9 more ounces make 41 ounces. The melon is 43 ounces.'},
+    {who:'felix',t:'43 − 41 = 2. The melon is heavier by 2 ounces. Same answer as Atlas!'}],
+  hazel:[{who:'hazel',t:'I picture Mrs. Mabel\'s scale.'},
+    {who:'hazel',t:'Every pound has 16 little marks, one for each ounce. So 2 pounds is 2 groups of 16 marks.'},
+    {who:'hazel',t:'The pineapple\'s needle stops 9 marks past 2 pounds. The melon\'s needle stops 11 marks past. They are 2 marks apart!'}],
+  cora:[{who:'cora',t:'With feet, we traded 12 inches. With weight, we trade 16 ounces for 1 pound.'},
+    {who:'cora',t:'Watch the ounces. When they reach 16, trade them for a new pound. Never at 10!'}]
+};
 /* ───────── talk ───────── */
 /* The Crew says hello and talks about Eastside first (HELLO). Their method lines (IDLE) unlock only after the page teaches
    both methods: CREW_TAUGHT is Relabel the Flour (Job 3), the second Learn job after the Crew card. */
@@ -190,6 +217,10 @@ function curQuest(){var s=document.querySelector('.pq-slot.pq-live');return s&&s
 function padOf(who,t,eq,unit,check){var p={who:who,t:t,pad:{eq:eq,unit:unit,check:function(v,a){check(v,a,p);}}};return p;}
 D.talk=function(id,api){
   var S=api.S,q=curQuest();
+  if(q==='crew'&&WAYS[id]){return api.say(WAYS[id],function(a){var C=a.S.q.crew;C.heard=C.heard||{};C.heard[id]=1;a.save();
+      var n=Object.keys(C.heard).length;a.say([{who:'sys',t:n<4?'That\'s '+n+' of 4. Find the next Crew member.':'You heard all four! Go back to Opti.'}],function(b){b.goal(D.quests.crew.goal(b.S));});});}
+  if(q==='crew'&&id==='opti'){var CC=S.q.crew||{};if(Object.keys(CC.heard||{}).length>=4)return api.say([{who:'opti',t:'Hoo! Two ways, and one answer: the melon is heavier by 2 ounces.'},{who:'opti',t:'Which way is most like yours? Write about it on your page, right under the Crew\'s card.'}],function(a){a.complete();});
+    return api.say([{who:'opti',t:'Walk up to each Crew member and listen to their way first.'}]);}
   if(id==='opti'){
     if(S.world.fuzz)return api.say([{who:'opti',t:'Gray fuzz that smells like hay. Next time we climb to the Hilltop Dairy, {name}.'}]);
     return api.say([{who:'opti',t:'Hoo! Every store job on the page helps Mrs. Mabel open for the day.'}]);

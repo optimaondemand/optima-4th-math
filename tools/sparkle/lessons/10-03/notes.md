@@ -53,3 +53,8 @@ All keys right; no IP fact computed. Fixed: nuts weight clash in the build quest
 
 ## Videos
 think (cards), learn (fruits chart board, two-ways board, live `?board=raisins`), do (3 lb 11 oz + 2 lb 8 oz; 7 lb 5 oz − 2 lb 9 oz "your turn first"; 6 lb 13 oz = 109 oz; mistake 4 lb 18 oz ≠ 5 lb 8 oz), wrap. Learn uses the job's own raisins (45 oz), like 10.02 (imitation first). Old welcome video stays in Think until a new one is recorded.
+
+## Revision 31 Oct 2026 (Bethany's review)
+- Defined words: the meaning is a tooltip (hover, focus, tap), not parentheses in the sentence; the tooltip floats on the page body so card edges never clip it (shared layer, all lessons).
+- Store Scale: key under the dial; Read the Scale has a new middle round (beans 1 lb 5 oz) and numbered, lit marks while counting; a "light up the marks" helper on reading rounds; plain on-scale wording.
+- New 5th game window **crew** ("Hear the Crew's Ways", talk) right above the Crew card on Learn: walk to Atlas, Felix, Hazel and Cora to hear their way for the pineapple/melon puzzle (voiced), then Opti sends students to the compare box. Not locked (it sits where the card teaches the ways). The card stays for clean mode.

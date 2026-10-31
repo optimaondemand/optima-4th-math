@@ -218,13 +218,22 @@ function writing(){
 /* 3. new words defined in the sentence, the first time a student meets them: PQ_LESSON.words = [{w, d}] (reading order) */
 var SKIP='script,style,textarea,input,button,select,svg,canvas,summary,.pq-slot,.pq-vslot,.mk-board-mount,[data-mk-model],.flip-card,.pq-def,.mk-tip-name,.header,.standards-panel,.gathered-box,.turn-in-card,.pq-hint,.pq-write';
 function defTip(sp){var tip=$('.pq-def-m',sp);
-  function place(){tip.style.marginLeft='0px';var r=tip.getBoundingClientRect(),vw=document.documentElement.clientWidth,dx=0;
-    if(r.right>vw-8)dx=vw-8-r.right;if(r.left+dx<8)dx=8-r.left;tip.style.marginLeft=dx+'px';tip.style.setProperty('--ax',(-dx)+'px');}
-  var at=0;function open(on){if(on&&!sp.classList.contains('open'))at=Date.now();sp.classList.toggle('open',on);sp.setAttribute('aria-expanded',on?'true':'false');if(on)place();}
+  // the tooltip floats on <body> while it is open (position:fixed), so no card edge or scroll box can clip it;
+  // it sits above the word, or below when there is no room, and stays inside the window
+  function place(){var r=sp.getBoundingClientRect(),vw=document.documentElement.clientWidth,vh=window.innerHeight;
+    tip.style.left='0px';tip.style.top='0px';var t=tip.getBoundingClientRect(),w=t.width,h=t.height,cx=r.left+r.width/2;
+    var x=Math.max(8,Math.min(vw-8-w,cx-w/2)),below=r.top-h-12<8,y=below?r.bottom+10:r.top-h-10;
+    if(below&&y+h>vh-8)y=Math.max(8,vh-8-h);
+    tip.style.left=x+'px';tip.style.top=y+'px';tip.classList.toggle('below',below);tip.style.setProperty('--ax',(cx-x)+'px');}
+  var at=0;
+  function open(on){var was=sp.classList.contains('open');if(on&&!was)at=Date.now();sp.classList.toggle('open',on);sp.setAttribute('aria-expanded',on?'true':'false');
+    if(on){if(tip.parentNode!==document.body)document.body.appendChild(tip);tip.classList.add('pq-tip-on');place();}
+    else{tip.classList.remove('pq-tip-on');if(tip.parentNode!==sp)sp.appendChild(tip);}}
   sp.addEventListener('mouseenter',function(){open(true);});sp.addEventListener('mouseleave',function(){if(document.activeElement!==sp)open(false);});
   sp.addEventListener('focus',function(){open(true);});sp.addEventListener('blur',function(){open(false);});
   sp.addEventListener('click',function(e){e.preventDefault();if(Date.now()-at<400)return;open(!sp.classList.contains('open'));}); // a tap opens it (focus) and doesn't close it again
   sp.addEventListener('keydown',function(e){if(e.key==='Escape'){open(false);sp.blur();}if(e.key==='Enter'||e.key===' '){e.preventDefault();open(!sp.classList.contains('open'));}});
+  window.addEventListener('scroll',function(){if(sp.classList.contains('open'))place();},{passive:true});
 }
 function defineWords(){
   var root=$('.tab-panel')?$('.tab-panel').parentNode:document.body,scope=$$('.tab-panel');

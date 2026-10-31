@@ -43,7 +43,7 @@ s = s[:i] + '<div class="fluency-grid" id="fluencyGrid">' + ''.join(
 i = s.index('<div class="activity bl-violet"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">👋</div>'); j = block_end(s, i); s = s[:i] + s[j:]
 CREW = ('<div class="activity bl-violet" id="mk-crew"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">👋</div><div><div class="activity-title">The Math Crew: Two Ways</div>'
  '<div class="activity-sub">Which is heavier: the pineapple at 2 lb 9 oz, or the melon at 43 oz?</div></div></div><div class="activity-body">'
- '<p>The Crew found the answer two different ways. Read both. Which way would you pick?</p>'
+ '<p>The Crew found the answer two different ways. Walk to each of them in the game above to hear their way, or read it here. Which way would you pick?</p>'
  '<div class="bubble-row">'
  '<div class="bubble atlas"><div class="bubble-avatar">A</div><div class="bubble-body"><div class="bubble-name">Atlas: pounds and ounces</div><div class="bubble-text">"I change the melon\'s 43 oz to pounds and ounces. I count by 16s: 16, 32. The next one, 48, is too many. So I split 43 into 32 and 11. 32 oz is 2 lb, so the melon is 2 lb 11 oz. Both are 2 pounds, and 11 ounces is 2 more than 9 ounces. The melon is heavier by 2 oz."</div></div></div>'
  '<div class="bubble felix"><div class="bubble-avatar">F</div><div class="bubble-body"><div class="bubble-name">Felix: all ounces</div><div class="bubble-text">"I change the pineapple to ounces. 2 lb is 2 × 16 = 32 oz. 32 oz + 9 oz = 41 oz. The melon is 43 oz, and 43 − 41 = 2. The melon is heavier by 2 oz. Same answer!"</div></div></div>'
@@ -86,7 +86,7 @@ i = s.index('<div aria-label="Daily vocabulary flash cards" class="vocab-section
 i = s.index('<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong>')
 j = block_end(s, i); k = s.index('<div class="activity bl-slate">', j); kend = block_end(s, k)
 assert 'Balance Scale' in s[k:kend]
-s = s[:i] + (video('learn') + CREW
+s = s[:i] + (video('learn') + slot('crew') + CREW
  + act('mk-raisins', '#C56C3F', '🍇', 'Repack the Raisins: 45 oz = ? lb ? oz', 'Job 2 · Count by 16s and use a number bond',
    job('The Smudge dumped Mrs. Mabel\'s raisins into one big bin: <strong>45 oz</strong> of them. She sells raisins in 1-pound bags, and her labels use pounds and ounces. <strong>How many pounds and ounces is 45 oz?</strong>',
        ['Fill 1-pound bags: tap <strong>+ Fill a 1 lb bag</strong>. Each bag holds 16 oz. Stop before you go past 45.',

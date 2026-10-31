@@ -55,6 +55,13 @@ ok(await p.evaluate(()=>Object.keys(PQ._state().q.find.fixed||{}).length===3),'f
 await talkTo(15,11,'up');await p.waitForTimeout(2800);ok(await p.evaluate(()=>!!PQ._state().done.find),'find quest clear');
 // ── Learn: job 2 raisins (bags + bond + boxes)
 await p.evaluate(()=>switchTab('learn'));await p.waitForTimeout(400);
+// crew quest: walk to each Crew member and hear their way (voiced), then Opti
+await p.evaluate(()=>PQ._play('crew'));await p.waitForTimeout(600);await drain();
+await talkTo(3,14,'left');ok(!(await p.evaluate(()=>!!PQ._state().done.crew)),'crew: Opti waits until all four are heard');
+for(const [x,y,d] of [[5,14,'down'],[7,14,'down'],[4,17,'right'],[8,17,'left']])await talkTo(x,y,d);
+ok(await p.evaluate(()=>Object.keys(PQ._state().q.crew.heard||{}).length===4),'crew: heard all four ways');
+ok((await lastLog('crew')).length>0&&await p.evaluate(()=>{const L=(PQ._state().logs||{}).crew||[];return L.some(l=>/43 ounces/.test(l))&&L.some(l=>/41/.test(l));}),'crew: Atlas\'s and Felix\'s ways are in the quest log');
+await talkTo(3,14,'left');await p.waitForTimeout(2800);ok(await p.evaluate(()=>!!PQ._state().done.crew),'crew quest clear');
 const R='#mk-raisins';await tapN(`${R} .mk-fill`,3);ok((await msg(`${R} .mk-bags .ok-msg`)).includes('only 45'),'raisins: a 3rd bag (48 oz) is refused');
 ok((await msg(`${R} .mk-bags .ok-sym`)).includes('2 full bags = 32 oz'),'raisins: 2 full bags = 32 oz');
 await p.fill(`${R} .nb-c input`,'12');await p.click(`${R} .nb-check`);ok((await msg(`${R} .nb-wrap + .ok-msg`)).length>0,'raisins bond: a wrong part gets a hint');
@@ -129,9 +136,9 @@ ok(hint&&await p.$eval('.ch-explain',e=>!e.hidden),'bonus: hint after a miss, 10
 // ── helpers: defined words, hint ladders, writing chips + counter
 const defs=await p.$$eval('.pq-def b',x=>x.map(e=>e.textContent));ok(defs.length===3,'defined words: '+defs.join(', '));
 ok(!(await p.$$eval('.activity-sub .pq-def, .activity-title .pq-def',x=>x.length)),'no defined word sits in a heading');
-await p.evaluate(()=>switchTab('warmup'));await p.waitForTimeout(250);{const d=await p.$('.pq-def');await d.scrollIntoViewIfNeeded();ok(!(await p.$eval('.pq-def-m',e=>e.offsetParent!==null)),'word meaning hidden in the sentence');
-await d.hover();await p.waitForTimeout(100);ok(await p.$eval('.pq-def-m',e=>e.offsetParent!==null),'hover shows the meaning as a tooltip');await (await p.$('#mk-scale .ok-dial')).hover();await p.waitForTimeout(100);ok(!(await p.$eval('.pq-def-m',e=>e.offsetParent!==null)),'tooltip hides when the mouse leaves');
-await d.focus();ok(await p.$eval('.pq-def-m',e=>e.offsetParent!==null),'keyboard focus shows the tooltip');await d.screenshot({path:path.join(OUT,'def-tip.png')});}
+await p.evaluate(()=>switchTab('warmup'));await p.waitForTimeout(250);{const d=await p.$('.pq-def');await d.scrollIntoViewIfNeeded();ok(!(await p.evaluate(()=>(()=>{const t=document.querySelector('.pq-def-m.pq-tip-on');return !!t&&getComputedStyle(t).display!=='none';})())),'word meaning hidden in the sentence');
+await d.hover();await p.waitForTimeout(100);ok(await p.evaluate(()=>(()=>{const t=document.querySelector('.pq-def-m.pq-tip-on');return !!t&&getComputedStyle(t).display!=='none';})()),'hover shows the meaning as a tooltip');{const r=await p.evaluate(()=>{const t=document.querySelector('.pq-def-m.pq-tip-on').getBoundingClientRect();return [t.left,t.right,document.documentElement.clientWidth];});ok(r[0]>=0&&r[1]<=r[2],'tooltip stays inside the window');}await (await p.$('#mk-scale .ok-dial')).hover();await p.waitForTimeout(100);ok(!(await p.evaluate(()=>(()=>{const t=document.querySelector('.pq-def-m.pq-tip-on');return !!t&&getComputedStyle(t).display!=='none';})())),'tooltip hides when the mouse leaves');
+await d.focus();ok(await p.evaluate(()=>(()=>{const t=document.querySelector('.pq-def-m.pq-tip-on');return !!t&&getComputedStyle(t).display!=='none';})()),'keyboard focus shows the tooltip');await d.screenshot({path:path.join(OUT,'def-tip.png')});}
 await p.evaluate(()=>switchTab('assignment'));await p.waitForTimeout(250);
 for(let i=0;i<3;i++)await p.click('.pq-hint[data-hint="1"] .pq-hint-btn');ok(await p.$$eval('.pq-hint[data-hint="1"] li',x=>x.length)===3,'hint ladder: 3 rungs');
 ok(await p.$$eval('#tab-assignment .q-block .pq-hint',x=>x.length)===3,'every Show What You Know problem has a hint ladder');

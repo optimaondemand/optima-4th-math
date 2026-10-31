@@ -529,10 +529,11 @@ details.pq-intro .intro-2col{padding:0}
 .pq-def{position:relative;display:inline-block;cursor:help;border-radius:4px;outline:none}
 .pq-def b{color:#0E1C42;border-bottom:2px dotted #C56C3F}
 .pq-def:focus-visible b{outline:3px solid #55C8E8;outline-offset:2px}
-.pq-def-m{display:none;position:absolute;z-index:40;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);width:max-content;max-width:min(260px,80vw);
-  background:#2E1C4F;color:#fff;font-weight:700;font-size:15px;line-height:1.35;text-align:left;padding:8px 12px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.25);white-space:normal;pointer-events:none}
-.pq-def-m::after{content:'';position:absolute;top:100%;left:calc(50% + var(--ax,0px));transform:translateX(-50%);border:7px solid transparent;border-top-color:#2E1C4F}
-.pq-def.open .pq-def-m{display:block}
+.pq-def-m{display:none;position:fixed;z-index:9999;left:0;top:0;width:max-content;max-width:min(260px,calc(100vw - 16px));
+  background:#2E1C4F;color:#fff;font-weight:700;font-size:15px;line-height:1.35;text-align:left;padding:8px 12px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.25);white-space:normal;pointer-events:none;font-family:Nunito,sans-serif}
+.pq-def-m::after{content:'';position:absolute;top:100%;left:var(--ax,50%);transform:translateX(-50%);border:7px solid transparent;border-top-color:#2E1C4F}
+.pq-def-m.below::after{top:auto;bottom:100%;border-top-color:transparent;border-bottom-color:#2E1C4F}
+.pq-def-m.pq-tip-on{display:block}
 
 /* Two-Unit Mat */
 .ok-groups{display:grid;gap:6px;margin:0 0 4px;font-weight:900;font-size:13px;line-height:1;letter-spacing:.5px;color:#3A3550;text-align:center}  /* no uppercase: mL and cm must keep their case */

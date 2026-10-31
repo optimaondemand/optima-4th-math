@@ -162,6 +162,33 @@ D.quests.fix={
   transcript:['Mrs. Mabel: That sack by the door has a label I never wrote: 2 lb 19 oz. Can a label even say that?','Cora: 19 ounces is more than 16. Trade 16 ounces for 1 pound.','You: 2 lb 19 oz = 3 lb 3 oz.','Under the label: a tuft of gray fuzz.','Opti: Gray fuzz, like the Smudge. It smells like hay. Hay means cows, and cows mean the Hilltop Dairy!']
 };
 
+D.quests.crew={
+  title:'Hear the Crew\'s Ways',spawn:[6,13,'down'],next:{tab:'learn',sel:'#journal-compare',label:'Which way is like yours?'},
+  teaser:'The Math Crew solved the pineapple and melon puzzle. Walk to each of them and hear how they did it.',
+  doneText:'Atlas changed the melon to pounds and ounces. Felix changed the pineapple to ounces. Hazel pictured the scale, and Cora traded 16, not 10. Next: which way is most like yours?',
+  goal:function(S){var q=S.q.crew||{},n=Object.keys(q.heard||{}).length;return n<4?'Walk to each Math Crew member and hear their way <b>('+n+'/4)</b>':'Tell <b>Opti</b> what you heard.';},
+  markers:function(S){var h=(S.q.crew||{}).heard||{};var m=['atlas','felix','hazel','cora'].filter(function(c){return !h[c];}).map(function(c){return {id:c};});return m.length?m:[{id:'opti'}];},
+  start:function(api){var q=api.q();if(!q.seen){q.seen=1;api.save();
+    api.say([{who:'opti',t:'Hoo! The Math Crew solved the pineapple and melon puzzle. They each found the answer their own way.'},
+      {who:'opti',t:'Walk up to each of them and listen. Then come back and tell me.'}],function(a){a.goal(D.quests.crew.goal(a.S));});}},
+  reset:function(S){S.q.crew={};},
+  transcript:['Atlas (pounds and ounces): change the melon\'s 43 oz to pounds and ounces. Count by 16s: 16, 32. 43 = 32 + 11, so 2 lb 11 oz. 11 oz is 2 more than 9 oz.','Felix (all ounces): 2 lb = 2 × 16 = 32 oz. 32 + 9 = 41 oz. 43 − 41 = 2.','Hazel (picture the scale): every pound has 16 little marks. The needles are 2 marks apart.','Cora (trade 16, not 10): when the ounces reach 16, trade them for a pound.','Opti: Two ways, one answer. The melon is heavier by 2 ounces.']
+};
+var WAYS={
+  atlas:[{who:'atlas',t:'My way is pounds and ounces.'},
+    {who:'atlas',t:'I change the melon\'s 43 ounces to pounds and ounces. I count by 16s: 16, 32. The next one, 48, is too many.'},
+    {who:'atlas',t:'So I split 43 into 32 and 11. 32 ounces is 2 pounds, so the melon is 2 lb 11 oz.'},
+    {who:'atlas',t:'Both fruits are 2 pounds, and 11 ounces is 2 more than 9 ounces. The melon is heavier by 2 ounces!'}],
+  felix:[{who:'felix',t:'My way is all ounces.'},
+    {who:'felix',t:'I change the pineapple to ounces. 2 pounds is 2 × 16, so 32 ounces.'},
+    {who:'felix',t:'32 ounces and 9 more ounces make 41 ounces. The melon is 43 ounces.'},
+    {who:'felix',t:'43 − 41 = 2. The melon is heavier by 2 ounces. Same answer as Atlas!'}],
+  hazel:[{who:'hazel',t:'I picture Mrs. Mabel\'s scale.'},
+    {who:'hazel',t:'Every pound has 16 little marks, one for each ounce. So 2 pounds is 2 groups of 16 marks.'},
+    {who:'hazel',t:'The pineapple\'s needle stops 9 marks past 2 pounds. The melon\'s needle stops 11 marks past. They are 2 marks apart!'}],
+  cora:[{who:'cora',t:'With feet, we traded 12 inches. With weight, we trade 16 ounces for 1 pound.'},
+    {who:'cora',t:'Watch the ounces. When they reach 16, trade them for a new pound. Never at 10!'}]
+};
 /* ───────── talk ───────── */
 /* The Crew says hello and talks about Eastside first (HELLO). Their method lines (IDLE) unlock only after the page teaches
    both methods: CREW_TAUGHT is Relabel the Flour (Job 3), the second Learn job after the Crew card. */
@@ -192,6 +219,10 @@ function curQuest(){var s=document.querySelector('.pq-slot.pq-live');return s&&s
 function padOf(who,t,eq,unit,check){var p={who:who,t:t,pad:{eq:eq,unit:unit,check:function(v,a){check(v,a,p);}}};return p;}
 D.talk=function(id,api){
   var S=api.S,q=curQuest();
+  if(q==='crew'&&WAYS[id]){return api.say(WAYS[id],function(a){var C=a.S.q.crew;C.heard=C.heard||{};C.heard[id]=1;a.save();
+      var n=Object.keys(C.heard).length;a.say([{who:'sys',t:n<4?'That\'s '+n+' of 4. Find the next Crew member.':'You heard all four! Go back to Opti.'}],function(b){b.goal(D.quests.crew.goal(b.S));});});}
+  if(q==='crew'&&id==='opti'){var CC=S.q.crew||{};if(Object.keys(CC.heard||{}).length>=4)return api.say([{who:'opti',t:'Hoo! Two ways, and one answer: the melon is heavier by 2 ounces.'},{who:'opti',t:'Which way is most like yours? Write about it on your page, right under the Crew\'s card.'}],function(a){a.complete();});
+    return api.say([{who:'opti',t:'Walk up to each Crew member and listen to their way first.'}]);}
   if(id==='opti'){
     if(S.world.fuzz)return api.say([{who:'opti',t:'Gray fuzz that smells like hay. Next time we climb to the Hilltop Dairy, {name}.'}]);
     return api.say([{who:'opti',t:'Hoo! Every store job on the page helps Mrs. Mabel open for the day.'}]);
@@ -558,4 +589,4 @@ return {
 };
 })();
 
-PQ_DATA.voice={"dir": "assets/audio/lessons/10-03/", "clips": {"eb8dd900": "cora-eb8dd900.mp3?v=b3d589f1", "237706a2": "cora-237706a2.mp3?v=7efd27ac", "b32ce5ce": "cora-b32ce5ce.mp3?v=ae32a000", "59ec19f2": "cora-59ec19f2.mp3?v=41fa51ef", "20cb59ea": "cora-20cb59ea.mp3?v=ca76b01a", "3ed62bda": "cora-3ed62bda.mp3?v=b2edb09f", "a01ab7e9": "cora-a01ab7e9.mp3?v=49125e96", "fafc4b06": "hazel-fafc4b06.mp3?v=26172913", "08b11795": "hazel-08b11795.mp3?v=7fe2c9b8", "c129c790": "hazel-c129c790.mp3?v=9089a493", "6917b5f2": "hazel-6917b5f2.mp3?v=e0413ac8", "5616493b": "hazel-5616493b.mp3?v=5b0e3025", "ba26d777": "hazel-ba26d777.mp3?v=58eadcfb", "74a1aac5": "felix-74a1aac5.mp3?v=50659b0f", "6918a46f": "felix-6918a46f.mp3?v=6c879d1a", "1021e043": "felix-1021e043.mp3?v=e18e233f", "c5bea4f0": "felix-c5bea4f0.mp3?v=93ed02ab", "e87e4882": "felix-e87e4882.mp3?v=b01dd434", "8dd869bc": "felix-8dd869bc.mp3?v=f37730d8", "87f29a78": "atlas-87f29a78.mp3?v=b0d11571", "fb85adc6": "atlas-fb85adc6.mp3?v=127291e3", "4658dcec": "atlas-4658dcec.mp3?v=12e94a71", "28ce8b2c": "atlas-28ce8b2c.mp3?v=46af5cad", "f8004a3c": "atlas-f8004a3c.mp3?v=60d3f1ae", "6e892272": "atlas-6e892272.mp3?v=df6d853c", "1caadebb": "opti-1caadebb.mp3?v=cb908953", "b9adf764": "opti-b9adf764.mp3?v=b17b1c91", "f340a789": "opti-f340a789.mp3?v=08382467", "67f9321a": "opti-67f9321a.mp3?v=f7e59887", "5e4a8c49": "opti-5e4a8c49.mp3?v=810a214b", "7c0bc42e": "opti-7c0bc42e.mp3?v=b89c5157", "6b945d8b": "opti-6b945d8b.mp3?v=d4ffe021", "a72971b1": "mabel-a72971b1.mp3?v=adf13d81", "4065541e": "mabel-4065541e.mp3?v=47e7849e", "d4c809d3": "mabel-d4c809d3.mp3?v=3dd096c9", "a649627c": "mabel-a649627c.mp3?v=4e22cbc2", "2ba04261": "mabel-2ba04261.mp3?v=b1cb99b3", "27ccc538": "mabel-27ccc538.mp3?v=ec3612ab", "738f54b3": "mabel-738f54b3.mp3?v=0d58c18f", "85545ef5": "mabel-85545ef5.mp3?v=207b1c71", "32ccc7ba": "mabel-32ccc7ba.mp3?v=1029f8b1", "5d4d9d40": "mabel-5d4d9d40.mp3?v=4b5fc17a", "f4cb1f6c": "mabel-f4cb1f6c.mp3?v=882d87d8", "4a2f5f2a": "mabel-4a2f5f2a.mp3?v=be423a0f", "52c4fbb4": "mabel-52c4fbb4.mp3?v=59caaf2a", "d5abb920": "mabel-d5abb920.mp3?v=0aee3780", "4dcd3be1": "mabel-4dcd3be1.mp3?v=8e244368"}};
+PQ_DATA.voice={"dir": "assets/audio/lessons/10-03/", "clips": {"eb8dd900": "cora-eb8dd900.mp3?v=b3d589f1", "237706a2": "cora-237706a2.mp3?v=7efd27ac", "b32ce5ce": "cora-b32ce5ce.mp3?v=ae32a000", "59ec19f2": "cora-59ec19f2.mp3?v=41fa51ef", "20cb59ea": "cora-20cb59ea.mp3?v=ca76b01a", "3ed62bda": "cora-3ed62bda.mp3?v=b2edb09f", "a01ab7e9": "cora-a01ab7e9.mp3?v=49125e96", "fafc4b06": "hazel-fafc4b06.mp3?v=26172913", "08b11795": "hazel-08b11795.mp3?v=7fe2c9b8", "c129c790": "hazel-c129c790.mp3?v=9089a493", "6917b5f2": "hazel-6917b5f2.mp3?v=e0413ac8", "5616493b": "hazel-5616493b.mp3?v=5b0e3025", "ba26d777": "hazel-ba26d777.mp3?v=58eadcfb", "74a1aac5": "felix-74a1aac5.mp3?v=50659b0f", "6918a46f": "felix-6918a46f.mp3?v=6c879d1a", "1021e043": "felix-1021e043.mp3?v=e18e233f", "c5bea4f0": "felix-c5bea4f0.mp3?v=93ed02ab", "e87e4882": "felix-e87e4882.mp3?v=b01dd434", "8dd869bc": "felix-8dd869bc.mp3?v=f37730d8", "87f29a78": "atlas-87f29a78.mp3?v=b0d11571", "fb85adc6": "atlas-fb85adc6.mp3?v=127291e3", "4658dcec": "atlas-4658dcec.mp3?v=12e94a71", "28ce8b2c": "atlas-28ce8b2c.mp3?v=46af5cad", "f8004a3c": "atlas-f8004a3c.mp3?v=60d3f1ae", "6e892272": "atlas-6e892272.mp3?v=df6d853c", "1caadebb": "opti-1caadebb.mp3?v=cb908953", "b9adf764": "opti-b9adf764.mp3?v=b17b1c91", "f340a789": "opti-f340a789.mp3?v=08382467", "67f9321a": "opti-67f9321a.mp3?v=f7e59887", "5e4a8c49": "opti-5e4a8c49.mp3?v=810a214b", "7c0bc42e": "opti-7c0bc42e.mp3?v=b89c5157", "6b945d8b": "opti-6b945d8b.mp3?v=d4ffe021", "a72971b1": "mabel-a72971b1.mp3?v=adf13d81", "4065541e": "mabel-4065541e.mp3?v=47e7849e", "d4c809d3": "mabel-d4c809d3.mp3?v=3dd096c9", "a649627c": "mabel-a649627c.mp3?v=4e22cbc2", "2ba04261": "mabel-2ba04261.mp3?v=b1cb99b3", "27ccc538": "mabel-27ccc538.mp3?v=ec3612ab", "738f54b3": "mabel-738f54b3.mp3?v=0d58c18f", "85545ef5": "mabel-85545ef5.mp3?v=207b1c71", "32ccc7ba": "mabel-32ccc7ba.mp3?v=1029f8b1", "5d4d9d40": "mabel-5d4d9d40.mp3?v=4b5fc17a", "f4cb1f6c": "mabel-f4cb1f6c.mp3?v=882d87d8", "4a2f5f2a": "mabel-4a2f5f2a.mp3?v=be423a0f", "52c4fbb4": "mabel-52c4fbb4.mp3?v=59caaf2a", "d5abb920": "mabel-d5abb920.mp3?v=0aee3780", "4dcd3be1": "mabel-4dcd3be1.mp3?v=8e244368", "70457910": "atlas-70457910.mp3?v=0c0ae148", "d5075d35": "atlas-d5075d35.mp3?v=7dc43ffe", "8f9d8256": "atlas-8f9d8256.mp3?v=ca8301fb", "76665fbe": "atlas-76665fbe.mp3?v=94844a42", "eccae10a": "felix-eccae10a.mp3?v=a3d66cc2", "d61d1be6": "felix-d61d1be6.mp3?v=68e51ff1", "94984d4f": "felix-94984d4f.mp3?v=85b18579", "38d0a39e": "felix-38d0a39e.mp3?v=6717ab8a", "64e04657": "hazel-64e04657.mp3?v=f3b57263", "6591b8c8": "hazel-6591b8c8.mp3?v=3eccaabd", "fcabfa31": "hazel-fcabfa31.mp3?v=1ad5b9c2", "8dd20a9b": "cora-8dd20a9b.mp3?v=f4876208", "2a1c6b3a": "cora-2a1c6b3a.mp3?v=76ae6faf", "78b7c10b": "opti-78b7c10b.mp3?v=a59decca", "dd07f9b6": "opti-dd07f9b6.mp3?v=a9811ffc", "f95e912d": "opti-f95e912d.mp3?v=6addaf7d", "6eba99ec": "opti-6eba99ec.mp3?v=a46e4fd0", "b722791e": "opti-b722791e.mp3?v=2f112471"}};
