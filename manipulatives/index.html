@@ -16,6 +16,20 @@
 .lookup label{font-weight:800;color:var(--navy)}
 .lookup input{flex:1;min-width:200px;border:2px solid var(--line);border-radius:10px;padding:.5em .7em;font-size:1.05rem}
 .lookup input:focus{outline:none;border-color:var(--violet)}
+.ways{max-width:1180px;margin:1.4rem auto 0;padding:0 1rem}
+.ways h2{margin:0 0 .7rem;color:var(--navy);font-size:1.35rem}
+.ways-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem}
+.way{background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:1.1rem 1.2rem;border-top:6px solid var(--green);display:flex;flex-direction:column;gap:.5rem}
+.way.setup{border-top-color:var(--violet)}
+.way h3{margin:0;font-size:1.15rem;display:flex;gap:.55rem;align-items:center}
+.way h3 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;flex:none}
+.way.setup h3 .n{background:var(--violet)}
+.way p{margin:0}
+.way ol{margin:0 0 0 1.2rem;padding:0}
+.way li{margin:.15rem 0}
+.way .ex{background:var(--violet-l);border-radius:12px;padding:.6rem .8rem;font-size:.93rem}
+.way .ex b{color:var(--violet)}
+.way .om-row{margin-top:auto}
 .lib-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin:1.2rem auto .8rem;max-width:1180px;padding:0 1rem}
 .lib-tabs button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:.45em 1em;font-weight:800;cursor:pointer;min-height:42px}
 .lib-tabs button[aria-selected="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
@@ -116,6 +130,26 @@
     </div>
   </div>
 </header>
+
+<section class="ways" aria-labelledby="ways-h">
+  <h2 id="ways-h">Two ways to share a tool with students</h2>
+  <div class="ways-grid">
+    <article class="way">
+      <h3><span class="n">1</span>Hand out a blank tool</h3>
+      <p>Give students the manipulative itself, ready for any problem: the lesson, the workbook, homework or just exploring.</p>
+      <ol><li>Open any tool below.</li><li>Tap <b>Share</b> right away, without changing anything.</li><li>Send the student link, show the QR code, or paste the embed code into a Canvas page.</li></ol>
+      <p class="om-hint" style="margin:0">Want just the tool with no directions? Untick <b>Include the how-to directions</b> in the Share box.</p>
+      <div class="om-row"><a class="om-btn small green" id="ex-blank" target="_blank" rel="noopener">See a blank disc mat ↗</a></div>
+    </article>
+    <article class="way setup">
+      <h3><span class="n">2</span>Send a problem you set up ahead of time</h3>
+      <p>Build the starting point yourself, then share it. Students open the link and see exactly what you made. <b>Start over</b> brings back your setup, not a blank tool.</p>
+      <ol><li>Open a tool and set up the problem.</li><li>Tap <b>Share</b>.</li><li>Send that link. Every student gets your setup.</li></ol>
+      <div class="ex"><b>Examples you can try:</b> 2,407 already built on the disc mat, ready for students to take away 1,568. Or a 4 × 6 array of red counters for students to split into equal groups.</div>
+      <div class="om-row"><a class="om-btn small primary" id="ex-discs" target="_blank" rel="noopener">Open the 2,407 example ↗</a><a class="om-btn small primary" id="ex-array" target="_blank" rel="noopener">Open the array example ↗</a></div>
+    </article>
+  </div>
+</section>
 
 <nav class="lib-tabs" role="tablist" aria-label="Library views">
   <button role="tab" data-v="tools" aria-selected="true">All tools</button>
@@ -254,6 +288,10 @@
     view.querySelectorAll('[data-tshare]').forEach(function (b) { b.onclick = function () { var p = b.dataset.tshare.split('|'), l = D.lessonById(p[0]), t = l.tools[+p[1]]; OAOM.share(OAOM.toolShare(t.t, t.p)); }; });
   }
 
+  /* example links for the "two ways to share" cards */
+  document.getElementById('ex-blank').href = OAOM.toolURL('discs');
+  document.getElementById('ex-discs').href = OAOM.toolURL('discs', { hi: 3, lo: 0, c: { 3: 2, 2: 4, 0: 7 }, cap: 1 });
+  document.getElementById('ex-array').href = OAOM.toolURL('counters', { mode: 'array', r: 4, c: 6 });
   function render() {
     document.querySelectorAll('.lib-tabs button').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.v === st.v ? 'true' : 'false'); });
     ({ lessons: renderLessons, tools: renderTools, kit: renderKit, guide: renderGuide })[st.v]();
