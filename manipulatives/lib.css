@@ -74,6 +74,9 @@ a{color:var(--violet)}
 .om-hint{font-size:.85rem;color:var(--mute);margin:.2rem 0 .6rem}
 .om-sidetoggle{display:none}
 
+/* plain mode: no directions, just the tool */
+body.plain .om-how,body.plain .om-say{display:none}
+
 /* quick setups + more options */
 .om-quick{margin:0 0 .6rem;padding:0 0 .7rem;border-bottom:1px solid var(--line)}
 .om-quick h3{margin-top:0!important}

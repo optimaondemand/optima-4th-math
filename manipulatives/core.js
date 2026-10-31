@@ -71,6 +71,7 @@ var OAOM = (function () {
   var modal;
   function share(o) { /* o = {title, url, boardUrl, embedUrl} */
     if (!modal) { modal = el('div', { class: 'om-modal', hidden: '' }); document.body.appendChild(modal); modal.addEventListener('click', function (e) { if (e.target === modal) closeShare(); }); document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeShare(); }); }
+    var orig = o; if (o.plain) { o = Object.assign({}, o, { url: o.url.replace(/(\?[^#]*)/, '$1&plain=1'), dir: null, note: 'A plain tool: no directions, ready for students to explore.' }); }
     var embedUrl = o.embedUrl || (o.url + (o.url.indexOf('#') > -1 ? '' : '')).replace(/(\?[^#]*)/, '$1&embed=1');
     var boardUrl = o.boardUrl || o.url.replace(/(\?[^#]*)/, '$1&board=1');
     var iframe = '<iframe src="' + embedUrl + '" title="' + esc(o.title) + '" width="100%" height="680" style="border:0;max-width:100%" allow="fullscreen" allowfullscreen></iframe>';
@@ -78,6 +79,7 @@ var OAOM = (function () {
     var embed = dirs + iframe;
     modal.innerHTML = '<div class="om-dialog" role="dialog" aria-modal="true" aria-labelledby="om-sh-t">' +
       '<h2 id="om-sh-t">Share: ' + esc(o.title) + '</h2><p class="sub">' + (o.note || 'The link opens the tool set up exactly the way it looks right now.') + '</p>' +
+      '<label class="om-check"><input type="checkbox" id="om-incdir"' + (orig.plain ? '' : ' checked') + '> Include the how-to directions</label>' +
       '<div class="om-sharegrid"><div>' +
       '<div class="om-label">Student link</div><div class="om-copy"><input readonly value="' + esc(o.url) + '" aria-label="Student link"><button class="om-btn small primary" data-c="0">Copy</button></div>' +
       '<div class="om-label">Big-screen link (for live class)</div><div class="om-copy"><input readonly value="' + esc(boardUrl) + '" aria-label="Big-screen link"><button class="om-btn small" data-c="1">Copy</button></div>' +
@@ -87,6 +89,7 @@ var OAOM = (function () {
       '</div><div class="om-qr"><div class="om-label">QR code</div><div class="qrbox"></div><button class="om-btn small" data-dl>Download QR</button></div></div>' +
       '<div class="om-row" style="justify-content:flex-end"><a class="om-btn small" target="_blank" rel="noopener" href="' + esc(o.url) + '">Open in new tab ↗</a><button class="om-btn small" data-x>Close</button></div></div>';
     var vals = [o.url, boardUrl, embed, dirs];
+    modal.querySelector('#om-incdir').onchange = function () { share(Object.assign({}, orig, { plain: !this.checked })); };
     modal.querySelectorAll('[data-c]').forEach(function (b) { b.addEventListener('click', function () { copy(vals[+b.dataset.c], ['Student link copied', 'Big-screen link copied', 'Embed code copied', 'Directions copied'][+b.dataset.c]); }); });
     modal.querySelector('[data-x]').addEventListener('click', closeShare);
     var box = modal.querySelector('.qrbox'), dataUrl = '';
@@ -213,6 +216,7 @@ var OAOM = (function () {
   function boot() {
     var id = params.get('t'), lid = params.get('lesson');
     var isBoard = params.get('board') === '1', isEmbed = params.get('embed') === '1';
+    document.body.classList.toggle('plain', params.get('plain') === '1');
     document.body.classList.toggle('board', isBoard); document.body.classList.toggle('embed', isEmbed);
     var app = $('#app');
     app.innerHTML =
@@ -237,7 +241,7 @@ var OAOM = (function () {
     $('#om-share').onclick = function () {
       if (!cur) return;
       if (lid) { share(lessonShare(lid)); return; }
-      var mm = meta(cur.id); share({ title: mm.name, url: toolURL(cur.id, cur.S), dir: { title: 'Math tool: ' + mm.name, intro: mm.what, steps: mm.how } });
+      var mm = meta(cur.id); share({ title: mm.name, url: toolURL(cur.id, cur.S), plain: document.body.classList.contains('plain'), dir: { title: 'Math tool: ' + mm.name, intro: mm.what, steps: mm.how } });
     };
 
     if (lid) {
