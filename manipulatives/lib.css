@@ -70,6 +70,8 @@ a{color:var(--violet)}
 .om-seg button[aria-pressed="true"]{background:var(--violet);border-color:var(--violet);color:#fff}
 .om-kit{margin-top:1rem;padding:.7rem .8rem;border-radius:12px;background:var(--green-l);font-size:.9rem}
 .om-kit b{color:var(--green)}
+.om-kit summary{cursor:pointer;font-weight:800;color:var(--green)}
+.om-kit p{margin:.4rem 0 0}
 .om-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-top:.7rem}
 .om-hint{font-size:.85rem;color:var(--mute);margin:.2rem 0 .6rem}
 .om-sidetoggle{display:none}

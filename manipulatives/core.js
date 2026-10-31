@@ -178,7 +178,7 @@ var OAOM = (function () {
     def.mount(api);
     redrawFn();
     /* kit note */
-    if (m.kit) side.appendChild(el('div', { class: 'om-kit' }, '<b>Hands-on:</b> ' + m.kit + (m.home ? '<br><b>At home:</b> ' + m.home : '')));
+    if (m.kit) side.appendChild(el('details', { class: 'om-kit' }, '<summary>Use the real thing</summary><p><b>Hands-on:</b> ' + m.kit + (m.home ? '<br><b>At home:</b> ' + m.home : '') + '</p>'));
     $('#om-main').classList.toggle('nosetup', !side.children.length);
     /* with a goal, the setup panel starts folded so students build by hand instead of typing the answer in */
     var aside = side.parentNode, h2 = aside.querySelector('h2');
