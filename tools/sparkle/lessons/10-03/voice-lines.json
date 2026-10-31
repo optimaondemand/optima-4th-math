@@ -1,0 +1,273 @@
+{
+ "cora": {
+  "voice_id": "5T4Pk1MOGKVVSf9tJnWM",
+  "lines": [
+   {
+    "who": "cora",
+    "t": "That's the Smudge's label! A pound isn't 10 ounces. Count the little marks between 0 and 1 lb on the scale.",
+    "key": "eb8dd900"
+   },
+   {
+    "who": "cora",
+    "t": "Half of 10 is 5, but a pound is 16 ounces. What is half of 16?",
+    "key": "237706a2"
+   },
+   {
+    "who": "cora",
+    "t": "You changed the 2 pounds: 2 × 16 = 32 ounces. Now add the 12 extra ounces too.",
+    "key": "b32ce5ce"
+   },
+   {
+    "who": "cora",
+    "t": "A pound isn't 10 ounces. Count the little ounce marks from 0 to 1 lb.",
+    "key": "59ec19f2"
+   },
+   {
+    "who": "cora",
+    "t": "That trades 10 ounces. A pound is 16 ounces, not 10. 19 take away 16 is?",
+    "key": "20cb59ea"
+   },
+   {
+    "who": "cora",
+    "t": "Hello, I'm Cora. Mrs. Mabel puts a label on every sack in her store. I love a good label.",
+    "key": "3ed62bda"
+   },
+   {
+    "who": "cora",
+    "t": "When the ounces reach 16, trade them for 1 pound. Not 10. Sixteen!",
+    "key": "a01ab7e9"
+   }
+  ],
+  "prompt": "That's the Smudge's label! A pound isn't 10 ounces. Count the little marks between 0 and 1 pound on the scale. <break time=\"1.5s\" /> Half of 10 is 5, but a pound is 16 ounces. What is half of 16? <break time=\"1.5s\" /> You changed the 2 pounds: 2 times 16 equals 32 ounces. Now add the 12 extra ounces too. <break time=\"1.5s\" /> A pound isn't 10 ounces. Count the little ounce marks from 0 to 1 pound. <break time=\"1.5s\" /> That trades 10 ounces. A pound is 16 ounces, not 10. 19 take away 16 is? <break time=\"1.5s\" /> Hello, I'm Cora. Mrs. Mabel puts a label on every sack in her store. I love a good label. <break time=\"1.5s\" /> When the ounces reach 16, trade them for 1 pound. Not 10. Sixteen!"
+ },
+ "hazel": {
+  "voice_id": "MkTSSXNgnBULS6ek4pon",
+  "lines": [
+   {
+    "who": "hazel",
+    "t": "Picture the scale. 1-ounce weights filled it all the way to 1 lb. How many weights was that?",
+    "key": "fafc4b06"
+   },
+   {
+    "who": "hazel",
+    "t": "2 lb 12 oz isn't 212 ounces. Picture the scale: 2 pounds is 2 groups of 16 ounce marks, then 12 more.",
+    "key": "08b11795"
+   },
+   {
+    "who": "hazel",
+    "t": "Picture the dial: 1 pound has one little mark for every ounce. How many marks?",
+    "key": "c129c790"
+   },
+   {
+    "who": "hazel",
+    "t": "Split 19 ounces with a number bond: 16 and 3. The 16 ounces make the new pound.",
+    "key": "6917b5f2"
+   },
+   {
+    "who": "hazel",
+    "t": "Hi! I'm Hazel. I'm drawing the General Store. Look at that purple roof and the big brass scale out front!",
+    "key": "5616493b"
+   },
+   {
+    "who": "hazel",
+    "t": "I picture the scale. Every 16 little ounce marks make one big pound.",
+    "key": "ba26d777"
+   }
+  ],
+  "prompt": "Picture the scale. 1-ounce weights filled it all the way to 1 pound. How many weights was that? <break time=\"1.5s\" /> 2 pounds 12 ounces isn't 212 ounces. Picture the scale: 2 pounds is 2 groups of 16 ounce marks, then 12 more. <break time=\"1.5s\" /> Picture the dial: 1 pound has one little mark for every ounce. How many marks? <break time=\"1.5s\" /> Split 19 ounces with a number bond: 16 and 3. The 16 ounces make the new pound. <break time=\"1.5s\" /> Hi! I'm Hazel. I'm drawing the General Store. Look at that purple roof and the big brass scale out front! <break time=\"1.5s\" /> I picture the scale. Every 16 little ounce marks make one big pound."
+ },
+ "felix": {
+  "voice_id": "PJeatLZlmAT5jz5L5p7U",
+  "lines": [
+   {
+    "who": "felix",
+    "t": "9 + 1 makes 10. But a pound is 16 ounces, not 10. Count up from 9 to 16.",
+    "key": "74a1aac5"
+   },
+   {
+    "who": "felix",
+    "t": "Count up from 9 to 16: 10, 11, 12 … How many did you count?",
+    "key": "6918a46f"
+   },
+   {
+    "who": "felix",
+    "t": "Change the pounds first: 2 × 16 = 32 ounces. Then add the 12 extra ounces.",
+    "key": "1021e043"
+   },
+   {
+    "who": "felix",
+    "t": "That trades 10 ounces, like tens and ones. 10 + 9 = 19 ounces, and 16 of them make the new pound. How many are left?",
+    "key": "c5bea4f0"
+   },
+   {
+    "who": "felix",
+    "t": "Hey, I'm Felix! I tapped on every barrel by the store. They're all full. And something in there smells like cinnamon!",
+    "key": "e87e4882"
+   },
+   {
+    "who": "felix",
+    "t": "I change it all to ounces first. 5 pounds is 5 times 16, so 80 ounces. Add 11 more: 91 ounces.",
+    "key": "8dd869bc"
+   }
+  ],
+  "prompt": "9 plus 1 makes 10. But a pound is 16 ounces, not 10. Count up from 9 to 16. <break time=\"1.5s\" /> Count up from 9 to 16: 10, 11, 12 ... How many did you count? <break time=\"1.5s\" /> Change the pounds first: 2 times 16 equals 32 ounces. Then add the 12 extra ounces. <break time=\"1.5s\" /> That trades 10 ounces, like tens and ones. 10 plus 9 equals 19 ounces, and 16 of them make the new pound. How many are left? <break time=\"1.5s\" /> Hey, I'm Felix! I tapped on every barrel by the store. They're all full. And something in there smells like cinnamon! <break time=\"1.5s\" /> I change it all to ounces first. 5 pounds is 5 times 16, so 80 ounces. Add 11 more: 91 ounces."
+ },
+ "atlas": {
+  "voice_id": "unWb9iRIK7Xxf4A5Hfis",
+  "lines": [
+   {
+    "who": "atlas",
+    "t": "1 pound is 16 ounces. Split 16 into 2 equal parts.",
+    "key": "87f29a78"
+   },
+   {
+    "who": "atlas",
+    "t": "19 ounces is more than 16. Split it with a number bond: 16 and 3. The 16 make the new pound. What is left?",
+    "key": "fb85adc6"
+   },
+   {
+    "who": "atlas",
+    "t": "Add the ounces: 10 + 9 = 19. Then trade 16 of them for 1 pound.",
+    "key": "4658dcec"
+   },
+   {
+    "who": "atlas",
+    "t": "19 ounces is more than a pound. Trade 16 ounces for 1 pound. How many ounces are left?",
+    "key": "28ce8b2c"
+   },
+   {
+    "who": "atlas",
+    "t": "Hi, I'm Atlas! We made it to Eastside! I want to peek down every street in this town.",
+    "key": "f8004a3c"
+   },
+   {
+    "who": "atlas",
+    "t": "I change ounces to pounds and ounces. I count by 16s and keep the leftover. 45 ounces is 32 ounces and 13 ounces, so it's 2 pounds 13 ounces.",
+    "key": "6e892272"
+   }
+  ],
+  "prompt": "1 pound is 16 ounces. Split 16 into 2 equal parts. <break time=\"1.5s\" /> 19 ounces is more than 16. Split it with a number bond: 16 and 3. The 16 make the new pound. What is left? <break time=\"1.5s\" /> Add the ounces: 10 plus 9 equals 19. Then trade 16 of them for 1 pound. <break time=\"1.5s\" /> 19 ounces is more than a pound. Trade 16 ounces for 1 pound. How many ounces are left? <break time=\"1.5s\" /> Hi, I'm Atlas! We made it to Eastside! I want to peek down every street in this town. <break time=\"1.5s\" /> I change ounces to pounds and ounces. I count by 16s and keep the leftover. 45 ounces is 32 ounces and 13 ounces, so it's 2 pounds 13 ounces."
+ },
+ "opti": {
+  "voice_id": "WdZjiN0nNcik2LBjOHiv",
+  "lines": [
+   {
+    "who": "opti",
+    "t": "Hoo! Welcome to Eastside, {name}. Last time you fixed the Foot Bridge and chased the Smudge across it.",
+    "key": "1caadebb"
+   },
+   {
+    "who": "opti",
+    "t": "Do you still have that gray brick chip stamped with a G? Keep it safe. I think the Smudge came this way.",
+    "key": "b9adf764"
+   },
+   {
+    "who": "opti",
+    "t": "That big building is the General Store. Mrs. Mabel weighs everything she sells. Go say hello.",
+    "key": "f340a789"
+   },
+   {
+    "who": "opti",
+    "t": "Gray fuzz that smells like hay. Next time we climb to the Hilltop Dairy, {name}.",
+    "key": "67f9321a"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! Every store job on the page helps Mrs. Mabel open for the day.",
+    "key": "5e4a8c49"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! Gray fuzz, just like the Smudge. And it smells like hay.",
+    "key": "7c0bc42e"
+   },
+   {
+    "who": "opti",
+    "t": "Hay means cows, and cows mean the Hilltop Dairy. Keep the fuzz with your brick chip, {name}. Next lesson, we climb the hill.",
+    "key": "6b945d8b"
+   }
+  ],
+  "prompt": "Welcome to Eastside, explorer. Last time you fixed the Foot Bridge and chased the Smudge across it. <break time=\"1.5s\" /> Do you still have that gray brick chip stamped with a G? Keep it safe. I think the Smudge came this way. <break time=\"1.5s\" /> That big building is the General Store. Mrs. Mabel weighs everything she sells. Go say hello. <break time=\"1.5s\" /> Gray fuzz that smells like hay. Next time we climb to the Hilltop Dairy, explorer. <break time=\"1.5s\" /> Every store job on the page helps Mrs. Mabel open for the day. <break time=\"1.5s\" /> Gray fuzz, just like the Smudge. And it smells like hay. <break time=\"1.5s\" /> Hay means cows, and cows mean the Hilltop Dairy. Keep the fuzz with your brick chip, explorer. Next lesson, we climb the hill."
+ },
+ "mabel": {
+  "voice_id": "vjcrpGpR31efFHsvJ0ym",
+  "lines": [
+   {
+    "who": "mabel",
+    "t": "Oh, hello, dear! I'm Mrs. Mabel. This is my General Store.",
+    "key": "a72971b1"
+   },
+   {
+    "who": "mabel",
+    "t": "Last night the Smudge came through. It knocked my scale and smudged three of my labels!",
+    "key": "4065541e"
+   },
+   {
+    "who": "mabel",
+    "t": "Every label shows a weight in pounds and ounces. Please find the three smudged ones and fix them. Walk onto a sparkle to read one.",
+    "key": "d4c809d3"
+   },
+   {
+    "who": "mabel",
+    "t": "Every label is right again. Thank you, {name}!",
+    "key": "a649627c"
+   },
+   {
+    "who": "mabel",
+    "t": "Now I can open the store. Come back and help me with orders later.",
+    "key": "2ba04261"
+   },
+   {
+    "who": "mabel",
+    "t": "Your basket order was perfect! But my big scale still has a crooked needle.",
+    "key": "27ccc538"
+   },
+   {
+    "who": "mabel",
+    "t": "The Smudge bent it. Please set it right with my 1-pound test weight. The scale is out front on the plaza.",
+    "key": "738f54b3"
+   },
+   {
+    "who": "mabel",
+    "t": "Here is the rice that was left in the sack: 2 lb 12 oz.",
+    "key": "85545ef5"
+   },
+   {
+    "who": "mabel",
+    "t": "Baker Lou bakes rice bread. Please take it to him by the bakery, up the little path.",
+    "key": "32ccc7ba"
+   },
+   {
+    "who": "mabel",
+    "t": "Thank you for fixing my price board! But look at that sack by my door.",
+    "key": "5d4d9d40"
+   },
+   {
+    "who": "mabel",
+    "t": "Its label says 2 lb 19 oz. I never wrote that. Can a label even say that? Please fix it.",
+    "key": "f4cb1f6c"
+   },
+   {
+    "who": "mabel",
+    "t": "Welcome to the General Store, dear! Everything here is weighed in pounds and ounces.",
+    "key": "4a2f5f2a"
+   },
+   {
+    "who": "mabel",
+    "t": "Good as new! Now weigh this bag: 1 lb 10 oz of cashews, and I'm adding 9 oz of pecans.",
+    "key": "52c4fbb4"
+   },
+   {
+    "who": "mabel",
+    "t": "2 pounds 3 ounces on the dot! My scale is as good as new.",
+    "key": "d5abb920"
+   },
+   {
+    "who": "mabel",
+    "t": "Read my Scale Board on your page, then help me with the rice sack.",
+    "key": "4dcd3be1"
+   }
+  ],
+  "prompt": "Oh, hello, dear! I'm Mrs. Mabel. This is my General Store. <break time=\"1.5s\" /> Last night the Smudge came through. It knocked my scale and smudged three of my labels! <break time=\"1.5s\" /> Every label shows a weight in pounds and ounces. Please find the three smudged ones and fix them. Walk onto a sparkle to read one. <break time=\"1.5s\" /> Every label is right again. Thank you, explorer! <break time=\"1.5s\" /> Now I can open the store. Come back and help me with orders later. <break time=\"1.5s\" /> Your basket order was perfect! But my big scale still has a crooked needle. <break time=\"1.5s\" /> The Smudge bent it. Please set it right with my 1-pound test weight. The scale is out front on the plaza. <break time=\"1.5s\" /> Here is the rice that was left in the sack: 2 pounds 12 ounces. <break time=\"1.5s\" /> Baker Lou bakes rice bread. Please take it to him by the bakery, up the little path. <break time=\"1.5s\" /> Thank you for fixing my price board! But look at that sack by my door. <break time=\"1.5s\" /> Its label says 2 pounds 19 ounces. I never wrote that. Can a label even say that? Please fix it. <break time=\"1.5s\" /> Welcome to the General Store, dear! Everything here is weighed in pounds and ounces. <break time=\"1.5s\" /> Good as new! Now weigh this bag: 1 pound 10 ounces of cashews, and I'm adding 9 ounces of pecans. <break time=\"1.5s\" /> 2 pounds 3 ounces on the dot! My scale is as good as new. <break time=\"1.5s\" /> Read my Scale Board on your page, then help me with the rice sack."
+ }
+}

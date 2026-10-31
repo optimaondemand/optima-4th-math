@@ -22,7 +22,7 @@ window.PQ_MAP=[
 "id": "4.10.03",
 "title": "Customary Units of Weight",
 "file": "math-lesson-4-10-03-customary-weight.html",
-"sparkled": false
+"sparkled": true
 },
 {
 "id": "4.10.04",

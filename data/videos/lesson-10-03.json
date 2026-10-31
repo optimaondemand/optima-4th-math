@@ -1,0 +1,188 @@
+{
+ "lesson": "10.03",
+ "grade": 4,
+ "prefix": "g4math-10-03",
+ "manifestKey": "g4math-10-03",
+ "title": "Customary Units of Weight",
+ "other": [],
+ "pics": {
+  "10-03-learn-fruits": {
+   "src": "assets/video/boards/10-03/10-03-learn-fruits.png",
+   "cap": "Board: The fruits"
+  },
+  "10-03-learn-twoways": {
+   "src": "assets/video/boards/10-03/10-03-learn-twoways.png",
+   "cap": "Board: Two ways"
+  },
+  "10-03-do-p1": {
+   "src": "assets/video/boards/10-03/10-03-do-p1.png",
+   "cap": "Board: Problem 1"
+  },
+  "10-03-do-p2": {
+   "src": "assets/video/boards/10-03/10-03-do-p2.png",
+   "cap": "Board: Problem 2"
+  },
+  "10-03-do-p3": {
+   "src": "assets/video/boards/10-03/10-03-do-p3.png",
+   "cap": "Board: Problem 3"
+  },
+  "10-03-do-mistake": {
+   "src": "assets/video/boards/10-03/10-03-do-mistake.png",
+   "cap": "Board: Spot the mistake"
+  }
+ },
+ "redo": [],
+ "welcomeSlot": "think",
+ "slots": {
+  "think": {
+   "label": "Think · the pineapple and the melon",
+   "title": "The General Store",
+   "length": "about 1 min",
+   "want": true,
+   "where": "Warm-Up, under the Essential Question",
+   "parts": [
+    {
+     "label": "Store board",
+     "tag": "TODAY'S REAL PROBLEM",
+     "title": "Fix Mrs. Mabel's General Store",
+     "col": "#8E3B5E",
+     "rows": [
+      [
+       "Job 1",
+       "Read the scale"
+      ],
+      [
+       "Job 2",
+       "Repack the raisins"
+      ],
+      [
+       "Job 3",
+       "Relabel the flour"
+      ],
+      [
+       "Job 4",
+       "Fill a basket order"
+      ],
+      [
+       "Job 5",
+       "Split the rice sack"
+      ],
+      [
+       "Job 6",
+       "Prove the price board wrong"
+      ]
+     ]
+    },
+    {
+     "label": "Two fruits",
+     "tag": "THINK ABOUT IT",
+     "title": "Pineapple: 2 lb 9 oz · Melon: 43 oz",
+     "col": "#6B3FA0",
+     "body": "Which fruit is heavier, and by how many ounces?"
+    },
+    {
+     "label": "The big question",
+     "tag": "ESSENTIAL QUESTION",
+     "title": "Which is heavier, 2 lb 9 oz or 43 oz? How can you be sure?",
+     "col": "#2DB87A",
+     "body": "Two units in one weight. Notice, wonder, then try it your way."
+    }
+   ],
+   "script": "Welcome to Eastside!\n\n[ON SCREEN: Store board]\n\nLast night the Smudge came through Mrs. Mabel's General Store. It knocked her big scale and smudged her labels. The board right under me has six store jobs. Each one uses today's math.\n\n[ON SCREEN: Two fruits]\n\nHere's the first puzzle. Mrs. Mabel's pineapple weighs 2 pounds 9 ounces. The tag on her melon says 43 ounces. Which fruit is heavier, and by how many ounces?\n\n[ON SCREEN: The big question]\n\nFirst, read Mrs. Mabel's scale on your page, so you know how many ounces make a pound. Then, at the fruit puzzle, look at the two weights before you touch a single weight. What do you notice? What do you wonder? Write that down, then try it your own way. Hold on to your answer. On the Learn tab, the Math Crew will show you two ways. See if one matches yours."
+  },
+  "learn": {
+   "label": "Learn · two ways, then repack the raisins",
+   "title": "Two Ways",
+   "length": "about 1½ min",
+   "want": true,
+   "where": "Learn, top (before the Math Crew)",
+   "parts": [
+    {
+     "label": "Board: The fruits",
+     "kind": "board",
+     "pic": "10-03-learn-fruits",
+     "tag": "The pineapple and the melon"
+    },
+    {
+     "label": "Board: Two ways",
+     "kind": "board",
+     "pic": "10-03-learn-twoways",
+     "tag": "Two ways"
+    },
+    {
+     "label": "Live: Repack the Raisins",
+     "kind": "live",
+     "model": "raisins",
+     "tag": "On your page",
+     "page": "math-lesson-4-10-03-customary-weight.html"
+    }
+   ],
+   "script": "Look at the two weights one more time. One has pounds and ounces. One has only ounces. That's the whole problem: we can't compare them until they're written the same way.\n\n[ON SCREEN: Board: The fruits]\n\n[DRAW: point to the pineapple's row, 2 | 9. Write 43 oz beside the empty row for the melon.]\n\nPineapple, 2 pounds 9 ounces. Melon, 43 ounces. We need them in the same unit.\n\n[ON SCREEN: Board: Two ways]\n\n[DRAW: fill in Atlas's blanks as you say them, then Felix's.]\n\nAtlas changes the melon to pounds and ounces. He counts by 16s: 16, 32. 48 is too many. So 43 splits into 32 and 11. 32 ounces is 2 pounds, so the melon is 2 pounds 11 ounces. Felix changes the pineapple to ounces instead. 2 times 16 is 32, plus 9 is 41. 43 minus 41 is 2. Both ways say the melon, by 2 ounces.\n\nPause here. Say out loud which way is more like what you did.\n\n[ON SCREEN: Live: Repack the Raisins]\n\n[DO: tap + Fill a 1 lb bag two times. Tap it once more and point to the message. Type 13 in the empty circle of the number bond and tap Check.]\n\nNow Mrs. Mabel's raisins, 45 ounces. I fill whole pounds first: 16, 32. A third bag would need 48. Too many! So 32 ounces go in bags, and the bond shows 13 left over. 2 pounds 13 ounces.\n\nRemember, 16 ounces make a pound, not 10. Now repack the raisins on your page."
+  },
+  "do": {
+   "label": "Do · watch me solve (boards)",
+   "title": "Watch Me Solve It",
+   "length": "about 1½ min",
+   "want": true,
+   "where": "Learn, after Mrs. Mabel's Scale Board",
+   "parts": [
+    {
+     "label": "Board: Problem 1",
+     "kind": "board",
+     "pic": "10-03-do-p1",
+     "tag": "Problem 1"
+    },
+    {
+     "label": "Board: Problem 2",
+     "kind": "board",
+     "pic": "10-03-do-p2",
+     "tag": "Problem 2"
+    },
+    {
+     "label": "Board: Problem 3",
+     "kind": "board",
+     "pic": "10-03-do-p3",
+     "tag": "Problem 3"
+    },
+    {
+     "label": "Board: Spot the mistake",
+     "kind": "board",
+     "pic": "10-03-do-mistake",
+     "tag": "Spot the mistake"
+    }
+   ],
+   "script": "Now watch me solve three. Pause any time.\n\n[ON SCREEN: Board: Problem 1]\n\n[DRAW: write 3 | 11 in row 1 and 2 | 8 in row 2. Add down: 5 | 19. Cross out 19, write 3, and add 1 to the pounds: 6 | 3.]\n\n3 pounds 11 ounces plus 2 pounds 8 ounces. Pounds: 5. Ounces: 19. That's more than a pound, so I trade 16 ounces for 1 pound. 6 pounds 3 ounces.\n\n[ON SCREEN: Board: Problem 2]\n\nYour turn first. Pause the video and try this one on paper. Then press play and check.\n\n[DRAW: write 7 | 5 on top and 2 | 9 under it. Cross out 7, write 6. Cross out 5 oz, write 21. Subtract each column: 4 | 12.]\n\n7 pounds 5 ounces minus 2 pounds 9 ounces. 5 minus 9 won't work. So I trade 1 pound for 16 ounces: 6 pounds 21 ounces. 21 minus 9 is 12. 6 minus 2 is 4. 4 pounds 12 ounces. Felix checks it in ounces: 117 minus 41 is 76, and 76 ounces is 4 pounds 12 ounces. Same!\n\n[ON SCREEN: Board: Problem 3]\n\n[DRAW: under 6 lb write 6 × 16 = 96 oz. Then + 13 oz = 109 oz.]\n\n6 pounds 13 ounces, all in ounces. Each pound is 16 ounces, so 6 pounds is 96 ounces. Add the 13: 109 ounces.\n\n[ON SCREEN: Board: Spot the mistake]\n\n[DRAW: circle 5 lb 8 oz. Write 18 oz = 16 oz + 2 oz, then 5 lb 2 oz.]\n\nIs this right? Someone treated ounces like tens and ones. A pound is 16 ounces, not 10. 18 ounces is 16 and 2, so it's 5 pounds 2 ounces. Watch for that every time the ounces reach 16!"
+  },
+  "wrap": {
+   "label": "Wrap · the store opens",
+   "title": "The Store Opens",
+   "length": "about 45 s",
+   "want": false,
+   "where": "Show What You Know, after the last game window",
+   "parts": [
+    {
+     "label": "Two ways",
+     "tag": "TODAY",
+     "title": "Pounds and ounces, or all ounces",
+     "col": "#2DB87A",
+     "body": "Both work. Trade 16 ounces for a pound."
+    },
+    {
+     "label": "The price board",
+     "tag": "YOU PROVED IT",
+     "title": "3 lb 19 oz = 4 lb 3 oz",
+     "col": "#8E3B5E",
+     "body": "Not 4 lb 9 oz. A pound is 16 ounces, not 10!"
+    },
+    {
+     "label": "Next time",
+     "tag": "NEXT LESSON",
+     "title": "The Hilltop Dairy",
+     "col": "#6B3FA0",
+     "body": "Capacity: cups, pints, quarts and gallons."
+    }
+   ],
+   "script": "Look how far you came!\n\n[ON SCREEN: Two ways]\n\nToday you read a scale, changed pounds to ounces and back, and added and subtracted weights on the Trade Mat. You can work in pounds and ounces and trade 16 ounces for a pound, or change it all to ounces first. Both give the same answer. And the pineapple puzzle? The melon is heavier, by 2 ounces.\n\n[ON SCREEN: The price board]\n\nAnd the Smudge's price board? You put 3 pounds 19 ounces on the scale, and the needle pointed to 4 pounds 3 ounces, not 4 pounds 9 ounces. 19 ounces is 1 pound and 3 ounces.\n\n[ON SCREEN: Next time]\n\nAnd if you played the game, you found gray fuzz that smelled like hay. Next time we climb to the Hilltop Dairy and measure how much a jug can hold. See you there, explorers!"
+  }
+ }
+}

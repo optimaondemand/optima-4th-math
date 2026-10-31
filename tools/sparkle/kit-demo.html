@@ -8,6 +8,7 @@
 <h1>OAO Math Kit · every tool with sample settings</h1>
 <div class="demo"><h2>Disc Mat</h2><code>OAOKit.discMat(el, cfg)</code><div id="d-disc"></div></div>
 <div class="demo"><h2>Two-Unit Mat</h2><code>OAOKit.unitMat(el, cfg)</code><div id="d-um"></div></div>
+<div class="demo"><h2>Store Scale (lb and oz dial)</h2><code>OAOKit.scale(el, cfg)</code><div id="d-sc"></div></div>
 <div class="demo"><h2>Trade Mat (any rate)</h2><code>OAOKit.tradeMat(el, cfg)</code><div id="d-tm"></div></div>
 <div class="demo"><h2>Bar Strip</h2><code>OAOKit.barStrip(el, cfg)</code><div id="d-bar"></div></div>
 <div class="demo"><h2>Stamp Signs</h2><code>OAOKit.stamps(el, cfg)</code><div id="d-stamps"></div></div>
@@ -28,6 +29,10 @@ OAOKit.unitMat($('d-um'),{places:[100,10,1],big:100,bigUnit:'m',smallUnit:'cm',t
          {text:'Tap <b>+ Add shelf 2</b>.',done:function(st){return (st.adds||0)>0;}},
          {text:'Trade until each small column has fewer than 10 pieces.',done:function(st,api){return st.adds>0&&api.value()===310&&st.c[10]<10&&st.c[1]<10;}}],
   doneText:'2 × 1 m 55 cm = 2 m 110 cm = 3 m 10 cm.'});
+OAOKit.scale($('d-sc'),{rounds:[
+  {name:'Fill 1 lb',text:'Put 1-ounce weights on the scale until the needle points to <b>1 lb</b>.',max:1,item:'1 lb mark',target:16,weights:['small'],ask:{q:'1 lb =',units:['oz'],answer:[16]},doneText:'16 oz balance 1 lb.'},
+  {name:'Read it',text:'Read the scale.',max:2,item:'box of nails',at:23,ask:{q:'The box weighs',units:['lb','oz'],answer:[1,7]},doneText:'1 lb 7 oz.'},
+  {name:'Compare',text:'Build <b>1 lb 3 oz</b>.',max:2,item:'rice',itemLabel:'rice: 1 lb 3 oz',target:19,ghost:[1],showReading:true,doneText:'The dashed needle is the box of nails.'}]});
 OAOKit.tradeMat($('d-tm'),{rate:12,big:{unit:'ft',name:['foot','feet']},small:{unit:'in',name:['inch','inches']},tray:true,
   zone:{title:'Take away 1 ft 8 in',btn:'Take away 1 →',want:{big:1,small:8}},
   steps:[{text:'Build <b>3 ft 2 in</b>.',done:function(st,api){return st.zb||st.zs||api.value()===38&&st.s<12;}},

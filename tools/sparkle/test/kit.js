@@ -13,6 +13,16 @@ await p.click('#d-um .ok-col[data-p="1"] .ok-colbtns .ok-btn');await p.click('#d
 ok((await p.$eval('#d-um .ok-sym',e=>e.textContent)).includes('3 m 10 cm'),'unit mat: trades give 3 m 10 cm');
 ok((await p.$eval('#d-um .ok-do',e=>e.textContent)).includes('Done'),'unit mat: steps done');
 // trade mat (rate 12): build by tap + drag, take away, break 1 into 12, trade back
+for(let i=0;i<15;i++)await p.click('#d-sc .ok-tray .ok-wt[data-k="small"]');await drag('#d-sc .ok-tray .ok-wt[data-k="small"]','#d-sc .ok-plat');
+ok(await p.$$eval('#d-sc .ok-plat .ok-wt',x=>x.length)===16&&!!(await p.$('#d-sc .ok-scale-ask form')),'scale: 15 taps + 1 drag = 16 oz weights; the answer form appears at the target');
+await p.click('#d-sc .ok-tray .ok-wt[data-k="small"]');ok(await p.$$eval('#d-sc .ok-plat .ok-wt',x=>x.length)===16,'scale: past the 1 lb mark is refused');
+await p.fill('#d-sc .ok-scale-ask input','10');await p.click('#d-sc .ok-scale-ask button');ok((await p.$eval('#d-sc .ok-msg',e=>e.textContent)).length>0,'scale: a wrong answer gets a hint');
+await p.fill('#d-sc .ok-scale-ask input','16');await p.click('#d-sc .ok-scale-ask button');ok(!!(await p.$('#d-sc .ok-next')),'scale: 1 lb = 16 oz, next round');
+await p.click('#d-sc .ok-next');ok(!!(await p.$('#d-sc .ok-plat .ok-item'))&&!(await p.$eval('#d-sc .ok-sym',e=>e.textContent)).includes('1 lb 7'),'scale: read round shows the item, the reading stays hidden');
+{const I=await p.$$('#d-sc .ok-scale-ask input');await I[0].fill('1');await I[1].fill('7');await p.click('#d-sc .ok-scale-ask button');}
+await p.click('#d-sc .ok-next');await p.click('#d-sc .ok-tray .ok-wt[data-k="big"]');for(let i=0;i<3;i++)await p.click('#d-sc .ok-tray .ok-wt[data-k="small"]');
+ok((await p.$eval('#d-sc .ok-sym',e=>e.textContent)).includes('1 lb 3 oz')&&await p.$$eval('#d-sc .ok-ghost-n',x=>x.length)===1,'scale: compare round builds 1 lb 3 oz with a ghost needle');
+await p.click('#d-sc .ok-plat .ok-wt[data-k="small"]');ok(true,'scale: tap a weight on the platform');
 for(let i=0;i<3;i++)await p.click('#d-tm .ok-tray .ok-disc[data-k="big"]');await p.click('#d-tm .ok-tray .ok-disc[data-k="small"]');await drag('#d-tm .ok-tray .ok-disc[data-k="small"]','#d-tm .ok-col[data-k="small"]');
 ok((await p.$eval('#d-tm .ok-sym',e=>e.textContent)).includes('3 ft 2 in')&&(await p.$eval('#d-tm .ok-sym',e=>e.textContent)).includes('38 in'),'trade mat: built 3 ft 2 in = 38 in (tap + drag)');
 await drag('#d-tm .ok-col[data-k="big"] .ok-well .ok-disc','#d-tm .ok-zone');ok(await p.$eval('#d-tm .ok-ztot',e=>e.textContent.includes('1 ft 0 in')),'trade mat: dragged 1 ft into the take-away box');

@@ -17,7 +17,7 @@ var snd={click:function(){tone(520,0.06,'triangle',0.05);},merge:function(){tone
   done:function(){[523,659,784,1047].forEach(function(f,i){tone(f,0.14,'triangle',0.05,i*0.08);});}};
 
 /* ───────── drag + tap helper ───────── */
-var DROP='.ok-col,.ok-zone,.ok-bar,.ok-tray,.ok-barrow';
+var DROP='.ok-col,.ok-zone,.ok-bar,.ok-tray,.ok-barrow,.ok-plat';
 function draggable(el,payload,onDrop,onTap){
   var sx,sy,ghost=null,moved=false,over=null,id=null;
   el.addEventListener('pointerdown',function(e){if(e.button>0)return;sx=e.clientX;sy=e.clientY;moved=false;id=e.pointerId;try{el.setPointerCapture(id);}catch(x){}e.preventDefault();});
@@ -476,5 +476,102 @@ function tradeMat(root,cfg){
   if(st.doneFired&&cfg.onDone&&cfg.restoreDone)cfg.onDone(api,root);
   return api;
 }
-K.unitMat=unitMat;K.tradeMat=tradeMat;K.stamps=stamps;K.barModel=barModel;K.numberBond=numberBond;K.mentalMath=mentalMath;K.challenge=challenge;
+
+/* ═══════════ STORE SCALE (a platform scale with a dial) ═══════════
+   Weighing with two units (1 lb = 16 oz). The dial shows whole big units with a small tick for every small unit, so
+   students SEE that 16 ounce marks fill a pound. Two kinds of round:
+   · weights: drag (or tap) 1-lb and 1-oz weights onto the platform; the needle moves to the total. A round is done when the
+     total reaches its target (any mix of weights). Earlier rounds can leave a dashed "ghost" needle for a fair compare.
+   · read: an item sits on the platform at a fixed weight (`at`); students read the dial.
+   Either kind can end with an answer form (`ask`). The reading under the dial is hidden unless `showReading:true`,
+   so the model never gives the answer away.
+   cfg = { key, rate:16, big:{unit:'lb',name:['pound','pounds']}, small:{unit:'oz',name:['ounce','ounces']},
+           rounds:[{name, text, doneText, max (big units on the dial), item, itemLabel, at | target, ghost:[round indexes],
+                    weights:['big','small'], showReading, cap (most small weights), ask:{q, units:['lb','oz'], answer:[2,10],
+                    mistakes:[{v:[..], text}], hint, doneText}}],
+           onRound(i, root), onDone(root) } */
+function scale(root,cfg){
+  var R=cfg.rate||16,B=cfg.big||{unit:'lb',name:['pound','pounds']},Sm=cfg.small||{unit:'oz',name:['ounce','ounces']},rounds=cfg.rounds,key=cfg.key;
+  var st=ls(key,null)||{cur:0,w:rounds.map(function(){return {b:0,s:0};}),won:rounds.map(function(){return false;}),a:rounds.map(function(){return [];}),fired:false};
+  root.classList.add('ok-tool');root.classList.add('ok-wscale');
+  root.innerHTML=(rounds.length>1?'<div class="ok-rounds" role="tablist">'+rounds.map(function(r,i){return '<button type="button" data-i="'+i+'">'+esc(r.name)+'</button>';}).join('')+'</div>':'')+
+    '<p class="ok-do" aria-live="polite"></p><div class="ok-scalebox"><div class="ok-plat" aria-label="The scale platform"></div><svg class="ok-dial" viewBox="0 0 420 236" role="img"></svg></div>'+
+    '<div class="ok-tray"></div><div class="ok-sym" aria-live="polite"></div><div class="ok-scale-ask"></div><div class="ok-msg" aria-live="polite"></div>'+
+    '<div class="ok-row"><button class="ok-btn ok-undo" type="button">↶ Take one off</button><button class="ok-btn ok-reset" type="button">↺ Start over</button></div>';
+  var msg=$('.ok-msg',root),dial=$('.ok-dial',root),plat=$('.ok-plat',root),tray=$('.ok-tray',root),askEl=$('.ok-scale-ask',root);
+  function say(t,k){msg.className='ok-msg'+(k?' '+k:'');msg.innerHTML=t||'';}
+  function save(){lsSet(key,st);}
+  function amt(v){var b=Math.floor(v/R),s=v%R;return b+' '+B.unit+' '+s+' '+Sm.unit;}
+  function total(i){var r=rounds[i];return r.at!=null?r.at:st.w[i].b*R+st.w[i].s;}
+  function cx(){return 210;} function cy(){return 206;}
+  function ang(v,max){return Math.PI-(v/(max*R))*Math.PI;}
+  function pt(a,rad){return [cx()+rad*Math.cos(a),cy()-rad*Math.sin(a)];}
+  function needle(v,max,cls,col){var a=ang(Math.min(v,max*R),max),p=pt(a,150),deg=-(a*180/Math.PI)+180;
+    return '<g class="'+cls+'"><line x1="'+cx()+'" y1="'+cy()+'" x2="'+cx()+'" y2="'+(cy()-150)+'" transform="rotate('+(deg-90).toFixed(2)+' '+cx()+' '+cy()+')" stroke="'+col+'" stroke-width="'+(cls==='ok-ghost-n'?3:4)+'" stroke-linecap="round"'+(cls==='ok-ghost-n'?' stroke-dasharray="7 5"':'')+'/></g>';}
+  function drawDial(i){var r=rounds[i],max=r.max,n=max*R,s='<rect x="6" y="6" width="408" height="224" rx="18" fill="#FFF8EF" stroke="#3B2417" stroke-width="4"/>';
+    s+='<path d="M'+(cx()-176)+' '+cy()+' A176 176 0 0 1 '+(cx()+176)+' '+cy()+'" fill="#FFFFFF" stroke="#3B2417" stroke-width="3"/>';
+    for(var k=0;k<=n;k++){var a=ang(k,max),big=k%R===0,mid=!big&&R%2===0&&k%(R/2)===0,len=big?26:mid?17:10,p1=pt(a,172),p2=pt(a,172-len);
+      s+='<line class="'+(big||mid?'mj':'mn')+'" x1="'+p1[0].toFixed(1)+'" y1="'+p1[1].toFixed(1)+'" x2="'+p2[0].toFixed(1)+'" y2="'+p2[1].toFixed(1)+'" stroke="#2B3040" stroke-width="'+(big?3:mid?2:1.3)+'"/>';
+      if(big){var pl=pt(a,124);s+='<text x="'+pl[0].toFixed(1)+'" y="'+(pl[1]+6).toFixed(1)+'" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="'+(max>4?16:19)+'" fill="#1E8C5A">'+(k?k/R+' '+B.unit:'0')+'</text>';}}
+    (r.ghost||[]).forEach(function(g){if(st.won[g]||rounds[g].at!=null)s+=needle(total(g),max,'ok-ghost-n','#8A90A6');});
+    s+=needle(total(i),max,'ok-needle','#D8344A')+'<circle cx="'+cx()+'" cy="'+cy()+'" r="10" fill="#3B2417"/><circle cx="'+cx()+'" cy="'+cy()+'" r="4" fill="#F5C518"/>';
+    var lab=(r.ghost||[]).filter(function(g){return st.won[g];}).map(function(g){return rounds[g].item;});
+    if(lab.length)s+='<text x="20" y="30" font-family="Nunito,sans-serif" font-weight="800" font-size="14" fill="#6B7290">dashed needle: '+esc(lab.join(', '))+'</text>';
+    dial.innerHTML=s;dial.setAttribute('aria-label','A scale dial from 0 to '+max+' '+B.name[1]+'. Each '+B.name[0]+' has '+R+' small marks, one for each '+Sm.name[0]+'.'+(r.showReading?' The needle points to '+amt(total(i))+'.':''));}
+  function add(k){var i=st.cur,r=rounds[i],w=st.w[i];if(st.won[i]&&r.target!=null)return;
+    var v=total(i)+(k==='big'?R:1);
+    if(r.target!=null&&v>r.target){say(r.overMsg||'That is heavier than the '+esc(r.item)+'. Take one off, or try a smaller weight.','hint');snd.no();render();return;}
+    if(v>r.max*R){say('The scale only goes up to '+r.max+' '+B.unit+'.','hint');snd.no();return;}
+    if(k==='small'&&w.s>=(r.cap||47)){say('That is a lot of ounce weights! '+R+' '+Sm.name[1]+' weigh the same as 1 '+B.name[0]+'.','hint');snd.no();return;}
+    w[k==='big'?'b':'s']++;snd.click();say('');
+    if(r.target!=null&&total(i)===r.target&&!st.won[i]){if(!r.ask)win(i);else{snd.done();}}
+    save();render({pop:k});}
+  function remove(k){var w=st.w[st.cur];if(!w[k==='big'?'b':'s'])return;w[k==='big'?'b':'s']--;snd.click();save();render();}
+  function win(i){st.won[i]=true;snd.done();save();if(cfg.onRound)cfg.onRound(i,root);
+    if(st.won.every(Boolean)&&!st.fired){st.fired=true;save();if(cfg.onDone)cfg.onDone(root);}render();}
+  function askReady(i){var r=rounds[i];return r.at!=null||total(i)===r.target;}
+  function render(anim){anim=anim||{};var i=st.cur,r=rounds[i],w=st.w[i];
+    if(rounds.length>1)$$('.ok-rounds button',root).forEach(function(b,k){b.classList.toggle('on',k===i);b.classList.toggle('won',!!st.won[k]);b.setAttribute('aria-selected',k===i);});
+    $('.ok-do',root).innerHTML=st.won[i]?'<span class="ok-step" style="background:#1E8C5A">Done</span>'+(r.doneText||''):r.text;
+    drawDial(i);
+    var ph='';if(r.at!=null)ph='<span class="ok-item">'+esc(r.itemLabel||r.item)+'</span>';
+    else{if(r.itemLabel)ph+='<span class="ok-item ghosty">'+esc(r.itemLabel)+'</span>';
+      for(var b=0;b<w.b;b++)ph+='<span class="ok-disc ok-wt big'+(anim.pop==='big'&&b===w.b-1?' ok-in':'')+'" data-p="10" data-k="big" tabindex="0" role="button" aria-label="Take off a 1 '+B.name[0]+' weight">1 '+esc(B.unit)+'</span>';
+      for(var c=0;c<w.s;c++)ph+='<span class="ok-disc ok-wt small'+(anim.pop==='small'&&c===w.s-1?' ok-in':'')+'" data-p="1" data-k="small" tabindex="0" role="button" aria-label="Take off a 1 '+Sm.name[0]+' weight">1 '+esc(Sm.unit)+'</span>';
+      if(!w.b&&!w.s&&!r.itemLabel)ph+='<span class="ok-plat-empty">Put weights here</span>';}
+    plat.innerHTML=ph;
+    $$('.ok-wt',plat).forEach(function(d){var k=d.dataset.k;draggable(d,function(){return {k:k,from:'plat'};},function(t,pl){if(!t||!t.closest('.ok-plat'))remove(pl.k);else render();},function(pl){remove(pl.k);});});
+    var ws=r.at!=null?[]:(r.weights||['big','small']);
+    tray.style.display=ws.length?'':'none';
+    tray.innerHTML=ws.length?'<span class="lbl">'+(r.trayText||'Drag a weight onto the scale (or tap it):')+'</span>'+ws.map(function(k){var u=k==='big'?B:Sm;return '<span class="ok-src"><span class="ok-disc ok-wt '+k+'" data-p="'+(k==='big'?10:1)+'" data-k="'+k+'" data-src="1" tabindex="0" role="button" aria-label="Add a 1 '+u.name[0]+' weight">1 '+esc(u.unit)+'</span>'+(k==='big'?'<small>= '+R+' '+esc(Sm.unit)+'</small>':'')+'</span>';}).join(''):'';
+    $$('.ok-tray .ok-wt',root).forEach(function(d){var k=d.dataset.k;draggable(d,function(){return {k:k,from:'src'};},function(t,pl){if(t&&t.closest('.ok-scalebox'))add(pl.k);},function(pl){add(pl.k);});});
+    var v=total(i);
+    $('.ok-sym',root).innerHTML=r.sym?r.sym(v,st,i):(r.showReading?'<span class="big">'+amt(v)+'</span><span class="exp">= '+fmt(v)+' '+Sm.unit+'</span>':
+      (r.at!=null?'<span class="exp">Read the needle. Count the big numbers, then the small marks after the last one.</span>':'<span class="exp">On the scale: '+w.b+' × 1 '+B.unit+' and '+w.s+' × 1 '+Sm.unit+(r.target!=null&&v===r.target?' · the needle stopped at the '+esc(r.item)+'\'s weight':'')+'</span>'));
+    // the answer form
+    if(r.ask&&askReady(i)){var A=r.ask,sa=st.a[i]||[];
+      if(!askEl.dataset.r||askEl.dataset.r!==String(i)){askEl.dataset.r=i;
+        askEl.innerHTML='<form class="bm-form mk-two"><span class="mk-two-q">'+A.q+'</span>'+A.units.map(function(u,k){return '<input type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc(A.q.replace(/<[^>]+>/g,''))+' '+(u===B.unit?B.name[1]:u===Sm.unit?Sm.name[1]:u)+'" value="'+esc(sa[k]||'')+'"><span class="bm-u">'+esc(u)+'</span>';}).join('')+'<button type="submit" class="ok-btn">Check</button></form>';
+        var f=$('form',askEl),ins=$$('input',f);
+        if(st.won[i])ins.forEach(function(x){x.disabled=true;});
+        f.onsubmit=function(e){e.preventDefault();if(st.won[st.cur])return;var vs=ins.map(function(x){return num(x.value);});st.a[st.cur]=ins.map(function(x){return x.value;});save();
+          if(vs.some(function(x){return x==null;}))return say('Type a number in each box.','hint');
+          if(vs.every(function(x,k){return x===A.answer[k];})){ins.forEach(function(x){x.disabled=true;});say(A.doneText||'Yes!','good');win(st.cur);return;}
+          snd.no();var mk=(A.mistakes||[]).filter(function(z){return z.v.every(function(x,k){return x===vs[k];});})[0];
+          if(mk)return say(mk.text,'hint');
+          if(A.units.length===2&&vs[0]*R+vs[1]===A.answer[0]*R+A.answer[1])return say('That is the right weight! But '+vs[1]+' '+Sm.unit+' is '+R+' or more. Trade '+R+' '+Sm.name[1]+' for 1 '+B.name[0]+'.','hint');
+          say(A.hint||'Look at the dial again: count the big numbers first, then the small marks.','hint');};}
+    }else{askEl.innerHTML='';askEl.dataset.r='';}
+    var nx=$('.ok-next',root);
+    if(st.won[i]&&i<rounds.length-1){if(!nx){nx=document.createElement('button');nx.className='ok-btn ok-next';nx.type='button';nx.textContent='Next →';nx.onclick=function(){st.cur++;save();say('');askEl.dataset.r='';render();};$('.ok-row',root).appendChild(nx);}}
+    else if(nx)nx.remove();
+    $('.ok-undo',root).style.display=r.at!=null?'none':'';
+  }
+  if(rounds.length>1)$$('.ok-rounds button',root).forEach(function(b){b.onclick=function(){st.cur=+b.dataset.i;save();say('');askEl.dataset.r='';render();};});
+  $('.ok-undo',root).onclick=function(){var w=st.w[st.cur];if(st.won[st.cur]&&rounds[st.cur].target!=null)return;if(w.s)remove('small');else if(w.b)remove('big');};
+  $('.ok-reset',root).onclick=function(){var i=st.cur;st.w[i]={b:0,s:0};st.won[i]=false;st.a[i]=[];st.fired=st.won.every(Boolean)&&st.fired;save();say('');askEl.dataset.r='';render();};
+  render();
+  return {state:st,total:total};
+}
+K.scale=scale;K.unitMat=unitMat;K.tradeMat=tradeMat;K.stamps=stamps;K.barModel=barModel;K.numberBond=numberBond;K.mentalMath=mentalMath;K.challenge=challenge;
 })(OAOKit);
