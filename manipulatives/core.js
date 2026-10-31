@@ -69,6 +69,15 @@ var OAOM = (function () {
 
   /* ---------- share modal (used by tool page + library) ---------- */
   var modal;
+  /* ---------- My saved setups (teacher, this browser only) ----------
+     localStorage 'oaom.saved' = [{id, name, t, s, at}]  (t = tool id, s = tool state) */
+  var saved = {
+    list: function () { try { return JSON.parse(localStorage.getItem('oaom.saved') || '[]'); } catch (e) { return []; } },
+    put: function (arr) { try { localStorage.setItem('oaom.saved', JSON.stringify(arr)); return true; } catch (e) { return false; } },
+    add: function (name, t, s) { var a = saved.list(); var it = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: name, t: t, s: s, at: new Date().toISOString() }; a.unshift(it); return saved.put(a) ? it : null; },
+    remove: function (id) { saved.put(saved.list().filter(function (x) { return x.id !== id; })); },
+    rename: function (id, name) { saved.put(saved.list().map(function (x) { if (x.id === id) x.name = name; return x; })); }
+  };
   function addSt(u) { return /[?&]st=1/.test(u) ? u : u.replace(/(\?[^#]*)/, '$1&st=1'); }
   /* ---------- Turn in my work (students): a picture + a link to their exact work ---------- */
   function workPicture(done) {
@@ -162,13 +171,25 @@ var OAOM = (function () {
   var saveT;
   function register(id, def) { tools[id] = def; }
 
-  function mount(id, state) {
+  /* undo / redo: snapshots of the tool's state, per tool */
+  var hist = { id: null, past: [], future: [], last: null };
+  function histReset(id, S) { hist = { id: id, past: [], future: [], last: JSON.stringify(S) }; paintHist(); }
+  function histCommit() { if (!cur) return; var now = JSON.stringify(cur.S); if (now === hist.last) return; hist.past.push(hist.last); if (hist.past.length > 60) hist.past.shift(); hist.future = []; hist.last = now; paintHist(); }
+  function paintHist() { var u = $('#om-undo'), r = $('#om-redo'); if (u) u.disabled = !hist.past.length; if (r) r.disabled = !hist.future.length; }
+  function undo() { if (!cur || !hist.past.length) return; hist.future.push(hist.last); var s = hist.past.pop(); hist.last = s; mount(cur.id, JSON.parse(s), true); saveNow(); }
+  function redo() { if (!cur || !hist.future.length) return; hist.past.push(hist.last); var s = hist.future.pop(); hist.last = s; mount(cur.id, JSON.parse(s), true); saveNow(); }
+  function saveNow() { if (!cur) return; if (!params.get('lesson')) history.replaceState(null, '', '#s=' + enc(cur.S)); else if (cur.lessonStates) cur.lessonStates[cur.tab] = clone(cur.S); paintHist(); }
+
+  function mount(id, state, keepHist) {
     var def = tools[id]; var m = meta(id);
     var stage = $('#om-stage'), side = $('#om-setup'), sayEl = $('#om-say'), out = $('#om-readout');
     stage.innerHTML = ''; side.innerHTML = ''; sayEl.textContent = ''; out.innerHTML = '';
     if (!def) { stage.innerHTML = '<p>That tool was not found. <a href="index.html">Go to the library</a>.</p>'; return; }
     var S = Object.assign(clone(def.defaults || {}), state || {});
-    cur = { id: id, def: def, S: S, initial: clone(S) };
+    var prevInitial = keepHist && cur ? cur.initial : null, prevL = cur ? { lessonId: cur.lessonId, lessonStates: cur.lessonStates, tab: cur.tab } : {};
+    cur = { id: id, def: def, S: S, initial: prevInitial || clone(S) };
+    if (keepHist) Object.assign(cur, prevL);
+    if (!keepHist) histReset(id, S);
     document.title = m.name + ' · OAO Math Tools';
     $('#om-title').textContent = m.name;
     var hl = $('#om-howlist'); if (hl) hl.innerHTML = (m.how || []).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
@@ -181,7 +202,7 @@ var OAOM = (function () {
       readout: function (h) { out.innerHTML = h || ''; },
       /* report(o): the tool's current answer(s) as strings, e.g. {v:'2407'}; checked against the goal S._g */
       report: function (o) { cur.rep = o || {}; goalCheck(); },
-      changed: function () { clearTimeout(saveT); saveT = setTimeout(function () { if (!params.get('lesson')) history.replaceState(null, '', '#s=' + enc(cur.S)); else cur.lessonStates[cur.tab] = clone(cur.S); }, 250); },
+      changed: function () { clearTimeout(saveT); saveT = setTimeout(function () { histCommit(); saveNow(); }, 250); },
       onRedraw: function (f) { redrawFn = f; },
       redraw: function () { redrawFn(); api.changed(); },
       /* quick(presets): one-tap setups shown at the top of Set up. presets = [[label, {state keys}], ...] */
@@ -227,6 +248,10 @@ var OAOM = (function () {
     redrawFn();
     /* kit note */
     if (m.kit) side.appendChild(el('details', { class: 'om-kit' }, '<summary>Use the real thing</summary><p><b>Hands-on:</b> ' + m.kit + (m.home ? '<br><b>At home:</b> ' + m.home : '') + '</p>'));
+    var qs = window.OAOM_DATA && OAOM_DATA.questions && OAOM_DATA.questions[id];
+    if (qs && !document.body.classList.contains('student')) side.appendChild(el('details', { class: 'om-qs' }, '<summary>Questions to ask (teacher only)</summary><ul>' + qs.map(function (q) { return '<li>' + esc(q) + '</li>'; }).join('') + '</ul>'));
+    inkMount();
+    var sb = $('#om-surprise'); if (sb) sb.hidden = !(window.OAOM_DATA && OAOM_DATA.surprise && OAOM_DATA.surprise[id]);
     $('#om-main').classList.toggle('nosetup', !side.children.length);
     /* with a goal, the setup panel starts folded so students build by hand instead of typing the answer in */
     var aside = side.parentNode, h2 = aside.querySelector('h2');
@@ -261,6 +286,64 @@ var OAOM = (function () {
     else gs.textContent = '';
   }
 
+  /* ---------- Pen: draw on top of any tool (strokes saved in S._ink, as fractions of the stage width) ---------- */
+  var penOn = false, penCol = '#0E1C42';
+  function inkMount() {
+    var stage = $('#om-stage'); if (!stage) return; stage.style.position = 'relative';
+    var old = $('#om-ink'); if (old) old.remove();
+    var v = s('svg', { id: 'om-ink', class: 'om-ink' + (penOn ? ' on' : '') }); stage.appendChild(v); inkDraw();
+    var pts = null, path = null;
+    v.addEventListener('pointerdown', function (e) { if (!penOn) return; e.preventDefault(); try { v.setPointerCapture(e.pointerId); } catch (x) {}
+      var r = v.getBoundingClientRect(); pts = [penCol]; path = s('polyline', { fill: 'none', stroke: penCol, 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, v);
+      add(e); function add(ev) { var w = r.width; pts.push(+((ev.clientX - r.left) / w).toFixed(4), +((ev.clientY - r.top) / w).toFixed(4)); path.setAttribute('points', toPts(pts, w)); }
+      v.onpointermove = function (ev) { if (pts) add(ev); };
+      v.onpointerup = v.onpointercancel = function () { if (pts && pts.length > 3) { cur.S._ink = (cur.S._ink || []).concat([pts]); if (JSON.stringify(cur.S._ink).length > 6000) { cur.S._ink.shift(); toast('Older pen marks were cleared to keep the link short.'); } histCommit(); saveNow(); } pts = null; v.onpointermove = null; };
+    });
+  }
+  function toPts(a, w) { var o = []; for (var i = 1; i < a.length; i += 2) o.push((a[i] * w).toFixed(1) + ',' + (a[i + 1] * w).toFixed(1)); return o.join(' '); }
+  function inkDraw() { var v = $('#om-ink'); if (!v || !cur) return; var st = $('#om-stage'), w = st.clientWidth, h = Math.max(st.scrollHeight, 200);
+    v.setAttribute('width', w); v.setAttribute('height', h); v.setAttribute('viewBox', '0 0 ' + w + ' ' + h); [].slice.call(v.querySelectorAll('polyline')).forEach(function (p) { p.remove(); });
+    (cur.S._ink || []).forEach(function (a) { s('polyline', { points: toPts(a, w), fill: 'none', stroke: a[0], 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, v); }); }
+  window.addEventListener('resize', function () { inkDraw(); });
+  function setPen(on) { penOn = on; var v = $('#om-ink'); if (v) v.classList.toggle('on', on); var b = $('#om-pen'); if (b) b.setAttribute('aria-pressed', on); var tb = $('#om-penbar'); if (tb) tb.hidden = !on; if (on) inkDraw(); }
+
+  /* ---------- Flash it (teacher): show the tool for a few seconds, then cover it ---------- */
+  function flash() {
+    var card = document.querySelector('.om-stagecard'); if (!card) return; var secs = +(($('#om-flashs') || {}).value || 3);
+    var old = $('#om-flashcover'); if (old) old.remove();
+    var badge = el('div', { class: 'om-flashbadge' }, 'Look! ' + secs); card.appendChild(badge);
+    var n = secs, t = setInterval(function () { n--; badge.textContent = 'Look! ' + n; if (n <= 0) { clearInterval(t); badge.remove(); cover(); } }, 1000);
+    function cover() {
+      var cv = el('div', { class: 'om-flashcover', id: 'om-flashcover' }, '<div><p class="big">What did you see?</p><p>How many? How did you see it?</p><div class="om-row" style="justify-content:center"><button class="om-btn" data-a="again">Show again</button><button class="om-btn primary" data-a="reveal">Reveal</button></div></div>');
+      card.appendChild(cv); cv.querySelector('[data-a="reveal"]').onclick = function () { cv.remove(); }; cv.querySelector('[data-a="again"]').onclick = function () { cv.remove(); flash(); };
+    }
+  }
+  /* ---------- Surprise me: a random problem from OAOM_DATA.surprise[tool] (returns {set, g:[text, answer, mistakes, key]}) ---------- */
+  function surprise() {
+    var f = window.OAOM_DATA && OAOM_DATA.surprise && OAOM_DATA.surprise[cur.id]; if (!f) return;
+    var p = f(cur.S) || {}; var ns = Object.assign(clone(cur.initial), clone(p.set || {}));
+    if (p.g) ns._g = { t: p.g[0], v: p.g[1], m: p.g[2] || [], k: p.g[3] || 'v' }; else delete ns._g;
+    mount(cur.id, ns, true); histCommit(); saveNow();
+  }
+  /* ---------- Read to me ---------- */
+  function readAloud() {
+    if (!window.speechSynthesis) { toast('Read aloud does not work in this browser.'); return; }
+    speechSynthesis.cancel(); var m = meta(cur.id);
+    var u = new SpeechSynthesisUtterance([m.name + '.', m.what].concat(m.how || []).join(' ')); u.rate = 0.92; speechSynthesis.speak(u);
+  }
+  /* ---------- Save setup (teacher) ---------- */
+  function saveSetup() {
+    if (!modal) { modal = el('div', { class: 'om-modal', hidden: '' }); document.body.appendChild(modal); modal.addEventListener('click', function (e) { if (e.target === modal) closeShare(); }); document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeShare(); }); }
+    var m = meta(cur.id);
+    modal.innerHTML = '<div class="om-dialog" role="dialog" aria-modal="true" aria-labelledby="om-sv-t"><h2 id="om-sv-t">Save this setup</h2><p class="sub">It goes in <b>My setups</b> in the library, on this computer and browser. Open it, share it, or put it in a problem set later.</p>' +
+      '<label class="om-field"><span>Name</span><input type="text" id="om-svname" value="' + esc(m.name + ' ' + new Date().toLocaleDateString()) + '"></label>' +
+      '<div class="om-row" style="justify-content:flex-end"><button class="om-btn small" data-x>Cancel</button><button class="om-btn small primary" data-ok>Save</button></div></div>';
+    modal.hidden = false; var inp = $('#om-svname'); inp.select();
+    modal.querySelector('[data-x]').onclick = closeShare;
+    function go() { var st = clone(cur.S); delete st._g; var it = saved.add(inp.value.trim() || m.name, cur.id, st); closeShare(); toast(it ? 'Saved to My setups' : 'Could not save in this browser.'); }
+    modal.querySelector('[data-ok]').onclick = go; inp.onkeydown = function (e) { if (e.key === 'Enter') go(); };
+  }
+
   function boot() {
     var id = params.get('t'), lid = params.get('lesson');
     var isBoard = params.get('board') === '1', isEmbed = params.get('embed') === '1', isStudent = params.get('st') === '1';
@@ -275,9 +358,13 @@ var OAOM = (function () {
       '<button class="om-btn small om-sidetoggle" id="om-setbtn" aria-pressed="false"><span class="lbl">Set up</span><span aria-hidden="true">⚙</span></button>' +
       (isBoard ? '<button class="om-btn small" id="om-dark" aria-pressed="false"><span class="lbl">Dark</span><span aria-hidden="true">◐</span></button><button class="om-btn small" id="om-full"><span class="lbl">Full screen</span><span aria-hidden="true">⛶</span></button>' : '<button class="om-btn small" id="om-big" title="Big-screen mode"><span class="lbl">Big screen</span><span aria-hidden="true">⛶</span></button>') +
       '<button class="om-btn small" id="om-print" title="Print"><span class="lbl">Print</span><span aria-hidden="true">🖨</span></button>' +
-      (isStudent ? '<button class="om-btn small primary" id="om-turnin"><span class="lbl">Turn in my work</span><span aria-hidden="true">📤</span></button>' : '<button class="om-btn small" id="om-turnin" title="Save a picture or link of this work"><span class="lbl">Save my work</span><span aria-hidden="true">📤</span></button><button class="om-btn small primary" id="om-share"><span class="lbl">Share</span><span aria-hidden="true">🔗</span></button>') + '</div></header>' +
+      (isStudent ? '<button class="om-btn small primary" id="om-turnin"><span class="lbl">Turn in my work</span><span aria-hidden="true">📤</span></button>' : '<button class="om-btn small" id="om-save" title="Save this setup to My setups"><span class="lbl">Save setup</span><span aria-hidden="true">💾</span></button><button class="om-btn small primary" id="om-share"><span class="lbl">Share</span><span aria-hidden="true">🔗</span></button>') + '</div></header>' +
       '<nav class="om-tabs" id="om-tabs" role="tablist" hidden></nav><p class="om-lessonnote" id="om-lnote" hidden></p>' +
-      '<main class="om-main" id="om-main"><section class="om-stagecard"><div class="om-printhead" id="om-printhead"></div><details class="om-how" id="om-how"' + (isEmbed ? '' : ' open') + '><summary>How to use this tool</summary><ol id="om-howlist"></ol></details><p class="om-say" id="om-say" aria-live="polite"></p><div class="om-goal" id="om-goal" hidden></div><div class="om-stage" id="om-stage"></div><div class="om-readout om-num" id="om-readout" aria-live="polite"></div></section>' +
+      '<main class="om-main" id="om-main"><section class="om-stagecard"><div class="om-printhead" id="om-printhead"></div><details class="om-how" id="om-how"' + (isEmbed ? '' : ' open') + '><summary>How to use this tool</summary><button type="button" class="om-btn small om-read" id="om-read">🔊 Read to me</button><ol id="om-howlist"></ol></details>' +
+      '<div class="om-toolbar om-noprint" role="toolbar" aria-label="Tool actions"><button type="button" class="om-btn small" id="om-undo" aria-label="Undo" title="Undo (Ctrl+Z)" disabled>↶ <span class="lbl">Undo</span></button><button type="button" class="om-btn small" id="om-redo" aria-label="Redo" title="Redo (Ctrl+Y)" disabled>↷ <span class="lbl">Redo</span></button>' +
+      '<button type="button" class="om-btn small" id="om-pen" aria-pressed="false">✏️ <span class="lbl">Pen</span></button><span class="om-penbar" id="om-penbar" hidden><button type="button" class="om-sw" data-c="#0E1C42" style="background:#0E1C42" aria-label="Navy pen"></button><button type="button" class="om-sw" data-c="#D2453B" style="background:#D2453B" aria-label="Red pen"></button><button type="button" class="om-sw" data-c="#23915A" style="background:#23915A" aria-label="Green pen"></button><button type="button" class="om-btn small" id="om-penclear">Clear ink</button></span>' +
+      '<button type="button" class="om-btn small" id="om-surprise" hidden>🎲 <span class="lbl">Surprise me</span></button>' +
+      (isStudent ? '' : '<span class="om-flashgrp"><button type="button" class="om-btn small" id="om-flash" title="Show the tool for a few seconds, then hide it">⚡ <span class="lbl">Flash it</span></button><select id="om-flashs" aria-label="Seconds to show"><option value="2">2 s</option><option value="3" selected>3 s</option><option value="5">5 s</option><option value="10">10 s</option></select></span>') + '</div><p class="om-say" id="om-say" aria-live="polite"></p><div class="om-goal" id="om-goal" hidden></div><div class="om-stage" id="om-stage"></div><div class="om-readout om-num" id="om-readout" aria-live="polite"></div></section>' +
       '<aside class="om-side"><h2>Set up</h2><div id="om-setup"></div></aside></main>';
 
     $('#om-reset').onclick = function () { if (!cur) return; mount(cur.id, clone(cur.initial)); if (!lid) history.replaceState(null, '', '#s=' + enc(cur.initial)); };
@@ -287,7 +374,18 @@ var OAOM = (function () {
     var big = $('#om-big'); if (big) big.onclick = function () { location.href = currentURL('&board=1'); };
     var dark = $('#om-dark'); if (dark) dark.onclick = function () { var on = document.body.classList.toggle('dark'); this.setAttribute('aria-pressed', on); };
     var full = $('#om-full'); if (full) full.onclick = function () { if (document.fullscreenElement) document.exitFullscreen(); else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); };
-    $('#om-turnin').onclick = turnIn;
+    if ($('#om-turnin')) $('#om-turnin').onclick = turnIn;
+    if ($('#om-save')) $('#om-save').onclick = saveSetup;
+    $('#om-undo').onclick = undo; $('#om-redo').onclick = redo;
+    $('#om-pen').onclick = function () { setPen(!penOn); };
+    [].forEach.call(document.querySelectorAll('.om-sw'), function (b) { b.onclick = function () { penCol = b.dataset.c; [].forEach.call(document.querySelectorAll('.om-sw'), function (x) { x.classList.toggle('sel', x === b); }); }; });
+    $('#om-penclear').onclick = function () { if (cur && cur.S._ink) { delete cur.S._ink; inkDraw(); histCommit(); saveNow(); } };
+    $('#om-surprise').onclick = surprise;
+    if ($('#om-flash')) $('#om-flash').onclick = flash;
+    $('#om-read').onclick = function (e) { e.preventDefault(); readAloud(); };
+    document.addEventListener('keydown', function (e) { var tag = (e.target.tagName || '').toLowerCase(); if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
+      else if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 'y' || (e.key.toLowerCase() === 'z' && e.shiftKey))) { e.preventDefault(); redo(); } });
     if ($('#om-share')) $('#om-share').onclick = function () {
       if (!cur) return;
       if (lid) { share(lessonShare(lid)); return; }
@@ -333,5 +431,5 @@ var OAOM = (function () {
     requestAnimationFrame(step);
   }
   return { reduce: reduce, anim: anim, register: register, boot: boot, tools: tools, s: s, svg: svg, el: el, pt: pt, drag: drag, tap: tap, clone: clone, clamp: clamp, gcd: gcd, fmt: fmt, frac: frac, mixed: mixed, esc: esc,
-    enc: enc, dec: dec, directions: directions, lessonShare: lessonShare, toolShare: toolShare, toolURL: toolURL, lessonURL: lessonURL, share: share, copy: copy, toast: toast, meta: meta };
+    saved: saved, addSt: addSt, enc: enc, dec: dec, directions: directions, lessonShare: lessonShare, toolShare: toolShare, toolURL: toolURL, lessonURL: lessonURL, share: share, copy: copy, toast: toast, meta: meta };
 })();

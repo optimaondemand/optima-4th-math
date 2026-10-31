@@ -2,74 +2,108 @@
    (singaporemath.com kit lists) plus the drawn models the books use on every page. */
 window.OAOM_DATA = (function () {
   var tools = [
+    /* group: early number (PK–2) */
+    { id: 'tenframe', g: 'Counting & Early Number', name: 'Ten Frames & Part-Part-Whole', grades: [-1, 0, 1], src: 'kit',
+      kit: 'Magnetic Double Ten Frame & Part-Part-Whole Paddles', home: 'An egg carton cut to 10 cups.',
+      what: 'Fill ten frames with counters to see numbers to 20, or split a whole into two parts.' },
+    { id: 'bears', g: 'Counting & Early Number', name: 'Counting Bears', grades: [-1, 0, 1], src: 'kit',
+      kit: 'Bear Counters (3 sizes, 4 colors) and Transparent Counters', home: 'Buttons, beans or toy animals.',
+      what: 'Count, sort and make patterns with bears of different sizes and colors.' },
+    { id: 'linkcubes', g: 'Counting & Early Number', name: 'Linking Cubes', grades: [-1, 0, 1, 2], src: 'kit',
+      kit: 'Katie Kubes (Linking Cubes)', home: 'LEGO bricks or stacking blocks.',
+      what: 'Snap cubes into trains and towers to count, compare, measure and make patterns.' },
+    { id: 'dotcards', g: 'Counting & Early Number', name: 'Dot & Number Cards', grades: [-1, 0, 1, 2], src: 'kit',
+      kit: 'Numerical Fluency Activity Cards', home: 'Index cards with dots drawn on them.',
+      what: 'Show dot patterns, ten-frame cards and numerals to see amounts at a glance.' },
+    { id: 'dominoes', g: 'Counting & Early Number', name: 'Dominoes', grades: [-1, 0, 1], src: 'kit',
+      kit: 'Double-Six and Double-Nine Dominoes', home: 'A set of dominoes, or paper rectangles with dots.',
+      what: 'Count the dots on each side, find the total and match dominoes.' },
+    { id: 'sticks', g: 'Counting & Early Number', name: 'Bundling Sticks', grades: [1, 2], src: 'kit',
+      kit: 'Craft Sticks and rubber bands', home: 'Craft sticks, straws or pencils with rubber bands.',
+      what: 'Bundle 10 loose sticks into a ten, or unbundle a ten, to see tens and ones.' },
+    { id: 'cuisenaire', g: 'Counting & Early Number', name: 'Cuisenaire Rods', grades: [0, 1, 2], src: 'kit',
+      kit: 'Cuisenaire Rods', home: 'Paper strips cut 1 to 10 units long.',
+      what: 'Line up colored rods 1 to 10 long to find number pairs, compare lengths and make trains.' },
+    { id: 'beads', g: 'Counting & Early Number', name: 'Beads & Patterns', grades: [-1, 0], src: 'kit',
+      kit: 'Beads and Pattern Cards Activity Set', home: 'Beads or cereal on a string.',
+      what: 'String beads by color and shape to copy, extend and make patterns.' },
+    { id: 'attrblocks', g: 'Geometry', name: 'Attribute Blocks', grades: [0, 1], src: 'kit',
+      kit: 'Attribute Blocks', home: 'Paper shapes in two sizes and colors.',
+      what: 'Sort shapes by color, shape, size and thickness.' },
+    { id: 'solids', g: 'Geometry', name: 'Geometric Solids', grades: [-1, 0, 1, 2], src: 'kit',
+      kit: 'Foam Geometric Solids', home: 'Boxes, cans, balls and cones from around the house.',
+      what: 'Turn 3D shapes to see their faces, edges and corners, and find which ones stack or roll.' },
+    { id: 'bucket', g: 'Measurement', name: 'Bucket Balance', grades: [-1, 0, 1, 2], src: 'kit',
+      kit: 'Primary Bucket Balance', home: 'A coat hanger with two cups hanging from it.',
+      what: 'Put things in each bucket to see which is heavier, which is lighter, or if they balance.' },
     /* group: number */
-    { id: 'discs', g: 'Place Value', name: 'Number Discs', grades: [3, 4, 5], src: 'kit',
+    { id: 'discs', g: 'Place Value', name: 'Number Discs', grades: [2, 3, 4, 5], src: 'kit',
       kit: 'Place Value Discs (4-value in Grade 3; 10-value, decimals to whole numbers, in Grades 4 and 5)', home: 'Write 1, 10, 100 and 1,000 on paper circles or coins.',
       what: 'Build numbers with discs. Break a disc into 10 smaller ones, or trade 10 for 1 bigger one.' },
-    { id: 'pvcards', g: 'Place Value', name: 'Place-Value Cards', grades: [3, 4, 5], src: 'kit',
+    { id: 'pvcards', g: 'Place Value', name: 'Place-Value Cards', grades: [1, 2, 3, 4, 5], src: 'kit',
       kit: 'Sensational Math Place Value Cards (4-value Grade 3; 10-value Grades 4 and 5)', home: 'Write 3,000 / 400 / 50 / 6 on strips of paper and stack them.',
       what: 'Pull the stacked cards apart to see what each digit is worth, then push them back together.' },
-    { id: 'blocks', g: 'Place Value', name: 'Base-Ten Blocks', grades: [3, 4, 5], src: 'kit',
+    { id: 'blocks', g: 'Place Value', name: 'Base-Ten Blocks', grades: [1, 2, 3, 4, 5], src: 'kit',
       kit: 'Base Ten Units, Rods, Flats and Thousand Cube', home: 'Draw dots, sticks and squares on paper.',
       what: 'Ones, tens, hundreds and thousands you can break apart and group.' },
-    { id: 'bond', g: 'Models', name: 'Number Bond', grades: [3, 4, 5], src: 'model',
+    { id: 'bond', g: 'Models', name: 'Number Bond', grades: [0, 1, 2, 3, 4, 5], src: 'model',
       kit: 'Drawn in the textbook and workbook', home: 'Draw a circle for the whole and circles for the parts.',
       what: 'Split a whole into parts, or put parts together to make the whole.' },
-    { id: 'bar', g: 'Models', name: 'Bar Model', grades: [3, 4, 5], src: 'model',
+    { id: 'bar', g: 'Models', name: 'Bar Model', grades: [1, 2, 3, 4, 5], src: 'model',
       kit: 'Drawn in the textbook and workbook', home: 'Draw bars on paper or a dry-erase sleeve.',
       what: 'Draw a word problem with bars so you can see what you know and what you need to find.' },
-    { id: 'numberline', g: 'Models', name: 'Number Line', grades: [3, 4, 5], src: 'model',
+    { id: 'numberline', g: 'Models', name: 'Number Line', grades: [1, 2, 3, 4, 5], src: 'model',
       kit: 'Folding Meter/Yard Stick works as a number line', home: 'Draw a line and mark equal jumps.',
       what: 'Mark whole numbers, fractions or decimals on a line and show hops between them.' },
-    { id: 'counters', g: 'Operations', name: 'Counters & Arrays', grades: [3, 4, 5], src: 'kit',
+    { id: 'counters', g: 'Operations', name: 'Counters & Arrays', grades: [-1, 0, 1, 2, 3, 4, 5], src: 'kit',
       kit: 'Two-Color Counters (red/yellow)', home: 'Beans, buttons or cereal pieces.',
       what: 'Make rows and columns to multiply, or share counters into equal groups to divide.' },
-    { id: 'hundred', g: 'Operations', name: 'Hundred Chart & Times Table', grades: [3, 4, 5], src: 'kit',
+    { id: 'hundred', g: 'Operations', name: 'Hundred Chart & Times Table', grades: [0, 1, 2, 3, 4, 5], src: 'kit',
       kit: 'Hundred Number Board', home: 'Print the blank chart from this page.',
       what: 'Skip-count, find multiples and factors, and spot patterns.' },
-    { id: 'dice', g: 'Operations', name: 'Dice & Number Cards', grades: [3, 4, 5], src: 'kit',
+    { id: 'dice', g: 'Operations', name: 'Dice & Number Cards', grades: [-1, 0, 1, 2, 3, 4, 5], src: 'kit',
       kit: '10-Sided Dice (0–9), Blank Dice, playing cards and fact cards', home: 'A deck of playing cards (face cards out).',
       what: 'Roll dice or flip digit cards to make numbers and play practice games.' },
     /* group: fractions + decimals */
-    { id: 'fbars', g: 'Fractions & Decimals', name: 'Fraction Tiles', grades: [3, 4, 5], src: 'kit',
+    { id: 'fbars', g: 'Fractions & Decimals', name: 'Fraction Tiles', grades: [2, 3, 4, 5], src: 'kit',
       kit: 'Fraction Tiles with Tray (numbered)', home: 'Fold and cut paper strips the same length.',
       what: 'Stack fraction tiles under one whole to compare, find equal fractions and add.' },
-    { id: 'fcircles', g: 'Fractions & Decimals', name: 'Fraction Circles', grades: [3, 4, 5], src: 'kit',
+    { id: 'fcircles', g: 'Fractions & Decimals', name: 'Fraction Circles', grades: [2, 3, 4, 5], src: 'kit',
       kit: 'Fraction Circles (Grades 4 and 5 supply list)', home: 'Paper plates cut into equal slices.',
       what: 'Shade slices of circles to show fractions and mixed numbers.' },
     { id: 'decgrid', g: 'Fractions & Decimals', name: 'Decimal Grid', grades: [4, 5], src: 'model',
       kit: 'Centimeter Grid Dry-Erase Board (a 10 by 10 square)', home: 'Draw a 10 by 10 square on grid paper.',
       what: 'Shade tenths and hundredths to see decimals, fractions and percents.' },
-    { id: 'money', g: 'Fractions & Decimals', name: 'Coins & Bills', grades: [3, 4, 5], src: 'kit',
+    { id: 'money', g: 'Fractions & Decimals', name: 'Coins & Bills', grades: [1, 2, 3, 4, 5], src: 'kit',
       kit: 'Classroom Money Kit / Magnetic Money Set', home: 'Real coins from a jar.',
       what: 'Count money, make amounts and make change.' },
     /* group: measurement */
-    { id: 'ruler', g: 'Measurement', name: 'Rulers & Measuring Tape', grades: [3, 4, 5], src: 'kit',
+    { id: 'ruler', g: 'Measurement', name: 'Rulers & Measuring Tape', grades: [2, 3, 4, 5], src: 'kit',
       kit: '12-inch rulers, English/Metric Tape Measure, Folding Meter/Yard Stick', home: 'Any ruler or tape measure.',
       what: 'Measure in centimeters, meters, inches, feet and yards.' },
-    { id: 'scale', g: 'Measurement', name: 'Scale & Balance', grades: [3, 4, 5], src: 'kit',
+    { id: 'scale', g: 'Measurement', name: 'Scale & Balance', grades: [2, 3, 4, 5], src: 'kit',
       kit: 'Platform Scale (5 kg / 11 lb), Metric Weights, Balance', home: 'A kitchen or bathroom scale.',
       what: 'Read a scale dial and balance weights in grams, kilograms, ounces and pounds.' },
-    { id: 'beaker', g: 'Measurement', name: 'Beakers & Measuring Cups', grades: [3, 4, 5], src: 'kit',
+    { id: 'beaker', g: 'Measurement', name: 'Beakers & Measuring Cups', grades: [2, 3, 4, 5], src: 'kit',
       kit: 'Metric Beakers, Liquid Measuring Set, Liter Cube', home: 'Kitchen measuring cups and a water bottle.',
       what: 'Fill and read beakers in milliliters and liters, or cups, pints, quarts and gallons.' },
-    { id: 'clock', g: 'Measurement', name: 'Clock & Timer', grades: [3, 4, 5], src: 'kit',
+    { id: 'clock', g: 'Measurement', name: 'Clock & Timer', grades: [0, 1, 2, 3, 4, 5], src: 'kit',
       kit: 'Demonstration Clock, Student Clocks, Digital Timer', home: 'A clock with hands, or a paper-plate clock.',
       what: 'Move the hands to tell time and find how much time has passed.' },
     /* group: geometry */
-    { id: 'tiles', g: 'Geometry', name: 'Color Tiles & Area Grid', grades: [3, 4, 5], src: 'kit',
+    { id: 'tiles', g: 'Geometry', name: 'Color Tiles & Area Grid', grades: [2, 3, 4, 5], src: 'kit',
       kit: 'Color Tiles, Centimeter Grid Dry-Erase Board', home: 'Squares cut from sticky notes.',
       what: 'Lay square tiles to find area and walk the edges to find perimeter.' },
-    { id: 'geoboard', g: 'Geometry', name: 'Geoboard', grades: [3, 4, 5], src: 'kit',
+    { id: 'geoboard', g: 'Geometry', name: 'Geoboard', grades: [-1, 0, 1, 2, 3, 4, 5], src: 'kit',
       kit: '11 by 11 Pin Grid Geoboard', home: 'Dot paper and a pencil.',
       what: 'Stretch bands between pins to make lines, angles and shapes.' },
-    { id: 'whiteboard', g: 'Geometry', name: 'Grid Whiteboard', grades: [3, 4, 5], src: 'kit',
+    { id: 'whiteboard', g: 'Geometry', name: 'Grid Whiteboard', grades: [0, 1, 2, 3, 4, 5], src: 'kit',
       kit: 'Centimeter Grid Dry-Erase Boards and SmartPAL Dry-Erase Sleeves', home: 'Grid paper in a page protector.',
       what: 'Draw, write and show your work on grid, dot or blank paper.' },
-    { id: 'tangram', g: 'Geometry', name: 'Tangrams', grades: [3, 4], src: 'kit',
+    { id: 'tangram', g: 'Geometry', name: 'Tangrams', grades: [0, 1, 2, 3, 4], src: 'kit',
       kit: 'Tangrams', home: 'Cut a paper square into the seven pieces.',
       what: 'Slide, turn and flip seven pieces to build shapes and pictures.' },
-    { id: 'pattern', g: 'Geometry', name: 'Pattern Blocks', grades: [3, 4, 5], src: 'kit',
+    { id: 'pattern', g: 'Geometry', name: 'Pattern Blocks', grades: [-1, 0, 1, 2, 3, 4, 5], src: 'kit',
       kit: 'Pattern Blocks', home: 'Print and cut the shapes.',
       what: 'Build designs, find lines of symmetry and see fractions of a hexagon.' },
     { id: 'protractor', g: 'Geometry', name: 'Protractor', grades: [4, 5], src: 'kit',
@@ -87,11 +121,11 @@ window.OAOM_DATA = (function () {
     { id: 'barstrip', g: 'Measurement', name: 'Bar Strip', grades: [3, 4, 5], src: 'model',
       kit: 'Fraction Tiles and a Folding Meter/Yard Stick', home: 'Paper strips cut to the same length.',
       what: 'Fill one long bar with smaller pieces to see how many fit, or compare two amounts on the same scale.' },
-    { id: 'cubes', g: 'Geometry', name: 'Unit Cubes', grades: [4, 5], src: 'kit',
+    { id: 'cubes', g: 'Geometry', name: 'Unit Cubes', grades: [2, 4, 5], src: 'kit',
       kit: 'Centimeter Cubes, Linking Cubes, Liter Cube', home: 'Sugar cubes or small blocks.',
       what: 'Stack cubes to build boxes and find volume.' }
   ];
-  var groups = ['Place Value', 'Models', 'Operations', 'Fractions & Decimals', 'Measurement', 'Geometry'];
+  var groups = ['Counting & Early Number', 'Place Value', 'Models', 'Operations', 'Fractions & Decimals', 'Measurement', 'Geometry'];
   /* lesson links: G4 lives beside this folder; G3 and G5 are the sister repos on GitHub Pages */
   var base = { 3: 'https://optimaondemand.github.io/optima-3rd-math/', 4: '../', 5: 'https://optimaondemand.github.io/optima-5th-math/' };
   var units = {}; var lessons = [];
@@ -99,6 +133,17 @@ window.OAOM_DATA = (function () {
 
   /* ───── Student directions (shown on every tool page, in lesson bundles and in the Canvas embed code) ───── */
   var HOW = {
+    tenframe: ['Drag a counter into a box.', 'Tap a counter to flip it red or yellow.', 'Drag a counter out to take it away.', 'How many? How many more make 10?'],
+    bears: ['Drag a bear onto the mat.', 'Sort the bears into the boxes.', 'Drag a bear off to put it away.', 'Count the bears in each box.'],
+    linkcubes: ['Drag a cube onto the mat.', 'Drag another cube to the end to snap it on.', 'Drag a cube away to break the train.', 'Count the cubes. Which train is longer?'],
+    dotcards: ['Look at the card.', 'Say how many you see.', 'Drag the card away for a new one.', 'How did you see it?'],
+    dominoes: ['Drag a domino from the pile.', 'Count the dots on each side.', 'Tap a domino to turn it.', 'How many dots in all?'],
+    sticks: ['Drag sticks to Ones.', 'Got 10 sticks? Drag one up to Tens to make a bundle.', 'Drag a bundle to Ones to undo it.', 'Count the tens, then the ones.'],
+    cuisenaire: ['Drag a rod onto the mat.', 'Tap a rod to turn it.', 'Put rods under a long rod to match it.', 'Drag a rod off to put it away.'],
+    beads: ['Drag a bead onto the string.', 'Drag a bead off to take it away.', 'Copy the pattern on the card.', 'What comes next?'],
+    attrblocks: ['Drag a block into a hoop.', 'Tap a hoop name to change it.', 'Sort by color, shape, size or thickness.', 'Drag a block back to put it away.'],
+    solids: ['Tap a shape to pick it.', 'Drag the shape to turn it.', 'Count the faces, edges and corners.', 'Can it roll? Can it stack?'],
+    bucket: ['Drag things into the buckets.', 'The heavier side goes down.', 'Drag a thing out to take it away.', 'Can you make them balance?'],
     discs: ['Drag a disc from the tray onto its column to add it.', 'Drag a disc onto the next smaller column to break it into 10.', 'Got 10 or more? Drag one up onto the bigger column to trade 10 for 1.', 'Drag a disc off the mat to take it away. Read your number below.'],
     pvcards: ['Drag a card down to pull it out of the stack.', 'Each card shows what one digit is worth.', 'Drag the cards back up to push them together into one number.', 'Say the number, then say what each card is worth.'],
     blocks: ['Drag a block from the tray onto its column to add it.', 'Drag a block onto the next smaller column to break it into 10.', 'Got 10 or more? Drag one up onto the bigger column to group 10 into 1.', 'Drag a block off the mat to take it away.'],
@@ -545,7 +590,95 @@ window.OAOM_DATA = (function () {
     units[uid] = { id: uid, g: g, name: u.name };
   });
 
-  var api = { tools: tools, groups: groups, base: base, units: units, lessons: lessons,
+
+  /* ───── Suggested questions for teachers (shown in Set up on teacher views only, never on student links) ───── */
+  var QUESTIONS = {
+    discs: ['What is each disc worth? How do you know?', 'Why do we need a 0 when a column is empty?', 'When do you have to trade? What changes and what stays the same?', 'Can you show the same number a different way, with more discs?', 'What happens to the number if you add one disc to each column?'],
+    pvcards: ['What is the 4 really worth in this number?', 'How do the cards show the number in parts?', 'Which card would change if we added 100?', 'How is reading the stacked number different from reading the parts?'],
+    blocks: ['How many ones are in one ten? In one hundred?', 'Why did you break that block?', 'Is 12 tens the same as 1 hundred 2 tens? Show me.', 'Which block would you use first to build it fastest?'],
+    bond: ['Which number is the whole? How do you know?', 'Can you split the whole a different way?', 'What number sentence matches this bond?', 'If one part gets bigger, what happens to the other part?'],
+    bar: ['What do we know? What are we trying to find?', 'Why is this bar longer than that one?', 'Where does the ? go, and why?', 'What number sentence does your bar model show?', 'Could a different bar model show the same story?'],
+    numberline: ['What is each jump worth? How did you figure it out?', 'Is this number closer to the start or the end?', 'Where would the halfway point be?', 'Which two marks is your number between?'],
+    counters: ['How many rows? How many in each row?', 'If we turn the array, does the total change?', 'How did splitting the array make it easier?', 'Are the groups equal? What is left over?', 'Can the leftover be shared? Why or why not?'],
+    hundred: ['What pattern do you notice?', 'Why do the multiples of 5 make columns?', 'Which numbers got both colors? What do we call them?', 'What would come next if the chart kept going?'],
+    dice: ['How did you decide where to put that digit?', 'What is the biggest number you could make? The smallest?', 'Which fact do you use to help you with this one?', 'Is there another way to get the same answer?'],
+    fbars: ['Which tile is bigger, a third or a fourth? Why?', 'How many sixths line up with one third?', 'How do you know the two fractions are equal?', 'How much more do you need to make a whole?'],
+    fcircles: ['How many slices make one whole?', 'Is this more or less than one whole?', 'How would you write this as a mixed number?', 'Why are all the slices in one circle the same size?'],
+    decgrid: ['What is one column worth? One small square?', 'How is 0.4 the same as 0.40?', 'Which is more, 0.6 or 0.58? How can the grid prove it?', 'How would you write this as a fraction?'],
+    money: ['Which coin did you count first? Why?', 'Can you make the same amount with fewer coins?', 'How did you count up to make change?', 'How do you write this amount as a decimal?'],
+    ruler: ['Where does the ribbon start? Does it have to start at 0?', 'What is each small mark worth?', 'Is the ribbon closer to 7 or 8? How do you know?', 'How would you say this length in a different unit?'],
+    scale: ['What is each small mark worth on this scale?', 'Is it more or less than 1 kilogram?', 'How did you know the pans balance?', 'Which weights did you try first? Why?'],
+    beaker: ['What is each mark worth?', 'How much more water would fill it to 1 liter?', 'What happened to the total when you poured?', 'How do you write this in liters and milliliters?'],
+    clock: ['Which hand do you read first?', 'Where is the short hand when it is half past?', 'How did you count the time that passed?', 'What time will it be in 15 minutes?'],
+    trademat: ['When do you need to trade? How do you know?', 'How many small units make one big unit here?', 'Why is this trade different from trading tens?', 'Can you check your answer a different way?'],
+    barstrip: ['How many pieces fill the whole bar?', 'Which bar is longer? By how much?', 'What fraction of the bar is one piece?', 'How could you check without counting every piece?'],
+    tiles: ['How did you count the squares? Is there a faster way?', 'What is the perimeter? How did you keep track?', 'Can you make a different rectangle with the same area?', 'What happens to the perimeter if you move one tile?'],
+    geoboard: ['How many sides and corners does your shape have?', 'Which corners are square corners?', 'How can you find the area without counting every square?', 'Is your shape symmetric? How do you know?'],
+    whiteboard: ['Walk me through your thinking.', 'What did you draw first? Why?', 'Is there another way to show it?', 'How does your picture match the number sentence?'],
+    tangram: ['Which pieces are the same shape? The same size?', 'How many small triangles make the square?', 'What did you try that did not work?', 'Can you make the same shape a different way?'],
+    pattern: ['If the hexagon is 1 whole, what is the trapezoid worth?', 'How many triangles cover the hexagon?', 'Is your design symmetric? Where is the line?', 'Can you show 1 and a half with different blocks?'],
+    protractor: ['Is the angle bigger or smaller than a right angle?', 'Which scale did you use? Why?', 'Estimate first. Was your estimate close?', 'How do the two smaller angles add up to the big one?'],
+    setsquare: ['How do you know these lines are perpendicular?', 'Why does sliding the triangle make parallel lines?', 'Where else do you see parallel lines?', 'What would happen if you turned the triangle?'],
+    compass: ['What stays the same as the pencil goes around?', 'How is the diameter related to the radius?', 'What happens if you open the compass wider?', 'Where is the center of your circle?'],
+    cubes: ['How many cubes are in one layer?', 'How many layers are there?', 'Is there a faster way than counting every cube?', 'Can you build a different box with the same number of cubes?'],
+    tenframe: ['How many do you see? How did you see it?', 'How many more make 10?', 'How many red and how many yellow?', 'What two numbers make this number?'],
+    bears: ['How did you sort the bears?', 'Which group has more? How many more?', 'Can you sort them a different way?', 'What comes next in the pattern?'],
+    linkcubes: ['Which train is longer? How many more cubes?', 'How many cubes long is it?', 'Can you make a train that is 2 shorter?', 'What is the pattern on your train?'],
+    dotcards: ['How many did you see?', 'How did you see it so fast?', 'Did you see it in parts? Which parts?', 'How many more to make 10?'],
+    dominoes: ['How many dots on each side?', 'How many in all? How did you count?', 'Which domino has the most dots?', 'What number sentence matches this domino?'],
+    sticks: ['How many tens? How many ones?', 'Why did you make a bundle?', 'What number do the sticks show?', 'What happens if you add one more stick?'],
+    cuisenaire: ['Which two rods make the same length as the orange rod?', 'How many white rods fit along this rod?', 'Can you find all the ways to make 10?', 'Which rod is longer? By how much?'],
+    beads: ['What is the pattern? Say it out loud.', 'What comes next? How do you know?', 'What part of the pattern repeats?', 'Can you make a new pattern with the same colors?'],
+    attrblocks: ['How did you sort them? What is your rule?', 'Why does this block go in the middle?', 'Which blocks are not red?', 'Can you guess my sorting rule?'],
+    solids: ['How many faces does it have? What shape are they?', 'Can it roll? Can it stack? Why?', 'Where do you see this shape in real life?', 'How is a cube like a box? How is it different?'],
+    bucket: ['Which side is heavier? How do you know?', 'How many cubes balance the apple?', 'Can something big be light?', 'What could you add to make it balance?']
+  };
+
+  /* ───── Surprise me: a random problem for students (open tools stay open; this is the student's choice) ───── */
+  function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function fmtN(n) { return Number(n).toLocaleString('en-US'); }
+  var ORD = { 2: ['half', 'halves'], 3: ['third', 'thirds'], 4: ['fourth', 'fourths'], 5: ['fifth', 'fifths'], 6: ['sixth', 'sixths'], 8: ['eighth', 'eighths'], 10: ['tenth', 'tenths'], 12: ['twelfth', 'twelfths'], 7: ['seventh', 'sevenths'], 9: ['ninth', 'ninths'], 11: ['eleventh', 'elevenths'] };
+  function fw(n, dd) { return n + ' ' + (n === 1 ? ORD[dd][0] : ORD[dd][1]); }
+  function gcd(a, b) { while (b) { var t = b; b = a % b; a = t; } return a; }
+  function fv(n, dd) { var g = gcd(n, dd); n /= g; dd /= g; return dd === 1 ? String(n) : n + '/' + dd; }
+  var SURPRISE = {
+    discs: function (S) { var hi = S.hi == null ? 3 : S.hi, lo = S.lo == null ? 0 : S.lo, s = '', digits = [];
+      for (var e = hi; e >= lo; e--) { var d = e === hi ? rnd(1, 9) : rnd(0, 9); digits.push(d); s += (e === -1 ? '.' : '') + d; }
+      var v = String(Number(s)); return { set: { c: {} }, g: ['Build ' + Number(s).toLocaleString('en-US', { maximumFractionDigits: 3 }) + '.', v] }; },
+    blocks: function () { var n = rnd(100, 999); return { set: { c: {} }, g: ['Build ' + n + ' with blocks.', String(n)] }; },
+    pvcards: function () { var n = String(rnd(1000, 99999)); return { set: { n: n, apart: 0 }, g: ['Pull the cards apart. What is each digit worth?', ''] }; },
+    bond: function () { var w = rnd(10, 100), a = rnd(1, w - 1); return { set: { parts: 2, w: String(w), p: [String(a), '?', '', ''] }, g: ['Find the missing part.', ''] }; },
+    numberline: function (S) { var a = +S.a || 0, b = S.b == null ? 1 : +S.b, parts = +S.parts || 4, k = rnd(1, parts - 1), val = a + (b - a) * k / parts;
+      var name = String(+val.toFixed(4)); if (S.mode === 'frac' && (b - a) === Math.round(b - a)) { var per = parts / (b - a); if (ORD[per] && per === Math.round(per)) name = fw(Math.round(val * per), per); }
+      return { set: { dots: [], hops: [] }, g: ['Put a dot on ' + name + '.', String(+val.toFixed(4))] }; },
+    counters: function (S) { if (S.mode === 'share') { var g = rnd(2, 6), q = rnd(2, 8), n = g * q; return { set: { mode: 'share', n: n, g: g, d: 0, gc: null }, g: ['Share ' + n + ' counters into ' + g + ' equal groups.', String(q)] }; }
+      var r = rnd(2, 9), c = rnd(3, 10); return { set: { mode: 'array', r: r, c: c, flip: [], split: 0 }, g: ['Split this array into two smaller arrays. What two facts do you see?', ''] }; },
+    hundred: function () { var n = rnd(2, 9); return { set: { mode: 'hundred', start: 1, sk1: 0, sk2: 0, hl: {} }, g: ['Color every number you say when you count by ' + n + 's.', ''] }; },
+    fbars: function (S) { var ds = (S.d && S.d.length ? S.d : [2, 3, 4, 6, 8]).filter(function (x) { return x > 1; }), dd = pick(ds), n = rnd(1, dd - 1); return { set: { bm: 'build', bt: [] }, g: ['Show ' + fw(n, dd) + ' with tiles.', fv(n, dd)] }; },
+    fcircles: function (S) { var dd = S.per ? (S.ns && S.ns[0]) || 4 : S.n || 4, n = rnd(1, Math.min(dd * (S.c || 1), dd * 3) - 1); return { set: { sh: [[], [], [], []] }, g: ['Shade ' + fw(n, dd) + '.', fv(n, dd)] }; },
+    decgrid: function (S) { if (S.m === 't') { var t = rnd(1, 9); return { set: { sh: ['', '', ''] }, g: ['Shade 0.' + t + '.', '0.' + t] }; } var h = rnd(1, 99), v = String(+(h / 100).toFixed(2)); return { set: { m: 'h', sh: ['', '', ''] }, g: ['Shade ' + v + '.', v] }; },
+    money: function () { var c = rnd(26, 999); return { set: { it: [], mode: 'count' }, g: ['Make $' + (c / 100).toFixed(2) + '.', String(c)] }; },
+    ruler: function (S) { var u = S.u || 'cm', len = u === 'in' ? rnd(4, 22) / 4 : u === 'm' ? rnd(10, 95) : u === 'yd' ? rnd(6, 34) : rnd(3, 18) + (Math.random() < .5 ? .5 : 0); return { set: { a: 0, b: len, len: len, _r: 0 }, g: ['How long is the ribbon? Then check.', ''] }; },
+    scale: function (S) { var mx = S.mx || 5, unit = S.u === 'lb' ? 16 : 1000, step = S.tk || 100, w = Math.round(rnd(1, Math.floor(mx * unit / step) - 1) * step); return { set: { m: 'dial', w: w, off: 0, _r: 0 }, g: ['Read the scale. Then check.', ''] }; },
+    beaker: function (S) { var mx = S.mx || 1000, tk = S.tk || 100, a = Math.round(rnd(1, Math.floor(mx / tk) - 1) * tk * 100) / 100; return { set: { a0: a, _r: 0 }, g: ['How much water is in the beaker? Then check.', ''] }; },
+    clock: function () { var h = rnd(1, 12), m = rnd(0, 11) * 5; return { set: { el: 0, t: 6 * 60 }, g: ['Show ' + h + ':' + (m < 10 ? '0' : '') + m + '.', h + ':' + (m < 10 ? '0' : '') + m] }; },
+    trademat: function (S) { var u = S.u || 'ftin', R = { ftin: [12, 'ft', 'in'], ydft: [3, 'yd', 'ft'], lboz: [16, 'lb', 'oz'], galqt: [4, 'gal', 'qt'], mcm: [100, 'm', 'cm'], hmin: [60, 'h', 'min'] }[u] || [12, 'ft', 'in'];
+      var b = rnd(1, 5), s = rnd(1, R[0] - 1); return { set: { b0: 0, s0: 0, b: 0, sp: [0, 0, 0], take: 0 }, g: ['Build ' + b + ' ' + R[1] + ' ' + s + ' ' + R[2] + '.', String(b * R[0] + s)] }; },
+    tiles: function () { if (Math.random() < .5) { var a = pick([6, 8, 10, 12, 15, 16, 18, 20, 24]); return { set: { cells: {} }, g: ['Make a rectangle with an area of ' + a + ' squares.', String(a)] }; } var p = pick([10, 12, 14, 16, 18, 20]); return { set: { cells: {}, edge: true }, g: ['Make a rectangle with a perimeter of ' + p + '.', String(p), [], 'p'] }; },
+    protractor: function () { var a = rnd(2, 34) * 5; return { set: { three: false, target: '' }, g: ['Make an angle of ' + a + '°.', String(a)] }; },
+    compass: function () { var r = rnd(2, 5); return { set: {}, g: ['Draw a circle with a radius of ' + r + ' cm.', String(r), [[String(r * 2), 'That is the diameter. The radius is half as long.']]] }; },
+    cubes: function () { var n = pick([8, 12, 18, 24, 27, 30, 36]); return { set: { h: {} }, g: ['Build a box with ' + n + ' cubes.', String(n)] }; },
+    pattern: function () { var f = pick([['1 and 1 half', '3/2'], ['2 thirds', '2/3'], ['1 and 1 third', '4/3'], ['5 sixths', '5/6'], ['2 wholes', '2']]); return { set: { b: [], frac: true }, g: ['If the hexagon is 1 whole, show ' + f[0] + '.', f[1]] }; },
+    tenframe: function () { var n = rnd(1, 20); return { set: {}, g: ['Show ' + n + '.', String(n)] }; },
+    bears: function () { var n = rnd(3, 15); return { set: {}, g: ['Put ' + n + ' bears on the mat.', String(n)] }; },
+    linkcubes: function () { var n = rnd(3, 12); return { set: {}, g: ['Make a train of ' + n + ' cubes.', String(n)] }; },
+    sticks: function () { var n = rnd(11, 59); return { set: {}, g: ['Show ' + n + ' with sticks.', String(n)] }; },
+    beads: function () { var n = rnd(5, 16); return { set: {}, g: ['String ' + n + ' beads.', String(n)] }; },
+    solids: function () { var f = pick([['6 faces', '6'], ['5 faces', '5'], ['2 flat faces and a curved side', '2']]); return { set: {}, g: ['Find a shape with ' + f[0] + '.', f[1], [], 'f'] }; }
+  };
+
+  var api = { questions: QUESTIONS, surprise: SURPRISE, tools: tools, groups: groups, base: base, units: units, lessons: lessons,
     lessonById: function (id) { id = String(id).trim(); return lessons.filter(function (l) { return l.id === id; })[0]; } };
   return api;
 })();

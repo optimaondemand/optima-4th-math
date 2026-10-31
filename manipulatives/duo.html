@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Side by Side · OAO Math Tools</title>
+<link rel="stylesheet" href="lib.css">
+<style>
+html,body{height:100%}
+body{display:flex;flex-direction:column;min-height:100%}
+.duo{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:.6rem;padding:.6rem;min-height:0}
+.duo iframe{width:100%;height:100%;min-height:560px;border:0;border-radius:14px;background:var(--card);box-shadow:var(--shadow)}
+.duo-msg{max-width:640px;margin:3rem auto;padding:1rem 1.2rem;background:#fff;border-radius:16px;box-shadow:var(--shadow)}
+@media (max-width:1000px){.duo{grid-template-columns:1fr}.duo iframe{height:85vh;min-height:480px}}
+</style>
+</head>
+<body>
+<header class="om-top" id="top"><h1 id="title">Side by side</h1><div class="om-actions" id="acts"><button class="om-btn small" id="swap" title="Swap the two tools"><span class="lbl">Swap</span> ⇄</button></div></header>
+<main class="duo" id="duo"><iframe id="fa" title="Left tool" allow="fullscreen; clipboard-write"></iframe><iframe id="fb" title="Right tool" allow="fullscreen; clipboard-write"></iframe></main>
+<script src="data.js"></script>
+<script src="core.js"></script>
+<script>
+(function () {
+  var p = new URLSearchParams(location.search), $ = function (s) { return document.querySelector(s); };
+  var isStudent = p.get('st') === '1';
+  var a = p.get('a'), b = p.get('b');
+  var ids = OAOM_DATA.tools.map(function (t) { return t.id; });
+  if (ids.indexOf(a) < 0 || ids.indexOf(b) < 0) { $('#duo').outerHTML = '<div class="duo-msg"><h2>This link is missing a tool.</h2><p>Ask your teacher for the link again.</p></div>'; return; }
+  function hashState(k) { var m = location.hash.match(new RegExp('[#&]' + k + '=([^&]+)')); return m ? OAOM.dec(m[1]) : null; }
+  var sa = hashState('a'), sb = hashState('b');
+  var extra = '&embed=1' + (isStudent ? '&st=1' : '') + (p.get('plain') === '1' ? '&plain=1' : '');
+  function frameState(fr) { try { var m = fr.contentWindow.location.hash.match(/s=([^&]+)/); return m ? OAOM.dec(m[1]) : null; } catch (e) { return null; } }
+  function selfURL() { var h = []; if (sa) h.push('a=' + OAOM.enc(sa)); if (sb) h.push('b=' + OAOM.enc(sb)); return location.href.split('?')[0] + '?a=' + encodeURIComponent(a) + '&b=' + encodeURIComponent(b) + (isStudent ? '&st=1' : '') + (h.length ? '#' + h.join('&') : ''); }
+  function load() {
+    var na = OAOM.meta(a).name, nb = OAOM.meta(b).name;
+    $('#title').textContent = na + ' + ' + nb; document.title = na + ' + ' + nb + ' · OAO Math Tools';
+    $('#fa').title = na; $('#fb').title = nb;
+    $('#fa').src = OAOM.toolURL(a, sa, extra); $('#fb').src = OAOM.toolURL(b, sb, extra);
+  }
+  function grab() { var x = frameState($('#fa')), y = frameState($('#fb')); if (x) sa = x; if (y) sb = y; }
+  $('#swap').onclick = function () { grab(); var t = a; a = b; b = t; t = sa; sa = sb; sb = t; history.replaceState(null, '', selfURL()); load(); };
+  if (!isStudent) {
+    $('#top').insertAdjacentHTML('afterbegin', '<a class="back" href="index.html">← Library</a>');
+    $('#acts').insertAdjacentHTML('beforeend', '<button class="om-btn small primary" id="share"><span class="lbl">Share</span> 🔗</button>');
+    /* the tools write their state a moment after each move, so wait briefly before reading it */
+    $('#share').onclick = function () { setTimeout(function () { grab(); OAOM.share({ title: OAOM.meta(a).name + ' + ' + OAOM.meta(b).name, url: selfURL(), note: 'Two tools side by side, opened just the way they look now.' }); }, 300); };
+  }
+  window.addEventListener('pagehide', function () { grab(); history.replaceState(null, '', selfURL()); });
+  load();
+})();
+</script>
+</body>
+</html>

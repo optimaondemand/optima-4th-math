@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Problem Set · OAO Math Tools</title>
+<link rel="stylesheet" href="lib.css">
+<style>
+html,body{height:100%}
+body{display:flex;flex-direction:column;min-height:100%}
+.set-bar{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;padding:.6rem 1rem .7rem;background:var(--card);box-shadow:var(--shadow)}
+.set-bar .where{font-weight:800;color:var(--navy);font-size:1.05rem}
+.set-bar .where small{display:block;font-weight:700;color:var(--mute);font-size:.85rem}
+.set-bar .nav{margin-left:auto;display:flex;gap:.4rem;align-items:center}
+.set-dots{display:flex;gap:.35rem;flex-wrap:wrap}
+.set-dots button{width:28px;height:28px;border-radius:50%;border:2px solid var(--line);background:#fff;font-weight:800;font-size:.8rem;cursor:pointer;color:var(--mute)}
+.set-dots button.seen{border-color:var(--violet);color:var(--violet)}
+.set-dots button[aria-current="step"]{background:var(--violet);border-color:var(--violet);color:#fff}
+.set-frame{flex:1;width:100%;border:0;min-height:520px;background:var(--bg)}
+.set-msg{max-width:640px;margin:3rem auto;padding:1rem 1.2rem;background:#fff;border-radius:16px;box-shadow:var(--shadow)}
+@media (max-width:520px){.set-bar .nav{margin-left:0;width:100%;justify-content:space-between}}
+</style>
+</head>
+<body>
+<header class="om-top" id="top"><h1 id="title">Problem set</h1><div class="om-actions" id="tacts"></div></header>
+<div class="set-bar" id="bar" hidden>
+  <div class="where" id="where" aria-live="polite"></div>
+  <div class="set-dots" id="dots" role="group" aria-label="Problems"></div>
+  <div class="nav"><button class="om-btn" id="back">← Back</button><button class="om-btn primary" id="next">Next →</button></div>
+</div>
+<iframe class="set-frame" id="fr" title="Math tool" allow="fullscreen; clipboard-write" hidden></iframe>
+<script src="data.js"></script>
+<script src="core.js"></script>
+<script>
+(function () {
+  var p = new URLSearchParams(location.search), $ = function (s) { return document.querySelector(s); };
+  var isStudent = p.get('st') === '1', title = p.get('title') || 'Problem set';
+  var items = p.get('x') ? OAOM.dec(p.get('x')) : null;
+  document.title = title + ' · OAO Math Tools';
+  $('#title').textContent = title;
+  if (!items || !items.length) { document.body.insertAdjacentHTML('beforeend', '<div class="set-msg"><h2>This link is missing its problems.</h2><p>Ask your teacher for the link again.</p></div>'); return; }
+  /* teacher view: way back to the library + Share. Student links have neither. */
+  if (!isStudent) {
+    $('#top').insertAdjacentHTML('afterbegin', '<a class="back" href="index.html">← Library</a>');
+    $('#tacts').innerHTML = '<button class="om-btn small primary" id="share"><span class="lbl">Share</span> 🔗</button>';
+    $('#share').onclick = function () { save(); OAOM.share({ title: title, url: location.href.split('#')[0], note: 'One link: students work through ' + items.length + ' problems in order with a Next button.' }); };
+  }
+  var extra = '&embed=1&st=1' + (p.get('board') === '1' ? '&board=1' : '') + (p.get('plain') === '1' ? '&plain=1' : '');
+  /* each problem keeps the student's work while they move around (and through a page refresh) */
+  var KEY = 'oaom.setwork.' + p.get('x').length + '.' + p.get('x').slice(-24);
+  var states = items.map(function (x) { return x.s || null; }), seen = {}, i = 0;
+  try { var keep = JSON.parse(sessionStorage.getItem(KEY) || 'null'); if (keep && keep.states && keep.states.length === items.length) { states = keep.states; i = keep.i || 0; seen = keep.seen || {}; } } catch (e) {}
+  var fr = $('#fr');
+  function readFrame() { try { var m = fr.contentWindow.location.hash.match(/s=([^&]+)/); if (m) { var s = OAOM.dec(m[1]); if (s) states[i] = s; } } catch (e) {} }
+  function save() { try { sessionStorage.setItem(KEY, JSON.stringify({ states: states, i: i, seen: seen })); } catch (e) {} }
+  function show(k) {
+    i = Math.max(0, Math.min(items.length - 1, k)); seen[i] = 1;
+    var it = items[i];
+    fr.src = OAOM.toolURL(it.t, states[i], extra);
+    $('#where').innerHTML = 'Problem ' + (i + 1) + ' of ' + items.length + '<small>' + OAOM.esc(OAOM.meta(it.t).name) + '</small>';
+    $('#dots').innerHTML = items.map(function (x, k2) { return '<button data-k="' + k2 + '" class="' + (seen[k2] ? 'seen' : '') + '"' + (k2 === i ? ' aria-current="step"' : '') + ' aria-label="Problem ' + (k2 + 1) + '">' + (k2 + 1) + '</button>'; }).join('');
+    $('#dots').querySelectorAll('button').forEach(function (b) { b.onclick = function () { go(+b.dataset.k - i); }; });
+    $('#back').disabled = i === 0;
+    $('#next').disabled = i === items.length - 1;
+    $('#next').textContent = i === items.length - 1 ? 'Last one' : 'Next →';
+    save();
+  }
+  var busy = false;
+  /* the tool writes its state to the link a moment after each move, so wait briefly before reading it */
+  function go(d) { if (busy || !d) return; busy = true; setTimeout(function () { readFrame(); show(i + d); busy = false; }, 320); }
+  $('#back').onclick = function () { go(-1); };
+  $('#next').onclick = function () { go(1); };
+  window.addEventListener('pagehide', function () { readFrame(); save(); });
+  $('#bar').hidden = false; fr.hidden = false;
+  show(i);
+})();
+</script>
+</body>
+</html>
