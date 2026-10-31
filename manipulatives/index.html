@@ -153,6 +153,53 @@
   .unit>summary .chips{display:none}
 }
 @media print{.lib-hero .lookup,.lib-tabs,.pills,.om-row,.lrow .acts,.noprint{display:none!important}.lib-hero{background:#fff;color:#000}.card,.unit,.kitcol,.guide,.lres{box-shadow:none;border:1px solid #bbb}}
+
+/* number talks */
+.nt-guide{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:1rem 1.2rem;margin:0 0 1rem;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1rem}
+.nt-guide h2{margin:.1rem 0 .4rem;color:var(--navy);font-size:1.15rem}
+.nt-guide ol{margin:0 0 0 1.2rem;padding:0}.nt-guide li{margin:.2rem 0}
+.nt-guide .src{margin-top:.4rem}
+.nt-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.9rem}
+.nt-card{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:.9rem;display:flex;flex-direction:column;gap:.45rem;border-top:5px solid var(--yellow)}
+.nt-card h3{margin:0;font-size:1.08rem}
+.nt-pic{background:var(--bg);border-radius:12px;height:120px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:.4rem}
+.nt-pic svg{max-height:110px;max-width:100%}
+.nt-pic .txt{font-family:'Lora',Georgia,serif;font-weight:700;font-size:1.15rem;color:var(--navy);text-align:center;line-height:1.35}
+.nt-pic .wodb{display:grid;grid-template-columns:1fr 1fr;gap:4px;width:100%;height:100%}
+.nt-pic .wodb span{background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--navy);font-size:1.1rem}
+.nt-notes{font-size:.9rem}
+.nt-notes summary{cursor:pointer;font-weight:800;color:var(--violet)}
+.nt-notes h4{margin:.6rem 0 .2rem;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mute)}
+.nt-notes ul{margin:0 0 0 1.1rem;padding:0}.nt-notes li{margin:.15rem 0}
+.nt-notes .rec{color:var(--mute)}
+.nt-card .om-row{margin-top:auto}
+.nt-show{position:fixed;inset:0;background:#fff;z-index:60;display:flex;flex-direction:column}
+.nt-show .bar{background:var(--navy);color:#fff;display:flex;gap:.5rem;align-items:center;padding:.5rem 1rem}
+.nt-show .bar h2{flex:1;margin:0;font-size:1.1rem}
+.nt-show .stage{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem;overflow:auto}
+.nt-show .lines{font-family:'Lora',Georgia,serif;font-weight:700;color:var(--navy);text-align:center;font-size:clamp(2rem,7vw,5.5rem);line-height:1.3}
+.nt-show .lines .old{color:#AAB3CC;font-size:.55em}
+.nt-show .wodb{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;width:min(900px,100%)}
+.nt-show .wodb div{border:4px solid var(--navy);border-radius:20px;min-height:28vh;display:flex;align-items:center;justify-content:center;font-family:'Lora',Georgia,serif;font-weight:700;font-size:clamp(2rem,6vw,4.5rem);color:var(--navy)}
+.nt-show .wodb svg{max-height:22vh}
+/* puzzles */
+.pz-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:.9rem}
+.pzc{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:.9rem;display:flex;flex-direction:column;gap:.4rem;border-top:5px solid var(--violet)}
+.pzc.early{border-top-color:var(--green)}.pzc.party{border-top-color:var(--yellow)}
+.pzc h3{margin:0;font-size:1.05rem}
+.pzc .meta{font-size:.85rem;color:var(--mute);font-weight:700}
+.pzc .dots{color:var(--violet);letter-spacing:2px}
+.pzc label.pick{display:flex;gap:.4rem;align-items:center;font-weight:700;font-size:.9rem;cursor:pointer}
+.pzc label.pick input{width:20px;height:20px;accent-color:var(--violet)}
+.pzc .om-row{margin-top:auto}
+.packbar{position:sticky;bottom:10px;z-index:5;background:var(--navy);color:#fff;border-radius:999px;padding:.5rem .6rem .5rem 1.1rem;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:1rem 0 0;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.packbar b{flex:1;min-width:10ch}
+.packbar .om-btn{background:#fff}
+.facts{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:1.2rem 1.4rem;max-width:860px}
+.facts h2{margin:0 0 .4rem;color:var(--navy)}
+select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;min-height:36px;background:#fff;font-weight:700}
+@media (max-width:640px){.nt-guide{grid-template-columns:1fr}}
+@media print{.nt-card .om-row,.packbar{display:none!important}}
 </style>
 </head>
 <body>
@@ -214,6 +261,9 @@
   <button role="tab" data-v="tools" aria-selected="true">All tools</button>
   <button role="tab" data-v="lessons" aria-selected="false">By lesson</button>
   <button role="tab" data-v="mine" aria-selected="false">My setups</button>
+  <button role="tab" data-v="talks" aria-selected="false">Number talks</button>
+  <button role="tab" data-v="puzzles" aria-selected="false">Puzzles</button>
+  <button role="tab" data-v="facts" aria-selected="false">Fact check</button>
   <button role="tab" data-v="kit" aria-selected="false">Hands-on kit list</button>
   <button role="tab" data-v="guide" aria-selected="false">How to use this with students</button>
 </nav>
@@ -223,6 +273,8 @@
 <script src="data.js"></script>
 <script src="icons.js"></script>
 <script src="core.js"></script>
+<script src="talks.js"></script>
+<script src="puzzles.js"></script>
 <script>
 (function () {
   var D = OAOM_DATA, esc = OAOM.esc, el = OAOM.el;
@@ -447,6 +499,118 @@
     view.querySelectorAll('[data-tshare]').forEach(function (b) { b.onclick = function () { var p = b.dataset.tshare.split('|'), l = D.lessonById(p[0]), t = l.tools[+p[1]]; OAOM.share(OAOM.toolShare(t.t, t.p)); }; });
   }
 
+
+  /* ═══════════ Number talks ═══════════ */
+  var NT = window.OAOM_TALKS || { talks: [], topics: [], sources: [] };
+  function fracHTML(t) { return esc(t).replace(/(\d*)\[(\d+)\/(\d+)\]/g, function (m, w, a, b) { return (w ? w + ' ' : '') + '<span class="fr"><span>' + a + '</span><span>' + b + '</span></span>'; }); }
+  var DICE = { 1: [[1, 1]], 2: [[0, 0], [2, 2]], 3: [[0, 0], [1, 1], [2, 2]], 4: [[0, 0], [2, 0], [0, 2], [2, 2]], 5: [[0, 0], [2, 0], [1, 1], [0, 2], [2, 2]], 6: [[0, 0], [2, 0], [0, 1], [2, 1], [0, 2], [2, 2]] };
+  function dotsSVG(n, col) { var g = n <= 6 ? [DICE[n]] : [DICE[5], DICE[n - 5]], out = '', W = g.length * 110; g.forEach(function (d, k) { d.forEach(function (q) { out += '<circle cx="' + (k * 110 + 20 + q[0] * 35) + '" cy="' + (20 + q[1] * 35) + '" r="12" fill="' + (col || '#2F6FDE') + '"/>'; }); }); return '<svg viewBox="0 0 ' + W + ' 110">' + out + '</svg>'; }
+  function frameSVG(cells, perFrame) { var out = '', frames = Math.ceil(cells.length / perFrame); for (var f = 0; f < frames; f++) for (var j = 0; j < perFrame; j++) { var x = f * 190 + (j % 5) * 34 + 4, y = Math.floor(j / 5) * 34 + 4, v = cells[f * perFrame + j]; out += '<rect x="' + x + '" y="' + y + '" width="34" height="34" fill="#fff" stroke="#0E1C42" stroke-width="2"/>'; if (v) out += '<circle cx="' + (x + 17) + '" cy="' + (y + 17) + '" r="12" fill="' + (v === 2 ? '#F2B705' : '#D2453B') + '"/>'; } return '<svg viewBox="0 0 ' + (frames * 190) + ' ' + (perFrame === 5 ? 44 : 78) + '">' + out + '</svg>'; }
+  function shapeSVG(n) { var m = { square: '<rect x="15" y="15" width="70" height="70" fill="#2F6FDE"/>', rectangle: '<rect x="5" y="28" width="90" height="44" fill="#23915A"/>', triangle: '<path d="M50 10 L90 85 L10 85Z" fill="#F08A24"/>', circle: '<circle cx="50" cy="50" r="40" fill="#6B46C1"/>' }; if (m[n]) return '<svg viewBox="0 0 100 100">' + m[n] + '</svg>';
+    var d = /^(\d) dots( in a line)?$/.exec(n); if (d) { var k = +d[1], out = ''; for (var i = 0; i < k; i++) out += d[2] ? '<circle cx="' + (12 + i * 25) + '" cy="50" r="9" fill="#2F6FDE"/>' : ''; return d[2] ? '<svg viewBox="0 0 100 100">' + out + '</svg>' : dotsSVG(k).replace('viewBox="0 0 110 110"', 'viewBox="0 0 110 110"'); } return null; }
+  function wodbItem(x) { return shapeSVG(x) || esc(x); }
+  function mini(sh) {
+    if (sh.text) return '<div class="txt">' + sh.text.slice(0, 4).map(fracHTML).join('<br>') + (sh.text.length > 4 ? '<br>…' : '') + '</div>';
+    if (sh.wodb) return '<div class="wodb">' + sh.wodb.map(function (x) { return '<span>' + wodbItem(x) + '</span>'; }).join('') + '</div>';
+    var s = sh.s || {};
+    if (sh.t === 'dotcards') { if (s.k === 'ten' || s.k === 'five') { var c = []; for (var i = 0; i < (s.k === 'ten' ? 10 : 5); i++) c.push(i < s.n ? 1 : 0); return frameSVG(c, s.k === 'ten' ? 10 : 5); } if (s.k === 'dom') { var a = s.a, b = s.n - s.a; return '<svg viewBox="0 0 230 110"><rect x="2" y="2" width="226" height="106" rx="14" fill="#FFFDF7" stroke="#0E1C42" stroke-width="3"/><line x1="115" y1="10" x2="115" y2="100" stroke="#0E1C42" stroke-width="3"/>' + dotsSVG(a, '#0E1C42').replace(/^<svg[^>]*>|<\/svg>$/g, '').replace(/cx="(\d+)/g, function (m, x) { return 'cx="' + (+x + 5); }) + dotsSVG(b, '#0E1C42').replace(/^<svg[^>]*>|<\/svg>$/g, '').replace(/cx="(\d+)/g, function (m, x) { return 'cx="' + (+x + 120); }) + '</svg>'; } return dotsSVG(s.n); }
+    if (sh.t === 'tenframe') return frameSVG(s.c, s.m === 'five' ? 5 : 10);
+    if (sh.t === 'dominoes') return '<svg viewBox="0 0 ' + (s.d.length * 160) + ' 80">' + s.d.map(function (q, k) { var x = k * 160 + 5; return '<rect x="' + x + '" y="5" width="140" height="70" rx="10" fill="#FFFDF7" stroke="#0E1C42" stroke-width="3"/><line x1="' + (x + 70) + '" y1="12" x2="' + (x + 70) + '" y2="68" stroke="#0E1C42" stroke-width="2"/>' + [q[0], q[1]].map(function (m, h) { return (DICE[m] || []).map(function (p) { return '<circle cx="' + (x + h * 70 + 16 + p[0] * 19) + '" cy="' + (21 + p[1] * 19) + '" r="6" fill="#0E1C42"/>'; }).join(''); }).join(''); }).join('') + '</svg>';
+    if (sh.t === 'linkcubes') { var tw = s.m === 'tower', out = '', mx = 0; s.t.forEach(function (T, k) { T.c.forEach(function (ci, j) { var x = tw ? k * 50 + 10 : j * 26 + 4, y = tw ? 260 - j * 26 : k * 34 + 4; mx = Math.max(mx, tw ? x + 30 : x + 30); out += '<rect x="' + x + '" y="' + y + '" width="24" height="24" fill="' + (ci ? '#F08A24' : '#D2453B') + '" stroke="#0E1C42"/>'; }); }); return '<svg viewBox="0 ' + (tw ? 60 : 0) + ' ' + Math.max(mx, 120) + ' ' + (tw ? 230 : 80) + '">' + out + '</svg>'; }
+    if (sh.t === 'sticks') { var o2 = ''; for (var b2 = 0; b2 < s.t; b2++) for (var k2 = 0; k2 < 10; k2++) o2 += '<rect x="' + (b2 * 42 + k2 * 3 + 4) + '" y="10" width="3" height="80" fill="#C99A00"/>'; for (var k3 = 0; k3 < s.o; k3++) o2 += '<rect x="' + (s.t * 42 + 20 + k3 * 9) + '" y="10" width="5" height="80" fill="#C99A00"/>'; return '<svg viewBox="0 0 ' + (s.t * 42 + 30 + s.o * 9) + ' 100">' + o2 + '</svg>'; }
+    if (sh.t === 'counters') { var o3 = '', fl = {}; (s.flip || []).forEach(function (f) { fl[f] = 1; }); for (var r = 0; r < s.r; r++) for (var c2 = 0; c2 < s.c; c2++) o3 += '<circle cx="' + (c2 * 26 + 14) + '" cy="' + (r * 26 + 14) + '" r="10" fill="' + (fl[r + ',' + c2] ? '#F2B705' : '#D2453B') + '"/>'; if (s.split) o3 += '<line x1="' + (s.split * 26 + 1) + '" y1="0" x2="' + (s.split * 26 + 1) + '" y2="' + (s.r * 26) + '" stroke="#6B46C1" stroke-width="3" stroke-dasharray="5 4"/>'; return '<svg viewBox="0 0 ' + (s.c * 26 + 4) + ' ' + (s.r * 26 + 4) + '">' + o3 + '</svg>'; }
+    if (sh.t === 'discs') { var COL = { 2: '#2F6FDE', 1: '#23915A', 0: '#F08A24' }, LB = { 2: '100', 1: '10', 0: '1' }, o4 = '', x4 = 10; [2, 1, 0].forEach(function (e) { for (var k = 0; k < (s.c[e] || 0); k++) { o4 += '<circle cx="' + x4 + '" cy="40" r="15" fill="' + COL[e] + '"/><text x="' + x4 + '" y="45" font-size="11" fill="#fff" text-anchor="middle" font-weight="800">' + LB[e] + '</text>'; x4 += 33; } x4 += 12; }); return '<svg viewBox="-10 0 ' + (x4 + 10) + ' 80">' + o4 + '</svg>'; }
+    if (sh.t === 'numberline') { var o5 = '<line x1="10" y1="50" x2="290" y2="50" stroke="#0E1C42" stroke-width="3"/>', n5 = s.parts; for (var k5 = 0; k5 <= n5; k5++) { var x5 = 10 + 280 * k5 / n5; o5 += '<line x1="' + x5 + '" y1="42" x2="' + x5 + '" y2="58" stroke="#0E1C42" stroke-width="' + (n5 > 20 ? 1 : 2) + '"/>'; } o5 += '<text x="10" y="80" font-size="14" text-anchor="middle">' + s.a + '</text><text x="290" y="80" font-size="14" text-anchor="middle">' + s.b + '</text>';
+      (s.hops || []).forEach(function (h) { var x1 = 10 + 280 * h[1] / n5, x2 = 10 + 280 * h[2] / n5; o5 += '<path d="M' + x1 + ' 44 Q' + ((x1 + x2) / 2) + ' 10 ' + x2 + ' 44" fill="none" stroke="#6B46C1" stroke-width="2.5"/>'; });
+      (s.dots || []).forEach(function (d) { var i5 = +d.split(':')[1]; o5 += '<circle cx="' + (10 + 280 * i5 / n5) + '" cy="50" r="7" fill="#F2B705" stroke="#0E1C42"/>'; }); return '<svg viewBox="0 0 300 90">' + o5 + '</svg>'; }
+    if (sh.t === 'fbars') { var o6 = '<rect x="5" y="5" width="290" height="22" fill="#0E1C42"/>', y6 = 32; (s.d || []).forEach(function (dd) { for (var k6 = 0; k6 < dd; k6++) { var on = (s.sh[dd] || []).indexOf(k6) > -1; o6 += '<rect x="' + (5 + 290 * k6 / dd) + '" y="' + y6 + '" width="' + (290 / dd) + '" height="22" fill="' + (on ? '#B9A3EE' : '#fff') + '" stroke="#6B46C1"/>'; } y6 += 27; }); return '<svg viewBox="0 0 300 ' + y6 + '">' + o6 + '</svg>'; }
+    return I[sh.t];
+  }
+  function talkURL(k) { return OAOM.toolURL(k.show.t, Object.assign({ _r: 0 }, k.show.s), '&board=1'); } /* totals start hidden so the big screen doesn't give the answer */
+  function notesHTML(k) { var n = k.notes; return '<h4>Purpose</h4><p>' + esc(n.purpose) + '</p><h4>Launch (say this)</h4><p>' + esc(n.launch) + '</p><h4>Likely student strategies</h4><ul>' + n.strategies.map(function (x) { return '<li>' + esc(x[0]) + ' <span class="rec">Record: ' + esc(x[1]) + '</span></li>'; }).join('') + '</ul><h4>Questions to ask</h4><ul>' + n.questions.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul><h4>Watch for</h4><p>' + esc(n.watch) + '</p><h4>Extension</h4><p>' + esc(n.ext) + '</p>'; }
+  function gradeText(gs) { return runs(gs).join(', '); }
+  function renderTalks() {
+    st.ntg = st.ntg || 'all'; st.ntt = st.ntt || 'all';
+    var G = [['all', 'All'], ['-1', 'Pre-K'], ['0', 'K'], ['1', 'Gr 1'], ['2', 'Gr 2'], ['35', 'Gr 3–5']];
+    var h = '<section class="nt-guide"><div><h2>How to run a number talk (5–10 minutes)</h2><ol><li><b>Show</b> the picture or problem. For quick images, open it on the big screen and tap <b>Flash it</b> so students can’t count one by one.</li><li><b>Think time.</b> Students solve in their heads and put a quiet thumb up on their chest. Add a finger for each other way they find.</li><li><b>Share answers.</b> Collect every answer, right or wrong, without saying which is right.</li><li><b>Record strategies.</b> Write or draw each student’s thinking as they say it, with their name.</li><li><b>Ask.</b> “How did you see it? Who saw it another way? How is ___’s way like ___’s?”</li></ol></div>' +
+      '<div><h2>About number talks</h2><p style="margin:0 0 .4rem">Short, daily, whole-class talks about mental math. The goal is many ways to see and solve, not speed. Treat every answer the same way so students feel safe to share.</p><p class="src" style="margin:0">Sources: ' + NT.sources.map(function (x) { return '<a href="' + esc(x[1]) + '" target="_blank" rel="noopener">' + esc(x[0]) + '</a>'; }).join('; ') + '.</p></div></section>';
+    h += '<div class="pills" role="group" aria-label="Grade"><b>Grade</b>' + G.map(function (g) { return '<button data-ntg="' + g[0] + '" aria-pressed="' + (st.ntg === g[0]) + '">' + g[1] + '</button>'; }).join('') +
+      '<select class="fsel" id="ntt" aria-label="Topic"><option value="all">All topics</option>' + NT.topics.map(function (t) { return '<option' + (st.ntt === t ? ' selected' : '') + '>' + esc(t) + '</option>'; }).join('') + '</select></div>';
+    var list = NT.talks.filter(function (k) { var gOk = st.ntg === 'all' || (st.ntg === '35' ? k.grades.some(function (g) { return g >= 3; }) : k.grades.indexOf(+st.ntg) > -1); return gOk && (st.ntt === 'all' || k.topic === st.ntt); });
+    h += '<p class="om-hint" style="margin:0 0 .6rem">' + list.length + ' number talks. Teacher notes never appear on student links.</p><div class="nt-cards">';
+    list.forEach(function (k) {
+      h += '<article class="nt-card"><div class="badges"><span class="badge">' + esc(gradeText(k.grades)) + '</span><span class="badge kit">' + esc(k.topic) + '</span></div><h3>' + esc(k.title) + '</h3><div class="nt-pic" aria-hidden="true">' + mini(k.show) + '</div>' +
+        '<details class="nt-notes"><summary>Teacher notes</summary>' + notesHTML(k) + '</details>' +
+        '<div class="om-row">' + (k.show.t ? openBtn(talkURL(k), 'Open on big screen ↗', 'primary') : '<button class="om-btn small primary" data-ntshow="' + k.id + '">Open on big screen</button>') + '<button class="om-btn small" data-ntprint="' + k.id + '">Print notes</button></div></article>';
+    });
+    view.innerHTML = h + '</div>' + (list.length ? '' : '<p class="empty">No number talks match.</p>');
+    view.querySelectorAll('[data-ntg]').forEach(function (b) { b.onclick = function () { st.ntg = b.dataset.ntg; renderTalks(); }; });
+    document.getElementById('ntt').onchange = function () { st.ntt = this.value; renderTalks(); };
+    view.querySelectorAll('[data-ntshow]').forEach(function (b) { b.onclick = function () { showTalk(NT.talks.filter(function (k) { return k.id === b.dataset.ntshow; })[0]); }; });
+    view.querySelectorAll('[data-ntprint]').forEach(function (b) { b.onclick = function () { printTalk(NT.talks.filter(function (k) { return k.id === b.dataset.ntprint; })[0]); }; });
+  }
+  function showTalk(k) {
+    var ov = el('div', { class: 'nt-show', role: 'dialog', 'aria-modal': 'true', 'aria-label': k.title }), i = 0;
+    ov.innerHTML = '<div class="bar"><h2>' + esc(k.title) + '</h2>' + (k.show.text ? '<button class="om-btn small" data-a="prev">◀ Back</button><button class="om-btn small primary" data-a="next">Next ▶</button>' : '') + '<button class="om-btn small" data-a="x">Close</button></div><div class="stage"></div>';
+    document.body.appendChild(ov); var stg = ov.querySelector('.stage');
+    function paint() { if (k.show.wodb) { stg.innerHTML = '<div class="wodb">' + k.show.wodb.map(function (x) { return '<div>' + wodbItem(x) + '</div>'; }).join('') + '</div>'; return; }
+      stg.innerHTML = '<div class="lines">' + k.show.text.slice(0, i + 1).map(function (t, j) { return '<div class="' + (j < i ? 'old' : '') + '">' + fracHTML(t) + '</div>'; }).join('') + '</div>'; }
+    paint();
+    ov.addEventListener('click', function (e) { var a = e.target.closest('[data-a]'); if (!a) return; if (a.dataset.a === 'x') close(); if (a.dataset.a === 'next' && i < k.show.text.length - 1) { i++; paint(); } if (a.dataset.a === 'prev' && i > 0) { i--; paint(); } });
+    function key(e) { if (e.key === 'Escape') close(); if (k.show.text && (e.key === 'ArrowRight' || e.key === ' ')) { if (i < k.show.text.length - 1) { i++; paint(); } e.preventDefault(); } if (k.show.text && e.key === 'ArrowLeft' && i > 0) { i--; paint(); } }
+    document.addEventListener('keydown', key);
+    function close() { document.removeEventListener('keydown', key); ov.remove(); }
+    ov.querySelector('[data-a="x"]').focus();
+  }
+  function printTalk(k) {
+    var w = window.open('', '_blank'); if (!w) { OAOM.toast('Allow pop-ups to print notes.'); return; }
+    w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>' + esc(k.title) + ' — teacher notes</title><style>body{font-family:Arial,sans-serif;margin:28px;color:#1B2238;line-height:1.45}h1{font-size:22px;margin:0 0 4px}h4{margin:14px 0 4px;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:#5B6478}.rec{color:#5B6478}.pic{border:1px solid #ccc;border-radius:10px;padding:10px;max-width:460px;margin:10px 0}.pic svg{max-width:100%;max-height:160px}.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1}.fr span:first-child{border-bottom:2px solid}ul{margin:0 0 0 18px;padding:0}p{margin:0}</style></head><body><h1>' + esc(k.title) + '</h1><p>' + esc(gradeText(k.grades)) + ' · ' + esc(k.topic) + '</p><div class="pic">' + mini(k.show) + '</div>' + notesHTML(k) + '</body></html>');
+    w.document.close(); w.focus(); setTimeout(function () { w.print(); }, 300);
+  }
+
+  /* ═══════════ Puzzles ═══════════ */
+  var PZ = window.OAOM_PUZZLES || { list: [], types: [] };
+  function pzURL(id, extra) { return BASE + 'puzzle.html?p=' + encodeURIComponent(id) + (extra || ''); }
+  function packURL(ids, extra) { return BASE + 'puzzle.html?pack=' + encodeURIComponent(ids.join(',')) + '&title=' + encodeURIComponent('Party pack') + (extra || ''); }
+  function renderPuzzles() {
+    st.pzg = st.pzg || 'all'; st.pzt = st.pzt || 'all'; st.pzo = st.pzo || 'all'; st.pack = st.pack || [];
+    var G = [['all', 'All'], ['0', 'K'], ['1', 'Gr 1'], ['2', 'Gr 2'], ['3', 'Gr 3'], ['4', 'Gr 4'], ['5', 'Gr 5']], O = [['all', 'Any time'], ['early', 'Early finishers'], ['party', 'Party day']];
+    var h = '<p style="max-width:75ch;margin:0 0 .8rem">Puzzles for students who finish early, or for a party day. <b>Play</b> shares a student link with a Check button and hints, never the answer. <b>Print</b> gives a paper copy. Tick a few and make a <b>party pack</b> to print together with an answer key.</p>' +
+      '<div class="pills" role="group" aria-label="Grade"><b>Grade</b>' + G.map(function (g) { return '<button data-pzg="' + g[0] + '" aria-pressed="' + (st.pzg === g[0]) + '">' + g[1] + '</button>'; }).join('') + '</div>' +
+      '<div class="pills" role="group" aria-label="When"><b>When</b>' + O.map(function (g) { return '<button data-pzo="' + g[0] + '" aria-pressed="' + (st.pzo === g[0]) + '">' + g[1] + '</button>'; }).join('') +
+      '<select class="fsel" id="pzt" aria-label="Puzzle type"><option value="all">All types</option>' + PZ.types.map(function (t) { return '<option' + (st.pzt === t ? ' selected' : '') + '>' + esc(t) + '</option>'; }).join('') + '</select></div>';
+    var list = filtered();
+    function filtered() { return PZ.list.filter(function (p) { return (st.pzg === 'all' || p.grades.indexOf(+st.pzg) > -1) && (st.pzt === 'all' || p.type === st.pzt) && (st.pzo === 'all' || p.occ === st.pzo || p.occ === 'both'); }); }
+    h += '<div class="pz-cards">';
+    list.forEach(function (p) {
+      h += '<article class="pzc ' + (p.occ === 'both' ? '' : p.occ) + '"><div class="badges"><span class="badge">' + esc(gradeText(p.grades)) + '</span><span class="badge kit">' + esc(p.type) + '</span><span class="badge model">' + ({ early: 'Early finishers', party: 'Party day', both: 'Any time' }[p.occ]) + '</span></div>' +
+        '<h3>' + esc(p.title) + '</h3><div class="meta">Difficulty <span class="dots" aria-label="' + p.diff + ' of 3">' + '●●●'.slice(0, p.diff) + '<span style="color:#D9DEEA">' + '●●●'.slice(p.diff) + '</span></span></div>' +
+        '<label class="pick"><input type="checkbox" data-pick="' + p.id + '"' + (st.pack.indexOf(p.id) > -1 ? ' checked' : '') + '> Add to party pack</label>' +
+        '<div class="om-row"><button class="om-btn small primary" data-pzshare="' + p.id + '">Play (share)</button>' + openBtn(pzURL(p.id), 'Preview') + openBtn(pzURL(p.id, '&print=1'), 'Print') + '</div></article>';
+    });
+    h += '</div>' + (list.length ? '' : '<p class="empty">No puzzles match.</p>');
+    h += '<div class="packbar"><b id="packn"></b><button class="om-btn small" id="pk-rand">Pick 5 for me</button><button class="om-btn small" id="pk-print">Print party pack</button><button class="om-btn small" id="pk-clear">Clear</button></div>';
+    view.innerHTML = h;
+    view.querySelectorAll('[data-pzg]').forEach(function (b) { b.onclick = function () { st.pzg = b.dataset.pzg; renderPuzzles(); }; });
+    view.querySelectorAll('[data-pzo]').forEach(function (b) { b.onclick = function () { st.pzo = b.dataset.pzo; renderPuzzles(); }; });
+    document.getElementById('pzt').onchange = function () { st.pzt = this.value; renderPuzzles(); };
+    view.querySelectorAll('[data-pzshare]').forEach(function (b) { b.onclick = function () { var p = PZ.get(b.dataset.pzshare); OAOM.share({ title: p.title, url: pzURL(p.id), note: 'Students get the puzzle with Check and hints, no answer, and no way back to the library.', dir: { title: 'Math puzzle: ' + p.title, intro: 'Solve the puzzle, then tap Check. Stuck? Tap Need a hint.' } }); }; });
+    view.querySelectorAll('[data-pick]').forEach(function (c) { c.onchange = function () { var i = st.pack.indexOf(c.dataset.pick); if (c.checked && i < 0) st.pack.push(c.dataset.pick); if (!c.checked && i > -1) st.pack.splice(i, 1); paintPack(); }; });
+    function paintPack() { document.getElementById('packn').textContent = 'Party pack: ' + st.pack.length + ' picked' + (st.pack.length > 6 ? ' (6 fit best)' : ''); }
+    paintPack();
+    document.getElementById('pk-rand').onclick = function () { var f = filtered().slice().sort(function () { return Math.random() - 0.5; }); st.pack = f.slice(0, 5).map(function (p) { return p.id; }); renderPuzzles(); };
+    document.getElementById('pk-clear').onclick = function () { st.pack = []; renderPuzzles(); };
+    document.getElementById('pk-print').onclick = function () { if (!st.pack.length) { OAOM.toast('Tick 4 to 6 puzzles first, or tap Pick 5 for me.'); return; } window.open(packURL(st.pack, '&print=1'), '_blank'); };
+  }
+
+  /* ═══════════ Fact check ═══════════ */
+  function renderFacts() {
+    view.innerHTML = '<div class="facts"><h2>Fact check</h2><p>Practice math facts by family: adding, subtracting, multiplying and dividing. Each fact answered within about 3 seconds is marked <b>fast</b>; the rest show the strategy students used. There is no timer unless you turn one on. Students can download a score card to share with you.</p>' +
+      '<div class="om-row"><a class="om-btn primary" href="fluency.html" target="_blank" rel="noopener">Open Fact check ↗</a><button class="om-btn" id="fx-share">Share with students</button></div>' +
+      '<p class="om-hint" style="margin-top:.8rem">Florida B.E.S.T. expects automatic recall of sums to 10 in Grade 1, sums to 20 in Grade 2, and multiplication and division facts to 12 × 12 in Grade 3.</p></div>';
+    document.getElementById('fx-share').onclick = function () { OAOM.share({ title: 'Fact check', url: BASE + 'fluency.html', dir: { title: 'Math fact check', intro: 'Pick your facts and start. Answer as many as you can. Download your score card when you finish.' } }); };
+  }
+
   /* example links for the "two ways to share" cards */
   document.getElementById('ex-blank').href = OAOM.toolURL('discs', null, '&st=1');
   document.getElementById('ex-turnin').href = OAOM.toolURL('counters', { mode: 'array', r: 4, c: 6, split: 3 }, '&st=1');
@@ -454,8 +618,8 @@
   document.getElementById('ex-array').href = OAOM.toolURL('counters', { mode: 'array', r: 4, c: 6 }, '&st=1');
   function render() {
     document.querySelectorAll('.lib-tabs button').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.v === st.v ? 'true' : 'false'); });
-    if (!{ lessons: 1, tools: 1, kit: 1, guide: 1, mine: 1 }[st.v]) st.v = 'tools';
-    ({ lessons: renderLessons, tools: renderTools, kit: renderKit, guide: renderGuide, mine: renderMine })[st.v]();
+    if (!{ lessons: 1, tools: 1, kit: 1, guide: 1, mine: 1, talks: 1, puzzles: 1, facts: 1 }[st.v]) st.v = 'tools';
+    ({ lessons: renderLessons, tools: renderTools, kit: renderKit, guide: renderGuide, mine: renderMine, talks: renderTalks, puzzles: renderPuzzles, facts: renderFacts })[st.v]();
   }
   document.querySelectorAll('.lib-tabs button').forEach(function (b) { b.onclick = function () { st.v = b.dataset.v; store('v', st.v); if (st.v !== 'lessons') st.find = ''; render(); }; });
   function goTab(v) { st.v = v; store('v', v); st.find = ''; render(); document.querySelector('.lib-tabs').scrollIntoView({ behavior: 'smooth' }); }
