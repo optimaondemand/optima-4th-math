@@ -28,7 +28,7 @@ window.PQ_MAP=[
 "id": "4.10.04",
 "title": "Customary Units of Capacity",
 "file": "math-lesson-4-10-04-customary-capacity.html",
-"sparkled": false
+"sparkled": true
 },
 {
 "id": "4.10.05",

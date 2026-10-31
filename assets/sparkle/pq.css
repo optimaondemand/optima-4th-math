@@ -630,3 +630,28 @@ body.pqi-on{overflow:hidden}
 .ok-wscale .ok-dialkey i{display:inline-block;width:3px;background:#2B3040;margin-right:6px;vertical-align:middle}
 .ok-wscale .ok-dialkey .k-big{height:16px;width:4px}.ok-wscale .ok-dialkey .k-mid{height:11px}.ok-wscale .ok-dialkey .k-sm{height:7px;width:2px}
 .ok-wscale .ok-helprow{text-align:center;margin-top:6px}.ok-wscale .ok-help{background:#FFF3B0;color:#5B2E10;border-color:#C9A24A}
+/* Pour Station (OAOKit.pour): containers to scale by height, liquid fill, a tick per small unit */
+.ok-pour .ok-pourbox{display:flex;flex-direction:column;gap:8px;margin:6px 0}
+.ok-pour .ok-pourrow{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:center;gap:8px;padding:10px 10px 6px;border-radius:12px;touch-action:none}
+.ok-pour .ok-pr-big{background:#EAF4FB;border:3px dashed #9CC3DE}
+.ok-pour .ok-pr-small{background:var(--ok-soft,#F3F0FA)}
+.ok-pour .ok-pourrow.over{background:#FFF3B0}
+.ok-pour .ok-vsl{position:relative;display:inline-block;width:46px;margin-bottom:20px;border:3px solid #3B2417;border-top-width:2px;border-radius:4px 4px 9px 9px;background:#FFFFFF;flex:none;box-sizing:content-box}
+.ok-pour .ok-vsl.big{width:58px}
+.ok-pour .ok-vfill{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(#D7ECFF,#B6DBFA);border-top:2px solid #5E9FD6;border-radius:0 0 6px 6px;transition:height .3s ease-out}
+.ok-pour .ok-vfill[style*="height:0%"]{border-top:none}
+.ok-pour .ok-vticks{position:absolute;inset:0;background-image:linear-gradient(to top,transparent calc(100% - 1.5px),rgba(59,36,23,.55) calc(100% - 1.5px));background-position:bottom;pointer-events:none}
+.ok-pour .ok-vlab{position:absolute;left:50%;bottom:-21px;transform:translateX(-50%);white-space:nowrap;font-weight:900;font-size:12px;color:#3B2417}
+.ok-pour .ok-vsl.src{cursor:grab}
+.ok-pour .ok-vsl.src:hover,.ok-pour .ok-vsl.src:focus-visible{outline:3px solid #F5C518;outline-offset:2px}
+.ok-pour .ok-vsl.lift{opacity:.35}
+.ok-pour .ok-vsl.done{border-color:#1E8C5A}
+.ok-pour .ok-vsl.target{box-shadow:0 0 0 3px #F5C518}
+.ok-ghost.ok-vsl{position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);border:3px solid #3B2417;background:#B6DBFA;width:40px;height:40px;border-radius:4px 4px 9px 9px}
+.ok-ghost.ok-vsl .ok-vlab,.ok-ghost.ok-vsl .ok-vticks{display:none}
+.ok-pour .ok-tap{display:flex;align-items:flex-end;gap:10px}
+.ok-pour .ok-tap-lbl{font-weight:800;font-size:13px;color:#4A5068;margin-bottom:24px}
+.ok-pour .ok-whole{align-self:center;margin-bottom:20px}
+.ok-pour .ok-plat-empty{align-self:center;color:#6B7290;font-weight:800;font-size:14px;padding:8px}
+@media(max-width:520px){.ok-pour .ok-vsl{width:34px}.ok-pour .ok-vsl.big{width:44px}.ok-pour .ok-vlab{font-size:11px}}
+@media (prefers-reduced-motion:reduce){.ok-pour .ok-vfill{transition:none}}

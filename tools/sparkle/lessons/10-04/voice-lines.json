@@ -1,0 +1,424 @@
+{
+ "cora": {
+  "voice_id": "5T4Pk1MOGKVVSf9tJnWM",
+  "lines": [
+   {
+    "who": "cora",
+    "t": "That would make 10 fluid ounces. A cup is 8 fluid ounces, not 10. Count up from 5 to 8.",
+    "key": "69148fc4"
+   },
+   {
+    "who": "cora",
+    "t": "8 is the number for fluid ounces in a cup. Each step on the ladder has its own number. How many cups fill a pint?",
+    "key": "ef28deb0"
+   },
+   {
+    "who": "cora",
+    "t": "2 is the number for pints in a quart. Gallons have their own number. How many quarts filled the gallon jug?",
+    "key": "95390d3b"
+   },
+   {
+    "who": "cora",
+    "t": "You used the gallon number, 4. Quarts to pints is the step with 2. Each quart is 2 pints.",
+    "key": "a743fe1b"
+   },
+   {
+    "who": "cora",
+    "t": "That groups by 4. Pints to quarts is the step with 2.",
+    "key": "a32c13de"
+   },
+   {
+    "who": "cora",
+    "t": "Gallons to quarts is the step with 4, not 2. 7 × 4 = ?",
+    "key": "d1089ea5"
+   },
+   {
+    "who": "cora",
+    "t": "Every step on the ladder has its own number.",
+    "key": "661dcf40"
+   },
+   {
+    "who": "cora",
+    "t": "Gallons to quarts is 4. Quarts to pints is 2. Pints to cups is 2. And cups to fluid ounces is 8.",
+    "key": "3d096072"
+   },
+   {
+    "who": "cora",
+    "t": "Use the right number for the step you are on!",
+    "key": "479c4194"
+   },
+   {
+    "who": "cora",
+    "t": "Fluid ounces tell how much a container holds. Ounces tell how heavy something is. Same word, different jobs!",
+    "key": "a7faeb2c"
+   },
+   {
+    "who": "cora",
+    "t": "Gallons to quarts is the step with 4, not 2. 6 × 4 = ?",
+    "key": "625cba62"
+   },
+   {
+    "who": "cora",
+    "t": "Hello, I'm Cora. Farmer Hank has a pail or a bottle for everything. Every one has a name. I love that.",
+    "key": "d306c5f3"
+   },
+   {
+    "who": "cora",
+    "t": "Each step on the ladder has its own number: 4, then 2, then 2, then 8. Use the right one!",
+    "key": "0105749e"
+   }
+  ],
+  "prompt": "That would make 10 fluid ounces. A cup is 8 fluid ounces, not 10. Count up from 5 to 8. <break time=\"1.5s\" /> 8 is the number for fluid ounces in a cup. Each step on the ladder has its own number. How many cups fill a pint? <break time=\"1.5s\" /> 2 is the number for pints in a quart. Gallons have their own number. How many quarts filled the gallon jug? <break time=\"1.5s\" /> You used the gallon number, 4. Quarts to pints is the step with 2. Each quart is 2 pints. <break time=\"1.5s\" /> That groups by 4. Pints to quarts is the step with 2. <break time=\"1.5s\" /> Gallons to quarts is the step with 4, not 2. 7 times 4 equals what? <break time=\"1.5s\" /> Every step on the ladder has its own number. <break time=\"1.5s\" /> Gallons to quarts is 4. Quarts to pints is 2. Pints to cups is 2. And cups to fluid ounces is 8. <break time=\"1.5s\" /> Use the right number for the step you are on! <break time=\"1.5s\" /> Fluid ounces tell how much a container holds. Ounces tell how heavy something is. Same word, different jobs! <break time=\"1.5s\" /> Gallons to quarts is the step with 4, not 2. 6 times 4 equals what? <break time=\"1.5s\" /> Hello, I'm Cora. Farmer Hank has a pail or a bottle for everything. Every one has a name. I love that. <break time=\"1.5s\" /> Each step on the ladder has its own number: 4, then 2, then 2, then 8. Use the right one!"
+ },
+ "felix": {
+  "voice_id": "PJeatLZlmAT5jz5L5p7U",
+  "lines": [
+   {
+    "who": "felix",
+    "t": "8 fluid ounces fill a cup. Count up from 5: 6, 7, 8.",
+    "key": "53f99ab4"
+   },
+   {
+    "who": "felix",
+    "t": "Going down the ladder, the bottles get smaller, so you need MORE of them. Multiply by 2.",
+    "key": "c3a57fe8"
+   },
+   {
+    "who": "felix",
+    "t": "Each quart fills 2 pint bottles. 9 quarts is 9 × 2 pints.",
+    "key": "bff41240"
+   },
+   {
+    "who": "felix",
+    "t": "7 × 4 = 28 quarts for the gallons. Don't forget the 1 extra quart.",
+    "key": "8033e824"
+   },
+   {
+    "who": "felix",
+    "t": "Change the gallons first: 7 × 4 quarts. Then add the 1 extra quart.",
+    "key": "12675ae1"
+   },
+   {
+    "who": "felix",
+    "t": "My way is all quarts.",
+    "key": "4ae28af3"
+   },
+   {
+    "who": "felix",
+    "t": "I change Can A to quarts. 2 gallons is 2 × 4, so 8 quarts. And 1 more quart makes 9 quarts.",
+    "key": "5b8a4421"
+   },
+   {
+    "who": "felix",
+    "t": "Can B holds 10 quarts. 10 − 9 = 1.",
+    "key": "01fd946c"
+   },
+   {
+    "who": "felix",
+    "t": "Can B holds 1 quart more. Same answer as Atlas!",
+    "key": "79c14f24"
+   },
+   {
+    "who": "felix",
+    "t": "6 × 4 = 24 quarts for the gallons. Now add the 1 extra quart.",
+    "key": "6cbada57"
+   },
+   {
+    "who": "felix",
+    "t": "Change the gallons first: 6 × 4 quarts. Then add the 1 extra quart.",
+    "key": "baa3afbe"
+   },
+   {
+    "who": "felix",
+    "t": "Hey, I'm Felix! I tried to count the cows. They keep walking around, so I keep starting over!",
+    "key": "a9af0f47"
+   },
+   {
+    "who": "felix",
+    "t": "Going down the ladder, I multiply. 3 quarts is 3 × 2, so 6 pints. And 6 pints is 6 × 2, so 12 cups.",
+    "key": "2b2dbb02"
+   }
+  ],
+  "prompt": "8 fluid ounces fill a cup. Count up from 5: 6, 7, 8. <break time=\"1.5s\" /> Going down the ladder, the bottles get smaller, so you need MORE of them. Multiply by 2. <break time=\"1.5s\" /> Each quart fills 2 pint bottles. 9 quarts is 9 times 2 pints. <break time=\"1.5s\" /> 7 times 4 equals 28 quarts for the gallons. Don't forget the 1 extra quart. <break time=\"1.5s\" /> Change the gallons first: 7 times 4 quarts. Then add the 1 extra quart. <break time=\"1.5s\" /> My way is all quarts. <break time=\"1.5s\" /> I change Can A to quarts. 2 gallons is 2 times 4, so 8 quarts. And 1 more quart makes 9 quarts. <break time=\"1.5s\" /> Can B holds 10 quarts. 10 − 9 equals 1. <break time=\"1.5s\" /> Can B holds 1 quart more. Same answer as Atlas! <break time=\"1.5s\" /> 6 times 4 equals 24 quarts for the gallons. Now add the 1 extra quart. <break time=\"1.5s\" /> Change the gallons first: 6 times 4 quarts. Then add the 1 extra quart. <break time=\"1.5s\" /> Hey, I'm Felix! I tried to count the cows. They keep walking around, so I keep starting over! <break time=\"1.5s\" /> Going down the ladder, I multiply. 3 quarts is 3 times 2, so 6 pints. And 6 pints is 6 times 2, so 12 cups."
+ },
+ "hazel": {
+  "voice_id": "MkTSSXNgnBULS6ek4pon",
+  "lines": [
+   {
+    "who": "hazel",
+    "t": "Picture the pint pail on your page. How many cups did it take to fill it?",
+    "key": "6e552a55"
+   },
+   {
+    "who": "hazel",
+    "t": "Picture the gallon jug on your page. How many quart bottles filled it?",
+    "key": "06e784ef"
+   },
+   {
+    "who": "hazel",
+    "t": "7 gal 1 qt isn't 71 quarts. Each gallon is 4 quarts. 7 gallons is 7 groups of 4, then 1 more.",
+    "key": "27f3a2ed"
+   },
+   {
+    "who": "hazel",
+    "t": "I picture the Gallon-Man.",
+    "key": "03607cad"
+   },
+   {
+    "who": "hazel",
+    "t": "His gallon jug holds 4 quart bottles. So 2 gallons is 2 groups of 4 quart bottles.",
+    "key": "1787eb1d"
+   },
+   {
+    "who": "hazel",
+    "t": "Can A is 2 groups of 4 bottles and 1 more. Can B is 10 bottles. Can B has 1 more bottle!",
+    "key": "e67040cc"
+   },
+   {
+    "who": "hazel",
+    "t": "6 gal 1 qt isn't 61 quarts. Picture 6 gallon jugs, each with 4 quart bottles, then 1 more bottle.",
+    "key": "6bdc2b87"
+   },
+   {
+    "who": "hazel",
+    "t": "Hi! I'm Hazel. I want to draw the Gallon-Man statue. But the Smudge knocked him over!",
+    "key": "81ad03e4"
+   },
+   {
+    "who": "hazel",
+    "t": "I picture the Gallon-Man. His gallon jug holds 4 quart bottles, and each quart holds 2 pints.",
+    "key": "d284def3"
+   }
+  ],
+  "prompt": "Picture the pint pail on your page. How many cups did it take to fill it? <break time=\"1.5s\" /> Picture the gallon jug on your page. How many quart bottles filled it? <break time=\"1.5s\" /> 7 gal 1 qt isn't 71 quarts. Each gallon is 4 quarts. 7 gallons is 7 groups of 4, then 1 more. <break time=\"1.5s\" /> I picture the Gallon-Man. <break time=\"1.5s\" /> His gallon jug holds 4 quart bottles. So 2 gallons is 2 groups of 4 quart bottles. <break time=\"1.5s\" /> Can A is 2 groups of 4 bottles and 1 more. Can B is 10 bottles. Can B has 1 more bottle! <break time=\"1.5s\" /> 6 gal 1 qt isn't 61 quarts. Picture 6 gallon jugs, each with 4 quart bottles, then 1 more bottle. <break time=\"1.5s\" /> Hi! I'm Hazel. I want to draw the Gallon-Man statue. But the Smudge knocked him over! <break time=\"1.5s\" /> I picture the Gallon-Man. His gallon jug holds 4 quart bottles, and each quart holds 2 pints."
+ },
+ "atlas": {
+  "voice_id": "unWb9iRIK7Xxf4A5Hfis",
+  "lines": [
+   {
+    "who": "atlas",
+    "t": "2 pints fill a quart. The pail already has 1 pint in it. How many more?",
+    "key": "6f9649ad"
+   },
+   {
+    "who": "atlas",
+    "t": "Going up the ladder, the jars get bigger, so you need FEWER of them. 2 pints fill each quart jar. Group the pints by 2s.",
+    "key": "90477530"
+   },
+   {
+    "who": "atlas",
+    "t": "2 pints fill a quart jar. How many groups of 2 are in 12?",
+    "key": "4e226a8d"
+   },
+   {
+    "who": "atlas",
+    "t": "My way is gallons and quarts.",
+    "key": "78045a6e"
+   },
+   {
+    "who": "atlas",
+    "t": "I pour Can B's 10 quarts into gallon jugs. 4 quarts fill a jug, so 8 quarts fill 2 jugs, and 2 quarts are left.",
+    "key": "650b270c"
+   },
+   {
+    "who": "atlas",
+    "t": "So Can B holds 2 gallons 2 quarts. Can A holds 2 gallons 1 quart.",
+    "key": "2c2de9a3"
+   },
+   {
+    "who": "atlas",
+    "t": "Both have 2 gallons, and 2 quarts is 1 more than 1 quart. Can B holds 1 quart more!",
+    "key": "42fa4f5b"
+   },
+   {
+    "who": "atlas",
+    "t": "Hi, I'm Atlas! We climbed all the way up Hilltop. You can see the whole town from here!",
+    "key": "e25045cb"
+   },
+   {
+    "who": "atlas",
+    "t": "Going up the ladder, I group. 28 quarts fill 7 gallon jugs, because every 4 quarts fill a jug.",
+    "key": "7b2e5493"
+   }
+  ],
+  "prompt": "2 pints fill a quart. The pail already has 1 pint in it. How many more? <break time=\"1.5s\" /> Going up the ladder, the jars get bigger, so you need FEWER of them. 2 pints fill each quart jar. Group the pints by 2s. <break time=\"1.5s\" /> 2 pints fill a quart jar. How many groups of 2 are in 12? <break time=\"1.5s\" /> My way is gallons and quarts. <break time=\"1.5s\" /> I pour Can B's 10 quarts into gallon jugs. 4 quarts fill a jug, so 8 quarts fill 2 jugs, and 2 quarts are left. <break time=\"1.5s\" /> So Can B holds 2 gallons 2 quarts. Can A holds 2 gallons 1 quart. <break time=\"1.5s\" /> Both have 2 gallons, and 2 quarts is 1 more than 1 quart. Can B holds 1 quart more! <break time=\"1.5s\" /> Hi, I'm Atlas! We climbed all the way up Hilltop. You can see the whole town from here! <break time=\"1.5s\" /> Going up the ladder, I group. 28 quarts fill 7 gallon jugs, because every 4 quarts fill a jug."
+ },
+ "opti": {
+  "voice_id": "WdZjiN0nNcik2LBjOHiv",
+  "lines": [
+   {
+    "who": "opti",
+    "t": "Hoo! Welcome to Hilltop, {name}. Last time you fixed Mrs. Mabel's store, and you found gray fuzz that smells like hay.",
+    "key": "bdc2fba2"
+   },
+   {
+    "who": "opti",
+    "t": "Hay means cows, and cows mean the Hilltop Dairy. But look, the dairy gate is locked!",
+    "key": "d22a961d"
+   },
+   {
+    "who": "opti",
+    "t": "Walk up to the gate and see what the locks need.",
+    "key": "d5ad0cb7"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! The Math Crew solved the milk can puzzle. They each found the answer their own way.",
+    "key": "9698cab6"
+   },
+   {
+    "who": "opti",
+    "t": "Walk up to each of them and listen. Then come back and tell me.",
+    "key": "dd07f9b6"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! Two ways, and one answer: Can B holds 1 quart more.",
+    "key": "8e01aab2"
+   },
+   {
+    "who": "opti",
+    "t": "Which way is most like yours? Write about it on your page, right under the Crew's card.",
+    "key": "6eba99ec"
+   },
+   {
+    "who": "opti",
+    "t": "Walk up to each Crew member and listen to their way first.",
+    "key": "b722791e"
+   },
+   {
+    "who": "opti",
+    "t": "GOLEM PART 1. Next time we climb the Clock Tower to find out when it comes, {name}.",
+    "key": "a077e5ed"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! Every dairy job on the page helps put the Gallon-Man back together.",
+    "key": "192de19d"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! GOLEM PART 1. The Smudge is building something big.",
+    "key": "06246946"
+   },
+   {
+    "who": "opti",
+    "t": "Next lesson, we climb the Clock Tower. It will tell us when the Golem comes, {name}.",
+    "key": "e29c96da"
+   }
+  ],
+  "prompt": "Welcome to Hilltop, explorer. Last time you fixed Mrs. Mabel's store, and you found gray fuzz that smells like hay. <break time=\"1.5s\" /> Hay means cows, and cows mean the Hilltop Dairy. But look, the dairy gate is locked! <break time=\"1.5s\" /> Walk up to the gate and see what the locks need. <break time=\"1.5s\" /> The Math Crew solved the milk can puzzle. They each found the answer their own way. <break time=\"1.5s\" /> Walk up to each of them and listen. Then come back and tell me. <break time=\"1.5s\" /> Two ways, and one answer: Can B holds 1 quart more. <break time=\"1.5s\" /> Which way is most like yours? Write about it on your page, right under the Crew's card. <break time=\"1.5s\" /> Walk up to each Crew member and listen to their way first. <break time=\"1.5s\" /> GOLEM PART 1. Next time we climb the Clock Tower to find out when it comes, explorer. <break time=\"1.5s\" /> Every dairy job on the page helps put the Gallon-Man back together. <break time=\"1.5s\" /> GOLEM PART 1. The Smudge is building something big. <break time=\"1.5s\" /> Next lesson, we climb the Clock Tower. It will tell us when the Golem comes, explorer."
+ },
+ "hank": {
+  "voice_id": "b0BlLcowQPmtf6a9cuP5",
+  "lines": [
+   {
+    "who": "hank",
+    "t": "Time for my milk run, {name}! My wagon is out on the road.",
+    "key": "b7e56a15"
+   },
+   {
+    "who": "hank",
+    "t": "Folks will stop us with orders. Help me get each one right.",
+    "key": "f4b029ab"
+   },
+   {
+    "who": "hank",
+    "t": "Hello out there! I'm Farmer Hank. I'm stuck on this side of my own gate!",
+    "key": "97ce4082"
+   },
+   {
+    "who": "hank",
+    "t": "The Smudge locked it with a pouring puzzle. Each lock is a pail. Fill each one exactly, and the gate opens.",
+    "key": "0705ab8a"
+   },
+   {
+    "who": "hank",
+    "t": "You opened it! Welcome to Hilltop Dairy, {name}.",
+    "key": "21c3f9b2"
+   },
+   {
+    "who": "hank",
+    "t": "Last night the Smudge knocked over our Gallon-Man statue and drained the cows' trough.",
+    "key": "e116feef"
+   },
+   {
+    "who": "hank",
+    "t": "Help me put him back together. Each dairy job on your page puts back one piece.",
+    "key": "f9ec8687"
+   },
+   {
+    "who": "hank",
+    "t": "The locks are on the gate, {name}!",
+    "key": "f61dbfab"
+   },
+   {
+    "who": "hank",
+    "t": "Thank you for the cream bottles! But the Smudge blew through my dairy shop.",
+    "key": "e2e712b7"
+   },
+   {
+    "who": "hank",
+    "t": "It mixed up my labels. Some say fl oz, and some say oz. Please sort them into my two bins by the barn.",
+    "key": "d609fda3"
+   },
+   {
+    "who": "hank",
+    "t": "HOLDS is for fluid ounces: how much something holds. WEIGHS is for ounces: how heavy something is. Walk onto a sparkle to pick one up.",
+    "key": "2bbfd69d"
+   },
+   {
+    "who": "hank",
+    "t": "Every label is in the right bin. Thank you, {name}!",
+    "key": "41486fc4"
+   },
+   {
+    "who": "hank",
+    "t": "The Gallon-Man stands again, and his plaque is right. Thank you!",
+    "key": "f622f34e"
+   },
+   {
+    "who": "hank",
+    "t": "Now my cows are thirsty. The trough holds 6 gal 1 qt, and my pail holds 1 quart. How many pails will fill it? Go to the trough and fill it.",
+    "key": "e22476b4"
+   },
+   {
+    "who": "hank",
+    "t": "Hello! I'm Farmer Hank. My gate is locked, so I can't come out!",
+    "key": "2c6f2ce8"
+   },
+   {
+    "who": "hank",
+    "t": "Welcome to Hilltop Dairy! We pour everything here: cups, pints, quarts and gallons.",
+    "key": "ff9d9057"
+   },
+   {
+    "who": "hank",
+    "t": "My milk wagon!",
+    "key": "0c494b83"
+   },
+   {
+    "who": "hank",
+    "t": "Every order delivered, and every one exactly right!",
+    "key": "98c70185"
+   },
+   {
+    "who": "hank",
+    "t": "I'll head back up to the barn. See you at the Gallon-Man, {name}.",
+    "key": "46884a01"
+   }
+  ],
+  "prompt": "Time for my milk run, explorer! My wagon is out on the road. <break time=\"1.5s\" /> Folks will stop us with orders. Help me get each one right. <break time=\"1.5s\" /> Hello out there! I'm Farmer Hank. I'm stuck on this side of my own gate! <break time=\"1.5s\" /> The Smudge locked it with a pouring puzzle. Each lock is a pail. Fill each one exactly, and the gate opens. <break time=\"1.5s\" /> You opened it! Welcome to Hilltop Dairy, explorer. <break time=\"1.5s\" /> Last night the Smudge knocked over our Gallon-Man statue and drained the cows' trough. <break time=\"1.5s\" /> Help me put him back together. Each dairy job on your page puts back one piece. <break time=\"1.5s\" /> The locks are on the gate, explorer! <break time=\"1.5s\" /> Thank you for the cream bottles! But the Smudge blew through my dairy shop. <break time=\"1.5s\" /> It mixed up my labels. Some say fl oz, and some say oz. Please sort them into my two bins by the barn. <break time=\"1.5s\" /> HOLDS is for fluid ounces: how much something holds. WEIGHS is for ounces: how heavy something is. Walk onto a sparkle to pick one up. <break time=\"1.5s\" /> Every label is in the right bin. Thank you, explorer! <break time=\"1.5s\" /> The Gallon-Man stands again, and his plaque is right. Thank you! <break time=\"1.5s\" /> Now my cows are thirsty. The trough holds 6 gal 1 qt, and my pail holds 1 quart. How many pails will fill it? Go to the trough and fill it. <break time=\"1.5s\" /> Hello! I'm Farmer Hank. My gate is locked, so I can't come out! <break time=\"1.5s\" /> Welcome to Hilltop Dairy! We pour everything here: cups, pints, quarts and gallons. <break time=\"1.5s\" /> My milk wagon! <break time=\"1.5s\" /> Every order delivered, and every one exactly right! <break time=\"1.5s\" /> I'll head back up to the barn. See you at the Gallon-Man, explorer."
+ },
+ "smudge": {
+  "voice_id": "03UxGYCWKFAlC28C7ugZ",
+  "lines": [
+   {
+    "who": "smudge",
+    "t": "Heh heh heh. Part 1 is done. My Brick Golem is coming together!",
+    "key": "43e359a2"
+   }
+  ],
+  "prompt": "Heh heh heh. Part 1 is done. My Brick Golem is coming together!"
+ }
+}

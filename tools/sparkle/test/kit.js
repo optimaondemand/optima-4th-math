@@ -51,6 +51,18 @@ await p.fill('#d-bm2 .bm-form input','18');await p.click('#d-bm2 .bm-form button
 // number bond
 for(const v of ['45','2','250']){await p.fill('#d-nb .nb-c input','99');await p.click('#d-nb .nb-check');await p.fill('#d-nb .nb-c input',v);await p.click('#d-nb .nb-check');const n=await p.$('#d-nb .ok-next');if(n)await n.click();}
 ok((await p.$eval('#d-nb .nb-eq',e=>e.textContent)).includes('250 = 200 + 50'),'number bond: three rounds');
+// pour station: fill by tap + drag, group up with a leftover, pour out
+await p.click('#d-pour .ok-pr-small .ok-vsl.src');await drag('#d-pour .ok-pr-small .ok-vsl.src','#d-pour .ok-pr-big');
+ok(!!(await p.$('#d-pour .ok-pour-ask form'))&&(await p.$eval('#d-pour .ok-sym',e=>e.textContent)).includes('2 pints'),'pour: tap + drag 2 pints fill the quart; the answer form appears');
+await p.click('#d-pour .ok-pr-small .ok-vsl.src');ok((await p.$eval('#d-pour .ok-sym',e=>e.textContent)).includes('2 pints'),'pour: a full quart takes no more');
+await p.fill('#d-pour .ok-pour-ask input','4');await p.click('#d-pour .ok-pour-ask button');ok((await p.$eval('#d-pour .ok-msg',e=>e.textContent)).includes('Count'),'pour: wrong answer gets the mistake hint');
+await p.fill('#d-pour .ok-pour-ask input','2');await p.click('#d-pour .ok-pour-ask button');await p.click('#d-pour .ok-next');
+for(let i=0;i<4;i++)await p.click('#d-pour .ok-pr-small .ok-vsl.src');ok(!!(await p.$('#d-pour .ok-whole')),'pour: after one gallon by hand, the whole-gallon button shows');
+await p.click('#d-pour .ok-whole');await p.click('#d-pour .ok-pr-small .ok-vsl.src');ok((await p.$eval('#d-pour .ok-msg',e=>e.textContent)).includes('not enough'),'pour: 3 quarts left cannot start a gallon');
+ok((await p.$eval('#d-pour .ok-sym',e=>e.textContent)).includes('2 full gallons'),'pour: 11 qt makes 2 full gallons, 3 quarts left');
+{const I=await p.$$('#d-pour .ok-pour-ask input');await I[0].fill('2');await I[1].fill('3');await p.click('#d-pour .ok-pour-ask button');}await p.click('#d-pour .ok-next');
+await p.click('#d-pour .ok-pr-big .ok-vsl.src');await drag('#d-pour .ok-pr-big .ok-vsl.src','#d-pour .ok-pr-small');
+ok((await p.$eval('#d-pour .ok-sym',e=>e.textContent)).includes('19 fluid ounces')&&(await p.$eval('#d-pour .ok-do',e=>e.textContent)).includes('Done'),'pour: 2 cups poured out (tap + drag) = 19 fl oz, done');
 // mental math
 for(const [i,a] of [[0,'135'],[1,'157'],[2,'121']]){await p.fill(`#d-mm .mm-p[data-i="${i}"] input`,a);await p.click(`#d-mm .mm-p[data-i="${i}"] button`);}
 ok(await p.$$eval('#d-mm .mm-p.ok',x=>x.length)===3,'mental math: 3 right');

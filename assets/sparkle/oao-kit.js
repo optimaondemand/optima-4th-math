@@ -17,7 +17,7 @@ var snd={click:function(){tone(520,0.06,'triangle',0.05);},merge:function(){tone
   done:function(){[523,659,784,1047].forEach(function(f,i){tone(f,0.14,'triangle',0.05,i*0.08);});}};
 
 /* ───────── drag + tap helper ───────── */
-var DROP='.ok-col,.ok-zone,.ok-bar,.ok-tray,.ok-barrow,.ok-plat';
+var DROP='.ok-col,.ok-zone,.ok-bar,.ok-tray,.ok-barrow,.ok-plat,.ok-pourrow';
 function draggable(el,payload,onDrop,onTap){
   var sx,sy,ghost=null,moved=false,over=null,id=null;
   el.addEventListener('pointerdown',function(e){if(e.button>0)return;sx=e.clientX;sy=e.clientY;moved=false;id=e.pointerId;try{el.setPointerCapture(id);}catch(x){}e.preventDefault();});
@@ -584,5 +584,86 @@ function scale(root,cfg){
   render();
   return {state:st,total:total};
 }
-K.scale=scale;K.unitMat=unitMat;K.tradeMat=tradeMat;K.stamps=stamps;K.barModel=barModel;K.numberBond=numberBond;K.mentalMath=mentalMath;K.challenge=challenge;
+/* ═══════════ POUR STATION ═══════════  (capacity: two containers at a time, drawn to scale by height)
+   cfg = { key, rounds:[{ name, text, doneText,
+             big:{unit:'qt',name:['quart','quarts'],what:'quart bottle'}, small:{…}, rate:2,
+             mode:'fill'  → one empty big container; pour from an endless small source until it is full
+             mode:'up'    → start.small full small containers (+ start.big full big ones); pour them into big containers
+                            (one at a time, or "Fill a whole …" once one is done by hand); leftovers stay small
+             mode:'down'  → start.big full big containers (+ start.small full small ones); tap/drag a big one to pour it out
+             start:{big, small}, ask:{q, units, answer, mistakes:[{v,text}], hint, doneText}, sym(info) }], onRound, onDone } */
+function pour(root,cfg){
+  var rounds=cfg.rounds,key=cfg.key;
+  function init(r){var s=r.start||{};return r.mode==='fill'?{full:0,cur:0,left:0,poured:0}:r.mode==='up'?{full:s.big||0,cur:0,left:s.small||0,open:false,poured:0}:{full:s.big||0,cur:0,left:s.small||0,poured:0};}
+  var st=ls(key,null);if(!st||!st.p||st.p.length!==rounds.length)st={cur:0,p:rounds.map(init),won:rounds.map(function(){return false;}),a:rounds.map(function(){return [];}),fired:false};
+  root.classList.add('ok-tool');root.classList.add('ok-pour');
+  root.innerHTML=(rounds.length>1?'<div class="ok-rounds" role="tablist">'+rounds.map(function(r,i){return '<button type="button" data-i="'+i+'">'+esc(r.name)+'</button>';}).join('')+'</div>':'')+
+    '<p class="ok-do" aria-live="polite"></p><div class="ok-pourbox"><div class="ok-pourrow ok-pr-big" aria-label="Big containers"></div><div class="ok-pourrow ok-pr-small" aria-label="Small containers"></div></div>'+
+    '<div class="ok-sym" aria-live="polite"></div><div class="ok-pour-ask"></div><div class="ok-msg" aria-live="polite"></div>'+
+    '<div class="ok-row"><button class="ok-btn ok-reset" type="button">↺ Start over</button></div>';
+  var msg=$('.ok-msg',root),rowB=$('.ok-pr-big',root),rowS=$('.ok-pr-small',root),askEl=$('.ok-pour-ask',root);
+  function say(t,k){msg.className='ok-msg'+(k?' '+k:'');msg.innerHTML=t||'';}
+  function save(){lsSet(key,st);}
+  function nm(u,n){return n===1?u.name[0]:u.name[1];}
+  function cnt(n,u){return n+' '+nm(u,n);}
+  function hs(r){var h=Math.max(16,Math.min(56,Math.round(150/r.rate)));return {s:h,b:h*r.rate};}
+  function vessel(u,h,lvl,rate,cls,lab,extra){ // lvl = small units inside (0..rate) for a big one, 0/1 for a small one
+    var pct=Math.round(100*lvl/rate);
+    return '<span class="ok-vsl '+cls+'" style="height:'+h+'px" '+(extra||'')+'><span class="ok-vfill" style="height:'+pct+'%"></span>'+
+      (rate>1?'<span class="ok-vticks" style="background-size:100% '+(100/rate)+'%"></span>':'')+'<span class="ok-vlab">'+esc(lab)+'</span></span>';}
+  function info(i){var r=rounds[i],p=st.p[i];return {r:r,p:p,smallTotal:p.full*r.rate+p.cur+p.left,doneUp:r.mode==='up'&&!p.cur&&p.left<r.rate,doneDown:r.mode==='down'&&!p.full};}
+  function finished(i){var r=rounds[i],p=st.p[i];return r.mode==='fill'?p.cur===r.rate:r.mode==='up'?(!p.cur&&p.left<r.rate):!p.full;}
+  function pourSmall(){var i=st.cur,r=rounds[i],p=st.p[i];if(r.mode==='up'&&p.left&&!p.cur&&p.left<r.rate){say('Only '+cnt(p.left,r.small)+' left. That is not enough to fill another '+r.big.name[0]+', so they stay as '+r.small.name[1]+'.','hint');snd.no();return;}if(st.won[i]||finished(i))return;
+    if(r.mode==='fill'){p.cur++;p.poured++;snd.click();say(p.cur===r.rate?'Full! The '+r.big.name[0]+' is filled to the top.':'');}
+    else if(r.mode==='up'){if(!p.left)return;if(!p.cur&&p.left<r.rate){say('Only '+cnt(p.left,r.small)+' left. That is not enough to fill another '+r.big.name[0]+', so they stay as '+r.small.name[1]+'.','hint');snd.no();return;}
+      p.left--;p.cur++;p.poured++;snd.click();say('');if(p.cur===r.rate){p.full++;p.cur=0;snd.split();say('That '+r.big.name[0]+' is full! '+(p.left>=r.rate?'Start the next one.':''));}}
+    after();}
+  function pourWhole(){var i=st.cur,r=rounds[i],p=st.p[i];if(r.mode!=='up'||st.won[i]||p.cur||p.left<r.rate)return;p.left-=r.rate;p.full++;p.poured+=r.rate;snd.split();say('');after();}
+  function pourBig(){var i=st.cur,r=rounds[i],p=st.p[i];if(r.mode!=='down'||st.won[i]||!p.full)return;p.full--;p.left+=r.rate;p.poured++;snd.split();say('One '+r.big.name[0]+' poured out into '+r.rate+' '+r.small.name[1]+'.');after();}
+  function after(){var i=st.cur,r=rounds[i];save();if(finished(i)&&!r.ask)win(i);else if(finished(i))snd.done();render();}
+  function win(i){if(st.won[i])return;st.won[i]=true;save();if(cfg.onRound)cfg.onRound(i,root);
+    if(st.won.every(Boolean)&&!st.fired){st.fired=true;save();if(cfg.onDone)cfg.onDone(root);}render();}
+  function defSym(i){var r=rounds[i],p=st.p[i];
+    if(r.mode==='fill')return '<span class="big">'+cnt(p.cur,r.small)+' poured in</span><span class="exp">'+(p.cur===r.rate?'The '+r.big.name[0]+' is full.':'Keep pouring until the '+r.big.name[0]+' is full.')+'</span>';
+    if(r.mode==='up')return '<span class="big">'+p.full+' full '+nm(r.big,p.full)+(p.cur?' and 1 '+r.big.name[0]+' with '+cnt(p.cur,r.small)+' in it':'')+'</span><span class="exp">'+cnt(p.left,r.small)+' still to pour'+(finished(i)&&p.left?' (not enough for another '+r.big.name[0]+')':'')+'</span>';
+    return '<span class="big">'+cnt(p.left,r.small)+(p.full?'':' in all')+'</span><span class="exp">'+(p.full?cnt(p.full,r.big)+' still to pour out':'Every '+r.big.name[0]+' is poured out.')+'</span>';}
+  function render(){var i=st.cur,r=rounds[i],p=st.p[i],H=hs(r),k,b='',s='';
+    if(rounds.length>1)$$('.ok-rounds button',root).forEach(function(x,j){x.classList.toggle('on',j===i);x.classList.toggle('won',!!st.won[j]);x.setAttribute('aria-selected',j===i);});
+    $('.ok-do',root).innerHTML=st.won[i]?'<span class="ok-step" style="background:#1E8C5A">Done</span>'+(r.doneText||''):r.text;
+    var BL='1 '+r.big.unit,SL='1 '+r.small.unit;
+    if(r.mode==='fill')b=vessel(r.big,H.b,p.cur,r.rate,'big target','1 '+r.big.unit,'aria-label="'+esc('A '+r.big.name[0]+' with '+cnt(p.cur,r.small)+' in it')+'"');
+    else if(r.mode==='up'){for(k=0;k<p.full;k++)b+=vessel(r.big,H.b,r.rate,r.rate,'big done',BL,'aria-label="A full '+esc(r.big.name[0])+'"');
+      if(p.cur||(!finished(i)&&p.left))b+=vessel(r.big,H.b,p.cur,r.rate,'big target',BL,'aria-label="'+esc('A '+r.big.name[0]+' with '+cnt(p.cur,r.small)+' in it')+'"');
+      if(!b)b='<span class="ok-plat-empty">Pour the '+esc(r.small.name[1])+' here</span>';}
+    else{for(k=0;k<p.full;k++)b+=vessel(r.big,H.b,r.rate,r.rate,'big src',BL,'data-src="big" tabindex="0" role="button" aria-label="'+esc('Pour out a full '+r.big.name[0])+'"');
+      if(!p.full)b='<span class="ok-plat-empty">All poured out.</span>';}
+    rowB.innerHTML=b;rowB.style.minHeight=(H.b+30)+'px';
+    if(r.mode==='fill'){s='<span class="ok-tap"><span class="ok-tap-lbl">Pour a '+esc(r.small.name[0])+':</span>'+vessel(r.small,H.s,1,1,'small src',SL,'data-src="small" tabindex="0" role="button" aria-label="'+esc('Pour 1 '+r.small.name[0])+'"')+'</span>';}
+    else if(r.mode==='up'){for(k=0;k<p.left;k++)s+=vessel(r.small,H.s,1,1,'small src',SL,'data-src="small" tabindex="0" role="button" aria-label="'+esc('Pour 1 '+r.small.name[0]+' into the '+r.big.name[0])+'"');
+      if(!p.left)s='<span class="ok-plat-empty">No '+esc(r.small.name[1])+' left to pour.</span>';}
+    else{for(k=0;k<p.left;k++)s+=vessel(r.small,H.s,1,1,'small got',SL,'aria-label="A full '+esc(r.small.name[0])+'"');
+      if(!p.left)s='<span class="ok-plat-empty">Pour a '+esc(r.big.name[0])+' out here</span>';}
+    rowS.innerHTML=s;rowS.style.minHeight=(H.s+30)+'px';
+    if(r.mode==='up'&&!st.won[i]&&!finished(i)&&p.poured>=r.rate&&!p.cur&&p.left>=r.rate){var w=document.createElement('button');w.type='button';w.className='ok-btn ok-whole';w.textContent='+ Fill a whole '+r.big.name[0]+' ('+r.rate+' '+r.small.unit+')';w.onclick=pourWhole;rowS.appendChild(w);}
+    $$('.ok-vsl.src',root).forEach(function(d){var big=d.dataset.src==='big';draggable(d,function(){return {k:d.dataset.src};},function(t){if(!t)return render();if(!big&&t.closest('.ok-pr-big'))pourSmall();else if(big&&t.closest('.ok-pr-small'))pourBig();else render();},function(){big?pourBig():pourSmall();});});
+    $('.ok-sym',root).innerHTML=r.sym?r.sym(info(i)):defSym(i);
+    if(r.ask&&finished(i)){var A=r.ask,sa=st.a[i]||[];
+      if(askEl.dataset.r!==String(i)){askEl.dataset.r=i;
+        askEl.innerHTML='<form class="bm-form mk-two"><span class="mk-two-q">'+A.q+'</span>'+A.units.map(function(u,k){return '<input type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc(A.q.replace(/<[^>]+>/g,'')+' '+u)+'" value="'+esc(sa[k]||'')+'"><span class="bm-u">'+esc(u)+'</span>';}).join('')+'<button type="submit" class="ok-btn">Check</button></form>';
+        var f=$('form',askEl),ins=$$('input',f);if(st.won[i])ins.forEach(function(x){x.disabled=true;});
+        f.onsubmit=function(e){e.preventDefault();if(st.won[st.cur])return;var vs=ins.map(function(x){return num(x.value);});st.a[st.cur]=ins.map(function(x){return x.value;});save();
+          if(vs.some(function(x){return x==null;}))return say('Type a number in each box.','hint');
+          if(vs.every(function(x,k){return x===A.answer[k];})){ins.forEach(function(x){x.disabled=true;});say(A.doneText||'Yes!','good');win(st.cur);return;}
+          snd.no();var mk=(A.mistakes||[]).filter(function(z){return z.v.every(function(x,k){return x===vs[k];});})[0];
+          say(mk?mk.text:(A.hint||'Count the containers again.'),'hint');};}
+    }else{askEl.innerHTML='';askEl.dataset.r='';}
+    var nx=$('.ok-next',root);
+    if(st.won[i]&&i<rounds.length-1){if(!nx){nx=document.createElement('button');nx.className='ok-btn ok-next';nx.type='button';nx.textContent='Next →';nx.onclick=function(){st.cur++;save();say('');askEl.dataset.r='';render();};$('.ok-row',root).appendChild(nx);}}
+    else if(nx)nx.remove();}
+  if(rounds.length>1)$$('.ok-rounds button',root).forEach(function(b){b.onclick=function(){st.cur=+b.dataset.i;save();say('');askEl.dataset.r='';render();};});
+  $('.ok-reset',root).onclick=function(){var i=st.cur;st.p[i]=init(rounds[i]);st.won[i]=false;st.a[i]=[];save();say('');askEl.dataset.r='';render();};
+  render();
+  return {state:st,info:info};
+}
+K.pour=pour;K.scale=scale;K.unitMat=unitMat;K.tradeMat=tradeMat;K.stamps=stamps;K.barModel=barModel;K.numberBond=numberBond;K.mentalMath=mentalMath;K.challenge=challenge;
 })(OAOKit);

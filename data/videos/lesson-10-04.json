@@ -1,0 +1,188 @@
+{
+ "lesson": "10.04",
+ "grade": 4,
+ "prefix": "g4math-10-04",
+ "manifestKey": "g4math-10-04",
+ "title": "Customary Units of Capacity",
+ "other": [],
+ "pics": {
+  "10-04-learn-cans": {
+   "src": "assets/video/boards/10-04/10-04-learn-cans.png",
+   "cap": "Board: The cans"
+  },
+  "10-04-learn-twoways": {
+   "src": "assets/video/boards/10-04/10-04-learn-twoways.png",
+   "cap": "Board: Two ways"
+  },
+  "10-04-do-p1": {
+   "src": "assets/video/boards/10-04/10-04-do-p1.png",
+   "cap": "Board: Problem 1"
+  },
+  "10-04-do-p2": {
+   "src": "assets/video/boards/10-04/10-04-do-p2.png",
+   "cap": "Board: Problem 2"
+  },
+  "10-04-do-p3": {
+   "src": "assets/video/boards/10-04/10-04-do-p3.png",
+   "cap": "Board: Problem 3"
+  },
+  "10-04-do-mistake": {
+   "src": "assets/video/boards/10-04/10-04-do-mistake.png",
+   "cap": "Board: Spot the mistake"
+  }
+ },
+ "redo": [],
+ "welcomeSlot": "think",
+ "slots": {
+  "think": {
+   "label": "Think · the two milk cans",
+   "title": "Hilltop Dairy",
+   "length": "about 1 min",
+   "want": true,
+   "where": "Warm-Up, under the Essential Question",
+   "parts": [
+    {
+     "label": "Dairy board",
+     "tag": "TODAY'S REAL PROBLEM",
+     "title": "Rebuild the Gallon-Man",
+     "col": "#2F5D8A",
+     "rows": [
+      [
+       "Job 1",
+       "Climb the ladder"
+      ],
+      [
+       "Job 2",
+       "Fill the cream bottles"
+      ],
+      [
+       "Job 3",
+       "Bottle the milk"
+      ],
+      [
+       "Job 4",
+       "Count the milk cans"
+      ],
+      [
+       "Job 5",
+       "Pour the picnic milk"
+      ],
+      [
+       "Job 6",
+       "Fix the Gallon-Man's plaque"
+      ]
+     ]
+    },
+    {
+     "label": "Two cans",
+     "tag": "THINK ABOUT IT",
+     "title": "Can A: 2 gal 1 qt · Can B: 10 qt",
+     "col": "#6B3FA0",
+     "body": "Which can holds more milk, and by how many quarts?"
+    },
+    {
+     "label": "The big question",
+     "tag": "ESSENTIAL QUESTION",
+     "title": "Which holds more, 2 gal 1 qt or 10 qt? How can you be sure?",
+     "col": "#2DB87A",
+     "body": "Two units in one amount. Notice, wonder, then try it your way."
+    }
+   ],
+   "script": "Welcome to Hilltop Dairy!\n\n[ON SCREEN: Dairy board]\n\nLast night the Smudge knocked over the Gallon-Man, the statue at Farmer Hank's dairy. The board right under me has six dairy jobs. Each one puts a piece of him back.\n\n[ON SCREEN: Two cans]\n\nHere's the first puzzle. Hank has two milk cans. Can A holds 2 gallons 1 quart. Can B holds 10 quarts. Which can holds more milk, and by how many quarts?\n\n[ON SCREEN: The big question]\n\nFirst, climb the ladder on your page, so you know how many of each size fill the next one. Then, at the milk can puzzle, look at the two cans before you pour a drop. What do you notice? What do you wonder? Write that down, then try it your own way. Make a guess and hold on to it. On the Learn tab, the Math Crew will show you two ways. See if one matches yours."
+  },
+  "learn": {
+   "label": "Learn · two ways, then fill the cream bottles",
+   "title": "Two Ways",
+   "length": "about 1½ min",
+   "want": true,
+   "where": "Learn, top (before the Math Crew)",
+   "parts": [
+    {
+     "label": "Board: The cans",
+     "kind": "board",
+     "pic": "10-04-learn-cans",
+     "tag": "The two milk cans"
+    },
+    {
+     "label": "Board: Two ways",
+     "kind": "board",
+     "pic": "10-04-learn-twoways",
+     "tag": "Two ways"
+    },
+    {
+     "label": "Live: Fill the Cream Bottles",
+     "kind": "live",
+     "model": "cream",
+     "tag": "On your page",
+     "page": "math-lesson-4-10-04-customary-capacity.html"
+    }
+   ],
+   "script": "Look at the two cans one more time. One has gallons and quarts. One has only quarts. We can't compare them until they're written the same way.\n\n[ON SCREEN: Board: The cans]\n\n[DRAW: point to Can A's row, 2 | 1. Write 10 qt beside the empty row for Can B.]\n\nCan A, 2 gallons 1 quart. Can B, 10 quarts.\n\n[ON SCREEN: Board: Two ways]\n\n[DRAW: fill in Atlas's blanks as you say them, then Felix's.]\n\nAtlas goes up the ladder. He pours Can B into gallon jugs. 4 quarts fill a jug, so 8 quarts fill 2 jugs, and 2 are left. 2 gallons 2 quarts. Felix goes down the ladder. 2 gallons is 2 times 4, 8 quarts, plus 1 is 9. 10 minus 9 is 1. Both ways say Can B, by 1 quart.\n\nPause here. Say out loud which way is more like what you did.\n\n[ON SCREEN: Live: Fill the Cream Bottles]\n\n[DO: tap each of the 3 quart bottles. Type 6 in the box and tap Check. Tap Next. Tap the 6 pint bottles one at a time.]\n\nHank's cream, 3 quarts. Each quart pours into 2 pints: 6 pints. Each pint into 2 cups: 12 cups. Going down, multiply. Going up, group. Now fill the cream bottles on your page."
+  },
+  "do": {
+   "label": "Do · watch me solve (boards)",
+   "title": "Watch Me Solve It",
+   "length": "about 1½ min",
+   "want": true,
+   "where": "Learn, after Hank's Ladder Board",
+   "parts": [
+    {
+     "label": "Board: Problem 1",
+     "kind": "board",
+     "pic": "10-04-do-p1",
+     "tag": "Problem 1"
+    },
+    {
+     "label": "Board: Problem 2",
+     "kind": "board",
+     "pic": "10-04-do-p2",
+     "tag": "Problem 2"
+    },
+    {
+     "label": "Board: Problem 3",
+     "kind": "board",
+     "pic": "10-04-do-p3",
+     "tag": "Problem 3"
+    },
+    {
+     "label": "Board: Spot the mistake",
+     "kind": "board",
+     "pic": "10-04-do-mistake",
+     "tag": "Spot the mistake"
+    }
+   ],
+   "script": "Now watch me solve three. Pause any time.\n\n[ON SCREEN: Board: Problem 1]\n\n[DRAW: write 3 × 2 = 6 under c. Then 6 × 8 = 48 under fl oz.]\n\n3 pints, down to cups. Each pint is 2 cups, so 3 times 2 is 6 cups. Down one more step: each cup is 8 fluid ounces, so 6 times 8 is 48 fluid ounces.\n\n[ON SCREEN: Board: Problem 2]\n\nYour turn first. Pause the video and try this one on paper. Then press play and check.\n\n[DRAW: write 16 and 3 in the bond. Under 16 write 4 gal. Then 19 ÷ 4 gives 4 R 3, so 4 gal 3 qt.]\n\n19 quarts, up to gallons. I group by 4: 16 quarts fill 4 gallons, and 3 quarts are left. Or 19 divided by 4 is 4, remainder 3. 4 gallons 3 quarts.\n\n[ON SCREEN: Board: Problem 3]\n\n[DRAW: under 10 gal write 10 × 4 = 40 qt. Then + 3 qt = 43 qt.]\n\n10 gallons 3 quarts, all in quarts. 10 times 4 is 40, plus 3 is 43 quarts.\n\n[ON SCREEN: Board: Spot the mistake]\n\n[DRAW: circle 48 pt. Write going up: group by 2. 24 ÷ 2 = 12 pt.]\n\nIs this right? Someone multiplied going up the ladder. Pints are bigger than cups, so there are fewer of them. Group by 2: 12 pints. Ask yourself every time: up or down?"
+  },
+  "wrap": {
+   "label": "Wrap · the Gallon-Man stands",
+   "title": "The Gallon-Man Stands",
+   "length": "about 45 s",
+   "want": false,
+   "where": "Show What You Know, after the last game window",
+   "parts": [
+    {
+     "label": "Two ways",
+     "tag": "TODAY",
+     "title": "Down: multiply · Up: group",
+     "col": "#2DB87A",
+     "body": "One step at a time, with that step's number."
+    },
+    {
+     "label": "The plaque",
+     "tag": "YOU PROVED IT",
+     "title": "3 gal 5 qt = 4 gal 1 qt",
+     "col": "#2F5D8A",
+     "body": "4 quarts always fill another gallon."
+    },
+    {
+     "label": "Next time",
+     "tag": "NEXT LESSON",
+     "title": "The Clock Tower",
+     "col": "#6B3FA0",
+     "body": "Time: hours, minutes and seconds."
+    }
+   ],
+   "script": "Look how far you came!\n\n[ON SCREEN: Two ways]\n\nToday you climbed the capacity ladder, from fluid ounces all the way up to gallons. Going down the ladder, you multiply. Going up, you group, and a leftover stays in the smaller unit. And the milk cans? Can B holds more, by 1 quart.\n\n[ON SCREEN: The plaque]\n\nAnd the Smudge's plaque? You poured 5 quarts into a new gallon jug. 4 quarts filled it, and 1 was left. 3 gallons 5 quarts is really 4 gallons 1 quart.\n\n[ON SCREEN: Next time]\n\nThe Gallon-Man stands again. Next time we climb the Clock Tower and work with hours, minutes and seconds. See you there, explorers!"
+  }
+ }
+}
