@@ -34,7 +34,12 @@
     node.addEventListener('keydown', function (e) { var d = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1 }[e.key]; if (d) { e.preventDefault(); fn(d); } });
   }
   /* setup groups we can show and hide */
-  function grp(api, fn) { var n0 = api.setup.children.length; fn(); return [].slice.call(api.setup.children, n0); }
+  function grp(api, fn) {
+    var boxes = [api.setup].concat([].slice.call(api.setup.querySelectorAll('details.om-more'))), n0 = boxes.map(function (b) { return b.children.length; });
+    fn(); var out = [];
+    boxes.forEach(function (b, i) { out = out.concat([].slice.call(b.children, n0[i])); });
+    return out;
+  }
   function showG(nodes, on) { nodes.forEach(function (n) { n.style.display = on ? '' : 'none'; }); }
   /* stacked fraction drawn in svg, centered on x, line at y */
   function sFrac(p, x, y, n, d, fs, fill, cls) {
@@ -80,7 +85,11 @@
       var S = api.S; if (!S.bt) S.bt = [];
       /* an older link with shaded wall tiles opens on the wall */
       if (!S.bt.length && Object.keys(S.sh || {}).some(function (k) { return S.sh[k].length; })) S.bm = 'wall';
+      var SH = { sh: {}, bt: [] };
+      api.quick([['Halves to eighths', Object.assign({ d: [2, 4, 8] }, SH)], ['Thirds and sixths', Object.assign({ d: [3, 6, 12] }, SH)], ['Tenths', Object.assign({ d: [2, 5, 10] }, SH)], ['All rows', Object.assign({ d: [2, 3, 4, 5, 6, 8, 10, 12] }, SH)]]);
       api.seg('How to use the tiles', 'bm', [['build', 'Build with tiles'], ['wall', 'Shade the wall']]);
+      api.button('Clear', function () { S.sh = {}; S.bt = []; api.redraw(); }, '', api.row());
+      var moreBox = api.more();
       api.heading('Tiles to use');
       var wrap = O.el('div', { class: 'om-field' }), g = O.el('div', { class: 'om-seg', role: 'group', 'aria-label': 'Rows to show' });
       for (var dd = 2; dd <= 12; dd++) (function (d) {
@@ -88,12 +97,12 @@
         b.onclick = function () { var i = S.d.indexOf(d); if (i > -1) { if (S.d.length === 1) return; S.d.splice(i, 1); delete S.sh[d]; } else S.d.push(d); S.d.sort(function (a, b) { return a - b; }); b.setAttribute('aria-pressed', S.d.indexOf(d) > -1); api.redraw(); };
         g.appendChild(b);
       })(dd);
-      wrap.appendChild(g); api.setup.appendChild(wrap);
+      wrap.appendChild(g); moreBox.appendChild(wrap);
       api.hint('Each number is a row: 2 means halves, 3 means thirds, and so on.');
       api.seg('Wholes in each row', 'w', [[1, '1'], [2, '2'], [3, '3']], function () { Object.keys(S.sh).forEach(function (d) { S.sh[d] = S.sh[d].filter(function (i) { return i < d * S.w; }); }); });
       api.check('Write the fraction on each tile', 'lab');
       api.check('Show the line-up guide', 'gd');
-      api.button('Clear', function () { S.sh = {}; S.bt = []; api.redraw(); }, '', api.row());
+      api.endMore();
 
       var holder = O.el('div'); api.stage.appendChild(holder);
       var BW = 680, LX = 10, RH = 44, GAP = 7, Y0 = 34, BL = null;
@@ -210,8 +219,12 @@
     mount: function (api) {
       var S = api.S;
       api.say('Drag a slice from the tray into a circle, or drag across a circle to shade it. Drag a slice out to take it away.');
+      function F(c, n) { return { c: c, n: n, ns: [n, n, n, n], per: 0, sh: [[], [], [], []] }; }
+      api.quick([['1 circle, fourths', F(1, 4)], ['3 circles, fourths', F(3, 4)], ['Halves', F(2, 2)], ['Thirds', F(2, 3)], ['Sixths', F(2, 6)], ['Eighths', F(2, 8)]]);
       api.num('How many circles', 'c', 1, 4, 1);
       api.select('Slices in each circle', 'n', [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(function (k) { return [k, k + ' slices']; }), function (v) { S.ns = [v, v, v, v]; trim(); syncSel(); });
+      api.button('Clear shading', function () { S.sh = [[], [], [], []]; api.redraw(); }, '', api.row());
+      api.more();
       api.check('Give each circle its own number of slices', 'per', function (on) { if (!on) { S.ns = [S.n, S.n, S.n, S.n]; trim(); syncSel(); } showG(perG, on); });
       var sels = [];
       var perG = grp(api, function () {
@@ -225,7 +238,7 @@
       showG(perG, S.per);
       function syncSel() { sels.forEach(function (s, i) { s.value = S.ns[i]; }); }
       api.check('Write the fraction on each slice', 'lab');
-      api.button('Clear shading', function () { S.sh = [[], [], [], []]; api.redraw(); }, '', api.row());
+      api.endMore();
       function trim() { S.sh = S.sh.map(function (a, i) { return a.filter(function (k) { return k < S.ns[i]; }); }); }
 
       var holder = O.el('div'); api.stage.appendChild(holder);
@@ -317,7 +330,11 @@
       function sync() { S.sh = bits.map(encBits); }
       load();
       api.say('Tap or drag across the squares to shade them. One whole grid is 1.');
+      var E = ['', '', ''];
+      api.quick([['Tenths', { m: 't', c: 1, sh: E }], ['Hundredths', { m: 'h', c: 1, sh: E }], ['Thousandths', { m: 'th', c: 1, sh: E }], ['2 grids', { m: 'h', c: 2, sh: E }]]);
       api.seg('Grid', 'm', [['t', 'Tenths'], ['h', 'Hundredths'], ['th', 'Thousandths']], function () { S.sh = ['', '', '']; load(); });
+      api.button('Clear shading', function () { S.sh = ['', '', '']; load(); api.redraw(); }, '', api.row());
+      api.more();
       api.num('How many grids', 'c', 1, 3, 1);
       api.heading('Start with a number');
       inputRow(api, 'like 0.35 or 1.4', 'Decimal to shade', function (t) {
@@ -331,7 +348,7 @@
         sync(); api.redraw();
       });
       api.check('Show percent too', 'pct');
-      api.button('Clear shading', function () { S.sh = ['', '', '']; load(); api.redraw(); }, '', api.row());
+      api.endMore();
 
       var holder = O.el('div'); api.stage.appendChild(holder);
       var GS = 300, GAP = 34, M = 8;
@@ -415,10 +432,11 @@
     defaults: { it: [], mode: 'count', pr: 3.65, pd: 5 },
     mount: function (api) {
       var S = api.S;
-      api.seg('What to do', 'mode', [['count', 'Count money'], ['change', 'Make change']], function (m) { showG(chG, m === 'change'); });
-      var chG = grp(api, function () { api.num('Price ($)', 'pr', 0.01, 100, 0.01); api.num('Paid ($)', 'pd', 0.01, 100, 0.01); });
-      showG(chG, S.mode === 'change');
+      api.quick([['Count money', { mode: 'count', it: [] }], ['Make change', { mode: 'change', it: [] }]]);
       api.button('Clear the mat', function () { S.it = []; api.redraw(); }, '', api.row());
+      var chM = api.more('Price and amount paid');
+      api.num('Price ($)', 'pr', 0.01, 100, 0.01); api.num('Paid ($)', 'pd', 0.01, 100, 0.01);
+      api.endMore(); chM.style.display = S.mode === 'change' ? '' : 'none';
 
       var holder = O.el('div'); api.stage.appendChild(holder);
       var mg = guard(), fly = null, L = null; /* L = layout of the last draw */
@@ -500,11 +518,14 @@
       function snap(x) { var s = step(); return Math.round(Math.round(x / s) * s * 1000) / 1000; }
       function place() { var c = rc(); S.a = S.nz ? c.nz : 0; S.b = Math.min(c.max, snap(S.a + S.len)); if (S.b <= S.a) S.b = snap(S.a + step()); }
       api.say('Drag the ribbon or its round ends. Read the length on the ruler.');
-      api.seg('Ruler', 'u', [['cm', 'Centimeters'], ['m', 'Meter stick'], ['in', 'Inches'], ['yd', 'Yard stick']], function (u) { S.len = RU[u].len; lenIn.value = S.len; place(); showG(qG, u === 'in'); });
+      function RQ(u) { return { u: u, len: RU[u].len, a: 0, b: RU[u].len, nz: 0 }; }
+      api.quick([['Centimeters', RQ('cm')], ['Meter stick', RQ('m')], ['Inches', RQ('in')], ['Yard stick', RQ('yd')]]);
+      var lenIn = api.num('Ribbon length (in the ruler’s unit)', 'len', 0.1, 100, 'any', function () { S.len = snap(S.len); place(); });
+      api.more();
       var qG = grp(api, function () { api.seg('Inch marks', 'q', [[2, O.frac(1, 2)], [4, O.frac(1, 4)], [8, O.frac(1, 8)]], function () { S.a = snap(S.a); S.b = snap(S.b); }); });
       showG(qG, S.u === 'in');
-      var lenIn = api.num('Ribbon length (in the ruler’s unit)', 'len', 0.1, 100, 'any', function () { S.len = snap(S.len); place(); });
       api.check('Start the ribbon at a mark that isn’t 0', 'nz', place);
+      api.endMore();
       var holder = O.el('div'); api.stage.appendChild(holder);
       var W = 760, MX = 36, UW = W - 2 * MX;
       function narrow() { var w = api.stage.clientWidth; return w > 0 && w < 560; }
@@ -570,8 +591,10 @@
     mount: function (api) {
       var S = api.S;
       function wMax() { return S.u === 'kg' ? S.mx * 1000 : S.mx * 16; }
-      api.seg('Tool', 'm', [['dial', 'Scale'], ['bal', 'Balance']], function () { vis(); });
+      api.quick([['Kitchen scale', { m: 'dial', u: 'kg', mx: 1, tk: 20, w: 640, off: 0 }], ['Big scale', { m: 'dial', u: 'kg', mx: 5, tk: 100, w: 2400, off: 0 }], ['Pounds', { m: 'dial', u: 'lb', mx: 5, tk: 2, w: 38, off: 0 }], ['Balance', { m: 'bal', L: [] }]]);
       var kgMax, kgTk, lbMax, lbTk, wIn;
+      var bG = grp(api, function () { api.button('Take all weights off', function () { S.L = []; api.redraw(); }, '', api.row()); });
+      api.more();
       var dG = grp(api, function () {
         api.seg('Units', 'u', [['kg', 'kg and g'], ['lb', 'lb and oz']], function (u) {
           if (u === 'kg') { S.mx = 5; S.tk = 100; S.w = 2400; } else { S.mx = 5; S.tk = 2; S.w = 38; }
@@ -588,8 +611,9 @@
         wIn = api.num('Weight on the scale (grams, or ounces for lb)', 'w', 0, 10000, 1, function () { S.w = Math.min(S.w, wMax()); });
       });
       var kG, lG;
-      var bG = grp(api, function () { api.num('Mystery box weight (grams)', 'bw', 1, 5000, 1); api.button('Take all weights off', function () { S.L = []; api.redraw(); }, '', api.row()); });
-      function vis() { showG(dG, S.m === 'dial'); showG(bG, S.m === 'bal'); if (S.m === 'dial') { showG(kG, S.u === 'kg'); showG(lG, S.u === 'lb'); } }
+      var bG2 = grp(api, function () { api.num('Mystery box weight (grams)', 'bw', 1, 5000, 1); });
+      api.endMore();
+      function vis() { showG(dG, S.m === 'dial'); showG(bG.concat(bG2), S.m === 'bal'); if (S.m === 'dial') { showG(kG, S.u === 'kg'); showG(lG, S.u === 'lb'); } }
       vis();
 
       var holder = O.el('div'); api.stage.appendChild(holder);
@@ -704,6 +728,8 @@
     mount: function (api) {
       var S = api.S, mlMx, mlTk, cupTk, qtTk, a0In, a1In;
       api.say('Drag up or down inside a beaker to fill it. To pour, drag the yellow handle over the other beaker.');
+      api.quick([['Milliliters', { u: 'ml', mx: 1000, tk: 100, c: 1, a0: 400, a1: 0 }], ['2 beakers', { u: 'ml', mx: 1000, tk: 100, c: 2, a0: 600, a1: 200 }], ['Cups', { u: 'cup', mx: 4, tk: 0.25, c: 1, a0: 1.5, a1: 0 }], ['Quarts and gallon', { u: 'qt', mx: 4, tk: 1, c: 1, a0: 3, a1: 0 }]]);
+      api.more();
       api.seg('Units', 'u', [['ml', 'Milliliters'], ['cup', 'Cups'], ['qt', 'Gallon jug']], function (u) {
         if (u === 'ml') { S.mx = 1000; S.tk = 100; S.a0 = 400; } else if (u === 'cup') { S.mx = 4; S.tk = 0.25; S.a0 = 1.5; } else { S.mx = 4; S.tk = 1; S.a0 = 3; }
         S.a1 = 0; mlMx.value = S.mx; [mlTk, cupTk, qtTk].forEach(function (s) { s.value = S.tk; }); a0In.value = S.a0; a1In.value = 0;
@@ -719,6 +745,7 @@
       api.num('How many beakers', 'c', 1, 2, 1);
       a0In = api.num('Amount in A', 'a0', 0, 2000, 'any', fit);
       a1In = api.num('Amount in B', 'a1', 0, 2000, 'any', fit);
+      api.endMore();
       function snap(x) { return Math.round(Math.round(x / S.tk) * S.tk * 1000) / 1000; }
       function fit() { S.a0 = O.clamp(snap(S.a0), 0, S.mx); S.a1 = O.clamp(snap(S.a1), 0, S.mx); }
       function amt(x) {
@@ -814,16 +841,19 @@
     mount: function (api) {
       var S = api.S; clearInterval(timerInt); timerInt = null;
       api.say('Drag the long hand or the short hand to set the time.');
+      api.quick([['Tell time', { el: 0, tmr: 0 }], ['Time passed', { el: 1, tmr: 0, st: 540, t: 540 }], ['Timer', { el: 0, tmr: 1 }]]);
       api.heading('Set the clock');
       inputRow(api, 'like 3:45 pm', 'Time to show', function (txt) {
         var m = String(txt).trim().match(/^(\d{1,2}):(\d{2})\s*([ap])?\.?\s*m?\.?$/i); if (!m || +m[1] > 12 || +m[1] < 1 || +m[2] > 59) { O.toast('Type a time like 3:45 pm'); return; }
         var h = +m[1] % 12; if (m[3] && m[3].toLowerCase() === 'p') h += 12; else if (!m[3] && S.t >= 720) h += 12;
         S.t = h * 60 + +m[2]; api.redraw();
       });
+      api.more();
       api.seg('The long hand moves by', 'sn', [[5, '5 minutes'], [1, '1 minute']]);
       api.check('Show the digital time', 'dg');
       api.check('Time passed (start time and end time)', 'el');
       api.check('Show the timer', 'tmr');
+      api.endMore();
 
       var holder = O.el('div'), ctr = O.el('div', { class: 'om-row om-noprint' }), tbox = O.el('div', { class: 'om-noprint' });
       api.stage.appendChild(holder); api.stage.appendChild(ctr); api.stage.appendChild(tbox);

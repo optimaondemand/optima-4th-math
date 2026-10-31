@@ -88,17 +88,20 @@
       function n(e) { return S.c[e] || 0; }
       api.say('Drag discs from the tray onto the mat. Drag a disc to the smaller column to break it, or to the bigger column to trade 10 for 1. Drag it off the mat to take it away.');
 
+      api.quick([['Whole numbers', { hi: 3, lo: 0, c: {} }], ['Big numbers', { hi: 5, lo: 0, c: {} }], ['Decimals', { hi: 0, lo: -2, c: {} }], ['Thousandths', { hi: 0, lo: -3, c: {} }]]);
+      api.button('Clear the mat', function () { S.c = {}; api.redraw(); }, '', api.row());
+      api.hint('Tip: drag a box around 10 discs to pick them up together. Keyboard: Tab to the small + − and Trade buttons under each column.');
+      api.more('More options');
       api.heading('Places on the chart');
       var opts = []; for (var e = 6; e >= -3; e--) opts.push([e, NAME[e][0]]);
       api.select('Biggest place', 'hi', opts.filter(function (o) { return o[0] >= 0; }), function () { if (S.lo > S.hi) S.lo = S.hi; trim(); });
       api.select('Smallest place', 'lo', opts.filter(function (o) { return o[0] <= 0; }), function () { trim(); });
+      api.check('Show place names on the chart', 'cap');
       api.heading('Start with a number');
       var row = api.row(); var inp = O.el('input', { type: 'text', placeholder: 'like 3,405 or 2.75', 'aria-label': 'Number to show', style: 'flex:1;min-width:0;border:2px solid var(--line);border-radius:10px;padding:.35em .55em;min-height:38px' });
       row.appendChild(inp); api.button('Show it', function () { setNumber(inp.value); }, 'primary', row);
       inp.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') setNumber(inp.value); });
-      api.check('Show place names on the chart', 'cap');
-      api.button('Clear the mat', function () { S.c = {}; api.redraw(); }, '', api.row());
-      api.hint('Tip: drag a box around 10 discs to pick them up together. Keyboard: Tab to the small + − and Trade buttons under each column.');
+      api.endMore();
 
       function trim() { Object.keys(S.c).forEach(function (k) { if (+k > S.hi || +k < S.lo) delete S.c[k]; }); }
       function setNumber(t) {

@@ -123,7 +123,7 @@ var OAOM = (function () {
     var hl = $('#om-howlist'); if (hl) hl.innerHTML = (m.how || []).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
     document.body.classList.toggle('hide-nums', S._r === 0);
     var bt = $('#om-nums'); if (bt) bt.setAttribute('aria-pressed', S._r === 0 ? 'true' : 'false');
-    var redrawFn = function () {};
+    var redrawFn = function () {}, into = side;
     var api = {
       S: S, stage: stage, setup: side, board: document.body.classList.contains('board'),
       say: function (t) { sayEl.innerHTML = t || ''; },
@@ -133,34 +133,43 @@ var OAOM = (function () {
       changed: function () { clearTimeout(saveT); saveT = setTimeout(function () { if (!params.get('lesson')) history.replaceState(null, '', '#s=' + enc(cur.S)); else cur.lessonStates[cur.tab] = clone(cur.S); }, 250); },
       onRedraw: function (f) { redrawFn = f; },
       redraw: function () { redrawFn(); api.changed(); },
-      heading: function (t) { side.appendChild(el('h3', null, t)); },
-      hint: function (t) { side.appendChild(el('p', { class: 'om-hint' }, t)); },
+      /* quick(presets): one-tap setups shown at the top of Set up. presets = [[label, {state keys}], ...] */
+      quick: function (presets, label) {
+        var box = el('div', { class: 'om-quick' }, '<h3>' + (label || 'Quick setup') + '</h3>'); var g = el('div', { class: 'om-seg' });
+        presets.forEach(function (p) { var b = el('button', { type: 'button' }, p[0]); b.onclick = function () { var ns = Object.assign(clone(S), clone(p[1])); mount(id, ns); cur.initial = clone(cur.S); if (!params.get('lesson')) history.replaceState(null, '', '#s=' + enc(cur.S)); }; g.appendChild(b); });
+        box.appendChild(g); side.insertBefore(box, side.firstChild); return box;
+      },
+      /* more(label): everything added after this goes in a folded "More options" box until endMore() */
+      more: function (label) { var d = el('details', { class: 'om-more' }, '<summary>' + (label || 'More options') + '</summary>'); side.appendChild(d); into = d; return d; },
+      endMore: function () { into = side; },
+      heading: function (t) { into.appendChild(el('h3', null, t)); },
+      hint: function (t) { into.appendChild(el('p', { class: 'om-hint' }, t)); },
       num: function (label, key, min, max, step, after) {
         var f = el('label', { class: 'om-field' }, '<span>' + label + '</span>'); var i = el('input', { type: 'number', min: min, max: max, step: step || 1, value: S[key] });
         i.addEventListener('change', function () { var v = parseFloat(i.value); if (isNaN(v)) v = S[key]; v = clamp(v, min, max); i.value = v; S[key] = v; if (after) after(v); api.redraw(); });
-        f.appendChild(i); side.appendChild(f); return i;
+        f.appendChild(i); into.appendChild(f); return i;
       },
       text: function (label, key, after, ph) {
         var f = el('label', { class: 'om-field' }, '<span>' + label + '</span>'); var i = el('input', { type: 'text', value: S[key] == null ? '' : S[key], placeholder: ph || '' });
-        i.addEventListener('input', function () { S[key] = i.value; if (after) after(i.value); api.redraw(); }); f.appendChild(i); side.appendChild(f); return i;
+        i.addEventListener('input', function () { S[key] = i.value; if (after) after(i.value); api.redraw(); }); f.appendChild(i); into.appendChild(f); return i;
       },
       select: function (label, key, opts, after) {
         var f = el('label', { class: 'om-field' }, '<span>' + label + '</span>'); var i = el('select');
         opts.forEach(function (o) { var op = el('option', { value: o[0] }, o[1]); if (String(S[key]) === String(o[0])) op.selected = true; i.appendChild(op); });
-        i.addEventListener('change', function () { var v = i.value; S[key] = isNaN(+v) || v === '' ? v : +v; if (after) after(S[key]); api.redraw(); }); f.appendChild(i); side.appendChild(f); return i;
+        i.addEventListener('change', function () { var v = i.value; S[key] = isNaN(+v) || v === '' ? v : +v; if (after) after(S[key]); api.redraw(); }); f.appendChild(i); into.appendChild(f); return i;
       },
       seg: function (label, key, opts, after, parent) {
         var wrap = el('div', { class: 'om-field' }, label ? '<span>' + label + '</span>' : ''); var g = el('div', { class: 'om-seg', role: 'group' });
         function paint() { [].forEach.call(g.children, function (b) { b.setAttribute('aria-pressed', String(b.dataset.v) === String(S[key]) ? 'true' : 'false'); }); }
         opts.forEach(function (o) { var b = el('button', { type: 'button' }, o[1]); b.dataset.v = o[0]; b.addEventListener('click', function () { S[key] = typeof o[0] === 'number' ? o[0] : o[0]; paint(); if (after) after(S[key]); api.redraw(); }); g.appendChild(b); });
-        paint(); wrap.appendChild(g); (parent || side).appendChild(wrap); return { paint: paint, el: wrap };
+        paint(); wrap.appendChild(g); (parent || into).appendChild(wrap); return { paint: paint, el: wrap };
       },
       check: function (label, key, after) {
         var f = el('label', { class: 'om-check' }); var i = el('input', { type: 'checkbox' }); i.checked = !!S[key];
-        i.addEventListener('change', function () { S[key] = i.checked; if (after) after(i.checked); api.redraw(); }); f.appendChild(i); f.appendChild(document.createTextNode(label)); side.appendChild(f); return i;
+        i.addEventListener('change', function () { S[key] = i.checked; if (after) after(i.checked); api.redraw(); }); f.appendChild(i); f.appendChild(document.createTextNode(label)); into.appendChild(f); return i;
       },
-      button: function (label, fn, cls, parent) { var b = el('button', { type: 'button', class: 'om-btn small ' + (cls || '') }, label); b.addEventListener('click', fn); (parent || side).appendChild(b); return b; },
-      row: function (parent) { var r = el('div', { class: 'om-row' }); (parent || side).appendChild(r); return r; }
+      button: function (label, fn, cls, parent) { var b = el('button', { type: 'button', class: 'om-btn small ' + (cls || '') }, label); b.addEventListener('click', fn); (parent || into).appendChild(b); return b; },
+      row: function (parent) { var r = el('div', { class: 'om-row' }); (parent || into).appendChild(r); return r; }
     };
     goalBar();
     def.mount(api);

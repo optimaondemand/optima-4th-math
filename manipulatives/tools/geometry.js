@@ -45,10 +45,12 @@
       var bar = toolbar(api);
       api.seg('', 'col', C.map(function (c, i) { return [i, '<span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:' + c + ';vertical-align:-2px"></span> ' + CN[i]]; }), null, bar);
       api.button('Clear', function () { S.cells = {}; api.redraw(); }, '', bar);
-      api.heading('Grid');
+      api.quick([['Small grid', { cols: 6, rows: 5, cells: {} }], ['Big grid', { cols: 16, rows: 12, cells: {} }], ['Squares are cm', { unit: 'cm' }], ['Squares are m', { unit: 'm' }]]);
+      api.check('Show the outline (perimeter)', 'edge');
+      api.more('More options');
       api.num('Columns (across)', 'cols', 1, 16, 1, trim); api.num('Rows (down)', 'rows', 1, 12, 1, trim);
       api.select('Each square is 1 square…', 'unit', [['', 'unit'], ['cm', 'centimeter'], ['m', 'meter'], ['in', 'inch'], ['ft', 'foot']]);
-      api.check('Show the outline (perimeter)', 'edge');
+      api.endMore();
       function trim() { Object.keys(S.cells).forEach(function (k) { var a = k.split('_'); if (+a[0] >= S.cols || +a[1] >= S.rows) delete S.cells[k]; }); }
       var v = holder(api, 100, 100, 'Grid of square tiles');
       function has(x, y) { return S.cells[x + '_' + y] != null; }
@@ -112,9 +114,11 @@
       api.button('Undo pin', function () { var b = S.bands[S.cur]; if (b) { b.p.pop(); if (!b.p.length) { S.bands.splice(S.cur, 1); S.cur = -1; } } else if (S.bands.length) { S.bands.pop(); S.sel = -1; } api.redraw(); }, '', bar);
       api.button('Remove band', function () { var i = S.sel >= 0 ? S.sel : S.bands.length - 1; if (i < 0) return; S.bands.splice(i, 1); S.sel = -1; S.cur = -1; api.redraw(); }, '', bar);
       api.button('Clear', function () { S.bands = []; S.sel = -1; S.cur = -1; api.redraw(); }, '', bar);
+      api.quick([['5 by 5', { n: 5, bands: [], sel: -1, cur: -1, mirror: 'none' }], ['11 by 11', { n: 11, bands: [], sel: -1, cur: -1, mirror: 'none' }], ['Symmetry', { mirror: 'v' }]]);
+      api.more('More options');
       api.select('Board size', 'n', [[5, '5 by 5 pins'], [11, '11 by 11 pins']], function () { S.bands = []; S.sel = S.cur = -1; });
-      api.heading('Symmetry');
       api.select('Mirror line', 'mirror', [['none', 'None'], ['v', 'Up and down'], ['h', 'Across'], ['d', 'Slanted']]);
+      api.endMore();
       api.button('Reflect my shape', function () {
         if (S.mirror === 'none') { O.toast('Pick a mirror line first.'); return; }
         var i = S.sel >= 0 ? S.sel : S.bands.length - 1, b = S.bands[i]; if (!b) { O.toast('Make a shape first.'); return; }
@@ -216,7 +220,7 @@
       api.seg('', 'w', [[2, 'Thin'], [4, 'Medium'], [8, 'Thick']], null, bar);
       api.button('↶ Undo', function () { S.st.pop(); api.redraw(); }, '', bar);
       api.button('Clear', function () { S.st = []; api.redraw(); }, '', bar);
-      api.select('Paper', 'bg', [['grid', 'Centimeter grid'], ['dot', 'Dot paper'], ['lined', 'Lined paper'], ['blank', 'Blank']]);
+      api.quick([['Grid', { bg: 'grid' }], ['Dots', { bg: 'dot' }], ['Lines', { bg: 'lined' }], ['Blank', { bg: 'blank' }]], 'Paper');
       var v = holder(api, W, H, 'Whiteboard'); v.style.touchAction = 'none';
       var ink;
       function path(p) { var d = 'M' + p[0] + ' ' + p[1]; for (var i = 2; i < p.length; i += 2) d += 'L' + p[i] + ' ' + p[i + 1]; if (p.length === 2) d += 'l0.1 0'; return d; }
@@ -282,8 +286,10 @@
       var bar = toolbar(api);
       api.button('↺', function () { turn(-45); }, '', bar).title = 'Turn left (keyboard)'; api.button('↻', function () { turn(45); }, '', bar).title = 'Turn right (keyboard)'; api.button('⇋ Flip', function () { var q = S.pc[S.sel]; if (!q) return pick(); q[3] = q[3] ? 0 : 1; api.redraw(); }, '', bar);
       api.button('Mix up', function () { S.pc = O.clone(TDEF); S.sel = -1; api.redraw(); }, '', bar);
-      api.select('Puzzle', 'pz', Object.keys(PUZ).map(function (k) { return [k, PUZ[k].n]; }));
+      api.quick(Object.keys(PUZ).filter(function (k) { return k !== 'free'; }).map(function (k) { return [PUZ[k].n, { pz: k, pc: O.clone(TDEF), sel: -1, sol: false }]; }).concat([['Free play', { pz: 'free', pc: O.clone(TDEF), sel: -1, sol: false }]]), 'Puzzle');
+      api.more('More options');
       api.check('Show the answer', 'sol');
+      api.endMore();
       function pick() { O.toast('Tap a piece first.'); }
       function turn(d) { var q = S.pc[S.sel]; if (!q) return pick(); q[2] = (q[2] + d + 360) % 360; api.redraw(); }
       var v = holder(api, W, H, 'Tangram pieces and puzzle');
@@ -351,8 +357,11 @@
       api.button('↺', function () { turn(-30); }, '', bar).title = 'Turn left (keyboard)'; api.button('↻', function () { turn(30); }, '', bar).title = 'Turn right (keyboard)';
       api.button('Remove', function () { if (S.sel < 0) return O.toast('Tap a block first.'); S.b.splice(S.sel, 1); S.sel = -1; api.redraw(); }, '', bar);
       api.button('Clear', function () { S.b = []; S.sel = -1; api.redraw(); }, '', bar);
+      api.quick([['Free build', { b: [], sel: -1, frac: false, mirror: 'none' }], ['Fractions (hexagon = 1)', { b: [], sel: -1, frac: true, mirror: 'none' }], ['Symmetry', { b: [], sel: -1, frac: false, mirror: 'v' }]]);
+      api.more('More options');
       api.select('Mirror line', 'mirror', [['none', 'None'], ['v', 'Up and down'], ['h', 'Across']]);
       api.check('Fractions: the hexagon is 1 whole', 'frac');
+      api.endMore();
       function turn(d) { var q = S.b[S.sel]; if (!q) return O.toast('Tap a block first.'); q[3] = (q[3] + d + 360) % 360; api.redraw(); }
       var v = holder(api, W, H, 'Pattern block mat');
       function handle(cx, cy, pts, rot) { var md = 0; pts.forEach(function (p) { md = Math.max(md, Math.hypot(p[0] - cx, p[1] - cy)); }); var a = (rot - 90) * RAD, hx = cx + (md + 24) * Math.cos(a), hy = cy + (md + 24) * Math.sin(a);
@@ -409,13 +418,17 @@
     defaults: { base: 0, a: 50, three: false, c: 110, full: false, show: true, target: '', place: false, px: 0, py: 0, pr: 0 },
     mount: function (api) {
       var S = api.S;
+      var PR0 = { place: false, px: 0, py: 0, pr: 0, base: 0 };
+      api.quick([['Half circle', Object.assign({ full: false, three: false, a: 50 }, PR0)], ['Full circle (reflex)', Object.assign({ full: true, three: false, a: 250 }, PR0)],
+        ['Add two angles', Object.assign({ full: false, three: true, a: 40, c: 115 }, PR0)], ['Place it yourself', { full: false, three: false, base: 0, place: true, px: -150, py: -70, pr: 25 }]]);
+      api.text('Ask students to make this angle', 'target', null, 'like 135');
+      api.more('More options');
       api.num('Turn the bottom arm (degrees)', 'base', 0, 359, 1);
       api.check('Circle protractor (for reflex angles)', 'full', function () { clampAll(); });
       api.check('Add a third arm (add two angles)', 'three', function () { clampAll(); });
       api.check('Show the protractor', 'show');
       api.check('Place the protractor yourself (practice lining it up)', 'place', function (on) { if (on) { S.px = -150; S.py = -70; S.pr = (S.base + 25) % 360; } else { S.px = S.py = 0; S.pr = S.base; } });
-      api.heading('Challenge');
-      api.text('Ask students to make this angle', 'target', null, 'like 135');
+      api.endMore();
       var v = holder(api, 640, 370, 'Protractor');
       var cx, cy, R;
       function lim() { return S.full ? 359 : 180; }
@@ -493,6 +506,7 @@
       api.button('↺ Turn', function () { turn(-15); }, '', bar); api.button('↻ Turn', function () { turn(15); }, '', bar);
       api.button('↶ Undo', function () { S.lines.pop(); api.redraw(); }, '', bar); api.button('Clear lines', function () { S.lines = []; api.redraw(); }, '', bar);
       api.select('Turn this tool', 'sel', [['ru', 'Ruler'], ['s45', 'Set square (45°)'], ['s30', 'Set square (30° and 60°)']]);
+      api.more('Tip');
       api.hint('Slide one set square along the ruler to draw lines that never meet (parallel). Use the square corner for lines that cross at a right angle (perpendicular).');
       function turn(d) { var q = S.t[S.sel]; q[2] = (q[2] + d + 360) % 360; api.redraw(); }
       var v = holder(api, W, H, 'Ruler and set squares for drawing lines');
@@ -552,7 +566,9 @@
       api.button('Draw it for me', swing, '', bar);
       api.button('↶ Undo', function () { S.circ.pop(); api.redraw(); }, '', bar); api.button('Clear', function () { S.circ = []; api.redraw(); }, '', bar);
       var rIn = api.num('Radius (cm)', 'r', 0.5, 8, 0.5);
+      api.more('More options');
       api.check('Show radius and diameter', 'lines');
+      api.endMore();
       var v = holder(api, W, H, 'Centimeter grid with a compass');
       function X(c) { return M + c * CM; }
       function pen() { return [S.cx + S.r * Math.cos(S.a * RAD), S.cy - S.r * Math.sin(S.a * RAD)]; }
@@ -619,11 +635,16 @@
       api.button('⟲ Turn', function () { S.rot = (S.rot + 3) % 4; api.redraw(); }, '', bar); api.button('⟳ Turn', function () { S.rot = (S.rot + 1) % 4; api.redraw(); }, '', bar);
       api.button('Clear', function () { S.h = {}; api.redraw(); }, '', bar);
       api.select('Base size', 'n', [3, 4, 5, 6, 7, 8].map(function (k) { return [k, k + ' by ' + k]; }), function () { Object.keys(S.h).forEach(function (k) { var q = k.split('_'); if (+q[0] >= S.n || +q[1] >= S.n) delete S.h[k]; }); });
-      api.check('Pull the layers apart', 'lay');
-      api.check('Cubes are 1 cm (cubic centimeters)', 'cm');
+      api.quick([['5 by 5 base', { n: 5, h: {}, box: 0 }], ['8 by 8 base', { n: 8, h: {}, box: 0 }], ['Build a box', { box: 1 }]]);
+      var mark = api.setup.children.length;
       api.heading('Build a box');
       api.num('Length', 'L', 1, 8, 1); api.num('Width', 'W', 1, 8, 1); api.num('Height', 'H', 1, 8, 1);
       api.button('Build it', function () { if (S.L > S.n || S.W > S.n) S.n = Math.max(S.L, S.W); var sel = api.setup.querySelector('select'); if (sel) sel.value = S.n; S.h = {}; for (var x = 0; x < S.L; x++) for (var y = 0; y < S.W; y++) S.h[x + '_' + y] = S.H; api.redraw(); }, 'primary', api.row());
+      var boxWrap = O.el('div'); boxWrap.hidden = !S.box; [].slice.call(api.setup.children, mark).forEach(function (n) { boxWrap.appendChild(n); }); api.setup.appendChild(boxWrap);
+      api.more('More options');
+      api.check('Pull the layers apart', 'lay');
+      api.check('Cubes are 1 cm (cubic centimeters)', 'cm');
+      api.endMore();
       var v = holder(api, 400, 400, 'Unit cubes');
       function view(x, y) { var n = S.n - 1; return [[x, y], [n - y, x], [n - x, n - y], [y, n - x]][S.rot]; }
       function shade(hex, f) { var c = parseInt(hex.slice(1), 16), r = c >> 16, g = (c >> 8) & 255, bl = c & 255; function m(v) { return Math.round(f > 1 ? v + (255 - v) * (f - 1) : v * f); } return 'rgb(' + m(r) + ',' + m(g) + ',' + m(bl) + ')'; }

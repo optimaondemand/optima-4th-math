@@ -34,7 +34,7 @@
   function disc(v, x, y, r, fill, label) {
     var g = O.s('g', {}, v);
     O.s('circle', { cx: x, cy: y, r: r, fill: fill, stroke: '#fff', 'stroke-width': 2 }, g);
-    O.s('text', { x: x, y: y + 4.5, 'text-anchor': 'middle', fill: '#fff', 'font-size': label.length > 6 ? 9.5 : label.length > 4 ? 11 : 12.5, text: label, style: 'pointer-events:none' }, g);
+    O.s('text', { x: x, y: y + 4.5, 'text-anchor': 'middle', fill: '#fff', 'font-size': Math.min(label.length > 6 ? 9.5 : label.length > 4 ? 11 : 12.5, r * (label.length > 4 ? 0.58 : 0.8)), text: label, style: 'pointer-events:none' }, g);
     return g;
   }
   function fly(node, dx, dy, fade) { if (!node) return; if (O.reduce) { if (fade) node.remove(); else node.removeAttribute('transform'); return; } node._tx = dx; node._ty = dy; node.setAttribute('transform', 'translate(' + dx + ' ' + dy + ')');
@@ -61,15 +61,21 @@
       function norm(t) { var r = U().rate; return amt(Math.floor(t / r), t % r); }
       function reset() { S.b = +S.b0 || 0; S.sp = split(+S.s0 || 0); S.zb = 0; S.zp = SZ().map(function () { return 0; }); }
 
-      api.heading('Units');
-      api.select('Big and small unit', 'u', [['ftin', 'feet and inches (12)'], ['ydft', 'yards and feet (3)'], ['lboz', 'pounds and ounces (16)'], ['galqt', 'gallons and quarts (4)'], ['mcm', 'meters and centimeters (100)'], ['kmm', 'kilometers and meters (1,000)'], ['lml', 'liters and milliliters (1,000)'], ['kgg', 'kilograms and grams (1,000)'], ['hmin', 'hours and minutes (60)'], ['custom', 'my own units']], function () { reset(); });
-      var cBig = api.text('Big unit name', 'big', null, 'like ft'), cSm = api.text('Small unit name', 'small', null, 'like in'), cRate = api.num('Small units in 1 big unit', 'rate', 2, 1000, 1, function () { reset(); });
+      var EMPTY = { b0: 0, s0: 0, b: 0, sp: null, zb: 0, zp: null, take: 0 };
+      function Q(u) { return Object.assign({ u: u }, EMPTY); }
+      api.quick([['ft and in', Q('ftin')], ['yd and ft', Q('ydft')], ['lb and oz', Q('lboz')], ['gal and qt', Q('galqt')], ['m and cm', Q('mcm')], ['h and min', Q('hmin')]], 'Units');
       var hint60 = O.el('p', { class: 'om-hint' }, '60 minutes is a lot of discs. Keep the amounts small.'); api.setup.appendChild(hint60);
+      api.button('Clear the mat', function () { S.b0 = 0; S.s0 = 0; S.take = 0; reset(); api.redraw(); }, '', api.row());
+      api.more('More options');
       api.heading('Start with');
       api.num('Big units', 'b0', 0, 20, 1, reset); api.num('Small units', 's0', 0, 999, 1, reset);
       api.check('Take some away (subtract)', 'take', function () { S.zb = 0; S.zp = SZ().map(function () { return 0; }); });
       var tbI = api.num('Take away: big units', 'tb', 0, 20, 1), tsI = api.num('Take away: small units', 'ts', 0, 999, 1);
       api.button('Put everything back', function () { reset(); api.redraw(); }, '', api.row());
+      api.heading('Other units');
+      api.select('Big and small unit', 'u', [['ftin', 'feet and inches (12)'], ['ydft', 'yards and feet (3)'], ['lboz', 'pounds and ounces (16)'], ['galqt', 'gallons and quarts (4)'], ['mcm', 'meters and centimeters (100)'], ['kmm', 'kilometers and meters (1,000)'], ['lml', 'liters and milliliters (1,000)'], ['kgg', 'kilograms and grams (1,000)'], ['hmin', 'hours and minutes (60)'], ['custom', 'my own units']], function () { reset(); });
+      var cBig = api.text('Big unit name', 'big', null, 'like ft'), cSm = api.text('Small unit name', 'small', null, 'like in'), cRate = api.num('Small units in 1 big unit', 'rate', 2, 1000, 1, function () { reset(); });
+      api.endMore();
 
       var holder = O.el('div'); api.stage.appendChild(holder);
       var sent = O.el('div', { style: 'margin-top:.6rem;font-weight:800;font-size:1.2rem;color:#0E1C42;min-height:1.6em', 'aria-live': 'polite' }); api.stage.appendChild(sent);
@@ -216,6 +222,14 @@
     defaults: { mode: 'fill', unit: 'in', whole: 12, wl: '1 ft', piece: 1, pl: '', p2: 0, p2l: '', hide: 0, pa: [], pb: [], a: 77, al: '6 ft 5 in', b: 79, bl: '79 in', act: 0 },
     mount: function (api) {
       var S = api.S;
+      var BCLR = { pa: [], pb: [], act: 0 };
+      api.quick([['Inches in a foot', Object.assign({ mode: 'fill', unit: 'in', whole: 12, wl: '1 ft', piece: 1, pl: '', p2: 0, p2l: '', hide: 1 }, BCLR)],
+        ['Feet in a yard', Object.assign({ mode: 'fill', unit: 'ft', whole: 3, wl: '1 yd', piece: 1, pl: '', p2: 0, p2l: '', hide: 1 }, BCLR)],
+        ['Fourths of a whole', Object.assign({ mode: 'fill', unit: '', whole: 1, wl: '1 whole', piece: 0.25, pl: '1/4', p2: 0, p2l: '', hide: 0 }, BCLR)],
+        ['Compare two lengths', Object.assign({ mode: 'compare', unit: 'in', piece: 1, pl: '', p2: 12, p2l: '1 ft', a: 77, al: '6 ft 5 in', b: 79, bl: '79 in', hide: 1 }, BCLR)]]);
+      api.check('Hide the answer (no scale numbers, no total) until the bars are built', 'hide');
+      api.button('Clear the pieces', function () { S.pa = []; S.pb = []; api.redraw(); }, '', api.row());
+      api.more('More options');
       api.seg('What to do', 'mode', [['fill', 'Fill one bar'], ['compare', 'Compare two amounts']], function () { S.pa = []; S.pb = []; S.act = 0; });
       api.heading('Pieces');
       api.num('Small piece size', 'piece', 0.05, 1000, 0.05, function () { S.pa = []; S.pb = []; });
@@ -229,8 +243,7 @@
       api.heading('Compare two amounts');
       var aI = api.num('Amount 1 (in small units)', 'a', 1, 1000, 1, function () { S.pa = []; }), alI = api.text('Amount 1 as written', 'al');
       var bI = api.num('Amount 2 (in small units)', 'b', 1, 1000, 1, function () { S.pb = []; }), blI = api.text('Amount 2 as written', 'bl');
-      api.check('Hide the answer (no scale numbers, no total) until the bars are built', 'hide');
-      api.button('Clear the pieces', function () { S.pa = []; S.pb = []; api.redraw(); }, '', api.row());
+      api.endMore();
       var holder = O.el('div'); api.stage.appendChild(holder);
       var sent = O.el('div', { style: 'margin-top:.6rem;font-weight:800;font-size:1.2rem;color:#0E1C42;min-height:1.6em', 'aria-live': 'polite' }); api.stage.appendChild(sent);
       var pending = null;

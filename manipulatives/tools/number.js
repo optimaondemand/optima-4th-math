@@ -239,12 +239,14 @@
       function busy() { return busyF; }
       function n(e) { return S.c[e] || 0; }
       api.say('Drag blocks from the tray onto the mat. Drag a block to the smaller column to break it, or to the bigger column to group 10 into 1. Drag it off the mat to take it away.');
+      api.button('Clear the mat', function () { S.c = {}; api.redraw(); }, '', api.row());
+      api.hint('Tip: drag a box around 10 blocks to pick them up together. Keyboard: Tab to the small + − and Group buttons.');
+      api.more('More options');
       api.heading('Start with a number');
       var row = api.row(); var inp = O.el('input', { type: 'text', placeholder: 'like 1,234', 'aria-label': 'Number to show', style: 'flex:1;min-width:0;border:2px solid var(--line);border-radius:10px;padding:.35em .55em;min-height:38px' });
       row.appendChild(inp); api.button('Show it', function () { setN(inp.value); }, 'primary', row);
       inp.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') setN(inp.value); });
-      api.button('Clear the mat', function () { S.c = {}; api.redraw(); }, '', api.row());
-      api.hint('Tip: drag a box around 10 blocks to pick them up together. Keyboard: Tab to the small + − and Group buttons.');
+      api.endMore();
       var sel = null;
       function mark(list) { (sel ? sel.nodes : []).forEach(function (g) { g.style.filter = ''; }); sel = null; if (!list.length) return;
         var e = +list[0].getAttribute('data-e'); list = list.filter(function (g) { return +g.getAttribute('data-e') === e; });
@@ -376,8 +378,10 @@
       var S = api.S;
       api.say('Tap a circle and type a number. Use ? for the number you need to find.');
       api.seg('Parts', 'parts', [[2, '2'], [3, '3'], [4, '4']]);
-      api.seg('Whole goes', 'dir', [['top', 'On top'], ['left', 'On the left']]);
       api.button('Clear all circles', function () { S.w = ''; S.p = ['', '', '', '']; api.redraw(); }, '', api.row());
+      api.more('More options');
+      api.seg('Whole goes', 'dir', [['top', 'On top'], ['left', 'On the left']]);
+      api.endMore();
       var holder = O.el('div', { style: 'position:relative;max-width:560px;margin:0 auto' }); api.stage.appendChild(holder);
       var W = 520, H = 300, inputs = [];
       function geo() {
@@ -423,127 +427,262 @@
 
   /* ============ BAR MODEL ============ */
   var BAR_FILL = ['#FFFFFF', '#DCCFF7', '#CDEBDB', '#FFE9A8'];
+  var BAR_SWATCH = ['#FFFFFF', '#B9A3EE', '#9FD8B9', '#FFD66B'];
+  function bp(l, c, k) { var o = { v: '', l: l || '', c: c || 0 }; if (k) o.k = k; return o; }
   var BAR_START = {
-    pw: { bars: [{ n: '', t: '240', tp: 'above', p: [{ v: '85', l: '85', c: 1 }, { v: '', l: '?', c: 0 }] }], cmp: { on: 0, a: 0, b: 1, l: '' } },
-    cmp: { bars: [{ n: 'Ali', t: '', tp: 'above', p: [{ v: '', l: '', c: 0 }, { v: '', l: '', c: 0 }, { v: '', l: '', c: 0 }] }, { n: 'Ben', t: '?', tp: 'below', p: [{ v: '', l: '', c: 0 }, { v: '', l: '', c: 0 }, { v: '', l: '', c: 0 }, { v: '', l: '', c: 0 }, { v: '', l: '', c: 0 }] }], cmp: { on: 1, a: 0, b: 1, l: '24' } },
-    frac: { bars: [{ n: '', t: '40', tp: 'above', p: [{ v: '', l: '', c: 2 }, { v: '', l: '', c: 2 }, { v: '', l: '', c: 2 }, { v: '', l: '', c: 0 }, { v: '', l: '', c: 0 }] }], cmp: { on: 0, a: 0, b: 1, l: '' } },
-    blank: { bars: [{ n: '', t: '', tp: 'above', p: [{ v: '', l: '', c: 0 }] }], cmp: { on: 0, a: 0, b: 1, l: '' } }
+    pw: { bars: [{ n: '', t: '?', tp: 'above', p: [bp('?', 1), bp('?', 2)] }], cmp: { on: 0, a: 0, b: 1, l: '' } },
+    cmp: { bars: [{ n: '', t: '', tp: 'above', p: [bp('?', 1)] }, { n: '', t: '', tp: 'below', p: [bp('', 2), bp('?', 0, 0.6)] }], cmp: { on: 1, a: 0, b: 1, l: '?' } },
+    eq: { bars: [{ n: '', t: '?', tp: 'above', eq: 1, p: [bp('?', 1), bp(), bp(), bp()] }], cmp: { on: 0, a: 0, b: 1, l: '' } },
+    blank: { bars: [{ n: '', t: '', tp: 'above', p: [bp()] }], cmp: { on: 0, a: 0, b: 1, l: '' } }
   };
   O.register('bar', {
-    defaults: O.clone(BAR_START.blank || BAR_START.pw),
+    defaults: { bars: [], cmp: { on: 0, a: 0, b: 1, l: '' } },
     mount: function (api) {
       var S = api.S;
-      api.say('Draw the story with bars. Drag the edge of a piece with no number to make it longer or shorter. Tap a piece to color it.');
-      var box2 = O.el('div'); api.setup.appendChild(box2);
-      var holder = O.el('div'); api.stage.appendChild(holder);
+      if (!S.cmp) S.cmp = { on: 0, a: 0, b: 1, l: '' };
+      api.quick([['Parts and whole', BAR_START.pw], ['Compare', BAR_START.cmp], ['Equal units', BAR_START.eq], ['Blank', BAR_START.blank]], 'Start a bar model');
+      var moreBox = O.el('div'); api.more('More options').appendChild(moreBox); api.endMore();
+      var wrap = O.el('div', { style: 'position:relative' }); api.stage.appendChild(wrap);
+      var holder = O.el('div'); wrap.appendChild(holder);
+      var note = O.el('p', { style: 'color:#C0392B;font-weight:800;margin:.3rem 0 0;min-height:0' }); wrap.appendChild(note);
+      var ctrl = O.el('div', { class: 'om-row', style: 'margin:.4rem 0 0' }); wrap.appendChild(ctrl);
+      var pop = O.el('div', { class: 'bm-pop', hidden: '' }); wrap.appendChild(pop);
+      var css = O.el('style', null, '.bm-pop{position:absolute;z-index:5;background:#fff;border:2px solid #6B46C1;border-radius:12px;box-shadow:0 6px 20px rgba(14,28,66,.25);padding:.45rem;display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;width:max-content;max-width:min(92vw,330px)}' +
+        '.bm-pop[hidden]{display:none}.bm-pop input{width:8.5em;font-size:1.15rem;font-weight:800;border:2px solid #D9DEEA;border-radius:8px;padding:.25em .4em;text-align:center}.bm-pop input:focus{outline:none;border-color:#6B46C1}' +
+        '.bm-pop button{min-height:38px;min-width:38px;border:2px solid #D9DEEA;background:#fff;border-radius:9px;font-weight:800;cursor:pointer}.bm-pop .sw{width:26px;min-width:26px;height:26px;min-height:26px;border-radius:50%;padding:0}' +
+        '.bm-pop button.ok{background:#6B46C1;border-color:#6B46C1;color:#fff}.bm-pick{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.8rem}' +
+        '.bm-pick button{display:flex;flex-direction:column;align-items:center;gap:.4rem;border:3px solid #D9DEEA;background:#fff;border-radius:16px;padding:1rem .6rem .8rem;cursor:pointer;font:inherit;font-weight:800;font-size:1.1rem;color:#0E1C42}' +
+        '.bm-pick button:hover,.bm-pick button:focus-visible{border-color:#6B46C1;background:#F7F4FE}.bm-pick svg{width:100%;max-width:280px;height:auto}.bm-blank{background:none;border:0;color:#6B46C1;font-weight:800;text-decoration:underline;cursor:pointer;margin-top:.7rem;font:inherit}');
+      wrap.appendChild(css);
       var isNarrow = narrowWatch(holder, function () { draw(); });
-      function field(par, label, val, on, w) { var f = O.el('label', { class: 'om-field', style: w ? 'flex:' + w + ';margin:0' : '' }, '<span>' + label + '</span>'); var i = O.el('input', { type: 'text', value: val || '' }); i.addEventListener('input', function () { on(i.value); draw(); api.changed(); }); f.appendChild(i); par.appendChild(f); return i; }
-      function sbtn(par, t, fn, cls) { var b = O.el('button', { type: 'button', class: 'om-btn small ' + (cls || '') }, t); b.onclick = function () { fn(); build(); api.redraw(); }; par.appendChild(b); return b; }
-      function build() {
-        box2.innerHTML = '';
-        box2.appendChild(O.el('h3', null, 'Start from'));
-        var r0 = O.el('div', { class: 'om-row', style: 'margin:0 0 .4rem' }); box2.appendChild(r0);
-        [['pw', 'Part-whole'], ['cmp', 'Compare'], ['frac', 'Fraction of'], ['blank', 'Blank']].forEach(function (o) { sbtn(r0, o[1], function () { var k = O.clone(BAR_START[o[0]]); S.bars = k.bars; S.cmp = k.cmp; }); });
-        S.bars.forEach(function (b, bi) {
-          box2.appendChild(O.el('h3', null, 'Bar ' + (bi + 1)));
-          var r = O.el('div', { style: 'display:flex;gap:.4rem' }); box2.appendChild(r);
-          field(r, 'Name', b.n, function (v) { b.n = v; }, 1); field(r, 'Total label', b.t, function (v) { b.t = v; }, 1);
-          var r2 = O.el('div', { class: 'om-seg', style: 'margin:.1rem 0 .5rem' }); box2.appendChild(r2);
-          [['above', 'Total above'], ['below', 'Total below']].forEach(function (o) { var bb = O.el('button', { type: 'button', 'aria-pressed': b.tp === o[0] ? 'true' : 'false' }, o[1]); bb.onclick = function () { b.tp = o[0]; build(); api.redraw(); }; r2.appendChild(bb); });
-          b.p.forEach(function (p, pi) {
-            var pr = O.el('div', { style: 'display:flex;gap:.3rem;align-items:flex-end;margin-bottom:.3rem' }); box2.appendChild(pr);
-            field(pr, 'Piece ' + (pi + 1) + ' size', p.v, function (v) { p.v = v; }, 1);
-            field(pr, 'Label', p.l, function (v) { p.l = v; }, 1);
-            var x = O.el('button', { type: 'button', class: 'om-btn small', 'aria-label': 'Remove piece', style: 'min-height:38px' }, '×'); x.onclick = function () { b.p.splice(pi, 1); if (!b.p.length) b.p.push({ v: '', l: '', c: 0 }); build(); api.redraw(); }; pr.appendChild(x);
-          });
-          var r3 = O.el('div', { class: 'om-row', style: 'margin:.2rem 0 .3rem' }); box2.appendChild(r3);
-          sbtn(r3, '+ Piece', function () { if (b.p.length < 12) b.p.push({ v: '', l: '', c: 0 }); });
-          var ni = O.el('input', { type: 'number', min: 1, max: 12, value: b.p.length, 'aria-label': 'Number of equal units', style: 'width:4.2em;border:2px solid var(--line);border-radius:10px;min-height:32px;padding:0 .3em' }); r3.appendChild(ni);
-          sbtn(r3, 'equal units', function () { var k = O.clamp(parseInt(ni.value, 10) || 1, 1, 12); b.p = []; for (var i = 0; i < k; i++) b.p.push({ v: '', l: '', c: 0 }); });
-          if (S.bars.length > 1) sbtn(r3, 'Remove bar', function () { S.bars.splice(bi, 1); });
-        });
-        var r4 = O.el('div', { class: 'om-row', style: 'margin:.6rem 0' }); box2.appendChild(r4);
-        if (S.bars.length < 4) sbtn(r4, '+ Add a bar', function () { S.bars.push({ n: '', t: '', tp: 'below', p: [{ v: '', l: '', c: 0 }] }); }, 'primary');
-        if (S.bars.length > 1) {
-          box2.appendChild(O.el('h3', null, 'Difference'));
-          var ck = O.el('label', { class: 'om-check' }); var cb = O.el('input', { type: 'checkbox' }); cb.checked = !!S.cmp.on; cb.onchange = function () { S.cmp.on = cb.checked ? 1 : 0; api.redraw(); }; ck.appendChild(cb); ck.appendChild(document.createTextNode('Show the difference between two bars')); box2.appendChild(ck);
-          var rr = O.el('div', { style: 'display:flex;gap:.4rem' }); box2.appendChild(rr);
-          ['a', 'b'].forEach(function (k, ix) { var f = O.el('label', { class: 'om-field', style: 'flex:1' }, '<span>' + (ix ? 'and bar' : 'Between bar') + '</span>'); var sel = O.el('select'); S.bars.forEach(function (b, i) { var op = O.el('option', { value: i }, String(i + 1)); if (S.cmp[k] === i) op.selected = true; sel.appendChild(op); }); sel.onchange = function () { S.cmp[k] = +sel.value; api.redraw(); }; f.appendChild(sel); rr.appendChild(f); });
-          field(box2, 'Difference label', S.cmp.l, function (v) { S.cmp.l = v; });
-          if (S.cmp.o) sbtn(box2, 'Line the brace up with the bars again', function () { delete S.cmp.o; });
-        }
+      var lastW = 0, rzT; window.addEventListener('resize', function () { clearTimeout(rzT); rzT = setTimeout(function () { if (document.body.contains(holder) && Math.abs(holder.clientWidth - lastW) > 8) draw(); }, 150); });
+      var edit = null; /* {k:'p'|'t'|'n'|'d', b, i} */
+      function start(key) { var k = O.clone(BAR_START[key]); S.bars = k.bars; S.cmp = k.cmp; closePop(); api.redraw(); }
+      function isN(t) { var v = num(t); return !isNaN(v) && v > 0; }
+      function lab(p) { return p.l || (isN(p.v) ? nice(num(p.v)) : ''); }
+
+      /* ----- start picker (drawn on the stage) ----- */
+      function picker() {
+        api.say('Pick a bar model to start. Then tap the pieces to type what you know.');
+        var g = O.el('div', { class: 'bm-pick' }); holder.appendChild(g);
+        function pic(svg, txt, key) { var b = O.el('button', { type: 'button', 'aria-label': 'Start with ' + txt }, svg + '<span>' + txt + '</span>'); b.onclick = function () { start(key); }; g.appendChild(b); }
+        var R = function (x, w, y, f, t) { return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="26" fill="' + f + '" stroke="#0E1C42" stroke-width="2.5"/>' + (t ? '<text x="' + (x + w / 2) + '" y="' + (y + 18) + '" text-anchor="middle" font-size="15" font-weight="800" fill="#0E1C42">' + t + '</text>' : ''); };
+        var BR = function (x1, x2, y, up, t) { var d = up ? -1 : 1, m = (x1 + x2) / 2; return '<path d="M' + x1 + ',' + y + ' q0,' + 6 * d + ' 8,' + 6 * d + ' H' + (m - 6) + ' q6,0 6,' + 6 * d + ' q0,' + -6 * d + ' 6,' + -6 * d + ' H' + (x2 - 8) + ' q8,0 8,' + -6 * d + '" fill="none" stroke="' + (up ? '#0E1C42' : '#6B46C1') + '" stroke-width="2"/><text x="' + m + '" y="' + (up ? y - 16 : y + 28) + '" text-anchor="middle" font-size="15" font-weight="800" fill="' + (up ? '#0E1C42' : '#6B46C1') + '">' + t + '</text>'; };
+        pic('<svg viewBox="0 0 200 80">' + BR(10, 190, 34, 1, '?') + R(10, 110, 40, BAR_FILL[1], '?') + R(120, 70, 40, BAR_FILL[2], '?') + '</svg>', 'Parts and whole', 'pw');
+        pic('<svg viewBox="0 0 200 92">' + R(10, 110, 10, BAR_FILL[1], '?') + R(10, 110, 44, BAR_FILL[2]) + R(120, 70, 44, '#fff', '?') + '<rect x="120" y="10" width="70" height="26" fill="none" stroke="#6B46C1" stroke-dasharray="5 4" stroke-width="2"/>' + BR(120, 190, 72, 0, '') + '<text x="155" y="90" text-anchor="middle" font-size="13" font-weight="800" fill="#6B46C1">difference</text></svg>', 'Compare', 'cmp');
+        pic('<svg viewBox="0 0 200 80">' + BR(10, 190, 34, 1, '?') + R(10, 45, 40, BAR_FILL[1], '?') + R(55, 45, 40, '#fff') + R(100, 45, 40, '#fff') + R(145, 45, 40, '#fff') + '</svg>', 'Equal units', 'eq');
+        var bl = O.el('button', { type: 'button', class: 'bm-blank' }, 'Start blank'); bl.onclick = function () { start('blank'); }; holder.appendChild(bl);
+        api.readout(''); api.report({});
       }
+
+      /* ----- the model ----- */
+      var GEO = null;
       function draw() {
-        holder.innerHTML = '';
-        var narrow = isNarrow(), X0 = narrow ? 64 : 120, WMAX = narrow ? 360 : 600, SW = narrow ? 440 : 760, BH = 46, ROW = BH + 84;
-        /* widths */
-        var anyNum = false, sumN = 0, cntN = 0;
-        S.bars.forEach(function (b) { b.p.forEach(function (p) { var v = num(p.v); if (!isNaN(v) && v > 0) { anyNum = true; sumN += v; cntN++; } }); if (!isNaN(num(b.t)) && num(b.t) > 0) anyNum = true; });
-        var guess = cntN ? sumN / cntN : 1;
+        holder.innerHTML = ''; ctrl.innerHTML = ''; note.textContent = ''; moreBox.innerHTML = '';
+        if (!S.bars || !S.bars.length) { closePop(); picker(); return; }
+        api.say('Tap a piece to type a number, a word or ?. Drag <b>+</b> to add pieces. Drag a piece off the bar to take it away.');
+        var narrow = isNarrow(), SW = Math.max(300, Math.round(holder.clientWidth || 760)), X0 = narrow ? 46 : 100, WMAX = Math.min(SW * 0.84, SW - X0 - (narrow ? 38 : 60)), BH = narrow ? 52 : 56, ROW = BH + 88, MINW = 40;
+        /* sizes in number-units */
+        var nums = []; S.bars.forEach(function (b) { b.p.forEach(function (p) { if (isN(p.v)) nums.push(num(p.v)); }); });
+        var anyNum = nums.length || S.bars.some(function (b) { return isN(b.t); });
+        var guess = nums.length ? nums.reduce(function (a, b) { return a + b; }, 0) / nums.length : 1;
         var M = S.bars.map(function (b) {
-          var known = 0, blanks = 0; b.p.forEach(function (p) { var v = num(p.v); if (!isNaN(v) && v > 0) known += v; else blanks++; });
-          var tot = num(b.t), each = (!isNaN(tot) && tot > known && blanks) ? (tot - known) / blanks : guess;
-          if (!cntN && !isNaN(tot) && tot > 0 && blanks) each = tot / blanks;
-          return { each: each, mag: b.p.reduce(function (a, p) { var v = num(p.v); return a + (!isNaN(v) && v > 0 ? v : each * (p.k || 1)); }, 0) };
+          var T = isN(b.t) ? num(b.t) : NaN, w;
+          if (b.eq) {
+            var first = b.p.filter(function (p) { return isN(p.v); })[0], unit = first ? num(first.v) : (!isNaN(T) ? T / b.p.length : (anyNum ? guess : 1));
+            w = b.p.map(function () { return unit; });
+          } else {
+            var known = 0, sumK = 0; b.p.forEach(function (p) { if (isN(p.v)) known += num(p.v); else sumK += (p.k || 1); });
+            var each = (!isNaN(T) && T > known && sumK) ? (T - known) / sumK : (!nums.length && !isNaN(T) && sumK ? T / sumK : (anyNum ? guess : 1));
+            w = b.p.map(function (p) { return isN(p.v) ? num(p.v) : each * (p.k || 1); });
+          }
+          var sum = w.reduce(function (a, c) { return a + c; }, 0);
+          return { w: w, sum: sum, T: T, over: !isNaN(T) && sum > T * 1.0001 && b.p.some(function (p) { return isN(p.v); }) };
         });
-        /* units with no numbers anywhere: keep all bars on the same unit size */
-        var noNum = !cntN && S.bars.every(function (b, i) { return isNaN(num(b.t)) || b.p.every(function (p) { return isNaN(num(p.v)); }); });
-        if (noNum) M.forEach(function (m, i) { m.each = 1; m.mag = S.bars[i].p.reduce(function (a, p) { return a + (p.k || 1); }, 0); });
-        var maxMag = Math.max.apply(null, M.map(function (m) { return m.mag; }));
-        var sc = WMAX / maxMag; if (noNum) sc = Math.min(sc, 90);
-        var H = 20 + S.bars.length * ROW, v = O.svg(SW, H, holder, 'Bar model'), ends = [], grips = [];
+        var maxMag = Math.max.apply(null, M.map(function (m) { return Math.max(m.sum, isNaN(m.T) ? 0 : m.T); }));
+        var sc = WMAX / maxMag;
+        var endX = M.map(function (m) { return m.w.reduce(function (a, c) { return a + Math.max(MINW, c * sc); }, X0); });
+        function handleX(bi) { var e = endX[bi]; if (S.cmp.on && (bi === S.cmp.a || bi === S.cmp.b) && endX[S.cmp.a] != null && endX[S.cmp.b] != null) { e = Math.max(endX[S.cmp.a], endX[S.cmp.b]); if (S.cmp.o) e = Math.max(e, X0 + S.cmp.o[1] * sc); } return e; }
+        var H = 30 + S.bars.length * ROW, v = O.svg(SW, H, holder, 'Bar model'), ends = []; lastW = holder.clientWidth; v.style.width = '100%';
+        GEO = { v: v, SW: SW, X0: X0, BH: BH, ROW: ROW, sc: sc, M: M, pieces: [], tot: [], name: [], dif: null };
         S.bars.forEach(function (b, bi) {
-          var y = 52 + bi * ROW, x = X0;
-          O.s('text', { x: X0 - 12, y: y + BH / 2 + 6, 'text-anchor': 'end', 'font-size': 18, fill: NAVY, class: 'ink', text: b.n || '' }, v);
+          var y = 58 + bi * ROW, x = X0, m = M[bi], bg = O.s('g', { 'data-bar': bi }, v), xT = isNaN(m.T) ? null : X0 + m.T * sc;
+          O.s('rect', { x: 0, y: y - 30, width: SW, height: BH + 60, fill: 'transparent', class: 'bm-bg' }, bg);
+          /* name: tap to type */
+          var ng = O.s('g', {}, bg), nt = b.n || 'name';
+          O.s('rect', { x: 2, y: y + 4, width: X0 - 12, height: BH - 8, rx: 8, fill: b.n ? 'transparent' : '#F6F7FB', stroke: b.n ? 'none' : '#C9CFDE', 'stroke-dasharray': '4 3' }, ng);
+          O.s('text', { x: X0 - 12, y: y + BH / 2 + 6, 'text-anchor': 'end', 'font-size': b.n ? (nt.length > 7 ? 14 : 18) : 13, fill: b.n ? NAVY : '#8A93A8', class: 'ink', text: nt }, ng);
+          tapS(ng, function () { openPop({ k: 'n', b: bi }); }, 'Name this bar');
+          GEO.name[bi] = [X0 / 2, y + BH / 2];
+          var rects = [];
           b.p.forEach(function (p, pi) {
-            var val = num(p.v), blank = !(!isNaN(val) && val > 0), w = Math.max(24, (blank ? M[bi].each * (p.k || 1) : val) * sc);
-            var g = O.s('g', {}, v);
-            var pr = O.s('rect', { x: x, y: y, width: w, height: BH, fill: BAR_FILL[p.c || 0], stroke: NAVY, 'stroke-width': 2.5 }, g);
-            var lab = p.l || (!isNaN(val) ? p.v : '');
-            if (lab) O.s('text', { x: x + w / 2, y: y + BH / 2 + 6, 'text-anchor': 'middle', 'font-size': lab.length * 9 > w ? 12 : 17, fill: NAVY, text: lab }, g);
-            tapS(g, function () { p.c = ((p.c || 0) + 1) % 4; api.redraw(); }, 'Color this piece');
-            if (blank) (function (x0, unit) { /* drag the right edge to resize a piece that has no number */
-              var gr = O.s('rect', { x: x0 + w - 7, y: y + 6, width: 14, height: BH - 12, rx: 4, fill: '#fff', stroke: VIO, 'stroke-width': 2 }, v); gr.style.cursor = 'ew-resize';
-              grips.push(gr);
-              gr.addEventListener('pointerdown', function (e0) {
-                if (e0.button > 0) return; e0.preventDefault(); var id = e0.pointerId; try { gr.setPointerCapture(id); } catch (xx) {}
-                function mvr(ev) { if (ev.pointerId !== id) return; var pp = O.pt(v, ev); p.k = O.clamp(Math.round((pp.x - x0) / unit * 4) / 4, .25, 8); var nw = Math.max(24, unit * p.k); pr.setAttribute('width', nw); gr.setAttribute('x', x0 + nw - 7); }
-                function upr(ev) { if (ev.pointerId !== id) return; gr.removeEventListener('pointermove', mvr); gr.removeEventListener('pointerup', upr); supUntil = Date.now() + 250; api.redraw(); }
-                gr.addEventListener('pointermove', mvr); gr.addEventListener('pointerup', upr); gr.addEventListener('pointercancel', upr);
-              });
-            })(x, M[bi].each * sc);
+            var w = Math.max(MINW, m.w[pi] * sc), g = O.s('g', { 'data-piece': bi + ':' + pi }, bg);
+            var past = xT != null && m.over && x + w > xT + .5;
+            var r = O.s('rect', { x: x, y: y, width: w, height: BH, fill: BAR_FILL[p.c || 0], stroke: NAVY, 'stroke-width': 2.5 }, g);
+            rects.push(r);
+            if (past) { var rx0 = Math.max(x, xT); O.s('rect', { x: rx0, y: y, width: x + w - rx0, height: BH, fill: 'rgba(210,69,59,.22)', stroke: '#C0392B', 'stroke-width': 3, 'pointer-events': 'none' }, g); }
+            var t = lab(p);
+            if (t) O.s('text', { x: x + w / 2, y: y + BH / 2 + 6, 'text-anchor': 'middle', 'font-size': t.length * 9.5 > w ? Math.max(10, w / t.length * 1.6) : 18, fill: NAVY, text: t }, g);
+            if (edit && edit.k === 'p' && edit.b === bi && edit.i === pi) O.s('rect', { x: x + 2, y: y + 2, width: w - 4, height: BH - 4, fill: 'none', stroke: YEL, 'stroke-width': 4 }, g);
+            g.style.cursor = 'pointer';
+            tapS(g, function () { openPop({ k: 'p', b: bi, i: pi }); }, 'Piece ' + (pi + 1) + ': ' + (t || 'empty') + '. Tap to type.');
+            ghostDrag(v, g, function () { return false; }, function (tt) {
+              var to = attrOf(tt, 'data-bar'); if (to === bi) return false;
+              var pc = b.p.splice(pi, 1)[0]; if (to !== null && S.bars[to].p.length < 12) S.bars[to].p.push(pc);
+              if (!b.p.length) b.p.push(bp());
+              closePop(); api.redraw(); return true;
+            });
+            GEO.pieces.push({ b: bi, i: pi, x: x, y: y, w: w });
             x += w;
           });
           ends.push([X0, x, y]);
-          grips.forEach(function (gr) { v.appendChild(gr); });
-          if (b.t) { var up = b.tp !== 'below'; brace(v, X0, x, up ? y - 4 : y + BH + 4, up ? -1 : 1, b.t); }
+          /* resize grips on pieces with no number (not in equal-units bars) */
+          if (!b.eq) b.p.forEach(function (p, pi) {
+            if (isN(p.v)) return; var G = GEO.pieces.filter(function (q) { return q.b === bi && q.i === pi; })[0], unit = (M[bi].w[pi] / (p.k || 1)) * sc;
+            var gr = O.s('rect', { x: G.x + G.w - 7, y: y + 9, width: 14, height: BH - 18, rx: 5, fill: '#fff', stroke: VIO, 'stroke-width': 2 }, v); gr.style.cursor = 'ew-resize';
+            gr.setAttribute('aria-label', 'Drag to make this piece longer or shorter');
+            gr.addEventListener('pointerdown', function (e0) {
+              if (e0.button > 0) return; e0.preventDefault(); e0.stopPropagation(); var id = e0.pointerId; try { gr.setPointerCapture(id); } catch (xx) {}
+              function mvr(ev) { if (ev.pointerId !== id) return; var pp = O.pt(v, ev); p.k = O.clamp(Math.round((pp.x - G.x) / unit * 4) / 4, .25, 8); var nw = Math.max(MINW, unit * p.k); rects[pi].setAttribute('width', nw); gr.setAttribute('x', G.x + nw - 7); }
+              function upr(ev) { if (ev.pointerId !== id) return; gr.removeEventListener('pointermove', mvr); gr.removeEventListener('pointerup', upr); gr.removeEventListener('pointercancel', upr); supUntil = Date.now() + 250; api.redraw(); }
+              gr.addEventListener('pointermove', mvr); gr.addEventListener('pointerup', upr); gr.addEventListener('pointercancel', upr);
+            });
+          });
+          /* total brace: tap its label to type */
+          var up = b.tp !== 'below', by = up ? y - 4 : y + BH + 4, bEnd = xT != null ? Math.max(xT, X0 + 30) : x;
+          if (b.t) {
+            brace(v, X0, bEnd, by, up ? -1 : 1, '', m.over ? '#C0392B' : NAVY);
+            var tg = O.s('g', {}, bg), ty = up ? by - 22 : by + 33, tw = Math.max(44, b.t.length * 11 + 18);
+            O.s('rect', { x: (X0 + bEnd) / 2 - tw / 2, y: ty - 20, width: tw, height: 28, rx: 8, fill: '#fff', stroke: '#E1E5EF' }, tg);
+            O.s('text', { x: (X0 + bEnd) / 2, y: ty, 'text-anchor': 'middle', 'font-size': 18, fill: m.over ? '#C0392B' : NAVY, class: 'ink', text: b.t }, tg);
+            tapS(tg, function () { openPop({ k: 't', b: bi }); }, 'Total: ' + b.t + '. Tap to type.');
+            GEO.tot[bi] = [(X0 + bEnd) / 2, ty - 6];
+          }
+          /* + handle: tap to add a piece, drag right to add more */
+          var hx = handleX(bi) + 22, hy = y + BH / 2, hg = O.s('g', {}, bg); hg.style.cursor = 'grab';
+          O.s('circle', { cx: hx, cy: hy, r: 15, fill: VIO }, hg); O.s('text', { x: hx, y: hy + 7, 'text-anchor': 'middle', 'font-size': 22, fill: '#fff', text: '+' }, hg);
+          var unitPx = Math.max(MINW, (b.eq ? m.w[0] : (anyNum ? guess : 1)) * sc);
+          tapS(hg, function () { addPieces(bi, 1); }, 'Add a piece to this bar');
+          hg.addEventListener('pointerdown', function (e0) {
+            if (e0.button > 0) return; e0.preventDefault(); var id = e0.pointerId, moved = false, ghost = null; try { hg.setPointerCapture(id); } catch (xx) {}
+            function count(px) { return Math.max(1, Math.round(px / unitPx)); }
+            function mvh(ev) { if (ev.pointerId !== id) return; var pp = O.pt(v, ev), dx = pp.x - x; if (!moved && Math.hypot(ev.clientX - e0.clientX, ev.clientY - e0.clientY) > 6) moved = true; if (!moved) return;
+              if (!ghost) ghost = O.s('g', { 'pointer-events': 'none' }, v); ghost.innerHTML = '';
+              var k = b.eq ? count(dx) : 1, ww = b.eq ? k * unitPx : Math.max(MINW, dx);
+              for (var i = 0; i < k; i++) O.s('rect', { x: x + (b.eq ? i * unitPx : 0), y: y, width: b.eq ? unitPx : ww, height: BH, fill: 'rgba(107,70,193,.12)', stroke: VIO, 'stroke-width': 2, 'stroke-dasharray': '6 4' }, ghost);
+              hg.setAttribute('transform', 'translate(' + Math.max(0, pp.x - hx) + ' 0)'); }
+            function uph(ev) { if (ev.pointerId !== id) return; hg.removeEventListener('pointermove', mvh); hg.removeEventListener('pointerup', uph); hg.removeEventListener('pointercancel', uph);
+              if (ghost) ghost.remove(); if (!moved) return; supUntil = Date.now() + 250; var dx = O.pt(v, ev).x - x;
+              if (b.eq) addPieces(bi, count(dx)); else addPieces(bi, 1, O.clamp(Math.round(Math.max(MINW, dx) / unitPx * 4) / 4, .25, 8)); }
+            hg.addEventListener('pointermove', mvh); hg.addEventListener('pointerup', uph); hg.addEventListener('pointercancel', uph);
+          });
+          if (!b.t) { /* a quiet "+ total" to tap */
+            var ag = O.s('g', {}, bg), ax = narrow ? X0 : hx + 24, ay = narrow ? y - 12 : hy + 5; O.s('text', { x: ax, y: ay, 'font-size': 14, fill: '#6B46C1', text: '+ total' }, ag);
+            O.s('rect', { x: ax - 6, y: ay - 22, width: 66, height: 34, fill: 'transparent' }, ag);
+            tapS(ag, function () { b.tp = b.tp || 'above'; openPop({ k: 't', b: bi }); }, 'Add a total for this bar');
+          }
         });
+        /* difference brace */
         if (S.cmp.on && S.bars[S.cmp.a] && S.bars[S.cmp.b] && S.cmp.a !== S.cmp.b) {
           var A = ends[S.cmp.a], B = ends[S.cmp.b], sh = A[1] <= B[1] ? A : B, lo = A[1] <= B[1] ? B : A;
           var c1 = S.cmp.o ? X0 + S.cmp.o[0] * sc : sh[1], c2 = S.cmp.o ? X0 + S.cmp.o[1] * sc : lo[1];
-          if (c2 - c1 > 2) {
-            var dr = O.s('rect', { x: c1, y: sh[2], width: c2 - c1, height: BH, fill: 'none', stroke: VIO, 'stroke-width': 2, 'stroke-dasharray': '6 5' }, v);
-            var below = sh[2] > lo[2], bars = S.bars[A === sh ? S.cmp.a : S.cmp.b];
-            /* keep away from that bar's own total brace */
-            var useBelow = bars.t ? bars.tp !== 'below' : below, by = useBelow ? sh[2] + BH + 4 : sh[2] - 4;
-            brace(v, c1, c2, by, useBelow ? 1 : -1, S.cmp.l, VIO);
-            /* drag either end of the difference brace */
-            [0, 1].forEach(function (k) {
-              var hx = k ? c2 : c1, hd = O.s('circle', { cx: hx, cy: by, r: 8, fill: '#fff', stroke: VIO, 'stroke-width': 3 }, v); hd.style.cursor = 'ew-resize';
-              hd.addEventListener('pointerdown', function (e0) {
-                if (e0.button > 0) return; e0.preventDefault(); var id = e0.pointerId; try { hd.setPointerCapture(id); } catch (xx) {}
-                var o = S.cmp.o ? S.cmp.o.slice() : [(c1 - X0) / sc, (c2 - X0) / sc];
-                function mvb(ev) { if (ev.pointerId !== id) return; var pp = O.pt(v, ev); o[k] = Math.max(0, (pp.x - X0) / sc); S.cmp.o = [Math.min(o[0], o[1]), Math.max(o[0], o[1])]; hd.setAttribute('cx', X0 + o[k] * sc); dr.setAttribute('x', X0 + S.cmp.o[0] * sc); dr.setAttribute('width', Math.max(1, (S.cmp.o[1] - S.cmp.o[0]) * sc)); }
-                function upb(ev) { if (ev.pointerId !== id) return; hd.removeEventListener('pointermove', mvb); hd.removeEventListener('pointerup', upb); supUntil = Date.now() + 250; build(); api.redraw(); }
-                hd.addEventListener('pointermove', mvb); hd.addEventListener('pointerup', upb); hd.addEventListener('pointercancel', upb);
-              });
+          if (c2 - c1 < 24) c2 = c1 + 24;
+          var dr = O.s('rect', { x: c1, y: sh[2], width: c2 - c1, height: BH, fill: 'none', stroke: VIO, 'stroke-width': 2, 'stroke-dasharray': '6 5', 'pointer-events': 'none' }, v);
+          var shBar = S.bars[A === sh ? S.cmp.a : S.cmp.b], useBelow = shBar.t ? shBar.tp !== 'below' : sh[2] > lo[2], dby = useBelow ? sh[2] + BH + 4 : sh[2] - 4;
+          brace(v, c1, c2, dby, useBelow ? 1 : -1, '', VIO);
+          var dg = O.s('g', {}, v), dty = useBelow ? dby + 33 : dby - 22, dt = S.cmp.l || '?', dw = Math.max(44, dt.length * 11 + 18);
+          O.s('rect', { x: (c1 + c2) / 2 - dw / 2, y: dty - 20, width: dw, height: 28, rx: 8, fill: '#fff', stroke: '#D8CCF5' }, dg);
+          O.s('text', { x: (c1 + c2) / 2, y: dty, 'text-anchor': 'middle', 'font-size': 18, fill: VIO, text: dt }, dg);
+          tapS(dg, function () { openPop({ k: 'd' }); }, 'Difference: ' + dt + '. Tap to type.');
+          GEO.dif = [(c1 + c2) / 2, dty - 6];
+          [0, 1].forEach(function (k) {
+            var hd = O.s('circle', { cx: k ? c2 : c1, cy: dby, r: 8, fill: '#fff', stroke: VIO, 'stroke-width': 3 }, v); hd.style.cursor = 'ew-resize';
+            hd.addEventListener('pointerdown', function (e0) {
+              if (e0.button > 0) return; e0.preventDefault(); var id = e0.pointerId; try { hd.setPointerCapture(id); } catch (xx) {}
+              var o = [(c1 - X0) / sc, (c2 - X0) / sc];
+              function mvb(ev) { if (ev.pointerId !== id) return; var pp = O.pt(v, ev); o[k] = Math.max(0, (pp.x - X0) / sc); S.cmp.o = [Math.min(o[0], o[1]), Math.max(o[0], o[1])]; hd.setAttribute('cx', X0 + o[k] * sc); dr.setAttribute('x', X0 + S.cmp.o[0] * sc); dr.setAttribute('width', Math.max(1, (S.cmp.o[1] - S.cmp.o[0]) * sc)); }
+              function upb(ev) { if (ev.pointerId !== id) return; hd.removeEventListener('pointermove', mvb); hd.removeEventListener('pointerup', upb); hd.removeEventListener('pointercancel', upb); supUntil = Date.now() + 250; api.redraw(); }
+              hd.addEventListener('pointermove', mvb); hd.addEventListener('pointerup', upb); hd.addEventListener('pointercancel', upb);
             });
-          }
+          });
         }
-        api.readout('');
+        /* buttons under the model */
+        if (S.bars.length < 4) api.button('+ Add a bar', function () { closePop(); S.bars.push({ n: '', t: '', tp: 'below', p: [bp('?')] }); api.redraw(); }, 'primary', ctrl);
+        if (S.bars.length > 1) {
+          if (S.cmp.on) api.button('Remove difference', function () { S.cmp.on = 0; delete S.cmp.o; api.redraw(); }, '', ctrl);
+          else for (var i = 0; i < S.bars.length - 1; i++) (function (i) { api.button('↕ Difference' + (S.bars.length > 2 ? ' (bars ' + (i + 1) + ' and ' + (i + 2) + ')' : ''), function () { S.cmp = { on: 1, a: i, b: i + 1, l: '?' }; api.redraw(); }, '', ctrl); })(i);
+        }
+        /* overflow note + readout sentence */
+        var overs = M.map(function (m, i) { return m.over ? i : -1; }).filter(function (i) { return i > -1; });
+        if (overs.length) note.textContent = 'The parts add up to more than the total. Check your numbers.';
+        var lines = [];
+        S.bars.forEach(function (b, bi) { var parts = b.p.map(function (p) { return lab(p) || '?'; }); if (b.t) lines.push('<span>' + (b.n ? '<b>' + O.esc(b.n) + ':</b> ' : '') + O.esc(parts.join(' + ')) + (b.t ? ' = ' + O.esc(b.t) : '') + '</span>'); });
+        api.readout(lines.join(''));
         api.report({});
+        buildMore();
+        if (edit) placePop();
       }
-      build();
+      function addPieces(bi, k, len) { var b = S.bars[bi]; for (var i = 0; i < k && b.p.length < 12; i++) b.p.push(bp(b.eq ? '' : '?', 0, len && len !== 1 ? len : 0)); if (b.p.length >= 12) O.toast('A bar can have up to 12 pieces.'); api.redraw(); }
+
+      /* ----- popover editor ----- */
+      function target() { var e = edit; if (!e) return null; if (e.k === 'd') return S.cmp.on ? { get: function () { return S.cmp.l || ''; }, set: function (t) { S.cmp.l = t; } } : null;
+        var b = S.bars[e.b]; if (!b) return null;
+        if (e.k === 'n') return { get: function () { return b.n || ''; }, set: function (t) { b.n = t; } };
+        if (e.k === 't') return { get: function () { return b.t || ''; }, set: function (t) { b.t = t; } };
+        var p = b.p[e.i]; if (!p) return null;
+        return { get: function () { return isN(p.v) && !p.l ? p.v : (p.l || ''); }, set: function (t) { t = t.trim(); if (isN(t)) { p.v = t.replace(/[,\s$]/g, ''); p.l = ''; delete p.k; } else { p.v = ''; p.l = t; } }, p: p, b: b }; }
+      function openPop(e) {
+        edit = e; var T = target(); if (!T) { closePop(); return; }
+        var ph = e.k === 'n' ? 'name' : e.k === 'p' ? 'number or word' : 'number or ?';
+        pop.innerHTML = '';
+        var inp = O.el('input', { type: 'text', value: T.get(), placeholder: ph, 'aria-label': { n: 'Bar name', t: 'Total', p: 'Piece', d: 'Difference' }[e.k], maxlength: 14, autocomplete: 'off' }); pop.appendChild(inp);
+        function pb(t, fn, cls, al) { var b = O.el('button', { type: 'button', class: cls || '', 'aria-label': al || t }, t); b.addEventListener('pointerdown', function (ev) { ev.preventDefault(); }); b.onclick = fn; pop.appendChild(b); return b; }
+        if (e.k !== 'n') pb('?', function () { inp.value = '?'; T.set('?'); draw(); api.changed(); inp.focus(); }, '', 'Put a question mark');
+        if (e.k === 'p') {
+          BAR_SWATCH.forEach(function (c, ci) { var s = pb('', function () { T.p.c = ci; draw(); api.changed(); }, 'sw', ['No color', 'Violet', 'Green', 'Yellow'][ci]); s.style.background = c; if ((T.p.c || 0) === ci) s.style.borderColor = '#0E1C42'; });
+          pb('×', function () { var b = S.bars[e.b]; b.p.splice(e.i, 1); if (!b.p.length) b.p.push(bp()); closePop(); api.redraw(); }, '', 'Take this piece away');
+        }
+        if (e.k === 't') pb('×', function () { S.bars[e.b].t = ''; closePop(); api.redraw(); }, '', 'Take the total away');
+        pb('✓', function () { closePop(); api.redraw(); }, 'ok', 'Done');
+        inp.addEventListener('input', function () { T.set(inp.value); draw(); api.changed(); });
+        inp.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === 'Escape') { ev.preventDefault(); closePop(); api.redraw(); } });
+        inp.addEventListener('blur', function () { setTimeout(function () { if (edit === e && !pop.contains(document.activeElement)) { closePop(); api.redraw(); } }, 400); });
+        pop.hidden = false; draw(); placePop(); inp.focus(); inp.select();
+      }
+      function placePop() {
+        if (!GEO || pop.hidden || !edit) return; var e = edit, pt = null;
+        if (e.k === 'p') { var q = GEO.pieces.filter(function (q) { return q.b === e.b && q.i === e.i; })[0]; if (q) pt = [q.x + q.w / 2, q.y + GEO.BH + 6]; }
+        else if (e.k === 'n') pt = [GEO.name[e.b][0], GEO.name[e.b][1] + 30];
+        else if (e.k === 't') pt = GEO.tot[e.b] ? [GEO.tot[e.b][0], GEO.tot[e.b][1] + 16] : [GEO.X0 + 60, 58 + e.b * GEO.ROW + GEO.BH + 6];
+        else if (e.k === 'd' && GEO.dif) pt = [GEO.dif[0], GEO.dif[1] + 16];
+        if (!pt) return;
+        var r = GEO.v.getBoundingClientRect(), wr = wrap.getBoundingClientRect(), f = r.width / GEO.SW;
+        var px = r.left - wr.left + pt[0] * f, py = r.top - wr.top + pt[1] * f, pw = pop.offsetWidth;
+        pop.style.left = Math.max(0, Math.min(wr.width - pw, px - pw / 2)) + 'px'; pop.style.top = py + 'px';
+      }
+      function closePop() { edit = null; pop.hidden = true; pop.innerHTML = ''; }
+      document.addEventListener('pointerdown', function (ev) {
+        if (pop.hidden || !document.body.contains(wrap) || pop.contains(ev.target)) return;
+        var t = ev.target, inside = wrap.contains(t);
+        if (!inside || t.tagName === 'svg' || (t.classList && t.classList.contains('bm-bg'))) { closePop(); draw(); }
+      }, true);
+      window.addEventListener('resize', placePop);
+
+      /* ----- More options (Set up panel) ----- */
+      function buildMore() {
+        S.bars.forEach(function (b, bi) {
+          moreBox.appendChild(O.el('h3', null, (b.n ? O.esc(b.n) : 'Bar ' + (bi + 1))));
+          var seg = O.el('div', { class: 'om-seg', style: 'margin:0 0 .4rem' }); moreBox.appendChild(seg);
+          [['above', 'Total above'], ['below', 'Total below']].forEach(function (o) { var bb = O.el('button', { type: 'button', 'aria-pressed': (b.tp || 'above') === o[0] ? 'true' : 'false' }, o[1]); bb.onclick = function () { b.tp = o[0]; api.redraw(); }; seg.appendChild(bb); });
+          var ck = O.el('label', { class: 'om-check' }), cb = O.el('input', { type: 'checkbox' }); cb.checked = !!b.eq; cb.onchange = function () { b.eq = cb.checked ? 1 : 0; if (b.eq) b.p.forEach(function (p) { delete p.k; }); api.redraw(); };
+          ck.appendChild(cb); ck.appendChild(document.createTextNode('Keep the pieces equal')); moreBox.appendChild(ck);
+          var r = O.el('div', { class: 'om-row', style: 'margin:0 0 .5rem' }); moreBox.appendChild(r);
+          api.button('Clear colors', function () { b.p.forEach(function (p) { p.c = 0; }); api.redraw(); }, '', r);
+          if (S.bars.length > 1) api.button('Remove this bar', function () { closePop(); S.bars.splice(bi, 1); if (S.cmp.a >= S.bars.length || S.cmp.b >= S.bars.length) S.cmp.on = 0; api.redraw(); }, '', r);
+        });
+        if (S.cmp.on && S.cmp.o) api.button('Line the difference up with the bars again', function () { delete S.cmp.o; api.redraw(); }, '', moreBox);
+        api.button('Pick a different start', function () { closePop(); S.bars = []; S.cmp = { on: 0, a: 0, b: 1, l: '' }; api.redraw(); }, '', api.row(moreBox));
+      }
       api.onRedraw(draw);
     }
   });
@@ -554,6 +693,13 @@
     mount: function (api) {
       var S = api.S, pend = null;
       function setSay() { api.say(S.hop ? 'Drag from the mark where the hop starts to the mark where it lands.' : 'Drag a dot from the cup onto the line. Drag a dot along the line to move it, or off the line to take it away.'); }
+      var NL0 = { dots: [], hops: [], two: 0, simp: 0 };
+      function NLQ(o) { return Object.assign({}, NL0, o); }
+      api.quick([['0 to 1, fourths', NLQ({ a: 0, b: 1, parts: 4, mode: 'frac', lab: 'all' })], ['0 to 2, halves', NLQ({ a: 0, b: 2, parts: 4, mode: 'mixed', lab: 'all' })], ['0 to 1, tenths', NLQ({ a: 0, b: 1, parts: 10, mode: 'dec', lab: 'all' })],
+        ['0 to 10', NLQ({ a: 0, b: 10, parts: 10, mode: 'whole', lab: 'all' })], ['0 to 100 by tens', NLQ({ a: 0, b: 100, parts: 10, mode: 'whole', lab: 'all' })], ['0 to 1,000 by hundreds', NLQ({ a: 0, b: 1000, parts: 10, mode: 'whole', lab: 'all' })]]);
+      api.seg('', 'hop', [[0, 'Dots'], [1, 'Hops']], function () { pend = null; setSay(); });
+      api.button('Clear dots and hops', function () { S.dots = []; S.hops = []; pend = null; api.redraw(); }, '', api.row());
+      api.more('More options');
       api.heading('The line');
       api.num('Starts at', 'a', -1000, 100000, 'any', clearMarks); api.num('Ends at', 'b', -1000, 100000, 'any', clearMarks);
       api.num('Equal parts', 'parts', 1, 100, 1, clearMarks);
@@ -563,12 +709,26 @@
       api.heading('Compare');
       api.check('Add a second line underneath', 'two');
       api.num('Equal parts on the second line', 'parts2', 1, 100, 1, clearMarks);
-      api.heading('Mode');
-      api.seg('', 'hop', [[0, 'Dots'], [1, 'Hops']], function () { pend = null; setSay(); });
-      api.button('Clear dots and hops', function () { S.dots = []; S.hops = []; pend = null; api.redraw(); }, '', api.row());
+      api.endMore();
       function clearMarks() { S.dots = []; S.hops = []; pend = null; }
       setSay();
-      var holder = O.el('div'); api.stage.appendChild(holder);
+      var nlWrap = O.el('div', { style: 'position:relative' }); api.stage.appendChild(nlWrap);
+      var holder = O.el('div'); nlWrap.appendChild(holder);
+      function editEnd(key, sx, sy, sv) { /* tap an end number on the line to change it */
+        var old = nlWrap.querySelector('.nl-end'); if (old) old.remove();
+        var r = sv.getBoundingClientRect(), wr = nlWrap.getBoundingClientRect(), f = r.width / sv.viewBox.baseVal.width;
+        var inp = O.el('input', { class: 'nl-end', type: 'text', inputmode: 'decimal', value: String(S[key]), 'aria-label': key === 'a' ? 'Start number' : 'End number',
+          style: 'position:absolute;z-index:4;width:5.5em;font-size:1.1rem;font-weight:800;text-align:center;border:3px solid #6B46C1;border-radius:9px;padding:.2em;background:#fff' });
+        nlWrap.appendChild(inp);
+        inp.style.left = Math.max(0, Math.min(wr.width - inp.offsetWidth, r.left - wr.left + sx * f - inp.offsetWidth / 2)) + 'px'; inp.style.top = (r.top - wr.top + sy * f - 18) + 'px';
+        var done = false;
+        function commit(keep) { if (done) return; done = true; var val = num(inp.value); inp.remove();
+          if (keep && !isNaN(val)) { var a = key === 'a' ? val : S.a, b = key === 'b' ? val : S.b; if (b > a) { S[key] = val; clearMarks(); var ns = api.setup.querySelectorAll('.om-more input[type=number]'); if (ns[key === 'a' ? 0 : 1]) ns[key === 'a' ? 0 : 1].value = val; } else O.toast('The end number must be bigger than the start number.'); }
+          api.redraw(); }
+        inp.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') commit(true); if (ev.key === 'Escape') commit(false); });
+        inp.addEventListener('blur', function () { commit(true); });
+        inp.focus(); inp.select();
+      }
       var isNarrow = narrowWatch(holder, function () { draw(); });
       function isInt(x) { return Math.abs(x - Math.round(x)) < 1e-9; }
       /* value of tick i on a line with k parts, as {w,n,d,neg} and as html */
@@ -611,6 +771,8 @@
             O.s('line', { x1: x, x2: x, y1: y - (whole ? 16 : 11), y2: y + (whole ? 16 : 11), stroke: NAVY, 'stroke-width': whole ? 3 : 2, class: 'inks' }, v);
             var show = S.lab === 'all' ? major : S.lab === 'ends' ? (i === 0 || i === k) : false;
             if (show) sNum(v, x, y + 20, q, k > 12 ? 13 : 16, NAVY, 'ink');
+            if (L === 0 && (i === 0 || i === k)) { var eh = O.s('rect', { x: x - 30, y: y + 18, width: 60, height: 46, rx: 8, fill: 'transparent', stroke: '#C9CFDE', 'stroke-dasharray': '4 3' }, v); eh.style.cursor = 'text';
+              (function (key, ex, ey) { tapS(eh, function () { editEnd(key, ex, ey, v); }, (key === 'a' ? 'Start' : 'End') + ' number. Tap to change it.'); })(i === 0 ? 'a' : 'b', x, y + 40); }
             var on = S.dots.indexOf(L + ':' + i) > -1, sel = pend && pend[0] === L && pend[1] === i;
             if (sel) O.s('circle', { cx: x, cy: y, r: 13, fill: 'none', stroke: YEL, 'stroke-width': 4 }, v);
             var hit = O.s('rect', { x: x - Math.min(18, (X1 - X0) / k / 2), y: y - 26, width: Math.min(36, (X1 - X0) / k), height: 52, fill: 'transparent' }, v);
@@ -695,15 +857,17 @@
     mount: function (api) {
       var S = api.S, RED = '#D2453B';
       function setSay() { api.say(S.mode === 'array' ? 'Drag across counters to flip them. Drag the scissors between two columns to split the array.' : 'Drag counters from the top into the groups. Share them fairly.'); }
-      api.seg('Mode', 'mode', [['array', 'Array'], ['share', 'Share into groups']], function () { buildSetup(); setSay(); });
+      api.quick([['Array', { mode: 'array' }], ['Share into groups', { mode: 'share', d: 0, gc: null }]]);
       var box2 = O.el('div'); api.setup.appendChild(box2);
-      function mv(x) { var n = x.el || (x.parentNode && x.parentNode.tagName === 'LABEL' ? x.parentNode : x); box2.appendChild(n); }
+      var box3 = O.el('div'); api.more('More options').appendChild(box3); api.endMore();
+      function mv(x, to) { var n = x.el || (x.parentNode && x.parentNode.tagName === 'LABEL' ? x.parentNode : x); (to || box2).appendChild(n); }
       function buildSetup() {
-        box2.innerHTML = '';
+        box2.innerHTML = ''; box3.innerHTML = '';
+        mv(api.seg('Mode', 'mode', [['array', 'Array'], ['share', 'Share into groups']], function () { buildSetup(); setSay(); }), box3);
         if (S.mode === 'array') {
           mv(api.num('Rows', 'r', 1, 12, 1, function () { S.flip = []; S.split = 0; })); mv(api.num('Columns', 'c', 1, 12, 1, function () { S.flip = []; S.split = 0; }));
-          mv(api.seg('A tap flips', 'tf', [['one', 'One'], ['row', 'A row'], ['col', 'A column']]));
-          var rw = api.row(box2);
+          mv(api.seg('A tap flips', 'tf', [['one', 'One'], ['row', 'A row'], ['col', 'A column']]), box3);
+          var rw = api.row(box3);
           api.button('Remove the split', function () { S.split = 0; api.redraw(); }, '', rw);
           api.button('All red again', function () { S.flip = []; api.redraw(); }, '', rw);
         } else {
@@ -851,15 +1015,16 @@
     mount: function (api) {
       var S = api.S;
       function setSay() { api.say(S.mode === 'times' && S.fac ? 'Tap a number to find all the ways to make it.' : 'Drag across numbers to color a run. Start on a colored number to change or clear the color.'); }
+      api.quick([['1 to 100', { mode: 'hundred', start: 1, hl: {}, fv: 0, fac: 0 }], ['Times table', { mode: 'times', hl: {}, fv: 0 }], ['Factor finder', { mode: 'times', hl: {}, fv: 0, fac: 1 }]]);
+      api.num('Count by (violet, 0 = off)', 'sk1', 0, 50, 1);
+      api.button('Clear my colors', function () { S.hl = {}; S.fv = 0; api.redraw(); }, '', api.row());
+      api.more('More options');
       api.seg('Chart', 'mode', [['hundred', 'Hundred chart'], ['times', 'Times table']], function () { S.hl = {}; S.fv = 0; setSay(); });
       api.select('Hundred chart starts at', 'start', [[0, '0'], [1, '1'], [101, '101'], [201, '201'], [301, '301'], [401, '401'], [501, '501'], [601, '601'], [701, '701'], [801, '801'], [901, '901']], function () { S.hl = {}; });
-      api.heading('Skip-count');
-      api.num('Count by (violet, 0 = off)', 'sk1', 0, 50, 1);
       api.num('Also count by (green, 0 = off)', 'sk2', 0, 50, 1);
-      api.hint('In the times table, this colors that row and column.');
-      api.heading('Times table');
+      api.hint('In the times table, counting by colors that row and column.');
       api.check('Factor finder: tap a product to see every way to make it', 'fac', function () { S.fv = 0; setSay(); });
-      api.button('Clear my colors', function () { S.hl = {}; S.fv = 0; api.redraw(); }, '', api.row());
+      api.endMore();
       setSay();
       var holder = O.el('div'); api.stage.appendChild(holder);
       function mult(v, n) { return n > 0 && v > 0 && v % n === 0; }
@@ -948,20 +1113,21 @@
       var S = api.S;
       api.seg('Use', 'mode', [['dice', 'Dice'], ['cards', 'Digit cards'], ['facts', 'Fact cards']], function () { S.cur = []; S.pend = null; S.slots = []; build(); });
       var box2 = O.el('div'); api.setup.appendChild(box2);
-      function mv(x) { var n = x.el || (x.parentNode && x.parentNode.tagName === 'LABEL' ? x.parentNode : x); box2.appendChild(n); }
+      var box3 = O.el('div'); api.more('More options').appendChild(box3); api.endMore();
+      function mv(x, to) { var n = x.el || (x.parentNode && x.parentNode.tagName === 'LABEL' ? x.parentNode : x); (to || box2).appendChild(n); }
       function build() {
-        box2.innerHTML = '';
-        if (S.mode === 'dice') { mv(api.seg('How many dice', 'k', [[1, '1'], [2, '2'], [3, '3'], [4, '4']])); mv(api.seg('Kind', 'sides', [[6, '1 to 6 (dots)'], [10, '0 to 9']])); }
+        box2.innerHTML = ''; box3.innerHTML = '';
+        if (S.mode === 'dice') { mv(api.seg('How many dice', 'k', [[1, '1'], [2, '2'], [3, '3'], [4, '4']])); mv(api.seg('Kind', 'sides', [[6, '1 to 6 (dots)'], [10, '0 to 9']]), box3); }
         if (S.mode === 'cards') {
-          mv(api.check('Put each card back after drawing', 'put', function () { S.deck = []; }));
           mv(api.select('Game', 'game', [['none', 'No game, just draw'], ['big', 'Make the biggest number'], ['small', 'Make the smallest number']], function () { S.slots = []; S.pend = null; S.cur = []; S.deck = []; say(); }));
-          mv(api.num('Digits in the number', 'places', 2, 6, 1, function () { S.slots = []; S.pend = null; }));
+          mv(api.check('Put each card back after drawing', 'put', function () { S.deck = []; }), box3);
+          mv(api.num('Digits in the number', 'places', 2, 6, 1, function () { S.slots = []; S.pend = null; }), box3);
         }
         if (S.mode === 'facts') {
           mv(api.seg('Facts', 'op', [['x', '×'], ['d', '÷'], ['m', 'Both']], function () { S.fop = null; }));
-          mv(api.num('Smallest factor', 'lo', 0, 12, 1, function () { S.fop = null; })); mv(api.num('Biggest factor', 'hi', 1, 12, 1, function () { S.fop = null; }));
+          mv(api.num('Smallest factor', 'lo', 0, 12, 1, function () { S.fop = null; }), box3); mv(api.num('Biggest factor', 'hi', 1, 12, 1, function () { S.fop = null; }), box3);
         }
-        api.button('Clear history', function () { S.hist = []; S.cur = []; S.slots = []; S.pend = null; S.deck = []; api.redraw(); }, '', api.row(box2));
+        api.button('Clear history', function () { S.hist = []; S.cur = []; S.slots = []; S.pend = null; S.deck = []; api.redraw(); }, '', api.row(box3));
         say();
       }
       function say() {
