@@ -44,6 +44,15 @@ ok(await p.evaluate(()=>Object.keys(PQ._state().q.sort.sorted||{}).length===4),'
 await talkTo(6,9,'up');await p.waitForTimeout(2800);ok(await p.evaluate(()=>!!PQ._state().done.sort),'sort quest clear');
 // ── Learn: job 2 rope ruler + bond + boxes
 await p.evaluate(()=>switchTab('learn'));await p.waitForTimeout(400);
+// crew quest: walk to each Crew member and hear their way (voiced), then Opti
+{const tk=async(x,y,d)=>{await p.evaluate(([x,y,d])=>PQ._tp(x,y,d),[x,y,d]);await p.evaluate(()=>PQ._interact());await p.waitForTimeout(300);await drain();};
+await p.evaluate(()=>PQ._play('crew'));await p.waitForTimeout(600);await drain();
+await tk(3,11,'left');ok(!(await p.evaluate(()=>!!PQ._state().done.crew)),'crew: Opti waits until all four are heard');
+for(const [x,y,d] of [[8,12,'down'],[10,12,'down'],[7,16,'right'],[11,16,'left']])await tk(x,y,d);
+ok(await p.evaluate(()=>Object.keys(PQ._state().q.crew.heard||{}).length===4),'crew: heard all four ways');
+ok(await p.evaluate(()=>{const L=(PQ._state().logs||{}).crew||[];return L.some(l=>/77 inches/.test(l));}),'crew: the ways are in the quest log');
+await tk(3,11,'left');await p.waitForTimeout(2800);ok(await p.evaluate(()=>!!PQ._state().done.crew),'crew quest clear');await p.evaluate(()=>PQ._stop&&PQ._stop());}
+
 const R='#mk-rope';await tapN(`${R} .ok-src-piece[data-v="12"]`,4);ok((await msg(`${R} .ok-msg`)).includes('past 46'),'rope: a 4th foot goes past 46 in (hint)');
 await drag(`${R} .ok-src-piece[data-v="1"]`,`${R} .ok-bar`);await tapN(`${R} .ok-src-piece[data-v="1"]`,9);
 ok((await msg(`${R} .ok-sym`)).includes('3 × 12 in + 10 in = 46 in'),'rope: 3 × 12 in + 10 in = 46 in (tap + drag)');

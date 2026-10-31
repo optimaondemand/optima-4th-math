@@ -32,6 +32,15 @@ await p.evaluate(()=>PQ._play('arrive'));await p.waitForTimeout(500);await drain
 await p.click('.pq-choices button:nth-child(1)');await p.waitForTimeout(1200);await drain();
 // ── Learn: job 2 counter on the Two-Unit Mat (tap + drag, adds, trades)
 await p.evaluate(()=>switchTab('learn'));await p.waitForTimeout(400);
+// crew quest: walk to each Crew member and hear their way (voiced), then Opti
+{const tk=async(x,y,d)=>{await p.evaluate(([x,y,d])=>PQ._tp(x,y,d),[x,y,d]);await p.evaluate(()=>PQ._interact());await p.waitForTimeout(300);await drain();};
+await p.evaluate(()=>PQ._play('crew'));await p.waitForTimeout(600);await drain();
+await tk(9,4,'up');ok(!(await p.evaluate(()=>!!PQ._state().done.crew)),'crew: Opti waits until all four are heard');
+for(const [x,y,d] of [[12,10,'right'],[20,10,'left'],[12,13,'right'],[20,13,'left']])await tk(x,y,d);
+ok(await p.evaluate(()=>Object.keys(PQ._state().q.crew.heard||{}).length===4),'crew: heard all four ways');
+ok(await p.evaluate(()=>{const L=(PQ._state().logs||{}).crew||[];return L.some(l=>/495/.test(l));}),'crew: the ways are in the quest log');
+await tk(9,4,'up');await p.waitForTimeout(2800);ok(await p.evaluate(()=>!!PQ._state().done.crew),'crew quest clear');await p.evaluate(()=>PQ._stop&&PQ._stop());}
+
 ok((await p.$eval('.pq-slot[data-quest="counter"]',e=>e.className)).includes('lock'),'counter quest locked before job 2');
 const C='#mk-counter';await p.click(`${C} .ok-add`);ok((await msg(`${C} .ok-msg`)).includes('Build one plank'),'counter: add is held until plank 1 is built');
 await p.click(`${C} .ok-tray .ok-disc[data-p="100"]`);for(let i=0;i<6;i++)await p.click(`${C} .ok-tray .ok-disc[data-p="10"]`);for(let i=0;i<4;i++)await p.click(`${C} .ok-tray .ok-disc[data-p="1"]`);

@@ -159,6 +159,33 @@ var STOPS=[[16,10],[22,10],[26,10]];
 function placeSmudge(api){var e=api.ent('smudge');if(!e)return;var k=Math.min((api.S.q.chase||{}).stop||0,2);e.x=STOPS[k][0];e.y=STOPS[k][1];e.alpha=1;e.flyOff=0;e.dxOff=0;e.tick=null;}
 function hop(api,k){var e=api.ent('smudge');api.snd.poof();e.alpha=1;var from=e.x,to=STOPS[k][0],tt=0;e.tick=function(dt,z){tt+=dt;var p=Math.min(1,tt/0.7);z.dxOff=(to-from)*16*p;if(p>=1){z.x=to;z.dxOff=0;z.tick=null;}};}
 
+D.quests.crew={
+  title:'Hear the Crew\'s Ways',spawn:[9, 14, 'down'],next:{tab:'learn',sel:'#journal-compare',label:'Which way is like yours?'},
+  teaser:'The Math Crew found which of Gus\'s posts is taller. Walk to each of them and hear how they did it.',
+  doneText:'Atlas changed the south post to feet and inches, Felix changed the north post to inches, Hazel pictured a ruler, and Cora traded 12, not 10. Next: which way is most like yours?',
+  goal:function(S){var q=S.q.crew||{},n=Object.keys(q.heard||{}).length;return n<4?'Walk to each Math Crew member and hear their way <b>('+n+'/4)</b>':'Tell <b>Opti</b> what you heard.';},
+  markers:function(S){var h=(S.q.crew||{}).heard||{};var m=['atlas','felix','hazel','cora'].filter(function(c){return !h[c];}).map(function(c){return {id:c};});return m.length?m:[{id:'opti'}];},
+  start:function(api){var q=api.q();if(!q.seen){q.seen=1;api.save();
+    api.say([{who:'opti',t:'Hoo! The Math Crew found which of Gus\'s posts is taller. They each did it their own way.'},
+    {who:'opti',t:'Walk up to each of them and listen. Then come back and tell me.'}],function(a){a.goal(D.quests.crew.goal(a.S));});}},
+  reset:function(S){S.q.crew={};},
+  transcript:['Atlas (feet and inches): 79 in splits into 72 in and 7 in, so it is 6 ft 7 in. 7 in is 2 more than 5 in.','Felix (all inches): 6 ft = 6 × 12 = 72 in. 72 + 5 = 77 in. 79 − 77 = 2.','Hazel (picture a ruler): every 12 inch marks make a foot. The posts are 2 inches apart.','Cora: when the inches reach 12, trade them for a foot.','Opti: Two ways, one answer: the south post, by 2 inches.']
+};
+var WAYS={
+  atlas:[{who:'atlas',t:'My way is feet and inches.'},
+    {who:'atlas',t:'I change the south post\'s 79 inches to feet and inches. I split 79 into 72 and 7 with a number bond.'},
+    {who:'atlas',t:'72 inches is 6 feet, so the south post is 6 ft 7 in.'},
+    {who:'atlas',t:'Both posts are 6 feet, and 7 inches is 2 more than 5 inches. The south post is taller by 2 inches!'}],
+  felix:[{who:'felix',t:'My way is all inches.'},
+    {who:'felix',t:'I change the north post to inches. 6 feet is 6 × 12, so 72 inches.'},
+    {who:'felix',t:'72 inches and 5 more inches make 77 inches. The south post is 79 inches.'},
+    {who:'felix',t:'79 − 77 = 2. The south post is taller by 2 inches. Same answer as Atlas!'}],
+  hazel:[{who:'hazel',t:'I picture a ruler.'},
+    {who:'hazel',t:'Every 12 little inch marks make one foot. So 6 feet is 6 groups of 12 inches.'},
+    {who:'hazel',t:'The north post stops 5 inches past 6 feet. The south post stops 7 inches past. They are 2 inches apart!'}],
+  cora:[{who:'cora',t:'In meters, we traded 100 centimeters. With feet, we trade 12 inches for 1 foot.'},
+    {who:'cora',t:'Watch the inches. When they reach 12, trade them for a new foot. Never at 10!'}]
+};
 /* ───────── talk ───────── */
 /* The Crew says hello and talks about today's place first (HELLO). Their method lines (IDLE) unlock only after the page
    teaches the methods: CREW_TAUGHT is the job that does it (Measure Rosa's Rope, right after the Crew card on Learn). */
@@ -189,6 +216,11 @@ function curQuest(){var s=document.querySelector('.pq-slot.pq-live');return s&&s
 function padOf(who,t,eq,unit,check){var p={who:who,t:t,pad:{eq:eq,unit:unit,check:function(v,a){check(v,a,p);}}};return p;}
 D.talk=function(id,api){
   var S=api.S,q=curQuest();
+  if(q==='crew'&&WAYS[id]){return api.say(WAYS[id],function(a){var C=a.S.q.crew;C.heard=C.heard||{};C.heard[id]=1;a.save();
+      var n=Object.keys(C.heard).length;a.say([{who:'sys',t:n<4?'That\'s '+n+' of 4. Find the next Crew member.':'You heard all four! Go back to Opti.'}],function(b){b.goal(D.quests.crew.goal(b.S));});});}
+  if(q==='crew'&&id==='opti'){var CC=S.q.crew||{};if(Object.keys(CC.heard||{}).length>=4)return api.say([{who:'opti',t:'Hoo! Two ways, and one answer: the south post is taller by 2 inches.'},
+    {who:'opti',t:'Which way is most like yours? Write about it on your page, right under the Crew\'s card.'}],function(a){a.complete();});
+    return api.say([{who:'opti',t:'Walk up to each Crew member and listen to their way first.'}]);}
   if(id==='opti'){
     if(S.world.east)return api.say([{who:'opti',t:'Eastside is open, {name}! Next time we visit the General Store over there.'}]);
     return api.say([{who:'opti',t:'Hoo! Every bridge job on the page gets us one step closer to Eastside.'}]);

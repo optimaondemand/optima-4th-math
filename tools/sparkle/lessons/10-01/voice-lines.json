@@ -167,6 +167,31 @@
   "lines": [
    {
     "who": "opti",
+    "t": "Hoo! The Math Crew found the length of Amy's counter. They each did it their own way.",
+    "key": "5fcd4441"
+   },
+   {
+    "who": "opti",
+    "t": "Walk up to each of them and listen. Then come back and tell me.",
+    "key": "dd07f9b6"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! Two ways, and one answer: Amy's counter is 4 m 95 cm.",
+    "key": "2896d55f"
+   },
+   {
+    "who": "opti",
+    "t": "Which way is most like yours? Write about it on your page, right under the Crew's card.",
+    "key": "6eba99ec"
+   },
+   {
+    "who": "opti",
+    "t": "Walk up to each Crew member and listen to their way first.",
+    "key": "b722791e"
+   },
+   {
+    "who": "opti",
     "t": "Hoo! You made it, {name}! Today is Market Day in Metric Market.",
     "key": "bccc202d"
    },
@@ -226,68 +251,31 @@
     "key": "246809af"
    }
   ],
-  "prompt": "You made it, explorer! Today is Market Day in Metric Market. <break time=\"1.5s\" /> I'm Opti. I'll travel with you and the Math Crew all year. <break time=\"1.5s\" /> Amy wants to open her juice stand today. But last night the Smudge rolled through town. <break time=\"1.5s\" /> The Smudge is a grumpy gray cloud. It mixed up every measure in town. <break time=\"1.5s\" /> Mo is building Amy's counter, Millie is bringing flour, and Amy has juice orders to fill. The Market Day board on the page lists every job. <break time=\"1.5s\" /> Let's start here. Walk over to the Leeter Well and read its sign. Tell me if it looks right. <break time=\"1.5s\" /> The Leeter Well is east of the fountain. Look for the stone well with the little red roof. <break time=\"1.5s\" /> Listen to that line at Amy's stand! Nice work, explorer. <break time=\"1.5s\" /> Every job on the Market Day board gets Amy one step closer to opening. <break time=\"1.5s\" /> Keep that question in your pocket, explorer. By the end of this lesson, you'll prove the answer. <break time=\"1.5s\" /> You proved it, explorer. 1 liter is 1,000 milliliters, so 2 liters is 2,000 milliliters. Not 200! <break time=\"1.5s\" /> Rest up. Next lesson we cross the Foot Bridge, where people measure in inches and feet."
- },
- "cora": {
-  "voice_id": "5T4Pk1MOGKVVSf9tJnWM",
-  "lines": [
-   {
-    "who": "cora",
-    "t": "Careful! 6 kg is 6,000 g, not 60 g or 600 g. Then add the 5 g. The zeros hold the places.",
-    "key": "6b72fe69"
-   },
-   {
-    "who": "cora",
-    "t": "Regroup first. 195 cm is 1 m 95 cm. So 3 m 195 cm is 4 m 95 cm. How many centimeters is that?",
-    "key": "bcc1c5ab"
-   },
-   {
-    "who": "cora",
-    "t": "That's what the Smudge wrote! 1 L = 1,000 mL, not 100 mL. So what is 2 L?",
-    "key": "90ed58ad"
-   },
-   {
-    "who": "cora",
-    "t": "Hello, I'm Cora. I like every word to be exact. That sign on the Liter Well looks wrong to me.",
-    "key": "e68d344a"
-   },
-   {
-    "who": "cora",
-    "t": "When the centimeters reach 100, trade them for 1 m. That's regrouping!",
-    "key": "b8c85beb"
-   }
-  ],
-  "prompt": "Careful! 6 kilograms is 6,000 grams, not 60 grams or 600 grams. Then add the 5 grams. The zeros hold the places. <break time=\"1.5s\" /> Regroup first. 195 centimeters is 1 meter 95 centimeters. So 3 meters 195 centimeters is 4 meters 95 centimeters. How many centimeters is that? <break time=\"1.5s\" /> That's what the Smudge wrote! 1 liter equals 1,000 milliliters, not 100 milliliters. So what is 2 liters? <break time=\"1.5s\" /> Hello, I'm Cora. I like every word to be exact. That sign on the Leeter Well looks wrong to me. <break time=\"1.5s\" /> When the centimeters reach 100, trade them for 1 meter. That's regrouping!"
- },
- "felix": {
-  "voice_id": "PJeatLZlmAT5jz5L5p7U",
-  "lines": [
-   {
-    "who": "felix",
-    "t": "I tested that. 6,050 g would be 6 kg 50 g. The sack has only 5 g more than 6 kg.",
-    "key": "052b9ac3"
-   },
-   {
-    "who": "felix",
-    "t": "Try my way. 1 m 65 cm = 165 cm. What is 3 × 165?",
-    "key": "2ca7b21a"
-   },
-   {
-    "who": "felix",
-    "t": "Hey, I'm Felix! I like to test things twice. Did you see the big flour sack Millie is carrying?",
-    "key": "04914953"
-   },
-   {
-    "who": "felix",
-    "t": "I change it all to one unit first. 1 m 65 cm is 165 cm. Then I work and change back.",
-    "key": "2c6b411f"
-   }
-  ],
-  "prompt": "I tested that. 6,050 grams would be 6 kilograms 50 grams. The sack has only 5 grams more than 6 kilograms. <break time=\"1.5s\" /> Try my way. 1 meter 65 centimeters equals 165 centimeters. What is 3 times 165? <break time=\"1.5s\" /> Hey, I'm Felix! I like to test things twice. Did you see the big flour sack Millie is carrying? <break time=\"1.5s\" /> I change it all to one unit first. 1 meter 65 centimeters is 165 centimeters. Then I work and change back."
+  "prompt": "The Math Crew found the length of Amy's counter. They each did it their own way. <break time=\"1.5s\" /> Walk up to each of them and listen. Then come back and tell me. <break time=\"1.5s\" /> Two ways, and one answer: Amy's counter is 4 meters 95 centimeters. <break time=\"1.5s\" /> Which way is most like yours? Write about it on your page, right under the Crew's card. <break time=\"1.5s\" /> Walk up to each Crew member and listen to their way first. <break time=\"1.5s\" /> You made it, explorer! Today is Market Day in Metric Market. <break time=\"1.5s\" /> I'm Opti. I'll travel with you and the Math Crew all year. <break time=\"1.5s\" /> Amy wants to open her juice stand today. But last night the Smudge rolled through town. <break time=\"1.5s\" /> The Smudge is a grumpy gray cloud. It mixed up every measure in town. <break time=\"1.5s\" /> Mo is building Amy's counter, Millie is bringing flour, and Amy has juice orders to fill. The Market Day board on the page lists every job. <break time=\"1.5s\" /> Let's start here. Walk over to the Leeter Well and read its sign. Tell me if it looks right. <break time=\"1.5s\" /> The Leeter Well is east of the fountain. Look for the stone well with the little red roof. <break time=\"1.5s\" /> Listen to that line at Amy's stand! Nice work, explorer. <break time=\"1.5s\" /> Every job on the Market Day board gets Amy one step closer to opening. <break time=\"1.5s\" /> Keep that question in your pocket, explorer. By the end of this lesson, you'll prove the answer. <break time=\"1.5s\" /> You proved it, explorer. 1 liter is 1,000 milliliters, so 2 liters is 2,000 milliliters. Not 200! <break time=\"1.5s\" /> Rest up. Next lesson we cross the Foot Bridge, where people measure in inches and feet."
  },
  "atlas": {
   "voice_id": "unWb9iRIK7Xxf4A5Hfis",
   "lines": [
+   {
+    "who": "atlas",
+    "t": "My way is to split the units.",
+    "key": "91051dea"
+   },
+   {
+    "who": "atlas",
+    "t": "I split 1 m 65 cm into 1 m and 65 cm. 3 × 1 m = 3 m, and 3 × 65 cm = 195 cm.",
+    "key": "128b9e2f"
+   },
+   {
+    "who": "atlas",
+    "t": "That makes 3 m 195 cm. But 195 cm is more than 1 m, so I trade 100 cm for 1 m.",
+    "key": "96af7306"
+   },
+   {
+    "who": "atlas",
+    "t": "195 cm is 1 m 95 cm, so the counter is 4 m 95 cm!",
+    "key": "7eeb09aa"
+   },
    {
     "who": "atlas",
     "t": "Split it: 6 kg = 6,000 g. Then 6,000 g + 5 g = ?",
@@ -314,11 +302,72 @@
     "key": "e095ca71"
    }
   ],
-  "prompt": "Split it: 6 kilograms equals 6,000 grams. Then 6,000 grams plus 5 grams equals what? <break time=\"1.5s\" /> That's just the centimeters: 3 times 65 centimeters. Each plank has 1 meter too. Add the 3 meters. <break time=\"1.5s\" /> Each liter is 1,000 milliliters. Two liters is two of those. <break time=\"1.5s\" /> Hi, I'm Atlas! I love finding my way around. Metric Market has a stall for everything today! <break time=\"1.5s\" /> I split two-unit amounts: meters with meters, centimeters with centimeters. Then I regroup."
+  "prompt": "My way is to split the units. <break time=\"1.5s\" /> I split 1 meter 65 centimeters into 1 meter and 65 centimeters. 3 times 1 meter equals 3 meters, and 3 times 65 centimeters equals 195 centimeters. <break time=\"1.5s\" /> That makes 3 meters 195 centimeters. But 195 centimeters is more than 1 meter, so I trade 100 centimeters for 1 meter. <break time=\"1.5s\" /> 195 centimeters is 1 meter 95 centimeters, so the counter is 4 meters 95 centimeters! <break time=\"1.5s\" /> Split it: 6 kilograms equals 6,000 grams. Then 6,000 grams plus 5 grams equals what? <break time=\"1.5s\" /> That's just the centimeters: 3 times 65 centimeters. Each plank has 1 meter too. Add the 3 meters. <break time=\"1.5s\" /> Each liter is 1,000 milliliters. Two liters is two of those. <break time=\"1.5s\" /> Hi, I'm Atlas! I love finding my way around. Metric Market has a stall for everything today! <break time=\"1.5s\" /> I split two-unit amounts: meters with meters, centimeters with centimeters. Then I regroup."
+ },
+ "felix": {
+  "voice_id": "PJeatLZlmAT5jz5L5p7U",
+  "lines": [
+   {
+    "who": "felix",
+    "t": "My way is one unit first.",
+    "key": "31ebac98"
+   },
+   {
+    "who": "felix",
+    "t": "I change it all to centimeters. 1 m 65 cm is 165 cm.",
+    "key": "562ceb69"
+   },
+   {
+    "who": "felix",
+    "t": "3 × 165 cm = 495 cm.",
+    "key": "1ac59bca"
+   },
+   {
+    "who": "felix",
+    "t": "Then I change back: 495 cm is 4 m 95 cm. Same answer as Atlas!",
+    "key": "96d21bf7"
+   },
+   {
+    "who": "felix",
+    "t": "I tested that. 6,050 g would be 6 kg 50 g. The sack has only 5 g more than 6 kg.",
+    "key": "052b9ac3"
+   },
+   {
+    "who": "felix",
+    "t": "Try my way. 1 m 65 cm = 165 cm. What is 3 × 165?",
+    "key": "2ca7b21a"
+   },
+   {
+    "who": "felix",
+    "t": "Hey, I'm Felix! I like to test things twice. Did you see the big flour sack Millie is carrying?",
+    "key": "04914953"
+   },
+   {
+    "who": "felix",
+    "t": "I change it all to one unit first. 1 m 65 cm is 165 cm. Then I work and change back.",
+    "key": "2c6b411f"
+   }
+  ],
+  "prompt": "My way is one unit first. <break time=\"1.5s\" /> I change it all to centimeters. 1 meter 65 centimeters is 165 centimeters. <break time=\"1.5s\" /> 3 times 165 centimeters equals 495 centimeters. <break time=\"1.5s\" /> Then I change back: 495 centimeters is 4 meters 95 centimeters. Same answer as Atlas! <break time=\"1.5s\" /> I tested that. 6,050 grams would be 6 kilograms 50 grams. The sack has only 5 grams more than 6 kilograms. <break time=\"1.5s\" /> Try my way. 1 meter 65 centimeters equals 165 centimeters. What is 3 times 165? <break time=\"1.5s\" /> Hey, I'm Felix! I like to test things twice. Did you see the big flour sack Millie is carrying? <break time=\"1.5s\" /> I change it all to one unit first. 1 meter 65 centimeters is 165 centimeters. Then I work and change back."
  },
  "hazel": {
   "voice_id": "MkTSSXNgnBULS6ek4pon",
   "lines": [
+   {
+    "who": "hazel",
+    "t": "I draw it.",
+    "key": "e1322481"
+   },
+   {
+    "who": "hazel",
+    "t": "I draw a bar with 3 equal parts, one for each plank. Each part is 1 m 65 cm.",
+    "key": "5a65e59c"
+   },
+   {
+    "who": "hazel",
+    "t": "The whole bar is the counter. That is the length we need to find!",
+    "key": "ca1f1f74"
+   },
    {
     "who": "hazel",
     "t": "Hi! I'm Hazel. I'm drawing the whole market, from the bead stall all the way to the Liter Well.",
@@ -330,6 +379,47 @@
     "key": "fcb37efc"
    }
   ],
-  "prompt": "Hi! I'm Hazel. I'm drawing the whole market, from the bead stall all the way to the Leeter Well. <break time=\"1.5s\" /> I draw a bar for every story. Equal planks get equal parts."
+  "prompt": "I draw it. <break time=\"1.5s\" /> I draw a bar with 3 equal parts, one for each plank. Each part is 1 meter 65 centimeters. <break time=\"1.5s\" /> The whole bar is the counter. That is the length we need to find! <break time=\"1.5s\" /> Hi! I'm Hazel. I'm drawing the whole market, from the bead stall all the way to the Leeter Well. <break time=\"1.5s\" /> I draw a bar for every story. Equal planks get equal parts."
+ },
+ "cora": {
+  "voice_id": "5T4Pk1MOGKVVSf9tJnWM",
+  "lines": [
+   {
+    "who": "cora",
+    "t": "When the small unit reaches 100 cm, trade it for 1 m.",
+    "key": "0ef66e82"
+   },
+   {
+    "who": "cora",
+    "t": "For grams and milliliters, trade 1,000 for 1 kg or 1 L. That trade is how you regroup.",
+    "key": "502c2823"
+   },
+   {
+    "who": "cora",
+    "t": "Careful! 6 kg is 6,000 g, not 60 g or 600 g. Then add the 5 g. The zeros hold the places.",
+    "key": "6b72fe69"
+   },
+   {
+    "who": "cora",
+    "t": "Regroup first. 195 cm is 1 m 95 cm. So 3 m 195 cm is 4 m 95 cm. How many centimeters is that?",
+    "key": "bcc1c5ab"
+   },
+   {
+    "who": "cora",
+    "t": "That's what the Smudge wrote! 1 L = 1,000 mL, not 100 mL. So what is 2 L?",
+    "key": "90ed58ad"
+   },
+   {
+    "who": "cora",
+    "t": "Hello, I'm Cora. I like every word to be exact. That sign on the Liter Well looks wrong to me.",
+    "key": "e68d344a"
+   },
+   {
+    "who": "cora",
+    "t": "When the centimeters reach 100, trade them for 1 m. That's regrouping!",
+    "key": "b8c85beb"
+   }
+  ],
+  "prompt": "When the small unit reaches 100 centimeters, trade it for 1 meter. <break time=\"1.5s\" /> For grams and milliliters, trade 1,000 for 1 kilogram or 1 liter. That trade is how you regroup. <break time=\"1.5s\" /> Careful! 6 kilograms is 6,000 grams, not 60 grams or 600 grams. Then add the 5 grams. The zeros hold the places. <break time=\"1.5s\" /> Regroup first. 195 centimeters is 1 meter 95 centimeters. So 3 meters 195 centimeters is 4 meters 95 centimeters. How many centimeters is that? <break time=\"1.5s\" /> That's what the Smudge wrote! 1 liter equals 1,000 milliliters, not 100 milliliters. So what is 2 liters? <break time=\"1.5s\" /> Hello, I'm Cora. I like every word to be exact. That sign on the Leeter Well looks wrong to me. <break time=\"1.5s\" /> When the centimeters reach 100, trade them for 1 meter. That's regrouping!"
  }
 }

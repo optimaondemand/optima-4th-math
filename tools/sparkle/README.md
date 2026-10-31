@@ -150,6 +150,17 @@ Every job, on every tab (Learn and Show What You Know), opens with `job(story, s
 the trade or step students miss → the same idea with different numbers). Add new hints at the END of the list (`play.js`
 counts them by position). Unit labels are never uppercased (mL, cm).
 
+## Hear the Crew's Ways (a standing game window, Bethany 31 Oct 2026)
+
+Every lesson has a `crew` game window (`slot('crew')`) right above the Math Crew card on Learn: students walk to Atlas, Felix,
+Hazel and Cora and HEAR each one's way for the Think problem (voiced), then Opti sends them to the compare-your-way box.
+In `lesson.js`: `D.quests.crew` (talk; markers on the Crew members not yet heard, then Opti; `next` = `#journal-compare`) +
+`var WAYS={atlas:[…],felix:[…],hazel:[…],cora:[…]}` (2–4 short lines each, the card's ways split into spoken lines, Think
+numbers only) + a talk branch before Opti's (`q==='crew'`). Not locked: it sits where the card teaches the ways. The card
+stays for clean mode and its first line says "Walk to each of them in the game above to hear their way, or read it here."
+It doesn't count toward the 3–5 story quests (6 windows is fine). Model: 10-03. Opti's generic lines ("Walk up to each of
+them…", "Which way is most like yours?…", "Walk up to each Crew member…") are identical in every lesson: copy their clips.
+
 ## Math Crew talk in the game (readiness)
 
 In `lesson.js`, the Crew has two sets of lines. `HELLO` (they introduce themselves and talk about today's place, no math) plays

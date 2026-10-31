@@ -43,7 +43,7 @@ replace_block('<div class="video-placeholder-wrap">\n<!-- slot: g4math-10-02 -->
 i = s.index('<div class="activity bl-violet"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">👋</div>'); j = block_end(s, i); s = s[:i] + s[j:]
 CREW = ('<div class="activity bl-violet" id="mk-crew"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">👋</div><div><div class="activity-title">The Math Crew: Two Ways</div>'
  '<div class="activity-sub">Which post is taller: north at 6 ft 5 in, or south at 79 in?</div></div></div><div class="activity-body">'
- '<p>The Crew found the answer two different ways. Read both. Which way would you pick?</p>'
+ '<p>The Crew found the answer two different ways. Walk to each of them in the game above to hear their way, or read it here. Which way would you pick?</p>'
  '<div class="bubble-row">'
  '<div class="bubble atlas"><div class="bubble-avatar">A</div><div class="bubble-body"><div class="bubble-name">Atlas: feet and inches</div><div class="bubble-text">"I change the south post\'s 79 in to feet and inches. I use a number bond to split 79 into 72 and 7. 72 in is 6 ft, so the south post is 6 ft 7 in. Both are 6 feet, and 7 inches is 2 more than 5 inches. The south post is taller by 2 in."</div></div></div>'
  '<div class="bubble felix"><div class="bubble-avatar">F</div><div class="bubble-body"><div class="bubble-name">Felix: all inches</div><div class="bubble-text">"I change the north post to inches. 6 ft is 6 × 12 = 72 in. 72 in + 5 in = 77 in. The south post is 79 in, and 79 − 77 = 2. The south post is taller by 2 in. Same answer!"</div></div></div>'
@@ -85,7 +85,7 @@ i = s.index('<div aria-label="Daily vocabulary flash cards" class="vocab-section
 i = s.index('<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong>')
 j = block_end(s, i); k = s.index('<div class="activity bl-slate">', j); kend = block_end(s, k)
 assert 'Ruler Stacker' in s[k:kend]
-s = s[:i] + (video('learn') + CREW
+s = s[:i] + (video('learn') + slot('crew') + CREW
  + act('mk-rope', '#C56C3F', '🪢', 'Rope Ruler: 46 in = ? ft ? in', 'Job 2 · Use the Rope Ruler and a number bond',
    job('Rosa\'s rope is <strong>46 in</strong> long. Gus needs its length in feet and inches. <strong>How many feet and inches is 46 in?</strong>',
        ['Build the rope on the ruler. Use 1-foot pieces first (12 in each), as many as fit.',

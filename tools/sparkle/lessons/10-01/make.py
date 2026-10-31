@@ -36,14 +36,16 @@ replace_block('<div class="video-placeholder-wrap">\n<!-- slot: g4math-10-01 -->
 i=s.index('<div class="activity bl-violet"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">👋</div>');j=block_end(s,i);s=s[:i]+s[j:]
 CREW=('<div class="activity bl-violet" id="mk-crew"><div class="activity-head"><div class="activity-num" style="background:#6B3FA0;">👋</div><div><div class="activity-title">The Math Crew: Two Ways</div>'
  '<div class="activity-sub">How long is Amy\'s counter: 3 × 1 m 65 cm?</div></div></div><div class="activity-body">'
- '<p>The Crew found the length of Amy\'s counter two different ways. Read both. Which way would you pick?</p>'
+ '<p>The Crew found the length of Amy\'s counter two different ways. Walk to each of them in the game above to hear their way, or read it here. Which way would you pick?</p>'
  '<div class="bubble-row">'
  '<div class="bubble atlas"><div class="bubble-avatar">A</div><div class="bubble-body"><div class="bubble-name">Atlas: split the units</div><div class="bubble-text">"I split 1 m 65 cm into 1 m and 65 cm. 3 × 1 m = 3 m. 3 × 65 cm = 195 cm. That\'s 3 m 195 cm, but 195 cm is more than 1 m. 195 cm = 1 m 95 cm, so the counter is 4 m 95 cm."</div></div></div>'
  '<div class="bubble felix"><div class="bubble-avatar">F</div><div class="bubble-body"><div class="bubble-name">Felix: one unit first</div><div class="bubble-text">"I change it all to centimeters. 1 m 65 cm = 165 cm. 3 × 165 cm = 495 cm. Then I change back: 495 cm = 4 m 95 cm. Same answer as Atlas!"</div></div></div>'
  '</div><div class="bubble-row">'
  '<div class="bubble hazel"><div class="bubble-avatar">H</div><div class="bubble-body"><div class="bubble-name">Hazel: draw it</div><div class="bubble-text">"I draw a bar with 3 equal parts, one for each plank. Each part is 1 m 65 cm. The whole bar is the counter."</div></div></div>'
  '<div class="bubble cora"><div class="bubble-avatar">C</div><div class="bubble-body"><div class="bubble-name">Cora: trade when it gets too big</div><div class="bubble-text">"When the small unit reaches 100 cm, trade it for 1 m. For grams and milliliters, trade 1,000 for 1 kg or 1 L. That trade is how you regroup."</div></div></div>'
- '</div><div class="callout callout-tip" style="margin-top:8px;"><span class="callout-icon">💡</span><p>Crew rule: <em>Draw the story (Hazel). Pick a way: split or one unit (Atlas, Felix). Regroup and check the units (Cora).</em></p></div></div></div>')
+ '</div><div class="callout callout-tip" style="margin-top:8px;"><span class="callout-icon">💡</span><p>Crew rule: <em>Draw the story (Hazel). Pick a way: split or one unit (Atlas, Felix). Regroup and check the units (Cora).</em></p></div>'
+ '<div class="journal-label">✏️ Which Crew way is most like yours? Which way would you use for a bigger problem, like 6 × 2 m 75 cm, and why? <span class="saved-dot" id="dot-compare"></span></div>'
+ '<textarea class="journal-box" data-label="Learn — My way and the Crew\'s ways" id="journal-compare" oninput="autoSave(this,\'dot-compare\')" placeholder=""></textarea></div></div>')
 
 # ── C. readiness → Market Measures (stamps, a short review of the factors)
 m=re.search(r'<div class="journal-label">✏️ Which pairs of units use ×1,000\?.*?</textarea>',s,re.S);journal_r1=m.group(0)
@@ -74,7 +76,7 @@ ins_before('<div class="tab-next-wrap"><p class="tab-transition-voice">Next: fin
 i=s.index('<div class="callout callout-think" style="margin-bottom:14px;"><span class="callout-icon">🧠</span><p><strong>Try before the rule:</strong>')
 j=block_end(s,i); k=s.index('<div class="activity bl-slate">',j); kend=block_end(s,k)
 assert 'Unit Builder' in s[k:kend]
-s=s[:i]+(video('learn')+CREW
+s=s[:i]+(video('learn')+slot('crew')+CREW
  +act('mk-counter','#C56C3F','🪵','Build the Counter: 3 × 1 m 65 cm','Job 2 · Use the Two-Unit Mat',
    job('Mo lays 3 planks end to end to build Amy\'s counter. Each plank is <strong>1 m 65 cm</strong> long. <strong>How long is the counter?</strong>',
        ['Build <strong>one</strong> plank on the mat: 1 m 65 cm. Drag or tap pieces from the tray.',

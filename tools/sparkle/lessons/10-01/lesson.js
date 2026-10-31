@@ -170,6 +170,33 @@ D.quests.sign={
   transcript:['The Smudge: My sign is PERFECT. 2 L is 200 mL!','Sign: 2 L = ____ mL','Cora: Check the trade. 1 L = 1,000 mL, not 100 mL.','Amy: Clean water and the right measures. My stand is OPEN!','Opti: You proved it. 1 L is 1,000 mL, so 2 L is 2,000 mL.','The Smudge: At the end of Level 10, my Brick Golem is coming. It will mix up EVERY unit in Metric Market!']
 };
 
+D.quests.crew={
+  title:'Hear the Crew\'s Ways',spawn:[16, 11, 'down'],next:{tab:'learn',sel:'#journal-compare',label:'Which way is like yours?'},
+  teaser:'The Math Crew found the length of Amy\'s counter. Walk to each of them and hear how they did it.',
+  doneText:'Atlas split the units, Felix changed it all to centimeters, Hazel drew a bar, and Cora traded 100 cm for 1 m. Next: which way is most like yours?',
+  goal:function(S){var q=S.q.crew||{},n=Object.keys(q.heard||{}).length;return n<4?'Walk to each Math Crew member and hear their way <b>('+n+'/4)</b>':'Tell <b>Opti</b> what you heard.';},
+  markers:function(S){var h=(S.q.crew||{}).heard||{};var m=['atlas','felix','hazel','cora'].filter(function(c){return !h[c];}).map(function(c){return {id:c};});return m.length?m:[{id:'opti'}];},
+  start:function(api){var q=api.q();if(!q.seen){q.seen=1;api.save();
+    api.say([{who:'opti',t:'Hoo! The Math Crew found the length of Amy\'s counter. They each did it their own way.'},
+    {who:'opti',t:'Walk up to each of them and listen. Then come back and tell me.'}],function(a){a.goal(D.quests.crew.goal(a.S));});}},
+  reset:function(S){S.q.crew={};},
+  transcript:['Atlas (split the units): 3 × 1 m = 3 m, 3 × 65 cm = 195 cm. 3 m 195 cm = 4 m 95 cm.','Felix (one unit first): 1 m 65 cm = 165 cm. 3 × 165 cm = 495 cm = 4 m 95 cm.','Hazel (draw it): a bar with 3 equal parts, one for each plank.','Cora: when the small unit reaches 100 cm, trade it for 1 m.','Opti: Two ways, one answer: 4 m 95 cm.']
+};
+var WAYS={
+  atlas:[{who:'atlas',t:'My way is to split the units.'},
+    {who:'atlas',t:'I split 1 m 65 cm into 1 m and 65 cm. 3 × 1 m = 3 m, and 3 × 65 cm = 195 cm.'},
+    {who:'atlas',t:'That makes 3 m 195 cm. But 195 cm is more than 1 m, so I trade 100 cm for 1 m.'},
+    {who:'atlas',t:'195 cm is 1 m 95 cm, so the counter is 4 m 95 cm!'}],
+  felix:[{who:'felix',t:'My way is one unit first.'},
+    {who:'felix',t:'I change it all to centimeters. 1 m 65 cm is 165 cm.'},
+    {who:'felix',t:'3 × 165 cm = 495 cm.'},
+    {who:'felix',t:'Then I change back: 495 cm is 4 m 95 cm. Same answer as Atlas!'}],
+  hazel:[{who:'hazel',t:'I draw it.'},
+    {who:'hazel',t:'I draw a bar with 3 equal parts, one for each plank. Each part is 1 m 65 cm.'},
+    {who:'hazel',t:'The whole bar is the counter. That is the length we need to find!'}],
+  cora:[{who:'cora',t:'When the small unit reaches 100 cm, trade it for 1 m.'},
+    {who:'cora',t:'For grams and milliliters, trade 1,000 for 1 kg or 1 L. That trade is how you regroup.'}]
+};
 /* ───────── talk ───────── */
 /* The Crew says hello and talks about today's place first (HELLO). Their method lines (IDLE) unlock only after the page
    teaches the methods: CREW_TAUGHT is the job that does it (Build the Counter, the Crew card + Two-Unit Mat on Learn). */
@@ -199,6 +226,11 @@ function shop(api){
 function curQuest(){var s=document.querySelector('.pq-slot.pq-live');return s&&s.dataset.quest;}
 D.talk=function(id,api){
   var S=api.S,q=curQuest();
+  if(q==='crew'&&WAYS[id]){return api.say(WAYS[id],function(a){var C=a.S.q.crew;C.heard=C.heard||{};C.heard[id]=1;a.save();
+      var n=Object.keys(C.heard).length;a.say([{who:'sys',t:n<4?'That\'s '+n+' of 4. Find the next Crew member.':'You heard all four! Go back to Opti.'}],function(b){b.goal(D.quests.crew.goal(b.S));});});}
+  if(q==='crew'&&id==='opti'){var CC=S.q.crew||{};if(Object.keys(CC.heard||{}).length>=4)return api.say([{who:'opti',t:'Hoo! Two ways, and one answer: Amy\'s counter is 4 m 95 cm.'},
+    {who:'opti',t:'Which way is most like yours? Write about it on your page, right under the Crew\'s card.'}],function(a){a.complete();});
+    return api.say([{who:'opti',t:'Walk up to each Crew member and listen to their way first.'}]);}
   if(id==='opti'){
     if(q==='arrive'){var A0=S.q.arrive;if(!A0.step){api.say([
       {who:'opti',t:'Hoo! You made it, {name}! Today is Market Day in Metric Market.'},
@@ -513,6 +545,7 @@ return {
     {sel:'#mk-flour [data-mk-model]',rungs:['The whole bar is the sack: 6 kg 5 g. Take away the part Millie sold: 2 kg 750 g.','5 g take away 750 g won\'t work. Trade 1 kg for 1,000 g first: 6 kg 5 g is the same as 5 kg 1,005 g.','Here are different numbers: 5 kg 200 g take away 1 kg 600 g. Trade first: 4 kg 1,200 g take away 1 kg 600 g leaves 3 kg 600 g.']},
     {sel:'#mk-prove .activity-body > .mk-todo',rungs:['Start with the top bar. Each 1 L piece fills the bar up to 1,000 mL on the ruler. 2 L needs 2 pieces.','Now look at the ruler under both bars. Where does the top bar end? Where does the bottom bar end? Same place means same amount.','Here are different numbers: 3 L is 3 pieces of 1,000 mL, so 3 L = 3,000 mL. A sign that said 3 L holds only 300 mL would be wrong, too.']}],
   writing:{
+    'journal-compare':{min:12,chips:[{label:'a Crew member\'s way',words:['atlas','felix','hazel','cora','split','one unit','centimeters','bar','draw','trade','regroup']},{label:'what you would do for 6 × 2 m 75 cm',words:['6','2 m 75','275','times','multiply','×','split','centimeters','cm','change','bar']},{label:'why',words:['because','so','easier','faster','since','simpler','makes sense','quick','like','better']}]},
     'journal-r1':{min:6,chips:[{label:'meters and kilometers',words:['km','kilometer','kilometers','kilometre']},{label:'grams and kilograms',words:['kg','kilogram','kilograms','gram','grams']},{label:'milliliters and liters',words:['ml','milliliter','milliliters','liter','liters','litre','l and ml','ml and l']}]},
     'journal-think':{min:10,chips:[{label:'one plank\'s length',words:['165','1 m 65','1m 65','65 cm','65','one plank','each plank']},{label:'3 planks',words:['3','three','times','×','x 3','plus','+','add','added','adding','multiply','multiplied']},{label:'your answer',words:['495','4 m 95','4m 95','4 m and 95']}]},
     'journal-big':{min:12,chips:[{label:'trade or regroup',words:['trade','traded','trading','regroup','regrouped','change','changed','turn','turned','swap']},{label:'100 or 1,000',words:['100','1000','1,000','hundred','thousand']},{label:'two units',words:['m','cm','kg','g','l','ml','meter','meters','centimeter','centimeters','gram','grams','kilogram','kilograms','liter','liters','milliliter','milliliters']}]},

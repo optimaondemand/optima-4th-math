@@ -19,6 +19,31 @@
    },
    {
     "who": "opti",
+    "t": "Hoo! The Math Crew found which of Gus's posts is taller. They each did it their own way.",
+    "key": "574d44b8"
+   },
+   {
+    "who": "opti",
+    "t": "Walk up to each of them and listen. Then come back and tell me.",
+    "key": "dd07f9b6"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! Two ways, and one answer: the south post is taller by 2 inches.",
+    "key": "f2cc9330"
+   },
+   {
+    "who": "opti",
+    "t": "Which way is most like yours? Write about it on your page, right under the Crew's card.",
+    "key": "6eba99ec"
+   },
+   {
+    "who": "opti",
+    "t": "Walk up to each Crew member and listen to their way first.",
+    "key": "b722791e"
+   },
+   {
+    "who": "opti",
     "t": "Eastside is open, {name}! Next time we visit the General Store over there.",
     "key": "eb85409c"
    },
@@ -38,7 +63,7 @@
     "key": "935ca007"
    }
   ],
-  "prompt": "Welcome to the Foot Bridge, explorer. Last time you opened Amy's juice stand. <break time=\"1.5s\" /> People here measure in inches and feet. But the Smudge got here first. It snapped the rope rail on the bridge! <break time=\"1.5s\" /> Rosa makes all the rope in town. Her shed is just up the path. Go say hello. <break time=\"1.5s\" /> Eastside is open, explorer! Next time we visit the General Store over there. <break time=\"1.5s\" /> Every bridge job on the page gets us one step closer to Eastside. <break time=\"1.5s\" /> A brick chip? I wonder what the Smudge is building. Keep it, explorer. It's a clue. <break time=\"1.5s\" /> The gate is open. Eastside is ours to explore! Next lesson we visit the General Store, where they weigh things in pounds and ounces."
+  "prompt": "Welcome to the Foot Bridge, explorer. Last time you opened Amy's juice stand. <break time=\"1.5s\" /> People here measure in inches and feet. But the Smudge got here first. It snapped the rope rail on the bridge! <break time=\"1.5s\" /> Rosa makes all the rope in town. Her shed is just up the path. Go say hello. <break time=\"1.5s\" /> The Math Crew found which of Gus's posts is taller. They each did it their own way. <break time=\"1.5s\" /> Walk up to each of them and listen. Then come back and tell me. <break time=\"1.5s\" /> Two ways, and one answer: the south post is taller by 2 inches. <break time=\"1.5s\" /> Which way is most like yours? Write about it on your page, right under the Crew's card. <break time=\"1.5s\" /> Walk up to each Crew member and listen to their way first. <break time=\"1.5s\" /> Eastside is open, explorer! Next time we visit the General Store over there. <break time=\"1.5s\" /> Every bridge job on the page gets us one step closer to Eastside. <break time=\"1.5s\" /> A brick chip? I wonder what the Smudge is building. Keep it, explorer. It's a clue. <break time=\"1.5s\" /> The gate is open. Eastside is ours to explore! Next lesson we visit the General Store, where they weigh things in pounds and ounces."
  },
  "gus": {
   "voice_id": "b0BlLcowQPmtf6a9cuP5",
@@ -157,6 +182,190 @@
   ],
   "prompt": "Heh heh heh. Nobody crosses MY bridge. My measures are PERFECT! <break time=\"1.5s\" /> Grr! 27 feet. Fine! Catch me if you can! <break time=\"1.5s\" /> Your rail is 9 yards long. That's 12 feet! Heh heh! <break time=\"1.5s\" /> 6 feet 8 inches?! Ugh. You'll never get past the gate! <break time=\"1.5s\" /> Your rope is 80 inches. That's 8 feet! <break time=\"1.5s\" /> THIRTY inches?! You measured everything right! <break time=\"1.5s\" /> Fine. Keep your silly bridge. My Brick Golem will be ready at the end of Level 10. Heh heh heh... <break time=\"1.5s\" /> The Eastside gate is 2 feet 6 inches wide. That's 26 inches! Wrong measure, no entry!"
  },
+ "atlas": {
+  "voice_id": "unWb9iRIK7Xxf4A5Hfis",
+  "lines": [
+   {
+    "who": "atlas",
+    "t": "My way is feet and inches.",
+    "key": "645be83e"
+   },
+   {
+    "who": "atlas",
+    "t": "I change the south post's 79 inches to feet and inches. I split 79 into 72 and 7 with a number bond.",
+    "key": "9c2441fc"
+   },
+   {
+    "who": "atlas",
+    "t": "72 inches is 6 feet, so the south post is 6 ft 7 in.",
+    "key": "1e16bd0f"
+   },
+   {
+    "who": "atlas",
+    "t": "Both posts are 6 feet, and 7 inches is 2 more than 5 inches. The south post is taller by 2 inches!",
+    "key": "44583c2f"
+   },
+   {
+    "who": "atlas",
+    "t": "Split 15 inches with a number bond: 12 inches and 3 inches. The 12 inches make the new foot. What is left?",
+    "key": "3e8628a3"
+   },
+   {
+    "who": "atlas",
+    "t": "Each yard is 3 feet. Count by 3s nine times, or multiply 9 × 3.",
+    "key": "d4291260"
+   },
+   {
+    "who": "atlas",
+    "t": "Count by 12s until the next one is too big. When you pass 80, stop and go back one.",
+    "key": "2fafab10"
+   },
+   {
+    "who": "atlas",
+    "t": "Hi, I'm Atlas! Eastside is right across that river, and I've never been there. I can't wait to explore it!",
+    "key": "fd328cc5"
+   },
+   {
+    "who": "atlas",
+    "t": "I take out whole feet with a number bond. 46 inches is 36 inches and 10 inches, so it's 3 feet 10 inches.",
+    "key": "6a937184"
+   }
+  ],
+  "prompt": "My way is feet and inches. <break time=\"1.5s\" /> I change the south post's 79 inches to feet and inches. I split 79 into 72 and 7 with a number bond. <break time=\"1.5s\" /> 72 inches is 6 feet, so the south post is 6 feet 7 in. <break time=\"1.5s\" /> Both posts are 6 feet, and 7 inches is 2 more than 5 inches. The south post is taller by 2 inches! <break time=\"1.5s\" /> Split 15 inches with a number bond: 12 inches and 3 inches. The 12 inches make the new foot. What is left? <break time=\"1.5s\" /> Each yard is 3 feet. Count by 3s nine times, or multiply 9 times 3. <break time=\"1.5s\" /> Count by 12s until the next one is too big. When you pass 80, stop and go back one. <break time=\"1.5s\" /> Hi, I'm Atlas! Eastside is right across that river, and I've never been there. I can't wait to explore it! <break time=\"1.5s\" /> I take out whole feet with a number bond. 46 inches is 36 inches and 10 inches, so it's 3 feet 10 inches."
+ },
+ "felix": {
+  "voice_id": "PJeatLZlmAT5jz5L5p7U",
+  "lines": [
+   {
+    "who": "felix",
+    "t": "My way is all inches.",
+    "key": "109fd42f"
+   },
+   {
+    "who": "felix",
+    "t": "I change the north post to inches. 6 feet is 6 × 12, so 72 inches.",
+    "key": "92e83a56"
+   },
+   {
+    "who": "felix",
+    "t": "72 inches and 5 more inches make 77 inches. The south post is 79 inches.",
+    "key": "9f16dea9"
+   },
+   {
+    "who": "felix",
+    "t": "79 − 77 = 2. The south post is taller by 2 inches. Same answer as Atlas!",
+    "key": "51191afd"
+   },
+   {
+    "who": "felix",
+    "t": "That's what the Smudge wrote. It treated inches like tens and ones. A foot is 12 inches, not 10. 15 inches take away 12 inches is?",
+    "key": "7b0bf9c5"
+   },
+   {
+    "who": "felix",
+    "t": "6 feet is 72 inches. 72 and how many more make 80?",
+    "key": "da34139f"
+   },
+   {
+    "who": "felix",
+    "t": "2 feet is 24 inches. Add the 6 inches.",
+    "key": "998bd801"
+   },
+   {
+    "who": "felix",
+    "t": "Hey, I'm Felix! I stomped on every board of this bridge to test it. The boards are strong. It's the rope rail that broke.",
+    "key": "8fbdd6f5"
+   },
+   {
+    "who": "felix",
+    "t": "I change it all to inches first. 2 feet is 24 inches. Add 8 more inches: 32 inches in all. Then I work and change back.",
+    "key": "a4c70b03"
+   }
+  ],
+  "prompt": "My way is all inches. <break time=\"1.5s\" /> I change the north post to inches. 6 feet is 6 times 12, so 72 inches. <break time=\"1.5s\" /> 72 inches and 5 more inches make 77 inches. The south post is 79 inches. <break time=\"1.5s\" /> 79 − 77 equals 2. The south post is taller by 2 inches. Same answer as Atlas! <break time=\"1.5s\" /> That's what the Smudge wrote. It treated inches like tens and ones. A foot is 12 inches, not 10. 15 inches take away 12 inches is? <break time=\"1.5s\" /> 6 feet is 72 inches. 72 and how many more make 80? <break time=\"1.5s\" /> 2 feet is 24 inches. Add the 6 inches. <break time=\"1.5s\" /> Hey, I'm Felix! I stomped on every board of this bridge to test it. The boards are strong. It's the rope rail that broke. <break time=\"1.5s\" /> I change it all to inches first. 2 feet is 24 inches. Add 8 more inches: 32 inches in all. Then I work and change back."
+ },
+ "hazel": {
+  "voice_id": "MkTSSXNgnBULS6ek4pon",
+  "lines": [
+   {
+    "who": "hazel",
+    "t": "I picture a ruler.",
+    "key": "597aafb7"
+   },
+   {
+    "who": "hazel",
+    "t": "Every 12 little inch marks make one foot. So 6 feet is 6 groups of 12 inches.",
+    "key": "261da9a1"
+   },
+   {
+    "who": "hazel",
+    "t": "The north post stops 5 inches past 6 feet. The south post stops 7 inches past. They are 2 inches apart!",
+    "key": "1a0524f0"
+   },
+   {
+    "who": "hazel",
+    "t": "Picture the ruler: 12 inch marks make exactly 1 foot. This scrap is exactly 12 inches.",
+    "key": "e6e58898"
+   },
+   {
+    "who": "hazel",
+    "t": "Picture the ruler. 2 feet is 2 groups of 12 inches, not 20. That's 24 inches, and 6 more.",
+    "key": "ae2834d2"
+   },
+   {
+    "who": "hazel",
+    "t": "Hi! I'm Hazel. I'm drawing the river today. Look how the water sparkles under the bridge!",
+    "key": "361f6928"
+   },
+   {
+    "who": "hazel",
+    "t": "I picture a ruler. Every 12 little inch marks make one big foot.",
+    "key": "1c7d0f15"
+   }
+  ],
+  "prompt": "I picture a ruler. <break time=\"1.5s\" /> Every 12 little inch marks make one foot. So 6 feet is 6 groups of 12 inches. <break time=\"1.5s\" /> The north post stops 5 inches past 6 feet. The south post stops 7 inches past. They are 2 inches apart! <break time=\"1.5s\" /> Picture the ruler: 12 inch marks make exactly 1 foot. This scrap is exactly 12 inches. <break time=\"1.5s\" /> Picture the ruler. 2 feet is 2 groups of 12 inches, not 20. That's 24 inches, and 6 more. <break time=\"1.5s\" /> Hi! I'm Hazel. I'm drawing the river today. Look how the water sparkles under the bridge! <break time=\"1.5s\" /> I picture a ruler. Every 12 little inch marks make one big foot."
+ },
+ "cora": {
+  "voice_id": "5T4Pk1MOGKVVSf9tJnWM",
+  "lines": [
+   {
+    "who": "cora",
+    "t": "In meters, we traded 100 centimeters. With feet, we trade 12 inches for 1 foot.",
+    "key": "6bd97ac8"
+   },
+   {
+    "who": "cora",
+    "t": "Watch the inches. When they reach 12, trade them for a new foot. Never at 10!",
+    "key": "f5d41377"
+   },
+   {
+    "who": "cora",
+    "t": "Careful! A foot is not 10 inches. A foot is 12 inches, so 10 inches is shorter than a foot.",
+    "key": "634508dc"
+   },
+   {
+    "who": "cora",
+    "t": "That's the Smudge's trick! 12 is the inches in a foot. A yard is 3 feet, so 9 yards is 9 × 3 feet.",
+    "key": "c9fdc7fa"
+   },
+   {
+    "who": "cora",
+    "t": "That's the Smudge's trick! 8 feet would be 96 inches, way too many. A foot is 12 inches, not 10. Count by 12s.",
+    "key": "79d88dc4"
+   },
+   {
+    "who": "cora",
+    "t": "Hello, I'm Cora. Gus says nobody crosses until the rail is fixed. That's a good rule.",
+    "key": "d4e62ff8"
+   },
+   {
+    "who": "cora",
+    "t": "When the inches reach 12, trade them for 1 foot. Not 10. Twelve!",
+    "key": "6f3c5eb9"
+   }
+  ],
+  "prompt": "In meters, we traded 100 centimeters. With feet, we trade 12 inches for 1 foot. <break time=\"1.5s\" /> Watch the inches. When they reach 12, trade them for a new foot. Never at 10! <break time=\"1.5s\" /> Careful! A foot is not 10 inches. A foot is 12 inches, so 10 inches is shorter than a foot. <break time=\"1.5s\" /> That's the Smudge's trick! 12 is the inches in a foot. A yard is 3 feet, so 9 yards is 9 times 3 feet. <break time=\"1.5s\" /> That's the Smudge's trick! 8 feet would be 96 inches, way too many. A foot is 12 inches, not 10. Count by 12s. <break time=\"1.5s\" /> Hello, I'm Cora. Gus says nobody crosses until the rail is fixed. That's a good rule. <break time=\"1.5s\" /> When the inches reach 12, trade them for 1 foot. Not 10. Twelve!"
+ },
  "rosa": {
   "voice_id": "vjcrpGpR31efFHsvJ0ym",
   "lines": [
@@ -202,124 +411,5 @@
    }
   ],
   "prompt": "Hi, explorer! I'm Rosa. I make all the rope in town. <break time=\"1.5s\" /> Last night the Smudge snapped the rope rail on the bridge. Then it blew my rope scraps all over the riverbank! <break time=\"1.5s\" /> Every scrap has a tag in inches. Please sort them into my three bins: SHORT, 1 FOOT and LONG. <break time=\"1.5s\" /> A scrap that is exactly 1 foot goes in the 1 FOOT bin. Walk onto a sparkle to pick one up. <break time=\"1.5s\" /> Every scrap is sorted. Thank you, explorer! <break time=\"1.5s\" /> The 1-foot pieces go to Gus to help fix the rail. The rest I'll tie into new rope. <break time=\"1.5s\" /> That rope you spliced is holding tight. Good knots and good math! <break time=\"1.5s\" /> I measure every rope in feet and inches. 12 inches make 1 foot, every time."
- },
- "cora": {
-  "voice_id": "5T4Pk1MOGKVVSf9tJnWM",
-  "lines": [
-   {
-    "who": "cora",
-    "t": "Careful! A foot is not 10 inches. A foot is 12 inches, so 10 inches is shorter than a foot.",
-    "key": "634508dc"
-   },
-   {
-    "who": "cora",
-    "t": "That's the Smudge's trick! 12 is the inches in a foot. A yard is 3 feet, so 9 yards is 9 × 3 feet.",
-    "key": "c9fdc7fa"
-   },
-   {
-    "who": "cora",
-    "t": "That's the Smudge's trick! 8 feet would be 96 inches, way too many. A foot is 12 inches, not 10. Count by 12s.",
-    "key": "79d88dc4"
-   },
-   {
-    "who": "cora",
-    "t": "Hello, I'm Cora. Gus says nobody crosses until the rail is fixed. That's a good rule.",
-    "key": "d4e62ff8"
-   },
-   {
-    "who": "cora",
-    "t": "When the inches reach 12, trade them for 1 foot. Not 10. Twelve!",
-    "key": "6f3c5eb9"
-   }
-  ],
-  "prompt": "Careful! A foot is not 10 inches. A foot is 12 inches, so 10 inches is shorter than a foot. <break time=\"1.5s\" /> That's the Smudge's trick! 12 is the inches in a foot. A yard is 3 feet, so 9 yards is 9 times 3 feet. <break time=\"1.5s\" /> That's the Smudge's trick! 8 feet would be 96 inches, way too many. A foot is 12 inches, not 10. Count by 12s. <break time=\"1.5s\" /> Hello, I'm Cora. Gus says nobody crosses until the rail is fixed. That's a good rule. <break time=\"1.5s\" /> When the inches reach 12, trade them for 1 foot. Not 10. Twelve!"
- },
- "hazel": {
-  "voice_id": "MkTSSXNgnBULS6ek4pon",
-  "lines": [
-   {
-    "who": "hazel",
-    "t": "Picture the ruler: 12 inch marks make exactly 1 foot. This scrap is exactly 12 inches.",
-    "key": "e6e58898"
-   },
-   {
-    "who": "hazel",
-    "t": "Picture the ruler. 2 feet is 2 groups of 12 inches, not 20. That's 24 inches, and 6 more.",
-    "key": "ae2834d2"
-   },
-   {
-    "who": "hazel",
-    "t": "Hi! I'm Hazel. I'm drawing the river today. Look how the water sparkles under the bridge!",
-    "key": "361f6928"
-   },
-   {
-    "who": "hazel",
-    "t": "I picture a ruler. Every 12 little inch marks make one big foot.",
-    "key": "1c7d0f15"
-   }
-  ],
-  "prompt": "Picture the ruler: 12 inch marks make exactly 1 foot. This scrap is exactly 12 inches. <break time=\"1.5s\" /> Picture the ruler. 2 feet is 2 groups of 12 inches, not 20. That's 24 inches, and 6 more. <break time=\"1.5s\" /> Hi! I'm Hazel. I'm drawing the river today. Look how the water sparkles under the bridge! <break time=\"1.5s\" /> I picture a ruler. Every 12 little inch marks make one big foot."
- },
- "felix": {
-  "voice_id": "PJeatLZlmAT5jz5L5p7U",
-  "lines": [
-   {
-    "who": "felix",
-    "t": "That's what the Smudge wrote. It treated inches like tens and ones. A foot is 12 inches, not 10. 15 inches take away 12 inches is?",
-    "key": "7b0bf9c5"
-   },
-   {
-    "who": "felix",
-    "t": "6 feet is 72 inches. 72 and how many more make 80?",
-    "key": "da34139f"
-   },
-   {
-    "who": "felix",
-    "t": "2 feet is 24 inches. Add the 6 inches.",
-    "key": "998bd801"
-   },
-   {
-    "who": "felix",
-    "t": "Hey, I'm Felix! I stomped on every board of this bridge to test it. The boards are strong. It's the rope rail that broke.",
-    "key": "8fbdd6f5"
-   },
-   {
-    "who": "felix",
-    "t": "I change it all to inches first. 2 feet is 24 inches. Add 8 more inches: 32 inches in all. Then I work and change back.",
-    "key": "a4c70b03"
-   }
-  ],
-  "prompt": "That's what the Smudge wrote. It treated inches like tens and ones. A foot is 12 inches, not 10. 15 inches take away 12 inches is? <break time=\"1.5s\" /> 6 feet is 72 inches. 72 and how many more make 80? <break time=\"1.5s\" /> 2 feet is 24 inches. Add the 6 inches. <break time=\"1.5s\" /> Hey, I'm Felix! I stomped on every board of this bridge to test it. The boards are strong. It's the rope rail that broke. <break time=\"1.5s\" /> I change it all to inches first. 2 feet is 24 inches. Add 8 more inches: 32 inches in all. Then I work and change back."
- },
- "atlas": {
-  "voice_id": "unWb9iRIK7Xxf4A5Hfis",
-  "lines": [
-   {
-    "who": "atlas",
-    "t": "Split 15 inches with a number bond: 12 inches and 3 inches. The 12 inches make the new foot. What is left?",
-    "key": "3e8628a3"
-   },
-   {
-    "who": "atlas",
-    "t": "Each yard is 3 feet. Count by 3s nine times, or multiply 9 × 3.",
-    "key": "d4291260"
-   },
-   {
-    "who": "atlas",
-    "t": "Count by 12s until the next one is too big. When you pass 80, stop and go back one.",
-    "key": "2fafab10"
-   },
-   {
-    "who": "atlas",
-    "t": "Hi, I'm Atlas! Eastside is right across that river, and I've never been there. I can't wait to explore it!",
-    "key": "fd328cc5"
-   },
-   {
-    "who": "atlas",
-    "t": "I take out whole feet with a number bond. 46 inches is 36 inches and 10 inches, so it's 3 feet 10 inches.",
-    "key": "6a937184"
-   }
-  ],
-  "prompt": "Split 15 inches with a number bond: 12 inches and 3 inches. The 12 inches make the new foot. What is left? <break time=\"1.5s\" /> Each yard is 3 feet. Count by 3s nine times, or multiply 9 times 3. <break time=\"1.5s\" /> Count by 12s until the next one is too big. When you pass 80, stop and go back one. <break time=\"1.5s\" /> Hi, I'm Atlas! Eastside is right across that river, and I've never been there. I can't wait to explore it! <break time=\"1.5s\" /> I take out whole feet with a number bond. 46 inches is 36 inches and 10 inches, so it's 3 feet 10 inches."
  }
 }
