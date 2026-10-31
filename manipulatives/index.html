@@ -18,7 +18,9 @@
 .lookup input:focus{outline:none;border-color:var(--violet)}
 .ways{max-width:1180px;margin:1.4rem auto 0;padding:0 1rem}
 .ways h2{margin:0 0 .7rem;color:var(--navy);font-size:1.35rem}
-.ways-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem}
+.ways-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1rem}
+.way.back{border-top-color:var(--yellow)}
+.way.back h3 .n{background:var(--yellow);color:var(--navy)}
 .way{background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:1.1rem 1.2rem;border-top:6px solid var(--green);display:flex;flex-direction:column;gap:.5rem}
 .way.setup{border-top-color:var(--violet)}
 .way h3{margin:0;font-size:1.15rem;display:flex;gap:.55rem;align-items:center}
@@ -132,7 +134,8 @@
 </header>
 
 <section class="ways" aria-labelledby="ways-h">
-  <h2 id="ways-h">Two ways to share a tool with students</h2>
+  <h2 id="ways-h">How to use it with students</h2>
+  <p style="margin:-.3rem 0 .9rem;color:var(--mute);font-weight:600">Every link you share is a student link: it opens just the tool, with no way back to this library, so students stay focused. Share this page itself when you want students to browse all the tools.</p>
   <div class="ways-grid">
     <article class="way">
       <h3><span class="n">1</span>Hand out a blank tool</h3>
@@ -147,6 +150,13 @@
       <ol><li>Open a tool and set up the problem.</li><li>Tap <b>Share</b>.</li><li>Send that link. Every student gets your setup.</li></ol>
       <div class="ex"><b>Examples you can try:</b> 2,407 already built on the disc mat, ready for students to take away 1,568. Or a 4 × 6 array of red counters for students to split into equal groups.</div>
       <div class="om-row"><a class="om-btn small primary" id="ex-discs" target="_blank" rel="noopener">Open the 2,407 example ↗</a><a class="om-btn small primary" id="ex-array" target="_blank" rel="noopener">Open the array example ↗</a></div>
+    </article>
+    <article class="way back">
+      <h3><span class="n">3</span>Get students’ work back</h3>
+      <p>On a student link, the top button is <b>Turn in my work</b>. It makes a picture of the student’s tool and a link that opens their work exactly as they left it.</p>
+      <ol><li>Students build their answer, then tap <b>Turn in my work</b>.</li><li>They copy or download the picture, or copy the link.</li><li>They paste it where you ask: a Canvas assignment (File Upload or Website URL), a discussion, or the chat.</li></ol>
+      <p class="om-hint" style="margin:0">Open a student’s link to see their model live, then move the pieces together while you give feedback.</p>
+      <div class="om-row"><a class="om-btn small" id="ex-turnin" target="_blank" rel="noopener" style="border-color:var(--yellow)">See it as a student ↗</a></div>
     </article>
   </div>
 </section>
@@ -289,9 +299,10 @@
   }
 
   /* example links for the "two ways to share" cards */
-  document.getElementById('ex-blank').href = OAOM.toolURL('discs');
-  document.getElementById('ex-discs').href = OAOM.toolURL('discs', { hi: 3, lo: 0, c: { 3: 2, 2: 4, 0: 7 }, cap: 1 });
-  document.getElementById('ex-array').href = OAOM.toolURL('counters', { mode: 'array', r: 4, c: 6 });
+  document.getElementById('ex-blank').href = OAOM.toolURL('discs', null, '&st=1');
+  document.getElementById('ex-turnin').href = OAOM.toolURL('counters', { mode: 'array', r: 4, c: 6, split: 3 }, '&st=1');
+  document.getElementById('ex-discs').href = OAOM.toolURL('discs', { hi: 3, lo: 0, c: { 3: 2, 2: 4, 0: 7 }, cap: 1 }, '&st=1');
+  document.getElementById('ex-array').href = OAOM.toolURL('counters', { mode: 'array', r: 4, c: 6 }, '&st=1');
   function render() {
     document.querySelectorAll('.lib-tabs button').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.v === st.v ? 'true' : 'false'); });
     ({ lessons: renderLessons, tools: renderTools, kit: renderKit, guide: renderGuide })[st.v]();

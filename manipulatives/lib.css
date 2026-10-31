@@ -76,6 +76,10 @@ a{color:var(--violet)}
 .om-hint{font-size:.85rem;color:var(--mute);margin:.2rem 0 .6rem}
 .om-sidetoggle{display:none}
 
+/* turn in my work */
+.om-tipic{margin:.6rem 0;text-align:center;background:var(--bg);border-radius:12px;padding:.5rem}
+.om-tipic img{max-width:100%;max-height:46vh;border:1px solid var(--line);border-radius:8px;background:#fff}
+
 /* plain mode: no directions, just the tool */
 body.plain .om-how,body.plain .om-say{display:none}
 

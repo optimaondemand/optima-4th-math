@@ -69,8 +69,56 @@ var OAOM = (function () {
 
   /* ---------- share modal (used by tool page + library) ---------- */
   var modal;
+  function addSt(u) { return /[?&]st=1/.test(u) ? u : u.replace(/(\?[^#]*)/, '$1&st=1'); }
+  /* ---------- Turn in my work (students): a picture + a link to their exact work ---------- */
+  function workPicture(done) {
+    var svgs = [].slice.call(document.querySelectorAll('#om-stage svg')).filter(function (v) { var r = v.getBoundingClientRect(); return r.width > 60 && r.height > 30 && !v.closest('svg svg'); });
+    var title = (cur ? meta(cur.id).name : 'Math tool'), readout = document.body.classList.contains('hide-nums') || !$('#om-readout') ? '' : ([].map.call($('#om-readout').children, function (x) { return x.textContent.trim(); }).filter(Boolean).join('    ') || $('#om-readout').textContent.trim());
+    var sc = 2, pad = 24, W = 0, H = 0, parts = [];
+    svgs.forEach(function (v) { var r = v.getBoundingClientRect(); parts.push({ v: v, w: r.width, h: r.height }); W = Math.max(W, r.width); H += r.height + 12; });
+    W = Math.max(W, 420) + pad * 2; H += 70 + (readout ? 50 : 0) + pad;
+    var c = document.createElement('canvas'); c.width = W * sc; c.height = H * sc; var g = c.getContext('2d'); g.scale(sc, sc);
+    g.fillStyle = '#fff'; g.fillRect(0, 0, W, H); g.fillStyle = '#0E1C42'; g.font = 'bold 20px Nunito, Arial, sans-serif'; g.fillText(title, pad, 36);
+    g.font = '13px Nunito, Arial, sans-serif'; g.fillStyle = '#5B6478'; g.fillText(new Date().toLocaleString(), pad, 56);
+    var y = 70, i = 0;
+    (function next() {
+      if (i >= parts.length) {
+        if (readout) { g.fillStyle = '#EFE9FB'; g.fillRect(pad, y, W - pad * 2, 38); g.fillStyle = '#0E1C42'; g.font = 'bold 16px Nunito, Arial, sans-serif'; g.fillText(readout.slice(0, 90), pad + 10, y + 25); }
+        done(c); return;
+      }
+      var p = parts[i++], cl = p.v.cloneNode(true); cl.setAttribute('xmlns', 'http://www.w3.org/2000/svg'); cl.setAttribute('width', p.w); cl.setAttribute('height', p.h);
+      var st = document.createElementNS('http://www.w3.org/2000/svg', 'style'); st.textContent = 'text{font-family:Nunito,Arial,sans-serif;font-weight:700}'; cl.insertBefore(st, cl.firstChild);
+      var img = new Image(); img.onload = function () { g.drawImage(img, pad, y, p.w, p.h); y += p.h + 12; next(); }; img.onerror = function () { y += p.h + 12; next(); };
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(cl));
+    })();
+  }
+  function turnIn() {
+    if (!cur) return;
+    if (!modal) { modal = el('div', { class: 'om-modal', hidden: '' }); document.body.appendChild(modal); modal.addEventListener('click', function (e) { if (e.target === modal) closeShare(); }); document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeShare(); }); }
+    var link = addSt(toolURL(cur.id, cur.S));
+    modal.innerHTML = '<div class="om-dialog" role="dialog" aria-modal="true" aria-labelledby="om-ti-t"><h2 id="om-ti-t">' + (document.body.classList.contains('student') ? 'Turn in my work' : 'Save this work') + '</h2>' +
+      '<p class="sub">Send your teacher a picture of your work, or a link that opens it just the way it is now. Paste it where your teacher asked: a Canvas assignment, a discussion, or the chat.</p>' +
+      '<div class="om-tipic"><p class="om-hint">Making your picture…</p></div>' +
+      '<div class="om-row"><button class="om-btn small primary" data-k="copyimg">Copy picture</button><button class="om-btn small" data-k="dl">Download picture</button><button class="om-btn small primary" data-k="copylink">Copy link to my work</button></div>' +
+      '<p class="om-hint">Tip: in a Canvas assignment, choose <b>File Upload</b> for the picture, or <b>Website URL</b> for the link.</p>' +
+      '<div class="om-row" style="justify-content:flex-end"><button class="om-btn small" data-x>Close</button></div></div>';
+    modal.hidden = false; modal.querySelector('[data-x]').onclick = closeShare;
+    modal.querySelector('[data-k="copylink"]').onclick = function () { copy(link, 'Link to your work copied'); };
+    workPicture(function (cv) {
+      var box = modal.querySelector('.om-tipic'); box.innerHTML = ''; var im = new Image(); im.src = cv.toDataURL('image/png'); im.alt = 'Picture of my work'; box.appendChild(im);
+      var name = meta(cur.id).name.replace(/[^a-z0-9]+/gi, '-').toLowerCase() + '-my-work.png';
+      modal.querySelector('[data-k="dl"]').onclick = function () { var a = el('a', { href: im.src, download: name }); document.body.appendChild(a); a.click(); a.remove(); };
+      modal.querySelector('[data-k="copyimg"]').onclick = function () {
+        if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) cv.toBlob(function (b) { navigator.clipboard.write([new ClipboardItem({ 'image/png': b })]).then(function () { toast('Picture copied. Paste it with Ctrl+V.'); }, function () { toast('Copying didn’t work here. Use Download picture.'); }); });
+        else toast('Copying pictures doesn’t work in this browser. Use Download picture.');
+      };
+    });
+  }
+
   function share(o) { /* o = {title, url, boardUrl, embedUrl} */
     if (!modal) { modal = el('div', { class: 'om-modal', hidden: '' }); document.body.appendChild(modal); modal.addEventListener('click', function (e) { if (e.target === modal) closeShare(); }); document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeShare(); }); }
+    /* every link a teacher shares is a student link: it opens without the way back to the library */
+    o = Object.assign({}, o, { url: addSt(o.url) });
     var orig = o; if (o.plain) { o = Object.assign({}, o, { url: o.url.replace(/(\?[^#]*)/, '$1&plain=1'), dir: null, note: 'A plain tool: no directions, ready for students to explore.' }); }
     var embedUrl = o.embedUrl || (o.url + (o.url.indexOf('#') > -1 ? '' : '')).replace(/(\?[^#]*)/, '$1&embed=1');
     var boardUrl = o.boardUrl || o.url.replace(/(\?[^#]*)/, '$1&board=1');
@@ -215,18 +263,19 @@ var OAOM = (function () {
 
   function boot() {
     var id = params.get('t'), lid = params.get('lesson');
-    var isBoard = params.get('board') === '1', isEmbed = params.get('embed') === '1';
+    var isBoard = params.get('board') === '1', isEmbed = params.get('embed') === '1', isStudent = params.get('st') === '1';
+    document.body.classList.toggle('student', isStudent);
     document.body.classList.toggle('plain', params.get('plain') === '1');
     document.body.classList.toggle('board', isBoard); document.body.classList.toggle('embed', isEmbed);
     var app = $('#app');
     app.innerHTML =
-      '<header class="om-top"><a class="back om-noprint" href="index.html" ' + (isEmbed ? 'target="_blank"' : '') + '>← ' + (isEmbed ? 'All tools' : 'Library') + '</a><h1 id="om-title">Math Tool</h1><div class="om-actions">' +
+      '<header class="om-top">' + (isStudent ? '' : '<a class="back om-noprint" href="index.html" ' + (isEmbed ? 'target="_blank"' : '') + '>← ' + (isEmbed ? 'All tools' : 'Library') + '</a>') + '<h1 id="om-title">Math Tool</h1><div class="om-actions">' +
       '<button class="om-btn small" id="om-nums" aria-pressed="false" title="Hide or show the totals"><span class="lbl">Hide totals</span><span aria-hidden="true">👁</span></button>' +
       '<button class="om-btn small" id="om-reset" title="Start over"><span aria-hidden="true">↺</span><span class="lbl">Start over</span></button>' +
       '<button class="om-btn small om-sidetoggle" id="om-setbtn" aria-pressed="false"><span class="lbl">Set up</span><span aria-hidden="true">⚙</span></button>' +
       (isBoard ? '<button class="om-btn small" id="om-dark" aria-pressed="false"><span class="lbl">Dark</span><span aria-hidden="true">◐</span></button><button class="om-btn small" id="om-full"><span class="lbl">Full screen</span><span aria-hidden="true">⛶</span></button>' : '<button class="om-btn small" id="om-big" title="Big-screen mode"><span class="lbl">Big screen</span><span aria-hidden="true">⛶</span></button>') +
       '<button class="om-btn small" id="om-print" title="Print"><span class="lbl">Print</span><span aria-hidden="true">🖨</span></button>' +
-      '<button class="om-btn small primary" id="om-share"><span class="lbl">Share</span><span aria-hidden="true">🔗</span></button></div></header>' +
+      (isStudent ? '<button class="om-btn small primary" id="om-turnin"><span class="lbl">Turn in my work</span><span aria-hidden="true">📤</span></button>' : '<button class="om-btn small" id="om-turnin" title="Save a picture or link of this work"><span class="lbl">Save my work</span><span aria-hidden="true">📤</span></button><button class="om-btn small primary" id="om-share"><span class="lbl">Share</span><span aria-hidden="true">🔗</span></button>') + '</div></header>' +
       '<nav class="om-tabs" id="om-tabs" role="tablist" hidden></nav><p class="om-lessonnote" id="om-lnote" hidden></p>' +
       '<main class="om-main" id="om-main"><section class="om-stagecard"><div class="om-printhead" id="om-printhead"></div><details class="om-how" id="om-how"' + (isEmbed ? '' : ' open') + '><summary>How to use this tool</summary><ol id="om-howlist"></ol></details><p class="om-say" id="om-say" aria-live="polite"></p><div class="om-goal" id="om-goal" hidden></div><div class="om-stage" id="om-stage"></div><div class="om-readout om-num" id="om-readout" aria-live="polite"></div></section>' +
       '<aside class="om-side"><h2>Set up</h2><div id="om-setup"></div></aside></main>';
@@ -238,7 +287,8 @@ var OAOM = (function () {
     var big = $('#om-big'); if (big) big.onclick = function () { location.href = currentURL('&board=1'); };
     var dark = $('#om-dark'); if (dark) dark.onclick = function () { var on = document.body.classList.toggle('dark'); this.setAttribute('aria-pressed', on); };
     var full = $('#om-full'); if (full) full.onclick = function () { if (document.fullscreenElement) document.exitFullscreen(); else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); };
-    $('#om-share').onclick = function () {
+    $('#om-turnin').onclick = turnIn;
+    if ($('#om-share')) $('#om-share').onclick = function () {
       if (!cur) return;
       if (lid) { share(lessonShare(lid)); return; }
       var mm = meta(cur.id); share({ title: mm.name, url: toolURL(cur.id, cur.S), plain: document.body.classList.contains('plain'), dir: { title: 'Math tool: ' + mm.name, intro: mm.what, steps: mm.how } });
@@ -270,7 +320,7 @@ var OAOM = (function () {
       dir: { title: 'Math tools', intro: 'Use these tools on any problem while you work. Tap a tab at the top to switch tools. Each tool has a “How to use this tool” box.', tries: L.tools.map(function (t) { return [meta(t.t).name, meta(t.t).what]; }) } };
   }
   function toolShare(id, state) { var mm = meta(id); return { title: mm.name, url: toolURL(id, state), dir: { title: 'Math tool: ' + mm.name, intro: mm.what, steps: mm.how } }; }
-  function currentURL(extra) { if (params.get('lesson')) return lessonURL(params.get('lesson'), extra); return toolURL(cur.id, cur.S, extra); }
+  function currentURL(extra) { if (params.get('st') === '1') extra = (extra || '') + '&st=1'; if (params.get('lesson')) return lessonURL(params.get('lesson'), extra); return toolURL(cur.id, cur.S, extra); }
 
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   /* anim(node, attrs, ms): tween numeric SVG attributes (x, y, cx, cy, opacity, transform via 'tx','ty'); skipped under reduced motion */
