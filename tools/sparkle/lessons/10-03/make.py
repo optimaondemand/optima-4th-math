@@ -58,10 +58,10 @@ CREW = ('<div class="activity bl-violet" id="mk-crew"><div class="activity-head"
 replace_block('<div class="activity bl-yellow"><div class="activity-head"><div class="activity-num" style="background:#F5C518;color:#0E1C42;">🔎</div>',
  act('mk-scale', '#F5C518;color:#0E1C42', '⚖️', 'Warm-Up: Read the Scale', 'Job 1 · Check Mrs. Mabel\'s scale',
    job('Mrs. Mabel weighs everything she sells on her big store scale. It shows <strong>weight</strong> in two units: the pound (lb) is the big unit, and the ounce (oz) is the small one. The Smudge knocked the scale, so first, check it. <strong>How many ounces make 1 pound?</strong>',
-       ['Round 1: drag or tap 1-ounce weights onto the scale until the needle points to <strong>1 lb</strong>. Count the weights.',
+       ['Round 1: drag or tap 1-ounce weights onto the scale until the needle points to <strong>1 lb</strong>. Watch the small marks light up and count them.',
         'Type how many ounces make 1 pound.',
-        'Round 2: a bag of oats is on the scale. Read the needle: first the pounds, then the little ounce marks after them.',
-        'Type the weight of the oats in pounds and ounces.'])
+        'Round 2: weigh the beans. Put on the 1-pound weight, then 1-ounce weights, and watch the needle move past 1 lb.',
+        'Round 3: read the oats. Find the last pound number the needle passed, then count the small marks after it. Type the weight in pounds and ounces.'])
    + tip('hazel', 'Look at the dial. The little marks between 0 and 1 lb are ounces. Count them!') + model('scale')
    , cls='bl-yellow')
  + slot('find')

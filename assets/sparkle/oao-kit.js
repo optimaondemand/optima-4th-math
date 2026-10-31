@@ -493,15 +493,19 @@ function tradeMat(root,cfg){
 function scale(root,cfg){
   var R=cfg.rate||16,B=cfg.big||{unit:'lb',name:['pound','pounds']},Sm=cfg.small||{unit:'oz',name:['ounce','ounces']},rounds=cfg.rounds,key=cfg.key;
   var st=ls(key,null)||{cur:0,w:rounds.map(function(){return {b:0,s:0};}),won:rounds.map(function(){return false;}),a:rounds.map(function(){return [];}),fired:false};
+  if(!st.help)st.help=rounds.map(function(){return 0;});
   root.classList.add('ok-tool');root.classList.add('ok-wscale');
   root.innerHTML=(rounds.length>1?'<div class="ok-rounds" role="tablist">'+rounds.map(function(r,i){return '<button type="button" data-i="'+i+'">'+esc(r.name)+'</button>';}).join('')+'</div>':'')+
     '<p class="ok-do" aria-live="polite"></p><div class="ok-scalebox"><div class="ok-plat" aria-label="The scale platform"></div><svg class="ok-dial" viewBox="0 0 420 236" role="img"></svg></div>'+
+    '<div class="ok-dialkey"><span><i class="k-big"></i>a number = 1 more '+esc(B.name[0])+'</span>'+(R%2===0?'<span><i class="k-mid"></i>middle mark = '+(R/2)+' '+esc(Sm.name[1])+' past it</span>':'')+'<span><i class="k-sm"></i>each small mark = 1 '+esc(Sm.name[0])+'</span></div><div class="ok-helprow"></div>'+
     '<div class="ok-tray"></div><div class="ok-sym" aria-live="polite"></div><div class="ok-scale-ask"></div><div class="ok-msg" aria-live="polite"></div>'+
     '<div class="ok-row"><button class="ok-btn ok-undo" type="button">↶ Take one off</button><button class="ok-btn ok-reset" type="button">↺ Start over</button></div>';
   var msg=$('.ok-msg',root),dial=$('.ok-dial',root),plat=$('.ok-plat',root),tray=$('.ok-tray',root),askEl=$('.ok-scale-ask',root);
   function say(t,k){msg.className='ok-msg'+(k?' '+k:'');msg.innerHTML=t||'';}
   function save(){lsSet(key,st);}
   function amt(v){var b=Math.floor(v/R),s=v%R;return b+' '+B.unit+' '+s+' '+Sm.unit;}
+  function wn(n,u){return n+' one-'+u.name[0]+' weight'+(n===1?'':'s');}
+  function onScale(w){if(!w.b&&!w.s)return 'Nothing on the scale yet.';return 'On the scale: '+[w.b?wn(w.b,B):'',w.s?wn(w.s,Sm):''].filter(Boolean).join(' and ')+'.';}
   function total(i){var r=rounds[i];return r.at!=null?r.at:st.w[i].b*R+st.w[i].s;}
   function cx(){return 210;} function cy(){return 206;}
   function ang(v,max){return Math.PI-(v/(max*R))*Math.PI;}
@@ -510,8 +514,12 @@ function scale(root,cfg){
     return '<g class="'+cls+'"><line x1="'+cx()+'" y1="'+cy()+'" x2="'+cx()+'" y2="'+(cy()-150)+'" transform="rotate('+(deg-90).toFixed(2)+' '+cx()+' '+cy()+')" stroke="'+col+'" stroke-width="'+(cls==='ok-ghost-n'?3:4)+'" stroke-linecap="round"'+(cls==='ok-ghost-n'?' stroke-dasharray="7 5"':'')+'/></g>';}
   function drawDial(i){var r=rounds[i],max=r.max,n=max*R,s='<rect x="6" y="6" width="408" height="224" rx="18" fill="#FFF8EF" stroke="#3B2417" stroke-width="4"/>';
     s+='<path d="M'+(cx()-176)+' '+cy()+' A176 176 0 0 1 '+(cx()+176)+' '+cy()+'" fill="#FFFFFF" stroke="#3B2417" stroke-width="3"/>';
-    for(var k=0;k<=n;k++){var a=ang(k,max),big=k%R===0,mid=!big&&R%2===0&&k%(R/2)===0,len=big?26:mid?17:10,p1=pt(a,172),p2=pt(a,172-len);
-      s+='<line class="'+(big||mid?'mj':'mn')+'" x1="'+p1[0].toFixed(1)+'" y1="'+p1[1].toFixed(1)+'" x2="'+p2[0].toFixed(1)+'" y2="'+p2[1].toFixed(1)+'" stroke="#2B3040" stroke-width="'+(big?3:mid?2:1.3)+'"/>';
+    // marks the needle has passed since the last whole big unit light up orange: numbered while a round teaches counting
+    // (countMarks), lit only when the student asks for the helper on a reading round
+    var tv=total(i),lit=(r.countMarks||st.help[i])&&tv>0,lb=tv%R===0?tv-R:Math.floor(tv/R)*R;
+    for(var k=0;k<=n;k++){var a=ang(k,max),big=k%R===0,mid=!big&&R%2===0&&k%(R/2)===0,len=big?26:mid?17:10,p1=pt(a,172),p2=pt(a,172-len),on=lit&&k>lb&&k<=tv;
+      s+='<line class="'+(big||mid?'mj':'mn')+'" x1="'+p1[0].toFixed(1)+'" y1="'+p1[1].toFixed(1)+'" x2="'+p2[0].toFixed(1)+'" y2="'+p2[1].toFixed(1)+'" stroke="'+(on?'#E07B39':'#2B3040')+'" stroke-width="'+(on?(big?4:3):(big?3:mid?2:1.3))+'"/>';
+      if(on&&r.countMarks){var pc=pt(a,max>1?146:150);s+='<text x="'+pc[0].toFixed(1)+'" y="'+(pc[1]+4).toFixed(1)+'" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="'+(max>1?11:13)+'" fill="#C2601F">'+(k-lb)+'</text>';}
       if(big){var pl=pt(a,124);s+='<text x="'+pl[0].toFixed(1)+'" y="'+(pl[1]+6).toFixed(1)+'" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="'+(max>4?16:19)+'" fill="#1E8C5A">'+(k?k/R+' '+B.unit:'0')+'</text>';}}
     (r.ghost||[]).forEach(function(g){if(st.won[g]||rounds[g].at!=null)s+=needle(total(g),max,'ok-ghost-n','#8A90A6');});
     s+=needle(total(i),max,'ok-needle','#D8344A')+'<circle cx="'+cx()+'" cy="'+cy()+'" r="10" fill="#3B2417"/><circle cx="'+cx()+'" cy="'+cy()+'" r="4" fill="#F5C518"/>';
@@ -547,7 +555,10 @@ function scale(root,cfg){
     $$('.ok-tray .ok-wt',root).forEach(function(d){var k=d.dataset.k;draggable(d,function(){return {k:k,from:'src'};},function(t,pl){if(t&&t.closest('.ok-scalebox'))add(pl.k);},function(pl){add(pl.k);});});
     var v=total(i);
     $('.ok-sym',root).innerHTML=r.sym?r.sym(v,st,i):(r.showReading?'<span class="big">'+amt(v)+'</span><span class="exp">= '+fmt(v)+' '+Sm.unit+'</span>':
-      (r.at!=null?'<span class="exp">Read the needle. Count the big numbers, then the small marks after the last one.</span>':'<span class="exp">On the scale: '+w.b+' × 1 '+B.unit+' and '+w.s+' × 1 '+Sm.unit+(r.target!=null&&v===r.target?' · the needle stopped at the '+esc(r.item)+'\'s weight':'')+'</span>'));
+      (r.at!=null?'<span class="exp">Find the last '+esc(B.name[0])+' number the needle passed. Then count the small marks after it.</span>':'<span class="exp">'+onScale(w)+(r.target!=null&&v===r.target&&r.reachText?' '+r.reachText:'')+'</span>'));
+    var hr=$('.ok-helprow',root);hr.innerHTML='';
+    if(!r.countMarks&&(r.at!=null||r.ask)&&!st.help[i]&&v>0){var hb=document.createElement('button');hb.type='button';hb.className='ok-btn ok-help';hb.textContent='💡 Light up the marks after the last '+B.name[0];
+      hb.onclick=function(){st.help[st.cur]=1;save();render();};hr.appendChild(hb);}
     // the answer form
     if(r.ask&&askReady(i)){var A=r.ask,sa=st.a[i]||[];
       if(!askEl.dataset.r||askEl.dataset.r!==String(i)){askEl.dataset.r=i;
@@ -569,7 +580,7 @@ function scale(root,cfg){
   }
   if(rounds.length>1)$$('.ok-rounds button',root).forEach(function(b){b.onclick=function(){st.cur=+b.dataset.i;save();say('');askEl.dataset.r='';render();};});
   $('.ok-undo',root).onclick=function(){var w=st.w[st.cur];if(st.won[st.cur]&&rounds[st.cur].target!=null)return;if(w.s)remove('small');else if(w.b)remove('big');};
-  $('.ok-reset',root).onclick=function(){var i=st.cur;st.w[i]={b:0,s:0};st.won[i]=false;st.a[i]=[];st.fired=st.won.every(Boolean)&&st.fired;save();say('');askEl.dataset.r='';render();};
+  $('.ok-reset',root).onclick=function(){var i=st.cur;st.w[i]={b:0,s:0};st.won[i]=false;st.a[i]=[];st.help[i]=0;st.fired=st.won.every(Boolean)&&st.fired;save();say('');askEl.dataset.r='';render();};
   render();
   return {state:st,total:total};
 }

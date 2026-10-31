@@ -217,6 +217,15 @@ function writing(){
 }
 /* 3. new words defined in the sentence, the first time a student meets them: PQ_LESSON.words = [{w, d}] (reading order) */
 var SKIP='script,style,textarea,input,button,select,svg,canvas,summary,.pq-slot,.pq-vslot,.mk-board-mount,[data-mk-model],.flip-card,.pq-def,.mk-tip-name,.header,.standards-panel,.gathered-box,.turn-in-card,.pq-hint,.pq-write';
+function defTip(sp){var tip=$('.pq-def-m',sp);
+  function place(){tip.style.marginLeft='0px';var r=tip.getBoundingClientRect(),vw=document.documentElement.clientWidth,dx=0;
+    if(r.right>vw-8)dx=vw-8-r.right;if(r.left+dx<8)dx=8-r.left;tip.style.marginLeft=dx+'px';tip.style.setProperty('--ax',(-dx)+'px');}
+  var at=0;function open(on){if(on&&!sp.classList.contains('open'))at=Date.now();sp.classList.toggle('open',on);sp.setAttribute('aria-expanded',on?'true':'false');if(on)place();}
+  sp.addEventListener('mouseenter',function(){open(true);});sp.addEventListener('mouseleave',function(){if(document.activeElement!==sp)open(false);});
+  sp.addEventListener('focus',function(){open(true);});sp.addEventListener('blur',function(){open(false);});
+  sp.addEventListener('click',function(e){e.preventDefault();if(Date.now()-at<400)return;open(!sp.classList.contains('open'));}); // a tap opens it (focus) and doesn't close it again
+  sp.addEventListener('keydown',function(e){if(e.key==='Escape'){open(false);sp.blur();}if(e.key==='Enter'||e.key===' '){e.preventDefault();open(!sp.classList.contains('open'));}});
+}
 function defineWords(){
   var root=$('.tab-panel')?$('.tab-panel').parentNode:document.body,scope=$$('.tab-panel');
   (L.words||[]).forEach(function(W){
@@ -225,8 +234,9 @@ function defineWords(){
       var tw=document.createTreeWalker(sc,NodeFilter.SHOW_TEXT,{acceptNode:function(n){var p=n.parentElement;return p&&!p.closest(SKIP)&&re.test(n.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT;}});
       var n=tw.nextNode();if(!n)return;done=true;var m=n.nodeValue.match(re),i=n.nodeValue.search(re);
       var after=n.splitText(i);after.nodeValue=after.nodeValue.slice(m[1].length);
-      var span=el('<span class="pq-def"><b>'+esc(m[1])+'</b> <span class="pq-def-m">('+esc(W.d)+')</span></span>');
-      n.parentNode.insertBefore(span,after);});
+      // the meaning is a tooltip (hover, keyboard focus, or a tap on touch screens), so the sentence stays easy to read
+      var span=el('<span class="pq-def" tabindex="0" role="button" aria-expanded="false"><b>'+esc(m[1])+'</b><span class="pq-def-m" role="tooltip">'+esc(W.d)+'</span></span>');
+      n.parentNode.insertBefore(span,after);defTip(span);});
     if(!done)fail('word','"'+W.w+'" not found on the page');
   });
   // the journal lists the words

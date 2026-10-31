@@ -526,8 +526,13 @@ details.pq-intro .intro-2col{padding:0}
 .pq-chip{border:1.5px solid #CBD5E8;background:#F6F7FB;color:#5E6C8C;border-radius:999px;padding:2px 10px;font-weight:700}
 .pq-chip.on{border-color:#2DB87A;background:#E3F8ED;color:#1E6B45}
 .pq-chip.on::before{content:"✓ "}
+.pq-def{position:relative;display:inline-block;cursor:help;border-radius:4px;outline:none}
 .pq-def b{color:#0E1C42;border-bottom:2px dotted #C56C3F}
-.pq-def-m{color:#6A4FA3;font-weight:700;font-size:.92em}
+.pq-def:focus-visible b{outline:3px solid #55C8E8;outline-offset:2px}
+.pq-def-m{display:none;position:absolute;z-index:40;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);width:max-content;max-width:min(260px,80vw);
+  background:#2E1C4F;color:#fff;font-weight:700;font-size:15px;line-height:1.35;text-align:left;padding:8px 12px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.25);white-space:normal;pointer-events:none}
+.pq-def-m::after{content:'';position:absolute;top:100%;left:calc(50% + var(--ax,0px));transform:translateX(-50%);border:7px solid transparent;border-top-color:#2E1C4F}
+.pq-def.open .pq-def-m{display:block}
 
 /* Two-Unit Mat */
 .ok-groups{display:grid;gap:6px;margin:0 0 4px;font-weight:900;font-size:13px;line-height:1;letter-spacing:.5px;color:#3A3550;text-align:center}  /* no uppercase: mL and cm must keep their case */
@@ -619,3 +624,8 @@ body.pqi-on{overflow:hidden}
 .mk-bag{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:58px;background:#2DB87A;color:#fff;border:3px solid #3B2417;border-radius:10px 10px 16px 16px;box-shadow:inset 0 6px 0 rgba(255,255,255,.25)}
 .mk-bag b{font-size:16px}.mk-bag small{font-size:12px;font-weight:800;color:#E9FFF4}
 .mk-bag-empty{color:#8A90A6;font-weight:800}
+
+.ok-wscale .ok-dialkey{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px;font-size:13px;font-weight:800;color:#4A5068;margin:6px 0 0}
+.ok-wscale .ok-dialkey i{display:inline-block;width:3px;background:#2B3040;margin-right:6px;vertical-align:middle}
+.ok-wscale .ok-dialkey .k-big{height:16px;width:4px}.ok-wscale .ok-dialkey .k-mid{height:11px}.ok-wscale .ok-dialkey .k-sm{height:7px;width:2px}
+.ok-wscale .ok-helprow{text-align:center;margin-top:6px}.ok-wscale .ok-help{background:#FFF3B0;color:#5B2E10;border-color:#C9A24A}

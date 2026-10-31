@@ -355,13 +355,17 @@ function mount(m,cls){var d=document.createElement('div');d.className=cls||'';m.
 /* Job 1 · Read the Scale (Store Scale): 16 one-ounce weights fill 1 pound, then read the oats at 2 lb 10 oz */
 function modelScale(m){
   OAOKit.scale(m,{key:'g4-4-10-03-ok-scale',rate:16,big:LB,small:OZ,
-    rounds:[{name:'Fill 1 pound',item:'1 lb mark',max:1,target:16,weights:['small'],trayText:'Drag a 1-ounce weight onto the scale (or tap it):',
+    rounds:[{name:'Fill 1 pound',item:'1 lb mark',max:1,target:16,weights:['small'],countMarks:true,reachText:'The needle points right at 1 lb.',trayText:'Drag a 1-ounce weight onto the scale (or tap it):',
        overMsg:'The needle is already at 1 lb. That would go past it.',
-       text:'Put 1-ounce weights on Mrs. Mabel\'s scale until the needle points to <b>1 lb</b>. Count the weights.',
+       text:'Put 1-ounce weights on Mrs. Mabel\'s scale, one at a time. Each weight moves the needle <b>one small mark</b>, and the mark lights up. Keep going until the needle points to <b>1 lb</b>.',
        ask:{q:'1 lb =',units:['oz'],answer:[16],mistakes:[{v:[10],text:'Count the weights on the platform again, one at a time. Are there 10?'}],hint:'Count every weight on the platform.',doneText:'Sixteen 1-ounce weights balance 1 pound. <b>1 lb = 16 oz.</b>'},
        doneText:'Sixteen 1-ounce weights. <b>1 lb = 16 oz.</b>'},
+      {name:'Past 1 pound',item:'bag of beans',itemLabel:'a bag of beans: 1 lb 5 oz',max:2,target:21,countMarks:true,reachText:'The needle is 5 small marks past 1 lb.',
+       overMsg:'That is heavier than the beans. Take one off.',
+       text:'Now weigh a bag of beans: <b>1 lb 5 oz</b>. Put the 1-pound weight on first, and watch the needle jump to 1 lb. Then add 1-ounce weights. Each one moves the needle one small mark past 1 lb.',
+       doneText:'1 lb 5 oz: the needle passed the 1 lb number, then 5 small marks. That is how you read a scale: the pounds first, then the small marks after them.'},
       {name:'Read the oats',item:'oats',itemLabel:'a bag of oats',max:3,at:42,
-       text:'A bag of oats is on the scale. Read the needle: first the pounds, then the little ounce marks after them.',
+       text:'Now a bag of oats is on the scale. Read it the same way: find the last pound number the needle passed, then count the small marks after it. Stuck? Tap the button to light up the marks.',
        ask:{q:'The oats weigh',units:['lb','oz'],answer:[2,10],mistakes:[{v:[3,0],text:'Look closely: the needle hasn\'t reached 3 lb yet. It is past 2 lb. Count the little marks after 2 lb.'},{v:[2,5],text:'Each little mark is 1 ounce. Count every mark after 2 lb, not every other one.'}],
          hint:'Find the last pound number the needle passed. Then count the little marks after it.',doneText:'The oats weigh <b>2 lb 10 oz</b>.'},
        doneText:'2 lb 10 oz of oats.'}],
@@ -385,10 +389,10 @@ function modelThink(m){
   OAOKit.scale(a,{key:'g4-4-10-03-ok-think',rate:16,big:LB,small:OZ,
     rounds:[{name:'Pineapple',item:'pineapple',itemLabel:'pineapple: 2 lb 9 oz',max:3,target:41,
        overMsg:'That makes it heavier than the pineapple. Take one off.',
-       text:'Put weights on the scale to match the <b>pineapple: 2 lb 9 oz</b>. Use the 1 lb and 1 oz weights, or work it out your own way.',doneText:'The needle shows the pineapple\'s weight. Now the melon.'},
+       text:'Put weights on the scale to match the <b>pineapple: 2 lb 9 oz</b>. Use the 1 lb and 1 oz weights, or work it out your own way.',reachText:'That matches the pineapple.',doneText:'The needle shows the pineapple\'s weight. Now the melon.'},
       {name:'Melon',item:'melon',itemLabel:'melon: 43 oz',max:3,target:43,ghost:[0],cap:47,
        overMsg:'That makes it heavier than the melon. Take one off.',
-       text:'Now match the <b>melon: 43 oz</b>. The dashed needle is the pineapple.',doneText:'Compare the two needles. Which fruit is heavier, and by how many ounce marks?'}]});
+       text:'Now match the <b>melon: 43 oz</b>. The dashed needle is the pineapple.',reachText:'That matches the melon.',doneText:'Compare the two needles. Which fruit is heavier, and by how many ounce marks?'}]});
   var st=ls('g4-4-10-03-think-ans',null)||{a:['',''],ok:false};
   b.innerHTML='<form class="bm-form mk-two"><label class="mk-two-q" for="thinkWho">Which fruit is heavier, the pineapple or the melon?</label><input id="thinkWho" type="text" autocomplete="off" aria-label="Which fruit is heavier" value="'+esc(st.a[0])+'" style="width:8em">'+
     '<label class="mk-two-q" for="thinkBy">By how many ounces?</label><input id="thinkBy" type="text" inputmode="numeric" autocomplete="off" aria-label="By how many ounces" value="'+esc(st.a[1])+'"><span class="bm-u">oz</span><button type="submit" class="ok-btn">Check</button></form><div class="ok-msg" aria-live="polite"></div>';
@@ -499,7 +503,7 @@ function modelProve(m){
   OAOKit.scale(m,{key:'g4-4-10-03-ok-prove',rate:16,big:LB,small:OZ,
     rounds:[{name:'The note',item:'note',itemLabel:'the Smudge\'s note: 3 lb 19 oz',max:5,target:67,cap:31,
       overMsg:'That is more than 3 lb 19 oz. Take one off.',
-      text:'Put <b>3 lb 19 oz</b> on the scale: 3 one-pound weights and 19 one-ounce weights.',
+      text:'Put <b>3 lb 19 oz</b> on the scale: 3 one-pound weights and 19 one-ounce weights.',reachText:'That is 3 lb 19 oz. Now read where the needle points.',
       ask:{q:'The needle shows',units:['lb','oz'],answer:[4,3],
         mistakes:[{v:[4,9],text:'That\'s what the Smudge wrote! It treated ounces like tens and ones. Look at the needle: how many ounce marks past 4 lb?'},
                   {v:[3,19],text:'That\'s the weight you put on. Now read the needle: it shows the weight in whole pounds and the ounces left over.'}],
@@ -535,7 +539,7 @@ return {
     {sel:'#mk-raisins .activity-body > .mk-todo',rungs:['Fill bags one at a time. Each full bag is 16 ounces. How many fit before you pass 45?','2 bags are 32 ounces. A 3rd bag would need 48 ounces, which is too many. So 32 ounces go in bags.','Here are different numbers: 37 oz. Two bags is 32 oz, and 5 oz are left. So 37 oz = 2 lb 5 oz.']},
     {sel:'#mk-flour .activity-body > .mk-todo',rungs:['Read the needle: the last pound number it passed, then the little marks after it.','Pounds to ounces: multiply the pounds by 16. Then add the extra ounces.','Here are different numbers: 7 lb 6 oz. 7 × 16 = 112 oz, and 112 oz + 6 oz = 118 oz.']},
     {sel:'#mk-order .activity-body > .mk-todo',rungs:['Add the pounds first: 1 lb + 2 lb. Then add the ounces: 12 oz + 9 oz.','21 ounces is more than a pound. Trade 16 ounces for 1 pound. What is left over?','Here are different numbers: 4 lb 10 oz + 1 lb 9 oz = 5 lb 19 oz. 19 oz = 1 lb 3 oz, so that is 6 lb 3 oz.']},
-    {sel:'#mk-scale .activity-body > .mk-todo',rungs:['Tap the 1-ounce weight over and over, or drag it onto the scale. Count each one.','The needle reaches 1 lb at the 16th weight. For round 2, find the last pound number the needle passed, then count the small marks.','Here are different numbers: a needle 4 marks past 1 lb shows 1 lb 4 oz.']},
+    {sel:'#mk-scale .activity-body > .mk-todo',rungs:['Tap the 1-ounce weight over and over, or drag it onto the scale. Count each one.','The needle reaches 1 lb at the 16th weight. After that, find the last pound number the needle passed, then count the small marks after it. The middle mark between two numbers is 8 ounces.','Here are different numbers: a needle 4 marks past 1 lb shows 1 lb 4 oz.']},
     {sel:'#mk-rice .activity-body > .mk-todo',rungs:['Build 5 lb 3 oz first: tap the 1 lb disc 5 times and the 1 oz disc 3 times. Then move 2 pound discs to the take-away box.','You need 7 ounces but only 3 are there. Tap Break 1 into 16 on the pounds column: now there are 19 ounces. Move 7 of them to the box.','Here are different numbers: 3 lb 4 oz − 1 lb 9 oz. Trade 1 lb for 16 oz: 2 lb 20 oz. Take away 1 lb 9 oz: 1 lb 11 oz.']},
     {sel:'#mk-prove .activity-body > .mk-todo',rungs:['Put 3 one-pound weights on the scale first, then 1-ounce weights until you have 19 of them.','Read the needle: which pound number did it pass last? How many ounce marks after that?','Here are different numbers: 1 lb 18 oz. 18 oz = 16 oz + 2 oz, so 1 lb 18 oz is 2 lb 2 oz, not 2 lb 8 oz.']}],
   writing:{

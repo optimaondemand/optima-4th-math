@@ -25,7 +25,11 @@ await tapN(`${S1} .ok-tray .ok-wt[data-k="small"]`,15);await drag(`${S1} .ok-tra
 ok(await p.$$eval(`${S1} .ok-plat .ok-wt`,x=>x.length)===16,'scale round 1: sixteen 1-ounce weights (15 taps + 1 drag)');
 await p.click(`${S1} .ok-tray .ok-wt[data-k="small"]`);ok((await msg(`${S1} .ok-msg`)).includes('already at 1 lb'),'scale round 1: a 17th weight is refused (past 1 lb)');
 ok((await ask(S1,['10'])).includes('Count the weights'),'scale round 1: 10 oz gets the count-again hint');
+ok(await p.$$eval(`${S1} .ok-dial text`,x=>x.some(e=>e.textContent==='16')),'scale round 1: the passed marks are numbered up to 16');
 await ask(S1,['16']);await p.click(`${S1} .ok-next`);
+await p.click(`${S1} .ok-tray .ok-wt[data-k="big"]`);await tapN(`${S1} .ok-tray .ok-wt[data-k="small"]`,5);ok((await msg(`${S1} .ok-sym`)).includes('5 small marks past 1 lb'),'scale round 2: 1 lb 5 oz, the needle is 5 marks past 1 lb');
+await p.click(`${S1} .ok-next`);ok(!(await p.$$eval(`${S1} .ok-dial text`,x=>x.some(e=>e.textContent==='10'))),'scale round 3: no numbered marks (reading is the student\'s)');
+await p.click(`${S1} .ok-help`);ok(await p.$$eval(`${S1} .ok-dial line`,x=>x.filter(e=>e.getAttribute('stroke')==='#E07B39').length)===10,'scale round 3: the helper lights the 10 marks after 2 lb');
 ok((await ask(S1,['3','0'])).includes('hasn'),'scale round 2: 3 lb 0 oz gets the not-yet-3-lb hint');
 await ask(S1,['2','10']);ok(await job('j1'),'job 1: 1 lb = 16 oz, oats read as 2 lb 10 oz');
 await p.fill('#mm-g4-4-10-03-mm-0','4');await p.click('#mk-mental .mm-p[data-i="0"] button');ok((await msg('#mk-mental .mm-p[data-i="0"] .mm-fb')).includes('Count up'),'mental math: a wrong answer gets the count-up hint');
@@ -33,7 +37,7 @@ for(const [i,a] of [[0,'5'],[1,'12'],[2,'3'],[3,'10']]){await p.fill(`#mm-g4-4-1
 ok(await p.$$eval('#mk-mental .mm-p.ok',x=>x.length)===4,'mental math: make a pound, 4 right');
 const T='#mk-think';ok(!(await msg(`${T} .ok-sym`)).includes('41'),'think: the scale hides the reading (no 41 oz shown)');
 await tapN(`${T} .ok-tray .ok-wt[data-k="big"]`,2);await tapN(`${T} .ok-tray .ok-wt[data-k="small"]`,9);
-ok((await msg(`${T} .ok-sym`)).includes('2 × 1 lb and 9 × 1 oz'),'think: pineapple built as 2 × 1 lb and 9 × 1 oz');
+ok((await msg(`${T} .ok-sym`)).includes('2 one-pound weights and 9 one-ounce weights'),'think: pineapple built with 2 one-pound and 9 one-ounce weights');
 await p.click(`${T} .ok-next`);await tapN(`${T} .ok-tray .ok-wt[data-k="big"]`,3);ok((await msg(`${T} .ok-msg`)).includes('heavier than the melon'),'think: 3 lb is heavier than the melon (hint)');
 await tapN(`${T} .ok-tray .ok-wt[data-k="small"]`,11);ok(await p.$$eval(`${T} .ok-ghost-n`,x=>x.length)===1,'think: melon built, the pineapple stays as a dashed needle');
 await p.fill('#thinkWho','melon');await p.fill('#thinkBy','14');await p.click(`${T} .mk-think-ans button`);ok((await msg(`${T} .mk-think-ans .ok-msg`)).includes('29 oz'),'think: "by 14" (2 lb 9 oz read as 29 oz) gets the 16-not-10 hint');
@@ -125,6 +129,10 @@ ok(hint&&await p.$eval('.ch-explain',e=>!e.hidden),'bonus: hint after a miss, 10
 // ── helpers: defined words, hint ladders, writing chips + counter
 const defs=await p.$$eval('.pq-def b',x=>x.map(e=>e.textContent));ok(defs.length===3,'defined words: '+defs.join(', '));
 ok(!(await p.$$eval('.activity-sub .pq-def, .activity-title .pq-def',x=>x.length)),'no defined word sits in a heading');
+await p.evaluate(()=>switchTab('warmup'));await p.waitForTimeout(250);{const d=await p.$('.pq-def');await d.scrollIntoViewIfNeeded();ok(!(await p.$eval('.pq-def-m',e=>e.offsetParent!==null)),'word meaning hidden in the sentence');
+await d.hover();await p.waitForTimeout(100);ok(await p.$eval('.pq-def-m',e=>e.offsetParent!==null),'hover shows the meaning as a tooltip');await (await p.$('#mk-scale .ok-dial')).hover();await p.waitForTimeout(100);ok(!(await p.$eval('.pq-def-m',e=>e.offsetParent!==null)),'tooltip hides when the mouse leaves');
+await d.focus();ok(await p.$eval('.pq-def-m',e=>e.offsetParent!==null),'keyboard focus shows the tooltip');await d.screenshot({path:path.join(OUT,'def-tip.png')});}
+await p.evaluate(()=>switchTab('assignment'));await p.waitForTimeout(250);
 for(let i=0;i<3;i++)await p.click('.pq-hint[data-hint="1"] .pq-hint-btn');ok(await p.$$eval('.pq-hint[data-hint="1"] li',x=>x.length)===3,'hint ladder: 3 rungs');
 ok(await p.$$eval('#tab-assignment .q-block .pq-hint',x=>x.length)===3,'every Show What You Know problem has a hint ladder');
 await p.evaluate(()=>switchTab('learn'));await p.waitForTimeout(300);
