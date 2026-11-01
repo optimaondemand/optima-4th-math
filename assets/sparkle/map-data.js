@@ -34,7 +34,7 @@ window.PQ_MAP=[
 "id": "4.10.05",
 "title": "Units of Time",
 "file": "math-lesson-4-10-05-units-of-time.html",
-"sparkled": false
+"sparkled": true
 },
 {
 "id": "4.10.06",

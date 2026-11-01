@@ -665,5 +665,90 @@ function pour(root,cfg){
   render();
   return {state:st,info:info};
 }
-K.pour=pour;K.scale=scale;K.unitMat=unitMat;K.tradeMat=tradeMat;K.stamps=stamps;K.barModel=barModel;K.numberBond=numberBond;K.mentalMath=mentalMath;K.challenge=challenge;
+/* ═══════════ CLOCK HANDS ═══════════  (time: wind a hand around a face of `rate` ticks; every full turn is 1 big unit)
+   cfg = { key, rounds:[{ name, text, doneText, rate:60, big:{unit:'h',name:['hour','hours']}, small:{unit:'min',name:[…]},
+             face:'clock'|'day', target (small units to wind), start (small units already wound), show:'count'|'turns',
+             steps:[1,5] (tap buttons), ask:{q, units, answer, mistakes:[{v,text}], hint, doneText} }], onRound, onDone }
+   'count' shows how many small units are wound (going up: read the full turns); 'turns' shows full turns + the part past
+   (going down: work out the total). Drag the long hand clockwise, or tap the buttons; "+1 full turn" after one turn by hand. */
+function clock(root,cfg){
+  var rounds=cfg.rounds,key=cfg.key;
+  var st=ls(key,null);if(!st||!st.w||st.w.length!==rounds.length)st={cur:0,w:rounds.map(function(r){return r.start||0;}),hand:rounds.map(function(){return 0;}),won:rounds.map(function(){return false;}),a:rounds.map(function(){return [];}),fired:false};
+  root.classList.add('ok-tool');root.classList.add('ok-clock');
+  root.innerHTML=(rounds.length>1?'<div class="ok-rounds" role="tablist">'+rounds.map(function(r,i){return '<button type="button" data-i="'+i+'">'+esc(r.name)+'</button>';}).join('')+'</div>':'')+
+    '<p class="ok-do" aria-live="polite"></p><div class="ok-clockbox"><svg class="ok-face" viewBox="0 0 300 300" role="img"></svg><div class="ok-turns" aria-live="polite"></div></div>'+
+    '<div class="ok-row ok-clockbtns"></div><div class="ok-sym" aria-live="polite"></div><div class="ok-clock-ask"></div><div class="ok-msg" aria-live="polite"></div>'+
+    '<div class="ok-row"><button class="ok-btn ok-undo" type="button">↶ Back 1</button><button class="ok-btn ok-reset" type="button">↺ Start over</button></div>';
+  var face=$('.ok-face',root),turnsEl=$('.ok-turns',root),btns=$('.ok-clockbtns',root),msg=$('.ok-msg',root),askEl=$('.ok-clock-ask',root);
+  function say(t,k){msg.className='ok-msg'+(k?' '+k:'');msg.innerHTML=t||'';}
+  function save(){lsSet(key,st);}
+  function nm(u,n){return n===1?u.name[0]:u.name[1];}
+  function R(){return rounds[st.cur];}
+  function done(i){return st.w[i]===rounds[i].target;}
+  function wind(n,fromDrag){var i=st.cur,r=rounds[i];if(st.won[i])return false;var v=st.w[i]+n,lo=r.start||0;
+    if(v>r.target){if(!fromDrag){say(r.overMsg||(r.hideTarget?'That would go past one full turn. Wind a smaller step.':'That goes past '+r.target+' '+nm(r.small,r.target)+'. Wind a smaller step.'),'hint');snd.no();}return false;}
+    if(v<lo)return false;
+    var before=Math.floor(st.w[i]/r.rate),after=Math.floor(v/r.rate);st.w[i]=v;
+    if(after>before){st.hand[i]=Math.max(st.hand[i],after-Math.floor(lo/r.rate));snd.split();say(r.hideTarget?'One full turn!':'One full turn! That is 1 '+r.big.name[0]+'.','good');}else{snd.click();if(!fromDrag)say('');}
+    save();if(done(i)){if(!r.ask)win(i);else snd.done();}render();return true;}
+  function win(i){if(st.won[i])return;st.won[i]=true;save();if(cfg.onRound)cfg.onRound(i,root);
+    if(st.won.every(Boolean)&&!st.fired){st.fired=true;save();if(cfg.onDone)cfg.onDone(root);}render();}
+  function pt(a,rad){return [150+rad*Math.sin(a),150-rad*Math.cos(a)];}
+  function drawFace(){var r=R(),i=st.cur,w=st.w[i],n=r.rate,s='<circle cx="150" cy="150" r="140" fill="#FFF8EF" stroke="#3B2417" stroke-width="6"/>';
+    var major=n===60?5:3;
+    for(var k=0;k<n;k++){var a=k/n*2*Math.PI,big=k%major===0,p1=pt(a,132),p2=pt(a,big?116:124);
+      s+='<line x1="'+p1[0].toFixed(1)+'" y1="'+p1[1].toFixed(1)+'" x2="'+p2[0].toFixed(1)+'" y2="'+p2[1].toFixed(1)+'" stroke="#2B3040" stroke-width="'+(big?3.5:1.6)+'"/>';
+      if(big){var lab=r.face==='day'?String(k):(k===0?'12':String(k/5)),pl=pt(a,100);s+='<text x="'+pl[0].toFixed(1)+'" y="'+(pl[1]+7).toFixed(1)+'" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="'+(r.face==='day'?17:21)+'" fill="#1E3A6E">'+lab+'</text>';}}
+    // the part of this turn already wound is shaded
+    var part=w%n,fa=part/n*2*Math.PI;
+    if(part){var e=pt(fa,60);s+='<path d="M150 150 L150 90 A60 60 0 '+(part>n/2?1:0)+' 1 '+e[0].toFixed(1)+' '+e[1].toFixed(1)+' Z" fill="rgba(224,123,57,.25)"/>';}
+    var tip=pt(fa,112);
+    s+='<line x1="150" y1="150" x2="'+tip[0].toFixed(1)+'" y2="'+tip[1].toFixed(1)+'" stroke="#D8344A" stroke-width="7" stroke-linecap="round" class="ok-hand"/>';
+    s+='<circle cx="'+tip[0].toFixed(1)+'" cy="'+tip[1].toFixed(1)+'" r="13" fill="#D8344A" fill-opacity=".25" stroke="#D8344A" stroke-width="2" class="ok-grip"/>';
+    s+='<circle cx="150" cy="150" r="9" fill="#3B2417"/><circle cx="150" cy="150" r="3.5" fill="#F5C518"/>';
+    if(!r.hideRate)s+='<text x="150" y="196" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="800" font-size="13" fill="#6B7290">1 turn = '+n+' '+esc(r.small.name[1])+'</text>';
+    face.innerHTML=s;face.setAttribute('aria-label','A '+(r.face==='day'?'day wheel':'clock face')+(r.hideRate?' with small marks all the way around.':' with '+n+' small marks. One full turn of the red hand is '+n+' '+r.small.name[1]+', or 1 '+r.big.name[0]+'.'));}
+  function render(){var i=st.cur,r=R(),w=st.w[i],n=r.rate,turns=Math.floor(w/n),past=w%n;
+    if(rounds.length>1)$$('.ok-rounds button',root).forEach(function(b,k){b.classList.toggle('on',k===i);b.classList.toggle('won',!!st.won[k]);b.setAttribute('aria-selected',k===i);});
+    $('.ok-do',root).innerHTML=st.won[i]?'<span class="ok-step" style="background:#1E8C5A">Done</span>'+(r.doneText||''):r.text;
+    drawFace();
+    var ch='';for(var k=0;k<turns;k++)ch+='<span class="ok-turn" title="a full turn">1 '+esc(r.big.unit)+'</span>';
+    turnsEl.innerHTML='<span class="lbl">Full turns:</span>'+(ch||'<span class="ok-plat-empty">none yet</span>');
+    var b='';(r.steps||[1,5]).forEach(function(sz){b+='<button type="button" class="ok-btn ok-step-btn" data-n="'+sz+'">+ '+sz+' '+esc(r.small.unit)+'</button>';});
+    if(st.hand[i]>=1&&!st.won[i]&&w+n<=r.target)b+='<button type="button" class="ok-btn ok-wholeturn" data-n="'+n+'">+ 1 full turn ('+n+' '+esc(r.small.unit)+')</button>';
+    btns.innerHTML=b;$$('button',btns).forEach(function(x){x.onclick=function(){wind(+x.dataset.n);};});
+    $('.ok-sym',root).innerHTML=r.show==='count'?'<span class="big">'+w+' '+nm(r.small,w)+' wound</span><span class="exp">'+(r.hideTarget?(w===r.target?'One full turn!':'Keep going until the hand makes one full turn.'):'of '+r.target+' '+esc(r.small.name[1]))+'</span>':
+      '<span class="big">'+turns+' full '+nm({name:['turn','turns']},turns)+' and '+past+' '+nm(r.small,past)+'</span><span class="exp">'+(w===r.target?'That is the whole time. ':'')+'Each full turn is 1 '+esc(r.big.name[0])+'.</span>';
+    if(r.ask&&done(i)){var A=r.ask,sa=st.a[i]||[];
+      if(askEl.dataset.r!==String(i)){askEl.dataset.r=i;
+        askEl.innerHTML='<form class="bm-form mk-two"><span class="mk-two-q">'+A.q+'</span>'+A.units.map(function(u,k){return '<input type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc(A.q.replace(/<[^>]+>/g,'')+' '+u)+'" value="'+esc(sa[k]||'')+'"><span class="bm-u">'+esc(u)+'</span>';}).join('')+'<button type="submit" class="ok-btn">Check</button></form>';
+        var f=$('form',askEl),ins=$$('input',f);if(st.won[i])ins.forEach(function(x){x.disabled=true;});
+        f.onsubmit=function(e){e.preventDefault();if(st.won[st.cur])return;var vs=ins.map(function(x){return num(x.value);});st.a[st.cur]=ins.map(function(x){return x.value;});save();
+          if(vs.some(function(x){return x==null;}))return say('Type a number in each box.','hint');
+          if(vs.every(function(x,k){return x===A.answer[k];})){ins.forEach(function(x){x.disabled=true;});say(A.doneText||'Yes!','good');win(st.cur);return;}
+          snd.no();var mk=(A.mistakes||[]).filter(function(z){return z.v.every(function(x,k){return x===vs[k];});})[0];
+          if(mk)return say(mk.text,'hint');
+          var rr=R();if(A.units.length===2&&vs[0]*rr.rate+vs[1]===A.answer[0]*rr.rate+A.answer[1])return say('That is the right amount of time! But '+vs[1]+' '+A.units[1]+' is '+rr.rate+' or more. '+rr.rate+' of them make another '+rr.big.name[0]+'.','hint');
+          say(A.hint||'Count the full turns, then the part past the last turn.','hint');};}
+    }else{askEl.innerHTML='';askEl.dataset.r='';}
+    var nx=$('.ok-next',root);
+    if(st.won[i]&&i<rounds.length-1){if(!nx){nx=document.createElement('button');nx.className='ok-btn ok-next';nx.type='button';nx.textContent='Next →';nx.onclick=function(){st.cur++;save();say('');askEl.dataset.r='';render();};$$('.ok-row',root).pop().appendChild(nx);}}
+    else if(nx)nx.remove();}
+  // drag the hand: each tick the pointer passes clockwise winds 1 small unit
+  var drag=null;
+  function tickAt(e){var b=face.getBoundingClientRect(),x=e.clientX-b.left-b.width/2,y=e.clientY-b.top-b.height/2,a=Math.atan2(x,-y);if(a<0)a+=2*Math.PI;return Math.round(a/(2*Math.PI)*R().rate)%R().rate;}
+  face.style.touchAction='none';
+  face.addEventListener('pointerdown',function(e){if(st.won[st.cur])return;drag={t:tickAt(e),id:e.pointerId};try{face.setPointerCapture(e.pointerId);}catch(x){}e.preventDefault();});
+  face.addEventListener('pointermove',function(e){if(!drag||drag.id!==e.pointerId)return;var n=R().rate,t=tickAt(e),d=((t-drag.t)%n+n)%n;if(d>n/2)d-=n;
+    while(d>0){if(!wind(1,true))break;d--;drag.t=(drag.t+1)%n;}
+    while(d<0){var i=st.cur;if(st.w[i]<=(R().start||0))break;st.w[i]--;d++;drag.t=(drag.t-1+n)%n;save();render();}});
+  function end(e){if(drag&&drag.id===e.pointerId)drag=null;}
+  face.addEventListener('pointerup',end);face.addEventListener('pointercancel',end);
+  if(rounds.length>1)$$('.ok-rounds button',root).forEach(function(b){b.onclick=function(){st.cur=+b.dataset.i;save();say('');askEl.dataset.r='';render();};});
+  $('.ok-undo',root).onclick=function(){var i=st.cur;if(st.won[i]||st.w[i]<=(R().start||0))return;st.w[i]--;snd.click();save();render();};
+  $('.ok-reset',root).onclick=function(){var i=st.cur;st.w[i]=rounds[i].start||0;st.hand[i]=0;st.won[i]=false;st.a[i]=[];save();say('');askEl.dataset.r='';render();};
+  render();
+  return {state:st};
+}
+K.clock=clock;K.pour=pour;K.scale=scale;K.unitMat=unitMat;K.tradeMat=tradeMat;K.stamps=stamps;K.barModel=barModel;K.numberBond=numberBond;K.mentalMath=mentalMath;K.challenge=challenge;
 })(OAOKit);

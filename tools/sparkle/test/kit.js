@@ -51,6 +51,19 @@ await p.fill('#d-bm2 .bm-form input','18');await p.click('#d-bm2 .bm-form button
 // number bond
 for(const v of ['45','2','250']){await p.fill('#d-nb .nb-c input','99');await p.click('#d-nb .nb-check');await p.fill('#d-nb .nb-c input',v);await p.click('#d-nb .nb-check');const n=await p.$('#d-nb .ok-next');if(n)await n.click();}
 ok((await p.$eval('#d-nb .nb-eq',e=>e.textContent)).includes('250 = 200 + 50'),'number bond: three rounds');
+// clock hands: tap, drag the hand, whole turn, ask, day wheel
+const C0='#d-clock';for(let i=0;i<11;i++)await p.click(`${C0} .ok-step-btn[data-n="5"]`);
+{const f=await p.$(`${C0} .ok-face`);await f.scrollIntoViewIfNeeded();const b=await f.boundingBox();const cx=b.x+b.width/2,cy=b.y+b.height/2,R=b.width*0.37;
+ const at=m=>[cx+R*Math.sin(m/60*2*Math.PI),cy-R*Math.cos(m/60*2*Math.PI)];let q=at(55);await p.mouse.move(q[0],q[1]);await p.mouse.down();for(let m=56;m<=60;m++){q=at(m);await p.mouse.move(q[0],q[1],{steps:3});}await p.mouse.up();}
+ok((await p.$eval(`${C0} .ok-sym`,e=>e.textContent)).includes('60 minutes wound')&&await p.$$eval(`${C0} .ok-turn`,x=>x.length)===1,'clock: 11 taps of 5 + a drag of 5 = 60 min, one full turn');
+ok(!!(await p.$(`${C0} .ok-wholeturn`))===false,'clock: no whole-turn button when it would pass the target');
+for(let i=0;i<15;i++)await p.click(`${C0} .ok-step-btn[data-n="1"]`);await p.click(`${C0} .ok-step-btn[data-n="1"]`);
+ok((await p.$eval(`${C0} .ok-msg`,e=>e.textContent)).includes('past'),'clock: winding past the target is refused');
+await p.fill(`${C0} .ok-clock-ask input`,'0');{const I=await p.$$(`${C0} .ok-clock-ask input`);await I[1].fill('75');}await p.click(`${C0} .ok-clock-ask button`);ok((await p.$eval(`${C0} .ok-msg`,e=>e.textContent)).includes('Count the full turns'),'clock: 0 h 75 min gets the mistake hint');
+{const I=await p.$$(`${C0} .ok-clock-ask input`);await I[0].fill('1');await I[1].fill('15');}await p.click(`${C0} .ok-clock-ask button`);await p.click(`${C0} .ok-next`);
+for(let i=0;i<4;i++)await p.click(`${C0} .ok-step-btn[data-n="6"]`);ok(!!(await p.$(`${C0} .ok-wholeturn`)),'day wheel: after one turn by hand, the whole-turn button shows');await p.click(`${C0} .ok-wholeturn`);await tapC();
+async function tapC(){for(let i=0;i<2;i++)await p.click(`${C0} .ok-step-btn[data-n="1"]`);}
+ok((await p.$eval(`${C0} .ok-sym`,e=>e.textContent)).includes('2 full turns and 2 hours')&&(await p.$eval(`${C0} .ok-do`,e=>e.textContent)).includes('Done'),'day wheel: 2 turns and 2 hours, done');
 // pour station: fill by tap + drag, group up with a leftover, pour out
 await p.click('#d-pour .ok-pr-small .ok-vsl.src');await drag('#d-pour .ok-pr-small .ok-vsl.src','#d-pour .ok-pr-big');
 ok(!!(await p.$('#d-pour .ok-pour-ask form'))&&(await p.$eval('#d-pour .ok-sym',e=>e.textContent)).includes('2 pints'),'pour: tap + drag 2 pints fill the quart; the answer form appears');

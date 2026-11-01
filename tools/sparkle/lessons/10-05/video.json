@@ -1,0 +1,271 @@
+{
+ "lesson": "10.05",
+ "grade": 4,
+ "prefix": "g4math-10-05",
+ "manifestKey": "g4math-10-05",
+ "title": "Units of Time",
+ "other": [],
+ "pics": {},
+ "redo": [],
+ "welcomeSlot": "think",
+ "slots": {
+  "think": {
+   "label": "Think · how long was it stopped?",
+   "title": "The Clock Tower",
+   "length": "about 1 min",
+   "want": true,
+   "where": "Warm-Up, under the Essential Question",
+   "parts": [
+    {
+     "label": "Tower board",
+     "tag": "TODAY'S REAL PROBLEM",
+     "title": "Restart the Clock Tower",
+     "col": "#5B3A7A",
+     "rows": [
+      [
+       "Job 1",
+       "Wind the clock"
+      ],
+      [
+       "Job 2",
+       "Restart the hands"
+      ],
+      [
+       "Job 3",
+       "Group the minutes"
+      ],
+      [
+       "Job 4",
+       "Turn the day wheel"
+      ],
+      [
+       "Job 5",
+       "Time the express train"
+      ],
+      [
+       "Job 6",
+       "Fix the timetable"
+      ]
+     ]
+    },
+    {
+     "label": "Two times",
+     "tag": "THINK ABOUT IT",
+     "title": "Time A: 2 h 10 min · Time B: 125 min",
+     "col": "#6B3FA0",
+     "body": "Which time is longer, and by how many minutes?"
+    },
+    {
+     "label": "The big question",
+     "tag": "ESSENTIAL QUESTION",
+     "title": "Which is longer, 2 h 10 min or 125 min?",
+     "col": "#2DB87A",
+     "body": "Two units in one time. Notice, wonder, then try it your way."
+    }
+   ],
+   "script": "Welcome to the Clock Tower!\n\n[ON SCREEN: Tower board]\n\nThe Smudge stopped the big clock, and now every train in town is mixed up. The board right under me has six tower jobs. Finish them, and the clock can tell us when the Golem comes.\n\n[ON SCREEN: Two times]\n\nHere's the first puzzle. The tower's log says the clock was stopped for 2 hours 10 minutes. Otto, the clockkeeper, thinks it was 125 minutes. Which time is longer, and by how many minutes?\n\n[ON SCREEN: The big question]\n\nFirst, wind the clock on your page, so you know how many seconds make a minute and how many minutes make an hour. Then, at the puzzle, look at the two times before you wind anything. What do you notice? What do you wonder? Write that down, then try it your own way. Make a guess and hold on to it. On the Learn tab, the Math Crew will show you two ways."
+  },
+  "learn": {
+   "label": "Learn · two ways, then restart the hands",
+   "title": "Two Ways",
+   "length": "about 1½ min",
+   "want": true,
+   "where": "Learn, top (before the Math Crew)",
+   "parts": [
+    {
+     "label": "Board: The times",
+     "kind": "board",
+     "pic": "10-05-learn-times",
+     "tag": "The two times",
+     "board": {
+      "type": "problem",
+      "title": "Time A: 2 h 10 min · Time B: 125 min",
+      "sub": "Write both times the same way. Which is longer?",
+      "model": {
+       "chart": {
+        "cols": [
+         "h",
+         "min"
+        ],
+        "rows": 2,
+        "given": [
+         [
+          "2",
+          "10"
+         ]
+        ]
+       }
+      }
+     }
+    },
+    {
+     "label": "Board: Two ways",
+     "kind": "board",
+     "pic": "10-05-learn-twoways",
+     "tag": "Two ways",
+     "board": {
+      "type": "problem",
+      "title": "Which time is longer, and by how much?",
+      "model": {
+       "twoway": [
+        {
+         "who": "atlas",
+         "title": "Hours and minutes",
+         "lines": [
+          "125 min = ___ min + ___ min",
+          "120 min = ___ h",
+          "Time B = ___ h ___ min",
+          "Longer by ___ min"
+         ]
+        },
+        {
+         "who": "felix",
+         "title": "All minutes",
+         "lines": [
+          "2 × 60 min = ___ min",
+          "___ min + 10 min = ___ min",
+          "___ min − 125 min = ___ min"
+         ]
+        }
+       ]
+      }
+     }
+    },
+    {
+     "label": "Live: Restart the Hands",
+     "kind": "live",
+     "model": "hands",
+     "tag": "On your page"
+    }
+   ],
+   "script": "Look at the two times one more time. One has hours and minutes. One has only minutes. We can't compare them until they're written the same way.\n\n[ON SCREEN: Board: The times]\n\n[DRAW: point to Time A's row, 2 | 10. Write 125 min beside the empty row for Time B.]\n\nTime A, 2 hours 10 minutes. Time B, 125 minutes.\n\n[ON SCREEN: Board: Two ways]\n\n[DRAW: fill in Atlas's blanks as you say them, then Felix's.]\n\nAtlas counts full hours in 125: 60, 120. That's 2 hours, with 5 minutes left. 2 hours 5 minutes. Felix changes Time A to minutes. 2 times 60 is 120, plus 10 is 130. 130 minus 125 is 5. Both ways say Time A, by 5 minutes.\n\nPause here. Say out loud which way is more like what you did.\n\n[ON SCREEN: Live: Restart the Hands]\n\n[DO: tap + 5 s twelve times for one full turn. Tap + 1 full turn six times. Tap + 5 s five times. Type 445 and tap Check.]\n\nThe second hand needs 7 minutes 25 seconds. Each full turn is 60 seconds: 7 turns, then 25 more. 7 times 60 is 420, plus 25 is 445 seconds. Remember: time trades 60, not 100."
+  },
+  "do": {
+   "label": "Do · watch me solve (boards)",
+   "title": "Watch Me Solve It",
+   "length": "about 1½ min",
+   "want": true,
+   "where": "Learn, after Otto's Time Board",
+   "parts": [
+    {
+     "label": "Board: Problem 1",
+     "kind": "board",
+     "pic": "10-05-do-p1",
+     "tag": "Problem 1",
+     "board": {
+      "type": "problem",
+      "title": "10 h 20 min = ? min",
+      "sub": "Hours to minutes: × 60. Then add the extra minutes.",
+      "model": {
+       "chart": {
+        "cols": [
+         "h",
+         "min"
+        ],
+        "rows": 2,
+        "given": [
+         [
+          "10",
+          "20"
+         ]
+        ]
+       }
+      }
+     }
+    },
+    {
+     "label": "Board: Problem 2",
+     "kind": "board",
+     "pic": "10-05-do-p2",
+     "tag": "Problem 2",
+     "board": {
+      "type": "problem",
+      "title": "155 min = ? h ? min",
+      "sub": "Count full groups of 60. Keep the leftover minutes.",
+      "model": {
+       "bond": {
+        "whole": "155",
+        "parts": [
+         "",
+         ""
+        ]
+       }
+      }
+     }
+    },
+    {
+     "label": "Board: Problem 3",
+     "kind": "board",
+     "pic": "10-05-do-p3",
+     "tag": "Problem 3",
+     "board": {
+      "type": "problem",
+      "title": "2 days = ? h = ? min",
+      "sub": "Days to hours: × 24. Hours to minutes: × 60.",
+      "model": {
+       "chart": {
+        "cols": [
+         "days",
+         "h",
+         "min"
+        ],
+        "rows": 2,
+        "given": [
+         [
+          "2",
+          "",
+          ""
+         ]
+        ]
+       }
+      }
+     }
+    },
+    {
+     "label": "Board: Spot the mistake",
+     "kind": "board",
+     "pic": "10-05-do-mistake",
+     "tag": "Spot the mistake",
+     "board": {
+      "type": "mistake",
+      "title": "Is this right?",
+      "say": "175 min is the same as 1 h 75 min.",
+      "fix": "Circle the mistake. What should it say?"
+     }
+    }
+   ],
+   "script": "Now watch me solve three. Pause any time.\n\n[ON SCREEN: Board: Problem 1]\n\n[DRAW: under 10 h write 10 × 60 = 600 min. Then + 20 min = 620 min.]\n\n10 hours 20 minutes, all in minutes. Each hour is 60 minutes, so 10 hours is 600. Add the 20: 620 minutes.\n\n[ON SCREEN: Board: Problem 2]\n\nYour turn first. Pause the video and try this one on paper. Then press play and check.\n\n[DRAW: count 60, 120 beside the bond. Write 120 and 35 in the bond. Under 120 write 2 h. Then 2 h 35 min.]\n\n155 minutes, up to hours. I count by 60s: 60, 120. Another 60 would go past 155. So 120 minutes is 2 hours, and 35 minutes are left. 2 hours 35 minutes.\n\n[ON SCREEN: Board: Problem 3]\n\n[DRAW: under h write 2 × 24 = 48. Under min write 48 × 60 = 2,880.]\n\n2 days, down two steps. Days to hours uses 24: 48 hours. Hours to minutes uses 60: 2,880 minutes.\n\n[ON SCREEN: Board: Spot the mistake]\n\n[DRAW: circle 1 h 75 min. Write 175 = 120 + 55, then 2 h 55 min.]\n\nIs this right? Someone treated an hour like 100 minutes. An hour is 60. 175 minutes is two 60s and 55 more: 2 hours 55 minutes. Trade 60, never 100!"
+  },
+  "wrap": {
+   "label": "Wrap · the clock chimes",
+   "title": "The Clock Chimes",
+   "length": "about 45 s",
+   "want": false,
+   "where": "Show What You Know, after the last game window",
+   "parts": [
+    {
+     "label": "Two ways",
+     "tag": "TODAY",
+     "title": "Multiply down · count 60s up",
+     "col": "#2DB87A",
+     "body": "Hours and minutes trade 60. Days and hours trade 24."
+    },
+    {
+     "label": "The timetable",
+     "tag": "YOU PROVED IT",
+     "title": "1 h 75 min = 2 h 15 min",
+     "col": "#5B3A7A",
+     "body": "Every 60 minutes make another hour."
+    },
+    {
+     "label": "Next time",
+     "tag": "NEXT LESSON",
+     "title": "The night market",
+     "col": "#6B3FA0",
+     "body": "Fractions and measurement."
+    }
+   ],
+   "script": "Look how far you came!\n\n[ON SCREEN: Two ways]\n\nToday you wound the Clock Tower's hands. Going down to a smaller unit, you multiply by 60, or by 24 for days. Going up, you count full groups of 60 and keep the leftover. And the stopped clock? Time A was longer, by 5 minutes.\n\n[ON SCREEN: The timetable]\n\nAnd the Smudge's timetable? You wound 75 more minutes past 1 hour. 60 of them made another full turn, and 15 were left. 1 hour 75 minutes is really 2 hours 15 minutes.\n\n[ON SCREEN: Next time]\n\nThe clock is ticking again. Next time we visit the night market and bring fractions into measurement. See you there, explorers!"
+  }
+ }
+}

@@ -480,6 +480,7 @@ function item(kind){
   if(kind==='plank'){R(x,P.ol,0,5,16,6);R(x,'#C98A4E',1,6,14,4);R(x,'#E2AC70',1,6,14,1);R(x,'#9A6334',3,8,5,1);R(x,'#9A6334',9,7,4,1);R(x,P.ol,12,9,1,1);}
   if(kind==='sack'){R(x,P.ol,3,3,10,12);R(x,'#F2E6CC',4,4,8,10);R(x,P.ol,5,2,6,2);R(x,'#C9A26B',6,8,4,3);R(x,'#FFFFFF',5,5,2,4);}
   if(kind==='rope'){R(x,P.ol,3,4,10,9);R(x,'#D9B27A',4,5,8,7);R(x,'#B88A50',5,7,6,1);R(x,'#B88A50',5,9,6,1);R(x,'#F0D3A0',6,6,4,1);R(x,P.ol,6,8,4,1);R(x,P.ol,12,10,3,2);R(x,'#D9B27A',13,10,2,1);}
+  if(kind==='gear'){disc(x,8,8,7,P.ol);disc(x,8,8,5.8,'#C9A24A');for(var g=0;g<8;g++){var ga=g/8*2*Math.PI;R(x,P.ol,Math.round(7+7*Math.sin(ga)),Math.round(7-7*Math.cos(ga)),2,2);}disc(x,8,8,2.4,P.ol);disc(x,8,8,1.2,'#FFF3B0');}
   if(kind==='bottle'){R(x,P.ol,5,1,6,3);R(x,'#3A6FB0',6,2,4,1);R(x,P.ol,4,4,8,11);R(x,'#FFFFFF',5,5,6,9);R(x,'#5E9FD6',5,9,6,3);R(x,'#EAF4FF',5,5,1,4);}
   if(kind==='cheese'){R(x,P.ol,1,6,14,8);R(x,'#F5C518',2,7,12,6);R(x,'#FFE89A',2,7,12,1);R(x,'#D9A400',4,9,2,2);R(x,'#D9A400',9,10,2,2);R(x,P.ol,1,5,14,1);}
   if(kind==='mug'){R(x,P.ol,3,4,9,11);R(x,'#E07B39',4,5,7,9);R(x,'#7A4A2A',4,5,7,2);R(x,P.ol,12,6,3,6);R(x,'#E07B39',12,7,2,4);R(x,'#FFFFFF',6,1,1,2);R(x,'#FFFFFF',8,0,1,2);}

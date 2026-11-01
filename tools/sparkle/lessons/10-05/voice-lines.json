@@ -1,0 +1,344 @@
+{
+ "cora": {
+  "voice_id": "5T4Pk1MOGKVVSf9tJnWM",
+  "lines": [
+   {
+    "who": "cora",
+    "t": "That's the Smudge's label! A minute isn't 100 seconds. One full turn of the second hand is how many seconds?",
+    "key": "e6734a92"
+   },
+   {
+    "who": "cora",
+    "t": "60 is for minutes and seconds. A day has its own number. How many hours make a day?",
+    "key": "c2469274"
+   },
+   {
+    "who": "cora",
+    "t": "An hour is 60 minutes, not 100.",
+    "key": "5411ef0a"
+   },
+   {
+    "who": "cora",
+    "t": "So 2 hours 10 minutes is not 210 minutes. Time trades 60 at a time!",
+    "key": "8abf9478"
+   },
+   {
+    "who": "cora",
+    "t": "60 is for minutes. A day has 24 hours, not 60. 24 and 6 more?",
+    "key": "b8668f1e"
+   },
+   {
+    "who": "cora",
+    "t": "Hello, I'm Cora. A wrong clock is worse than no clock. Everybody in town is late!",
+    "key": "83bc3f89"
+   },
+   {
+    "who": "cora",
+    "t": "Hours and minutes trade 60. Days and hours trade 24. Never 100!",
+    "key": "f5f36f1a"
+   }
+  ],
+  "prompt": "That's the Smudge's label! A minute isn't 100 seconds. One full turn of the second hand is how many seconds? <break time=\"1.5s\" /> 60 is for minutes and seconds. A day has its own number. How many hours make a day? <break time=\"1.5s\" /> An hour is 60 minutes, not 100. <break time=\"1.5s\" /> So 2 hours 10 minutes is not 210 minutes. Time trades 60 at a time! <break time=\"1.5s\" /> 60 is for minutes. A day has 24 hours, not 60. 24 and 6 more? <break time=\"1.5s\" /> Hello, I'm Cora. A wrong clock is worse than no clock. Everybody in town is late! <break time=\"1.5s\" /> Hours and minutes trade 60. Days and hours trade 24. Never 100!"
+ },
+ "hazel": {
+  "voice_id": "MkTSSXNgnBULS6ek4pon",
+  "lines": [
+   {
+    "who": "hazel",
+    "t": "Picture the second hand going all the way around once. How many little marks did it pass?",
+    "key": "7a6abdff"
+   },
+   {
+    "who": "hazel",
+    "t": "I picture the tower clock.",
+    "key": "0de91b9a"
+   },
+   {
+    "who": "hazel",
+    "t": "Every full turn of the minute hand is 1 hour, 60 little marks. So 2 hours is 2 full turns.",
+    "key": "5351ba36"
+   },
+   {
+    "who": "hazel",
+    "t": "Time A goes 10 marks past 2 turns. Time B goes only 5 marks past. Time A is longer!",
+    "key": "3b7b8186"
+   },
+   {
+    "who": "hazel",
+    "t": "That's the number the hand points at. Each number on a clock is 5 minutes. Count by 5s.",
+    "key": "efbd36ca"
+   },
+   {
+    "who": "hazel",
+    "t": "Count by 5s from the 12: 5, 10, 15 … one jump for each number.",
+    "key": "dfd16810"
+   },
+   {
+    "who": "hazel",
+    "t": "1 day 6 hours isn't 106 hours. Picture the day wheel: 1 full turn is 24 hours, then 6 more.",
+    "key": "24d6c47c"
+   },
+   {
+    "who": "hazel",
+    "t": "5 h 5 min isn't 505 minutes. An hour is 60 minutes, so 5 hours is 5 groups of 60.",
+    "key": "07d512df"
+   },
+   {
+    "who": "hazel",
+    "t": "Hi! I'm Hazel. I'm drawing the train at the station. Look how shiny it is!",
+    "key": "a03b6dec"
+   },
+   {
+    "who": "hazel",
+    "t": "I picture the minute hand. Every full turn around the clock is 1 hour.",
+    "key": "e72833a4"
+   }
+  ],
+  "prompt": "Picture the second hand going all the way around once. How many little marks did it pass? <break time=\"1.5s\" /> I picture the tower clock. <break time=\"1.5s\" /> Every full turn of the minute hand is 1 hour, 60 little marks. So 2 hours is 2 full turns. <break time=\"1.5s\" /> Time A goes 10 marks past 2 turns. Time B goes only 5 marks past. Time A is longer! <break time=\"1.5s\" /> That's the number the hand points at. Each number on a clock is 5 minutes. Count by 5s. <break time=\"1.5s\" /> Count by 5s from the 12: 5, 10, 15 ... one jump for each number. <break time=\"1.5s\" /> 1 day 6 hours isn't 106 hours. Picture the day wheel: 1 full turn is 24 hours, then 6 more. <break time=\"1.5s\" /> 5 h 5 min isn't 505 minutes. An hour is 60 minutes, so 5 hours is 5 groups of 60. <break time=\"1.5s\" /> Hi! I'm Hazel. I'm drawing the train at the station. Look how shiny it is! <break time=\"1.5s\" /> I picture the minute hand. Every full turn around the clock is 1 hour."
+ },
+ "felix": {
+  "voice_id": "PJeatLZlmAT5jz5L5p7U",
+  "lines": [
+   {
+    "who": "felix",
+    "t": "35 and 65 make 100. But a minute is 60 seconds, not 100. Count up from 35 to 60.",
+    "key": "653a79e4"
+   },
+   {
+    "who": "felix",
+    "t": "Count up from 35 to 60: 40, 50, 60 … How many did you count?",
+    "key": "be93da5c"
+   },
+   {
+    "who": "felix",
+    "t": "My way is all minutes.",
+    "key": "6dd9618a"
+   },
+   {
+    "who": "felix",
+    "t": "I change Time A to minutes. 2 hours is 2 × 60, so 120 minutes. And 10 more makes 130 minutes.",
+    "key": "6a7f55b9"
+   },
+   {
+    "who": "felix",
+    "t": "Time B is 125 minutes. 130 − 125 = 5.",
+    "key": "e1c6f693"
+   },
+   {
+    "who": "felix",
+    "t": "Time A is longer by 5 minutes. Same answer as Atlas!",
+    "key": "79d6153d"
+   },
+   {
+    "who": "felix",
+    "t": "1 day is 24 hours. Now add the 6 extra hours.",
+    "key": "07286c68"
+   },
+   {
+    "who": "felix",
+    "t": "Change the day first: 1 day is 24 hours. Then add the 6 extra hours.",
+    "key": "0dd41216"
+   },
+   {
+    "who": "felix",
+    "t": "5 × 60 = 300 minutes for the hours. Now add the 5 extra minutes.",
+    "key": "af6ad18f"
+   },
+   {
+    "who": "felix",
+    "t": "Change the hours first: 5 × 60 minutes. Then add the 5 extra minutes.",
+    "key": "ff17e043"
+   },
+   {
+    "who": "felix",
+    "t": "Hey, I'm Felix! I heard the big clock tick once, and then nothing. Something is stuck in there.",
+    "key": "abef8f3b"
+   },
+   {
+    "who": "felix",
+    "t": "Going down, I multiply. 5 hours is 5 × 60, so 300 minutes. Add 15 more: 315 minutes.",
+    "key": "63bee424"
+   }
+  ],
+  "prompt": "35 and 65 make 100. But a minute is 60 seconds, not 100. Count up from 35 to 60. <break time=\"1.5s\" /> Count up from 35 to 60: 40, 50, 60 ... How many did you count? <break time=\"1.5s\" /> My way is all minutes. <break time=\"1.5s\" /> I change Time A to minutes. 2 hours is 2 times 60, so 120 minutes. And 10 more makes 130 minutes. <break time=\"1.5s\" /> Time B is 125 minutes. 130 − 125 equals 5. <break time=\"1.5s\" /> Time A is longer by 5 minutes. Same answer as Atlas! <break time=\"1.5s\" /> 1 day is 24 hours. Now add the 6 extra hours. <break time=\"1.5s\" /> Change the day first: 1 day is 24 hours. Then add the 6 extra hours. <break time=\"1.5s\" /> 5 times 60 equals 300 minutes for the hours. Now add the 5 extra minutes. <break time=\"1.5s\" /> Change the hours first: 5 times 60 minutes. Then add the 5 extra minutes. <break time=\"1.5s\" /> Hey, I'm Felix! I heard the big clock tick once, and then nothing. Something is stuck in there. <break time=\"1.5s\" /> Going down, I multiply. 5 hours is 5 times 60, so 300 minutes. Add 15 more: 315 minutes."
+ },
+ "atlas": {
+  "voice_id": "unWb9iRIK7Xxf4A5Hfis",
+  "lines": [
+   {
+    "who": "atlas",
+    "t": "Look at the day wheel words on your page: how many hours make a day?",
+    "key": "aec864fa"
+   },
+   {
+    "who": "atlas",
+    "t": "My way is hours and minutes.",
+    "key": "8612adba"
+   },
+   {
+    "who": "atlas",
+    "t": "I wind Time B's 125 minutes and count the full turns: 60, 120. That's 2 hours, and 5 minutes are left.",
+    "key": "f2d3affc"
+   },
+   {
+    "who": "atlas",
+    "t": "So Time B is 2 hours 5 minutes. Time A is 2 hours 10 minutes.",
+    "key": "08cbd60b"
+   },
+   {
+    "who": "atlas",
+    "t": "Both are 2 hours, and 10 minutes is 5 more than 5 minutes. Time A is longer by 5 minutes!",
+    "key": "33cb96fb"
+   },
+   {
+    "who": "atlas",
+    "t": "Hi, I'm Atlas! Look how tall the Clock Tower is. I bet you can see Hilltop from the top!",
+    "key": "e20a2acd"
+   },
+   {
+    "who": "atlas",
+    "t": "Going up, I count full hours. 145 minutes is two 60s and 25 more, so 2 hours 25 minutes.",
+    "key": "c016ca87"
+   }
+  ],
+  "prompt": "Look at the day wheel words on your page: how many hours make a day? <break time=\"1.5s\" /> My way is hours and minutes. <break time=\"1.5s\" /> I wind Time B's 125 minutes and count the full turns: 60, 120. That's 2 hours, and 5 minutes are left. <break time=\"1.5s\" /> So Time B is 2 hours 5 minutes. Time A is 2 hours 10 minutes. <break time=\"1.5s\" /> Both are 2 hours, and 10 minutes is 5 more than 5 minutes. Time A is longer by 5 minutes! <break time=\"1.5s\" /> Hi, I'm Atlas! Look how tall the Clock Tower is. I bet you can see Hilltop from the top! <break time=\"1.5s\" /> Going up, I count full hours. 145 minutes is two 60s and 25 more, so 2 hours 25 minutes."
+ },
+ "opti": {
+  "voice_id": "WdZjiN0nNcik2LBjOHiv",
+  "lines": [
+   {
+    "who": "opti",
+    "t": "Hoo! Welcome to the Clock Tower, {name}. Last time you rebuilt the Gallon-Man, and the trough showed GOLEM PART 1.",
+    "key": "48ee1483"
+   },
+   {
+    "who": "opti",
+    "t": "The Smudge is building something, and this clock can tell us when it comes. But listen. No ticking!",
+    "key": "18414292"
+   },
+   {
+    "who": "opti",
+    "t": "That's Otto, the clockkeeper, by the tower. Go say hello.",
+    "key": "993854b5"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! The Math Crew solved the stopped-clock puzzle. They each found the answer their own way.",
+    "key": "55ac9b2d"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! Two ways, and one answer: Time A is longer by 5 minutes.",
+    "key": "f8ae814b"
+   },
+   {
+    "who": "opti",
+    "t": "Thirty hours until the Golem comes. Next time, the night market, {name}.",
+    "key": "6691a19a"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! Every tower job on the page helps Otto get his clock running.",
+    "key": "481650bd"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! Thirty hours is plenty of time, {name}.",
+    "key": "be14b19c"
+   },
+   {
+    "who": "opti",
+    "t": "Next lesson, the night market. The Smudge's factory has to be somewhere nearby.",
+    "key": "8107bb31"
+   }
+  ],
+  "prompt": "Welcome to the Clock Tower, explorer. Last time you rebuilt the Gallon-Man, and the trough showed GOLEM PART 1. <break time=\"1.5s\" /> The Smudge is building something, and this clock can tell us when it comes. But listen. No ticking! <break time=\"1.5s\" /> That's Otto, the clockkeeper, by the tower. Go say hello. <break time=\"1.5s\" /> The Math Crew solved the stopped-clock puzzle. They each found the answer their own way. <break time=\"1.5s\" /> Two ways, and one answer: Time A is longer by 5 minutes. <break time=\"1.5s\" /> Thirty hours until the Golem comes. Next time, the night market, explorer. <break time=\"1.5s\" /> Every tower job on the page helps Otto get his clock running. <break time=\"1.5s\" /> Thirty hours is plenty of time, explorer. <break time=\"1.5s\" /> Next lesson, the night market. The Smudge's factory has to be somewhere nearby."
+ },
+ "otto": {
+  "voice_id": "b0BlLcowQPmtf6a9cuP5",
+  "lines": [
+   {
+    "who": "otto",
+    "t": "Oh! A visitor. I'm Otto, keeper of the Clock Tower.",
+    "key": "4c985a3a"
+   },
+   {
+    "who": "otto",
+    "t": "The Smudge stopped my clock and smudged the numbers on its face. I can't read the time!",
+    "key": "82632c20"
+   },
+   {
+    "who": "otto",
+    "t": "Walk up to the tower and read where the minute hand points. Each number on a clock is 5 minutes.",
+    "key": "14030cd5"
+   },
+   {
+    "who": "otto",
+    "t": "My clock ticks, but the hands still skip!",
+    "key": "40becac7"
+   },
+   {
+    "who": "otto",
+    "t": "The Smudge threw three gears out of the tower and smudged their labels. Please find them and fix them. Walk onto a sparkle to pick one up.",
+    "key": "9a73898b"
+   },
+   {
+    "who": "otto",
+    "t": "Every gear is back in place. Thank you, {name}!",
+    "key": "e4b3aaab"
+   },
+   {
+    "who": "otto",
+    "t": "Now the hands turn smoothly. Come back when the timetable is ready.",
+    "key": "1e004726"
+   },
+   {
+    "who": "otto",
+    "t": "Here is the new timetable for the station.",
+    "key": "99bbec6b"
+   },
+   {
+    "who": "otto",
+    "t": "Please take it to the station master, by the train.",
+    "key": "e6fde853"
+   },
+   {
+    "who": "otto",
+    "t": "The timetable is right, and my clock keeps perfect time again.",
+    "key": "d6481ec2"
+   },
+   {
+    "who": "otto",
+    "t": "Listen! It's about to chime for the first time since the Smudge came. Stand by the tower.",
+    "key": "958a5cb6"
+   },
+   {
+    "who": "otto",
+    "t": "Welcome to the Clock Tower! Seconds, minutes, hours and days. I keep them all.",
+    "key": "af1a9871"
+   },
+   {
+    "who": "otto",
+    "t": "You did it! My clock is running again.",
+    "key": "d4bcec7c"
+   },
+   {
+    "who": "otto",
+    "t": "Thank you, {name}. Now let's get the rest of the tower fixed.",
+    "key": "1404e688"
+   }
+  ],
+  "prompt": "Oh! A visitor. I'm Otto, keeper of the Clock Tower. <break time=\"1.5s\" /> The Smudge stopped my clock and smudged the numbers on its face. I can't read the time! <break time=\"1.5s\" /> Walk up to the tower and read where the minute hand points. Each number on a clock is 5 minutes. <break time=\"1.5s\" /> My clock ticks, but the hands still skip! <break time=\"1.5s\" /> The Smudge threw three gears out of the tower and smudged their labels. Please find them and fix them. Walk onto a sparkle to pick one up. <break time=\"1.5s\" /> Every gear is back in place. Thank you, explorer! <break time=\"1.5s\" /> Now the hands turn smoothly. Come back when the timetable is ready. <break time=\"1.5s\" /> Here is the new timetable for the station. <break time=\"1.5s\" /> Please take it to the station master, by the train. <break time=\"1.5s\" /> The timetable is right, and my clock keeps perfect time again. <break time=\"1.5s\" /> Listen! It's about to chime for the first time since the Smudge came. Stand by the tower. <break time=\"1.5s\" /> Welcome to the Clock Tower! Seconds, minutes, hours and days. I keep them all. <break time=\"1.5s\" /> You did it! My clock is running again. <break time=\"1.5s\" /> Thank you, explorer. Now let's get the rest of the tower fixed."
+ },
+ "smudge": {
+  "voice_id": "03UxGYCWKFAlC28C7ugZ",
+  "lines": [
+   {
+    "who": "smudge",
+    "t": "Thirty hours! You'll never find my brick factory in time. Heh heh heh!",
+    "key": "a918f446"
+   }
+  ],
+  "prompt": "Thirty hours! You'll never find my brick factory in time. Heh heh heh!"
+ }
+}
