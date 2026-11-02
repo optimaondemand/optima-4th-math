@@ -2,12 +2,12 @@
  "_note": "ElevenLabs voice ids shared by every G4 math lesson. Year-long cast: opti, atlas, felix, hazel, cora, smudge. A level's key characters reuse secondary_man / secondary_woman (map them in _cast). Anyone else keeps the sprite garble.",
  "opti": "WdZjiN0nNcik2LBjOHiv",
  "atlas": "unWb9iRIK7Xxf4A5Hfis",
- "felix": "PJeatLZlmAT5jz5L5p7U",
+ "felix": "MGT6a7Ww5AutlTP8OlBa",
  "hazel": "MkTSSXNgnBULS6ek4pon",
- "cora": "5T4Pk1MOGKVVSf9tJnWM",
+ "cora": "RQkZwiEDNTPnhccmEGaa",
  "millie": "",
  "penny": "",
- "smudge": "03UxGYCWKFAlC28C7ugZ",
+ "smudge": "b6EQtioQw8nYv45XG9Jo",
  "v1": "",
  "narrator": "",
  "_narrated": [
@@ -16,9 +16,9 @@
   "item-plank",
   "item-sack"
  ],
- "_secondary_note": "secondary_man was b0BlLcowQPmtf6a9cuP5 (Matt) until 2 Nov 2026; the new ElevenLabs account has no Matt, so Bethany picked EvqbdCtmQVi46OVEHwYm. Mo, Gus and Hank keep their old clips.",
+ "_secondary_note": "secondary_man was b0BlLcowQPmtf6a9cuP5 (Matt) until 2 Nov 2026; the new ElevenLabs account has no Matt, so Bethany picked EvqbdCtmQVi46OVEHwYm. Mo, Gus and Hank keep their old clips. secondary_woman was vjcrpGpR31efFHsvJ0ym until 2 Nov 2026; Bethany designed yvlUFE2awMFG2s720MSk (Amy, Rosa, Mabel keep old clips). Felix, Cora, Smudge got new designed voices 2 Nov 2026 too.",
  "secondary_man": "EvqbdCtmQVi46OVEHwYm",
- "secondary_woman": "vjcrpGpR31efFHsvJ0ym",
+ "secondary_woman": "yvlUFE2awMFG2s720MSk",
  "_cast": {
   "mo": "secondary_man",
   "amy": "secondary_woman",

@@ -66,7 +66,7 @@
   "prompt": "Welcome to the night market, explorer. The clock chimed this morning: the Golem comes in 30 hours. <break time=\"1.5s\" /> Tonight the market hangs its lanterns. Every lantern needs a ribbon, and the ribbons are measured in parts of a foot. <break time=\"1.5s\" /> That's Ivy, the lantern-keeper, at the ribbon stall. She looks worried. Go say hello. <break time=\"1.5s\" /> The Math Crew worked out Ivy's ribbon puzzle. They each found the answer their own way. <break time=\"1.5s\" /> Walk up to each of them and listen. Then come back and tell me. <break time=\"1.5s\" /> Two ways, and one answer: five sixths of a foot is 10 inches. <break time=\"1.5s\" /> Which way is most like yours? Write about it on your page, right under the Crew's card. <break time=\"1.5s\" /> Walk up to each Crew member and listen to their way first. <break time=\"1.5s\" /> The factory is found. Tomorrow the farmers' market, explorer, and the Golem. <break time=\"1.5s\" /> Every lantern job on the page helps Ivy light the night market. <break time=\"1.5s\" /> Part 1 at the dairy, part 2 here. The Golem is being built, explorer. <break time=\"1.5s\" /> Tomorrow, the farmers' market. We'll be ready for it."
  },
  "cora": {
-  "voice_id": "5T4Pk1MOGKVVSf9tJnWM",
+  "voice_id": "RQkZwiEDNTPnhccmEGaa",
   "lines": [
    {
     "who": "cora",
@@ -112,7 +112,7 @@
   "prompt": "Seven times 1,000 is 7,000. But a tenth means the liter is cut into 10 equal parts. One part is 100 milliliters. <break time=\"1.5s\" /> Four times 1,000 is 4,000. A fourth is one of 4 equal parts of the liter, so it is smaller than 1,000. <break time=\"1.5s\" /> Here is my rule for going backward, from inches to a fraction of a foot. <break time=\"1.5s\" /> The part and the whole must be in the same unit. 10 inches out of a foot is 10 inches out of 12 inches, never 10 out of 1. <break time=\"1.5s\" /> That's what the Smudge wrote! A third of an hour isn't 3 minutes. An hour is 60 minutes. Cut 60 into 3 equal parts. <break time=\"1.5s\" /> This tag is about a pound of tea, not a foot. A pound is 16 ounces. One fourth of 16 ounces is how many ounces? <break time=\"1.5s\" /> Hello, I'm Cora. Every ribbon here has a tag, and some of the tags look smudged. I don't trust them. <break time=\"1.5s\" /> Going backward, write the part over the whole in the same unit. Then make bigger equal parts to simplify."
  },
  "felix": {
-  "voice_id": "PJeatLZlmAT5jz5L5p7U",
+  "voice_id": "MGT6a7Ww5AutlTP8OlBa",
   "lines": [
    {
     "who": "felix",
@@ -245,7 +245,7 @@
   "prompt": "A meter is 100 centimeters. Half means 2 equal parts. <break time=\"1.5s\" /> My way is to multiply the fraction by 12, because a foot is 12 inches. <break time=\"1.5s\" /> Five sixths times 12. First 5 times 12, that's 60. Then 60 divided by 6, that's 10. <break time=\"1.5s\" /> So five sixths of a foot is 10 inches! <break time=\"1.5s\" /> Hi, I'm Atlas! A night market! I've never seen so many lanterns in one place. Well, I will, once they're hung. <break time=\"1.5s\" /> To find a fraction of a unit, I multiply the fraction by the number of small units. Five sixths of a foot is 5 times 12, that's 60, divided by 6: 10 inches."
  },
  "ivy": {
-  "voice_id": "vjcrpGpR31efFHsvJ0ym",
+  "voice_id": "yvlUFE2awMFG2s720MSk",
   "lines": [
    {
     "who": "ivy",
@@ -306,7 +306,7 @@
   "prompt": "Oh, hello! I'm Ivy. I keep the lanterns for the night market. <break time=\"1.5s\" /> The Smudge tipped over my tag box, and the tags blew all over the square. Each tag names a fraction of a unit. <break time=\"1.5s\" /> Please sort them into my bins. Each bin is an amount: 4 inches, 5 inches, 6 inches or 4 ounces. Walk onto a sparkle to pick up a tag. <break time=\"1.5s\" /> Every tag is in its bin. Thank you, explorer! <break time=\"1.5s\" /> The lantern string is still empty, and it's getting dark! <break time=\"1.5s\" /> Here are three ribbons. Each tag is a fraction of a foot, but my ruler only shows inches. <break time=\"1.5s\" /> Walk to the lantern string and cut each ribbon to the right number of inches. <break time=\"1.5s\" /> The lanterns light up the whole square now. And look, behind the market! <break time=\"1.5s\" /> There is gray dust on the ground in the alley. Brick dust. Follow it, explorer! <break time=\"1.5s\" /> Welcome to the night market! Ribbons, lanterns and tea. Everything here comes in parts of a unit. <break time=\"1.5s\" /> They're beautiful! Thank you, explorer."
  },
  "smudge": {
-  "voice_id": "03UxGYCWKFAlC28C7ugZ",
+  "voice_id": "b6EQtioQw8nYv45XG9Jo",
   "lines": [
    {
     "who": "smudge",
