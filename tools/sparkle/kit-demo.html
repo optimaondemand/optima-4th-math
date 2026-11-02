@@ -10,6 +10,7 @@
 <div class="demo"><h2>Two-Unit Mat</h2><code>OAOKit.unitMat(el, cfg)</code><div id="d-um"></div></div>
 <div class="demo"><h2>Store Scale (lb and oz dial)</h2><code>OAOKit.scale(el, cfg)</code><div id="d-sc"></div></div>
 <div class="demo"><h2>Clock Hands (time)</h2><code>OAOKit.clock(el, cfg)</code><div id="d-clock"></div></div>
+<div class="demo"><h2>Ribbon Cutter (fractions of a unit)</h2><code>OAOKit.ribbon(el, cfg)</code><div id="d-rib"></div></div>
 <div class="demo"><h2>Pour Station (capacity)</h2><code>OAOKit.pour(el, cfg)</code><div id="d-pour"></div></div>
 <div class="demo"><h2>Trade Mat (any rate)</h2><code>OAOKit.tradeMat(el, cfg)</code><div id="d-tm"></div></div>
 <div class="demo"><h2>Bar Strip</h2><code>OAOKit.barStrip(el, cfg)</code><div id="d-bar"></div></div>
@@ -38,6 +39,11 @@ OAOKit.scale($('d-sc'),{rounds:[
 OAOKit.clock($('d-clock'),{rounds:[
   {name:'Group up',rate:60,big:{unit:'h',name:['hour','hours']},small:{unit:'min',name:['minute','minutes']},target:75,show:'count',text:'Wind 75 minutes.',ask:{q:'75 min =',units:['h','min'],answer:[1,15],mistakes:[{v:[0,75],text:'Count the full turns.'}]},doneText:'75 min = 1 h 15 min.'},
   {name:'Day wheel',rate:24,face:'day',big:{unit:'day',name:['day','days']},small:{unit:'h',name:['hour','hours']},target:50,show:'turns',steps:[1,6],text:'Wind 2 days 2 hours.',doneText:'2 days 2 h.'}]});
+OAOKit.ribbon($('d-rib'),{rounds:[
+  {name:'Take parts',mode:'take',rate:12,big:{unit:'ft',name:['foot','feet']},small:{unit:'in',name:['inch','inches']},num:2,den:3,cuts:[2,3,4,6,12],
+   text:'Find <b>2/3</b> of a foot: cut the foot into equal parts, then take some.',ask:{q:'2/3 ft =',units:['in'],answer:[8],mistakes:[{v:[4],text:'That is one part. Take 2.'}]},doneText:'2/3 ft = 8 in.'},
+  {name:'Name a scrap',mode:'name',rate:12,big:{unit:'ft',name:['foot','feet']},small:{unit:'in',name:['inch','inches']},shade:6,groups:[2,3,4,6],raw:{n:6,d:12},answer:{n:1,d:2},
+   text:'A scrap is <b>6 inches</b>. Shade 6 inches, write the fraction of a foot, then simplify.',doneText:'6 in = 6/12 ft = 1/2 ft.'}]});
 OAOKit.pour($('d-pour'),{rounds:[
   {name:'Fill a quart',mode:'fill',big:{unit:'qt',name:['quart','quarts']},small:{unit:'pt',name:['pint','pints']},rate:2,text:'Pour pints into the quart until it is full.',ask:{q:'1 qt =',units:['pt'],answer:[2],mistakes:[{v:[4],text:'Count the pints you poured.'}]},doneText:'2 pints fill a quart.'},
   {name:'Group up',mode:'up',big:{unit:'gal',name:['gallon','gallons']},small:{unit:'qt',name:['quart','quarts']},rate:4,start:{small:11},text:'Pour the 11 quarts into gallon jugs.',ask:{q:'11 qt =',units:['gal','qt'],answer:[2,3]},doneText:'11 qt = 2 gal 3 qt.'},

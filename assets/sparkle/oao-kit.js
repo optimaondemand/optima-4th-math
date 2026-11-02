@@ -750,5 +750,134 @@ function clock(root,cfg){
   render();
   return {state:st};
 }
-K.clock=clock;K.pour=pour;K.scale=scale;K.unitMat=unitMat;K.tradeMat=tradeMat;K.stamps=stamps;K.barModel=barModel;K.numberBond=numberBond;K.mentalMath=mentalMath;K.challenge=challenge;
+/* ═══════════ RIBBON CUTTER (fractions of a unit) ═══════════
+   One whole unit as a strip (1 ft, 1 lb, 1 h, 1 m, 1 L). Two modes:
+   take: tap a cut button to cut the strip into equal parts (each part shows its small units), then tap or drag across
+         parts to take some. Live line: "5 of 6 parts · each part is 2 in". Optional ask form for the total.
+   name: the strip shows `rate` small-unit marks; shade `shade` of them (tap or drag), write the fraction (part over whole,
+         stacked boxes), then group the marks into bigger equal parts and write the simplest form.
+   round = {name, mode:'take'|'name', text, doneText, rate, big:{unit,name:[one,many]}, small:{unit,name:[one,many]},
+            take: num, den, cuts:[…], free (any cut allowed, no wrong-cut hint), ask:{q, units, answer, mistakes:[{v,text}], hint, doneText}
+            name: shade, groups:[…], raw:{n,d}, answer:{n,d}, rawMistakes:[{n,d,text}], simpMistakes, hint }
+   cfg = { key, rounds, onRound(i, root), onDone(root) } */
+function ribbon(root,cfg){
+  var rounds=cfg.rounds,key=cfg.key;
+  var st=ls(key,null);if(!st||!st.cut||st.cut.length!==rounds.length)st={cur:0,cut:rounds.map(function(){return 0;}),on:rounds.map(function(){return [];}),raw:rounds.map(function(){return false;}),grp:rounds.map(function(){return 0;}),won:rounds.map(function(){return false;}),a:rounds.map(function(){return [];}),fired:false};
+  root.classList.add('ok-tool');root.classList.add('ok-ribbon');
+  root.innerHTML=(rounds.length>1?'<div class="ok-rounds" role="tablist">'+rounds.map(function(r,i){return '<button type="button" data-i="'+i+'">'+esc(r.name)+'</button>';}).join('')+'</div>':'')+
+    '<p class="ok-do" aria-live="polite"></p><div class="ok-row ok-cutbtns"></div><div class="ok-stripbox"><svg class="ok-strip" viewBox="0 0 640 110" role="img"></svg></div>'+
+    '<div class="ok-sym" aria-live="polite"></div><div class="ok-ribbon-ask"></div><div class="ok-msg" aria-live="polite"></div>'+
+    '<div class="ok-row"><button class="ok-btn ok-reset" type="button">↺ Start over</button></div>';
+  var svg=$('.ok-strip',root),btns=$('.ok-cutbtns',root),msg=$('.ok-msg',root),askEl=$('.ok-ribbon-ask',root);
+  function say(t,k){msg.className='ok-msg'+(k?' '+k:'');msg.innerHTML=t||'';}
+  function save(){lsSet(key,st);}
+  function nm(u,n){return n===1?u.name[0]:u.name[1];}
+  function R(){return rounds[st.cur];}
+  function taken(i){return st.on[i].filter(Boolean).length;}
+  function win(i){if(st.won[i])return;st.won[i]=true;save();snd.done();if(cfg.onRound)cfg.onRound(i,root);
+    if(st.won.every(Boolean)&&!st.fired){st.fired=true;save();if(cfg.onDone)cfg.onDone(root);}render();}
+  function frac(n,d){return '<span class="ok-frac"><b>'+n+'</b><i></i><b>'+d+'</b></span>';}
+  function per(r){return r.rate/st.cut[st.cur];}
+  function setOn(i,k,v){var r=rounds[i];if(st.won[i])return;var arr=st.on[i];if(!!arr[k]===!!v)return;
+    if(v&&r.mode==='take'&&!r.free&&taken(i)>=r.num){say('You have '+r.num+' parts already. The top number says how many parts to take.','hint');snd.no();return;}
+    if(v&&r.mode==='name'&&taken(i)>=r.shade){say('That is all '+r.shade+' '+nm(r.small,r.shade)+'. The strip is shaded for the whole scrap.','hint');snd.no();return;}
+    arr[k]=!!v;snd.click();save();render();
+    if(r.mode==='take'&&!r.ask&&taken(i)===r.num&&st.cut[i]===r.den)win(i);}
+  function cutTo(n){var i=st.cur,r=R();if(st.won[i])return;
+    if(!r.free&&n!==r.den){snd.no();say((r.cutHint||'Look at the bottom number of the fraction. It tells how many equal parts to cut.')+' You cut '+n+'.','hint');}else say('');
+    st.cut[i]=n;st.on[i]=[];save();snd.split();render();}
+  function groupTo(g){var i=st.cur,r=R();if(st.won[i]||!st.raw[i])return;
+    // the shaded marks must fill whole parts
+    if(r.shade%g!==0){snd.no();say('Parts of '+g+' '+nm(r.small,g)+' don\'t fit: the shaded part would end in the middle of a part. Try another size.','hint');return;}
+    st.grp[i]=g;save();snd.split();say('');render();}
+  function drawStrip(){var r=R(),i=st.cur,n=r.rate,W=600,X=20,Y=28,H=46,s='';
+    s+='<text x="'+X+'" y="18" font-family="Nunito,sans-serif" font-weight="900" font-size="15" fill="#1E3A6E">1 '+esc(r.big.name[0])+' = '+n+' '+esc(r.small.name[1])+'</text>';
+    if(r.mode==='take'){var c=st.cut[i];
+      s+='<rect x="'+X+'" y="'+Y+'" width="'+W+'" height="'+H+'" rx="6" fill="#FFF3DE" stroke="#3B2417" stroke-width="3"/>';
+      if(!c){s+='<text x="320" y="'+(Y+29)+'" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="800" font-size="16" fill="#6B7290">one whole '+esc(r.big.name[0])+' · tap a cut button</text>';}
+      else{var pw=W/c,pv=n/c;for(var k=0;k<c;k++){var on=!!st.on[i][k],x=X+k*pw;
+          s+='<rect class="ok-part" data-k="'+k+'" x="'+x.toFixed(1)+'" y="'+Y+'" width="'+pw.toFixed(1)+'" height="'+H+'" fill="'+(on?'#6B3FA0':'#FFF3DE')+'" stroke="#3B2417" stroke-width="3" tabindex="0" role="button" aria-label="part '+(k+1)+' of '+c+(on?', taken':'')+'"/>';
+          var lab=(Number.isInteger(pv)?pv:Math.round(pv*10)/10)+' '+esc(r.small.unit);
+          s+='<text x="'+(x+pw/2).toFixed(1)+'" y="'+(Y+29)+'" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="'+(c>10?12:15)+'" fill="'+(on?'#fff':'#3B2417')+'" pointer-events="none">'+(pw>30?lab:'')+'</text>';}
+        s+='<text x="320" y="'+(Y+H+24)+'" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="800" font-size="14" fill="#4A5068">'+c+' equal parts · tap a part to take it</text>';}
+    }else{var g=st.grp[i]||1,parts=n/g,pw2=W/parts,shaded=taken(i);
+      // small marks
+      for(var m=0;m<n;m++){var on2=!!st.on[i][m],mx=X+m*(W/n),mw=W/n;
+        s+='<rect class="ok-mark" data-k="'+m+'" x="'+mx.toFixed(1)+'" y="'+Y+'" width="'+mw.toFixed(1)+'" height="'+H+'" fill="'+(on2?'#2DB87A':'#FFF3DE')+'" stroke="'+(g>1?'#C9BFB0':'#3B2417')+'" stroke-width="'+(g>1?1:(n>30?1:2))+'" tabindex="0" role="button" aria-label="'+esc(r.small.name[0])+' '+(m+1)+(on2?', shaded':'')+'"/>';}
+      if(g>1){for(var q=0;q<parts;q++){var qx=X+q*pw2;s+='<rect x="'+qx.toFixed(1)+'" y="'+Y+'" width="'+pw2.toFixed(1)+'" height="'+H+'" fill="none" stroke="#3B2417" stroke-width="3" pointer-events="none"/>';
+          if(pw2>34)s+='<text x="'+(qx+pw2/2).toFixed(1)+'" y="'+(Y+H+17)+'" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="800" font-size="12" fill="#4A5068">'+g+' '+esc(r.small.unit)+'</text>';}}
+      s+='<rect x="'+X+'" y="'+Y+'" width="'+W+'" height="'+H+'" rx="6" fill="none" stroke="#3B2417" stroke-width="3" pointer-events="none"/>';
+      s+='<text x="320" y="'+(Y+H+(g>1?38:24))+'" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="800" font-size="14" fill="#4A5068">'+(g>1?parts+' equal parts of '+g+' '+esc(r.small.unit):n+' '+esc(r.small.name[1])+' · tap or drag to shade '+r.shade)+'</text>';}
+    svg.innerHTML=s;svg.setAttribute('viewBox','0 0 640 '+(r.mode==='name'&&(st.grp[i]||1)>1?126:110));
+    svg.setAttribute('aria-label',r.mode==='take'?'A strip for 1 '+r.big.name[0]+(st.cut[i]?' cut into '+st.cut[i]+' equal parts of '+per(r)+' '+r.small.name[1]+' each, '+taken(i)+' taken.':', not cut yet.'):'A strip for 1 '+r.big.name[0]+' with '+n+' '+r.small.name[1]+' marked, '+taken(i)+' shaded.');}
+  function fracForm(id,q){return '<form class="bm-form mk-two ok-fracform" data-f="'+id+'"><span class="mk-two-q">'+q+'</span><span class="ok-frac ok-frac-in"><input type="text" inputmode="numeric" autocomplete="off" aria-label="top number"><i></i><input type="text" inputmode="numeric" autocomplete="off" aria-label="bottom number"></span><span class="bm-u">'+esc(R().big.unit)+'</span><button type="submit" class="ok-btn">Check</button></form>';}
+  function render(){var i=st.cur,r=R(),n=r.rate;
+    if(rounds.length>1)$$('.ok-rounds button',root).forEach(function(b,k){b.classList.toggle('on',k===i);b.classList.toggle('won',!!st.won[k]);b.setAttribute('aria-selected',k===i);});
+    $('.ok-do',root).innerHTML=st.won[i]?'<span class="ok-step" style="background:#1E8C5A">Done</span>'+(r.doneText||''):r.text;
+    var b='';
+    if(r.mode==='take'){(r.cuts||[2,3,4,6,12]).forEach(function(c){b+='<button type="button" class="ok-btn ok-cut-btn'+(st.cut[i]===c?' on':'')+'" data-n="'+c+'">Cut into '+c+'</button>';});}
+    else if(st.raw[i]&&!st.won[i]){(r.groups||[2,3,4,6]).forEach(function(g){b+='<button type="button" class="ok-btn ok-grp-btn'+(st.grp[i]===g?' on':'')+'" data-n="'+g+'">Parts of '+g+' '+esc(r.small.unit)+'</button>';});}
+    btns.innerHTML=b;btns.style.display=b?'':'none';
+    $$('.ok-cut-btn',btns).forEach(function(x){x.onclick=function(){cutTo(+x.dataset.n);};});
+    $$('.ok-grp-btn',btns).forEach(function(x){x.onclick=function(){groupTo(+x.dataset.n);};});
+    drawStrip();
+    var sym=$('.ok-sym',root),t=taken(i);
+    if(r.mode==='take'){var c=st.cut[i];
+      sym.innerHTML=!c?'<span class="big">'+frac(r.num,r.den)+' of 1 '+esc(r.big.unit)+'</span><span class="exp">'+(r.free?'Try it any way you like.':'Cut the '+esc(r.big.name[0])+' into equal parts first.')+'</span>':
+        '<span class="big">'+t+' of '+c+' parts</span><span class="exp">each part is '+per(r)+' '+nm(r.small,per(r))+(t?' · '+t+' × '+per(r)+' '+esc(r.small.unit):'')+'</span>';}
+    else{var g=st.grp[i]||1;
+      sym.innerHTML=g===1?'<span class="big">'+t+' of '+n+' '+esc(r.small.name[1])+' shaded</span><span class="exp">'+(st.raw[i]?'Now make bigger equal parts.':'part over whole, both in '+esc(r.small.name[1]))+'</span>':
+        '<span class="big">'+(t/g)+' of '+(n/g)+' parts</span><span class="exp">parts of '+g+' '+esc(r.small.name[1])+'</span>';}
+    // the ask
+    var show='';
+    if(r.mode==='take'&&r.ask&&(r.free?st.cut[i]>0:(st.cut[i]===r.den&&t===r.num)))show='ask';
+    if(r.mode==='name'&&t===r.shade&&!st.raw[i])show='raw';
+    if(r.mode==='name'&&st.raw[i]&&(st.grp[i]||1)>1)show='simp';
+    if(st.won[i]&&r.mode==='name')show=(r.answer.n===r.raw.n&&r.answer.d===r.raw.d)?'raw':'simp';
+    if(st.won[i]&&r.mode==='take'&&r.ask)show='ask';
+    if(askEl.dataset.r!==i+':'+show){askEl.dataset.r=i+':'+show;askEl.innerHTML='';
+      if(show==='ask'){var A=r.ask,sa=st.a[i]||[];
+        askEl.innerHTML='<form class="bm-form mk-two"><span class="mk-two-q">'+A.q+'</span>'+A.units.map(function(u,k){return '<input type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc(A.q.replace(/<[^>]+>/g,'')+' '+u)+'" value="'+esc(sa[k]||'')+'"><span class="bm-u">'+esc(u)+'</span>';}).join('')+'<button type="submit" class="ok-btn">Check</button></form>';
+        var f=$('form',askEl),ins=$$('input',f);if(st.won[i])ins.forEach(function(x){x.disabled=true;});
+        f.onsubmit=function(e){e.preventDefault();if(st.won[st.cur])return;var vs=ins.map(function(x){return num(x.value);});st.a[st.cur]=ins.map(function(x){return x.value;});save();
+          if(vs.some(function(x){return x==null;}))return say('Type a number first.','hint');
+          if(vs.every(function(x,k){return x===A.answer[k];})){ins.forEach(function(x){x.disabled=true;});say(A.doneText||'Yes!','good');win(st.cur);return;}
+          snd.no();var mk=(A.mistakes||[]).filter(function(z){return z.v.every(function(x,k){return x===vs[k];});})[0];
+          if(mk)return say(mk.text,'hint');say(A.hint||'Count the parts you took. Each one is '+per(R())+' '+R().small.name[1]+'.','hint');};}
+      if(show==='raw'||show==='simp'){var simp=show==='simp';
+        askEl.innerHTML=fracForm(show,simp?(r.simpQ||'In simplest form, the scrap is'):(r.rawQ||'Part over whole: the scrap is'));
+        var f2=$('form',askEl),ii=$$('input',f2),sv=st.a[i]||[];if(sv[simp?2:0]!=null){ii[0].value=sv[simp?2:0]||'';ii[1].value=sv[simp?3:1]||'';}
+        if(st.won[i])ii.forEach(function(x){x.disabled=true;});
+        f2.onsubmit=function(e){e.preventDefault();var rr=R(),j=st.cur;if(st.won[j])return;var a=num(ii[0].value),d=num(ii[1].value);st.a[j]=st.a[j]||[];st.a[j][simp?2:0]=ii[0].value;st.a[j][simp?3:1]=ii[1].value;save();
+          if(a==null||d==null)return say('Type the top number and the bottom number.','hint');
+          if(!simp){if(a===rr.raw.n&&d===rr.raw.d){st.raw[j]=true;save();if(rr.answer.n===a&&rr.answer.d===d){ii.forEach(function(x){x.disabled=true;});say(rr.rawDone||('Yes: '+a+' '+rr.small.name[1]+' out of the '+d+' in 1 '+rr.big.name[0]+'. No bigger equal part fits both numbers, so it is already in simplest form.'),'good');win(j);return;}snd.done();say(rr.rawDone||('Yes: '+a+' '+rr.small.name[1]+' out of the '+d+' in 1 '+rr.big.name[0]+'. Now make bigger equal parts to find the simplest form.'),'good');render();return;}
+            snd.no();var m1=(rr.rawMistakes||[]).filter(function(z){return z.n===a&&z.d===d;})[0];if(m1)return say(m1.text,'hint');
+            if(a===rr.answer.n&&d===rr.answer.d)return say('That is the simplest form, and it is right! First write it the long way: the shaded '+rr.small.name[1]+' over all the '+rr.small.name[1]+' in 1 '+rr.big.name[0]+'.','hint');
+            if(d===1)return say('The bottom number is the whole. The whole is 1 '+rr.big.name[0]+', but in '+rr.small.name[1]+': how many '+rr.small.name[1]+' is that?','hint');
+            return say(rr.rawHint||('Top: how many '+rr.small.name[1]+' are shaded? Bottom: how many '+rr.small.name[1]+' make the whole '+rr.big.name[0]+'?'),'hint');}
+          var g=st.grp[j];
+          if(a===rr.answer.n&&d===rr.answer.d){ii.forEach(function(x){x.disabled=true;});say(rr.doneText2||('Yes! '+a+' of '+d+' equal parts. '+rr.raw.n+'/'+rr.raw.d+' and '+a+'/'+d+' name the same amount, and '+a+'/'+d+' is the simplest form.'),'good');win(j);return;}
+          snd.no();var m2=(rr.simpMistakes||[]).filter(function(z){return z.n===a&&z.d===d;})[0];if(m2)return say(m2.text,'hint');
+          if(a*rr.answer.d===d*rr.answer.n)return say(a+'/'+d+' is equal, but it is not the simplest form yet. Try bigger parts so fewer of them fill the strip.','hint');
+          if(d===rr.rate/g&&a!==rr.shade/g)return say('Count the shaded parts on the strip now, not the '+rr.small.name[1]+'.','hint');
+          return say(rr.simpHint||('Read the strip: how many parts are shaded, out of how many parts in all?'),'hint');};}}
+    if(show==='simp'&&!st.won[i]&&(st.grp[i]||1)>1){/* a bigger group than the one that fits is nudged by the message */}
+    var nx=$('.ok-next',root);
+    if(st.won[i]&&i<rounds.length-1){if(!nx){nx=document.createElement('button');nx.className='ok-btn ok-next';nx.type='button';nx.textContent='Next →';nx.onclick=function(){st.cur++;save();say('');askEl.dataset.r='';render();};$$('.ok-row',root).pop().appendChild(nx);}}
+    else if(nx)nx.remove();}
+  // tap a part or mark; drag across several (pointer events)
+  var paint=null;
+  function hitAt(e){var el=document.elementFromPoint(e.clientX,e.clientY);return el&&svg.contains(el)&&(el.classList.contains('ok-part')||el.classList.contains('ok-mark'))?el:null;}
+  svg.style.touchAction='none';
+  svg.addEventListener('pointerdown',function(e){var el=hitAt(e);if(!el)return;var k=+el.dataset.k,i=st.cur;paint={id:e.pointerId,v:!st.on[i][k],last:k};try{svg.setPointerCapture(e.pointerId);}catch(x){}e.preventDefault();setOn(i,k,paint.v);});
+  svg.addEventListener('pointermove',function(e){if(!paint||paint.id!==e.pointerId)return;var el=hitAt(e);if(!el)return;var k=+el.dataset.k;if(k===paint.last)return;paint.last=k;setOn(st.cur,k,paint.v);});
+  function end(e){if(paint&&paint.id===e.pointerId)paint=null;}
+  svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+  svg.addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ')return;var el=e.target;if(!el.dataset||el.dataset.k==null)return;e.preventDefault();setOn(st.cur,+el.dataset.k,!st.on[st.cur][+el.dataset.k]);});
+  if(rounds.length>1)$$('.ok-rounds button',root).forEach(function(b){b.onclick=function(){st.cur=+b.dataset.i;save();say('');askEl.dataset.r='';render();};});
+  $('.ok-reset',root).onclick=function(){var i=st.cur;st.cut[i]=0;st.on[i]=[];st.raw[i]=false;st.grp[i]=0;st.won[i]=false;st.a[i]=[];save();say('');askEl.dataset.r='';render();};
+  render();
+  return {state:st};
+}
+K.ribbon=ribbon;K.clock=clock;K.pour=pour;K.scale=scale;K.unitMat=unitMat;K.tradeMat=tradeMat;K.stamps=stamps;K.barModel=barModel;K.numberBond=numberBond;K.mentalMath=mentalMath;K.challenge=challenge;
 })(OAOKit);

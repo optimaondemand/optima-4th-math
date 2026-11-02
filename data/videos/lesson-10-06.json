@@ -1,0 +1,188 @@
+{
+ "lesson": "10.06",
+ "grade": 4,
+ "prefix": "g4math-10-06",
+ "manifestKey": "g4math-10-06",
+ "title": "Fractions and Measurement",
+ "other": [],
+ "pics": {
+  "10-06-learn-ribbon": {
+   "src": "assets/video/boards/10-06/10-06-learn-ribbon.png",
+   "cap": "Board: The ribbon"
+  },
+  "10-06-learn-twoways": {
+   "src": "assets/video/boards/10-06/10-06-learn-twoways.png",
+   "cap": "Board: Two ways"
+  },
+  "10-06-do-p1": {
+   "src": "assets/video/boards/10-06/10-06-do-p1.png",
+   "cap": "Board: Problem 1"
+  },
+  "10-06-do-p2": {
+   "src": "assets/video/boards/10-06/10-06-do-p2.png",
+   "cap": "Board: Problem 2"
+  },
+  "10-06-do-p3": {
+   "src": "assets/video/boards/10-06/10-06-do-p3.png",
+   "cap": "Board: Problem 3"
+  },
+  "10-06-do-mistake": {
+   "src": "assets/video/boards/10-06/10-06-do-mistake.png",
+   "cap": "Board: Spot the mistake"
+  }
+ },
+ "redo": [],
+ "welcomeSlot": "think",
+ "slots": {
+  "think": {
+   "label": "Think · Ivy's lantern ribbons",
+   "title": "The Night Market",
+   "length": "about 1 min",
+   "want": true,
+   "where": "Warm-Up, under the Essential Question",
+   "parts": [
+    {
+     "label": "Market board",
+     "tag": "TODAY'S REAL PROBLEM",
+     "title": "Hang the Night Market Lanterns",
+     "col": "#C93A5A",
+     "rows": [
+      [
+       "Job 1",
+       "Cut the foot"
+      ],
+      [
+       "Job 2",
+       "Cut the lantern ribbons"
+      ],
+      [
+       "Job 3",
+       "Fill Ivy's order list"
+      ],
+      [
+       "Job 4",
+       "Label the scraps"
+      ],
+      [
+       "Job 5",
+       "Halve the ribbon"
+      ],
+      [
+       "Job 6",
+       "Fix the Smudge's tag"
+      ]
+     ]
+    },
+    {
+     "label": "The ribbon tag",
+     "tag": "THINK ABOUT IT",
+     "title": "Each ribbon is five sixths of a foot",
+     "col": "#6B3FA0",
+     "body": "Ivy's ruler shows inches. How many inches is each ribbon?"
+    },
+    {
+     "label": "The big question",
+     "tag": "ESSENTIAL QUESTION",
+     "title": "How many inches is five sixths of a foot?",
+     "col": "#2DB87A",
+     "body": "A fraction of ONE foot. Notice, wonder, then try it your way."
+    }
+   ],
+   "script": "Welcome to the night market!\n\n[ON SCREEN: Market board]\n\nTonight the market hangs its lanterns, and Ivy, the lantern-keeper, cuts a ribbon for every one. Her tags are fractions of a foot, but her ruler only shows inches. The board right under me has six lantern jobs. Finish them, and the lanterns will light the way to the Smudge's factory.\n\n[ON SCREEN: The ribbon tag]\n\nHere's the first puzzle. Every ribbon on the big string is five sixths of a foot long. How many inches is that?\n\n[ON SCREEN: The big question]\n\nFirst, cut the foot on your page, so you can see what one third and one half of a foot look like. Then, at the puzzle, look at the tag before you cut anything. It says five sixths of ONE foot. What do you notice? What do you wonder? Write that down, then try it your own way. Make a guess and hold on to it. On the Learn tab, the Math Crew will show you two ways."
+  },
+  "learn": {
+   "label": "Learn · two ways, then cut the ribbons",
+   "title": "Two Ways",
+   "length": "about 1½ min",
+   "want": true,
+   "where": "Learn, top (before the Math Crew)",
+   "parts": [
+    {
+     "label": "Board: The ribbon",
+     "kind": "board",
+     "pic": "10-06-learn-ribbon",
+     "tag": "Ivy's ribbon"
+    },
+    {
+     "label": "Board: Two ways",
+     "kind": "board",
+     "pic": "10-06-learn-twoways",
+     "tag": "Two ways"
+    },
+    {
+     "label": "Live: Ribbons for the Lanterns",
+     "kind": "live",
+     "model": "ribbons",
+     "tag": "On your page",
+     "page": "math-lesson-4-10-06-fractions-and-measurement.html"
+    }
+   ],
+   "script": "Look at Ivy's tag one more time. Five sixths of a foot. Not five sixths of an inch, and not five feet. It's part of ONE foot.\n\n[ON SCREEN: Board: The ribbon]\n\n[DRAW: write 2 in inside each of the 6 parts. Shade the first 5 parts.]\n\nOne foot is 12 inches. Sixths means 6 equal parts, so each part is 2 inches. Five of them: 2, 4, 6, 8, 10. Ten inches.\n\n[ON SCREEN: Board: Two ways]\n\n[DRAW: fill in Felix's blanks as you say them, then Atlas's.]\n\nFelix cuts first: 12 divided by 6 is 2 inches a part. Then 5 parts: 5 times 2 is 10 inches. Atlas multiplies the fraction by 12: 5 times 12 is 60, then 60 divided by 6 is 10 inches. Two ways, one answer.\n\nPause here. Say out loud which way is more like what you did.\n\n[ON SCREEN: Live: Ribbons for the Lanterns]\n\n[DO: tap Cut into 6. Tap 5 parts. Type 10 and tap Check.]\n\nOn your page, the Ribbon Cutter does Felix's way. The bottom number says cut into 6. Each part shows 2 inches. The top number says take 5. Ten inches. Now cut the lantern ribbons yourself."
+  },
+  "do": {
+   "label": "Do · watch me solve (boards)",
+   "title": "Watch Me Solve It",
+   "length": "about 1½ min",
+   "want": true,
+   "where": "Learn, after Ivy's Fraction Board",
+   "parts": [
+    {
+     "label": "Board: Problem 1",
+     "kind": "board",
+     "pic": "10-06-do-p1",
+     "tag": "Problem 1"
+    },
+    {
+     "label": "Board: Problem 2",
+     "kind": "board",
+     "pic": "10-06-do-p2",
+     "tag": "Problem 2"
+    },
+    {
+     "label": "Board: Problem 3",
+     "kind": "board",
+     "pic": "10-06-do-p3",
+     "tag": "Problem 3"
+    },
+    {
+     "label": "Board: Spot the mistake",
+     "kind": "board",
+     "pic": "10-06-do-mistake",
+     "tag": "Spot the mistake"
+    }
+   ],
+   "script": "Now watch me solve three. Pause any time.\n\n[ON SCREEN: Board: Problem 1]\n\n[DRAW: write 12 min in each of the 5 parts. Shade 3 parts. Write 3 × 12 = 36 min.]\n\nThree fifths of an hour. An hour is 60 minutes, cut into 5 equal parts: 12 minutes each. Three parts: 3 times 12 is 36 minutes.\n\n[ON SCREEN: Board: Problem 2]\n\nYour turn first. Pause the video and try this one on paper. Then press play and check.\n\n[DRAW: write 25 cm in each of the 4 parts. Shade 3. Write 3 × 25 = 75 cm. Beside it write 3 × 100 = 300, 300 ÷ 4 = 75.]\n\nThree fourths of a meter. 100 centimeters cut into 4 equal parts is 25 each. Three parts: 75 centimeters. Atlas's way checks it: 3 times 100 is 300, and 300 divided by 4 is 75.\n\n[ON SCREEN: Board: Problem 3]\n\n[DRAW: write 60 under whole. Write 12 over 60. Then divide top and bottom by 12: 1 over 5.]\n\nBackward now. 12 minutes out of an hour. Same unit: 12 minutes out of 60 minutes, 12 over 60. Bigger equal parts of 12 minutes: 60 is 5 of them, and 12 is 1. One fifth of an hour.\n\n[ON SCREEN: Board: Spot the mistake]\n\n[DRAW: circle the 1. Write 16 under it: 3 over 16.]\n\nIs this right? Three ounces over ONE pound mixes two units. The whole has to be in ounces too: 16. Three sixteenths of a pound, and that's already simplest."
+  },
+  "wrap": {
+   "label": "Wrap · the lanterns are lit",
+   "title": "The Lanterns Are Lit",
+   "length": "about 45 s",
+   "want": false,
+   "where": "Show What You Know, after the last game window",
+   "parts": [
+    {
+     "label": "Two ways",
+     "tag": "TODAY",
+     "title": "Cut and take · or multiply",
+     "col": "#2DB87A",
+     "body": "A fraction of a unit is a fraction of its small units. Backward: part over whole, same unit, then simplify."
+    },
+    {
+     "label": "The tag",
+     "tag": "YOU PROVED IT",
+     "title": "5 inches is five twelfths of a foot",
+     "col": "#C93A5A",
+     "body": "Never 5 over 1. Inches over inches."
+    },
+    {
+     "label": "Next time",
+     "tag": "NEXT LESSON",
+     "title": "The farmers' market",
+     "col": "#6B3FA0",
+     "body": "Mixed numbers of feet, and the Brick Golem."
+    }
+   ],
+   "script": "Look how far you came!\n\n[ON SCREEN: Two ways]\n\nToday you cut whole units into equal parts. Five sixths of a foot: cut 12 inches into 6 parts and take 5, or multiply five sixths by 12. Ten inches, both ways. And going backward, you wrote the part over the whole in the same unit, then made bigger equal parts to simplify.\n\n[ON SCREEN: The tag]\n\nThe Smudge's tag said 5 over 1. But a 5-inch ribbon is 5 inches out of 12: five twelfths of a foot. Inches over inches, every time.\n\n[ON SCREEN: Next time]\n\nThe lanterns are lit, and the brick factory is found. Next time, the farmers' market: lengths like 2 and a half feet, and the Brick Golem itself. See you there, explorers!"
+  }
+ }
+}

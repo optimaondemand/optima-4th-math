@@ -663,3 +663,16 @@ body.pqi-on{overflow:hidden}
 .ok-clock .ok-turn{display:inline-flex;align-items:center;justify-content:center;min-width:46px;height:34px;padding:0 6px;border:3px solid #3B2417;border-radius:17px;background:#2F5D8A;color:#fff;font-weight:900;font-size:14px}
 .ok-clock .ok-clockbtns{justify-content:center;flex-wrap:wrap}
 .ok-clock .ok-plat-empty{color:#6B7290;font-weight:800;font-size:14px}
+
+/* Ribbon Cutter (fractions of a unit) */
+.ok-ribbon .ok-stripbox{margin:6px 0 2px}
+.ok-ribbon .ok-strip{width:100%;height:auto;display:block;touch-action:none;user-select:none;cursor:pointer}
+.ok-ribbon .ok-part,.ok-ribbon .ok-mark{cursor:pointer;transition:fill .12s}
+.ok-ribbon .ok-part:focus,.ok-ribbon .ok-mark:focus{outline:none;stroke:#F5C518;stroke-width:4}
+.ok-ribbon .ok-cutbtns{justify-content:center;flex-wrap:wrap;margin:0 0 4px}
+.ok-ribbon .ok-cut-btn.on,.ok-ribbon .ok-grp-btn.on{background:#6B3FA0;color:#fff;border-color:#3B2417}
+.ok-frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1;margin:0 4px;font-variant-numeric:tabular-nums}
+.ok-frac b{font-weight:900;padding:1px 4px}
+.ok-frac i{display:block;width:100%;min-width:18px;height:3px;background:currentColor;border-radius:2px}
+.ok-frac-in input{width:3.2em !important;text-align:center;margin:0 !important}
+.ok-frac-in i{margin:3px 0;background:#2B3040}

@@ -1,0 +1,319 @@
+{
+ "opti": {
+  "voice_id": "WdZjiN0nNcik2LBjOHiv",
+  "lines": [
+   {
+    "who": "opti",
+    "t": "Hoo! Welcome to the night market, {name}. The clock chimed this morning: the Golem comes in 30 hours.",
+    "key": "43f6a60f"
+   },
+   {
+    "who": "opti",
+    "t": "Tonight the market hangs its lanterns. Every lantern needs a ribbon, and the ribbons are measured in parts of a foot.",
+    "key": "9dc1248e"
+   },
+   {
+    "who": "opti",
+    "t": "That's Ivy, the lantern-keeper, at the ribbon stall. She looks worried. Go say hello.",
+    "key": "d027e32d"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! The Math Crew worked out Ivy's ribbon puzzle. They each found the answer their own way.",
+    "key": "d8ba91d1"
+   },
+   {
+    "who": "opti",
+    "t": "Walk up to each of them and listen. Then come back and tell me.",
+    "key": "dd07f9b6"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! Two ways, and one answer: five sixths of a foot is 10 inches.",
+    "key": "bbd09ba9"
+   },
+   {
+    "who": "opti",
+    "t": "Which way is most like yours? Write about it on your page, right under the Crew's card.",
+    "key": "6eba99ec"
+   },
+   {
+    "who": "opti",
+    "t": "Walk up to each Crew member and listen to their way first.",
+    "key": "b722791e"
+   },
+   {
+    "who": "opti",
+    "t": "The factory is found. Tomorrow the farmers' market, {name}, and the Golem.",
+    "key": "f6c51fc0"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! Every lantern job on the page helps Ivy light the night market.",
+    "key": "18ffa13e"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! Part 1 at the dairy, part 2 here. The Golem is being built, {name}.",
+    "key": "86aed959"
+   },
+   {
+    "who": "opti",
+    "t": "Tomorrow, the farmers' market. We'll be ready for it.",
+    "key": "d29f676d"
+   }
+  ],
+  "prompt": "Welcome to the night market, explorer. The clock chimed this morning: the Golem comes in 30 hours. <break time=\"1.5s\" /> Tonight the market hangs its lanterns. Every lantern needs a ribbon, and the ribbons are measured in parts of a foot. <break time=\"1.5s\" /> That's Ivy, the lantern-keeper, at the ribbon stall. She looks worried. Go say hello. <break time=\"1.5s\" /> The Math Crew worked out Ivy's ribbon puzzle. They each found the answer their own way. <break time=\"1.5s\" /> Walk up to each of them and listen. Then come back and tell me. <break time=\"1.5s\" /> Two ways, and one answer: five sixths of a foot is 10 inches. <break time=\"1.5s\" /> Which way is most like yours? Write about it on your page, right under the Crew's card. <break time=\"1.5s\" /> Walk up to each Crew member and listen to their way first. <break time=\"1.5s\" /> The factory is found. Tomorrow the farmers' market, explorer, and the Golem. <break time=\"1.5s\" /> Every lantern job on the page helps Ivy light the night market. <break time=\"1.5s\" /> Part 1 at the dairy, part 2 here. The Golem is being built, explorer. <break time=\"1.5s\" /> Tomorrow, the farmers' market. We'll be ready for it."
+ },
+ "cora": {
+  "voice_id": "5T4Pk1MOGKVVSf9tJnWM",
+  "lines": [
+   {
+    "who": "cora",
+    "t": "Seven times 1,000 is 7,000. But a tenth means the liter is cut into 10 equal parts. One part is 100 milliliters.",
+    "key": "815056d2"
+   },
+   {
+    "who": "cora",
+    "t": "Four times 1,000 is 4,000. A fourth is one of 4 equal parts of the liter, so it is smaller than 1,000.",
+    "key": "0e37d348"
+   },
+   {
+    "who": "cora",
+    "t": "Here is my rule for going backward, from inches to a fraction of a foot.",
+    "key": "e2dd448e"
+   },
+   {
+    "who": "cora",
+    "t": "The part and the whole must be in the same unit. 10 inches out of a foot is 10 inches out of 12 inches, never 10 out of 1.",
+    "key": "fcaa6468"
+   },
+   {
+    "who": "cora",
+    "t": "That's what the Smudge wrote! A third of an hour isn't 3 minutes. An hour is 60 minutes. Cut 60 into 3 equal parts.",
+    "key": "35175245"
+   },
+   {
+    "who": "cora",
+    "t": "This tag is about a pound of tea, not a foot. A pound is 16 ounces. One fourth of 16 ounces is how many ounces?",
+    "key": "8576476c"
+   },
+   {
+    "who": "cora",
+    "t": "Hello, I'm Cora. Every ribbon here has a tag, and some of the tags look smudged. I don't trust them.",
+    "key": "d216b855"
+   },
+   {
+    "who": "cora",
+    "t": "Going backward, write the part over the whole in the same unit. Then make bigger equal parts to simplify.",
+    "key": "8846a88f"
+   }
+  ],
+  "prompt": "Seven times 1,000 is 7,000. But a tenth means the liter is cut into 10 equal parts. One part is 100 milliliters. <break time=\"1.5s\" /> Four times 1,000 is 4,000. A fourth is one of 4 equal parts of the liter, so it is smaller than 1,000. <break time=\"1.5s\" /> Here is my rule for going backward, from inches to a fraction of a foot. <break time=\"1.5s\" /> The part and the whole must be in the same unit. 10 inches out of a foot is 10 inches out of 12 inches, never 10 out of 1. <break time=\"1.5s\" /> That's what the Smudge wrote! A third of an hour isn't 3 minutes. An hour is 60 minutes. Cut 60 into 3 equal parts. <break time=\"1.5s\" /> This tag is about a pound of tea, not a foot. A pound is 16 ounces. One fourth of 16 ounces is how many ounces? <break time=\"1.5s\" /> Hello, I'm Cora. Every ribbon here has a tag, and some of the tags look smudged. I don't trust them. <break time=\"1.5s\" /> Going backward, write the part over the whole in the same unit. Then make bigger equal parts to simplify."
+ },
+ "felix": {
+  "voice_id": "PJeatLZlmAT5jz5L5p7U",
+  "lines": [
+   {
+    "who": "felix",
+    "t": "That is one tenth. Ivy wants 7 of them.",
+    "key": "36ee4276"
+   },
+   {
+    "who": "felix",
+    "t": "Cut 1,000 milliliters into 10 equal parts. One part is 100. Take 7 parts.",
+    "key": "a1e958c3"
+   },
+   {
+    "who": "felix",
+    "t": "Close! A liter is 1,000 milliliters, not 100. Cut 1,000 into 4 equal parts.",
+    "key": "092881fb"
+   },
+   {
+    "who": "felix",
+    "t": "Cut 1,000 milliliters into 4 equal parts. How big is one part?",
+    "key": "2a293560"
+   },
+   {
+    "who": "felix",
+    "t": "My way is to cut the foot into equal parts first.",
+    "key": "58cd5bf0"
+   },
+   {
+    "who": "felix",
+    "t": "Sixths means 6 equal parts. 12 inches cut into 6 equal parts is 2 inches each.",
+    "key": "53afb084"
+   },
+   {
+    "who": "felix",
+    "t": "Then I take 5 of the parts. 5 times 2 inches is 10 inches. Same answer as Atlas!",
+    "key": "983831f9"
+   },
+   {
+    "who": "felix",
+    "t": "A fraction of a unit is a fraction of its small units. One third of a foot is one third of 12 inches.",
+    "key": "870037b2"
+   },
+   {
+    "who": "felix",
+    "t": "3 times 60 is 180. But a third is one of 3 equal parts of the hour, so it is less than 60 minutes.",
+    "key": "5c801bfe"
+   },
+   {
+    "who": "felix",
+    "t": "An hour is 60 minutes. A third means 3 equal parts. How many minutes in one part?",
+    "key": "32805dfd"
+   },
+   {
+    "who": "felix",
+    "t": "Hey, I'm Felix! I counted the hooks on the lantern string. Every one of them is empty.",
+    "key": "826c32d7"
+   },
+   {
+    "who": "felix",
+    "t": "I cut the whole into equal parts first. Twelfths means 12 parts of 1 inch each. Seven parts is 7 inches.",
+    "key": "26892c2b"
+   }
+  ],
+  "prompt": "That is one tenth. Ivy wants 7 of them. <break time=\"1.5s\" /> Cut 1,000 milliliters into 10 equal parts. One part is 100. Take 7 parts. <break time=\"1.5s\" /> Close! A liter is 1,000 milliliters, not 100. Cut 1,000 into 4 equal parts. <break time=\"1.5s\" /> Cut 1,000 milliliters into 4 equal parts. How big is one part? <break time=\"1.5s\" /> My way is to cut the foot into equal parts first. <break time=\"1.5s\" /> Sixths means 6 equal parts. 12 inches cut into 6 equal parts is 2 inches each. <break time=\"1.5s\" /> Then I take 5 of the parts. 5 times 2 inches is 10 inches. Same answer as Atlas! <break time=\"1.5s\" /> A fraction of a unit is a fraction of its small units. One third of a foot is one third of 12 inches. <break time=\"1.5s\" /> 3 times 60 is 180. But a third is one of 3 equal parts of the hour, so it is less than 60 minutes. <break time=\"1.5s\" /> An hour is 60 minutes. A third means 3 equal parts. How many minutes in one part? <break time=\"1.5s\" /> Hey, I'm Felix! I counted the hooks on the lantern string. Every one of them is empty. <break time=\"1.5s\" /> I cut the whole into equal parts first. Twelfths means 12 parts of 1 inch each. Seven parts is 7 inches."
+ },
+ "hazel": {
+  "voice_id": "MkTSSXNgnBULS6ek4pon",
+  "lines": [
+   {
+    "who": "hazel",
+    "t": "Picture the meter cut in half. Half of 100 centimeters is less than 100, not more.",
+    "key": "d5663482"
+   },
+   {
+    "who": "hazel",
+    "t": "I picture a foot ruler with its 12 inch marks.",
+    "key": "d9eeda80"
+   },
+   {
+    "who": "hazel",
+    "t": "If I cut it into 6 equal pieces, every piece is 2 inches long. Five of those pieces reach 10 inches, just 2 inches short of the end.",
+    "key": "38708c3a"
+   },
+   {
+    "who": "hazel",
+    "t": "Hi! I'm Hazel. I'm drawing Ivy's ribbon stall. Look at all the colors!",
+    "key": "5eb1d4a6"
+   },
+   {
+    "who": "hazel",
+    "t": "I picture the ruler cut into equal pieces. Then I count the pieces I need.",
+    "key": "939c273e"
+   }
+  ],
+  "prompt": "Picture the meter cut in half. Half of 100 centimeters is less than 100, not more. <break time=\"1.5s\" /> I picture a foot ruler with its 12 inch marks. <break time=\"1.5s\" /> If I cut it into 6 equal pieces, every piece is 2 inches long. Five of those pieces reach 10 inches, just 2 inches short of the end. <break time=\"1.5s\" /> Hi! I'm Hazel. I'm drawing Ivy's ribbon stall. Look at all the colors! <break time=\"1.5s\" /> I picture the ruler cut into equal pieces. Then I count the pieces I need."
+ },
+ "atlas": {
+  "voice_id": "unWb9iRIK7Xxf4A5Hfis",
+  "lines": [
+   {
+    "who": "atlas",
+    "t": "A meter is 100 centimeters. Half means 2 equal parts.",
+    "key": "8a9a21b3"
+   },
+   {
+    "who": "atlas",
+    "t": "My way is to multiply the fraction by 12, because a foot is 12 inches.",
+    "key": "dd546593"
+   },
+   {
+    "who": "atlas",
+    "t": "Five sixths times 12. First 5 times 12, that's 60. Then 60 divided by 6, that's 10.",
+    "key": "e75856ce"
+   },
+   {
+    "who": "atlas",
+    "t": "So five sixths of a foot is 10 inches!",
+    "key": "54a125ab"
+   },
+   {
+    "who": "atlas",
+    "t": "Hi, I'm Atlas! A night market! I've never seen so many lanterns in one place. Well, I will, once they're hung.",
+    "key": "5f95c6bc"
+   },
+   {
+    "who": "atlas",
+    "t": "To find a fraction of a unit, I multiply the fraction by the number of small units. Five sixths of a foot is 5 times 12, that's 60, divided by 6: 10 inches.",
+    "key": "85812058"
+   }
+  ],
+  "prompt": "A meter is 100 centimeters. Half means 2 equal parts. <break time=\"1.5s\" /> My way is to multiply the fraction by 12, because a foot is 12 inches. <break time=\"1.5s\" /> Five sixths times 12. First 5 times 12, that's 60. Then 60 divided by 6, that's 10. <break time=\"1.5s\" /> So five sixths of a foot is 10 inches! <break time=\"1.5s\" /> Hi, I'm Atlas! A night market! I've never seen so many lanterns in one place. Well, I will, once they're hung. <break time=\"1.5s\" /> To find a fraction of a unit, I multiply the fraction by the number of small units. Five sixths of a foot is 5 times 12, that's 60, divided by 6: 10 inches."
+ },
+ "ivy": {
+  "voice_id": "vjcrpGpR31efFHsvJ0ym",
+  "lines": [
+   {
+    "who": "ivy",
+    "t": "Oh, hello! I'm Ivy. I keep the lanterns for the night market.",
+    "key": "e9a8abd0"
+   },
+   {
+    "who": "ivy",
+    "t": "The Smudge tipped over my tag box, and the tags blew all over the square. Each tag names a fraction of a unit.",
+    "key": "5e84b056"
+   },
+   {
+    "who": "ivy",
+    "t": "Please sort them into my bins. Each bin is an amount: 4 inches, 5 inches, 6 inches or 4 ounces. Walk onto a sparkle to pick up a tag.",
+    "key": "cecbd337"
+   },
+   {
+    "who": "ivy",
+    "t": "Every tag is in its bin. Thank you, {name}!",
+    "key": "0ef4e6b5"
+   },
+   {
+    "who": "ivy",
+    "t": "The lantern string is still empty, and it's getting dark!",
+    "key": "c0b296fd"
+   },
+   {
+    "who": "ivy",
+    "t": "Here are three ribbons. Each tag is a fraction of a foot, but my ruler only shows inches.",
+    "key": "f8e1a8cf"
+   },
+   {
+    "who": "ivy",
+    "t": "Walk to the lantern string and cut each ribbon to the right number of inches.",
+    "key": "1d32b64d"
+   },
+   {
+    "who": "ivy",
+    "t": "The lanterns light up the whole square now. And look, behind the market!",
+    "key": "fa24f169"
+   },
+   {
+    "who": "ivy",
+    "t": "There is gray dust on the ground in the alley. Brick dust. Follow it, {name}!",
+    "key": "b8fc1f37"
+   },
+   {
+    "who": "ivy",
+    "t": "Welcome to the night market! Ribbons, lanterns and tea. Everything here comes in parts of a unit.",
+    "key": "905537f2"
+   },
+   {
+    "who": "ivy",
+    "t": "They're beautiful! Thank you, {name}.",
+    "key": "cd3ffc69"
+   }
+  ],
+  "prompt": "Oh, hello! I'm Ivy. I keep the lanterns for the night market. <break time=\"1.5s\" /> The Smudge tipped over my tag box, and the tags blew all over the square. Each tag names a fraction of a unit. <break time=\"1.5s\" /> Please sort them into my bins. Each bin is an amount: 4 inches, 5 inches, 6 inches or 4 ounces. Walk onto a sparkle to pick up a tag. <break time=\"1.5s\" /> Every tag is in its bin. Thank you, explorer! <break time=\"1.5s\" /> The lantern string is still empty, and it's getting dark! <break time=\"1.5s\" /> Here are three ribbons. Each tag is a fraction of a foot, but my ruler only shows inches. <break time=\"1.5s\" /> Walk to the lantern string and cut each ribbon to the right number of inches. <break time=\"1.5s\" /> The lanterns light up the whole square now. And look, behind the market! <break time=\"1.5s\" /> There is gray dust on the ground in the alley. Brick dust. Follow it, explorer! <break time=\"1.5s\" /> Welcome to the night market! Ribbons, lanterns and tea. Everything here comes in parts of a unit. <break time=\"1.5s\" /> They're beautiful! Thank you, explorer."
+ },
+ "smudge": {
+  "voice_id": "03UxGYCWKFAlC28C7ugZ",
+  "lines": [
+   {
+    "who": "smudge",
+    "t": "You found my factory! Too late, too late. My Golem is almost finished. Heh heh heh!",
+    "key": "ba494602"
+   }
+  ],
+  "prompt": "You found my factory! Too late, too late. My Golem is almost finished. Heh heh heh!"
+ }
+}

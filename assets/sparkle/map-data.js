@@ -40,7 +40,7 @@ window.PQ_MAP=[
 "id": "4.10.06",
 "title": "Fractions and Measurement",
 "file": "math-lesson-4-10-06-fractions-and-measurement.html",
-"sparkled": false
+"sparkled": true
 },
 {
 "id": "4.10.07",

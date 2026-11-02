@@ -51,6 +51,22 @@ await p.fill('#d-bm2 .bm-form input','18');await p.click('#d-bm2 .bm-form button
 // number bond
 for(const v of ['45','2','250']){await p.fill('#d-nb .nb-c input','99');await p.click('#d-nb .nb-check');await p.fill('#d-nb .nb-c input',v);await p.click('#d-nb .nb-check');const n=await p.$('#d-nb .ok-next');if(n)await n.click();}
 ok((await p.$eval('#d-nb .nb-eq',e=>e.textContent)).includes('250 = 200 + 50'),'number bond: three rounds');
+// ribbon cutter: wrong cut hint, cut, tap + drag parts, ask; name mode: shade by drag, raw fraction, group, simplest form
+const RB='#d-rib';await p.click(`${RB} .ok-cut-btn[data-n="4"]`);ok((await p.$eval(`${RB} .ok-msg`,e=>e.textContent)).includes('bottom number'),'ribbon: a wrong cut gets the hint');
+await p.click(`${RB} .ok-cut-btn[data-n="3"]`);ok(await p.$$eval(`${RB} .ok-part`,x=>x.length)===3&&(await p.$eval(`${RB} .ok-sym`,e=>e.textContent)).includes('each part is 4'),'ribbon: cut into 3 parts of 4 in');
+await p.click(`${RB} .ok-part[data-k="0"]`);{const a=await p.$(`${RB} .ok-part[data-k="1"]`);const r=await a.boundingBox();await p.mouse.move(r.x+5,r.y+r.height/2);await p.mouse.down();await p.mouse.move(r.x+r.width-5,r.y+r.height/2,{steps:4});await p.mouse.up();}
+ok((await p.$eval(`${RB} .ok-sym`,e=>e.textContent)).includes('2 of 3 parts')&&!!(await p.$(`${RB} .ok-ribbon-ask form`)),'ribbon: tap + drag take 2 of 3 parts; the ask appears');
+await p.click(`${RB} .ok-part[data-k="2"]`);ok((await p.$eval(`${RB} .ok-msg`,e=>e.textContent)).includes('already'),'ribbon: a third part is refused (top number)');
+await p.fill(`${RB} .ok-ribbon-ask input`,'4');await p.click(`${RB} .ok-ribbon-ask button`);ok((await p.$eval(`${RB} .ok-msg`,e=>e.textContent)).includes('one part'),'ribbon: 4 gets the mistake hint');
+await p.fill(`${RB} .ok-ribbon-ask input`,'8');await p.click(`${RB} .ok-ribbon-ask button`);ok(!!(await p.$(`${RB} .ok-next`)),'ribbon: 8 in, next round');await p.click(`${RB} .ok-next`);
+{const m0=await p.$(`${RB} .ok-mark[data-k="0"]`);const m5=await p.$(`${RB} .ok-mark[data-k="5"]`);const r0=await m0.boundingBox(),r5=await m5.boundingBox();await p.mouse.move(r0.x+3,r0.y+r0.height/2);await p.mouse.down();await p.mouse.move(r5.x+r5.width-3,r5.y+r5.height/2,{steps:12});await p.mouse.up();}
+ok((await p.$eval(`${RB} .ok-sym`,e=>e.textContent)).includes('6 of 12 inches'),'ribbon name: drag shades 6 of 12 inches');
+await p.click(`${RB} .ok-mark[data-k="7"]`);ok((await p.$eval(`${RB} .ok-msg`,e=>e.textContent)).includes('all 6'),'ribbon name: a 7th inch is refused');
+{const I=await p.$$(`${RB} .ok-fracform input`);await I[0].fill('6');await I[1].fill('1');await p.click(`${RB} .ok-fracform button`);}ok((await p.$eval(`${RB} .ok-msg`,e=>e.textContent)).includes('bottom number is the whole'),'ribbon name: 6/1 gets the same-unit hint');
+{const I=await p.$$(`${RB} .ok-fracform input`);await I[0].fill('6');await I[1].fill('12');await p.click(`${RB} .ok-fracform button`);}ok(!!(await p.$(`${RB} .ok-grp-btn`)),'ribbon name: 6/12 accepted, group buttons appear');
+await p.click(`${RB} .ok-grp-btn[data-n="4"]`);ok((await p.$eval(`${RB} .ok-msg`,e=>e.textContent)).includes('middle of a part'),'ribbon name: parts of 4 refused (6 is not a multiple)');
+await p.click(`${RB} .ok-grp-btn[data-n="3"]`);{const I=await p.$$(`${RB} .ok-fracform input`);await I[0].fill('2');await I[1].fill('4');await p.click(`${RB} .ok-fracform button`);}ok((await p.$eval(`${RB} .ok-msg`,e=>e.textContent)).includes('not the simplest'),'ribbon name: 2/4 is equal but not simplest');
+await p.click(`${RB} .ok-grp-btn[data-n="6"]`);{const I=await p.$$(`${RB} .ok-fracform input`);await I[0].fill('1');await I[1].fill('2');await p.click(`${RB} .ok-fracform button`);}ok((await p.$eval(`${RB} .ok-do`,e=>e.textContent)).includes('Done'),'ribbon name: 1/2 in parts of 6, done');
 // clock hands: tap, drag the hand, whole turn, ask, day wheel
 const C0='#d-clock';for(let i=0;i<11;i++)await p.click(`${C0} .ok-step-btn[data-n="5"]`);
 {const f=await p.$(`${C0} .ok-face`);await f.scrollIntoViewIfNeeded();const b=await f.boundingBox();const cx=b.x+b.width/2,cy=b.y+b.height/2,R=b.width*0.37;
