@@ -80,6 +80,12 @@ def main(code):
     tags += '<script>try{PQ.init(PQ_DATA);}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("game: "+e.message);}PQM.init();try{PQIntro.init();}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("intro: "+e.message);}</script>\n'
     i = s.rindex('</body>')
     s = s[:i] + tags + s[i:]
+    # the "Math tools for this lesson" bar (manipulatives/lesson-tools.js, added to every G4 page on 2 Nov 2026) lives after
+    # the sparkle scripts; keep it on every rebuild even when original.html predates it
+    TOOLS = '<!-- OAO math tools for this lesson (manipulatives library) -->\n<script src="manipulatives/lesson-tools.js" defer></script>\n'
+    if 'manipulatives/lesson-tools.js' not in s:
+        i = s.rindex('</body>')
+        s = s[:i] + TOOLS + s[i:]
     open(page, 'w', encoding='utf8').write(s)
     print('built', os.path.relpath(page, REPO), 'v=' + v, '%d KB' % (len(s) // 1024))
 
