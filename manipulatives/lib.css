@@ -197,3 +197,44 @@ svg text{font-family:'Nunito',sans-serif;font-weight:700;user-select:none}
   .om-stagecard{padding:.7rem}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ───── Nov 2026 audit fixes ───── */
+/* focus ring that shows on white pieces and white cards too (navy ring + yellow halo) */
+.om-btn:focus-visible,.om-tap:focus-visible,.om-fold:focus-visible,.lib-tabs button:focus-visible,.pills button:focus-visible{outline:3px solid var(--navy);outline-offset:2px;box-shadow:0 0 0 6px var(--yellow)}
+.om-top .om-btn:focus-visible{outline-color:var(--yellow);box-shadow:0 0 0 6px rgba(255,255,255,.35)}
+.om-field input:focus-visible,.om-field select:focus-visible,.om-copy input:focus-visible,.om-copy textarea:focus-visible{outline:3px solid var(--navy);outline-offset:1px;border-color:var(--violet)}
+/* teacher-only setup fields (they hold an answer): never on student links, nor while totals are hidden */
+body.student .om-teach,.hide-nums .om-teach{display:none!important}
+/* the "More ▾" menu in the header */
+.om-menu{position:relative}
+.om-menu>summary{list-style:none;cursor:pointer}
+.om-menu>summary::-webkit-details-marker{display:none}
+.om-menu[open]>summary{background:rgba(255,255,255,.14);color:var(--yellow);border-color:var(--yellow)}
+.om-menuitems{position:absolute;right:0;top:calc(100% + 6px);background:#fff;color:var(--ink);border:2px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(14,28,66,.25);padding:.4rem;display:flex;flex-direction:column;gap:.3rem;min-width:170px;z-index:40}
+.om-menuitems .om-btn{background:#fff;color:var(--ink);border-color:var(--line);justify-content:flex-start}
+.om-menuitems .om-btn:hover{border-color:var(--violet);color:var(--violet)}
+.om-menuitems .om-btn .lbl{display:inline!important}
+/* read-aloud button beside the directions line; "I said it" cover on the readout */
+.om-speak{border:2px solid var(--line);background:#fff;border-radius:999px;min-width:34px;min-height:30px;cursor:pointer;font-size:.95rem;vertical-align:middle;margin-left:.3rem}
+.om-speak:hover{border-color:var(--violet)}
+.om-readout .om-said{margin-right:.6rem}
+/* kit note: darker green for 4.5:1 on the light green */
+.om-kit b,.om-kit summary{color:#187347}
+/* dark board mode: the setup panel, inputs and chips keep readable colors */
+body.board.dark .om-field input,body.board.dark .om-field select,body.board.dark .om-flashgrp select,body.board.dark .om-copy input,body.board.dark .om-copy textarea{background:#1A2547;color:#EEF1FA;border-color:#3A4A7A}
+body.board.dark .om-seg button,body.board.dark .om-quick button,body.board.dark .om-side .om-btn,body.board.dark .om-toolbar .om-btn,body.board.dark .om-tabs button,body.board.dark .om-speak{background:#1A2547;color:#EEF1FA;border-color:#3A4A7A}
+body.board.dark .om-seg button[aria-pressed="true"],body.board.dark .om-tabs button[aria-selected="true"]{background:var(--violet);border-color:var(--violet);color:#fff}
+body.board.dark .om-more>summary{color:#C9B8FF}
+body.board.dark .om-qs{background:#3A3010}
+body.board.dark .om-qs summary{color:#F2B705}
+body.board.dark .om-kit{background:#183A2E}
+body.board.dark .om-kit b,body.board.dark .om-kit summary{color:#7FD4A6}
+body.board.dark .om-hint,body.board.dark .om-side h3{color:#AAB3CC}
+body.board.dark .om-quick{border-color:#2C3963}
+body.board.dark .om-goal{border-color:#C9B8FF}
+body.board.dark .om-dialog{background:#fff;color:#1B2238;--ink:#1B2238;--mute:#5B6478;--line:#D9DEEA}
+/* phones: the tool page header keeps Share / Turn in labeled */
+@media (max-width:520px){
+  .om-top #om-share .lbl,.om-top #om-turnin .lbl{display:inline}
+  .om-menuitems{right:auto;left:0}
+}

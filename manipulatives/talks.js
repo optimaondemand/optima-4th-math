@@ -2,7 +2,8 @@
    Each talk: {id, grades, topic, title, show, notes}
    show = {t: toolId, s: state} opens that tool on the big screen (use the teacher-only Flash it button for quick images),
         or {text: [lines]} for a number string (fractions written as [1/2] are drawn stacked),
-        or {wodb: [four items]} for Which One Doesn't Belong (items are numbers or shape names).
+        or {wodb: [four items]} for Which One Doesn't Belong (items are numbers, shape names or [1/2] fractions),
+        or {pair: [showA, showB]} for Same and Different (two pictures side by side; each is a {t, s} or {text} show).
    notes = {purpose, launch, strategies: [[what students might say, how to record it]], questions: [], watch, ext}
    Grades: -1 = Pre-K, 0 = K. */
 window.OAOM_TALKS = (function () {
@@ -35,7 +36,7 @@ window.OAOM_TALKS = (function () {
     questions: ['How many?', 'Where did you see 4?', 'Is there another way to see it?', 'How many fingers on one hand?'], watch: 'Counting the middle dot twice.', ext: 'Show 6 next. What is the same? What is different?' });
   add('sub-6', [0, 1], 'Subitizing', 'How many dots? (6)', dc('d10', 6), {
     purpose: 'Use groups (3 and 3, 2 and 2 and 2) to see 6 quickly.', launch: FLASH + ' ' + SIGNAL,
-    strategies: [['“Two rows of 3.”', 'Circle each row; write 3 + 3 = 6.'], ['“Three pairs.”', 'Circle pairs; write 2 + 2 + 2.'], ['“5 and 1 more.”', 'Circle 5; write 5 + 1.']],
+    strategies: [['“Two lines of 3, going down.”', 'Circle each line; write 3 + 3 = 6.'], ['“Three pairs.”', 'Circle pairs; write 2 + 2 + 2.'], ['“5 and 1 more.”', 'Circle 5; write 5 + 1.']],
     questions: ['How many dots?', 'How did you see them?', 'Who saw groups of 2?', 'How is your way like ___’s way?'], watch: 'Students who say 5 or 7 — show it again and let them point to the groups they saw.', ext: 'Ask: “How many more would make 10?”' });
   add('sub-7', [0, 1], 'Subitizing', 'How many dots? (7)', dc('d10', 7), {
     purpose: 'Break 7 into easy parts like 5 and 2 or 3 and 4.', launch: FLASH + ' ' + SIGNAL,
@@ -176,7 +177,7 @@ window.OAOM_TALKS = (function () {
   add('w100-20', [1, 2], 'Add and subtract within 100', 'Take away from tens', { text: ['20 − 8', '20 − 12', '30 − 12', '40 − 18'] }, {
     purpose: 'Subtract from a multiple of 10.', launch: 'One problem at a time. Solve in your head, then share.',
     strategies: [['“20 − 10 = 10, then − 2 = 8.”', 'Number line: 20 → 10 → 8.'], ['“Add up: 12 + 8 = 20.”', 'Write 12 + ? = 20.'], ['“30 − 12 is 10 more than 20 − 12.”', 'Arrow from 8 to 18.']],
-    questions: ['How did the problem before help?', 'Who counted up? Who took away?', 'How can you check?', 'Which way works best for 40 − 18?'], watch: 'Writing 20 − 8 = 12 (subtracting smaller from bigger digit).', ext: '100 − 24.' });
+    questions: ['How did the problem before help?', 'Who counted up? Who took away?', 'How can you check?', 'Which way works best for 40 − 18?'], watch: 'Writing 20 − 8 = 28 (taking the smaller digit from the bigger one in the ones place: 8 − 0 instead of 10 − 8).', ext: '100 − 24.' });
   add('w100-100', [2], 'Add and subtract within 100', '100 − 24 and 98 + 34', { text: ['100 − 24', '98 + 34'] }, {
     purpose: 'Use friendly numbers like 100.', launch: 'Show the first problem. Solve, share, record, then the second.',
     strategies: [['“Add up from 24: 26 to 50, 50 to 100: 76.”', 'Number line with jumps +6, +70 or +26, +50.'], ['“98 + 34: 98 + 2 = 100, plus 32 = 132.”', 'Number bond under 34: 2 and 32.'], ['“100 + 34 − 2.”', 'Write 134 − 2 = 132.']],
@@ -209,7 +210,7 @@ window.OAOM_TALKS = (function () {
     questions: ['How many sides? Corners?', 'Who picked a different shape?', 'What is the same about two of them?', 'Can every shape be the odd one out?'], watch: 'Calling the square “not a rectangle” — a good discussion for Grade 2.', ext: 'Find these shapes in the room.' });
   add('wodb-tens', [1, 2], 'Which one doesn’t belong', 'WODB: 12, 20, 15, 21', { wodb: ['12', '20', '15', '21'] }, {
     purpose: 'Use tens and ones, odd and even, to explain.', launch: 'Show the numbers. “Which one doesn’t belong?”',
-    strategies: [['“20 — it has 0 ones.”', 'Circle the 0.'], ['“15 — it ends in 5.”', 'Circle 5.'], ['“21 — it’s the only odd number above 20.”', 'Write odd.'], ['“12 — it has 1 ten.”', 'Write 1 ten 2 ones.']],
+    strategies: [['“20 — it has 0 ones.”', 'Circle the 0.'], ['“15 — it ends in 5.”', 'Circle 5.'], ['“21 — it’s the only odd number above 20.”', 'Write odd.'], ['“12 — it’s the smallest, the only one less than 15.”', 'Write 12 < 15.']],
     questions: ['Which one doesn’t belong?', 'How many tens and ones?', 'Odd or even?', 'Can you give a reason for each?'], watch: 'Reasons that just name the number (“because it’s 15”).', ext: 'Swap one number and ask again.' });
   add('wodb-dots', [-1, 0], 'Which one doesn’t belong', 'WODB: dot pictures', { wodb: ['3 dots', '4 dots', '3 dots in a line', '5 dots'] }, {
     purpose: 'Compare small amounts and how they are arranged.', launch: 'Show the four pictures. “Which one doesn’t belong?”',
@@ -254,11 +255,161 @@ window.OAOM_TALKS = (function () {
     strategies: [['“43 — it’s prime.”', 'Write factors of each.'], ['“16 — it’s the only even one.”', 'Write even.'], ['“9 — it’s the only one-digit number.”', 'Circle it.'], ['“25 — it’s the only multiple of 5.”', 'Write ×5.']],
     questions: ['What do 9, 16, 25 have in common?', 'What are the factors of 43?', 'Can every number be the odd one out?', 'Do you agree with ___? Why?'], watch: 'Reasons that aren’t true for just one number.', ext: 'Make a WODB with four fractions.' });
 
-  var topics = ['Subitizing', 'Combinations to 5 and 10', 'Doubles and near doubles', 'Making ten', 'Add and subtract within 20', 'Place value and tens', 'Add and subtract within 100', 'Which one doesn’t belong', 'Multiplication strings', 'Fractions'];
+  /* ───────── Fraction talks (Grades 3–5): a picture with a shaded part. “What fraction is shaded? How do you see it?” ───────── */
+  var FT = 'Show the picture. “What fraction is shaded? How do you see it?” Collect every answer before anyone explains.';
+  function wall(d, idx) { var sh = {}; sh[d] = idx; return { t: 'fbars', s: { d: [d], w: 1, lab: 0, bm: 'wall', bt: [], sh: sh, gd: 0, gx: 0.5 } }; }
+  function circles(c, n, sh) { return { t: 'fcircles', s: { c: c, n: n, per: 0, ns: [n, n, n, n], lab: 0, sh: sh.concat([[], [], []]).slice(0, 4) } }; }
+  function dgrid(bits) { return { t: 'decgrid', s: { m: 'h', c: 1, sh: [bits, '', ''], pct: 0 } }; }
+  function arr(r, c, flip, split) { return { t: 'counters', s: { mode: 'array', r: r, c: c, flip: flip || [], tf: 'one', split: split || 0 } }; }
+  add('ft-bar-34', [3, 4], 'Fraction talks', 'Fraction talk: 3 of 4 tiles', wall(4, [0, 1, 2]), {
+    purpose: 'Name a fraction from a picture and see it more than one way.', launch: FT,
+    strategies: [['“3 of the 4 parts, so [3/4].”', 'Write [3/4] under the bar; count the parts aloud.'], ['“1 part is missing, so it’s 1 take away [1/4].”', 'Write 1 − [1/4] = [3/4].'], ['“A half and a fourth.”', 'Draw a line after 2 tiles; write [1/2] + [1/4].']],
+    questions: ['How many parts in the whole? How do you know they are equal?', 'What fraction is not shaded?', 'Who saw a half in there?', 'What if one more tile were shaded?'], watch: 'Saying “3 out of 1” or counting shaded over unshaded ([3/1]). Ask how many parts make the whole.', ext: 'Shade 6 of 8 tiles. Same amount? How do you know?' });
+  add('ft-bar-26', [3, 4], 'Fraction talks', 'Fraction talk: tiles apart', wall(6, [1, 4]), {
+    purpose: 'The shaded parts do not have to touch. Equal parts can be anywhere.', launch: FT,
+    strategies: [['“2 of 6 are shaded, [2/6].”', 'Write [2/6].'], ['“Push them together and it’s [1/3]: 2 tiles fill a third of the bar.”', 'Draw the two tiles side by side; write [2/6] = [1/3].'], ['“4 are not shaded, so [4/6] is white.”', 'Write [4/6] white, [2/6] shaded.']],
+    questions: ['Does it matter that the shaded tiles are apart?', 'How many tiles make a third of this bar?', 'What fraction is white?', 'Can you say the shaded part another way?'], watch: 'Counting the gap between the tiles as one part.', ext: 'Shade 3 tiles that do not touch. What fraction? Is it a half?' });
+  add('ft-circle-38', [3, 4], 'Fraction talks', 'Fraction talk: slices of 8', circles(1, 8, [[0, 1, 2]]), {
+    purpose: 'See eighths, and compare a fraction to a half.', launch: FT,
+    strategies: [['“3 of 8 slices, [3/8].”', 'Write [3/8]; count the slices.'], ['“Less than half. Half would be 4 slices.”', 'Draw the half line; write [3/8] < [1/2].'], ['“A fourth and an eighth.”', 'Mark 2 slices as [1/4]; write [1/4] + [1/8].']],
+    questions: ['How many slices make the whole?', 'Is it more or less than half? How do you know?', 'How many more slices would make a half?', 'What fraction is not shaded?'], watch: 'Reading it as [3/5] (shaded over unshaded).', ext: 'Shade 6 of 8. What is that as fourths?' });
+  add('ft-circle-mixed', [3, 4, 5], 'Fraction talks', 'Fraction talk: more than one whole', circles(2, 4, [[0, 1, 2, 3], [0]]), {
+    purpose: 'Name an amount bigger than 1 as a mixed number and as a fraction.', launch: 'Show both circles. “How much is shaded? Say it two ways.”',
+    strategies: [['“One whole and one fourth: 1[1/4].”', 'Write 1[1/4].'], ['“5 fourths, because 4 and 1 more slice.”', 'Write [5/4]; count 1, 2, 3, 4, 5 fourths.'], ['“Half of the second circle would be 2 slices, so it’s less than 1[1/2].”', 'Write 1[1/4] < 1[1/2].']],
+    questions: ['How many fourths in one whole?', 'How many fourths are shaded in all?', 'How do you know 1[1/4] and [5/4] are the same?', 'How much more to make 2?'], watch: 'Saying [5/8] because there are 8 slices on the screen. Ask how many slices make one whole.', ext: 'Shade 7 slices. Mixed number? Fraction?' });
+  add('ft-pattern', [3, 4], 'Fraction talks', 'Fraction talk: pattern blocks', { t: 'pattern', s: { b: [['hex', 150, 320, 0], ['trap', 330, 330, 0], ['rh', 470, 330, 0], ['tri', 590, 330, 0]], mirror: 'none', frac: false, sel: -1 } }, {
+    purpose: 'If the hexagon is 1, name each block as a fraction, then add them.', launch: 'Show the blocks. “The yellow hexagon is 1 whole. What is each other block worth? What are the three of them worth together?”',
+    strategies: [['“Two trapezoids cover the hexagon, so the red one is [1/2].”', 'Draw the line across the hexagon; write [1/2].'], ['“Three blue ones cover it: [1/3]. Six green: [1/6].”', 'Write [1/3] and [1/6] under the blocks.'], ['“[1/2] + [1/3] + [1/6] is exactly 1. They would cover the hexagon.”', 'Write the sum; drag the three blocks onto the hexagon to prove it.']],
+    questions: ['How do you know the trapezoid is a half?', 'How many triangles make a rhombus? A trapezoid?', 'Do the three blocks make a whole hexagon? Prove it.', 'What if the trapezoid were 1 whole instead?'], watch: 'Calling the triangle [1/3] because it has 3 sides.', ext: 'Make 1[1/2] with blocks two different ways.' });
+  add('ft-grid-35', [4, 5], 'Fraction talks', 'Fraction talk: 0.35 on the grid', dgrid('ffffffffe'), {
+    purpose: 'Read a shaded hundredths grid as a decimal and as a fraction.', launch: 'Show the grid. “What part is shaded? Say it as a decimal and as a fraction.”',
+    strategies: [['“3 full columns and 5 more squares: 35 hundredths.”', 'Write 0.35 and [35/100].'], ['“3 tenths and 5 hundredths.”', 'Write 0.3 + 0.05 = 0.35.'], ['“35 of 100 is the same as 7 of 20.”', 'Write [7/20]; circle groups of 5.']],
+    questions: ['What is one column worth? One small square?', 'How is 0.35 the same as 0.3 and 0.05?', 'Is it more or less than a third? Than a half?', 'How much more to make 1?'], watch: 'Reading 3 columns as 3 hundredths (0.03).', ext: 'Shade 0.35 a different way. Is it still 0.35?' });
+  add('ft-grid-square', [4, 5], 'Fraction talks', 'Fraction talk: the 5 by 5 square', dgrid('f83e0f83e0f8'), {
+    purpose: 'See 25 hundredths as a fourth and as 0.25.', launch: FT + ' Then ask for a decimal.',
+    strategies: [['“5 rows of 5 is 25, so [25/100] or 0.25.”', 'Write 5 × 5 = 25; write 0.25.'], ['“It’s a fourth of the grid: four of those squares fill it.”', 'Draw the other three squares; write [1/4].'], ['“A quarter, like 25 cents.”', 'Write 25¢ is [1/4] of a dollar.']],
+    questions: ['How did you count 25 so fast?', 'How many 5 by 5 squares fill the grid?', 'How do you know [25/100] is [1/4]?', 'What would half the grid look like?'], watch: 'Counting the shaded squares one by one.', ext: 'Shade a square that is [1/4] of the grid a different way (not in a corner).' });
+  add('ft-grid-L', [4, 5], 'Fraction talks', 'Fraction talk: the L shape', dgrid('ffe00802008020080200802'), {
+    purpose: 'Count a tricky shape without counting every square, and avoid double counting the corner.', launch: FT + ' “Count a quick way.”',
+    strategies: [['“A column of 10 and a row of 10, but the corner is in both: 10 + 10 − 1 = 19.”', 'Write 10 + 10 − 1 = 19; write 0.19.'], ['“A column of 10 and 9 more across.”', 'Write 10 + 9 = 19.'], ['“I counted 19 hundredths, [19/100].”', 'Write [19/100].']],
+    questions: ['Why isn’t it 20?', 'Is 0.19 more or less than 0.2? How can you tell on the grid?', 'How much more to make 0.25?', 'What fraction is not shaded?'], watch: 'Saying 0.20 because they see two tens.', ext: 'Shade 0.19 with no corner at all.' });
+
+  /* ───────── Unit chats: how many? count in different units ───────── */
+  var UC = 'Show the picture. “How many? What did you count: the little ones, the groups, the colors?” Collect several different counts, each with its unit.';
+  var halfFlip = []; for (var hr = 0; hr < 4; hr++) for (var hc = 3; hc < 6; hc++) halfFlip.push(hr + ',' + hc);
+  add('uc-array', [3, 4], 'Unit chats', 'Unit chat: the array', arr(4, 6, halfFlip), {
+    purpose: 'The same picture has many right counts. The unit you choose changes the number.', launch: UC,
+    strategies: [['“24 counters.”', 'Write 24 counters; ask how they counted (4 rows of 6).'], ['“4 rows. 6 columns.”', 'Write 4 rows, 6 columns; write 4 × 6 = 24.'], ['“12 red and 12 yellow. 2 halves.”', 'Write 12 + 12; write 2 groups of 12.'], ['“12 pairs.”', 'Circle a pair; write 12 × 2 = 24.']],
+    questions: ['What did you count?', 'Who counted something different?', 'How many groups of 4? Of 3?', 'What number sentence matches your count?'], watch: 'Students who only count by ones. Ask them to count rows.', ext: 'Flip 4 more counters. What changed? What stayed the same?' });
+  add('uc-trains', [2, 3], 'Unit chats', 'Unit chat: cube trains', trains([5, 5, 5, 5]), {
+    purpose: 'Count by trains, by cubes and by pairs.', launch: UC,
+    strategies: [['“4 trains.”', 'Write 4 trains.'], ['“20 cubes: 5, 10, 15, 20.”', 'Write the skip count; write 4 × 5 = 20.'], ['“10 pairs of cubes.”', 'Circle pairs; write 10 × 2.'], ['“2 red trains and 2 green trains.”', 'Write 2 + 2 = 4 trains, 10 + 10 = 20 cubes.']],
+    questions: ['How many cubes? How did you count?', 'How many trains?', 'If each train were 6 long, how many cubes?', 'How many trains of 2 could you make from all the cubes?'], watch: 'Mixing units: “4 cubes” when they mean 4 trains.', ext: 'Break one train into 2 and 3. How many trains now? How many cubes?' });
+  add('uc-dominoes', [2, 3], 'Unit chats', 'Unit chat: dominoes', { t: 'dominoes', s: { set: 6, d: [[6, 6, 40, 40], [3, 3, 230, 40], [5, 1, 420, 40]] } }, {
+    purpose: 'Count dominoes, halves and dots, and add three two-part numbers.', launch: UC,
+    strategies: [['“3 dominoes.”', 'Write 3.'], ['“6 halves.”', 'Write 6 halves.'], ['“24 dots: 12 + 6 + 6.”', 'Write 12 + 6 + 6 = 24.'], ['“Two of them are doubles.”', 'Write 6 + 6 and 3 + 3.']],
+    questions: ['How many dots on each domino?', 'Which domino has the most? The fewest?', 'How many dots in all? How did you add?', 'How many dots if we turned one around?'], watch: 'Counting every dot from 1. Ask for the total of each domino first.', ext: 'Add a domino so the total is 30.' });
+
+  /* ───────── Same and different (two pictures side by side) ───────── */
+  var SD = 'Show both pictures. “What is the same? What is different?” Take one of each before any explaining.';
+  add('sd-arrays', [3, 4], 'Same and different', 'Same and different: 3 by 4 and 4 by 3', { pair: [arr(3, 4), arr(4, 3)] }, {
+    purpose: 'Turning an array changes the shape, not the total.', launch: SD,
+    strategies: [['“Both have 12.”', 'Write 12 under each.'], ['“One has 3 rows of 4, the other 4 rows of 3.”', 'Write 3 × 4 and 4 × 3.'], ['“The second one is the first one turned.”', 'Draw a turning arrow.']],
+    questions: ['How many in each? How do you know?', 'Why are 3 × 4 and 4 × 3 the same?', 'Is that true for every pair of numbers?', 'What would a 2 by 6 look like?'], watch: 'Thinking the taller one has more.', ext: 'Find every array that has 12.' });
+  add('sd-half', [3, 4], 'Same and different', 'Same and different: 2 of 4 and 1 of 2', { pair: [wall(4, [0, 1]), wall(2, [0])] }, {
+    purpose: 'Equal fractions look different but cover the same amount.', launch: SD,
+    strategies: [['“Both are half shaded.”', 'Write [1/2] under both.'], ['“One is cut into 4 pieces, the other into 2.”', 'Write fourths and halves.'], ['“[2/4] and [1/2] are the same amount.”', 'Write [2/4] = [1/2].']],
+    questions: ['How much is shaded in each?', 'How many fourths make a half?', 'Which has more pieces? Which has bigger pieces?', 'What other fractions equal a half?'], watch: 'Saying the fourths bar has more because it has more shaded pieces.', ext: 'Shade [3/6] and [4/8]. Still a half?' });
+  add('sd-lines', [4, 5], 'Same and different', 'Same and different: two number lines', { pair: [{ t: 'numberline', s: { a: 0, b: 1, parts: 4, mode: 'frac', lab: 'all', simp: 0, two: 0, parts2: 8, hop: 0, dots: ['0:3'], hops: [] } }, { t: 'numberline', s: { a: 0, b: 100, parts: 4, mode: 'whole', lab: 'all', simp: 0, two: 0, parts2: 8, hop: 0, dots: ['0:3'], hops: [] } }] }, {
+    purpose: 'Connect [3/4] of 1 to 75 of 100.', launch: SD,
+    strategies: [['“Both dots are in the same place.”', 'Draw a line connecting the dots.'], ['“One says [3/4], the other says 75.”', 'Write [3/4] and 75.'], ['“75 is [3/4] of 100, like 3 quarters is 75 cents.”', 'Write [3/4] = [75/100] = 0.75.']],
+    questions: ['What number is each dot on?', 'How is 75 like [3/4]?', 'Where would [1/2] be on the bottom line?', 'What would 0.75 look like on a tenths line?'], watch: 'Reading the bottom dot as 3 because it is on the third mark.', ext: 'Move both dots to the second mark. Same and different?' });
+
+  /* ───────── Counterexamples ───────── */
+  var CE = 'Show one claim at a time. “True or false? If it’s false, find one example that breaks it.” One good counterexample is enough.';
+  add('ce-mult5', [3, 4], 'Counterexamples', 'Counterexamples: multiples', { text: ['Every multiple of 5 ends in 5.', 'Every even number can be split into two equal groups.', 'Every number that ends in 2 is a multiple of 4.', 'Every multiple of 6 is a multiple of 3.'] }, {
+    purpose: 'Test a claim with examples, and understand that one counterexample proves it false.', launch: CE,
+    strategies: [['“10 is a multiple of 5 and ends in 0. False.”', 'Write 10, 20, 30 as counterexamples.'], ['“Even numbers always split into two equal groups. True.”', 'Draw 8 as 4 and 4; ask how we know it works for all.'], ['“2 and 6 end in 2 but 4 doesn’t go into them. False.”', 'Write 2, 6, 14, 22.'], ['“6, 12, 18, 24 are all in the 3s. True.”', 'Write 6 = 2 × 3, so every 6 is two 3s.']],
+    questions: ['What would a counterexample look like?', 'Is one example enough to prove it false? To prove it true?', 'Can you fix the false claim so it becomes true?', 'How would you convince someone a true claim is always true?'], watch: 'Thinking three examples that work prove a claim.', ext: 'Students write their own claim with a hidden counterexample.' });
+  add('ce-always', [4, 5], 'Counterexamples', 'Counterexamples: always, sometimes, never', { text: ['When you subtract, the answer is always smaller.', 'A rectangle with a bigger perimeter has a bigger area.', 'Multiplying always makes a number bigger.'] }, {
+    purpose: 'Sort claims into always, sometimes and never with examples.', launch: CE + ' Then ask: “Always, sometimes or never?”',
+    strategies: [['“5 − 0 = 5. Not smaller. Sometimes.”', 'Write 5 − 0 = 5.'], ['“A 1 by 10 has perimeter 22 and area 10. A 4 by 4 has perimeter 16 and area 16. False.”', 'Draw both; write P and A under each.'], ['“6 × 1 = 6 and 6 × 0 = 0. Sometimes.”', 'Write 6 × 1, 6 × 0; for Grade 5, 6 × [1/2] = 3.']],
+    questions: ['Is it always, sometimes or never? What example shows that?', 'Can you find a case where it works and one where it doesn’t?', 'What change would make the claim always true?', 'Which claim was hardest to break?'], watch: 'Accepting a claim because the first example worked.', ext: '“Dividing always makes a number smaller.” Always, sometimes, never?' });
+
+  /* ───────── Broken calculator ───────── */
+  var BC = 'Show the broken calculator rule, then one target at a time. Students find a way, then a second way. Record every way that works.';
+  add('bc-43', [3, 4], 'Broken calculator', 'Broken calculator: 4, 3, + and ×', { text: ['Only 4, 3, + and × work.', 'Make 24.', 'Make 15.', 'Make 100.'] }, {
+    purpose: 'Build numbers from limited parts, using both adding and multiplying.', launch: BC,
+    strategies: [['“4 × 3 + 4 × 3 = 24.”', 'Write 12 + 12 = 24; also 4 + 4 + 4 + 4 + 4 + 4.'], ['“4 × 3 + 3 = 15.”', 'Write 12 + 3; also 3 + 3 + 3 + 3 + 3.'], ['“4 × 4 × 4 + 4 × 3 × 3: 64 + 36 = 100.”', 'Write both parts, then the sum.'], ['“44 + 44 + 4 + 4 + 4 = 100.”', 'Accept it if two-digit keys are allowed; decide the rule together.']],
+    questions: ['Which key did you press first? Why?', 'Can you do it with fewer presses?', 'What is the smallest number you cannot make?', 'What if only + worked?'], watch: 'Students who type 24 directly. Remind them only 4 and 3 work.', ext: 'Make 50 and 60. Which is easier?' });
+  add('bc-52', [3, 4, 5], 'Broken calculator', 'Broken calculator: 5, 2, + and −', { text: ['Only 5, 2, + and − work.', 'Make 1.', 'Make 13.', 'Make 50.'] }, {
+    purpose: 'Reach a target by adding and taking away two numbers, and notice patterns in what is reachable.', launch: BC,
+    strategies: [['“5 − 2 − 2 = 1.”', 'Write it.'], ['“5 + 5 + 5 − 2 = 13.”', 'Write 15 − 2 = 13; also 5 + 2 + 2 + 2 + 2.'], ['“Ten 5s make 50.”', 'Write 5 × 10 = 50 as a shortcut, even though × is broken.'], ['“52 − 2 = 50.”', 'Accept it if two-digit keys are allowed.']],
+    questions: ['Can you make every number from 1 to 10?', 'Which numbers need a minus?', 'What is the fewest presses for 13?', 'Can you make 50 with fewer than ten 5s?'], watch: 'Students who think 1 cannot be made because both keys are bigger than 1.', ext: 'Only 7, 3, + and − work. Make 1.' });
+
+  /* ───────── Choral counting ───────── */
+  var CC = 'Count together out loud while you write the numbers in rows on the board. Stop and ask: “What do you notice? What will come next? Why?”';
+  add('cc-3s', [2, 3], 'Choral counting', 'Count by 3s', { t: 'hundred', s: { mode: 'hundred', start: 1, sk1: 3, sk2: 0, hl: {}, fac: 0, fv: 0 } }, {
+    purpose: 'Hear and see the pattern in multiples of 3.', launch: CC + ' Start at 0 and count by 3s to 60 or further.',
+    strategies: [['“The ones digits go 3, 6, 9, 2, 5, 8, 1, 4, 7, 0 and then repeat.”', 'Underline the ones digits.'], ['“Every tenth number ends in 0: 30, 60, 90.”', 'Circle 30, 60, 90.'], ['“On the chart they make diagonal stripes.”', 'Trace a diagonal.']],
+    questions: ['What number comes after 27? How do you know?', 'Will 50 be in our count? Why not?', 'Which multiples of 3 are also multiples of 6?', 'Starting from 3, what is the 20th number we say?'], watch: 'Losing the count when the tens change (27 to 30).', ext: 'Count by 3s starting at 1: 1, 4, 7, 10… What changes?' });
+  add('cc-25', [3, 4], 'Choral counting', 'Count by 25s', { t: 'hundred', s: { mode: 'hundred', start: 1, sk1: 25, sk2: 0, hl: {}, fac: 0, fv: 0 } }, {
+    purpose: 'Use 25s like quarters, four to a hundred.', launch: CC + ' Start at 0 and count by 25s past 300.',
+    strategies: [['“25, 50, 75, 100. Four make a hundred.”', 'Write 4 × 25 = 100.'], ['“It goes 25, 50, 75, 00 over and over.”', 'Underline the last two digits.'], ['“Like quarters: 4 quarters is a dollar.”', 'Draw 4 coins = $1.']],
+    questions: ['Starting from 25, what is the 8th number we say? The 12th?', 'How many 25s make 200?', 'Will 325 be in our count? 340?', 'How could counting by 25s help with 25 × 6?'], watch: 'Saying 100, 125, 150, 175, 200 but then slipping to 215.', ext: 'Count back by 25s from 300.' });
+  add('cc-dec', [4, 5], 'Choral counting', 'Count by decimals', { text: ['Count by 0.5 from 0.', 'Count by 0.25 from 0.', 'Count by 0.2 from 0.'] }, {
+    purpose: 'Decimals count on just like whole numbers; watch where the whole numbers land.', launch: CC + ' Do one count at a time.',
+    strategies: [['“0, 0.5, 1, 1.5, 2… every second number is a whole.”', 'Write the count in two columns so wholes line up.'], ['“0.25, 0.5, 0.75, 1: four to a whole, like quarters.”', 'Write 4 × 0.25 = 1.'], ['“0.2, 0.4, 0.6, 0.8, 1: five to a whole.”', 'Write 5 × 0.2 = 1.']],
+    questions: ['When do we land on a whole number?', 'Starting from 0.25, what is the 10th number we say?', 'Why does 0.6 come after 0.4, not 0.5?', 'How is counting by 0.2 like counting by 2?'], watch: 'Saying 0.10 after 0.8 when counting by 0.2 (treating tenths as a count to 10).', ext: 'Count by 0.75 from 0. When do you hit a whole?' });
+
+  /* ───────── Guess my number ───────── */
+  var GN = 'Pick a secret number and write it where no one can see. Students guess; you say “more” or “less.” Drag a dot onto the line after each guess so the clues stay visible.';
+  add('gmn-100', [2, 3, 4], 'Guess my number', 'Guess my number: 0 to 100', { t: 'numberline', s: { a: 0, b: 100, parts: 10, mode: 'whole', lab: 'all', simp: 0, two: 0, parts2: 8, hop: 0, dots: [], hops: [] } }, {
+    purpose: 'Use “more” and “less” clues to narrow a range, and see that halving the range is the fastest search.', launch: GN + ' Count the guesses. Can the class do it in 7?',
+    strategies: [['“Guess 50 first, that cuts it in half.”', 'Mark 50; say which half is left.'], ['“It’s more than 60 and less than 70, so try 65.”', 'Mark both ends of the range.'], ['“Start at 1 and go up.”', 'Accept it; later ask how many guesses that could take.']],
+    questions: ['Which two numbers is it between now?', 'What guess would cut that in half?', 'What is the most guesses you could ever need?', 'Why is 50 a better first guess than 10?'], watch: 'Guesses outside the range the clues already gave.', ext: 'Secret number from 0 to 1,000. Can you still do it in 10 guesses?' });
+  add('gmn-dec', [4, 5], 'Guess my number', 'Guess my number: a decimal', { t: 'numberline', s: { a: 0, b: 1, parts: 10, mode: 'dec', lab: 'all', simp: 0, two: 0, parts2: 8, hop: 0, dots: [], hops: [] } }, {
+    purpose: 'Order decimals to hundredths between 0 and 1.', launch: GN + ' The secret number has two decimal places, like 0.37.',
+    strategies: [['“Guess 0.5 first.”', 'Mark 0.5.'], ['“It’s between 0.3 and 0.4, so try 0.35.”', 'Mark 0.3 and 0.4; zoom in on that tenth.'], ['“0.4 is less, so it’s not 0.38.”', 'Ask them to explain why 0.38 is less than 0.4.']],
+    questions: ['Which tenths is it between?', 'How many hundredths are in that tenth?', 'Is 0.37 more or less than 0.4? How do you know?', 'What guess would cut the range in half?'], watch: 'Thinking 0.38 is more than 0.4 because 38 is more than 4.', ext: 'Secret number between 0 and 10 with one decimal place.' });
+
+  /* ───────── Decimal and multiplication strings ───────── */
+  add('dec-x10', [4, 5], 'Fractions', 'Number string: times 10, divided by 10', { text: ['3.5 × 10', '3.5 × 100', '0.35 × 10', '35 ÷ 10', '35 ÷ 100'] }, {
+    purpose: 'See what happens to each digit when a number is multiplied or divided by 10 and 100.', launch: 'Show one at a time. Solve in your head, thumbs up, share, record.',
+    strategies: [['“3.5 × 10 = 35: ten 3.5s is 30 and 5.”', 'Write 10 × 3 + 10 × 0.5 = 30 + 5.'], ['“3.5 × 100 = 350, every digit moves two places.”', 'Write the digits in a place value chart.'], ['“0.35 × 10 = 3.5 and 35 ÷ 10 = 3.5. Same answer!”', 'Draw an arrow between the two problems.'], ['“35 ÷ 100 = 0.35.”', 'Write [35/100] = 0.35.']],
+    questions: ['Which way did the digits move? How far?', 'Why do 0.35 × 10 and 35 ÷ 10 match?', 'What is 3.5 × 1,000?', 'How is 35 ÷ 100 like 35 cents?'], watch: 'Adding a zero: 3.5 × 10 = 3.50.', ext: '0.07 × 100 and 7 ÷ 1,000.' });
+  add('dec-money', [4, 5], 'Fractions', 'Number string: dollars and cents', { text: ['0.99 + 0.99', '2.5 + 1.75', '5 − 1.25', '4 × 0.25'] }, {
+    purpose: 'Use money to add, subtract and multiply decimals.', launch: 'Show one at a time. “Think of dollars and cents.” Solve, share, record.',
+    strategies: [['“0.99 + 0.99: 1 + 1 take away 2 cents: 1.98.”', 'Write 2 − 0.02 = 1.98.'], ['“2.5 + 1.75: 2.5 + 1.5 = 4, plus 0.25 = 4.25.”', 'Number bond under 1.75: 1.5 and 0.25.'], ['“5 − 1.25: count up 0.75 to 2, then 3 more: 3.75.”', 'Number line from 1.25 to 5.'], ['“4 quarters is a dollar: 4 × 0.25 = 1.”', 'Draw 4 quarters.']],
+    questions: ['How did money help?', 'Is 2.5 the same as 2.50? Why?', 'Who counted up? Who took away?', 'What is 8 × 0.25?'], watch: 'Lining up 2.5 and 1.75 from the right (2.5 + 1.75 = 1.100).', ext: '3 × 1.99.' });
+  add('mx-double-half', [4, 5], 'Multiplication strings', 'Number string: double one, halve the other', { text: ['16 × 5', '8 × 10', '24 × 5', '12 × 10', '36 × 5'] }, {
+    purpose: 'Doubling one factor and halving the other keeps the product the same.', launch: 'Show one at a time. Solve, share, record. After the second problem, ask what students notice.',
+    strategies: [['“16 × 5 = 80 and 8 × 10 = 80. Same!”', 'Draw a 16 by 5 array cut in half and stacked into 8 by 10.'], ['“24 × 5: half of 24 is 12, 12 × 10 = 120.”', 'Write 24 × 5 = 12 × 10 = 120.'], ['“36 × 5 = 18 × 10 = 180.”', 'Write it.']],
+    questions: ['Why does halving one and doubling the other work?', 'Which number did you halve? Why that one?', 'Would it work for 15 × 5?', 'Can you use it for 25 × 12?'], watch: 'Halving both numbers.', ext: '48 × 25 (halve and double twice).' });
+  add('mx-9s', [3, 4], 'Multiplication strings', 'Number string: nines from tens', { text: ['9 × 6', '9 × 8', '99 × 6', '99 × 8'] }, {
+    purpose: 'Use 10 × and 100 × to find 9 × and 99 ×.', launch: 'Show one at a time. Solve, share, record. Point to the problem above when the next one comes.',
+    strategies: [['“10 × 6 = 60, take away one 6: 54.”', 'Write 60 − 6 = 54.'], ['“9 × 8 = 80 − 8 = 72.”', 'Write it.'], ['“99 × 6 = 600 − 6 = 594.”', 'Write 100 × 6 − 6.'], ['“99 × 8 = 800 − 8 = 792.”', 'Write it.']],
+    questions: ['Why take away one 6, not one 9?', 'How did 9 × 6 help with 99 × 6?', 'What is 999 × 6?', 'Does this work for 19 × 6?'], watch: 'Taking away 9 instead of the other factor (60 − 9 = 51).', ext: '98 × 7.' });
+  add('mx-break', [3, 4], 'Multiplication strings', 'Number string: break a number apart', { text: ['6 × 14', '6 × 10 + 6 × 4', '7 × 15', '12 × 12'] }, {
+    purpose: 'Split one factor into tens and ones, multiply each part, and add.', launch: 'Show one at a time. Solve, share, record. Draw each one as an area model.',
+    strategies: [['“6 × 14: 6 × 10 = 60 and 6 × 4 = 24, so 84.”', 'Draw a 6 by 14 rectangle split at 10.'], ['“The second one is the same as the first, written out.”', 'Draw an arrow between them.'], ['“7 × 15: 70 + 35 = 105.”', 'Area model split at 10.'], ['“12 × 12: 10 × 12 = 120 and 2 × 12 = 24, so 144.”', 'Area model split at 10; or 12 × 10 + 12 × 2.']],
+    questions: ['Where did you split the number? Why there?', 'Could you split it a different way?', 'How does the picture show the two parts?', 'What is 6 × 24?'], watch: 'Multiplying 6 × 10 and then adding 4 instead of 6 × 4.', ext: '13 × 14 (split both numbers).' });
+  add('wodb-frac', [3, 4, 5], 'Which one doesn’t belong', 'WODB: fractions', { wodb: ['[1/2]', '[2/4]', '[3/6]', '[2/3]'] }, {
+    purpose: 'Reason about equal fractions, simplest form, and odd and even.', launch: 'Show the four fractions. “Which one doesn’t belong? Give a reason.” Find a reason for each.',
+    strategies: [['“[2/3] — it’s the only one that isn’t a half.”', 'Draw all four on bars; write [2/3] > [1/2].'], ['“[1/2] — the only one in simplest form.”', 'Write [2/4] = [1/2], [3/6] = [1/2].'], ['“[2/4] — the only one with two even numbers.”', 'Circle the 2 and 4.'], ['“[3/6] — the only one with a 6, and its numbers add to 9.”', 'Write 3 + 6 = 9.']],
+    questions: ['Which three are equal? How do you know?', 'Which is biggest?', 'Can you find a reason for each one?', 'What fraction could replace [2/3] so that every one is a half?'], watch: 'Thinking [3/6] is bigger than [1/2] because 3 and 6 are bigger numbers.', ext: 'Make a WODB with four fractions that all equal [1/4] except one.' });
+  add('wodb-dec', [4, 5], 'Which one doesn’t belong', 'WODB: 0.5, 0.50, 0.05 and one half', { wodb: ['0.5', '0.50', '0.05', '[1/2]'] }, {
+    purpose: 'Equal decimals, place value, and fractions as decimals.', launch: 'Show the four. “Which one doesn’t belong? Why?” Push for a reason for each.',
+    strategies: [['“0.05 — it’s the only one that isn’t a half. It’s 5 hundredths.”', 'Write 0.05 = [5/100]; shade it on a grid.'], ['“[1/2] — the only fraction.”', 'Write [1/2] = 0.5.'], ['“0.50 — the only one that ends in 0.”', 'Write 0.50 = 0.5.'], ['“0.5 — the only one with one digit after the point.”', 'Write 5 tenths.']],
+    questions: ['Which three are equal? Prove it on the grid.', 'Is 0.50 more than 0.5? Why not?', 'How much smaller is 0.05 than 0.5?', 'What is 0.05 as a fraction?'], watch: 'Saying 0.50 is bigger than 0.5 because 50 is bigger than 5.', ext: 'WODB: 0.25, [1/4], 0.4, 0.250.' });
+
+  var topics = ['Subitizing', 'Combinations to 5 and 10', 'Doubles and near doubles', 'Making ten', 'Add and subtract within 20', 'Place value and tens', 'Add and subtract within 100', 'Which one doesn’t belong', 'Multiplication strings', 'Fractions', 'Fraction talks', 'Unit chats', 'Same and different', 'Counterexamples', 'Broken calculator', 'Choral counting', 'Guess my number'];
   var sources = [
     ['Number Talks Directions (K–2), Anne Arundel County Public Schools', 'https://media.aacps.org/portal/tconnect/_elem/Math09/K-2CCSS/Grade%202/Number%20Talks/Number%20Talks%20Directions%20(K-2).pdf'],
     ['Dot Card and Number Talks, youcubed (Week of Inspirational Math)', 'https://www.youcubed.org/wp-content/uploads/2019/08/WIM-Dot-Card-and-Number-Talks-Grades-K-12.pdf'],
-    ['Talk About Dots, Kentucky Center for Mathematics', 'https://kcm.nku.edu/MathHub/talk_about_dots.php']
+    ['Talk About Dots, Kentucky Center for Mathematics', 'https://kcm.nku.edu/MathHub/talk_about_dots.php'],
+    ['Math for Love lessons (openers, counterexamples, broken calculator, unit chats)', 'https://mathforlove.com/lessons/'],
+    ['Fraction Talks', 'https://fractiontalks.com/']
   ];
   return { talks: T, topics: topics, sources: sources };
 })();

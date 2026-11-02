@@ -28,9 +28,11 @@ body{display:flex;flex-direction:column;min-height:100%}
   if (ids.indexOf(a) < 0 || ids.indexOf(b) < 0) { $('#duo').outerHTML = '<div class="duo-msg"><h2>This link is missing a tool.</h2><p>Ask your teacher for the link again.</p></div>'; return; }
   function hashState(k) { var m = location.hash.match(new RegExp('[#&]' + k + '=([^&]+)')); return m ? OAOM.dec(m[1]) : null; }
   var sa = hashState('a'), sb = hashState('b');
-  var extra = '&embed=1' + (isStudent ? '&st=1' : '') + (p.get('plain') === '1' ? '&plain=1' : '');
+  var isBoard = p.get('board') === '1';
+  /* a big-screen (board) link passes board mode down to both tools */
+  var extra = '&embed=1' + (isStudent ? '&st=1' : '') + (isBoard ? '&board=1' : '') + (p.get('plain') === '1' ? '&plain=1' : '');
   function frameState(fr) { try { var m = fr.contentWindow.location.hash.match(/s=([^&]+)/); return m ? OAOM.dec(m[1]) : null; } catch (e) { return null; } }
-  function selfURL() { var h = []; if (sa) h.push('a=' + OAOM.enc(sa)); if (sb) h.push('b=' + OAOM.enc(sb)); return location.href.split('?')[0] + '?a=' + encodeURIComponent(a) + '&b=' + encodeURIComponent(b) + (isStudent ? '&st=1' : '') + (h.length ? '#' + h.join('&') : ''); }
+  function selfURL() { var h = []; if (sa) h.push('a=' + OAOM.enc(sa)); if (sb) h.push('b=' + OAOM.enc(sb)); return location.href.split('?')[0] + '?a=' + encodeURIComponent(a) + '&b=' + encodeURIComponent(b) + (isStudent ? '&st=1' : '') + (isBoard ? '&board=1' : '') + (p.get('plain') === '1' ? '&plain=1' : '') + (h.length ? '#' + h.join('&') : ''); }
   function load() {
     var na = OAOM.meta(a).name, nb = OAOM.meta(b).name;
     $('#title').textContent = na + ' + ' + nb; document.title = na + ' + ' + nb + ' · OAO Math Tools';

@@ -12,7 +12,12 @@ var OAOM = (function () {
   function $(s, r) { return (r || document).querySelector(s); }
   function el(tag, attrs, html) { var e = document.createElement(tag); if (attrs) for (var k in attrs) { if (k === 'class') e.className = attrs[k]; else if (k.slice(0, 2) === 'on') e.addEventListener(k.slice(2), attrs[k]); else e.setAttribute(k, attrs[k]); } if (html != null) e.innerHTML = html; return e; }
   function s(tag, attrs, parent) { var e = document.createElementNS(NS, tag); if (attrs) for (var k in attrs) { if (k === 'text') e.textContent = attrs[k]; else if (k === 'class') e.setAttribute('class', attrs[k]); else e.setAttribute(k, attrs[k]); } if (parent) parent.appendChild(e); return e; }
-  function svg(w, h, parent, label) { var v = s('svg', { viewBox: '0 0 ' + w + ' ' + h, width: w, height: h, role: 'img', 'aria-label': label || '' }, parent); return v; }
+  /* the stage svg is a group of pieces (they are buttons), not a picture: role=img would hide them from screen readers */
+  function svg(w, h, parent, label) { var v = s('svg', { viewBox: '0 0 ' + w + ' ' + h, width: w, height: h, role: 'group', 'aria-label': label || '' }, parent); return v; }
+  /* an invisible hit area so a small piece is still easy to touch (≥ 44 css px when possible) */
+  function hit(g, x, y, w, h) { return s('rect', { x: x, y: y, width: w, height: h, fill: 'transparent', stroke: 'none' }, g); }
+  /* a drag ghost must never catch the pointer, or elementFromPoint finds the ghost instead of the drop target */
+  function ghostify(gh) { gh.style.pointerEvents = 'none'; [].slice.call(gh.querySelectorAll('[pointer-events]')).forEach(function (n) { n.removeAttribute('pointer-events'); }); [].slice.call(gh.querySelectorAll('[style]')).forEach(function (n) { n.style.pointerEvents = 'none'; }); return gh; }
   function pt(svgEl, e) { var p = svgEl.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; var m = svgEl.getScreenCTM(); return m ? p.matrixTransform(m.inverse()) : { x: 0, y: 0 }; }
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
@@ -22,24 +27,178 @@ var OAOM = (function () {
   /* n/d as mixed number html (whole + fraction), stacked */
   function mixed(n, d) { if (d === 0) return '—'; var w = Math.floor(n / d), r = n - w * d; if (r === 0) return '' + w; if (w === 0) return frac(r, d); return '<span class="mixed">' + w + frac(r, d) + '</span>'; }
   function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-  /* drag helper: works for mouse, touch, pen */
-  function drag(target, h) {
-    target.addEventListener('pointerdown', function (e) {
-      if (e.button > 0) return; e.preventDefault();
-      var id = e.pointerId; try { target.setPointerCapture(id); } catch (x) {}
-      var moved = false, sx = e.clientX, sy = e.clientY;
-      if (h.start) h.start(e);
-      function mv(ev) { if (ev.pointerId !== id) return; if (Math.hypot(ev.clientX - sx, ev.clientY - sy) > 4) moved = true; if (h.move) h.move(ev, moved); }
-      function up(ev) { if (ev.pointerId !== id) return; target.removeEventListener('pointermove', mv); target.removeEventListener('pointerup', up); target.removeEventListener('pointercancel', up); if (h.end) h.end(ev, moved); }
-      target.addEventListener('pointermove', mv); target.addEventListener('pointerup', up); target.addEventListener('pointercancel', up);
+  /* keyboard + click for svg shapes. key (optional) is a stable id (data-k) so focus comes back to the same piece after a redraw.
+     Taps are ignored for a moment after a drag ends (dragDone), so the click that follows a drop doesn't also fire. */
+  var dragUntil = 0;
+  function dragDone(ms) { dragUntil = Date.now() + (ms || 300); }
+  function tap(node, fn, label, key) {
+    node.setAttribute('tabindex', '0'); node.setAttribute('role', 'button'); node.classList.add('om-tap'); if (label) node.setAttribute('aria-label', label); if (key != null) node.setAttribute('data-k', key);
+    node.addEventListener('click', function (e) { if (Date.now() < dragUntil) return; fn(e); });
+    node.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fn(e); } });
+  }
+  /* arrow keys on an svg handle (a slider). value() returns the text a screen reader should hear ("7.3 centimeters"). */
+  function keys(node, fn, label, key, value) {
+    node.setAttribute('tabindex', '0'); node.setAttribute('role', 'slider'); node.classList.add('om-tap'); if (label) node.setAttribute('aria-label', label); if (key != null) node.setAttribute('data-k', key);
+    var set = function () { if (value) { var v = value(); node.setAttribute('aria-valuetext', String(v)); node.setAttribute('aria-valuenow', parseFloat(v) || 0); } };
+    set();
+    node.addEventListener('keydown', function (e) { var d = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1 }[e.key]; if (d) { e.preventDefault(); fn(d, e); set(); } });
+    return set;
+  }
+  /* dragTap(svgEl, node, onTap, onDrop, label, key): a piece you can drag (a ghost follows the finger) and tap.
+     onDrop(p, p0, ev) returns true when it changed the state; otherwise the ghost flies back. */
+  function dragTap(svgEl, node, onTap, onDrop, label, key) {
+    if (onTap) tap(node, function (e) { if (e && e.stopPropagation) e.stopPropagation(); onTap(e); }, label, key);
+    else { if (label) node.setAttribute('aria-label', label); if (key != null) node.setAttribute('data-k', key); }
+    node.style.cursor = 'grab';
+    node.addEventListener('pointerdown', function (e) {
+      if (e.button > 0) return; e.preventDefault(); e.stopPropagation();
+      var id = e.pointerId, p0 = pt(svgEl, e), moved = false, ghost = null, orig = node.getAttribute('transform') || '';
+      try { node.setPointerCapture(id); } catch (x) {}
+      function mv(ev) {
+        if (ev.pointerId !== id) return; var p = pt(svgEl, ev);
+        if (!moved && Math.hypot(p.x - p0.x, p.y - p0.y) > 6) { moved = true; ghost = ghostify(node.cloneNode(true)); ghost.removeAttribute('tabindex'); ghost.removeAttribute('data-k'); ghost.setAttribute('opacity', '0.92'); svgEl.appendChild(ghost); node.style.opacity = '0.25'; }
+        if (moved) ghost.setAttribute('transform', 'translate(' + (p.x - p0.x) + ' ' + (p.y - p0.y) + ') ' + orig);
+      }
+      function up(ev) {
+        if (ev.pointerId !== id) return;
+        node.removeEventListener('pointermove', mv); node.removeEventListener('pointerup', up); node.removeEventListener('pointercancel', up);
+        if (!moved) return; dragDone();
+        var pe = pt(svgEl, ev), ok = false;
+        try { ok = onDrop(pe, p0, ev) === true; } catch (err) { if (window.console) console.error(err); }
+        if (ok) { if (ghost.parentNode) ghost.remove(); return; }
+        var dx = pe.x - p0.x, dy = pe.y - p0.y;
+        anim(ghost, { tx: dx, ty: dy }, { tx: 0, ty: 0 }, 300, function () { ghost.remove(); node.style.opacity = ''; });
+      }
+      node.addEventListener('pointermove', mv); node.addEventListener('pointerup', up); node.addEventListener('pointercancel', up);
     });
   }
-  /* keyboard + click for svg shapes */
-  function tap(node, fn, label) { node.setAttribute('tabindex', '0'); node.setAttribute('role', 'button'); node.classList.add('om-tap'); if (label) node.setAttribute('aria-label', label); node.addEventListener('click', fn); node.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fn(e); } }); }
+  /* ghostDrag(svg, node, busy, drop, mk, onMove): drag a clone; drop(targetElement, p, p0) returns true when it changed the state.
+     mk() can build a custom ghost {el, hide:[nodes], par} (used for lasso groups). */
+  function ghostDrag(svgEl, node, busy, drop, mk, onMove) {
+    node.addEventListener('pointerdown', function (e) {
+      if (e.button > 0 || (busy && busy())) return;
+      e.preventDefault(); e.stopPropagation();
+      var id = e.pointerId, p0 = pt(svgEl, e), moved = false, ghost = null, hide = [node];
+      try { node.setPointerCapture(id); } catch (x) {}
+      function mv(ev) {
+        if (ev.pointerId !== id) return;
+        if (!moved && Math.hypot(ev.clientX - e.clientX, ev.clientY - e.clientY) > 6) {
+          moved = true; var m = mk ? mk() : null;
+          ghost = m ? m.el : node.cloneNode(true); if (m && m.hide) hide = m.hide;
+          ghostify(ghost); if (ghost.removeAttribute) { ghost.removeAttribute('tabindex'); ghost.removeAttribute('data-k'); }
+          ((m && m.par) || node.parentNode).appendChild(ghost); hide.forEach(function (h) { h.style.opacity = '.3'; });
+        }
+        if (ghost) { var p = pt(svgEl, ev); ghost._tx = p.x - p0.x; ghost._ty = p.y - p0.y; ghost.setAttribute('transform', 'translate(' + ghost._tx + ' ' + ghost._ty + ')'); if (onMove) onMove(p, ev); }
+      }
+      function up(ev) {
+        if (ev.pointerId !== id) return;
+        node.removeEventListener('pointermove', mv); node.removeEventListener('pointerup', up); node.removeEventListener('pointercancel', up);
+        if (!moved) return;
+        dragDone();
+        var t = ev.type === 'pointercancel' ? null : document.elementFromPoint(ev.clientX, ev.clientY);
+        if (drop(t, pt(svgEl, ev), p0)) { ghost.remove(); return; }
+        anim(ghost, { tx: ghost._tx, ty: ghost._ty }, { tx: 0, ty: 0 }, 220, function () { ghost.remove(); hide.forEach(function (h) { h.style.opacity = ''; }); });
+      }
+      node.addEventListener('pointermove', mv); node.addEventListener('pointerup', up); node.addEventListener('pointercancel', up);
+    });
+  }
+  /* lasso: drag on an empty spot of `area` to draw a box; done(list of nodes whose centers are inside) */
+  function lasso(svgEl, area, getNodes, done) {
+    area.addEventListener('pointerdown', function (e) {
+      if (e.button > 0) return;
+      var id = e.pointerId, p0 = pt(svgEl, e), c0 = [e.clientX, e.clientY], box = null;
+      try { area.setPointerCapture(id); } catch (x) {}
+      function mv(ev) {
+        if (ev.pointerId !== id) return;
+        var p = pt(svgEl, ev);
+        if (!box && Math.hypot(ev.clientX - c0[0], ev.clientY - c0[1]) > 6) box = s('rect', { fill: 'rgba(242,183,5,.15)', stroke: '#F2B705', 'stroke-width': 2, 'stroke-dasharray': '6 4', rx: 6, 'pointer-events': 'none' }, svgEl);
+        if (box) { box.setAttribute('x', Math.min(p.x, p0.x)); box.setAttribute('y', Math.min(p.y, p0.y)); box.setAttribute('width', Math.abs(p.x - p0.x)); box.setAttribute('height', Math.abs(p.y - p0.y)); }
+      }
+      function up(ev) {
+        if (ev.pointerId !== id) return;
+        area.removeEventListener('pointermove', mv); area.removeEventListener('pointerup', up); area.removeEventListener('pointercancel', up);
+        var x1 = Math.min(c0[0], ev.clientX), x2 = Math.max(c0[0], ev.clientX), y1 = Math.min(c0[1], ev.clientY), y2 = Math.max(c0[1], ev.clientY);
+        if (box) { box.remove(); dragDone(); }
+        done(box ? getNodes().filter(function (n) { var r = n.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2; return cx >= x1 && cx <= x2 && cy >= y1 && cy <= y2; }) : []);
+      }
+      area.addEventListener('pointermove', mv); area.addEventListener('pointerup', up); area.addEventListener('pointercancel', up);
+    });
+  }
+  /* a group of clones of nodes, for dragging several pieces at once */
+  function cloneGroup(nodes, par) { var g = s('g', {}); nodes.forEach(function (n) { var c = n.cloneNode(true); c.removeAttribute('tabindex'); c.removeAttribute('data-k'); if (n._tx || n._ty) c.removeAttribute('transform'); g.appendChild(c); }); return { el: g, hide: nodes, par: par }; }
+  /* rootDrag(svg, {down(p,e)->ctx|null, move(p,ctx,moved), up(p,ctx,moved)}): pointer drag on the svg root so children can be redrawn mid-drag */
+  function rootDrag(v, h) {
+    var ctx = null, id = null, sx, sy, moved;
+    v.addEventListener('pointerdown', function (e) {
+      if (e.button > 0 || ctx) return; var c = h.down(pt(v, e), e); if (c == null) return;
+      e.preventDefault(); ctx = c; id = e.pointerId; sx = e.clientX; sy = e.clientY; moved = false; try { v.setPointerCapture(id); } catch (x) {}
+    });
+    v.addEventListener('pointermove', function (e) { if (e.pointerId !== id || !ctx) return; if (Math.hypot(e.clientX - sx, e.clientY - sy) > 4) moved = true; if (h.move) h.move(pt(v, e), ctx, moved); });
+    function up(e) { if (e.pointerId !== id || !ctx) return; var c = ctx; ctx = null; id = null; if (moved) dragDone(); if (h.up) h.up(pt(v, e), c, moved); }
+    v.addEventListener('pointerup', up); v.addEventListener('pointercancel', up);
+  }
+  /* focus memory: before a redraw remember which piece had focus (by data-k, else by label + index); after, focus the matching new node */
+  function focusKey(stage) {
+    var a = document.activeElement; if (!a || !stage || !stage.contains(a)) return null;
+    var k = a.getAttribute('data-k'); if (k != null) return { k: k };
+    var lab = a.getAttribute('aria-label'); if (!lab) return null;
+    var same = [].slice.call(stage.querySelectorAll('[aria-label]')).filter(function (n) { return n.getAttribute('aria-label') === lab; });
+    return { lab: lab, i: same.indexOf(a) };
+  }
+  function refocus(stage, f) {
+    if (!f || !stage) return;
+    var n = null;
+    if (f.k != null) n = stage.querySelector('[data-k="' + String(f.k).replace(/"/g, '\\"') + '"]');
+    else { var same = [].slice.call(stage.querySelectorAll('[aria-label]')).filter(function (x) { return x.getAttribute('aria-label') === f.lab; }); n = same[f.i] || same[0]; }
+    if (n && n.focus) { try { n.focus({ preventScroll: true }); } catch (e) { n.focus(); } }
+  }
 
   /* ---------- state <-> url ---------- */
-  function enc(o) { var j = JSON.stringify(o); return btoa(unescape(encodeURIComponent(j))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
-  function dec(t) { try { t = t.replace(/-/g, '+').replace(/_/g, '/'); while (t.length % 4) t += '='; return JSON.parse(decodeURIComponent(escape(atob(t)))); } catch (e) { return null; } }
+  function b64(bytes) { return btoa(bytes).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+  function unb64(t) { t = t.replace(/-/g, '+').replace(/_/g, '/'); while (t.length % 4) t += '='; return atob(t); }
+  /* LZW (12-bit codes) over the byte string, so long states (pen ink, whiteboard, problem sets) make shorter links and smaller QR codes.
+     Compressed links start with '~'; plain base64url JSON links (every link made before Nov 2026) still decode. */
+  function lzw(str) {
+    var dict = {}, next = 256, w = '', out = [], i, c;
+    for (i = 0; i < 256; i++) dict[String.fromCharCode(i)] = i;
+    for (i = 0; i < str.length; i++) {
+      c = str.charAt(i);
+      if (dict[w + c] !== undefined) w += c;
+      else { out.push(dict[w]); if (next < 4096) dict[w + c] = next++; else { dict = {}; for (var k = 0; k < 256; k++) dict[String.fromCharCode(k)] = k; next = 256; } w = c; }
+    }
+    if (w !== '') out.push(dict[w]);
+    var bytes = '', acc = 0, bits = 0;
+    out.forEach(function (code) { acc = (acc << 12) | code; bits += 12; while (bits >= 8) { bits -= 8; bytes += String.fromCharCode((acc >> bits) & 255); } });
+    if (bits > 0) bytes += String.fromCharCode((acc << (8 - bits)) & 255);
+    return bytes;
+  }
+  function unlzw(bytes) {
+    var codes = [], acc = 0, bits = 0, i;
+    for (i = 0; i < bytes.length; i++) { acc = ((acc << 8) | bytes.charCodeAt(i)) & 0xFFFFF; bits += 8; if (bits >= 12) { bits -= 12; codes.push((acc >> bits) & 4095); } }
+    var dict = [], next = 256, w, out = '', entry;
+    for (i = 0; i < 256; i++) dict[i] = String.fromCharCode(i);
+    w = dict[codes[0]]; out = w;
+    for (i = 1; i < codes.length; i++) {
+      var code = codes[i];
+      if (next >= 4096) { dict.length = 256; next = 256; w = dict[code]; if (w === undefined) throw new Error('bad code'); out += w; continue; } /* the encoder reset its table here */
+      if (dict[code] !== undefined) entry = dict[code]; else if (code === next) entry = w + w.charAt(0); else throw new Error('bad code');
+      out += entry;
+      dict[next++] = w + entry.charAt(0);
+      w = entry;
+    }
+    return out;
+  }
+  function enc(o) {
+    var raw = unescape(encodeURIComponent(JSON.stringify(o))), plain = b64(raw);
+    if (raw.length < 120) return plain;
+    try { var z = '~' + b64(lzw(raw)); return z.length < plain.length ? z : plain; } catch (e) { return plain; }
+  }
+  function dec(t) {
+    try {
+      if (t.charAt(0) === '~') return JSON.parse(decodeURIComponent(escape(unlzw(unb64(t.slice(1))))));
+      return JSON.parse(decodeURIComponent(escape(unb64(t))));
+    } catch (e) { return null; }
+  }
   function readHash() { var m = location.hash.match(/s=([^&]+)/); return m ? dec(m[1]) : null; }
   function base() { return location.href.split('#')[0].split('?')[0].replace(/[^\/]*$/, ''); }
   function toolURL(id, state, extra) {
@@ -61,11 +220,14 @@ var OAOM = (function () {
   function directions(o) { /* o = {title, steps:[], tries:[[toolName, text]], intro} */
     var h = '<div style="font-family:Nunito,Arial,sans-serif;color:#1B2238;border-left:6px solid #6B46C1;background:#F4F0FC;border-radius:10px;padding:12px 16px;margin:0 0 12px">' +
       '<h3 style="margin:0 0 6px;color:#0E1C42">' + esc(o.title) + '</h3>' + (o.intro ? '<p style="margin:0 0 6px">' + esc(o.intro) + '</p>' : '');
-    if (o.steps && o.steps.length) h += '<p style="margin:6px 0 2px"><strong>How to use it:</strong></p><ol style="margin:0 0 6px 20px;padding:0">' + o.steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol>';
-    if (o.tries && o.tries.length) h += '<p style="margin:6px 0 2px"><strong>Your tools:</strong></p><ul style="margin:0 0 6px 20px;padding:0">' + o.tries.map(function (t) { return '<li>' + (t[0] ? '<strong>' + esc(t[0]) + ':</strong> ' : '') + esc(t[1]) + '</li>'; }).join('') + '</ul>';
-    h += '<p style="margin:6px 0 0;font-size:.9em">Made a mistake? Tap <strong>Start over</strong>. Want more room? Tap <strong>All tools</strong> to open it in a new tab.</p></div>';
+    if (o.steps && o.steps.length) h += '<p style="margin:6px 0 2px"><strong>' + (o.es ? 'Cómo se usa:' : 'How to use it:') + '</strong></p><ol style="margin:0 0 6px 20px;padding:0">' + o.steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol>';
+    if (o.tries && o.tries.length) h += '<p style="margin:6px 0 2px"><strong>' + (o.es ? 'Tus herramientas:' : 'Your tools:') + '</strong></p><ul style="margin:0 0 6px 20px;padding:0">' + o.tries.map(function (t) { return '<li>' + (t[0] ? '<strong>' + esc(t[0]) + ':</strong> ' : '') + esc(t[1]) + '</li>'; }).join('') + '</ul>';
+    h += '<p style="margin:6px 0 0;font-size:.9em">' + (o.es ? 'Si te equivocas, toca <strong>Empezar de nuevo</strong>. Si necesitas más espacio, toca <strong>Pantalla completa</strong>.' : 'Made a mistake? Tap <strong>Start over</strong>. Want more room? Tap <strong>Full screen</strong>.') + '</p></div>';
     return h;
   }
+  /* Spanish copies of the student directions live in OAOM_DATA.howEs; a link with &lang=es shows them */
+  function howFor(m) { return (params.get('lang') === 'es' && window.OAOM_DATA && OAOM_DATA.howEs && OAOM_DATA.howEs[m.id]) || m.how || []; }
+  function whatFor(m) { return (params.get('lang') === 'es' && window.OAOM_DATA && OAOM_DATA.whatEs && OAOM_DATA.whatEs[m.id]) || m.what || ''; }
 
   /* ---------- share modal (used by tool page + library) ---------- */
   var modal;
@@ -82,7 +244,7 @@ var OAOM = (function () {
   /* ---------- Turn in my work (students): a picture + a link to their exact work ---------- */
   /* picture of the tool: every svg drawn where it sits on the stage (pen ink on top); opts = {title, date, totals} */
   function workPicture(done, opts) {
-    opts = Object.assign({ title: true, date: true, totals: true }, opts || {});
+    opts = Object.assign({ title: true, date: true, totals: true, clean: false }, opts || {});
     var stage = $('#om-stage'), sr = stage.getBoundingClientRect();
     var svgs = [].slice.call(stage.querySelectorAll('svg')).filter(function (v) { var r = v.getBoundingClientRect(); return r.width > 30 && r.height > 20 && v.parentNode.closest('svg') === null && (v.id !== 'om-ink' || (cur && cur.S._ink && cur.S._ink.length)); });
     svgs.sort(function (a, b) { return (a.id === 'om-ink') - (b.id === 'om-ink'); });
@@ -106,6 +268,8 @@ var OAOM = (function () {
         done(cv); return;
       }
       var p = parts[i++], cl = p.v.cloneNode(true); cl.setAttribute('xmlns', 'http://www.w3.org/2000/svg'); cl.setAttribute('width', p.w); cl.setAttribute('height', p.h);
+      /* clean picture: no tray, no small buttons (tools mark those with data-ui="tray" / data-ui="btn") */
+      if (opts.clean) [].slice.call(cl.querySelectorAll('[data-ui]')).forEach(function (n) { n.remove(); });
       var st = document.createElementNS('http://www.w3.org/2000/svg', 'style'); st.textContent = 'text{font-family:Nunito,Arial,sans-serif;font-weight:700}'; cl.insertBefore(st, cl.firstChild);
       var img = new Image(); img.onload = function () { g.drawImage(img, ox + p.x, oy + p.y, p.w, p.h); next(); }; img.onerror = function () { next(); };
       img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(cl));
@@ -115,10 +279,10 @@ var OAOM = (function () {
   function picture() {
     if (!cur) return;
     if (!modal) { modal = el('div', { class: 'om-modal', hidden: '' }); document.body.appendChild(modal); modal.addEventListener('click', function (e) { if (e.target === modal) closeShare(); }); document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeShare(); }); }
-    var opt = { title: false, date: false, totals: true };
+    var opt = { title: false, date: false, totals: true, clean: true };
     modal.innerHTML = '<div class="om-dialog" role="dialog" aria-modal="true" aria-labelledby="om-pic-t"><h2 id="om-pic-t">Download a picture</h2>' +
       '<p class="sub">A picture of the tool just as it looks now, for slides, anchor charts or a Canvas page.</p>' +
-      '<div class="om-row" style="margin:0 0 .4rem"><label class="om-check"><input type="checkbox" data-o="title"> Tool name on top</label><label class="om-check"><input type="checkbox" data-o="totals" checked> Totals under the tool</label></div>' +
+      '<div class="om-row" style="margin:0 0 .4rem"><label class="om-check"><input type="checkbox" data-o="title"> Tool name on top</label><label class="om-check"><input type="checkbox" data-o="totals" checked> Totals under the tool</label><label class="om-check"><input type="checkbox" data-o="clean" checked> Clean picture (no tray or buttons)</label></div>' +
       '<div class="om-tipic"><p class="om-hint">Making the picture…</p></div>' +
       '<div class="om-row"><button class="om-btn small primary" data-k="png">Download PNG</button><button class="om-btn small" data-k="jpg">Download JPEG</button><button class="om-btn small" data-k="copy">Copy picture</button></div>' +
       '<p class="om-hint">PNG stays sharp in slides. JPEG makes a smaller file. Tip: Hide totals first if the picture should not show the answer.</p>' +
@@ -153,7 +317,7 @@ var OAOM = (function () {
         if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) cv.toBlob(function (b) { navigator.clipboard.write([new ClipboardItem({ 'image/png': b })]).then(function () { toast('Picture copied. Paste it with Ctrl+V.'); }, function () { toast('Copying didn’t work here. Use Download picture.'); }); });
         else toast('Copying pictures doesn’t work in this browser. Use Download picture.');
       };
-    });
+    }, { clean: true });
   }
 
   function share(o) { /* o = {title, url, boardUrl, embedUrl} */
@@ -163,12 +327,15 @@ var OAOM = (function () {
     var orig = o; if (o.plain) { o = Object.assign({}, o, { url: o.url.replace(/(\?[^#]*)/, '$1&plain=1'), dir: null, note: 'A plain tool: no directions, ready for students to explore.' }); }
     var embedUrl = o.embedUrl || (o.url + (o.url.indexOf('#') > -1 ? '' : '')).replace(/(\?[^#]*)/, '$1&embed=1');
     var boardUrl = o.boardUrl || o.url.replace(/(\?[^#]*)/, '$1&board=1');
-    var iframe = '<iframe src="' + embedUrl + '" title="' + esc(o.title) + '" width="100%" height="680" style="border:0;max-width:100%" allow="fullscreen" allowfullscreen></iframe>';
-    var dirs = o.dir ? directions(o.dir) : '';
+    var iframe = '<iframe src="' + embedUrl + '" title="' + esc(o.title) + '" width="100%" height="680" style="border:0;max-width:100%" allow="fullscreen; clipboard-write" allowfullscreen></iframe>';
+    var isEs = /[?&]lang=es/.test(o.url), d = isEs && o.dirEs ? o.dirEs : o.dir;
+    var dirs = d ? directions(Object.assign({}, d, { es: isEs })) : '';
     var embed = dirs + iframe;
     modal.innerHTML = '<div class="om-dialog" role="dialog" aria-modal="true" aria-labelledby="om-sh-t">' +
       '<h2 id="om-sh-t">Share: ' + esc(o.title) + '</h2><p class="sub">' + (o.note || 'The link opens the tool set up exactly the way it looks right now.') + '</p>' +
-      '<label class="om-check"><input type="checkbox" id="om-incdir"' + (orig.plain ? '' : ' checked') + '> Include the how-to directions</label>' +
+      '<div class="om-row" style="margin:0 0 .5rem;gap:.3rem 1rem"><label class="om-check" style="margin:0"><input type="checkbox" id="om-incdir"' + (orig.plain ? '' : ' checked') + '> Include the how-to directions</label>' +
+      (o.hasState ? '<label class="om-check" style="margin:0" title="The total stays hidden until the student taps “I said it”"><input type="checkbox" id="om-sayfirst"' + (o.sayFirst ? ' checked' : '') + '> Students say it before they see the total</label>' : '') +
+      (o.hasEs ? '<label class="om-check" style="margin:0"><input type="checkbox" id="om-es"' + (/[?&]lang=es/.test(o.url) ? ' checked' : '') + '> Directions in Spanish</label>' : '') + '</div>' +
       '<div class="om-sharegrid"><div>' +
       '<div class="om-label">Student link</div><div class="om-copy"><input readonly value="' + esc(o.url) + '" aria-label="Student link"><button class="om-btn small primary" data-c="0">Copy</button></div>' +
       '<div class="om-label">Big-screen link (for live class)</div><div class="om-copy"><input readonly value="' + esc(boardUrl) + '" aria-label="Big-screen link"><button class="om-btn small" data-c="1">Copy</button></div>' +
@@ -179,6 +346,8 @@ var OAOM = (function () {
       '<div class="om-row" style="justify-content:flex-end"><a class="om-btn small" target="_blank" rel="noopener" href="' + esc(o.url) + '">Open in new tab ↗</a><button class="om-btn small" data-x>Close</button></div></div>';
     var vals = [o.url, boardUrl, embed, dirs];
     modal.querySelector('#om-incdir').onchange = function () { share(Object.assign({}, orig, { plain: !this.checked })); };
+    var sf = modal.querySelector('#om-sayfirst'); if (sf) sf.onchange = function () { share(Object.assign({}, orig, { sayFirst: this.checked, url: orig.rebuild(this.checked) })); };
+    var esb = modal.querySelector('#om-es'); if (esb) esb.onchange = function () { var on = this.checked, u = orig.url.replace(/&lang=es/, ''); share(Object.assign({}, orig, { url: on ? u.replace(/(\?[^#]*)/, '$1&lang=es') : u })); };
     modal.querySelectorAll('[data-c]').forEach(function (b) { b.addEventListener('click', function () { copy(vals[+b.dataset.c], ['Student link copied', 'Big-screen link copied', 'Embed code copied', 'Directions copied'][+b.dataset.c]); }); });
     modal.querySelector('[data-x]').addEventListener('click', closeShare);
     var box = modal.querySelector('.qrbox'), dataUrl = '';
@@ -212,10 +381,14 @@ var OAOM = (function () {
   function redo() { if (!cur || !hist.future.length) return; hist.past.push(hist.last); var s = hist.future.pop(); hist.last = s; mount(cur.id, JSON.parse(s), true); saveNow(); }
   function saveNow() { if (!cur) return; if (!params.get('lesson')) history.replaceState(null, '', '#s=' + enc(cur.S)); else if (cur.lessonStates) cur.lessonStates[cur.tab] = clone(cur.S); paintHist(); }
 
+  /* one window resize listener owned by core; tools register with api.onResize and core forgets them on the next mount */
+  var resizeFns = [], cleanupFns = [];
+  window.addEventListener('resize', function () { resizeFns.slice().forEach(function (f) { try { f(); } catch (e) { if (window.console) console.error(e); } }); });
   function mount(id, state, keepHist) {
     var def = tools[id]; var m = meta(id);
     var stage = $('#om-stage'), side = $('#om-setup'), sayEl = $('#om-say'), out = $('#om-readout');
-    stage.innerHTML = ''; side.innerHTML = ''; sayEl.textContent = ''; out.innerHTML = '';
+    cleanupFns.splice(0).forEach(function (f) { try { f(); } catch (e) {} }); resizeFns.length = 0;
+    stage.innerHTML = ''; side.innerHTML = ''; sayEl.innerHTML = ''; out.innerHTML = '';
     if (!def) { stage.innerHTML = '<p>That tool was not found. <a href="index.html">Go to the library</a>.</p>'; return; }
     var S = Object.assign(clone(def.defaults || {}), state || {});
     var prevInitial = keepHist && cur ? cur.initial : null, prevL = cur ? { lessonId: cur.lessonId, lessonStates: cur.lessonStates, tab: cur.tab } : {};
@@ -224,19 +397,36 @@ var OAOM = (function () {
     if (!keepHist) histReset(id, S);
     document.title = m.name + ' · OAO Math Tools';
     $('#om-title').textContent = m.name;
-    var hl = $('#om-howlist'); if (hl) hl.innerHTML = (m.how || []).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
+    var hl = $('#om-howlist'); if (hl) hl.innerHTML = howFor(m).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
     document.body.classList.toggle('hide-nums', S._r === 0);
     var bt = $('#om-nums'); if (bt) bt.setAttribute('aria-pressed', S._r === 0 ? 'true' : 'false');
-    var redrawFn = function () {}, into = side;
+    var redrawFn = function () {}, into = side, isStu = document.body.classList.contains('student');
+    var sayFirst = isStu && S._say === 1, said = false, lastSay = '';
     var api = {
-      S: S, stage: stage, setup: side, board: document.body.classList.contains('board'),
-      say: function (t) { sayEl.innerHTML = t || ''; },
-      readout: function (h) { out.innerHTML = h || ''; },
+      S: S, stage: stage, setup: side, board: document.body.classList.contains('board'), student: isStu,
+      /* the one line of directions over the tool, with a 🔊 button that reads it (and the total) aloud */
+      say: function (t) { t = t || ''; if (t === lastSay) return; lastSay = t; sayEl.innerHTML = t ? '<span class="om-saytext">' + t + '</span> <button type="button" class="om-speak om-noprint" aria-label="Read this to me" title="Read to me">🔊</button>' : '';
+        var b = sayEl.querySelector('.om-speak'); if (b) b.onclick = function () { speak((sayEl.querySelector('.om-saytext') || sayEl).textContent + '. ' + ((!document.body.classList.contains('hide-nums') && out.textContent) || '')); }; },
+      /* the live readout. With "say it first" on a student link it stays covered until the student taps "I said it", and covers again after each change */
+      readout: function (h) {
+        h = h || ''; if (!sayFirst) { out.innerHTML = h; return; }
+        if (!h) { out.innerHTML = ''; return; }
+        if (said && out.dataset.html === h) return;
+        out.dataset.html = h; said = false;
+        out.innerHTML = '<button type="button" class="om-btn small primary om-said">I said it. Show me.</button><span class="om-hint" style="margin:0">Say what the tool shows first.</span>';
+        out.querySelector('.om-said').onclick = function () { said = true; out.innerHTML = h; };
+      },
+      /* onResize(fn): redraw when the window changes size; core removes it when the tool is remounted (no leaks, no cross-talk between tabs) */
+      onResize: function (f) { resizeFns.push(f); },
+      onCleanup: function (f) { cleanupFns.push(f); },
+      /* teacherOnly(el): a setup field that holds an answer (a mystery weight, a target angle). Hidden on student links and when totals are hidden. */
+      teacherOnly: function (n) { var f = n && n.closest ? (n.closest('.om-field, .om-check') || n) : n; if (f) f.classList.add('om-teach'); return n; },
       /* report(o): the tool's current answer(s) as strings, e.g. {v:'2407'}; checked against the goal S._g */
       report: function (o) { cur.rep = o || {}; goalCheck(); },
       changed: function () { clearTimeout(saveT); saveT = setTimeout(function () { histCommit(); saveNow(); }, 250); },
       onRedraw: function (f) { redrawFn = f; },
-      redraw: function () { redrawFn(); api.changed(); },
+      /* redraw keeps keyboard focus on the same piece (by data-k, else by label) even though the tool rebuilds its svg */
+      redraw: function () { var f = focusKey(stage); redrawFn(); refocus(stage, f); api.changed(); },
       /* quick(presets): one-tap setups shown at the top of Set up. presets = [[label, {state keys}], ...] */
       quick: function (presets, label) {
         var box = el('div', { class: 'om-quick' }, '<h3>' + (label || 'Quick setup') + '</h3>'); var g = el('div', { class: 'om-seg' });
@@ -358,11 +548,11 @@ var OAOM = (function () {
     mount(cur.id, ns, true); histCommit(); saveNow();
   }
   /* ---------- Read to me ---------- */
-  function readAloud() {
+  function speak(text) {
     if (!window.speechSynthesis) { toast('Read aloud does not work in this browser.'); return; }
-    speechSynthesis.cancel(); var m = meta(cur.id);
-    var u = new SpeechSynthesisUtterance([m.name + '.', m.what].concat(m.how || []).join(' ')); u.rate = 0.92; speechSynthesis.speak(u);
+    speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(String(text).replace(/\s+/g, ' ')); u.rate = 0.92; if (params.get('lang') === 'es') u.lang = 'es'; speechSynthesis.speak(u);
   }
+  function readAloud() { var m = meta(cur.id); speak([m.name + '.', whatFor(m)].concat(howFor(m)).join(' ')); }
   /* ---------- Save setup (teacher) ---------- */
   function saveSetup() {
     if (!modal) { modal = el('div', { class: 'om-modal', hidden: '' }); document.body.appendChild(modal); modal.addEventListener('click', function (e) { if (e.target === modal) closeShare(); }); document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeShare(); }); }
@@ -385,12 +575,17 @@ var OAOM = (function () {
     var app = $('#app');
     app.innerHTML =
       '<header class="om-top">' + (isStudent ? '' : '<a class="back om-noprint" href="index.html" ' + (isEmbed ? 'target="_blank"' : '') + '>← ' + (isEmbed ? 'All tools' : 'Library') + '</a>') + '<h1 id="om-title">Math Tool</h1><div class="om-actions">' +
-      '<button class="om-btn small" id="om-nums" aria-pressed="false" title="Hide or show the totals"><span class="lbl">Hide totals</span><span aria-hidden="true">👁</span></button>' +
-      '<button class="om-btn small" id="om-reset" title="Start over"><span aria-hidden="true">↺</span><span class="lbl">Start over</span></button>' +
-      '<button class="om-btn small om-sidetoggle" id="om-setbtn" aria-pressed="false"><span class="lbl">Set up</span><span aria-hidden="true">⚙</span></button>' +
-      (isBoard ? '<button class="om-btn small" id="om-dark" aria-pressed="false"><span class="lbl">Dark</span><span aria-hidden="true">◐</span></button><button class="om-btn small" id="om-full"><span class="lbl">Full screen</span><span aria-hidden="true">⛶</span></button>' : '<button class="om-btn small" id="om-big" title="Big-screen mode"><span class="lbl">Big screen</span><span aria-hidden="true">⛶</span></button>') +
-      '<button class="om-btn small" id="om-print" title="Print"><span class="lbl">Print</span><span aria-hidden="true">🖨</span></button>' +
-      (isStudent ? '<button class="om-btn small primary" id="om-turnin"><span class="lbl">Turn in my work</span><span aria-hidden="true">📤</span></button>' : '<button class="om-btn small" id="om-pic" title="Download a picture (PNG or JPEG)"><span class="lbl">Picture</span><span aria-hidden="true">🖼</span></button>'+'<button class="om-btn small" id="om-save" title="Save this setup to My setups"><span class="lbl">Save setup</span><span aria-hidden="true">💾</span></button><button class="om-btn small primary" id="om-share"><span class="lbl">Share</span><span aria-hidden="true">🔗</span></button>') + '</div></header>' +
+      '<button class="om-btn small" id="om-nums" aria-pressed="false" aria-label="Hide totals" title="Hide or show the totals"><span class="lbl">Hide totals</span><span aria-hidden="true">👁</span></button>' +
+      '<button class="om-btn small" id="om-reset" aria-label="Start over" title="Start over"><span aria-hidden="true">↺</span><span class="lbl">Start over</span></button>' +
+      '<button class="om-btn small om-sidetoggle" id="om-setbtn" aria-pressed="false" aria-label="Set up"><span class="lbl">Set up</span><span aria-hidden="true">⚙</span></button>' +
+      (isBoard ? '<button class="om-btn small" id="om-dark" aria-pressed="false" aria-label="Dark mode"><span class="lbl">Dark</span><span aria-hidden="true">◐</span></button>' : '') +
+      (isBoard || isEmbed ? '<button class="om-btn small" id="om-full" aria-label="Full screen"><span class="lbl">Full screen</span><span aria-hidden="true">⛶</span></button>' : '') +
+      (isBoard ? '' : '<details class="om-menu om-noprint"><summary class="om-btn small" aria-label="More">More ▾</summary><div class="om-menuitems">' +
+        (isEmbed ? '' : '<button class="om-btn small" id="om-big" aria-label="Big-screen mode"><span aria-hidden="true">⛶</span> <span class="lbl">Big screen</span></button>') +
+        '<button class="om-btn small" id="om-print" aria-label="Print"><span aria-hidden="true">🖨</span> <span class="lbl">Print</span></button>' +
+        (isStudent ? '' : '<button class="om-btn small" id="om-pic" aria-label="Download a picture" title="Download a picture (PNG or JPEG)"><span aria-hidden="true">🖼</span> <span class="lbl">Picture</span></button><button class="om-btn small" id="om-save" aria-label="Save this setup" title="Save this setup to My setups"><span aria-hidden="true">💾</span> <span class="lbl">Save setup</span></button>') + '</div></details>') +
+      (isBoard ? '<button class="om-btn small" id="om-print" aria-label="Print" title="Print"><span class="lbl">Print</span><span aria-hidden="true">🖨</span></button>' + (isStudent ? '' : '<button class="om-btn small" id="om-pic" aria-label="Download a picture"><span class="lbl">Picture</span><span aria-hidden="true">🖼</span></button><button class="om-btn small" id="om-save" aria-label="Save this setup"><span class="lbl">Save setup</span><span aria-hidden="true">💾</span></button>') : '') +
+      (isStudent ? '<button class="om-btn small primary" id="om-turnin" aria-label="Turn in my work"><span class="lbl">Turn in my work</span><span aria-hidden="true">📤</span></button>' : '<button class="om-btn small primary" id="om-share" aria-label="Share"><span class="lbl">Share</span><span aria-hidden="true">🔗</span></button>') + '</div></header>' +
       '<nav class="om-tabs" id="om-tabs" role="tablist" hidden></nav><p class="om-lessonnote" id="om-lnote" hidden></p>' +
       '<main class="om-main" id="om-main"><section class="om-stagecard"><div class="om-printhead" id="om-printhead"></div><details class="om-how" id="om-how"' + (isEmbed ? '' : ' open') + '><summary>How to use this tool</summary><button type="button" class="om-btn small om-read" id="om-read">🔊 Read to me</button><ol id="om-howlist"></ol></details>' +
       '<div class="om-toolbar om-noprint" role="toolbar" aria-label="Tool actions"><button type="button" class="om-btn small" id="om-undo" aria-label="Undo" title="Undo (Ctrl+Z)" disabled>↶ <span class="lbl">Undo</span></button><button type="button" class="om-btn small" id="om-redo" aria-label="Redo" title="Redo (Ctrl+Y)" disabled>↷ <span class="lbl">Redo</span></button>' +
@@ -404,8 +599,10 @@ var OAOM = (function () {
     $('#om-print').onclick = function () { window.print(); };
     $('#om-setbtn').onclick = function () { var on = document.body.classList.toggle('show-setup'); this.setAttribute('aria-pressed', on); };
     var big = $('#om-big'); if (big) big.onclick = function () { location.href = currentURL('&board=1'); };
+    /* the More menu closes after a choice or a click elsewhere */
+    var menu = document.querySelector('.om-menu'); if (menu) { menu.addEventListener('click', function (e) { if (e.target.closest('button')) menu.removeAttribute('open'); }); document.addEventListener('pointerdown', function (e) { if (menu.open && !menu.contains(e.target)) menu.removeAttribute('open'); }); }
     var dark = $('#om-dark'); if (dark) dark.onclick = function () { var on = document.body.classList.toggle('dark'); this.setAttribute('aria-pressed', on); };
-    var full = $('#om-full'); if (full) full.onclick = function () { if (document.fullscreenElement) document.exitFullscreen(); else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); };
+    var full = $('#om-full'); if (full) full.onclick = function () { if (document.fullscreenElement) document.exitFullscreen(); else if (document.documentElement.requestFullscreen) { var pr = document.documentElement.requestFullscreen(); if (pr && pr.catch) pr.catch(function () { toast('Full screen is not allowed here. Open the tool in a new tab instead.'); }); } else toast('Full screen is not available in this browser.'); };
     if ($('#om-turnin')) $('#om-turnin').onclick = turnIn;
     if ($('#om-save')) $('#om-save').onclick = saveSetup;
     if ($('#om-pic')) $('#om-pic').onclick = picture;
@@ -422,7 +619,7 @@ var OAOM = (function () {
     if ($('#om-share')) $('#om-share').onclick = function () {
       if (!cur) return;
       if (lid) { share(lessonShare(lid)); return; }
-      var mm = meta(cur.id); share({ title: mm.name, url: toolURL(cur.id, cur.S), plain: document.body.classList.contains('plain'), dir: { title: 'Math tool: ' + mm.name, intro: mm.what, steps: mm.how } });
+      var mm = meta(cur.id); share(Object.assign(toolShare(cur.id, cur.S), { plain: document.body.classList.contains('plain') }));
     };
 
     if (lid) {
@@ -443,6 +640,7 @@ var OAOM = (function () {
       return;
     }
     mount(id, readHash());
+    if (isStudent && cur && cur.S._r === 0) { var nb = $('#om-nums'); if (nb) nb.hidden = true; } /* the teacher hid the totals: students use Check my answer instead of a toggle */
   }
   function lessonShare(lid) {
     var L = lesson(lid); if (!L) return null;
@@ -450,9 +648,17 @@ var OAOM = (function () {
     return { title: 'Math tools for Lesson ' + lid, url: lessonURL(lid), note: 'One link opens the tools that fit this lesson (' + names.join(', ') + ') as tabs. They are open tools, ready for any problem.',
       dir: { title: 'Math tools', intro: 'Use these tools on any problem while you work. Tap a tab at the top to switch tools. Each tool has a “How to use this tool” box.', tries: L.tools.map(function (t) { return [meta(t.t).name, meta(t.t).what]; }) } };
   }
-  function toolShare(id, state) { var mm = meta(id); return { title: mm.name, url: toolURL(id, state), dir: { title: 'Math tool: ' + mm.name, intro: mm.what, steps: mm.how } }; }
+  function toolShare(id, state) {
+    var mm = meta(id), es = window.OAOM_DATA && OAOM_DATA.howEs && OAOM_DATA.howEs[id], lang = params.get('lang') === 'es';
+    function build(sayFirst) { var S2 = state ? clone(state) : {}; if (sayFirst) S2._say = 1; else delete S2._say; return toolURL(id, Object.keys(S2).length ? S2 : null, lang ? '&lang=es' : ''); }
+    return { title: mm.name, url: build(!!(state && state._say)), hasState: true, sayFirst: !!(state && state._say), rebuild: build, hasEs: !!es,
+      dir: { title: 'Math tool: ' + mm.name, intro: mm.what, steps: mm.how },
+      dirEs: es ? { title: 'Herramienta de matemáticas: ' + mm.name, intro: (OAOM_DATA.whatEs && OAOM_DATA.whatEs[id]) || mm.what, steps: es } : null };
+  }
   function currentURL(extra) { if (params.get('st') === '1') extra = (extra || '') + '&st=1'; if (params.get('lesson')) return lessonURL(params.get('lesson'), extra); return toolURL(cur.id, cur.S, extra); }
 
+  /* offline: keep a copy of the tools once they have loaded (sw.js, network first) */
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) { try { navigator.serviceWorker.register('sw.js').catch(function () {}); } catch (e) {} }
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   /* anim(node, attrs, ms): tween numeric SVG attributes (x, y, cx, cy, opacity, transform via 'tx','ty'); skipped under reduced motion */
   function anim(node, from, to, ms, done) {
@@ -463,6 +669,6 @@ var OAOM = (function () {
       if (k < 1) requestAnimationFrame(step); else if (done) done(); }
     requestAnimationFrame(step);
   }
-  return { reduce: reduce, anim: anim, register: register, boot: boot, tools: tools, s: s, svg: svg, el: el, pt: pt, drag: drag, tap: tap, clone: clone, clamp: clamp, gcd: gcd, fmt: fmt, frac: frac, mixed: mixed, esc: esc,
+  return { reduce: reduce, anim: anim, register: register, boot: boot, tools: tools, s: s, svg: svg, hit: hit, el: el, pt: pt, tap: tap, keys: keys, dragTap: dragTap, ghostDrag: ghostDrag, lasso: lasso, cloneGroup: cloneGroup, rootDrag: rootDrag, dragDone: dragDone, focusKey: focusKey, refocus: refocus, speak: speak, clone: clone, clamp: clamp, gcd: gcd, fmt: fmt, frac: frac, mixed: mixed, esc: esc,
     saved: saved, addSt: addSt, enc: enc, dec: dec, directions: directions, lessonShare: lessonShare, toolShare: toolShare, toolURL: toolURL, lessonURL: lessonURL, share: share, copy: copy, toast: toast, meta: meta };
 })();

@@ -175,6 +175,90 @@ window.OAOM_DATA = (function () {
   };
   tools.forEach(function (t) { t.how = HOW[t.id] || []; });
 
+  /* ───── Spanish student directions (shown with &lang=es; the teacher ticks "Directions in Spanish" in the Share box) ───── */
+  var WHAT_ES = {
+    tenframe: 'Llena los marcos de diez con fichas para ver números hasta 20, o separa un total en dos partes.',
+    bears: 'Cuenta, ordena y haz patrones con ositos de distintos tamaños y colores.',
+    linkcubes: 'Une cubos en trenes y torres para contar, comparar, medir y hacer patrones.',
+    dotcards: 'Mira tarjetas con puntos, marcos de diez y números para ver cuántos hay de un vistazo.',
+    dominoes: 'Cuenta los puntos de cada lado, halla el total y empareja fichas.',
+    sticks: 'Junta 10 palitos sueltos en una decena, o deshaz una decena, para ver decenas y unidades.',
+    cuisenaire: 'Alinea regletas de colores del 1 al 10 para hallar pares de números, comparar largos y hacer trenes.',
+    beads: 'Ensarta cuentas por color y forma para copiar, seguir y crear patrones.',
+    attrblocks: 'Ordena figuras por color, forma, tamaño y grosor.',
+    solids: 'Gira cuerpos geométricos para ver sus caras, aristas y vértices, y descubre cuáles ruedan o se apilan.',
+    bucket: 'Pon cosas en cada cubeta para ver cuál pesa más, cuál pesa menos, o si están en equilibrio.',
+    discs: 'Forma números con discos. Cambia un disco por 10 más pequeños, o 10 discos por 1 más grande.',
+    pvcards: 'Separa las tarjetas para ver cuánto vale cada dígito y vuelve a juntarlas.',
+    blocks: 'Unidades, decenas, centenas y millares que puedes separar y agrupar.',
+    bond: 'Separa un total en partes, o junta las partes para formar el total.',
+    bar: 'Dibuja un problema con barras para ver lo que sabes y lo que tienes que hallar.',
+    numberline: 'Marca números enteros, fracciones o decimales en una recta y muestra los saltos entre ellos.',
+    counters: 'Haz filas y columnas para multiplicar, o reparte fichas en grupos iguales para dividir.',
+    hundred: 'Cuenta de 2 en 2, de 5 en 5…, busca múltiplos y factores, y descubre patrones.',
+    dice: 'Lanza dados o voltea tarjetas con dígitos para formar números y practicar.',
+    fbars: 'Pon fichas de fracciones bajo un entero para comparar, hallar fracciones iguales y sumar.',
+    fcircles: 'Colorea partes de círculos para mostrar fracciones y números mixtos.',
+    decgrid: 'Colorea décimas y centésimas para ver decimales, fracciones y porcentajes.',
+    money: 'Cuenta dinero, forma cantidades y da el cambio.',
+    ruler: 'Mide en centímetros, metros, pulgadas, pies y yardas.',
+    scale: 'Lee una báscula y equilibra pesas en gramos, kilogramos, onzas y libras.',
+    beaker: 'Llena y lee vasos medidores en mililitros y litros, o en tazas, pintas, cuartos y galones.',
+    clock: 'Mueve las manecillas para decir la hora y hallar cuánto tiempo pasó.',
+    tiles: 'Coloca fichas cuadradas para hallar el área y recorre los bordes para hallar el perímetro.',
+    geoboard: 'Estira ligas entre clavijas para hacer líneas, ángulos y figuras.',
+    whiteboard: 'Dibuja, escribe y muestra tu trabajo en papel cuadriculado, de puntos o en blanco.',
+    tangram: 'Desliza, gira y voltea siete piezas para armar figuras y dibujos.',
+    pattern: 'Arma diseños, busca ejes de simetría y ve fracciones de un hexágono.',
+    protractor: 'Mueve los brazos para formar un ángulo y lee cuánto mide en grados.',
+    setsquare: 'Desliza y gira las escuadras para trazar líneas perpendiculares y paralelas.',
+    compass: 'Abre el compás y gira el lápiz para trazar círculos.',
+    trademat: 'Suma y resta con dos unidades, como pies y pulgadas, cambiando 1 grande por 12, 16 o 100 pequeñas.',
+    barstrip: 'Llena una barra larga con piezas más cortas para ver cuántas caben, o compara dos cantidades en la misma escala.',
+    cubes: 'Apila cubos para armar cajas y hallar el volumen.'
+  };
+  var HOW_ES = {
+    tenframe: ['Arrastra una ficha a una casilla.', 'Toca una ficha para cambiarla de rojo a amarillo.', 'Arrastra una ficha fuera para quitarla.', '¿Cuántas hay? ¿Cuántas faltan para 10?'],
+    bears: ['Arrastra un osito al tapete.', 'Ordena los ositos en las cajas.', 'Arrastra un osito fuera para guardarlo.', 'Cuenta los ositos de cada caja.'],
+    linkcubes: ['Arrastra un cubo al tapete.', 'Arrastra otro cubo al final para unirlo.', 'Arrastra un cubo fuera para romper el tren.', 'Cuenta los cubos. ¿Qué tren es más largo?'],
+    dotcards: ['Mira la tarjeta.', 'Di cuántos ves.', 'Arrastra la tarjeta fuera para ver otra.', '¿Cómo los viste?'],
+    dominoes: ['Arrastra una ficha de la pila.', 'Cuenta los puntos de cada lado.', 'Toca una ficha para girarla.', '¿Cuántos puntos hay en total?'],
+    sticks: ['Arrastra palitos a Unidades.', '¿Tienes 10 palitos? Arrastra uno hacia Decenas para hacer un paquete.', 'Arrastra un paquete a Unidades para deshacerlo.', 'Cuenta las decenas y luego las unidades.'],
+    cuisenaire: ['Arrastra una regleta al tapete.', 'Toca una regleta para girarla.', 'Pon regletas debajo de una larga hasta igualarla.', 'Arrastra una regleta fuera para guardarla.'],
+    beads: ['Arrastra una cuenta al hilo.', 'Arrastra una cuenta fuera para quitarla.', 'Copia el patrón de la tarjeta.', '¿Qué sigue?'],
+    attrblocks: ['Arrastra una figura a un aro.', 'Toca el nombre del aro para cambiarlo.', 'Ordena por color, forma, tamaño o grosor.', 'Arrastra una figura fuera para guardarla.'],
+    solids: ['Toca una figura para elegirla.', 'Arrastra la figura para girarla.', 'Cuenta las caras, las aristas y los vértices.', '¿Puede rodar? ¿Se puede apilar?'],
+    bucket: ['Arrastra cosas a las cubetas.', 'El lado más pesado baja.', 'Arrastra algo fuera para quitarlo.', '¿Puedes equilibrarlas?'],
+    discs: ['Arrastra un disco de la bandeja a su columna para agregarlo.', 'Arrastra un disco a la columna más pequeña de al lado para cambiarlo por 10.', '¿Tienes 10 o más? Arrastra uno hacia la columna más grande para cambiar 10 por 1.', 'Arrastra un disco fuera del tapete para quitarlo. Lee tu número abajo.'],
+    pvcards: ['Arrastra una tarjeta hacia abajo para sacarla de la pila.', 'Cada tarjeta muestra cuánto vale un dígito.', 'Arrastra las tarjetas hacia arriba para juntarlas en un solo número.', 'Di el número y luego di cuánto vale cada tarjeta.'],
+    blocks: ['Arrastra un bloque de la bandeja a su columna para agregarlo.', 'Arrastra un bloque a la columna más pequeña de al lado para cambiarlo por 10.', '¿Tienes 10 o más? Arrastra uno hacia la columna más grande para agrupar 10 en 1.', 'Arrastra un bloque fuera del tapete para quitarlo.'],
+    bond: ['Toca un círculo y escribe un número.', 'Escribe ? en el círculo del número que tienes que hallar.', 'Las partes van en los círculos pequeños. El total va en el círculo grande.', 'Comprueba: ¿las partes suman el total?'],
+    bar: ['Toca un dibujo para empezar: partes y total, comparar, o unidades iguales.', 'Toca una pieza para escribir un número, una palabra o ?.', 'Toca el + al final de una barra para agregar una pieza. Arrastra un borde para alargar o acortar una pieza.', 'Toca el total sobre la barra para escribirlo. Luego escribe la operación en tu papel.'],
+    numberline: ['Arrastra un punto del vaso a la recta. Se pega a una marca.', 'Desliza un punto por la recta, o arrástralo fuera para quitarlo.', 'Para mostrar un salto, activa Saltos y arrastra de una marca a otra.', 'Di el número de cada punto antes de comprobar.'],
+    counters: ['Arreglo: arrastra sobre las fichas para voltearlas de rojo a amarillo.', 'Arrastra las tijeras entre dos columnas para partir el arreglo.', 'Repartir: arrastra fichas del montón a los grupos.', 'Haz grupos iguales. ¿Qué sobra?'],
+    hundred: ['Toca un número, o arrastra sobre varios, para colorearlos.', 'En Configurar, elige de cuánto en cuánto contar. Esos números se encienden.', 'Elige un segundo número para ver dónde caen los dos colores.', 'Busca un patrón. Di lo que notas.'],
+    dice: ['Elige dados, tarjetas con números o tarjetas de operaciones.', 'Toca Lanzar, o toca Siguiente tarjeta.', 'En un juego de números, toca una casilla para colocar cada dígito.', 'Di tu número o tu respuesta antes de comprobar.'],
+    fbars: ['La barra de arriba es 1 entero.', 'Arrastra fichas de fracciones de la bandeja a la barra. Se ponen una tras otra.', 'Arrastra una ficha fuera de la barra para quitarla.', '¿Tus fichas llenan el entero? Lee la suma debajo de la barra.'],
+    fcircles: ['Cada círculo es 1 entero cortado en partes iguales.', 'Arrastra una parte de la bandeja a un círculo, o arrastra sobre las partes para colorearlas.', 'Llena un círculo entero antes de empezar el siguiente.', 'Lee tu cantidad como fracción y como número mixto.'],
+    decgrid: ['Una cuadrícula entera es 1.', 'Arrastra sobre los cuadritos para colorearlos.', 'Una columna de 10 cuadritos es 1 décima.', 'Lee la parte coloreada como decimal y como fracción.'],
+    money: ['Arrastra monedas y billetes de la bandeja al tapete.', 'Arrastra dinero fuera del tapete para quitarlo.', 'Cuenta desde el billete o la moneda más grande hasta la más pequeña.', '¿Das cambio? Cuenta desde el precio hacia arriba y arrastra el cambio a la caja.'],
+    ruler: ['Arrastra la cinta para que su extremo izquierdo quede en 0.', 'Arrastra el extremo redondo para alargar o acortar la cinta.', 'Lee la marca del extremo derecho.', 'Di el largo y la unidad, como “7 centímetros”.'],
+    scale: ['Arrastra la caja a la báscula. Lee dónde se detiene la aguja roja.', 'Cuenta las marcas pequeñas para saber cuánto vale cada una.', 'Balanza: arrastra pesas al platillo derecho hasta que queden parejos.', 'Platillos parejos: la caja pesa lo mismo que las pesas.'],
+    beaker: ['Arrastra hacia arriba o abajo dentro de un vaso para llenarlo.', 'Lee la marca en la parte de arriba del agua. Cuenta las marcas pequeñas.', 'Arrastra el asa amarilla sobre el otro vaso para verter.', 'Di la cantidad y la unidad, como “650 mililitros”.'],
+    clock: ['Arrastra la manecilla larga para mover los minutos. La corta la sigue.', 'Lee primero la hora y luego los minutos.', 'Para el tiempo que pasó, fija la hora de inicio y arrastra la manecilla larga hacia adelante.', 'Cuenta las horas y luego los minutos, del inicio al final.'],
+    trademat: ['Arrastra piezas de la bandeja al tapete para formar la cantidad.', 'Arrastra una pieza grande a la columna pequeña para cambiarla.', '¿Tienes suficientes piezas pequeñas? Arrastra una a la columna grande para cambiar.', '¿Vas a restar? Arrastra piezas a la caja. Lee lo que queda.'],
+    barstrip: ['La barra larga es el entero.', 'Arrastra piezas de la bandeja a la barra. Se ponen una tras otra.', 'Arrastra una pieza fuera de la barra para quitarla.', '¿Cuántas piezas llenan la barra? ¿Comparas? Llena las dos barras y mira.'],
+    tiles: ['Arrastra una ficha de color a la cuadrícula, o arrastra sobre la cuadrícula para colocar fichas.', 'Arrastra una ficha fuera de la cuadrícula para levantarla.', 'Cuenta los cuadros para hallar el área.', 'Activa el contorno y cuenta los bordes para hallar el perímetro.'],
+    geoboard: ['Presiona una clavija y estira la liga hasta otra clavija.', 'Sigue estirando de clavija en clavija. Termina en la primera para cerrar la figura.', 'Arrastra una esquina a otra clavija para cambiar la figura.', 'Cuenta los lados y busca esquinas cuadradas.'],
+    whiteboard: ['Elige cuadrícula, puntos, líneas o papel en blanco.', 'Elige un color y dibuja con el dedo o el ratón.', 'Usa la herramienta de línea para líneas rectas y Deshacer para corregir.', 'Muestra cada paso de lo que piensas.'],
+    tangram: ['Arrastra una pieza a la figura gris.', 'Arrastra la manija redonda para girar una pieza.', 'Sigue hasta que todas las piezas encajen sin huecos.', '¿Te atoraste? Pregunta a tu maestra antes de ver la respuesta.'],
+    pattern: ['Arrastra bloques de arriba al tapete.', 'Arrastra la manija redonda para girar un bloque.', 'Arrastra un bloque de vuelta arriba para guardarlo.', 'Fracciones: si el hexágono amarillo es 1 entero, ¿cuánto vale cada bloque?'],
+    protractor: ['El centro del transportador va en el vértice del ángulo.', 'Un brazo se alinea con el 0.', 'Arrastra el brazo verde. Lee la escala que empieza en 0.', 'Pregúntate: ¿el ángulo es menor o mayor que un ángulo recto?'],
+    setsquare: ['Arrastra una regla o una escuadra para moverla. Arrastra su manija para girarla.', 'Elige Dibujar y arrastra a lo largo de un borde para trazar una línea recta.', 'Perpendicular: traza a lo largo de los dos lados cortos de la esquina de una escuadra.', 'Paralela: desliza la escuadra sobre la regla y traza otra vez.'],
+    compass: ['Arrastra la punta gris a donde va el centro.', 'Arrastra el lápiz amarillo hacia afuera para abrir el compás.', 'Arrastra el lápiz dando toda la vuelta para trazar el círculo.', 'El radio va del centro al borde. El diámetro cruza todo el círculo.'],
+    cubes: ['Arrastra un cubo de la bandeja a un cuadro para apilarlo.', 'Arrastra el cubo de arriba fuera para quitarlo.', 'Gira la vista para ver la parte de atrás.', 'Cuenta los cubos. Eso es el volumen.']
+  };
+
   /* ───── Lesson tags ─────
      Each unit lists its tools: [tool id, preset (state), student "Try this", teacher tip].
      A lesson can add its own entries (they go first and replace the unit entry for the same tool). */
@@ -182,8 +266,7 @@ window.OAOM_DATA = (function () {
   function BAR(rows, cmp) { return { bars: rows, cmp: cmp ? { on: 1, a: cmp[0], b: cmp[1], l: cmp[2] } : { on: 0, a: 0, b: 1, l: '' } }; }
   function RECT(w, h, x0, y0, col) { var c = {}; for (var x = 0; x < w; x++) for (var y = 0; y < h; y++) c[(x + (x0 || 0)) + '_' + (y + (y0 || 0))] = col || 0; return c; }
   function BOX(L, W, H) { var h = {}; for (var x = 0; x < L; x++) for (var y = 0; y < W; y++) h[x + '_' + y] = H; return h; }
-  function T(t, p, s, tip, g) { return { t: t, p: p || null, s: s || '', tip: tip || '', g: g || null }; }
-  /* goal: [what to do, answer, [[wrong answer, hint that points where to look]...], report key] */
+  function T(t, p, s, tip) { return { t: t, p: p || null, s: s || '', tip: tip || '' }; }
 
   var U = {
     /* ═════════ GRADE 3 ═════════ */
@@ -195,10 +278,10 @@ window.OAOM_DATA = (function () {
         '3.01.01': [T('blocks', { c: { 3: 1, 2: 2, 1: 3, 0: 4 } }, 'What number do the blocks show? Break the thousand cube. How many hundreds is it?', 'Blocks show size; discs (next lesson) show value. Use both so students see the link.')],
         '3.01.03': [T('pvcards', { n: '3462' }, 'Build 3,462, then 3,426. Which place tells you which is bigger?', 'Compare from the greatest place; build both numbers.')],
         '3.01.04': [T('numberline', { a: 3000, b: 4000, parts: 10, mode: 'whole', lab: 'ends' }, 'Put a dot on 3,400 and 3,750. Which hundred is 3,750 closer to?', 'Ends-only labels; students name every tick first.')],
-        '3.01.05': [T('hundred', { mode: 'hundred', start: 1, sk1: 5 }, 'Skip-count by 5. What do you notice about the ones digits?', 'Patterns of +10/+100 transfer to the disc mat: add one disc each time.'), T('discs', { hi: 3, lo: 0, c: { 3: 1, 2: 2, 0: 5 } }, 'Add one hundred disc at a time. What changes in the number? What stays the same?', '')],
+        '3.01.05': [T('hundred', { mode: 'hundred', start: 1, sk1: 5 }, 'Skip-count by 5. What do you notice about the ones digits?', 'Patterns of +10/+100 transfer to the disc mat: add one disc each time.'), T('discs', { hi: 3, lo: 0, c: { 3: 1, 2: 2, 0: 5 } }, 'Add one hundred disc at a time. What changes in the number? What stays the same?')],
         '3.01.06': [T('numberline', { a: 4000, b: 5000, parts: 10, mode: 'whole', lab: 'ends' }, 'Put a dot on 4,600. Is it closer to 4,000 or 5,000?', 'Find the halfway mark first (4,500).')],
         '3.01.07': [T('numberline', { a: 300, b: 400, parts: 10, mode: 'whole', lab: 'ends' }, 'Put a dot on 362. Round it to the nearest hundred.', 'Halfway is 350; numbers on halfway round up.')],
-        '3.01.08': [T('numberline', { a: 40, b: 50, parts: 10, mode: 'whole', lab: 'all' }, 'Put a dot on 47. Is it closer to 40 or 50?', '')]
+        '3.01.08': [T('numberline', { a: 40, b: 50, parts: 10, mode: 'whole', lab: 'all' }, 'Put a dot on 47. Is it closer to 40 or 50?')]
       } },
     '3.02': { name: 'Mental Addition and Subtraction', tools: [
       T('bond', { parts: 2, w: '100', p: ['63', '?'] }, 'What goes with 63 to make 100?', 'Number bonds to 10, 100 and 1,000 are the heart of this chapter.'),
@@ -214,27 +297,27 @@ window.OAOM_DATA = (function () {
       } },
     '3.03': { name: 'Addition and Subtraction with Regrouping', tools: [
       T('discs', { hi: 3, lo: 0, c: { 2: 4, 1: 7, 0: 8 } }, 'Add 365 with discs. When a column has 10 or more, trade.', 'Regroup on the mat first, then record each trade in the algorithm.'),
-      T('blocks', { c: { 2: 4, 1: 7, 0: 8 } }, 'Use blocks to show the same problem. Group 10 ones into a ten.', ''),
-      T('bar', BAR([R('', '?', 'above', [['', '', 1], ['', '', 2]])]), 'Draw the story before you add or subtract.', '') ],
+      T('blocks', { c: { 2: 4, 1: 7, 0: 8 } }, 'Use blocks to show the same problem. Group 10 ones into a ten.'),
+      T('bar', BAR([R('', '?', 'above', [['', '', 1], ['', '', 2]])]), 'Draw the story before you add or subtract.') ],
       L: {
         '3.03.02': [T('discs', { hi: 2, lo: 0, c: { 2: 5, 1: 2, 0: 3 } }, 'Take away 168 from 523. Break a disc when you don’t have enough.', 'Students break a ten, then a hundred, before they subtract.')],
         '3.03.03': [T('discs', { hi: 3, lo: 0, c: { 3: 1 } }, 'Take away 1 from 1,000. How many breaks do you need?', 'Subtracting across zeros: break 1,000 → 10 hundreds → 9 hundreds 10 tens, and so on.')],
         '3.03.04': [T('numberline', { a: 300, b: 400, parts: 10, mode: 'whole', lab: 'ends' }, 'Round each number to the nearest hundred before you add.', 'Estimate first, then compute and compare.')],
-        '3.03.05': [T('numberline', { a: 4000, b: 5000, parts: 10, mode: 'whole', lab: 'ends' }, 'Round to the nearest thousand to estimate.', '')]
+        '3.03.05': [T('numberline', { a: 4000, b: 5000, parts: 10, mode: 'whole', lab: 'ends' }, 'Round to the nearest thousand to estimate.')]
       } },
     '3.04': { name: 'Multiplication and Division', tools: [
       T('counters', { mode: 'array', r: 3, c: 6 }, 'How many rows? How many in each row? Write the multiplication.', 'Arrays show equal groups and the commutative property (turn it sideways).'),
-      T('counters', { mode: 'share', n: 18, g: 3 }, 'Share 18 counters into 3 groups. How many in each group?', ''),
-      T('hundred', { mode: 'hundred', start: 1, sk1: 3 }, 'Skip-count by 3. Say each number as you tap it.', ''),
+      T('counters', { mode: 'share', n: 18, g: 3 }, 'Share 18 counters into 3 groups. How many in each group?'),
+      T('hundred', { mode: 'hundred', start: 1, sk1: 3 }, 'Skip-count by 3. Say each number as you tap it.'),
       T('dice', { mode: 'facts', op: 'm', lo: 2, hi: 5 }, 'Say the answer, then flip the card to check.', 'Fact practice for 2, 3, 4, 5 and 10.') ],
       L: {
         '3.04.02': [T('counters', { mode: 'array', r: 4, c: 7, split: 5 }, 'Split the array. 4 × 7 = 4 × 5 + 4 × 2.', 'Distributive property: split a hard fact into two easy ones.')],
-        '3.04.04': [T('counters', { mode: 'share', n: 6, g: 1 }, 'Share 6 counters into 1 group. Now try 0 counters into 3 groups.', '')],
+        '3.04.04': [T('counters', { mode: 'share', n: 6, g: 1 }, 'Share 6 counters into 1 group. Now try 0 counters into 3 groups.')],
         '3.04.05': [T('counters', { mode: 'share', n: 14, g: 3 }, 'Share 14 into 3 groups. How many are left over?', 'The remainder must be less than the number of groups.')],
-        '3.04.06': [T('counters', { mode: 'array', r: 2, c: 7 }, 'Can you put every counter in a pair? Then the number is even.', 'Even = 2 equal rows with none left.'), T('hundred', { mode: 'hundred', start: 1, sk1: 2 }, 'Skip-count by 2. Which ones digits do the even numbers end in?', '')],
+        '3.04.06': [T('counters', { mode: 'array', r: 2, c: 7 }, 'Can you put every counter in a pair? Then the number is even.', 'Even = 2 equal rows with none left.'), T('hundred', { mode: 'hundred', start: 1, sk1: 2 }, 'Skip-count by 2. Which ones digits do the even numbers end in?')],
         '3.04.07': [T('bar', BAR([R('', '?', 'above', 4)]), 'Each unit is one group. Label one unit, then find the total.', 'Equal-units bar model for multiplication.')],
         '3.04.08': [T('bar', BAR([R('', '36', 'above', [['', '?', 1], ['', '', 0], ['', '', 0], ['', '', 0]])]), 'The whole is shared into equal units. Find 1 unit.', 'Division as finding one unit.')],
-        '3.04.09': [T('bar', BAR([R('', '?', 'above', [['', '', 1], ['', '', 1], ['', '', 1], ['', '', 2]])]), 'Draw both steps of the story on one bar.', '')]
+        '3.04.09': [T('bar', BAR([R('', '?', 'above', [['', '', 1], ['', '', 1], ['', '', 1], ['', '', 2]])]), 'Draw both steps of the story on one bar.')]
       } },
     '3.05': { name: 'Multiplication', tools: [
       T('discs', { hi: 3, lo: 0, c: { 1: 2, 0: 4 } }, 'Make 3 groups of 24. Put all the discs together and trade.', 'Build the factor as many times as the multiplier; regroup; then record the algorithm.'),
@@ -244,28 +327,28 @@ window.OAOM_DATA = (function () {
       } },
     '3.06': { name: 'Division', tools: [
       T('discs', { hi: 2, lo: 0, c: { 1: 5, 0: 4 } }, 'Share 54 into 3 groups. Break a ten when you need to.', 'Divide tens first; break leftover tens into ones; record each step.'),
-      T('counters', { mode: 'share', n: 25, g: 4 }, 'Share 25 into 4 groups. What is left over?', '') ],
+      T('counters', { mode: 'share', n: 25, g: 4 }, 'Share 25 into 4 groups. What is left over?') ],
       L: {
         '3.06.01': [T('discs', { hi: 2, lo: 0, c: { 2: 6 } }, 'Share 6 hundreds into 2 groups. How many in each?', '6 hundreds ÷ 2 = 3 hundreds.')]
       } },
     '3.07': { name: 'Graphs and Tables', tools: [
       T('dice', { mode: 'dice', k: 1, sides: 6 }, 'Roll 20 times. Keep a tally of each number.', 'Collect real data, then graph it on the grid whiteboard.'),
-      T('whiteboard', { bg: 'grid' }, 'Draw a bar graph of your tally. Label both sides and give it a title.', ''),
+      T('whiteboard', { bg: 'grid' }, 'Draw a bar graph of your tally. Label both sides and give it a title.'),
       T('tiles', { cols: 12, rows: 10 }, 'Use one column of tiles for each group to build a bar graph.', 'Tiles make a quick concrete bar graph.') ] },
     '3.08': { name: 'Multiplying and Dividing by 6, 7, 8 and 9', tools: [
-      T('hundred', { mode: 'times', sk1: 6 }, 'Find the 6s row and column. What pattern do you see?', ''),
+      T('hundred', { mode: 'times', sk1: 6 }, 'Find the 6s row and column. What pattern do you see?'),
       T('counters', { mode: 'array', r: 6, c: 7, split: 5 }, 'Split 6 × 7 into 6 × 5 and 6 × 2.', 'Use known 5s facts to build new facts.'),
-      T('dice', { mode: 'facts', op: 'm', lo: 6, hi: 9 }, 'Say the answer, then flip the card to check.', '') ],
+      T('dice', { mode: 'facts', op: 'm', lo: 6, hi: 9 }, 'Say the answer, then flip the card to check.') ],
       L: {
-        '3.08.02': [T('hundred', { mode: 'times', sk1: 7 }, 'Find the 7s. Which ones do you already know?', '')],
-        '3.08.04': [T('counters', { mode: 'share', n: 42, g: 6 }, 'Share 42 into 6 groups. Which multiplication fact helps?', '')],
-        '3.08.05': [T('hundred', { mode: 'times', sk1: 8, sk2: 4 }, 'The 8s are double the 4s. Check it.', '')],
-        '3.08.06': [T('hundred', { mode: 'times', sk1: 9 }, 'Add the digits of each 9s answer. What do you get?', '')]
+        '3.08.02': [T('hundred', { mode: 'times', sk1: 7 }, 'Find the 7s. Which ones do you already know?')],
+        '3.08.04': [T('counters', { mode: 'share', n: 42, g: 6 }, 'Share 42 into 6 groups. Which multiplication fact helps?')],
+        '3.08.05': [T('hundred', { mode: 'times', sk1: 8, sk2: 4 }, 'The 8s are double the 4s. Check it.')],
+        '3.08.06': [T('hundred', { mode: 'times', sk1: 9 }, 'Add the digits of each 9s answer. What do you get?')]
       } },
     '3.09': { name: 'Fractions, Part 1', tools: [
       T('fcircles', { c: 1, n: 4 }, 'Shade 3 slices. What fraction of the circle is shaded?', 'Equal parts first: talk about why the slices must be the same size.'),
       T('fbars', { d: [2, 3, 4, 6, 8], lab: 1 }, 'Shade 1 tile in each row. Which unit fraction is biggest?', 'More pieces in the whole means smaller pieces.'),
-      T('numberline', { a: 0, b: 1, parts: 4, mode: 'frac', lab: 'ends' }, 'Name every mark between 0 and 1.', '') ],
+      T('numberline', { a: 0, b: 1, parts: 4, mode: 'frac', lab: 'ends' }, 'Name every mark between 0 and 1.') ],
       L: {
         '3.09.02': [T('numberline', { a: 0, b: 2, parts: 8, mode: 'frac', lab: 'ends' }, 'Put dots on three fourths and on five fourths.', 'Fractions greater than 1 on the line.')],
         '3.09.03': [T('fbars', { d: [8], lab: 1 }, 'Shade 3 eighths, then 5 eighths. Which is more?', 'Same denominator: compare the number of pieces.')],
@@ -273,256 +356,256 @@ window.OAOM_DATA = (function () {
       } },
     '3.10': { name: 'Fractions, Part 2', tools: [
       T('fbars', { d: [3, 6], lab: 1 }, 'Shade 1 third. How many sixths line up with it?', 'Use the line-up guide to prove equivalence.'),
-      T('numberline', { a: 0, b: 1, parts: 3, mode: 'frac', lab: 'all', two: 1, parts2: 6 }, 'Which marks land in the same spot on both lines?', ''),
-      T('pattern', { frac: true }, 'The hexagon is 1 whole. Cover it with triangles. What fraction is 1 triangle?', '') ],
+      T('numberline', { a: 0, b: 1, parts: 3, mode: 'frac', lab: 'all', two: 1, parts2: 6 }, 'Which marks land in the same spot on both lines?'),
+      T('pattern', { frac: true }, 'The hexagon is 1 whole. Cover it with triangles. What fraction is 1 triangle?') ],
       L: {
         '3.10.03': [T('fbars', { d: [2, 4, 8], lab: 1 }, 'Shade 6 eighths. Find the fewest tiles that cover the same amount.', 'Simplest form = fewest, biggest pieces.')],
-        '3.10.04': [T('fbars', { d: [2, 3, 4, 6], lab: 1 }, 'Compare 2 thirds and 3 fourths. Line them up.', '')],
+        '3.10.04': [T('fbars', { d: [2, 3, 4, 6], lab: 1 }, 'Compare 2 thirds and 3 fourths. Line them up.')],
         '3.10.06': [T('fbars', { d: [5], lab: 1 }, 'Shade 2 fifths, then 2 more. How many fifths in all?', 'Add like fractions by counting unit fractions.')],
         '3.10.07': [T('fbars', { d: [4, 8], lab: 1 }, 'Shade 1 fourth and 3 eighths. How many eighths is that?', 'Related denominators: change fourths to eighths.')]
       } },
     '3.11': { name: 'Measurement', tools: [
       T('ruler', { u: 'm', a: 0, b: 64, len: 64 }, 'How long is the ribbon? Write it in centimeters.', '1 meter = 100 centimeters.'),
-      T('bond', { parts: 2, w: '1 m', p: ['64 cm', '?'] }, 'What goes with 64 cm to make 1 meter?', ''),
-      T('bar', BAR([R('', '?', 'above', [['', '', 1], ['', '', 2]])]), 'Draw the measurement story as a bar.', '') ],
+      T('bond', { parts: 2, w: '1 m', p: ['64 cm', '?'] }, 'What goes with 64 cm to make 1 meter?'),
+      T('bar', BAR([R('', '?', 'above', [['', '', 1], ['', '', 2]])]), 'Draw the measurement story as a bar.') ],
       L: {
-        '3.11.03': [T('bond', { parts: 2, w: '1 km', p: ['650 m', '?'] }, 'What goes with 650 m to make 1 kilometer?', '1 km = 1,000 m.'), T('numberline', { a: 0, b: 2000, parts: 20, mode: 'whole', lab: 'ends' }, 'Put a dot on 1 km 300 m. How many meters is that?', '')],
-        '3.11.04': [T('bond', { parts: 2, w: '1,000', p: ['375', '?'] }, 'Take 375 m away from 1 km. Use the bond.', '')],
+        '3.11.03': [T('bond', { parts: 2, w: '1 km', p: ['650 m', '?'] }, 'What goes with 650 m to make 1 kilometer?', '1 km = 1,000 m.'), T('numberline', { a: 0, b: 2000, parts: 20, mode: 'whole', lab: 'ends' }, 'Put a dot on 1 km 300 m. How many meters is that?')],
+        '3.11.04': [T('bond', { parts: 2, w: '1,000', p: ['375', '?'] }, 'Take 375 m away from 1 km. Use the bond.')],
         '3.11.05': [T('beaker', { u: 'ml', mx: 2000, tk: 100, c: 2, tk: 50, a0: 1250, a1: 600 }, 'How much water is in each beaker? How much in all?', '1 L = 1,000 mL.')],
-        '3.11.06': [T('scale', { m: 'dial', u: 'kg', mx: 1, tk: 20, w: 640 }, 'What does the scale show? How many more grams make 1 kg?', 'Count the small marks to find their value first.'), T('scale', { m: 'bal', bw: 350 }, 'Balance the box. How heavy is it?', '')],
-        '3.11.07': [T('bar', BAR([R('', '2 kg', 'above', [['', '750 g', 1], ['', '?', 0]])]), 'Find the missing part. Change kilograms to grams first.', '')]
+        '3.11.06': [T('scale', { m: 'dial', u: 'kg', mx: 1, tk: 20, w: 640 }, 'What does the scale show? How many more grams make 1 kg?', 'Count the small marks to find their value first.'), T('scale', { m: 'bal', bw: 350 }, 'Balance the box. How heavy is it?')],
+        '3.11.07': [T('bar', BAR([R('', '2 kg', 'above', [['', '750 g', 1], ['', '?', 0]])]), 'Find the missing part. Change kilograms to grams first.')]
       } },
     '3.12': { name: 'Geometry', tools: [
-      T('geoboard', { n: 11 }, 'Make a shape with 4 sides. How many square corners does it have?', ''),
+      T('geoboard', { n: 11 }, 'Make a shape with 4 sides. How many square corners does it have?'),
       T('tangram', { pz: 'sq7' }, 'Make the square with all seven pieces.', 'Tangrams build spatial reasoning about triangles and quadrilaterals.'),
-      T('compass', { r: 3 }, 'Draw a circle with a radius of 3 cm. What is its diameter?', '') ],
+      T('compass', { r: 3 }, 'Draw a circle with a radius of 3 cm. What is its diameter?') ],
       L: {
         '3.12.01': [T('compass', { r: 3, circ: [[9, 6, 3]], lines: true }, 'Measure the radius and the diameter. What do you notice?', 'Diameter = 2 radii.')],
-        '3.12.02': [T('geoboard', { n: 11, mode: 'line' }, 'Make an angle with two bands that meet at one pin.', ''), T('clock', { t: 180, dg: 0 }, 'The hands make an angle. Is it a square corner?', '')],
+        '3.12.02': [T('geoboard', { n: 11, mode: 'line' }, 'Make an angle with two bands that meet at one pin.'), T('clock', { t: 180, dg: 0 }, 'The hands make an angle. Is it a square corner?')],
         '3.12.03': [T('setsquare', { mode: 'move', sel: 's45' }, 'Use the square corner of the triangle to check for right angles.', 'The set square corner is a right angle tester.')],
-        '3.12.04': [T('geoboard', { n: 11 }, 'Make 3 different triangles.', ''), T('tangram', { pz: 'tri3' }, 'Make a big triangle from smaller pieces.', '')],
-        '3.12.05': [T('geoboard', { n: 11 }, 'Make a triangle with a right angle. Make one with two equal sides.', '')],
-        '3.12.06': [T('geoboard', { n: 11, bands: [{ p: [[1, 1], [6, 1], [6, 4], [1, 4]], k: 1, c: 0 }] }, 'Change the rectangle into a different quadrilateral. What changed?', '')],
+        '3.12.04': [T('geoboard', { n: 11 }, 'Make 3 different triangles.'), T('tangram', { pz: 'tri3' }, 'Make a big triangle from smaller pieces.')],
+        '3.12.05': [T('geoboard', { n: 11 }, 'Make a triangle with a right angle. Make one with two equal sides.')],
+        '3.12.06': [T('geoboard', { n: 11, bands: [{ p: [[1, 1], [6, 1], [6, 4], [1, 4]], k: 1, c: 0 }] }, 'Change the rectangle into a different quadrilateral. What changed?')],
         '3.12.07': [T('compass', { r: 4 }, 'Set the compass to 4 cm and draw a circle.', 'Practice on screen, then with the safety compass.')]
       } },
 
     /* ═════════ GRADE 4 ═════════ */
     '4.01': { name: 'Numbers to One Million', tools: [
       T('discs', { hi: 5, lo: 0, c: { 5: 2, 4: 3, 2: 4, 0: 6 } }, 'What number do the discs show? Read it in two parts: thousands, then ones.', 'Use the 10-value discs; read the thousands period, then the ones period.'),
-      T('pvcards', { n: '230406' }, 'Pull the cards apart. Which digits are in the thousands period?', ''),
-      T('numberline', { a: 40000, b: 50000, parts: 10, mode: 'whole', lab: 'ends' }, 'Name every mark on the line.', '') ],
+      T('pvcards', { n: '230406' }, 'Pull the cards apart. Which digits are in the thousands period?'),
+      T('numberline', { a: 40000, b: 50000, parts: 10, mode: 'whole', lab: 'ends' }, 'Name every mark on the line.') ],
       L: {
         '4.01.02': [T('discs', { hi: 6, lo: 0, c: { 5: 9, 4: 9, 3: 9, 2: 9, 1: 9, 0: 9 } }, 'Add one more ones disc. Keep trading. What number do you get?', '999,999 + 1 = 1,000,000 by repeated trading.')],
-        '4.01.03': [T('discs', { hi: 5, lo: 0, c: { 4: 4, 3: 2 } }, 'Add 1 ten thousand each time. What changes?', '')],
-        '4.01.04': [T('pvcards', { n: '345210' }, 'Build 345,210 and 354,120. Which is greater? Which place told you?', '')],
-        '4.01.05': [T('numberline', { a: 42000, b: 43000, parts: 10, mode: 'whole', lab: 'ends' }, 'Put a dot on 42,650. Round it to the nearest thousand.', '')],
-        '4.01.06': [T('numberline', { a: 300000, b: 400000, parts: 10, mode: 'whole', lab: 'ends' }, 'Round 362,500 to the nearest ten thousand and hundred thousand.', '')],
+        '4.01.03': [T('discs', { hi: 5, lo: 0, c: { 4: 4, 3: 2 } }, 'Add 1 ten thousand each time. What changes?')],
+        '4.01.04': [T('pvcards', { n: '345210' }, 'Build 345,210 and 354,120. Which is greater? Which place told you?')],
+        '4.01.05': [T('numberline', { a: 42000, b: 43000, parts: 10, mode: 'whole', lab: 'ends' }, 'Put a dot on 42,650. Round it to the nearest thousand.')],
+        '4.01.06': [T('numberline', { a: 300000, b: 400000, parts: 10, mode: 'whole', lab: 'ends' }, 'Round 362,500 to the nearest ten thousand and hundred thousand.')],
         '4.01.07': [T('discs', { hi: 5, lo: 0, c: { 4: 3, 3: 5 } }, 'Add 4 thousands. Did you need to trade?', 'Mental calculation by place value.')]
       } },
     '4.02': { name: 'Addition and Subtraction', tools: [
       T('discs', { hi: 5, lo: 0, c: { 4: 2, 3: 4, 2: 6, 1: 5, 0: 3 } }, 'Add or take away with discs. Trade when you need to.', 'Model one problem on the mat, then do the next with the algorithm only.'),
-      T('bar', BAR([R('', '?', 'above', [['', '', 1], ['', '', 2]])]), 'Draw the story before you solve it.', '') ],
+      T('bar', BAR([R('', '?', 'above', [['', '', 1], ['', '', 2]])]), 'Draw the story before you solve it.') ],
       L: {
-        '4.02.02': [T('discs', { hi: 4, lo: 0, c: { 4: 1 } }, 'Take away 1 from 10,000. Break one disc at a time.', '')],
-        '4.02.03': [T('numberline', { a: 3000, b: 6000, parts: 30, mode: 'whole', lab: 'ends', hop: 1 }, 'Show 3,456 + 1,998: add 2,000, then hop back 2.', 'Compensation with a number line.'), T('bond', { parts: 2, w: '5,000', p: ['3,627', '?'] }, 'What goes with 3,627 to make 5,000?', '')],
-        '4.02.04': [T('numberline', { a: 2000, b: 5000, parts: 30, mode: 'whole', lab: 'ends', hop: 1 }, 'Show 4,200 − 1,995 by taking away 2,000, then adding 5 back.', '')],
-        '4.02.05': [T('bar', BAR([R('Monday', '', 'above', [['2450', '2,450', 1]]), R('Tuesday', '', 'below', [['2450', '', 2], ['', '?', 0]])], [0, 1, '1,375 more']), 'Draw the comparison, then find the total.', '')]
+        '4.02.02': [T('discs', { hi: 4, lo: 0, c: { 4: 1 } }, 'Take away 1 from 10,000. Break one disc at a time.')],
+        '4.02.03': [T('numberline', { a: 3000, b: 6000, parts: 30, mode: 'whole', lab: 'ends', hop: 1 }, 'Show 3,456 + 1,998: add 2,000, then hop back 2.', 'Compensation with a number line.'), T('bond', { parts: 2, w: '5,000', p: ['3,627', '?'] }, 'What goes with 3,627 to make 5,000?')],
+        '4.02.04': [T('numberline', { a: 2000, b: 5000, parts: 30, mode: 'whole', lab: 'ends', hop: 1 }, 'Show 4,200 − 1,995 by taking away 2,000, then adding 5 back.')],
+        '4.02.05': [T('bar', BAR([R('Monday', '', 'above', [['2450', '2,450', 1]]), R('Tuesday', '', 'below', [['2450', '', 2], ['', '?', 0]])], [0, 1, '1,375 more']), 'Draw the comparison, then find the total.')]
       } },
     '4.03': { name: 'Multiples and Factors', tools: [
-      T('hundred', { mode: 'hundred', start: 1, sk1: 4 }, 'Skip-count by 4. These are the multiples of 4.', ''),
+      T('hundred', { mode: 'hundred', start: 1, sk1: 4 }, 'Skip-count by 4. These are the multiples of 4.'),
       T('counters', { mode: 'array', r: 3, c: 8 }, 'How many different arrays can you make with 24 counters?', 'Each array is a factor pair.') ],
       L: {
         '4.03.02': [T('hundred', { mode: 'hundred', start: 1, sk1: 4, sk2: 6 }, 'Where do the 4s and 6s land on the same number?', 'Split cells = common multiples.')],
-        '4.03.03': [T('hundred', { mode: 'times', fac: 1, fv: 24 }, 'Tap 24. Find every pair that makes it.', '')],
-        '4.03.04': [T('counters', { mode: 'array', r: 1, c: 7 }, '7 counters make only one array. That makes 7 prime. Try 12.', ''), T('hundred', { mode: 'hundred', start: 1 }, 'Color the numbers with only 2 factors.', '')],
-        '4.03.05': [T('hundred', { mode: 'times', fac: 1, fv: 18 }, 'Find the factors of 18, then of 24. Which ones match?', '')]
+        '4.03.03': [T('hundred', { mode: 'times', fac: 1, fv: 24 }, 'Tap 24. Find every pair that makes it.')],
+        '4.03.04': [T('counters', { mode: 'array', r: 1, c: 7 }, '7 counters make only one array. That makes 7 prime. Try 12.'), T('hundred', { mode: 'hundred', start: 1 }, 'Color the numbers with only 2 factors.')],
+        '4.03.05': [T('hundred', { mode: 'times', fac: 1, fv: 18 }, 'Find the factors of 18, then of 24. Which ones match?')]
       } },
     '4.04': { name: 'Multiplication', tools: [
       T('discs', { hi: 4, lo: 0, c: { 2: 2, 1: 3, 0: 4 } }, 'Make 3 groups of 234. Put them together and trade.', 'Concrete first, then partial products, then the algorithm.'),
-      T('counters', { mode: 'array', r: 4, c: 13, split: 10 }, 'Split 4 × 13 into 4 × 10 and 4 × 3.', ''),
+      T('counters', { mode: 'array', r: 4, c: 13, split: 10 }, 'Split 4 × 13 into 4 × 10 and 4 × 3.'),
       T('whiteboard', { bg: 'grid' }, 'Line up your digits in the grid squares.', 'Grid paper keeps place values lined up.') ],
       L: {
-        '4.04.01': [T('counters', { mode: 'array', r: 4, c: 25, split: 20 }, 'Split 4 × 25 into two easy parts.', '')],
+        '4.04.01': [T('counters', { mode: 'array', r: 4, c: 25, split: 20 }, 'Split 4 × 25 into two easy parts.')],
         '4.04.04': [T('discs', { hi: 4, lo: 0, c: { 1: 3 } }, 'Make 3 tens 20 times. How many hundreds is that?', '3 tens × 20 = 60 tens = 6 hundreds.')]
       } },
     '4.05': { name: 'Division', tools: [
       T('discs', { hi: 3, lo: 0, c: { 3: 2, 2: 3, 1: 4, 0: 5 } }, 'Share the discs into 3 groups. Break a disc when you can’t share it.', 'Share from the greatest place; each break is a step in long division.'),
-      T('counters', { mode: 'share', n: 29, g: 4 }, 'Share 29 into 4 groups. What is left over?', '') ],
+      T('counters', { mode: 'share', n: 29, g: 4 }, 'Share 29 into 4 groups. What is left over?') ],
       L: {
         '4.05.01': [T('discs', { hi: 3, lo: 0, c: { 3: 8 } }, 'Share 8 thousands into 4 groups.', '8 thousands ÷ 4 = 2 thousands.')],
         '4.05.02': [T('hundred', { mode: 'times', sk1: 6 }, 'Find the multiple of 6 closest to 43.', 'Estimate with nearby multiples.')],
-        '4.05.04': [T('bar', BAR([R('', '1,260', 'above', [['', '?', 1], ['', '', 0], ['', '', 0], ['', '', 0], ['', '', 0], ['', '', 0]])]), 'The total is shared into 6 equal units. Find 1 unit.', '')]
+        '4.05.04': [T('bar', BAR([R('', '1,260', 'above', [['', '?', 1], ['', '', 0], ['', '', 0], ['', '', 0], ['', '', 0], ['', '', 0]])]), 'The total is shared into 6 equal units. Find 1 unit.')]
       } },
     '4.06': { name: 'Fractions', tools: [
-      T('fbars', { d: [2, 3, 4, 6, 8, 12], lab: 1 }, 'Shade 2 fourths. Find other rows that match it.', ''),
-      T('fcircles', { c: 3, n: 4 }, 'Shade 7 fourths. How many whole circles is that?', ''),
-      T('numberline', { a: 0, b: 3, parts: 12, mode: 'mixed', lab: 'ends' }, 'Put a dot on 2 and 1 fourth.', '') ],
+      T('fbars', { d: [2, 3, 4, 6, 8, 12], lab: 1 }, 'Shade 2 fourths. Find other rows that match it.'),
+      T('fcircles', { c: 3, n: 4 }, 'Shade 7 fourths. How many whole circles is that?'),
+      T('numberline', { a: 0, b: 3, parts: 12, mode: 'mixed', lab: 'ends' }, 'Put a dot on 2 and 1 fourth.') ],
       L: {
-        '4.06.01': [T('fbars', { d: [3, 6, 12], lab: 1 }, 'Shade 2 thirds. How many sixths? How many twelfths?', '')],
+        '4.06.01': [T('fbars', { d: [3, 6, 12], lab: 1 }, 'Shade 2 thirds. How many sixths? How many twelfths?')],
         '4.06.02': [T('fbars', { d: [3, 4, 6, 8, 12], lab: 1 }, 'Order 3 fourths, 2 thirds and 5 sixths from least to greatest.', 'Line up the right edges with the guide.')],
-        '4.06.03': [T('fbars', { d: [4], w: 3, lab: 1, sh: { 4: [0, 1, 2, 3, 4] } }, 'Read the shaded tiles two ways: as fourths, and as wholes and fourths.', '')],
+        '4.06.03': [T('fbars', { d: [4], w: 3, lab: 1, sh: { 4: [0, 1, 2, 3, 4] } }, 'Read the shaded tiles two ways: as fourths, and as wholes and fourths.')],
         '4.06.06': [T('fcircles', { c: 3, n: 4 }, 'Share 3 circles among 4 people. How much does each get?', '3 ÷ 4 = three fourths.')]
       } },
     '4.07': { name: 'Adding and Subtracting Fractions', tools: [
-      T('fbars', { d: [2, 4, 8], w: 2, lab: 1 }, 'Shade the first fraction, then keep going for the second.', ''),
-      T('fcircles', { c: 3, n: 4 }, 'Shade 1 and 3 fourths, then add 2 fourths.', ''),
-      T('numberline', { a: 0, b: 3, parts: 12, mode: 'mixed', lab: 'ends', hop: 1 }, 'Show the adding with hops.', '') ],
+      T('fbars', { d: [2, 4, 8], w: 2, lab: 1 }, 'Shade the first fraction, then keep going for the second.'),
+      T('fcircles', { c: 3, n: 4 }, 'Shade 1 and 3 fourths, then add 2 fourths.'),
+      T('numberline', { a: 0, b: 3, parts: 12, mode: 'mixed', lab: 'ends', hop: 1 }, 'Show the adding with hops.') ],
       L: {
-        '4.07.02': [T('fbars', { d: [3, 6, 12], lab: 1 }, 'Add 1 third and 1 sixth. Change thirds to sixths first.', '')],
-        '4.07.04': [T('fcircles', { c: 4, n: 4, sh: [[0, 1, 2, 3], [0, 1, 2], [], []] }, 'Add 1 and 2 fourths more. Make a whole when you can.', '')],
-        '4.07.05': [T('fcircles', { c: 3, n: 4, sh: [[0, 1, 2, 3], [0, 1, 2, 3], [0]] }, 'Take away 3 fourths. Break a whole if you need to.', '')]
+        '4.07.02': [T('fbars', { d: [3, 6, 12], lab: 1 }, 'Add 1 third and 1 sixth. Change thirds to sixths first.')],
+        '4.07.04': [T('fcircles', { c: 4, n: 4, sh: [[0, 1, 2, 3], [0, 1, 2], [], []] }, 'Add 1 and 2 fourths more. Make a whole when you can.')],
+        '4.07.05': [T('fcircles', { c: 3, n: 4, sh: [[0, 1, 2, 3], [0, 1, 2, 3], [0]] }, 'Take away 3 fourths. Break a whole if you need to.')]
       } },
     '4.08': { name: 'Multiplying a Fraction and a Whole Number', tools: [
       T('fbars', { d: [4], w: 3, lab: 1 }, 'Shade 3 fourths, 3 times. How many fourths in all?', 'Repeated adding of the same fraction.'),
-      T('bar', BAR([R('', '40', 'above', [['', '', 2], ['', '', 2], ['', '', 2], ['', '', 0], ['', '', 0]])]), 'The bar is 40. What is 3 fifths of it?', ''),
-      T('numberline', { a: 0, b: 3, parts: 12, mode: 'mixed', lab: 'ends', hop: 1 }, 'Show 5 hops of 1 half.', '') ],
+      T('bar', BAR([R('', '40', 'above', [['', '', 2], ['', '', 2], ['', '', 2], ['', '', 0], ['', '', 0]])]), 'The bar is 40. What is 3 fifths of it?'),
+      T('numberline', { a: 0, b: 3, parts: 12, mode: 'mixed', lab: 'ends', hop: 1 }, 'Show 5 hops of 1 half.') ],
       L: {
         '4.08.04': [T('counters', { mode: 'share', n: 12, g: 3 }, 'Share 12 into 3 groups. How many is 2 thirds of 12?', 'A fraction of a set: find 1 group, then take that many groups.')],
-        '4.08.07': [T('bar', BAR([R('', '?', 'above', [['', '', 1], ['', '', 1], ['', '', 0], ['', '', 0], ['', '', 0]])]), 'Draw the story with equal units.', '')]
+        '4.08.07': [T('bar', BAR([R('', '?', 'above', [['', '', 1], ['', '', 1], ['', '', 0], ['', '', 0], ['', '', 0]])]), 'Draw the story with equal units.')]
       } },
     '4.09': { name: 'Data: Line Plots and Line Graphs', tools: [
       T('numberline', { a: 0, b: 3, parts: 6, mode: 'mixed', lab: 'all' }, 'Use the line as a line plot. Tap a mark for each data value.', 'The number line doubles as a line plot.'),
-      T('whiteboard', { bg: 'grid' }, 'Draw your graph on the grid. Label both sides.', ''),
+      T('whiteboard', { bg: 'grid' }, 'Draw your graph on the grid. Label both sides.'),
       T('dice', { mode: 'dice', k: 2, sides: 6 }, 'Roll two dice 20 times. Record each sum.', 'Collect a data set to plot.') ],
       L: {
-        '4.09.03': [T('whiteboard', { bg: 'lined' }, 'Make a stem-and-leaf plot. Stems on the left, leaves on the right.', '')]
+        '4.09.03': [T('whiteboard', { bg: 'lined' }, 'Make a stem-and-leaf plot. Stems on the left, leaves on the right.')]
       } },
     '4.10': { name: 'Measurement', tools: [
-      T('ruler', { u: 'cm', a: 0, b: 7.5, len: 7.5 }, 'How long is the ribbon in centimeters? In millimeters?', ''),
+      T('ruler', { u: 'cm', a: 0, b: 7.5, len: 7.5 }, 'How long is the ribbon in centimeters? In millimeters?'),
       T('bar', BAR([R('1 ft', '12 in', 'above', 3)]), 'One foot is 12 inches. What is 1 unit? 2 units?', 'Bar Strip with 12 pieces works well here.'),
       T('trademat', { u: 'ftin', b0: 3, s0: 8, take: 0 }, 'Add 1 ft 6 in to the mat. Trade 12 inches for 1 foot when you can.', 'The Trade Mat makes the 12-for-1 trade a hand move.') ],
       L: {
-        '4.10.02': [T('ruler', { u: 'yd', a: 0, b: 27, len: 27 }, 'How long is the ribbon in inches? In feet and inches?', '')],
+        '4.10.02': [T('ruler', { u: 'yd', a: 0, b: 27, len: 27 }, 'How long is the ribbon in inches? In feet and inches?')],
         '4.10.03': [T('scale', { m: 'dial', u: 'lb', mx: 5, tk: 2, w: 38 }, 'Read the scale in pounds and ounces.', '1 lb = 16 oz.')],
-        '4.10.04': [T('beaker', { u: 'qt', mx: 4, tk: 0.5, a0: 3 }, 'How many quarts? How many cups is that?', '')],
-        '4.10.05': [T('clock', { t: 615, el: 1, st: 540 }, 'How much time has passed?', '')],
-        '4.10.06': [T('ruler', { u: 'in', q: 4, a: 0, b: 4.5, len: 4.5 }, 'How long is the ribbon? What fraction of a foot is it?', '')]
+        '4.10.04': [T('beaker', { u: 'qt', mx: 4, tk: 0.5, a0: 3 }, 'How many quarts? How many cups is that?')],
+        '4.10.05': [T('clock', { t: 615, el: 1, st: 540 }, 'How much time has passed?')],
+        '4.10.06': [T('ruler', { u: 'in', q: 4, a: 0, b: 4.5, len: 4.5 }, 'How long is the ribbon? What fraction of a foot is it?')]
       } },
     '4.11': { name: 'Area and Perimeter', tools: [
       T('tiles', { cols: 10, rows: 8, unit: 'cm', cells: RECT(6, 4) }, 'Count the tiles. Then find a faster way.', 'Rows × columns leads to length × width.'),
-      T('geoboard', { n: 11 }, 'Make a rectangle with an area of 12 square units.', ''),
-      T('whiteboard', { bg: 'grid' }, 'Draw the shape and label each side.', '') ],
+      T('geoboard', { n: 11 }, 'Make a rectangle with an area of 12 square units.'),
+      T('whiteboard', { bg: 'grid' }, 'Draw the shape and label each side.') ],
       L: {
-        '4.11.03': [T('tiles', { cols: 12, rows: 8, unit: 'm', cells: Object.assign(RECT(6, 3), RECT(3, 3, 0, 3)) }, 'Split the shape into two rectangles. Add their areas.', '')],
-        '4.11.04': [T('tiles', { cols: 12, rows: 8, edge: true, unit: 'm' }, 'Lay tiles to make a rectangle. Count the edges around it.', '')],
+        '4.11.03': [T('tiles', { cols: 12, rows: 8, unit: 'm', cells: Object.assign(RECT(6, 3), RECT(3, 3, 0, 3)) }, 'Split the shape into two rectangles. Add their areas.')],
+        '4.11.04': [T('tiles', { cols: 12, rows: 8, edge: true, unit: 'm' }, 'Lay tiles to make a rectangle. Count the edges around it.')],
         '4.11.05': [T('tiles', { cols: 12, rows: 8, edge: true, unit: 'cm' }, 'Make two rectangles with a perimeter of 16 cm. Are their areas the same?', 'Same perimeter, different area.')]
       } },
     '4.12': { name: 'Decimals', tools: [
-      T('decgrid', { m: 'h', c: 1 }, 'Shade 35 hundredths. Write it as a decimal and as a fraction.', ''),
+      T('decgrid', { m: 'h', c: 1 }, 'Shade 35 hundredths. Write it as a decimal and as a fraction.'),
       T('discs', { hi: 1, lo: -2, c: { 0: 1, '-1': 3, '-2': 5 } }, 'What number do the discs show? Break a tenth into hundredths.', '10-value discs with tenths and hundredths.'),
-      T('numberline', { a: 0, b: 1, parts: 10, mode: 'dec', lab: 'ends' }, 'Name every mark between 0 and 1.', '') ],
+      T('numberline', { a: 0, b: 1, parts: 10, mode: 'dec', lab: 'ends' }, 'Name every mark between 0 and 1.') ],
       L: {
-        '4.12.01': [T('decgrid', { m: 't', c: 2 }, 'Shade 1 and 3 tenths.', '')],
-        '4.12.02': [T('numberline', { a: 2, b: 3, parts: 10, mode: 'dec', lab: 'ends' }, 'Put a dot on 2.6.', '')],
-        '4.12.05': [T('fbars', { d: [2, 4, 5, 10], lab: 1 }, 'Line up 1 fifth with tenths. How many tenths match?', '')],
-        '4.12.07': [T('decgrid', { m: 'h', c: 2 }, 'Shade 0.4 on one grid and 0.38 on the other. Which is more?', '')],
-        '4.12.08': [T('numberline', { a: 3, b: 4, parts: 10, mode: 'dec', lab: 'ends' }, 'Round 3.68 to the nearest tenth and whole number.', '')]
+        '4.12.01': [T('decgrid', { m: 't', c: 2 }, 'Shade 1 and 3 tenths.')],
+        '4.12.02': [T('numberline', { a: 2, b: 3, parts: 10, mode: 'dec', lab: 'ends' }, 'Put a dot on 2.6.')],
+        '4.12.05': [T('fbars', { d: [2, 4, 5, 10], lab: 1 }, 'Line up 1 fifth with tenths. How many tenths match?')],
+        '4.12.07': [T('decgrid', { m: 'h', c: 2 }, 'Shade 0.4 on one grid and 0.38 on the other. Which is more?')],
+        '4.12.08': [T('numberline', { a: 3, b: 4, parts: 10, mode: 'dec', lab: 'ends' }, 'Round 3.68 to the nearest tenth and whole number.')]
       } },
     '4.13': { name: 'Adding and Subtracting Decimals', tools: [
-      T('discs', { hi: 1, lo: -2, c: { 0: 2, '-1': 7, '-2': 4 } }, 'Add or take away with discs. Trade 10 tenths for 1 one.', ''),
-      T('decgrid', { m: 'h', c: 2 }, 'Shade the first number, then the second. How much in all?', ''),
-      T('money', { mode: 'count' }, 'Make $3.45 with the fewest coins and bills.', '') ],
+      T('discs', { hi: 1, lo: -2, c: { 0: 2, '-1': 7, '-2': 4 } }, 'Add or take away with discs. Trade 10 tenths for 1 one.'),
+      T('decgrid', { m: 'h', c: 2 }, 'Shade the first number, then the second. How much in all?'),
+      T('money', { mode: 'count' }, 'Make $3.45 with the fewest coins and bills.') ],
       L: {
-        '4.13.05': [T('discs', { hi: 0, lo: -2, c: { 0: 1 } }, 'Take away 0.35 from 1. Break the one first.', '')],
-        '4.13.07': [T('money', { mode: 'change', pr: 3.65, pd: 5 }, 'Count up from the price to $5.00 to make change.', '')]
+        '4.13.05': [T('discs', { hi: 0, lo: -2, c: { 0: 1 } }, 'Take away 0.35 from 1. Break the one first.')],
+        '4.13.07': [T('money', { mode: 'change', pr: 3.65, pd: 5 }, 'Count up from the price to $5.00 to make change.')]
       } },
     '4.14': { name: 'Multiplying and Dividing Decimals', tools: [
-      T('discs', { hi: 1, lo: -2, c: { '-1': 3 } }, 'Make 0.3 four times. Trade when you can.', ''),
-      T('money', { mode: 'count' }, 'Show 4 groups of $1.25. How much in all?', ''),
-      T('decgrid', { m: 'h', c: 3 }, 'Shade 0.6 three times.', '') ],
+      T('discs', { hi: 1, lo: -2, c: { '-1': 3 } }, 'Make 0.3 four times. Trade when you can.'),
+      T('money', { mode: 'count' }, 'Show 4 groups of $1.25. How much in all?'),
+      T('decgrid', { m: 'h', c: 3 }, 'Shade 0.6 three times.') ],
       L: {
-        '4.14.04': [T('discs', { hi: 0, lo: -2, c: { '-1': 8, '-2': 4 } }, 'Share 0.84 into 4 groups.', '')],
-        '4.14.05': [T('discs', { hi: 1, lo: -2, c: { 0: 5, '-1': 2 } }, 'Share 5.2 into 4 groups. Break the leftover one into tenths.', '')]
+        '4.14.04': [T('discs', { hi: 0, lo: -2, c: { '-1': 8, '-2': 4 } }, 'Share 0.84 into 4 groups.')],
+        '4.14.05': [T('discs', { hi: 1, lo: -2, c: { 0: 5, '-1': 2 } }, 'Share 5.2 into 4 groups. Break the leftover one into tenths.')]
       } },
     '4.15': { name: 'Angles', tools: [
-      T('protractor', { target: '' }, 'Make a few angles. Which are smaller than a right angle?', ''),
-      T('geoboard', { n: 11, mode: 'line' }, 'Make an acute, a right and an obtuse angle.', '') ],
+      T('protractor', { target: '' }, 'Make a few angles. Which are smaller than a right angle?'),
+      T('geoboard', { n: 11, mode: 'line' }, 'Make an acute, a right and an obtuse angle.') ],
       L: {
-        '4.15.01': [T('protractor', { show: false }, 'Make an angle. Guess its size before you show the protractor.', 'Estimate first, then measure.'), T('clock', { t: 180, dg: 0 }, 'Turn the long hand a quarter turn. How many degrees is that?', '')],
+        '4.15.01': [T('protractor', { show: false }, 'Make an angle. Guess its size before you show the protractor.', 'Estimate first, then measure.'), T('clock', { t: 180, dg: 0 }, 'Turn the long hand a quarter turn. How many degrees is that?')],
         '4.15.02': [T('protractor', { target: '135' }, 'Make an angle of 135°.', 'Which scale starts at 0 on the arm?')],
-        '4.15.03': [T('protractor', { target: '70' }, 'Draw a 70° angle.', '')],
+        '4.15.03': [T('protractor', { target: '70' }, 'Draw a 70° angle.')],
         '4.15.04': [T('protractor', { three: true, a: 40, c: 115 }, 'Find both parts and the whole angle.', 'Angle measure is additive.')],
-        '4.15.05': [T('protractor', { full: true, a: 250 }, 'How big is the reflex angle? Use 360° to check.', '')]
+        '4.15.05': [T('protractor', { full: true, a: 250 }, 'How big is the reflex angle? Use 360° to check.')]
       } },
     '4.16': { name: 'Lines and Shapes', tools: [
-      T('setsquare', { mode: 'draw' }, 'Draw a pair of perpendicular lines with the triangle.', ''),
-      T('geoboard', { n: 11 }, 'Make a shape with one pair of parallel sides.', ''),
-      T('pattern', { mirror: 'v' }, 'Build a design that matches on both sides of the line.', '') ],
+      T('setsquare', { mode: 'draw' }, 'Draw a pair of perpendicular lines with the triangle.'),
+      T('geoboard', { n: 11 }, 'Make a shape with one pair of parallel sides.'),
+      T('pattern', { mirror: 'v' }, 'Build a design that matches on both sides of the line.') ],
       L: {
-        '4.16.02': [T('setsquare', { mode: 'move', sel: 's30' }, 'Slide the triangle along the ruler and draw two parallel lines.', '')],
-        '4.16.04': [T('geoboard', { n: 11 }, 'Make a trapezoid, a parallelogram and a rhombus.', ''), T('tangram', { pz: 'rect3' }, 'Make the rectangle. Which pieces are quadrilaterals?', '')],
-        '4.16.05': [T('geoboard', { mirror: 'v', bands: [{ p: [[1, 2], [4, 2], [4, 6]], k: 1, c: 1 }] }, 'Reflect the shape over the line. Check it.', '')],
-        '4.16.06': [T('pattern', { mirror: 'v' }, 'Make a pattern that is symmetric.', '')]
+        '4.16.02': [T('setsquare', { mode: 'move', sel: 's30' }, 'Slide the triangle along the ruler and draw two parallel lines.')],
+        '4.16.04': [T('geoboard', { n: 11 }, 'Make a trapezoid, a parallelogram and a rhombus.'), T('tangram', { pz: 'rect3' }, 'Make the rectangle. Which pieces are quadrilaterals?')],
+        '4.16.05': [T('geoboard', { mirror: 'v', bands: [{ p: [[1, 2], [4, 2], [4, 6]], k: 1, c: 1 }] }, 'Reflect the shape over the line. Check it.')],
+        '4.16.06': [T('pattern', { mirror: 'v' }, 'Make a pattern that is symmetric.')]
       } },
     '4.17': { name: 'Cuboids', tools: [
-      T('cubes', { n: 5, h: BOX(3, 2, 2) }, 'How many faces, edges and corners does the box have?', ''),
+      T('cubes', { n: 5, h: BOX(3, 2, 2) }, 'How many faces, edges and corners does the box have?'),
       T('whiteboard', { bg: 'grid' }, 'Draw a net for the box on the grid.', 'Cut out the net on paper and fold it.') ],
       L: {
-        '4.17.01': [T('cubes', { n: 5, L: 3, W: 2, H: 2 }, 'Tap Build it. Turn the box to see every face.', '')]
+        '4.17.01': [T('cubes', { n: 5, L: 3, W: 2, H: 2 }, 'Tap Build it. Turn the box to see every face.')]
       } },
 
     /* ═════════ GRADE 5 ═════════ */
     '5.01': { name: 'Whole Numbers and Powers of 10', tools: [
       T('discs', { hi: 6, lo: 0, c: { 1: 3, 0: 4 } }, 'Make 34 ten times. Trade until you can’t. What number is it?', 'Every disc moves one place to the left when you multiply by 10.'),
-      T('pvcards', { n: '3400' }, 'Pull the cards apart. Compare 34 and 3,400.', '') ] },
+      T('pvcards', { n: '3400' }, 'Pull the cards apart. Compare 34 and 3,400.') ] },
     '5.02': { name: 'Expressions and Order of Operations', tools: [
       T('bar', BAR([R('', '?', 'above', [['', '', 1], ['', '', 1], ['', '', 1], ['', '', 2]])]), 'Draw the story. Which part do you find first?', 'Bar models show why parentheses matter.'),
-      T('counters', { mode: 'array', r: 3, c: 8, split: 5 }, 'Write two expressions for this array.', ''),
-      T('whiteboard', { bg: 'lined' }, 'Show each step on its own line.', '') ] },
+      T('counters', { mode: 'array', r: 3, c: 8, split: 5 }, 'Write two expressions for this array.'),
+      T('whiteboard', { bg: 'lined' }, 'Show each step on its own line.') ] },
     '5.03': { name: 'Multiplication and Division', tools: [
-      T('discs', { hi: 4, lo: 0, c: { 2: 1, 1: 4, 0: 4 } }, 'Use discs to share 144 into 12 groups.', ''),
-      T('whiteboard', { bg: 'grid' }, 'Line up digits in the grid squares.', ''),
-      T('numberline', { a: 0, b: 1000, parts: 10, mode: 'whole', lab: 'ends' }, 'Estimate first. Round the numbers on the line.', '') ] },
+      T('discs', { hi: 4, lo: 0, c: { 2: 1, 1: 4, 0: 4 } }, 'Use discs to share 144 into 12 groups.'),
+      T('whiteboard', { bg: 'grid' }, 'Line up digits in the grid squares.'),
+      T('numberline', { a: 0, b: 1000, parts: 10, mode: 'whole', lab: 'ends' }, 'Estimate first. Round the numbers on the line.') ] },
     '5.04': { name: 'Adding and Subtracting Fractions', tools: [
-      T('fbars', { d: [2, 3, 4, 6, 8, 12], w: 2, lab: 1 }, 'Add 1 half and 1 third. Find a row where both line up.', ''),
-      T('fcircles', { c: 2, per: 1, ns: [3, 4, 4, 4] }, 'Shade 2 thirds and 1 fourth. Which slices could match both?', ''),
-      T('numberline', { a: 0, b: 1, parts: 3, mode: 'frac', two: 1, parts2: 12 }, 'Find twelfths that match the thirds.', '') ],
-      L: { '5.04.01': [T('fcircles', { c: 3, n: 4 }, 'Share 3 circles among 4 people.', '')] } },
+      T('fbars', { d: [2, 3, 4, 6, 8, 12], w: 2, lab: 1 }, 'Add 1 half and 1 third. Find a row where both line up.'),
+      T('fcircles', { c: 2, per: 1, ns: [3, 4, 4, 4] }, 'Shade 2 thirds and 1 fourth. Which slices could match both?'),
+      T('numberline', { a: 0, b: 1, parts: 3, mode: 'frac', two: 1, parts2: 12 }, 'Find twelfths that match the thirds.') ],
+      L: { '5.04.01': [T('fcircles', { c: 3, n: 4 }, 'Share 3 circles among 4 people.')] } },
     '5.05': { name: 'Multiplying Fractions', tools: [
-      T('fbars', { d: [2, 3, 4, 6, 12], lab: 1 }, 'Find 1 half of 2 thirds.', ''),
+      T('fbars', { d: [2, 3, 4, 6, 12], lab: 1 }, 'Find 1 half of 2 thirds.'),
       T('tiles', { cols: 4, rows: 3 }, 'Shade 3 columns in one color. Shade 2 rows in another. Which squares have both?', 'Area model for fraction × fraction.'),
-      T('bar', BAR([R('', '?', 'above', [['', '', 2], ['', '', 2], ['', '', 0]])]), 'Draw the fraction of an amount with units.', '') ] },
+      T('bar', BAR([R('', '?', 'above', [['', '', 2], ['', '', 2], ['', '', 0]])]), 'Draw the fraction of an amount with units.') ] },
     '5.06': { name: 'Dividing Fractions', tools: [
-      T('fbars', { d: [2, 3, 4, 6], w: 3, lab: 1 }, 'How many thirds fit in 2 wholes?', ''),
-      T('numberline', { a: 0, b: 3, parts: 9, mode: 'mixed', lab: 'ends', hop: 1 }, 'Hop by thirds from 0 to 3. How many hops?', ''),
-      T('bar', BAR([R('', '?', 'above', 4)]), 'Split one part into equal units.', '') ] },
+      T('fbars', { d: [2, 3, 4, 6], w: 3, lab: 1 }, 'How many thirds fit in 2 wholes?'),
+      T('numberline', { a: 0, b: 3, parts: 9, mode: 'mixed', lab: 'ends', hop: 1 }, 'Hop by thirds from 0 to 3. How many hops?'),
+      T('bar', BAR([R('', '?', 'above', 4)]), 'Split one part into equal units.') ] },
     '5.07': { name: 'Fractions, Measurement and Area', tools: [
-      T('tiles', { cols: 10, rows: 8 }, 'Find the area of the rectangle.', ''),
+      T('tiles', { cols: 10, rows: 8 }, 'Find the area of the rectangle.'),
       T('geoboard', { n: 11, bands: [{ p: [[1, 7], [7, 7], [1, 3]], k: 1, c: 0 }] }, 'Find the area of the triangle. Make a rectangle around it.', 'A triangle is half of a rectangle.'),
-      T('ruler', { u: 'in', q: 4, a: 0, b: 6.75, len: 6.75 }, 'Measure the ribbon to the nearest quarter inch.', '') ] },
+      T('ruler', { u: 'in', q: 4, a: 0, b: 6.75, len: 6.75 }, 'Measure the ribbon to the nearest quarter inch.') ] },
     '5.08': { name: 'Volume', tools: [
       T('cubes', { L: 4, W: 3, H: 2, h: BOX(4, 3, 2), cm: true, lay: true }, 'Count the cubes in one layer. How many layers?', 'Layers lead to length × width × height.'),
-      T('beaker', { u: 'ml', mx: 1000, tk: 100, a0: 1000 }, 'A 1-liter cube holds 1,000 mL. That is 1,000 cubic centimeters.', '') ],
-      L: { '5.08.04': [T('cubes', { n: 6, h: Object.assign(BOX(4, 3, 2), { '0_0': 4, '1_0': 4 }) }, 'Split the shape into boxes. Add their volumes.', '')] } },
+      T('beaker', { u: 'ml', mx: 1000, tk: 100, a0: 1000 }, 'A 1-liter cube holds 1,000 mL. That is 1,000 cubic centimeters.') ],
+      L: { '5.08.04': [T('cubes', { n: 6, h: Object.assign(BOX(4, 3, 2), { '0_0': 4, '1_0': 4 }) }, 'Split the shape into boxes. Add their volumes.')] } },
     '5.09': { name: 'Decimals to Thousandths', tools: [
-      T('discs', { hi: 1, lo: -3, c: { 0: 2, '-1': 4, '-3': 7 } }, 'What number do the discs show? Which place is empty?', ''),
-      T('decgrid', { m: 'th' }, 'Shade 0.125.', ''),
-      T('numberline', { a: 0.1, b: 0.2, parts: 10, mode: 'dec', lab: 'ends' }, 'Name the thousandths between 0.1 and 0.2.', '') ],
-      L: { '5.09.07': [T('ruler', { u: 'm', a: 0, b: 64, len: 64 }, 'Write the length in meters as a decimal.', '')] } },
+      T('discs', { hi: 1, lo: -3, c: { 0: 2, '-1': 4, '-3': 7 } }, 'What number do the discs show? Which place is empty?'),
+      T('decgrid', { m: 'th' }, 'Shade 0.125.'),
+      T('numberline', { a: 0.1, b: 0.2, parts: 10, mode: 'dec', lab: 'ends' }, 'Name the thousandths between 0.1 and 0.2.') ],
+      L: { '5.09.07': [T('ruler', { u: 'm', a: 0, b: 64, len: 64 }, 'Write the length in meters as a decimal.')] } },
     '5.10': { name: 'Decimal Operations', tools: [
-      T('discs', { hi: 1, lo: -3, c: { 0: 1, '-1': 2, '-2': 5 } }, 'Add or take away with discs. Trade when you need to.', ''),
-      T('decgrid', { m: 'h', c: 3 }, 'Show 0.3 × 4 on the grids.', ''),
-      T('money', { mode: 'count' }, 'Show $1.25 four times.', '') ] },
+      T('discs', { hi: 1, lo: -3, c: { 0: 1, '-1': 2, '-2': 5 } }, 'Add or take away with discs. Trade when you need to.'),
+      T('decgrid', { m: 'h', c: 3 }, 'Show 0.3 × 4 on the grids.'),
+      T('money', { mode: 'count' }, 'Show $1.25 four times.') ] },
     '5.11': { name: 'Geometry', tools: [
-      T('protractor', { target: '' }, 'Measure each angle of your triangle. Add them.', ''),
-      T('geoboard', { n: 11 }, 'Make an isosceles triangle and a scalene triangle.', ''),
-      T('setsquare', { mode: 'draw' }, 'Draw a parallelogram with the ruler and triangle.', '') ],
-      L: { '5.11.04': [T('protractor', { three: true, a: 60, c: 110 }, 'Can the three angles of a triangle add to more than 180°?', '')] } },
+      T('protractor', { target: '' }, 'Measure each angle of your triangle. Add them.'),
+      T('geoboard', { n: 11 }, 'Make an isosceles triangle and a scalene triangle.'),
+      T('setsquare', { mode: 'draw' }, 'Draw a parallelogram with the ruler and triangle.') ],
+      L: { '5.11.04': [T('protractor', { three: true, a: 60, c: 110 }, 'Can the three angles of a triangle add to more than 180°?')] } },
     '5.12': { name: 'Data and Graphs', tools: [
       T('bar', BAR([R('A', '', 'above', [['8', '8', 1]]), R('B', '', 'above', [['4', '4', 2]]), R('C', '', 'above', [['6', '6', 3]])]), 'Make all the bars the same length. That is the average.', 'Average = leveling the bars.'),
-      T('numberline', { a: 0, b: 2, parts: 8, mode: 'mixed', lab: 'all' }, 'Use the line as a line plot.', ''),
-      T('whiteboard', { bg: 'grid' }, 'Draw the axes and plot the points.', '') ] },
+      T('numberline', { a: 0, b: 2, parts: 8, mode: 'mixed', lab: 'all' }, 'Use the line as a line plot.'),
+      T('whiteboard', { bg: 'grid' }, 'Draw the axes and plot the points.') ] },
     '5.13': { name: 'Ratio', tools: [
-      T('bar', BAR([R('Red', '', 'above', 2), R('Blue', '', 'above', 3)]), 'The ratio is 2 to 3. If 1 unit is 6, how many of each?', ''),
-      T('counters', { mode: 'array', r: 2, c: 5, flip: ['0,0', '0,1', '1,0', '1,1'] }, 'Write the ratio of yellow to red.', '') ] },
+      T('bar', BAR([R('Red', '', 'above', 2), R('Blue', '', 'above', 3)]), 'The ratio is 2 to 3. If 1 unit is 6, how many of each?'),
+      T('counters', { mode: 'array', r: 2, c: 5, flip: ['0,0', '0,1', '1,0', '1,1'] }, 'Write the ratio of yellow to red.') ] },
     '5.14': { name: 'Rate', tools: [
-      T('bar', BAR([R('1 hour', '60 km', 'above', 1), R('3 hours', '?', 'above', 3)]), 'Find the distance for 3 hours.', ''),
+      T('bar', BAR([R('1 hour', '60 km', 'above', 1), R('3 hours', '?', 'above', 3)]), 'Find the distance for 3 hours.'),
       T('numberline', { a: 0, b: 300, parts: 6, mode: 'whole', lab: 'all', two: 1, parts2: 6 }, 'Use one line for time and one for distance.', 'Double number line.'),
-      T('clock', { t: 540, el: 1, st: 480 }, 'How much time passed? How far at 60 km each hour?', '') ] },
+      T('clock', { t: 540, el: 1, st: 480 }, 'How much time passed? How far at 60 km each hour?') ] },
     '5.15': { name: 'Percentage', tools: [
-      T('decgrid', { m: 'h', pct: 1 }, 'Shade 35 squares. What percent is that?', ''),
-      T('bar', BAR([R('100%', '?', 'above', 10)]), 'Each unit is 10%. Shade 30%.', ''),
-      T('money', { mode: 'count' }, 'What percent of a dollar is a quarter?', '') ] }
+      T('decgrid', { m: 'h', pct: 1 }, 'Shade 35 squares. What percent is that?'),
+      T('bar', BAR([R('100%', '?', 'above', 10)]), 'Each unit is 10%. Shade 30%.'),
+      T('money', { mode: 'count' }, 'What percent of a dollar is a quarter?') ] }
   };
 
   /* build lesson records */
@@ -530,43 +613,41 @@ window.OAOM_DATA = (function () {
 
   /* ───── Goals (✓ + mistake hints) and hands-on extras. These go FIRST for the lesson, so the goal tool is the main tool. ───── */
   var FIRST = {
-    '3.01.01': [T('blocks', { c: {} }, 'Build 1,234 with blocks.', 'Students build from the biggest block down.', ['Build 1,234 with blocks.', '1234', [['1243', 'Check the tens and ones. 1,234 has 3 tens and 4 ones.']]])],
-    '3.01.02': [T('discs', { hi: 3, lo: 0, c: {} }, 'Build 4,072 with discs.', 'The empty hundreds column is the point: we still write the 0.', ['Build 4,072.', '4072', [['472', 'Look at the thousands. 4,072 starts with 4 thousands.'], ['4720', 'Check the tens and ones. 4,072 has 7 tens and 2 ones.'], ['4702', 'Check the tens. 4,072 has 7 tens and 0 hundreds.']]])],
-    '3.03.01': [T('discs', { hi: 3, lo: 0, c: { 2: 4, 1: 7, 0: 8 } }, 'The mat shows 478. Add 365, then trade until no column has 10 or more.', 'The answer is right only after every trade is made.', ['Add 365 and make every trade.', '0,8,4,3', [['0,7,13,13', 'Look at the ones: 13 ones. Drag one up to trade 10 ones for 1 ten.'], ['0,7,14,3', 'Look at the tens: 14 tens. Drag one up to trade 10 tens for 1 hundred.'], ['0,8,3,13', 'Look at the ones: 13 ones. Trade 10 of them for 1 ten.']], 'places'])],
-    '3.03.02': [T('discs', { hi: 2, lo: 0, c: { 2: 5, 1: 2, 0: 3 } }, 'Take away 168 from 523. Break a disc when you don’t have enough.', 'Students break a ten, then a hundred, before they subtract.', ['Take away 168.', '355', [['691', 'You added. Drag 168 off the mat instead.']]])],
-    '3.03.03': [T('discs', { hi: 3, lo: 0, c: { 3: 1 } }, 'Take away 1 from 1,000. Break one disc at a time.', 'Subtracting across zeros: break 1,000 → 10 hundreds → 9 hundreds 10 tens, and so on.', ['Take away 1.', '999'])],
-    '3.04.05': [T('counters', { mode: 'share', n: 14, g: 3 }, 'Share 14 counters into 3 equal groups. How many are left over?', 'The remainder must be less than the number of groups.', ['Share 14 into 3 equal groups.', '4'])],
-    '3.09.01': [T('fcircles', { c: 1, n: 4 }, 'Shade 3 fourths of the circle.', 'Equal parts first.', ['Shade 3 fourths.', '3/4', [['1/4', 'That is 1 fourth. Shade 2 more slices.'], ['1', 'That is the whole circle. Take one slice away.']]])],
-    '3.10.06': [T('fbars', { bm: 'build', d: [5], bt: [] }, 'Build 2 fifths, then add 2 more fifths.', 'Add like fractions by counting unit fractions.', ['Show 2 fifths + 2 fifths.', '4/5'])],
-    '3.11.02': [T('trademat', { u: 'mcm', b0: 1, s0: 0, b: 1, sp: [0, 0], take: 1, tb: 0, ts: 64, zb: 0, zp: [0, 0] }, 'Take 64 cm away from 1 m. Break the meter first.', 'Breaking 1 m into 100 cm is the key move.', ['Take away 64 cm.', '36'])],
-    '3.11.04': [T('trademat', { u: 'kmm', b0: 1, s0: 0, take: 1, tb: 0, ts: 375 }, 'Take 375 m away from 1 km.', '1 km = 1,000 m.', ['Take away 375 m.', '625'])],
-    '3.12.07': [T('compass', { r: 2 }, 'Open the compass to 4 cm and draw a circle.', 'Practice on screen, then with the safety compass.', ['Draw a circle with a 4 cm radius.', '4', [['8', 'That is the diameter. The radius is half as long.']]])],
-    '4.01.01': [T('discs', { hi: 5, lo: 0, c: {} }, 'Build 230,406 with discs.', 'Read the thousands period, then the ones period.', ['Build 230,406.', '230406', [['23406', 'Look at the ten thousands. 230,406 has 3 ten thousands and 0 thousands.'], ['234060', 'Check each column against the number, one place at a time.']]])],
-    '4.06.01': [T('fbars', { bm: 'build', d: [6], bt: [] }, 'Use sixth tiles to make the same amount as 2 thirds.', 'Build it, then line it up against thirds.', ['Make 2 thirds out of sixths.', '2/3', [['1/2', 'That is 3 sixths. Line it up with 2 thirds. Is it as long?']]])],
-    '4.07.01': [T('fbars', { bm: 'build', d: [8], bt: [] }, 'Build 3 eighths, then add 4 more eighths.', '', ['Show 3 eighths + 4 eighths.', '7/8', [['7/16', 'Eighths stay eighths. Count the tiles: how many eighths?']]])],
-    '4.10.01': [T('trademat', { u: 'mcm', b0: 2, s0: 35, take: 0 }, 'Add 1 m 80 cm to the mat. Then trade 100 cm for 1 m.', 'Two-unit adding with a trade.', ['Add 1 m 80 cm and trade.', '4', [['3', 'You have 115 cm. That is more than 1 m. Trade 100 cm for 1 m.']], 'b'])],
-    '4.10.02': [T('trademat', { u: 'ftin', b0: 5, s0: 1, b: 5, sp: [1], take: 1, tb: 2, ts: 6 }, 'Take 2 ft 6 in away from 5 ft 1 in.', 'Break a foot into 12 inches when the inches run out.', ['Take away 2 ft 6 in.', '31', [['37', 'Look in the box. It should hold 2 ft and 6 in.']]]),
-                T('barstrip', { mode: 'fill', whole: 12, wl: '1 ft', piece: 1, unit: 'in', hide: 1 }, 'How many inches fill 1 foot?', '', ['Fill the foot with inches.', '12'])],
-    '4.10.03': [T('trademat', { u: 'lboz', b0: 3, s0: 4, b: 3, sp: [4], take: 1, tb: 1, ts: 9 }, 'Take 1 lb 9 oz away from 3 lb 4 oz.', '1 lb = 16 oz.', ['Take away 1 lb 9 oz.', '27'])],
-    '4.10.04': [T('trademat', { u: 'galqt', b0: 2, s0: 1, take: 0 }, 'Add 1 gal 3 qt. Then trade 4 quarts for 1 gallon.', '1 gal = 4 qt.', ['Add 1 gal 3 qt and trade.', '4', [['3', 'You have 4 quarts or more. Trade 4 quarts for 1 gallon.']], 'b'])],
-    '4.10.05': [T('trademat', { u: 'hmin', b0: 1, s0: 40, take: 0 }, 'Add 35 minutes. Then trade 60 minutes for 1 hour.', '1 h = 60 min.', ['Add 35 min and trade.', '2', [['1', 'You have 60 minutes or more. Trade them for 1 hour.']], 'b'])],
-    '4.10.06': [T('barstrip', { mode: 'fill', whole: 12, wl: '1 ft', piece: 3, pl: '3 in', unit: 'in', hide: 1 }, 'How many 3-inch pieces fill 1 foot? So 3 inches is what fraction of a foot?', '', ['Fill the foot with 3-inch pieces.', '4'])],
-    '4.11.01': [T('tiles', { cols: 10, rows: 8, unit: 'cm' }, 'Make a rectangle 6 tiles long and 4 tiles wide.', 'Rows × columns leads to length × width.', ['Make a 6 by 4 rectangle.', '24'])],
-    '4.11.04': [T('tiles', { cols: 12, rows: 8, edge: true, unit: 'm' }, 'Make a rectangle with a perimeter of 14 m.', '', ['Make a perimeter of 14 m.', '14', [], 'p'])],
-    '4.12.03': [T('decgrid', { m: 'h', c: 1 }, 'Shade 0.35 of the grid.', 'Tenths are columns, hundredths are squares.', ['Shade 0.35.', '0.35', [['0.53', 'Look at the columns. 0.35 is 3 tenths (columns) and 5 hundredths (squares).'], ['3.5', 'One whole grid is 1. Is 0.35 more than a whole?']]])],
-    '4.15.02': [T('protractor', { target: '135' }, 'Make an angle of 135°.', 'Which scale starts at 0 on the arm?', ['Make 135°.', '135', [['45', 'You read the other scale. Start at 0 on the bottom arm and count up.']]])],
-    '4.15.03': [T('protractor', { target: '70' }, 'Draw a 70° angle.', '', ['Make 70°.', '70', [['110', 'You read the other scale. Start at 0 on the bottom arm.']]])],
-    '5.08.02': [T('cubes', { n: 6, cm: true }, 'Build a box 4 cubes long, 3 wide and 2 high.', 'Layers lead to length × width × height.', ['Build a 4 by 3 by 2 box.', '24', [['12', 'That is one layer. How many layers high is the box?']]])],
-    '5.09.01': [T('decgrid', { m: 'th' }, 'Shade 0.125 of the grid.', '', ['Shade 0.125.', '0.125', [['0.25', 'Look at the thousandths. 0.125 has 1 tenth, 2 hundredths and 5 thousandths.']]])]
+    '3.01.01': [T('blocks', { c: {} }, 'Build 1,234 with blocks.', 'Students build from the biggest block down.')],
+    '3.01.02': [T('discs', { hi: 3, lo: 0, c: {} }, 'Build 4,072 with discs.', 'The empty hundreds column is the point: we still write the 0.')],
+    '3.03.01': [T('discs', { hi: 3, lo: 0, c: { 2: 4, 1: 7, 0: 8 } }, 'The mat shows 478. Add 365, then trade until no column has 10 or more.', 'The answer is right only after every trade is made.')],
+    '3.03.02': [T('discs', { hi: 2, lo: 0, c: { 2: 5, 1: 2, 0: 3 } }, 'Take away 168 from 523. Break a disc when you don’t have enough.', 'Students break a ten, then a hundred, before they subtract.')],
+    '3.03.03': [T('discs', { hi: 3, lo: 0, c: { 3: 1 } }, 'Take away 1 from 1,000. Break one disc at a time.', 'Subtracting across zeros: break 1,000 → 10 hundreds → 9 hundreds 10 tens, and so on.')],
+    '3.04.05': [T('counters', { mode: 'share', n: 14, g: 3 }, 'Share 14 counters into 3 equal groups. How many are left over?', 'The remainder must be less than the number of groups.')],
+    '3.09.01': [T('fcircles', { c: 1, n: 4 }, 'Shade 3 fourths of the circle.', 'Equal parts first.')],
+    '3.10.06': [T('fbars', { bm: 'build', d: [5], bt: [] }, 'Build 2 fifths, then add 2 more fifths.', 'Add like fractions by counting unit fractions.')],
+    '3.11.02': [T('trademat', { u: 'mcm', b0: 1, s0: 0, b: 1, sp: [0, 0], take: 1, tb: 0, ts: 64, zb: 0, zp: [0, 0] }, 'Take 64 cm away from 1 m. Break the meter first.', 'Breaking 1 m into 100 cm is the key move.')],
+    '3.11.04': [T('trademat', { u: 'kmm', b0: 1, s0: 0, take: 1, tb: 0, ts: 375 }, 'Take 375 m away from 1 km.', '1 km = 1,000 m.')],
+    '3.12.07': [T('compass', { r: 2 }, 'Open the compass to 4 cm and draw a circle.', 'Practice on screen, then with the safety compass.')],
+    '4.01.01': [T('discs', { hi: 5, lo: 0, c: {} }, 'Build 230,406 with discs.', 'Read the thousands period, then the ones period.')],
+    '4.06.01': [T('fbars', { bm: 'build', d: [6], bt: [] }, 'Use sixth tiles to make the same amount as 2 thirds.', 'Build it, then line it up against thirds.')],
+    '4.07.01': [T('fbars', { bm: 'build', d: [8], bt: [] }, 'Build 3 eighths, then add 4 more eighths.')],
+    '4.10.01': [T('trademat', { u: 'mcm', b0: 2, s0: 35, take: 0 }, 'Add 1 m 80 cm to the mat. Then trade 100 cm for 1 m.', 'Two-unit adding with a trade.')],
+    '4.10.02': [T('trademat', { u: 'ftin', b0: 5, s0: 1, b: 5, sp: [1], take: 1, tb: 2, ts: 6 }, 'Take 2 ft 6 in away from 5 ft 1 in.', 'Break a foot into 12 inches when the inches run out.'),
+                T('barstrip', { mode: 'fill', whole: 12, wl: '1 ft', piece: 1, unit: 'in', hide: 1 }, 'How many inches fill 1 foot?')],
+    '4.10.03': [T('trademat', { u: 'lboz', b0: 3, s0: 4, b: 3, sp: [4], take: 1, tb: 1, ts: 9 }, 'Take 1 lb 9 oz away from 3 lb 4 oz.', '1 lb = 16 oz.')],
+    '4.10.04': [T('trademat', { u: 'galqt', b0: 2, s0: 1, take: 0 }, 'Add 1 gal 3 qt. Then trade 4 quarts for 1 gallon.', '1 gal = 4 qt.')],
+    '4.10.05': [T('trademat', { u: 'hmin', b0: 1, s0: 40, take: 0 }, 'Add 35 minutes. Then trade 60 minutes for 1 hour.', '1 h = 60 min.')],
+    '4.10.06': [T('barstrip', { mode: 'fill', whole: 12, wl: '1 ft', piece: 3, pl: '3 in', unit: 'in', hide: 1 }, 'How many 3-inch pieces fill 1 foot? So 3 inches is what fraction of a foot?')],
+    '4.11.01': [T('tiles', { cols: 10, rows: 8, unit: 'cm' }, 'Make a rectangle 6 tiles long and 4 tiles wide.', 'Rows × columns leads to length × width.')],
+    '4.11.04': [T('tiles', { cols: 12, rows: 8, edge: true, unit: 'm' }, 'Make a rectangle with a perimeter of 14 m.')],
+    '4.12.03': [T('decgrid', { m: 'h', c: 1 }, 'Shade 0.35 of the grid.', 'Tenths are columns, hundredths are squares.')],
+    '4.15.02': [T('protractor', { target: '135' }, 'Make an angle of 135°.', 'Which scale starts at 0 on the arm?')],
+    '4.15.03': [T('protractor', { target: '70' }, 'Draw a 70° angle.')],
+    '5.08.02': [T('cubes', { n: 6, cm: true }, 'Build a box 4 cubes long, 3 wide and 2 high.', 'Layers lead to length × width × height.')],
+    '5.09.01': [T('decgrid', { m: 'th' }, 'Shade 0.125 of the grid.')]
   };
-  /* tools whose readout would give away an answer the Try this asks for */
-  var READOUT = { discs: 1, pvcards: 1, blocks: 1, numberline: 1, counters: 1, fbars: 1, fcircles: 1, decgrid: 1, money: 1, ruler: 1, scale: 1, beaker: 1, clock: 1, tiles: 1, geoboard: 1, protractor: 1, compass: 1, cubes: 1, trademat: 1, barstrip: 1, pattern: 1 };
   /* Open manipulatives: a lesson tag only picks the tool and how it is set up (places, units, rows),
      never a problem, a goal, a starting amount or hidden totals. Students get a clean tool for any problem. */
   var CONFIG = {
     discs: ['hi', 'lo', 'cap'], pvcards: [], blocks: [], bond: ['parts', 'dir'], bar: [],
     numberline: ['a', 'b', 'parts', 'mode', 'lab', 'two', 'parts2', 'simp'], counters: ['mode', 'r', 'c', 'n', 'g'],
-    hundred: ['mode', 'start'], dice: ['mode', 'k', 'sides', 'op', 'lo', 'hi'],
+    hundred: ['mode', 'start', 'fac'], dice: ['mode', 'k', 'sides', 'op', 'lo', 'hi'],
     fbars: ['d', 'w', 'lab', 'bm'], fcircles: ['c', 'n', 'per', 'ns', 'lab'], decgrid: ['m', 'c', 'pct'], money: [],
     ruler: ['u', 'q'], scale: ['m', 'u', 'mx', 'tk'], beaker: ['u', 'mx', 'tk', 'c'], clock: ['sn', 'dg', 'el', 'tmr'],
     trademat: ['u'], barstrip: ['mode', 'unit', 'whole', 'wl', 'piece', 'pl', 'p2', 'p2l'],
@@ -642,43 +723,58 @@ window.OAOM_DATA = (function () {
   function fw(n, dd) { return n + ' ' + (n === 1 ? ORD[dd][0] : ORD[dd][1]); }
   function gcd(a, b) { while (b) { var t = b; b = a % b; a = t; } return a; }
   function fv(n, dd) { var g = gcd(n, dd); n /= g; dd /= g; return dd === 1 ? String(n) : n + '/' + dd; }
+  /* Surprise me: each generator gets the tool's current state S (its mode, size and caps) and must only ask for what that setup can build.
+     The {set} it returns is laid over the tool's starting state, so it clears the work but keeps the setup. */
   var SURPRISE = {
     discs: function (S) { var hi = S.hi == null ? 3 : S.hi, lo = S.lo == null ? 0 : S.lo, s = '', digits = [];
       for (var e = hi; e >= lo; e--) { var d = e === hi ? rnd(1, 9) : rnd(0, 9); digits.push(d); s += (e === -1 ? '.' : '') + d; }
       var v = String(Number(s)); return { set: { c: {} }, g: ['Build ' + Number(s).toLocaleString('en-US', { maximumFractionDigits: 3 }) + '.', v] }; },
-    blocks: function () { var n = rnd(100, 999); return { set: { c: {} }, g: ['Build ' + n + ' with blocks.', String(n)] }; },
-    pvcards: function () { var n = String(rnd(1000, 99999)); return { set: { n: n, apart: 0 }, g: ['Pull the cards apart. What is each digit worth?', ''] }; },
-    bond: function () { var w = rnd(10, 100), a = rnd(1, w - 1); return { set: { parts: 2, w: String(w), p: [String(a), '?', '', ''] }, g: ['Find the missing part.', ''] }; },
+    blocks: function (S) { var n = rnd(100, 999); return { set: { c: {} }, g: ['Build ' + n + ' with blocks.', String(n)] }; },
+    pvcards: function (S) { var dec = /\./.test(String(S.n || '')), n = dec ? (rnd(1, 99) + '.' + rnd(1, 9) + rnd(0, 9)) : String(rnd(1000, 99999)); return { set: { n: n, apart: 0 }, g: ['Pull the cards apart. What is each digit worth?', ''] }; },
+    bond: function (S) { var k = S.parts === 3 || S.parts === 4 ? S.parts : 2, w = rnd(k * 5, 100), p = [], left = w; for (var i = 0; i < k - 1; i++) { var a = rnd(1, Math.max(1, left - (k - 1 - i))); p.push(String(a)); left -= a; } p.push('?'); while (p.length < 4) p.push('');
+      return { set: { parts: k, w: String(w), p: p }, g: ['Find the missing part.', ''] }; },
     numberline: function (S) { var a = +S.a || 0, b = S.b == null ? 1 : +S.b, parts = +S.parts || 4, k = rnd(1, parts - 1), val = a + (b - a) * k / parts;
       var name = String(+val.toFixed(4)); if (S.mode === 'frac' && (b - a) === Math.round(b - a)) { var per = parts / (b - a); if (ORD[per] && per === Math.round(per)) name = fw(Math.round(val * per), per); }
       return { set: { dots: [], hops: [] }, g: ['Put a dot on ' + name + '.', String(+val.toFixed(4))] }; },
     counters: function (S) { if (S.mode === 'share') { var g = rnd(2, 6), q = rnd(2, 8), n = g * q; return { set: { mode: 'share', n: n, g: g, d: 0, gc: null }, g: ['Share ' + n + ' counters into ' + g + ' equal groups.', String(q)] }; }
       var r = rnd(2, 9), c = rnd(3, 10); return { set: { mode: 'array', r: r, c: c, flip: [], split: 0 }, g: ['Split this array into two smaller arrays. What two facts do you see?', ''] }; },
-    hundred: function () { var n = rnd(2, 9); return { set: { mode: 'hundred', start: 1, sk1: 0, sk2: 0, hl: {} }, g: ['Color every number you say when you count by ' + n + 's.', ''] }; },
-    fbars: function (S) { var ds = (S.d && S.d.length ? S.d : [2, 3, 4, 6, 8]).filter(function (x) { return x > 1; }), dd = pick(ds), n = rnd(1, dd - 1); return { set: { bm: 'build', bt: [] }, g: ['Show ' + fw(n, dd) + ' with tiles.', fv(n, dd)] }; },
-    fcircles: function (S) { var dd = S.per ? (S.ns && S.ns[0]) || 4 : S.n || 4, n = rnd(1, Math.min(dd * (S.c || 1), dd * 3) - 1); return { set: { sh: [[], [], [], []] }, g: ['Shade ' + fw(n, dd) + '.', fv(n, dd)] }; },
+    hundred: function (S) { if (S.mode === 'times') { var f = rnd(2, 9); return { set: { mode: 'times', hl: {}, fv: 0 }, g: ['Color the whole ' + f + 's row. What pattern do you see?', ''] }; }
+      var n = rnd(2, 9); return { set: { mode: 'hundred', start: S.start || 1, sk1: 0, sk2: 0, hl: {} }, g: ['Color every number you say when you count by ' + n + 's.', ''] }; },
+    fbars: function (S) { var ds = (S.d && S.d.length ? S.d : [2, 3, 4, 6, 8]).filter(function (x) { return x > 1 && ORD[x]; }), dd = pick(ds.length ? ds : [2, 3, 4]), n = rnd(1, dd - 1); return { set: { bm: 'build', bt: [] }, g: ['Show ' + fw(n, dd) + ' with tiles.', fv(n, dd)] }; },
+    fcircles: function (S) { var dd = S.per ? (S.ns && S.ns[0]) || 4 : S.n || 4, c = S.c || 1, n = rnd(1, Math.min(dd * c, dd * 3) - 1); return { set: { sh: [[], [], [], []] }, g: ['Shade ' + fw(n, dd) + '.', fv(n, dd)] }; },
     decgrid: function (S) { if (S.m === 't') { var t = rnd(1, 9); return { set: { sh: ['', '', ''] }, g: ['Shade 0.' + t + '.', '0.' + t] }; } var h = rnd(1, 99), v = String(+(h / 100).toFixed(2)); return { set: { m: 'h', sh: ['', '', ''] }, g: ['Shade ' + v + '.', v] }; },
-    money: function () { var c = rnd(26, 999); return { set: { it: [], mode: 'count' }, g: ['Make $' + (c / 100).toFixed(2) + '.', String(c)] }; },
-    ruler: function (S) { var u = S.u || 'cm', len = u === 'in' ? rnd(4, 22) / 4 : u === 'm' ? rnd(10, 95) : u === 'yd' ? rnd(6, 34) : rnd(3, 18) + (Math.random() < .5 ? .5 : 0); return { set: { a: 0, b: len, len: len, _r: 0 }, g: ['How long is the ribbon? Then check.', ''] }; },
-    scale: function (S) { var mx = S.mx || 5, unit = S.u === 'lb' ? 16 : 1000, step = S.tk || 100, w = Math.round(rnd(1, Math.floor(mx * unit / step) - 1) * step); return { set: { m: 'dial', w: w, off: 0, _r: 0 }, g: ['Read the scale. Then check.', ''] }; },
-    beaker: function (S) { var mx = S.mx || 1000, tk = S.tk || 100, a = Math.round(rnd(1, Math.floor(mx / tk) - 1) * tk * 100) / 100; return { set: { a0: a, _r: 0 }, g: ['How much water is in the beaker? Then check.', ''] }; },
-    clock: function () { var h = rnd(1, 12), m = rnd(0, 11) * 5; return { set: { el: 0, t: 6 * 60 }, g: ['Show ' + h + ':' + (m < 10 ? '0' : '') + m + '.', h + ':' + (m < 10 ? '0' : '') + m] }; },
-    trademat: function (S) { var u = S.u || 'ftin', R = { ftin: [12, 'ft', 'in'], ydft: [3, 'yd', 'ft'], lboz: [16, 'lb', 'oz'], galqt: [4, 'gal', 'qt'], mcm: [100, 'm', 'cm'], hmin: [60, 'h', 'min'] }[u] || [12, 'ft', 'in'];
-      var b = rnd(1, 5), s = rnd(1, R[0] - 1); return { set: { b0: 0, s0: 0, b: 0, sp: [0, 0, 0], take: 0 }, g: ['Build ' + b + ' ' + R[1] + ' ' + s + ' ' + R[2] + '.', String(b * R[0] + s)] }; },
-    tiles: function () { if (Math.random() < .5) { var a = pick([6, 8, 10, 12, 15, 16, 18, 20, 24]); return { set: { cells: {} }, g: ['Make a rectangle with an area of ' + a + ' squares.', String(a)] }; } var p = pick([10, 12, 14, 16, 18, 20]); return { set: { cells: {}, edge: true }, g: ['Make a rectangle with a perimeter of ' + p + '.', String(p), [], 'p'] }; },
-    protractor: function () { var a = rnd(2, 34) * 5; return { set: { three: false, target: '' }, g: ['Make an angle of ' + a + '°.', String(a)] }; },
-    compass: function () { var r = rnd(2, 5); return { set: {}, g: ['Draw a circle with a radius of ' + r + ' cm.', String(r), [[String(r * 2), 'That is the diameter. The radius is half as long.']]] }; },
-    cubes: function () { var n = pick([8, 12, 18, 24, 27, 30, 36]); return { set: { h: {} }, g: ['Build a box with ' + n + ' cubes.', String(n)] }; },
-    pattern: function () { var f = pick([['1 and 1 half', '3/2'], ['2 thirds', '2/3'], ['1 and 1 third', '4/3'], ['5 sixths', '5/6'], ['2 wholes', '2']]); return { set: { b: [], frac: true }, g: ['If the hexagon is 1 whole, show ' + f[0] + '.', f[1]] }; },
-    tenframe: function () { var n = rnd(1, 20); return { set: {}, g: ['Show ' + n + '.', String(n)] }; },
-    bears: function () { var n = rnd(3, 15); return { set: {}, g: ['Put ' + n + ' bears on the mat.', String(n)] }; },
-    linkcubes: function () { var n = rnd(3, 12); return { set: {}, g: ['Make a train of ' + n + ' cubes.', String(n)] }; },
-    sticks: function () { var n = rnd(11, 59); return { set: {}, g: ['Show ' + n + ' with sticks.', String(n)] }; },
-    beads: function () { var n = rnd(5, 16); return { set: {}, g: ['String ' + n + ' beads.', String(n)] }; },
-    solids: function () { var f = pick([['6 faces', '6'], ['5 faces', '5'], ['2 flat faces and a curved side', '2']]); return { set: {}, g: ['Find a shape with ' + f[0] + '.', f[1], [], 'f'] }; }
+    money: function (S) { if (S.mode === 'change') { var pr = rnd(105, 895), pd = Math.ceil(pr / 100) * 100; if (Math.random() < .4) pd += 100; return { set: { mode: 'change', it: [], pr: pr / 100, pd: pd / 100 }, g: ['The price is $' + (pr / 100).toFixed(2) + '. You paid $' + (pd / 100).toFixed(2) + '. Make the change.', String(pd - pr)] }; }
+      var c = rnd(26, 999); return { set: { it: [], mode: 'count' }, g: ['Make $' + (c / 100).toFixed(2) + '.', String(c)] }; },
+    /* the ruler's longest length: 15 cm, 12 in, 100 m, 36 yd (a phone shows 10 cm or 6 in; the tool keeps the ribbon on the ruler) */
+    ruler: function (S) { var u = S.u || 'cm', len = u === 'in' ? rnd(4, 22) / 4 : u === 'm' ? rnd(10, 95) : u === 'yd' ? rnd(6, 34) : rnd(3, 14) + (Math.random() < .5 ? .5 : 0); return { set: { a: 0, b: len, len: len, _r: 0 }, g: ['How long is the ribbon? Then check.', ''] }; },
+    scale: function (S) { var mx = S.mx || 5, unit = S.u === 'lb' ? 16 : 1000, step = S.tk || 100, w = Math.round(rnd(1, Math.max(1, Math.floor(mx * unit / step) - 1)) * step); return { set: { m: 'dial', w: w, off: 0, _r: 0 }, g: ['Read the scale. Then check.', ''] }; },
+    beaker: function (S) { var mx = S.mx || 1000, tk = S.tk || 100, a = Math.round(rnd(1, Math.max(1, Math.floor(mx / tk) - 1)) * tk * 100) / 100; return { set: { a0: a, _r: 0 }, g: ['How much water is in the beaker? Then check.', ''] }; },
+    clock: function (S) { var h = rnd(1, 12), m = S.sn === 1 ? rnd(0, 59) : rnd(0, 11) * 5, t = h + ':' + (m < 10 ? '0' : '') + m; return { set: { el: 0, t: 6 * 60 }, g: ['Show ' + t + '.', t] }; },
+    trademat: function (S) { var rate = +S.rate || 12, big = S.big || 'ft', small = S.small || 'in';
+      var b = rnd(1, 5), s = rate >= 100 ? rnd(1, 9) * (rate / 10) : rate === 60 ? rnd(1, 11) * 5 : rnd(1, rate - 1);
+      return { set: { b0: 0, s0: 0, b: 0, sp: [0, 0, 0], take: 0 }, g: ['Build ' + b + ' ' + big + ' ' + s + ' ' + small + '.', String(b * rate + s)] }; },
+    tiles: function (S) { var cols = S.cols || 10, rows = S.rows || 8, ok = [];
+      if (Math.random() < .5) { [6, 8, 10, 12, 15, 16, 18, 20, 24].forEach(function (a) { for (var w = 2; w <= cols; w++) if (a % w === 0 && a / w <= rows && a / w >= 2) { ok.push(a); return; } });
+        var a = ok.length ? pick(ok) : Math.min(cols, 2) * Math.min(rows, 2); return { set: { cells: {} }, g: ['Make a rectangle with an area of ' + a + ' squares.', String(a)] }; }
+      [10, 12, 14, 16, 18, 20].forEach(function (p) { for (var w = 1; w <= cols; w++) { var h = p / 2 - w; if (h >= 1 && h <= rows) { ok.push(p); return; } } });
+      var p = ok.length ? pick(ok) : 2 * (Math.min(cols, 2) + Math.min(rows, 1)); return { set: { cells: {}, edge: true }, g: ['Make a rectangle with a perimeter of ' + p + '.', String(p), [], 'p'] }; },
+    protractor: function (S) { var a = S.full ? rnd(2, 70) * 5 : rnd(2, 34) * 5; return { set: { three: false, target: '' }, g: ['Make an angle of ' + a + '°.', String(a)] }; },
+    compass: function (S) { var r = rnd(2, 5); return { set: {}, g: ['Draw a circle with a radius of ' + r + ' cm.', String(r), [[String(r * 2), 'That is the diameter. The radius is half as long.']]] }; },
+    cubes: function (S) { var n = S.n || 5, ok = [8, 12, 18, 24, 27, 30, 36].filter(function (N) { for (var L = 1; L <= n; L++) for (var W = 1; W <= n; W++) if (N % (L * W) === 0 && N / (L * W) <= 8) return true; return false; });
+      var N = ok.length ? pick(ok) : n * n; return { set: { h: {} }, g: ['Build a box with ' + N + ' cubes.', String(N)] }; },
+    pattern: function (S) { var f = pick([['1 and 1 half', '3/2'], ['2 thirds', '2/3'], ['1 and 1 third', '4/3'], ['5 sixths', '5/6'], ['2 wholes', '2']]); return { set: { b: [], frac: true }, g: ['If the hexagon is 1 whole, show ' + f[0] + '.', f[1]] }; },
+    tenframe: function (S) { var m = S.m || 'double';
+      if (m === 'ppw') { var w = rnd(3, 20); return { set: { A: [], B: [] }, g: ['Show ' + w + ' as two parts.', String(w)] }; }
+      var n = rnd(1, m === 'five' ? 5 : m === 'one' ? 10 : 20); return { set: { c: [] }, g: ['Show ' + n + '.', String(n)] }; },
+    bears: function (S) { if (S.m === 'pat') { var k = rnd(3, 10); return { set: { p: [] }, g: ['Put ' + k + ' bears in the row.', String(k)] }; }
+      var n = rnd(3, 15); return { set: { b: [], m: S.m === 'coll' ? 'free' : S.m, sh: 0 }, g: ['Put ' + n + ' bears on the mat.', String(n)] }; },
+    linkcubes: function (S) { var n = rnd(3, 12), tower = S.m === 'tower'; return { set: { t: [], m: S.m === 'coll' ? 'train' : S.m, sh: 0 }, g: ['Make a ' + (tower ? 'tower' : 'train') + ' of ' + n + ' cubes.', String(n)] }; },
+    sticks: function (S) { var mx = S.mx || 20, n = rnd(11, Math.max(11, mx - 1)); return { set: { t: 0, o: 0 }, g: ['Show ' + n + ' with sticks.', String(n)] }; },
+    beads: function (S) { var n = rnd(5, 16); return { set: { b: [] }, g: ['String ' + n + ' beads.', String(n)] }; },
+    solids: function (S) { var f = pick([['6 faces', '6'], ['5 faces', '5'], ['2 flat faces and a curved side', '2']]); return { set: { m: 'one' }, g: ['Find a shape with ' + f[0] + '.', f[1], [], 'f'] }; }
   };
 
-  var api = { questions: QUESTIONS, surprise: SURPRISE, tools: tools, groups: groups, base: base, units: units, lessons: lessons,
+  var api = { questions: QUESTIONS, surprise: SURPRISE, howEs: HOW_ES, whatEs: WHAT_ES, tools: tools, groups: groups, base: base, units: units, lessons: lessons,
     lessonById: function (id) { id = String(id).trim(); return lessons.filter(function (l) { return l.id === id; })[0]; } };
   return api;
 })();

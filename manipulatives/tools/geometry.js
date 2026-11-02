@@ -11,18 +11,6 @@
   function size(v, w, h) { v.setAttribute('viewBox', '0 0 ' + w + ' ' + h); v.setAttribute('width', w); v.setAttribute('height', h); }
   function toolbar(api) { var b = O.el('div', { class: 'om-row om-noprint', style: 'margin:0 0 .5rem' }); api.stage.appendChild(b); return b; }
   function holder(api, w, h, label) { var d = O.el('div'); api.stage.appendChild(d); var v = O.svg(w, h, d, label); return v; }
-  /* pointer drag on the svg root so we can redraw children mid-drag */
-  function rootDrag(v, h) {
-    var ctx = null, id = null, sx, sy, moved;
-    v.addEventListener('pointerdown', function (e) {
-      if (e.button > 0 || ctx) return; var c = h.down(O.pt(v, e), e); if (c == null) return;
-      e.preventDefault(); ctx = c; id = e.pointerId; sx = e.clientX; sy = e.clientY; moved = false; try { v.setPointerCapture(id); } catch (x) {}
-    });
-    v.addEventListener('pointermove', function (e) { if (e.pointerId !== id || !ctx) return; if (Math.hypot(e.clientX - sx, e.clientY - sy) > 4) moved = true; if (h.move) h.move(O.pt(v, e), ctx, moved); });
-    function up(e) { if (e.pointerId !== id || !ctx) return; var c = ctx; ctx = null; id = null; if (h.up) h.up(O.pt(v, e), c, moved); }
-    v.addEventListener('pointerup', up); v.addEventListener('pointercancel', up);
-  }
-  function keyTap(n, fn, label) { n.setAttribute('tabindex', '0'); n.setAttribute('role', 'button'); if (label) n.setAttribute('aria-label', label); n.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fn(); } }); }
   function poly(pts) { return pts.map(function (p) { return (+p[0]).toFixed(1) + ',' + (+p[1]).toFixed(1); }).join(' '); }
   function xf(pts, x, y, r, f) { var c = Math.cos(r * RAD), s = Math.sin(r * RAD); return pts.map(function (p) { var px = f ? -p[0] : p[0], py = p[1]; return [x + px * c - py * s, y + px * s + py * c]; }); }
   function center(pts) { var x = 0, y = 0; pts.forEach(function (p) { x += p[0]; y += p[1]; }); x /= pts.length; y /= pts.length; return pts.map(function (p) { return [p[0] - x, p[1] - y]; }); }
@@ -34,6 +22,27 @@
   /* snap: move pts so the closest vertex pair (within tol) meets */
   function snapShift(pts, targets, tol) { var best = null, bs = -1; pts.forEach(function (p) { targets.forEach(function (t) { var d = Math.hypot(p[0] - t[0], p[1] - t[1]); if (d >= tol) return; var sh = [t[0] - p[0], t[1] - p[1]], n = 0;
       pts.forEach(function (q) { if (targets.some(function (u) { return Math.hypot(q[0] + sh[0] - u[0], q[1] + sh[1] - u[1]) < 2; })) n++; }); var score = n * 100 - d; if (score > bs) { bs = score; best = sh; } }); }); return best; }
+  /* keyboard for a free-moving piece: arrow keys nudge it (move(dx, dy, fine) with dx, dy in -1..1 and fine = Shift held), R turns it one step (Shift+R the other way) */
+  function nudgeKeys(node, move, turn) {
+    node.addEventListener('keydown', function (e) {
+      var k = e.key, dx = k === 'ArrowRight' ? 1 : k === 'ArrowLeft' ? -1 : 0, dy = k === 'ArrowDown' ? 1 : k === 'ArrowUp' ? -1 : 0;
+      if (dx || dy) { e.preventDefault(); move(dx, dy, e.shiftKey); return; }
+      if (turn && (k === 'r' || k === 'R')) { e.preventDefault(); turn(e.shiftKey ? -1 : 1); }
+    });
+  }
+  /* the round ⟳ handle on a selected piece: drag it round to turn the piece (the host's rootDrag looks for data-rot); arrow keys turn it too */
+  function turnHandle(v, cx, cy, pts, rot, label, onKey, value) {
+    var md = 0; pts.forEach(function (p) { md = Math.max(md, Math.hypot(p[0] - cx, p[1] - cy)); });
+    var a = (rot - 90) * RAD, hx = cx + (md + 24) * Math.cos(a), hy = cy + (md + 24) * Math.sin(a), vb = v.viewBox.baseVal;
+    if (hx < 18 || hy < 18 || hx > vb.width - 18 || hy > vb.height - 18) { hx = cx - (md + 24) * Math.cos(a); hy = cy - (md + 24) * Math.sin(a); }
+    hx = O.clamp(hx, 18, vb.width - 18); hy = O.clamp(hy, 18, vb.height - 18);
+    var g = O.s('g', { 'data-ui': 'btn' }, v);
+    O.s('line', { x1: cx, y1: cy, x2: hx, y2: hy, stroke: NAVY, 'stroke-width': 2, 'stroke-dasharray': '4 4', style: 'pointer-events:none' }, g);
+    var h = O.s('circle', { cx: hx, cy: hy, r: 15, fill: '#fff', stroke: NAVY, 'stroke-width': 3, 'data-rot': 1, style: 'cursor:grab' }, g);
+    O.s('text', { x: hx, y: hy + 5, 'text-anchor': 'middle', 'font-size': 15, fill: NAVY, text: '⟳', style: 'pointer-events:none' }, g);
+    if (onKey) O.keys(h, onKey, label || 'Turn handle', 'turn', value || function () { return rot + ' degrees'; });
+    return h;
+  }
 
   /* ================= COLOR TILES & AREA GRID ================= */
   O.register('tiles', {
@@ -58,14 +67,15 @@
       function draw() {
         clear(v); var W = Math.max(S.cols * Z + 2 * M, 300), H = S.rows * Z + 2 * M; size(v, W, H + TY);
         /* tray of kit color tiles */
-        O.s('rect', { x: 4, y: 4, width: W - 8, height: TY - 10, rx: 10, fill: '#F1EDFB' }, v);
-        O.s('text', { x: 14, y: TY / 2 + 2, 'font-size': 13, fill: NAVY, text: 'Tiles:' }, v);
-        C.forEach(function (c, i) { var tr = O.s('rect', { x: 64 + i * 46, y: TY / 2 - 18, width: 34, height: 34, rx: 5, fill: c, stroke: i === S.col ? NAVY : 'rgba(0,0,0,.25)', 'stroke-width': i === S.col ? 3 : 1.5, 'data-tray': i, style: 'cursor:grab' }, v);
-          keyTap(tr, function () { S.col = i; api.redraw(); }, CN[i] + ' tile'); });
+        var tg = O.s('g', { 'data-ui': 'tray' }, v);
+        O.s('rect', { x: 4, y: 4, width: W - 8, height: TY - 10, rx: 10, fill: '#F1EDFB' }, tg);
+        O.s('text', { x: 14, y: TY / 2 + 2, 'font-size': 13, fill: NAVY, text: 'Tiles:' }, tg);
+        C.forEach(function (c, i) { var tr = O.s('rect', { x: 64 + i * 46, y: TY / 2 - 18, width: 34, height: 34, rx: 5, fill: c, stroke: i === S.col ? NAVY : 'rgba(0,0,0,.25)', 'stroke-width': i === S.col ? 3 : 1.5, 'data-tray': i, style: 'cursor:grab' }, tg);
+          O.tap(tr, function () { S.col = i; api.redraw(); }, CN[i] + ' tile', 'tray-' + i); });
         var gG = O.s('g', { transform: 'translate(0 ' + TY + ')' }, v);
         for (var y = 0; y < S.rows; y++) for (var x = 0; x < S.cols; x++) {
           var k = x + '_' + y, r = O.s('rect', { x: M + x * Z, y: M + y * Z, width: Z, height: Z, fill: '#fff', stroke: LINE, 'stroke-width': 1.5, class: 'paper', 'data-c': k }, gG);
-          (function (k) { keyTap(r, function () { apply(k, S.cells[k] != null ? 'erase' : 'fill'); api.redraw(); }, 'Square ' + k.replace('_', ', ')); })(k);
+          (function (k) { O.tap(r, function () { apply(k, S.cells[k] != null ? 'erase' : 'fill'); api.redraw(); }, 'Square ' + k.replace('_', ', '), 'cell-' + k); })(k);
           if (S.cells[k] != null) O.s('rect', { x: M + x * Z + 2, y: M + y * Z + 2, width: Z - 4, height: Z - 4, rx: 5, fill: C[S.cells[k]] || VIO, stroke: 'rgba(0,0,0,.25)', 'stroke-width': 1.5, 'data-c': k, style: 'pointer-events:none' }, gG);
         }
         var area = 0, per = 0, edges = [];
@@ -83,20 +93,26 @@
         api.report({ v: String(area), p: String(per) });
       }
       function cellAt(p) { var x = Math.floor((p.x - M) / Z), y = Math.floor((p.y - TY - M) / Z); return x < 0 || y < 0 || x >= S.cols || y >= S.rows ? null : x + '_' + y; }
-      rootDrag(v, {
+      /* drags: a tile from the tray, a tile off the grid, or a sweep that lays tiles. A plain tap picks a tray color or toggles a square.
+         (O.rootDrag captures the pointer on the svg, so a click never reaches O.tap: taps are done here in up(), then O.dragDone().) */
+      O.rootDrag(v, {
         down: function (p, e) {
           var tr = e.target.closest && e.target.closest('[data-tray]');
           if (tr) { S.col = +tr.getAttribute('data-tray'); draw(); var gh = O.s('rect', { x: p.x - 17, y: p.y - 17, width: 34, height: 34, rx: 5, fill: C[S.col], opacity: .85, style: 'pointer-events:none' }, v); return { tray: 1, gh: gh }; }
           var t = e.target.closest && e.target.closest('[data-c]'); if (!t) return null; var k = t.getAttribute('data-c');
-          if (S.cells[k] != null) return { lift: k, col: S.cells[k], last: k };
-          apply(k, 'fill'); draw(); return { mode: 'fill', last: k }; },
+          if (S.cells[k] != null) return { lift: k, col: S.cells[k] };
+          return { mode: 'fill', start: k, last: null }; },
         move: function (p, c, moved) {
           if (c.tray || c.lift) { if (c.lift && !c.gh && moved) { delete S.cells[c.lift]; draw(); c.gh = O.s('rect', { x: 0, y: 0, width: 34, height: 34, rx: 5, fill: C[c.col] || VIO, opacity: .85, style: 'pointer-events:none' }, v); }
             if (c.gh) { if (!c.gh.parentNode) v.appendChild(c.gh); c.gh.setAttribute('x', p.x - 17); c.gh.setAttribute('y', p.y - 17); } return; }
-          var k = cellAt(p); if (!k || k === c.last) return; c.last = k; apply(k, c.mode); draw(); },
+          if (!moved) return;
+          var k = cellAt(p); if (!k || k === c.last) return;
+          if (c.last == null) apply(c.start, c.mode);
+          c.last = k; apply(k, c.mode); draw(); },
         up: function (p, c, moved) {
-          if (c.tray) { var k = cellAt(p); if (k) S.cells[k] = S.col; else if (!moved) O.toast('Drag the tile onto the grid.'); }
-          else if (c.lift) { if (!moved) delete S.cells[c.lift]; else { var k2 = cellAt(p); if (k2) S.cells[k2] = c.col; } }
+          if (!moved) { O.dragDone(); if (c.lift) delete S.cells[c.lift]; else if (c.start) apply(c.start, 'fill'); }
+          else if (c.tray) { var k = cellAt(p); if (k) S.cells[k] = S.col; else O.toast('Drag the tile onto the grid.'); }
+          else if (c.lift) { var k2 = cellAt(p); if (k2) S.cells[k2] = c.col; }
           api.redraw(); }
       });
       api.onRedraw(draw);
@@ -104,6 +120,30 @@
   });
 
   /* ================= GEOBOARD ================= */
+  /* segment geometry for the "bands can't cross" rule */
+  function orient(a, b, c) { var v = (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]); return v > 0 ? 1 : v < 0 ? -1 : 0; }
+  function onSeg(a, b, c) { return Math.min(a[0], b[0]) <= c[0] && c[0] <= Math.max(a[0], b[0]) && Math.min(a[1], b[1]) <= c[1] && c[1] <= Math.max(a[1], b[1]); }
+  function segX(p1, p2, p3, p4) { /* do the segments touch or cross anywhere? */
+    var o1 = orient(p1, p2, p3), o2 = orient(p1, p2, p4), o3 = orient(p3, p4, p1), o4 = orient(p3, p4, p2);
+    if (o1 !== o2 && o3 !== o4) return true;
+    return (o1 === 0 && onSeg(p1, p2, p3)) || (o2 === 0 && onSeg(p1, p2, p4)) || (o3 === 0 && onSeg(p3, p4, p1)) || (o4 === 0 && onSeg(p3, p4, p2));
+  }
+  function samePt(a, b) { return a && b && a[0] === b[0] && a[1] === b[1]; }
+  function bandEdges(b) { var e = []; for (var i = 0; i + 1 < b.p.length; i++) e.push([b.p[i], b.p[i + 1]]); if (b.k && b.p.length > 2) e.push([b.p[b.p.length - 1], b.p[0]]); return e; }
+  /* true when any two edges of the band cross, touch, or fold back along the same line */
+  function selfCross(b) {
+    var E = bandEdges(b), n = E.length;
+    for (var i = 0; i < n; i++) for (var j = i + 1; j < n; j++) {
+      var adj = j === i + 1 || (b.k && i === 0 && j === n - 1);
+      if (!adj) { if (segX(E[i][0], E[i][1], E[j][0], E[j][1])) return true; continue; }
+      /* neighbours share a pin: only a fold back along the same line counts */
+      var s = samePt(E[i][1], E[j][0]) ? E[i][1] : E[i][0], o = samePt(s, E[i][0]) ? E[i][1] : E[i][0], t = samePt(s, E[j][0]) ? E[j][1] : E[j][0];
+      if (samePt(o, t)) return true;
+      if (orient(s, o, t) === 0 && (o[0] - s[0]) * (t[0] - s[0]) + (o[1] - s[1]) * (t[1] - s[1]) > 0) return true;
+    }
+    return false;
+  }
+  var XMSG = 'Bands can’t cross. Pick another pin.';
   O.register('geoboard', {
     defaults: { n: 11, bands: [], mode: 'band', mirror: 'none', sel: -1, cur: -1 },
     mount: function (api) {
@@ -125,24 +165,25 @@
         var m = S.n - 1; S.bands.push({ p: b.p.map(function (q) { return S.mirror === 'v' ? [m - q[0], q[1]] : S.mirror === 'h' ? [q[0], m - q[1]] : [q[1], q[0]]; }), k: b.k, c: (b.c + 1) % 5 }); S.sel = S.bands.length - 1; api.redraw();
       }, '', api.row());
       var v = holder(api, B, B, 'Geoboard');
-      var lastDrag = 0;
       function sp() { return (B - 2 * MG) / (S.n - 1); }
       function pinAt(p) { var x = Math.round((p.x - MG) / sp()), y = Math.round((p.y - MG) / sp()); if (x < 0 || y < 0 || x >= S.n || y >= S.n) return null; var c = P([x, y]); return Math.hypot(p.x - c[0], p.y - c[1]) < sp() * 0.45 ? [x, y] : null; }
-      function same(a, b) { return a && b && a[0] === b[0] && a[1] === b[1]; }
-      rootDrag(v, {
+      var same = samePt;
+      /* drags: hook a band from pin to pin, or move a corner of the chosen band; a plain tap on a pin hooks the band there */
+      O.rootDrag(v, {
         down: function (p) { var q = pinAt(p); if (!q) return null;
           var cb = S.bands[S.cur], sb = S.bands[S.sel];
           if (!cb && sb) { var vi = -1; sb.p.forEach(function (r, k) { if (same(r, q)) vi = k; }); if (vi >= 0) return { corner: vi, band: S.sel, from: q }; }
-          lastDrag = Date.now(); if (!cb || !same(cb.p[cb.p.length - 1], q)) { pin(q[0], q[1]); }
-          var nb = S.bands[S.cur]; if (!nb || S.mode === 'line' && nb.p.length > 1) return null;
-          return { from: q }; },
-        move: function (p, c, moved) { if (!moved) return;
+          return { from: q, start: true }; },
+        move: function (p, c, moved) { if (!moved || c.dead) return;
+          if (c.start) { /* the first real movement hooks the band on the pin it started from */
+            c.start = false; var cb = S.bands[S.cur]; if (!cb || !same(cb.p[cb.p.length - 1], c.from)) pin(c.from[0], c.from[1]);
+            var nb = S.bands[S.cur]; if (!nb || (S.mode === 'line' && nb.p.length > 1)) { c.dead = true; return; } }
           if (!c.ln) { c.ln = O.s('line', { stroke: c.corner != null ? GRAY : COLS[(S.bands[S.cur] || {}).c % 5 || 0], 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-dasharray': c.corner != null ? '6 5' : '', style: 'pointer-events:none' }, v); }
           if (!c.ln.parentNode) v.appendChild(c.ln);
           var f = P(c.from), q = pinAt(p), e = q ? P(q) : [p.x, p.y];
           c.ln.setAttribute('x1', f[0]); c.ln.setAttribute('y1', f[1]); c.ln.setAttribute('x2', e[0]); c.ln.setAttribute('y2', e[1]); },
-        up: function (p, c, moved) { if (!moved) return; lastDrag = Date.now(); if (c.ln && c.ln.parentNode) c.ln.remove(); var q = pinAt(p);
-          if (c.corner != null) { var b = S.bands[c.band]; if (q && b && !b.p.some(function (r, k) { return k !== c.corner && same(r, q); })) { b.p[c.corner] = q; } api.redraw(); return; }
+        up: function (p, c, moved) { if (!moved) { O.dragDone(); pin(c.from[0], c.from[1]); return; } if (c.dead) return; if (c.ln && c.ln.parentNode) c.ln.remove(); var q = pinAt(p);
+          if (c.corner != null) { moveCorner(c.band, c.corner, q); return; }
           if (!q) { O.toast('Let go on a pin to hook the band.'); return; }
           pin(q[0], q[1]); }
       });
@@ -152,11 +193,19 @@
         if (!b) { S.bands.push({ p: [[x, y]], k: 0, c: S.bands.length % 5 }); S.cur = S.bands.length - 1; S.sel = S.cur; api.redraw(); return; }
         var f = b.p[0], l = b.p[b.p.length - 1];
         if (S.mode === 'line') { if (f[0] === x && f[1] === y) return; b.p.push([x, y]); S.cur = -1; }
-        else if (f[0] === x && f[1] === y) { if (b.p.length >= 3) { b.k = 1; S.cur = -1; } else { O.toast('Add more pins before you close the band.'); return; } }
+        else if (f[0] === x && f[1] === y) { if (b.p.length >= 3) { b.k = 1; if (selfCross(b)) { b.k = 0; O.toast(XMSG); return; } S.cur = -1; } else { O.toast('Add more pins before you close the band.'); return; } }
         else if (l[0] === x && l[1] === y) return;
         else if (b.p.some(function (q) { return q[0] === x && q[1] === y; })) { O.toast('That pin is already in this band.'); return; }
-        else b.p.push([x, y]);
+        else { b.p.push([x, y]); if (selfCross(b)) { b.p.pop(); O.toast(XMSG); return; } }
         api.redraw();
+      }
+      /* move corner ci of band bi to pin q; true when it moved */
+      function moveCorner(bi, ci, q) {
+        var b = S.bands[bi]; if (!q || !b || q[0] < 0 || q[1] < 0 || q[0] >= S.n || q[1] >= S.n) { api.redraw(); return false; }
+        if (b.p.some(function (r, k) { return k !== ci && same(r, q); })) { api.redraw(); return false; }
+        var t = O.clone(b); t.p[ci] = q;
+        if (selfCross(t)) { O.toast(XMSG); api.redraw(); return false; }
+        b.p[ci] = q; api.redraw(); return true;
       }
       function clean(p) { var out = p.filter(function (q, i) { var a = p[(i - 1 + p.length) % p.length], c = p[(i + 1) % p.length]; return (q[0] - a[0]) * (c[1] - q[1]) - (q[1] - a[1]) * (c[0] - q[0]) !== 0; }); return out.length >= 3 ? out : p; }
       function rights(p) { return p.map(function (q, i) { var a = p[(i - 1 + p.length) % p.length], c = p[(i + 1) % p.length]; return (a[0] - q[0]) * (c[0] - q[0]) + (a[1] - q[1]) * (c[1] - q[1]) === 0; }); }
@@ -169,32 +218,45 @@
           if (ra.every(Boolean)) return eq ? 'square' : 'rectangle'; if (p1 && p2) return eq ? 'rhombus' : 'parallelogram'; if (p1 || p2) return 'trapezoid'; return 'quadrilateral'; }
         return { 5: 'pentagon', 6: 'hexagon', 8: 'octagon' }[n] || 'shape with ' + n + ' sides';
       }
+      /* Florida B.E.S.T. uses the inclusive definition: a trapezoid has at least one pair of parallel sides, so every parallelogram is one too */
+      var ALSO = { square: ['rectangle', 'rhombus', 'parallelogram', 'trapezoid'], rectangle: ['parallelogram', 'trapezoid'], rhombus: ['parallelogram', 'trapezoid'], parallelogram: ['trapezoid'] };
       function draw() {
         clear(v);
         O.s('rect', { x: 2, y: 2, width: B - 4, height: B - 4, rx: 22, fill: '#EEF0F6', stroke: LINE, 'stroke-width': 3, class: 'paper' }, v);
         var m = S.n - 1, ln = { v: [[m / 2, -0.4], [m / 2, m + 0.4]], h: [[-0.4, m / 2], [m + 0.4, m / 2]], d: [[-0.3, -0.3], [m + 0.3, m + 0.3]] }[S.mirror];
         if (ln) O.s('line', { x1: P(ln[0])[0], y1: P(ln[0])[1], x2: P(ln[1])[0], y2: P(ln[1])[1], stroke: YEL, 'stroke-width': 4, 'stroke-dasharray': '10 7' }, v);
         S.bands.forEach(function (b, i) {
-          var pts = b.p.map(P), col = COLS[b.c % 5], el = O.s(b.k ? 'polygon' : 'polyline', { points: poly(pts), fill: b.k ? col : 'none', 'fill-opacity': .14, stroke: col, 'stroke-width': i === S.sel ? 7 : 5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, v);
-          if (b.k) rights(clean(b.p)).forEach(function (r, j, arr) { if (!r) return; var cp = clean(b.p), q = cp[j], a = cp[(j - 1 + cp.length) % cp.length], c = cp[(j + 1) % cp.length], s1 = 0.22;
+          var pts = b.p.map(P), col = COLS[b.c % 5];
+          O.s(b.k ? 'polygon' : 'polyline', { points: poly(pts), fill: b.k ? col : 'none', 'fill-opacity': .14, stroke: col, 'stroke-width': i === S.sel ? 7 : 5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, v);
+          if (b.k) rights(clean(b.p)).forEach(function (r, j) { if (!r) return; var cp = clean(b.p), q = cp[j], a = cp[(j - 1 + cp.length) % cp.length], c = cp[(j + 1) % cp.length], s1 = 0.22;
             var ua = [(a[0] - q[0]) / Math.sqrt(L2(a, q)), (a[1] - q[1]) / Math.sqrt(L2(a, q))], uc = [(c[0] - q[0]) / Math.sqrt(L2(c, q)), (c[1] - q[1]) / Math.sqrt(L2(c, q))];
             var k1 = P([q[0] + ua[0] * s1, q[1] + ua[1] * s1]), k2 = P([q[0] + (ua[0] + uc[0]) * s1, q[1] + (ua[1] + uc[1]) * s1]), k3 = P([q[0] + uc[0] * s1, q[1] + uc[1] * s1]);
             O.s('polyline', { points: poly([k1, k2, k3]), fill: 'none', stroke: NAVY, 'stroke-width': 2, class: 'inks' }, v); });
           var hit = O.s(b.k ? 'polygon' : 'polyline', { points: poly(pts), fill: 'none', stroke: 'transparent', 'stroke-width': 16 }, v);
-          O.tap(hit, function () { S.sel = i; api.redraw(); }, 'Choose band ' + (i + 1)); void el;
+          O.tap(hit, function () { S.sel = i; api.redraw(); }, 'Choose band ' + (i + 1), 'band-' + i);
         });
-        var cb = S.bands[S.cur];
+        var cb = S.bands[S.cur], sb = !cb && S.bands[S.sel];
         for (var y = 0; y < S.n; y++) for (var x = 0; x < S.n; x++) {
           var c = P([x, y]), g = O.s('g', {}, v);
           O.s('circle', { cx: c[0], cy: c[1], r: sp() * 0.45, fill: 'transparent' }, g);
           if (cb && cb.p[0][0] === x && cb.p[0][1] === y) O.s('circle', { cx: c[0], cy: c[1], r: 11, fill: 'none', stroke: COLS[cb.c % 5], 'stroke-width': 3 }, g);
           O.s('circle', { cx: c[0], cy: c[1], r: S.n > 6 ? 5 : 8, fill: '#6B7280', stroke: '#fff', 'stroke-width': 1.5 }, g);
-          (function (x, y) { O.tap(g, function () { if (Date.now() - lastDrag < 400) return; pin(x, y); }, 'Pin ' + (x + 1) + ', ' + (y + 1)); })(x, y);
+          (function (x, y, g) {
+            var ci = -1; if (sb) sb.p.forEach(function (r, k) { if (r[0] === x && r[1] === y) ci = k; });
+            O.tap(g, function () { pin(x, y); }, 'Pin ' + (x + 1) + ', ' + (y + 1) + (ci >= 0 ? ' (a corner of the chosen band; arrow keys move it)' : ''), 'pin-' + x + '-' + y);
+            /* arrow keys: move this corner one pin, or just move to the next pin */
+            nudgeKeys(g, function (dx, dy) {
+              var nx = x + dx, ny = y + dy; if (nx < 0 || ny < 0 || nx >= S.n || ny >= S.n) return;
+              if (ci >= 0) { if (!moveCorner(S.sel, ci, [nx, ny])) return; }
+              var n = v.querySelector('[data-k="pin-' + nx + '-' + ny + '"]'); if (n) n.focus();
+            });
+          })(x, y, g);
         }
         /* readout */
         var b = S.bands[S.sel] || S.bands[S.bands.length - 1], out = '', rep = { v: '', s: '' };
         if (b && b.k) { var p = clean(b.p), ra = rights(p), A = 0; p.forEach(function (q, i) { var r = p[(i + 1) % p.length]; A += q[0] * r[1] - r[0] * q[1]; }); A = Math.abs(A) / 2;
-          out = '<span>It is ' + art(name(p, ra)) + ' <b>' + name(p, ra) + '</b></span><span>Sides: <b>' + p.length + '</b></span><span>Right angles: <b>' + ra.filter(Boolean).length + '</b></span><span>Area: <b>' + half(A) + '</b> square units</span>';
+          var nm = name(p, ra), also = ALSO[nm];
+          out = '<span>It is ' + art(nm) + ' <b>' + nm + '</b></span>' + (also ? '<span>It is also ' + also.map(function (w) { return art(w) + ' <b>' + w + '</b>'; }).join(', ') + '</span>' : '') + '<span>Sides: <b>' + p.length + '</b></span><span>Right angles: <b>' + ra.filter(Boolean).length + '</b></span><span>Area: <b>' + half(A) + '</b> square units</span>';
           var axis = p.every(function (q, i) { var r = p[(i + 1) % p.length]; return q[0] === r[0] || q[1] === r[1]; });
           if (axis) { var per = 0; p.forEach(function (q, i) { var r = p[(i + 1) % p.length]; per += Math.abs(q[0] - r[0]) + Math.abs(q[1] - r[1]); }); out += '<span>Perimeter: <b>' + per + '</b> units</span>'; }
           rep = { v: String(A), s: String(p.length) }; }
@@ -238,7 +300,7 @@
         var out = [pts[0]]; rec(0, pts.length - 1, out); out.push(pts[pts.length - 1]); var f = []; out.forEach(function (q) { f.push(Math.round(q[0]), Math.round(q[1])); }); return f; }
       function eraseAt(p) { var n = S.st.length; S.st = S.st.filter(function (s) { var q = s[2]; if (q.length === 2) return Math.hypot(q[0] - p.x, q[1] - p.y) > 10; for (var i = 0; i < q.length - 2; i += 2) if (segDist([p.x, p.y], [q[i], q[i + 1]], [q[i + 2], q[i + 3]]) < 10 + s[1] / 2) return false; return true; }); if (S.st.length !== n) draw(); }
       function finish(s) { S.st.push(s); api.redraw(); if (!warned && JSON.stringify(S.st).length > 12000) { warned = true; O.toast('This drawing is too big to share as a link. You can still print it.'); } }
-      rootDrag(v, {
+      O.rootDrag(v, {
         down: function (p) {
           if (S.tool === 'erase') { eraseAt(p); return { e: 1 }; }
           var c = { pts: [Math.round(p.x), Math.round(p.y)], x0: p.x, y0: p.y };
@@ -294,12 +356,6 @@
       function turn(d) { var q = S.pc[S.sel]; if (!q) return pick(); q[2] = (q[2] + d + 360) % 360; api.redraw(); }
       var v = holder(api, W, H, 'Tangram pieces and puzzle');
       function abs(i) { var q = S.pc[i]; return xf(TP[i].sh, q[0], q[1], q[2], q[3]); }
-      function handle(cx, cy, pts, rot) { var md = 0; pts.forEach(function (p) { md = Math.max(md, Math.hypot(p[0] - cx, p[1] - cy)); }); var a = (rot - 90) * RAD, hx = cx + (md + 24) * Math.cos(a), hy = cy + (md + 24) * Math.sin(a);
-        var vb = v.viewBox.baseVal; if (hx < 18 || hy < 18 || hx > vb.width - 18 || hy > vb.height - 18) { hx = cx - (md + 24) * Math.cos(a); hy = cy - (md + 24) * Math.sin(a); }
-        hx = O.clamp(hx, 18, vb.width - 18); hy = O.clamp(hy, 18, vb.height - 18);
-        O.s('line', { x1: cx, y1: cy, x2: hx, y2: hy, stroke: NAVY, 'stroke-width': 2, 'stroke-dasharray': '4 4', style: 'pointer-events:none' }, v);
-        var h = O.s('circle', { cx: hx, cy: hy, r: 15, fill: '#fff', stroke: NAVY, 'stroke-width': 3, 'data-rot': 1, style: 'cursor:grab' }, v);
-        O.s('text', { x: hx, y: hy + 5, 'text-anchor': 'middle', 'font-size': 15, fill: NAVY, text: '⟳', style: 'pointer-events:none' }, v); return h; }
       function sil() { var pz = PUZ[S.pz] || PUZ.free; return pz.p.map(function (pp) { return pp.map(function (p) { return [SX + p[0] * TU, SY + p[1] * TU]; }); }); }
       function draw() {
         clear(v); O.s('rect', { x: 0, y: 0, width: W, height: H, rx: 14, fill: '#fff', class: 'paper' }, v);
@@ -308,8 +364,9 @@
         if (S.sol) sp.forEach(function (pp) { O.s('polygon', { points: poly(pp), fill: 'none', stroke: NAVY, 'stroke-width': 1.5, 'stroke-dasharray': '5 4', class: 'inks' }, v); });
         var order = [0, 1, 2, 3, 4, 5, 6].filter(function (i) { return i !== S.sel; }); if (S.sel >= 0) order.push(S.sel);
         order.forEach(function (i) { var g = O.s('polygon', { points: poly(abs(i)), fill: TP[i].c, 'fill-opacity': .92, stroke: i === S.sel ? NAVY : '#fff', 'stroke-width': i === S.sel ? 3 : 2, 'stroke-linejoin': 'round', 'data-i': i, style: 'cursor:grab' }, v);
-          keyTap(g, function () { S.sel = i; api.redraw(); }, TP[i].n); });
-        if (S.sel >= 0 && S.pc[S.sel]) handle(S.pc[S.sel][0], S.pc[S.sel][1], abs(S.sel), S.pc[S.sel][2]);
+          O.tap(g, function () { S.sel = i; api.redraw(); }, TP[i].n + (i === S.sel ? ' (chosen; arrow keys move it, R turns it)' : ''), 'piece-' + i);
+          nudgeKeys(g, function (dx, dy, fine) { var st = fine ? 1 : 5, q = S.pc[i]; S.sel = i; q[0] = O.clamp(q[0] + dx * st, 10, W - 10); q[1] = O.clamp(q[1] + dy * st, 10, H - 10); api.redraw(); }, function (d) { S.sel = i; turn(d * 45); }); });
+        if (S.sel >= 0 && S.pc[S.sel]) turnHandle(v, S.pc[S.sel][0], S.pc[S.sel][1], abs(S.sel), S.pc[S.sel][2], 'Turn the ' + TP[S.sel].n, function (d) { turn(d * 45); });
         /* readout: how many pieces sit inside, and solved? */
         var pz = PUZ[S.pz] || PUZ.free; if (!pz.p.length) { api.readout(''); api.report({ v: '' }); return; }
         var inside = 0; for (var i = 0; i < 7; i++) if (abs(i).every(function (p) { return sp.some(function (pp) { return inPoly(p, pp); }); })) inside++;
@@ -320,9 +377,9 @@
         api.readout('<span>Puzzle: <b>' + pz.n + '</b></span><span>Pieces in the shape: <b>' + inside + ' of ' + pz.p.length + '</b></span>' + (done ? '<span style="color:' + GRN + '">You solved it!</span>' : ''));
         api.report({ v: done ? 'solved' : '' });
       }
-      rootDrag(v, {
+      O.rootDrag(v, {
         down: function (p, e) { if (e.target.closest && e.target.closest('[data-rot]') && S.pc[S.sel]) { var q0 = S.pc[S.sel]; return { rot: S.sel, off: Math.atan2(p.y - q0[1], p.x - q0[0]) / RAD - q0[2] }; } var t = e.target.closest && e.target.closest('[data-i]'); if (!t) { if (S.sel >= 0) { S.sel = -1; draw(); } return null; } var i = +t.getAttribute('data-i'); S.sel = i; draw(); return { i: i, dx: S.pc[i][0] - p.x, dy: S.pc[i][1] - p.y }; },
-        move: function (p, c) { if (c.rot != null) { var qr = S.pc[c.rot]; qr[2] = ((Math.round((Math.atan2(p.y - qr[1], p.x - qr[0]) / RAD - c.off) / 45) * 45) % 360 + 360) % 360; draw(); return; } var q = S.pc[c.i]; q[0] = O.clamp(p.x + c.dx, 10, W - 10); q[1] = O.clamp(p.y + c.dy, 10, H - 10); draw(); },
+        move: function (p, c, moved) { if (!moved) return; if (c.rot != null) { var qr = S.pc[c.rot]; qr[2] = ((Math.round((Math.atan2(p.y - qr[1], p.x - qr[0]) / RAD - c.off) / 45) * 45) % 360 + 360) % 360; draw(); return; } var q = S.pc[c.i]; q[0] = O.clamp(p.x + c.dx, 10, W - 10); q[1] = O.clamp(p.y + c.dy, 10, H - 10); draw(); },
         up: function (p, c, moved) {
           if (c.rot != null) { api.redraw(); return; }
           if (moved) { var tg = []; sil().forEach(function (pp) { tg = tg.concat(pp); }); for (var j = 0; j < 7; j++) if (j !== c.i) tg = tg.concat(abs(j));
@@ -364,30 +421,30 @@
       api.endMore();
       function turn(d) { var q = S.b[S.sel]; if (!q) return O.toast('Tap a block first.'); q[3] = (q[3] + d + 360) % 360; api.redraw(); }
       var v = holder(api, W, H, 'Pattern block mat');
-      function handle(cx, cy, pts, rot) { var md = 0; pts.forEach(function (p) { md = Math.max(md, Math.hypot(p[0] - cx, p[1] - cy)); }); var a = (rot - 90) * RAD, hx = cx + (md + 24) * Math.cos(a), hy = cy + (md + 24) * Math.sin(a);
-        var vb = v.viewBox.baseVal; if (hx < 18 || hy < 18 || hx > vb.width - 18 || hy > vb.height - 18) { hx = cx - (md + 24) * Math.cos(a); hy = cy - (md + 24) * Math.sin(a); }
-        hx = O.clamp(hx, 18, vb.width - 18); hy = O.clamp(hy, 18, vb.height - 18);
-        O.s('line', { x1: cx, y1: cy, x2: hx, y2: hy, stroke: NAVY, 'stroke-width': 2, 'stroke-dasharray': '4 4', style: 'pointer-events:none' }, v);
-        var h = O.s('circle', { cx: hx, cy: hy, r: 15, fill: '#fff', stroke: NAVY, 'stroke-width': 3, 'data-rot': 1, style: 'cursor:grab' }, v);
-        O.s('text', { x: hx, y: hy + 5, 'text-anchor': 'middle', 'font-size': 15, fill: NAVY, text: '⟳', style: 'pointer-events:none' }, v); return h; }
       function abs(q) { return xf(PB[q[0]].p, q[1], q[2], q[3], 0); }
       var MX = W / 2, MY = TRAY + (H - TRAY) / 2;
+      /* a tap on the tray drops a new block near the middle of the mat */
+      function addBlock(t) { S.b.push([t, MX + (Math.random() * 80 - 40), MY + (Math.random() * 60 - 30), 0]); S.sel = S.b.length - 1; api.redraw(); }
       function draw() {
         clear(v); O.s('rect', { x: 0, y: 0, width: W, height: H, rx: 14, fill: '#fff', class: 'paper' }, v);
         O.s('rect', { x: 1, y: 1, width: W - 2, height: H - 2, rx: 14, fill: 'none', stroke: LINE, 'stroke-width': 2 }, v);
-        O.s('rect', { x: 0, y: 0, width: W, height: TRAY, rx: 14, fill: '#F1EDFB' }, v);
-        PORD.forEach(function (t, i) { var cx = 60 + i * 120, g = O.s('polygon', { points: poly(xf(PB[t].p, cx, TRAY / 2, 0, 0)), fill: PB[t].c, stroke: 'rgba(0,0,0,.3)', 'stroke-width': 1.5, 'data-t': t, style: 'cursor:grab' }, v);
-          keyTap(g, function () { S.b.push([t, MX + (Math.random() * 80 - 40), MY + (Math.random() * 60 - 30), 0]); S.sel = S.b.length - 1; api.redraw(); }, 'Add a ' + PB[t].n[0]); });
+        var tg = O.s('g', { 'data-ui': 'tray' }, v);
+        O.s('rect', { x: 0, y: 0, width: W, height: TRAY, rx: 14, fill: '#F1EDFB' }, tg);
+        PORD.forEach(function (t, i) { var cx = 60 + i * 120, g = O.s('polygon', { points: poly(xf(PB[t].p, cx, TRAY / 2, 0, 0)), fill: PB[t].c, stroke: 'rgba(0,0,0,.3)', 'stroke-width': 1.5, 'data-t': t, style: 'cursor:grab' }, tg);
+          O.tap(g, function () { addBlock(t); }, 'Add a ' + PB[t].n[0], 'tray-' + t); });
         if (S.mirror === 'v') O.s('line', { x1: MX, y1: TRAY + 6, x2: MX, y2: H - 6, stroke: VIO, 'stroke-width': 3, 'stroke-dasharray': '10 7' }, v);
         if (S.mirror === 'h') O.s('line', { x1: 6, y1: MY, x2: W - 6, y2: MY, stroke: VIO, 'stroke-width': 3, 'stroke-dasharray': '10 7' }, v);
         var order = S.b.map(function (q, i) { return i; }).filter(function (i) { return i !== S.sel; }); if (S.sel >= 0 && S.b[S.sel]) order.push(S.sel);
         order.forEach(function (i) { var q = S.b[i], g = O.s('polygon', { points: poly(abs(q)), fill: PB[q[0]].c, stroke: i === S.sel ? NAVY : 'rgba(0,0,0,.35)', 'stroke-width': i === S.sel ? 3 : 1.5, 'stroke-linejoin': 'round', 'data-i': i, style: 'cursor:grab' }, v);
-          keyTap(g, function () { S.sel = i; api.redraw(); }, PB[q[0]].n[0]); });
-        if (S.sel >= 0 && S.b[S.sel]) handle(S.b[S.sel][1], S.b[S.sel][2], abs(S.b[S.sel]), S.b[S.sel][3]);
+          O.tap(g, function () { S.sel = i; api.redraw(); }, PB[q[0]].n[0] + (i === S.sel ? ' (chosen; arrow keys move it, R turns it)' : ''), 'piece-' + i);
+          nudgeKeys(g, function (dx, dy, fine) { var st = fine ? 1 : 5; S.sel = i; q[1] = O.clamp(q[1] + dx * st, 10, W - 10); q[2] = O.clamp(q[2] + dy * st, 10, H - 10); api.redraw(); }, function (d) { S.sel = i; turn(d * 30); }); });
+        if (S.sel >= 0 && S.b[S.sel]) turnHandle(v, S.b[S.sel][1], S.b[S.sel][2], abs(S.b[S.sel]), S.b[S.sel][3], 'Turn the ' + PB[S.b[S.sel][0]].n[0], function (d) { turn(d * 30); });
         /* readout */
         var cnt = {}, six = 0; S.b.forEach(function (q) { cnt[q[0]] = (cnt[q[0]] || 0) + 1; six += PB[q[0]].v; });
         var parts = PORD.filter(function (t) { return cnt[t]; }).map(function (t) { return cnt[t] + ' ' + PB[t].n[cnt[t] === 1 ? 0 : 1]; }), out = parts.length ? '<span>' + parts.join(', ') + '</span>' : '';
-        if (S.frac && S.b.length) { var w = Math.floor(six / 6), r = six % 6, g2 = O.gcd(r, 6); out += '<span>Value: <b>' + (r ? (w ? '<span class="mixed">' + w + O.frac(r / g2, 6 / g2) + '</span>' : O.frac(r / g2, 6 / g2)) : w) + '</b> ' + (six && six <= 6 && !r ? 'whole' : 'wholes') + '</span>'; }
+        if (S.frac && six) { var w = Math.floor(six / 6), r = six % 6, g2 = O.gcd(r, 6);
+          var val = r ? (w ? '<span class="mixed">' + w + O.frac(r / g2, 6 / g2) + '</span>' : O.frac(r / g2, 6 / g2)) : String(w);
+          out += '<span>Value: <b>' + val + '</b> ' + (!r && w === 1 ? 'whole' : !r ? 'wholes' : w ? 'wholes' : 'of a whole') + '</span>'; }
         var pv = ''; if (S.frac && S.b.length) { var gg = O.gcd(six, 6); pv = six % 6 === 0 ? String(six / 6) : (six / gg) + '/' + (6 / gg); }
         api.report({ v: pv });
         if (S.mirror !== 'none' && S.b.length) out += '<span>' + (symmetric() ? '<b style="color:' + GRN + '">The design is symmetric!</b>' : 'Not symmetric yet') + '</span>';
@@ -395,15 +452,18 @@
       }
       function key(t, pts) { return t + ':' + pts.map(function (p) { return Math.round(p[0] / 4) + ',' + Math.round(p[1] / 4); }).sort().join(';'); }
       function symmetric() { var a = S.b.map(function (q) { return key(q[0], abs(q)); }).sort(), b = S.b.map(function (q) { return key(q[0], abs(q).map(function (p) { return S.mirror === 'v' ? [2 * MX - p[0], p[1]] : [p[0], 2 * MY - p[1]]; })); }).sort(); return a.join('|') === b.join('|'); }
-      rootDrag(v, {
+      O.rootDrag(v, {
         down: function (p, e) { if (e.target.closest && e.target.closest('[data-rot]') && S.b[S.sel]) { var q0 = S.b[S.sel]; return { rot: S.sel, off: Math.atan2(p.y - q0[2], p.x - q0[1]) / RAD - q0[3] }; } var t = e.target.closest && e.target.closest('[data-i],[data-t]'); if (!t) { if (S.sel >= 0) { S.sel = -1; draw(); } return null; }
-          if (t.hasAttribute('data-t')) { S.b.push([t.getAttribute('data-t'), p.x, p.y, 0]); S.sel = S.b.length - 1; draw(); return { i: S.sel, dx: 0, dy: 0, fresh: 1 }; }
+          if (t.hasAttribute('data-t')) return { t: t.getAttribute('data-t'), dx: 0, dy: 0, fresh: 1 }; /* the block is made when the drag really starts (or in up() for a tap) */
           var i = +t.getAttribute('data-i'); S.sel = i; draw(); return { i: i, dx: S.b[i][1] - p.x, dy: S.b[i][2] - p.y }; },
-        move: function (p, c) { if (c.rot != null) { var qr = S.b[c.rot]; qr[3] = ((Math.round((Math.atan2(p.y - qr[2], p.x - qr[1]) / RAD - c.off) / 30) * 30) % 360 + 360) % 360; draw(); return; } var q = S.b[c.i]; q[1] = O.clamp(p.x + c.dx, 10, W - 10); q[2] = O.clamp(p.y + c.dy, 10, H - 10); draw(); },
+        move: function (p, c, moved) { if (!moved) return; if (c.rot != null) { var qr = S.b[c.rot]; qr[3] = ((Math.round((Math.atan2(p.y - qr[2], p.x - qr[1]) / RAD - c.off) / 30) * 30) % 360 + 360) % 360; draw(); return; }
+          if (c.fresh && c.i == null) { S.b.push([c.t, p.x, p.y, 0]); S.sel = c.i = S.b.length - 1; }
+          var q = S.b[c.i]; q[1] = O.clamp(p.x + c.dx, 10, W - 10); q[2] = O.clamp(p.y + c.dy, 10, H - 10); draw(); },
         up: function (p, c, moved) {
           if (c.rot != null) { api.redraw(); return; }
+          if (c.i == null) { if (!moved) { O.dragDone(); addBlock(c.t); } return; }
           var q = S.b[c.i];
-          if (q[2] < TRAY && (moved || c.fresh)) { if (moved) { S.b.splice(c.i, 1); S.sel = -1; } else { q[1] = MX; q[2] = MY; } api.redraw(); return; }
+          if (q[2] < TRAY && moved) { S.b.splice(c.i, 1); S.sel = -1; api.redraw(); return; }
           if (moved) { var tg = []; S.b.forEach(function (o, j) { if (j !== c.i) tg = tg.concat(abs(o)); }); var sh = snapShift(abs(q), tg, 12); if (sh) { q[1] += sh[0]; q[2] += sh[1]; } q[1] = Math.round(q[1] * 10) / 10; q[2] = Math.round(q[2] * 10) / 10; }
           api.redraw();
         }
@@ -421,7 +481,8 @@
       var PR0 = { place: false, px: 0, py: 0, pr: 0, base: 0 };
       api.quick([['Half circle', Object.assign({ full: false, three: false, a: 50 }, PR0)], ['Full circle (reflex)', Object.assign({ full: true, three: false, a: 250 }, PR0)],
         ['Add two angles', Object.assign({ full: false, three: true, a: 40, c: 115 }, PR0)], ['Place it yourself', { full: false, three: false, base: 0, place: true, px: -150, py: -70, pr: 25 }]]);
-      api.text('Ask students to make this angle', 'target', null, 'like 135');
+      /* the target angle is the answer: teachers only */
+      api.teacherOnly(api.text('Ask students to make this angle', 'target', null, 'like 135'));
       api.more('More options');
       api.num('Turn the bottom arm (degrees)', 'base', 0, 359, 1);
       api.check('Circle protractor (for reflex angles)', 'full', function () { clampAll(); });
@@ -446,10 +507,17 @@
           for (var d = 0; d < top + (S.full ? 0 : 1); d++) { var L = d % 10 === 0 ? 18 : d % 5 === 0 ? 12 : 6, a = P(d, R), b = P(d, R - L); O.s('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: NAVY, 'stroke-width': d % 10 ? 1 : 1.6, class: 'inks' }, g);
             if (d % 10 === 0) { var t1 = P(d, R - 30); O.s('text', { x: t1[0], y: t1[1] + 4, 'text-anchor': 'middle', 'font-size': 12, fill: NAVY, class: 'ink', text: d }, g);
               if (!S.full) { var t2 = P(d, R - 52); O.s('text', { x: t2[0], y: t2[1] + 4, 'text-anchor': 'middle', 'font-size': 10.5, fill: VIO, text: 180 - d }, g); } } }
-          O.s('line', { x1: cx - (S.full ? R : R), y1: cy, x2: cx + R, y2: cy, stroke: VIO, 'stroke-width': 1.5 }, g);
+          O.s('line', { x1: cx - R, y1: cy, x2: cx + R, y2: cy, stroke: VIO, 'stroke-width': 1.5 }, g);
           O.s('circle', { cx: cx, cy: cy, r: 4, fill: VIO }, g);
           O.s('line', { x1: cx, y1: cy - 12, x2: cx, y2: cy, stroke: VIO, 'stroke-width': 1.5 }, g);
-          if (S.place) { g.setAttribute('data-pbody', 1); g.style.cursor = 'grab'; var ph = O.s('circle', { cx: cx + R + 24, cy: cy, r: 16, fill: '#fff', stroke: VIO, 'stroke-width': 3, 'data-h': 'prot', style: 'cursor:grab' }, g); O.s('text', { x: cx + R + 24, y: cy + 5, 'text-anchor': 'middle', 'font-size': 15, fill: VIO, text: '⟳', style: 'pointer-events:none' }, g); }
+          if (S.place) {
+            g.setAttribute('data-pbody', 1); g.style.cursor = 'grab';
+            /* keyboard: Enter puts the center on the corner, arrows nudge, R turns (a click does nothing here: dragging moves it) */
+            O.tap(g, function (e) { if (e && e.type === 'click') return; S.px = 0; S.py = 0; api.redraw(); }, 'Protractor. Enter puts its center on the corner. Arrow keys move it, R turns it.', 'body');
+            nudgeKeys(g, function (dx, dy, fine) { var st = fine ? 1 : 5; S.px += dx * st; S.py += dy * st; api.redraw(); }, function (d) { S.pr = ((S.pr + d * 15) % 360 + 360) % 360; api.redraw(); });
+            var ph = O.s('circle', { cx: cx + R + 24, cy: cy, r: 16, fill: '#fff', stroke: VIO, 'stroke-width': 3, 'data-h': 'prot', 'data-ui': 'btn', style: 'cursor:grab' }, g); O.s('text', { x: cx + R + 24, y: cy + 5, 'text-anchor': 'middle', 'font-size': 15, fill: VIO, text: '⟳', style: 'pointer-events:none' }, g);
+            O.keys(ph, function (d) { S.pr = ((S.pr + d) % 360 + 360) % 360; api.redraw(); }, 'Turn the protractor', 'turn', function () { return S.pr + ' degrees'; });
+          }
         }
         /* angle arcs */
         var A = S.base, arms = [[A, NAVY, 'base'], [A + S.a, GRN, 'a']]; if (S.three) arms.push([A + S.c, RED, 'c']);
@@ -459,8 +527,8 @@
         var m1 = P(A + (S.three ? lo : S.a) / 2, 88); O.s('text', { x: m1[0], y: m1[1] + 5, 'text-anchor': 'middle', 'font-size': 17, fill: GRN, class: 'om-num', text: (S.three ? lo : S.a) + '°' }, v);
         if (S.three && hi > lo) { var m2 = P(A + (lo + hi) / 2, 104); O.s('text', { x: m2[0], y: m2[1] + 5, 'text-anchor': 'middle', 'font-size': 17, fill: RED, class: 'om-num', text: (hi - lo) + '°' }, v); }
         arms.forEach(function (am) { var e = P(am[0], R + 22); O.s('line', { x1: cx, y1: cy, x2: e[0], y2: e[1], stroke: am[1], 'stroke-width': 4, 'stroke-linecap': 'round', class: am[2] === 'base' ? 'inks' : '' }, v);
-          var h = O.s('circle', { cx: e[0], cy: e[1], r: 15, fill: am[1], stroke: '#fff', 'stroke-width': 3, 'data-h': am[2], style: 'cursor:grab' }, v);
-          keyTapArrows(h, am[2]); });
+          var h = O.s('circle', { cx: e[0], cy: e[1], r: 15, fill: am[1], stroke: '#fff', 'stroke-width': 3, 'data-h': am[2], style: 'cursor:grab' }, v), which = am[2];
+          O.keys(h, function (d) { setArm(which, (which === 'base' ? S.base : S[which]) + d); api.redraw(); }, which === 'base' ? 'Bottom arm' : which === 'c' ? 'Red arm' : 'Green arm', 'arm-' + which, function () { return (which === 'base' ? S.base : S[which]) + ' degrees'; }); });
         O.s('circle', { cx: cx, cy: cy, r: 6, fill: NAVY, class: 'ink' }, v);
         var out = S.three ? '<span>Angles: <b>' + lo + '°</b> and <b>' + (hi - lo) + '°</b></span><span>Together: <b>' + hi + '°</b> (' + angType(hi) + ')</span>' : '<span>Angle: <b>' + S.a + '°</b></span><span>It is ' + art(angType(S.a)) + ' <b>' + angType(S.a) + '</b></span>';
         api.readout(out);
@@ -473,19 +541,20 @@
         else if (!isNaN(tg)) api.say(pm + 'Make an angle of <b>' + tg + '°</b>. Drag the green arm.' + ((S.three ? hi : S.a) === tg ? ' <span style="color:' + GRN + '">✓ That is ' + tg + '°!</span>' : ''));
         else api.say(pm + 'Drag the green arm to make an angle. Read the scale that starts at 0 on the bottom arm.');
       }
-      function keyTapArrows(h, which) { h.setAttribute('tabindex', '0'); h.setAttribute('role', 'slider'); h.setAttribute('aria-label', which === 'base' ? 'Bottom arm' : 'Arm'); h.addEventListener('keydown', function (e) { var d = e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? 1 : e.key === 'ArrowRight' || e.key === 'ArrowDown' ? -1 : 0; if (!d) return; e.preventDefault(); setArm(which, (which === 'base' ? S.base : S[which]) + d); api.redraw(); var n = v.querySelector('[data-h="' + which + '"]'); if (n) n.focus(); }); }
       function setArm(which, deg) {
         if (which === 'base') { S.base = ((Math.round(deg) % 360) + 360) % 360; var ins = api.setup.querySelector('input[type=number]'); if (ins) ins.value = S.base; return; }
         var rel = ((Math.round(deg) % 360) + 360) % 360; if (!S.full && rel > 180) rel = rel > 270 ? 0 : 180; S[which] = rel;
       }
-      rootDrag(v, {
+      O.rootDrag(v, {
         down: function (p, e) { var t = e.target.closest && e.target.closest('[data-h]');
           if (!t && S.place && e.target.closest && e.target.closest('[data-pbody]')) return { body: 1, dx: S.px - p.x, dy: S.py - p.y };
           if (!t) return null; return { h: t.getAttribute('data-h') }; },
-        move: function (p, c) {
+        move: function (p, c, moved) {
+          if (!moved) return;
           if (c.body) { S.px = Math.round(p.x + c.dx); S.py = Math.round(p.y + c.dy); draw(); return; }
-          if (c.h === 'prot') { S.pr = ((Math.round(Math.atan2(cy + S.py - p.y, p.x - cx - S.px) / RAD) % 360) + 360) % 360; draw(); return; } var deg = Math.atan2(cy - p.y, p.x - cx) / RAD; if (c.h === 'base') { var keep = [S.a, S.c]; setArm('base', deg); } else setArm(c.h, deg - S.base); draw(); },
-        up: function (p, c) { if (c.body && Math.hypot(S.px, S.py) < 12) { S.px = 0; S.py = 0; }
+          if (c.h === 'prot') { S.pr = ((Math.round(Math.atan2(cy + S.py - p.y, p.x - cx - S.px) / RAD) % 360) + 360) % 360; draw(); return; } var deg = Math.atan2(cy - p.y, p.x - cx) / RAD; if (c.h === 'base') setArm('base', deg); else setArm(c.h, deg - S.base); draw(); },
+        up: function (p, c, moved) { if (!moved) return;
+          if (c.body && Math.hypot(S.px, S.py) < 12) { S.px = 0; S.py = 0; }
           if (c.h === 'prot') { var df = ((S.pr - S.base) % 360 + 360) % 360; if (df < 4 || df > 356) S.pr = S.base; }
           api.redraw(); }
       });
@@ -500,7 +569,7 @@
     defaults: { t: { ru: [400, 470, 0], s45: [180, 230, 0], s30: [560, 230, 0] }, lines: [], mode: 'draw', sel: 's45' },
     mount: function (api) {
       var S = api.S, W = 800, H = 560;
-      api.say('Pick Move to slide or turn a tool. Pick Draw, then drag along an edge to draw a straight line.');
+      api.say('Pick Move to slide a tool. Drag its round ⟳ handle to turn it. Pick Draw, then drag along an edge to draw a straight line.');
       var bar = toolbar(api);
       api.seg('', 'mode', [['move', '✋ Move'], ['draw', '✏ Draw']], null, bar);
       api.button('↺ Turn', function () { turn(-15); }, '', bar); api.button('↻ Turn', function () { turn(15); }, '', bar);
@@ -523,8 +592,11 @@
           O.s('polygon', { points: poly(SSH[k]), fill: k === 'ru' ? '#FFF4C7' : k === 's45' ? '#D9F0E3' : '#E6DDF8', 'fill-opacity': .75, stroke: k === S.sel ? NAVY : GRAY, 'stroke-width': k === S.sel ? 2.5 : 1.5 }, g);
           if (k === 'ru') for (var c = 0; c <= 27; c++) { var tx = -270 + c * 20; O.s('line', { x1: tx, y1: -24, x2: tx, y2: -24 + (c % 5 ? 9 : 15), stroke: NAVY, 'stroke-width': 1.2 }, g); if (c % 5 === 0) O.s('text', { x: tx, y: -2, 'text-anchor': 'middle', 'font-size': 10, fill: NAVY, text: c }, g); }
           else { var cn = SSH[k][0]; O.s('polyline', { points: poly([[cn[0] + 14, cn[1]], [cn[0] + 14, cn[1] - 14], [cn[0], cn[1] - 14]]), fill: 'none', stroke: GRAY, 'stroke-width': 1.5 }, g); }
-          keyTap(g, function () { S.sel = k; api.redraw(); }, SNM[k]);
+          O.tap(g, function () { pickTool(k); api.redraw(); }, SNM[k] + (k === S.sel ? ' (chosen; arrow keys move it, R turns it)' : ''), 'tool-' + k);
+          nudgeKeys(g, function (dx, dy, fine) { var st = fine ? 1 : 5; pickTool(k); q[0] = O.clamp(q[0] + dx * st, 0, W); q[1] = O.clamp(q[1] + dy * st, 0, H); api.redraw(); }, function (d) { pickTool(k); turn(d * 15); });
         });
+        /* the chosen tool gets a round handle so it can be turned by hand */
+        var sq = S.t[S.sel]; if (sq) turnHandle(v, sq[0], sq[1], abs(S.sel), sq[2], 'Turn the ' + SNM[S.sel], function (d) { turn(d * 15); });
         /* relations */
         var rel = [], L = S.lines;
         for (var i = 0; i < L.length; i++) for (var j = i + 1; j < L.length; j++) { var a1 = Math.atan2(L[i][3] - L[i][1], L[i][2] - L[i][0]) / RAD, a2 = Math.atan2(L[j][3] - L[j][1], L[j][2] - L[j][0]) / RAD, d = Math.abs(((a1 - a2) % 180 + 180) % 180); d = Math.min(d, 180 - d);
@@ -532,21 +604,27 @@
         api.readout(rel.slice(-6).map(function (r) { return '<span>' + r + '.</span>'; }).join(''));
         var lastRel = rel.length ? rel[rel.length - 1] : ''; api.report({ v: /perpendicular/.test(lastRel) ? 'perpendicular' : /parallel/.test(lastRel) ? 'parallel' : '' });
       }
-      rootDrag(v, {
+      function pickTool(k) { S.sel = k; var sel = api.setup.querySelector('select'); if (sel) sel.value = k; }
+      O.rootDrag(v, {
         down: function (p, e) {
+          if (e.target.closest && e.target.closest('[data-rot]') && S.t[S.sel]) { var q0 = S.t[S.sel]; return { rot: S.sel, off: Math.atan2(p.y - q0[1], p.x - q0[0]) / RAD - q0[2] }; }
           var t = e.target.closest && e.target.closest('[data-tool]');
-          if (S.mode === 'move') { if (!t) return null; var k = t.getAttribute('data-tool'); S.sel = k; var sel = api.setup.querySelector('select'); if (sel) sel.value = k; draw(); return { k: k, dx: S.t[k][0] - p.x, dy: S.t[k][1] - p.y }; }
+          if (S.mode === 'move') { if (!t) return null; var k = t.getAttribute('data-tool'); pickTool(k); draw(); return { k: k, dx: S.t[k][0] - p.x, dy: S.t[k][1] - p.y }; }
           var best = null, bd = 16; edges().forEach(function (ed) { var d = segDist([p.x, p.y], ed[0], ed[1]); if (d < bd) { bd = d; best = ed; } });
-          var c = { a: [p.x, p.y], dir: null };
+          var c = { a: [p.x, p.y], dir: null, tool: t ? t.getAttribute('data-tool') : null };
           if (best) { var dx = best[1][0] - best[0][0], dy = best[1][1] - best[0][1], L = Math.hypot(dx, dy); c.dir = [dx / L, dy / L]; c.o = best[0]; c.a = proj(c, [p.x, p.y]); }
           c.el = O.s('line', { x1: c.a[0], y1: c.a[1], x2: c.a[0], y2: c.a[1], stroke: NAVY, 'stroke-width': 3, 'stroke-linecap': 'round' }, v); return c;
         },
-        move: function (p, c) {
+        move: function (p, c, moved) {
+          if (!moved) return;
+          if (c.rot) { var qr = S.t[c.rot]; qr[2] = ((Math.round((Math.atan2(p.y - qr[1], p.x - qr[0]) / RAD - c.off) / 15) * 15) % 360 + 360) % 360; draw(); return; }
           if (c.k) { S.t[c.k][0] = O.clamp(p.x + c.dx, 0, W); S.t[c.k][1] = O.clamp(p.y + c.dy, 0, H); draw(); return; }
           c.b = c.dir ? proj(c, [p.x, p.y]) : [p.x, p.y]; c.el.setAttribute('x2', c.b[0]); c.el.setAttribute('y2', c.b[1]);
         },
-        up: function (p, c) {
+        up: function (p, c, moved) {
+          if (c.rot) { api.redraw(); return; }
           if (c.k) { S.t[c.k][0] = Math.round(S.t[c.k][0]); S.t[c.k][1] = Math.round(S.t[c.k][1]); api.redraw(); return; }
+          if (!moved && c.tool) { O.dragDone(); pickTool(c.tool); api.redraw(); return; } /* a tap on a tool in Draw mode chooses it */
           if (c.b && Math.hypot(c.b[0] - c.a[0], c.b[1] - c.a[1]) > 8) S.lines.push([c.a[0], c.a[1], c.b[0], c.b[1]].map(function (n) { return Math.round(n * 10) / 10; }));
           api.redraw();
         }
@@ -571,7 +649,6 @@
       api.endMore();
       var v = holder(api, W, H, 'Centimeter grid with a compass');
       function X(c) { return M + c * CM; }
-      function pen() { return [S.cx + S.r * Math.cos(S.a * RAD), S.cy - S.r * Math.sin(S.a * RAD)]; }
       function cpts(cx, cy, r, a0, a1) { var p = []; for (var t = a0; t <= a1; t += 4) p.push([X(cx + r * Math.cos(t * RAD)), X(cy - r * Math.sin(t * RAD))]); p.push([X(cx + r * Math.cos(a1 * RAD)), X(cy - r * Math.sin(a1 * RAD))]); return p; }
       function draw(sweep) {
         clear(v); O.s('rect', { x: 0, y: 0, width: W, height: H, rx: 12, fill: '#fff', class: 'paper' }, v);
@@ -595,20 +672,21 @@
         O.s('line', { x1: n[0], y1: n[1], x2: pp[0], y2: pp[1], stroke: YEL, 'stroke-width': 2, 'stroke-dasharray': '4 4' }, v);
         var hn = O.s('circle', { cx: n[0], cy: n[1], r: 14, fill: 'rgba(91,100,120,.25)', stroke: GRAY, 'stroke-width': 2, 'data-h': 'n', style: 'cursor:grab' }, v); O.s('circle', { cx: n[0], cy: n[1], r: 3, fill: NAVY, style: 'pointer-events:none' }, v);
         var hp = O.s('circle', { cx: pp[0], cy: pp[1], r: 14, fill: YEL, stroke: NAVY, 'stroke-width': 2, 'data-h': 'p', style: 'cursor:grab' }, v);
-        keyMove(hn, 'n'); keyMove(hp, 'p');
+        /* keyboard: arrows move the needle half a square; arrows open or close the pencil; Enter on the pencil draws the circle */
+        O.tap(hn, function (e) { if (e && e.type === 'click') return; }, 'Needle point. Arrow keys move it.', 'needle');
+        nudgeKeys(hn, function (dx, dy) { S.cx = O.clamp(S.cx + dx * .5, 0, GW); S.cy = O.clamp(S.cy + dy * .5, 0, GH); api.redraw(); });
+        O.tap(hp, function (e) { if (e && e.type === 'click') return; swing(); }, 'Pencil. Arrow keys change the radius. Enter draws the circle.', 'pencil');
+        nudgeKeys(hp, function (dx, dy) { S.r = O.clamp(S.r + (dx - dy) * .5, .5, 8); rIn.value = S.r; api.redraw(); });
         api.readout(last ? '<span>Last circle: radius <b>' + last[2] + ' cm</b></span><span>Diameter <b>' + (last[2] * 2) + ' cm</b></span>' : '<span>The compass is set to <b>' + S.r + ' cm</b>.</span>');
         api.report({ v: last ? String(last[2]) : '' });
       }
-      function keyMove(h, w) { h.setAttribute('tabindex', '0'); h.setAttribute('role', 'button'); h.setAttribute('aria-label', w === 'n' ? 'Needle point. Use arrow keys to move.' : 'Pencil. Arrow keys change the radius.');
-        h.addEventListener('keydown', function (e) { var k = e.key, dx = k === 'ArrowRight' ? .5 : k === 'ArrowLeft' ? -.5 : 0, dy = k === 'ArrowDown' ? .5 : k === 'ArrowUp' ? -.5 : 0; if (!dx && !dy) return; e.preventDefault();
-          if (w === 'n') { S.cx = O.clamp(S.cx + dx, 0, GW); S.cy = O.clamp(S.cy + dy, 0, GH); } else { S.r = O.clamp(S.r + dx - dy, .5, 8); rIn.value = S.r; } api.redraw(); var q = v.querySelector('[data-h="' + w + '"]'); if (q) q.focus(); }); }
-      function swing() { if (busy) return; var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches; if (reduce) { done(); return; } busy = true; var t0 = performance.now();
-        (function step(t) { var k = Math.min(1, (t - t0) / 1100); draw(k * 360); if (k < 1) requestAnimationFrame(step); else done(); })(t0); }
+      function swing() { if (busy) return; if (O.reduce) { done(); return; } busy = true; var t0 = performance.now();
+        (function step(t) { if (!v.isConnected) { busy = false; return; } var k = Math.min(1, (t - t0) / 1100); draw(k * 360); if (k < 1) requestAnimationFrame(step); else done(); })(t0); }
       function done() { busy = false; S.circ.push([S.cx, S.cy, S.r]); api.redraw(); }
-      rootDrag(v, {
+      O.rootDrag(v, {
         down: function (p, e) { if (busy) return null; var t = e.target.closest && e.target.closest('[data-h]'); if (!t) return null; var gx = (p.x - M) / CM, gy = (p.y - M) / CM, a0 = Math.atan2(S.cy - gy, gx - S.cx) / RAD;
           return { h: t.getAttribute('data-h'), start: S.a, prev: a0, acc: 0, drawing: false }; },
-        move: function (p, c) { var gx = (p.x - M) / CM, gy = (p.y - M) / CM;
+        move: function (p, c, moved) { if (!moved) return; var gx = (p.x - M) / CM, gy = (p.y - M) / CM;
           if (c.h === 'n') { S.cx = O.clamp(Math.round(gx * 2) / 2, 0, GW); S.cy = O.clamp(Math.round(gy * 2) / 2, 0, GH); draw(); return; }
           if (c.fin) return;
           var r = Math.hypot(gx - S.cx, gy - S.cy), ang = Math.atan2(S.cy - gy, gx - S.cx) / RAD;
@@ -617,7 +695,7 @@
           if (Math.abs(c.acc) > 8) c.drawing = true;
           if (Math.abs(c.acc) >= 356) { c.fin = true; S.circ.push([S.cx, S.cy, S.r]); S.a = Math.round(c.start + c.acc); api.redraw(); return; }
           S.a = c.start; draw(c.drawing ? c.acc : 0); },
-        up: function (p, c) { if (c.h === 'p' && c.drawing && !c.fin) { S.a = Math.round(c.start + c.acc); O.toast('Keep going all the way around to finish the circle.'); } api.redraw(); }
+        up: function (p, c, moved) { if (!moved) return; if (c.h === 'p' && c.drawing && !c.fin) { S.a = Math.round(c.start + c.acc); O.toast('Keep going all the way around to finish the circle.'); } api.redraw(); }
       });
       api.onRedraw(function () { draw(0); });
     }
@@ -625,7 +703,7 @@
 
   /* ================= UNIT CUBES ================= */
   O.register('cubes', {
-    defaults: { n: 5, h: {}, mode: 'add', lay: false, rot: 0, cm: false, L: 4, W: 3, H: 2 },
+    defaults: { n: 5, h: {}, mode: 'add', lay: false, rot: 0, cm: false, L: 4, W: 3, H: 2, box: 0 },
     mount: function (api) {
       var S = api.S, s = 30, a = s * 0.866, b = s / 2, MAXH = 8;
       var LC = [VIO, GRN, YEL, BLUE, ORG, RED, TEAL, '#D6457A'];
@@ -656,13 +734,14 @@
         O.s('rect', { x: 0, y: 0, width: W, height: H, rx: 14, fill: '#fff', class: 'paper' }, v);
         var cells = [];
         for (var x = 0; x < S.n; x++) for (var y = 0; y < S.n; y++) { var uv = view(x, y); cells.push({ k: x + '_' + y, u: uv[0], w: uv[1] }); }
-        cells.forEach(function (c) { var g = O.s('polygon', { points: poly([P(c.u, c.w, 0, 0), P(c.u + 1, c.w, 0, 0), P(c.u + 1, c.w + 1, 0, 0), P(c.u, c.w + 1, 0, 0)]), fill: '#EEF1F8', stroke: '#C9D0E3', 'stroke-width': 1, 'data-k': c.k, class: 'om-tap' }, v); keyTap(g, function () { act(c.k); }, 'Stack at ' + c.k.replace('_', ', ')); });
+        cells.forEach(function (c) { var g = O.s('polygon', { points: poly([P(c.u, c.w, 0, 0), P(c.u + 1, c.w, 0, 0), P(c.u + 1, c.w + 1, 0, 0), P(c.u, c.w + 1, 0, 0)]), fill: '#EEF1F8', stroke: '#C9D0E3', 'stroke-width': 1, 'data-c': c.k }, v); O.tap(g, function () { act(c.k); }, 'Stack at ' + c.k.replace('_', ', ') + ': ' + plural(S.h[c.k] || 0, 'cube', 'cubes'), 'cell-' + c.k); });
         var cubes = []; cells.forEach(function (c) { for (var z = 0; z < (S.h[c.k] || 0); z++) cubes.push({ c: c, z: z }); });
         cubes.sort(function (p, q) { return (p.c.u + p.c.w) - (q.c.u + q.c.w) || p.z - q.z; });
-        cubes.forEach(function (q) { var u = q.c.u, w = q.c.w, z = q.z, col = S.lay ? LC[z % 8] : VIO, g = O.s('g', { 'data-k': q.c.k, style: 'cursor:pointer' }, v), st = { stroke: 'rgba(14,28,66,.55)', 'stroke-width': 1, 'stroke-linejoin': 'round' };
+        cubes.forEach(function (q) { var u = q.c.u, w = q.c.w, z = q.z, col = S.lay ? LC[z % 8] : VIO, g = O.s('g', { 'data-c': q.c.k, style: 'cursor:pointer' }, v), st = { stroke: 'rgba(14,28,66,.55)', 'stroke-width': 1, 'stroke-linejoin': 'round' };
           O.s('polygon', Object.assign({ points: poly([P(u, w + 1, z, z), P(u + 1, w + 1, z, z), P(u + 1, w + 1, z + 1, z), P(u, w + 1, z + 1, z)]), fill: shade(col, 0.82) }, st), g);
           O.s('polygon', Object.assign({ points: poly([P(u + 1, w, z, z), P(u + 1, w + 1, z, z), P(u + 1, w + 1, z + 1, z), P(u + 1, w, z + 1, z)]), fill: shade(col, 0.62) }, st), g);
-          O.s('polygon', Object.assign({ points: poly([P(u, w, z + 1, z), P(u + 1, w, z + 1, z), P(u + 1, w + 1, z + 1, z), P(u, w + 1, z + 1, z)]), fill: shade(col, 1.35) }, st), g); });
+          O.s('polygon', Object.assign({ points: poly([P(u, w, z + 1, z), P(u + 1, w, z + 1, z), P(u + 1, w + 1, z + 1, z), P(u, w + 1, z + 1, z)]), fill: shade(col, 1.35) }, st), g);
+          O.tap(g, function () { act(q.c.k); }, 'Cube ' + (z + 1) + ' at ' + q.c.k.replace('_', ', '), 'cube-' + q.c.k + '-' + z); });
         /* readout */
         var ks = Object.keys(S.h).filter(function (k) { return S.h[k] > 0; }), vol = 0; ks.forEach(function (k) { vol += S.h[k]; });
         var unit = S.cm ? ['cubic centimeter', 'cubic centimeters'] : ['cubic unit', 'cubic units'], out = '<span>Cubes: <b>' + vol + '</b></span><span>Volume: <b>' + plural(vol, unit[0], unit[1]) + '</b></span>';
@@ -670,21 +749,20 @@
           if (ks.length === bw * bl && ks.every(function (k) { return S.h[k] === h0; })) out += '<span>Box: length ' + bw + ' × width ' + bl + ' × height ' + h0 + ' = ' + vol + '</span><span>A cuboid has 6 faces, 12 edges and 8 vertices.</span>';
           if (S.lay) { var mx = 0; ks.forEach(function (k) { mx = Math.max(mx, S.h[k]); }); var ls = []; for (var z = 0; z < mx; z++) ls.push('Layer ' + (z + 1) + ': ' + ks.filter(function (k) { return S.h[k] > z; }).length); out += '<span>' + ls.join(' · ') + '</span>'; } }
         /* cube tray */
-        var tg = O.s('g', { 'data-tray': 1, style: 'cursor:grab' }, v); O.s('rect', { x: 8, y: 8, width: 92, height: 74, rx: 10, fill: '#F1EDFB' }, tg); iso(tg, 54, 30, 16, VIO); O.s('text', { x: 54, y: 74, 'text-anchor': 'middle', 'font-size': 11.5, fill: NAVY, text: 'Drag a cube', style: 'pointer-events:none' }, tg);
+        var tg = O.s('g', { 'data-tray': 1, 'data-ui': 'tray', style: 'cursor:grab' }, v); O.s('rect', { x: 8, y: 8, width: 92, height: 74, rx: 10, fill: '#F1EDFB' }, tg); iso(tg, 54, 30, 16, VIO); O.s('text', { x: 54, y: 74, 'text-anchor': 'middle', 'font-size': 11.5, fill: NAVY, text: 'Drag a cube', style: 'pointer-events:none' }, tg);
         api.readout(out); api.report({ v: String(vol) });
       }
-      v.addEventListener('click', function (e) { if (Date.now() - lastDrag < 400) return; var t = e.target.closest && e.target.closest('[data-k]'); if (t) act(t.getAttribute('data-k')); });
-      var lastDrag = 0;
       function iso(par, x, y, sz, col) { var A = sz * 0.866, Bh = sz / 2, st = { stroke: 'rgba(14,28,66,.55)', 'stroke-width': 1, 'stroke-linejoin': 'round', style: 'pointer-events:none' };
         O.s('polygon', Object.assign({ points: poly([[x, y], [x + A, y - Bh], [x, y - 2 * Bh], [x - A, y - Bh]]), fill: shade(col, 1.35) }, st), par);
         O.s('polygon', Object.assign({ points: poly([[x - A, y - Bh], [x, y], [x, y + sz], [x - A, y + sz - Bh]]), fill: shade(col, 0.82) }, st), par);
         O.s('polygon', Object.assign({ points: poly([[x + A, y - Bh], [x, y], [x, y + sz], [x + A, y + sz - Bh]]), fill: shade(col, 0.62) }, st), par); }
-      function cellUnder(p) { var m = v.getScreenCTM(); if (!m) return null; var el = document.elementFromPoint(m.a * p.x + m.c * p.y + m.e, m.b * p.x + m.d * p.y + m.f); var t = el && el.closest && el.closest('[data-k]'); return t ? t.getAttribute('data-k') : null; }
-      rootDrag(v, {
+      function cellUnder(p) { var m = v.getScreenCTM(); if (!m) return null; var el = document.elementFromPoint(m.a * p.x + m.c * p.y + m.e, m.b * p.x + m.d * p.y + m.f); var t = el && el.closest && el.closest('[data-c]'); return t ? t.getAttribute('data-c') : null; }
+      /* drags: a cube from the tray, or the top cube of a stack. A tap on a square reaches O.tap (no drag starts there); a tap on a cube is done in up(). */
+      O.rootDrag(v, {
         down: function (p, e) { if (e.target.closest && e.target.closest('[data-tray]')) return { add: 1 };
-          var cg = e.target.closest && e.target.closest('g[data-k]'); if (cg) return { lift: cg.getAttribute('data-k') }; return null; },
+          var cg = e.target.closest && e.target.closest('g[data-c]'); if (cg) return { lift: cg.getAttribute('data-c') }; return null; },
         move: function (p, c, moved) { if (!moved) return; if (!c.gh) { c.gh = O.s('g', { style: 'pointer-events:none', opacity: .85 }, v); iso(c.gh, 0, 0, 22, VIO); } if (!c.gh.parentNode) v.appendChild(c.gh); c.gh.setAttribute('transform', 'translate(' + p.x + ' ' + (p.y - 10) + ')'); },
-        up: function (p, c, moved) { if (c.gh && c.gh.parentNode) c.gh.remove(); if (!moved) { if (c.add) O.toast('Drag the cube onto a square.'); return; } lastDrag = Date.now();
+        up: function (p, c, moved) { if (c.gh && c.gh.parentNode) c.gh.remove(); if (!moved) { O.dragDone(); if (c.add) O.toast('Drag the cube onto a square.'); else if (c.lift) act(c.lift); return; }
           var k = cellUnder(p);
           if (c.add) { if (!k) return; var cur = S.h[k] || 0; if (cur >= MAXH) { O.toast('That stack is as tall as it can go.'); return; } S.h[k] = cur + 1; api.redraw(); return; }
           if (c.lift) { if (k === c.lift) return; var h0 = S.h[c.lift] || 0; if (!h0) return; if (h0 === 1) delete S.h[c.lift]; else S.h[c.lift] = h0 - 1; if (k) { var c2 = S.h[k] || 0; if (c2 < MAXH) S.h[k] = c2 + 1; } api.redraw(); } }

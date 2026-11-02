@@ -81,22 +81,24 @@
   document.title = title + ' · OAO Math Puzzles';
   var base = location.href.split('#')[0].split('?')[0].replace(/[^\/]*$/, '');
   top.innerHTML = (st ? '' : '<a class="back" href="index.html">← Library</a>') + '<h1>' + esc(title) + '</h1><div class="om-actions">' +
-    '<button class="om-btn small" id="pr">🖨 <span class="lbl">Print</span></button>' + (st ? '' : '<button class="om-btn small primary" id="sh">🔗 <span class="lbl">Share</span></button>') + '</div>';
+    '<button class="om-btn small" id="pr">🖨 <span class="lbl">Print</span></button>' + (st || printMode ? '' : '<a class="om-btn small" id="ws" href="#">📄 <span class="lbl">Worksheet</span></a>') + (st ? '' : '<button class="om-btn small primary" id="sh">🔗 <span class="lbl">Share</span></button>') + '</div>';
   if (!list.length) { main.innerHTML = '<p>That puzzle was not found.</p>'; return; }
   document.getElementById('pr').onclick = function () { window.print(); };
+  /* a printable worksheet of the same puzzle(s), with the answer key on the last page (print mode only with &print=1; student links stay interactive) */
+  var ws = document.getElementById('ws'); if (ws) ws.href = location.href.split('#')[0] + (location.search ? '&' : '?') + 'print=1';
   var sh = document.getElementById('sh');
   if (sh) sh.onclick = function () {
     var u = base + 'puzzle.html?' + (q.get('pack') ? 'pack=' + encodeURIComponent(ids.join(',')) + '&title=' + encodeURIComponent(title) : 'p=' + encodeURIComponent(ids[0]));
     OAOM.share({ title: title, url: u, note: 'Students get the puzzle without the answer and without a way back to the library.', dir: { title: 'Math puzzle: ' + title, intro: 'Solve the puzzle. Tap Check when you are done. Stuck? Tap Need a hint.' } });
   };
   var toolURL = function (t, s) { return OAOM.toolURL(t, s, st ? '&st=1' : ''); };
-  if (printMode || list.length > 1) main.classList.add('pz-pack');
+  if (printMode) main.classList.add('pz-pack');
   list.forEach(function (p) {
     var box = document.createElement('section'); main.appendChild(box);
-    P.render(box, p, { teacher: !st && !printMode, print: printMode || list.length > 1, toolURL: toolURL });
+    P.render(box, p, { teacher: !st && !printMode, print: printMode, toolURL: toolURL });
     var nb = document.createElement('div'); nb.className = 'pz-namebar'; nb.innerHTML = '<span><b>Math puzzle</b></span><span>Name: ____________________ &nbsp; Date: ________</span>'; box.insertBefore(nb, box.firstChild);
   });
-  if ((printMode || list.length > 1) && !st) {
+  if (printMode && !st) {
     var a = document.createElement('section'); a.className = 'pz pz-answers';
     a.innerHTML = '<h2 style="margin-top:0">Answer key (teacher)</h2>' + list.map(function (p) { var d = document.createElement('div'); P.render(d, p, { teacher: true, print: true }); var ans = d.querySelector('.pz-answer div'); return '<p><b>' + esc(p.title) + ':</b><br>' + (ans ? ans.innerHTML : '') + '</p>'; }).join('');
     main.appendChild(a);

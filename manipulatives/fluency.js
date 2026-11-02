@@ -8,6 +8,8 @@
   var isStudent = P.get('st') === '1', app = document.getElementById('fl-app');
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var FAST = 3000; /* 3-second automaticity guideline (Kling & Bay-Williams) */
+  /* the time is measured to Enter, so typing counts: each extra digit of the answer gets 400 ms more (144 takes longer to type than 7) */
+  function allow(ans) { return FAST + 400 * Math.max(0, String(Math.abs(ans)).length - 1); }
 
   /* ---------- fact families ---------- */
   var ADD_FAMS = [
@@ -52,7 +54,9 @@
 
   function label(s) {
     if (isMul(s.op)) { var w = { mul: 'Multiplication', div: 'Division', muldiv: 'Multiplication and division' }[s.op]; return w + ': ×' + (s.facs || []).join(', ×') + (s.sq ? ', squares' : '') + (s.to12 ? ' (to 12)' : ''); }
-    var fam = ADD_FAMS.filter(function (x) { return x[0] === s.fam; })[0]; var w2 = { add: 'Addition', sub: 'Subtraction', addsub: 'Addition and subtraction' }[s.op];
+    var fam = ADD_FAMS.filter(function (x) { return x[0] === s.fam; })[0]; var w2 = { add: 'Addition', sub: 'Subtraction', addsub: 'Addition and subtraction' }[s.op] || 'Addition';
+    /* the teen family is subtraction facts (and their addition partners with + and −), whatever the operation chip says */
+    if (s.fam === 'teen') return s.op === 'addsub' ? 'Addition and subtraction: teen numbers (like 8 + 6 and 14 − 6)' : 'Subtraction: subtract from teen numbers';
     return w2 + ': ' + (fam ? fam[1].toLowerCase() : '');
   }
   /* B.E.S.T. goals, verified on CPALMS / Hillsborough benchmark pages (Oct 2026) */
@@ -78,6 +82,7 @@
     }
     if (f.op === '−') {
       var c = a, s = b, d = c - s;
+      if (c === 10) return 'Ten partners: ' + s + ' and ' + d + ' make 10, so 10 − ' + s + ' = ' + d + '.';
       if (c > 10 && s > c - 10) return 'Get to 10 first: ' + c + ' − ' + (c - 10) + ' = 10, then − ' + (s - (c - 10)) + ' more = ' + d + '.';
       return 'Think addition: ' + s + ' + ? = ' + c + '. The answer is ' + d + '.';
     }
@@ -156,7 +161,8 @@
       '<h2>Teacher notes</h2>' +
       '<p><b>What fluency means.</b> Fact fluency is more than speed. Researchers describe four parts: <b>accuracy</b> (getting it right), <b>efficiency</b> (a quick, sensible path), <b>flexibility</b> (more than one way), and <b>choosing a good strategy</b> for the fact in front of you.</p>' +
       '<p><b>Why the timer is off by default.</b> Timed tests show little about how students think and are linked to math anxiety, even for strong students. Fact Check times each fact quietly instead, so you still see which facts are automatic without a clock on the screen.</p>' +
-      '<p><b>Fast facts and strategy facts.</b> A correct answer in about 3 seconds or less counts as a <b>fast fact</b> (known from memory). A correct answer that took longer is a <b>strategy fact</b>: the student worked it out. Both are good news. Strategy facts show you what to practice next.</p>' +
+      '<p><b>Fast facts and strategy facts.</b> A correct answer in about 3 seconds or less counts as a <b>fast fact</b> (known from memory). A correct answer that took longer is a <b>strategy fact</b>: the student worked it out. Both are good news. Strategy facts show you what to practice next. The clock runs until the student presses Enter, so typing counts: each extra digit in the answer adds 0.4 seconds to the fast-fact allowance (a one-digit answer gets 3 seconds, 144 gets 3.8).</p>' +
+      '<p><b>The score is self-reported.</b> The score picture and the score link are made in the student’s browser from what they typed. Nothing checks them on a server, so treat a score like a worksheet a student hands you, not a test record.</p>' +
       '<p><b>Using the score.</b></p><ul><li>Look at the strategy facts and the facts to practice. Do they share a family (like ×7 or make-ten facts)?</li><li>Ask a student about one: “How did you figure out 8 + 6?” Their answer tells you more than the number.</li><li>Students also rate how it felt. Read that too.</li><li>Compare each student with their own last score, not with classmates.</li></ul>' +
       '<p><b>If you turn the timer on.</b> As context only, curriculum-based measures expect about 20 digits correct a minute in Grades 1–2, 30 in Grade 3, 40 in Grade 4 and 30 in Grade 5 on mixed computation probes. Fact Check counts facts, not digits, so treat these as a rough guide.</p>' +
       '<p><b>A good routine.</b> 2–3 minutes, a few times a week, on one family at a time. Then practice the slow facts with a strategy (the score card gives one for each), and celebrate growth.</p>' +
@@ -167,12 +173,12 @@
   /* ================= STUDENT ================= */
   function student(facts0) {
     var s = S0(P.get('q')), pool = makeFacts(s);
-    var facts = facts0 || deal(pool, s.n), log = [], i = 0, t0 = 0, typed = '', busy = false, endAt = 0, tick = null;
+    var facts = facts0 || deal(pool, s.n), log = [], i = 0, t0 = 0, typed = '', busy = false, endAt = 0, tick = null, nextT = null;
     document.title = 'Fact Check · OAO Math Tools';
     acts.innerHTML = '';
     if (!pool.length) { app.innerHTML = '<div class="fl-card"><p>This fact check has no facts. Ask your teacher for a new link.</p></div>'; return; }
     app.innerHTML = '<div class="fl-card fl-stage fl-start"><p class="big">Fact Check</p><p>' + esc(label(s)) + '</p><p>' + facts.length + ' facts. ' +
-      (s.tm ? 'You have ' + (s.tm / 60) + ' minute' + (s.tm > 60 ? 's' : '') + '. Go at your own pace.' : 'Take your time.') + '</p>' +
+      (s.tm ? 'You have ' + (s.tm / 60) + ' minute' + (s.tm > 60 ? 's' : '') + '.' : 'Take your time.') + '</p>' +
       (s.goal ? '<p class="om-hint">Goal: facts you know fast, in about 3 seconds. It’s fine to use a strategy too.</p>' : '') +
       '<button class="om-btn primary" id="fl-go" style="font-size:1.3rem;min-height:56px;padding:.4em 1.6em">Start</button></div>';
     var go = document.getElementById('fl-go'); go.focus(); go.onclick = begin;
@@ -211,16 +217,16 @@
       var fb = document.getElementById('fl-fb');
       if (ok) { fb.className = 'fl-fb ok'; fb.textContent = '✓'; }
       else { fb.className = 'fl-fb no'; fb.textContent = factStr(f) + ' = ' + f.ans; }
-      setTimeout(function () { i++; show(); }, ok ? 450 : 1400);
+      nextT = setTimeout(function () { i++; show(); }, ok ? 450 : 1400);
     }
     function finish() {
-      if (finish.done) return; finish.done = true; clearInterval(tick); document.removeEventListener('keydown', onKey);
+      if (finish.done) return; finish.done = true; clearInterval(tick); clearTimeout(nextT); document.removeEventListener('keydown', onKey);
       var r = summarize(s, log, facts.length);
       scoreCard(r, false, function again(slow) { finish.done = false; var nf = slow ? deal(r.pr.map(function (x) { return x; }), Math.max(r.pr.length, Math.min(10, r.pr.length * 2))) : shuffle(facts); student(nf.length ? nf : null); });
     }
   }
   function summarize(s, log, planned) {
-    var fast = log.filter(function (x) { return x.ok && x.ms <= FAST; }), strat = log.filter(function (x) { return x.ok && x.ms > FAST; }), miss = log.filter(function (x) { return !x.ok; });
+    var fast = log.filter(function (x) { return x.ok && x.ms <= allow(x.ans); }), strat = log.filter(function (x) { return x.ok && x.ms > allow(x.ans); }), miss = log.filter(function (x) { return !x.ok; });
     var seen = {}, pr = [];
     miss.concat(strat).forEach(function (x) { var k = x.a + x.op + x.b; if (!seen[k]) { seen[k] = 1; pr.push({ a: x.a, op: x.op, b: x.b, ans: x.ans }); } });
     return { L: label(s), d: new Date().toISOString(), tm: s.tm, n: log.length, pl: planned, c: fast.length + strat.length, f: fast.length, s: strat.length, m: miss.length, pr: pr.slice(0, 24), sa: -1, cn: '' };
@@ -232,9 +238,9 @@
     acts.innerHTML = '';
     var h = '<div class="fl-card fl-score">' + (readOnly ? '<p class="fl-ro">A student’s Fact Check score (read only).' + (r.cn ? ' Class number: ' + esc(r.cn) + '.' : '') + '</p>' : '') +
       '<h2>' + (readOnly ? 'Fact Check score' : 'Nice work! Here is your score.') + '</h2><p style="margin:0;color:var(--mute);font-weight:700">' + esc(r.L) + ' · ' + new Date(r.d).toLocaleString() + (r.tm ? ' · ' + (r.tm / 60) + '-minute timer' : '') + '</p>' +
-      '<div class="fl-stats"><div class="fl-stat"><b>' + r.c + ' of ' + r.n + '</b>correct' + (r.n < r.pl ? ' (' + r.pl + ' planned)' : '') + '</div><div class="fl-stat fast"><b>' + r.f + '</b>fast facts<br><small>about 3 seconds or less</small></div><div class="fl-stat strat"><b>' + r.s + '</b>strategy facts<br><small>right, took a little longer</small></div><div class="fl-stat miss"><b>' + r.m + '</b>to fix</div></div>';
+      '<div class="fl-stats"><div class="fl-stat"><b>' + r.c + ' of ' + r.n + '</b>correct' + (r.n < r.pl ? ' (' + r.pl + ' planned)' : '') + '</div><div class="fl-stat fast"><b>' + r.f + '</b>fast facts<br><small>about 3 seconds (a bit more to type a long answer)</small></div><div class="fl-stat strat"><b>' + r.s + '</b>strategy facts<br><small>right, took a little longer</small></div><div class="fl-stat miss"><b>' + r.m + '</b>to fix</div></div>';
     if (r.pr.length) h += '<h3 style="font-family:Nunito,sans-serif;font-size:1rem;margin:.2rem 0">Facts to practice</h3><ul class="fl-prac">' + r.pr.map(function (f) { return '<li><b>' + esc(factStr(f)) + ' = ' + f.ans + '</b>' + esc(hint(f)) + '</li>'; }).join('') + '</ul>';
-    else h += '<p style="font-weight:700;color:var(--green)">Every fact was fast. Ask your teacher for a new fact family!</p>';
+    else h += '<p style="font-weight:700;color:var(--green)">Every fact was fast. Ask your teacher for a new set of facts!</p>';
     h += '<h3 style="font-family:Nunito,sans-serif;font-size:1rem;margin:.6rem 0 .3rem">How did it feel?</h3><div class="fl-faces" id="fl-faces">' + FACES.map(function (t, k) { return '<button data-k="' + k + '" aria-pressed="' + (r.sa === k) + '"' + (readOnly ? ' disabled' : '') + '>' + t + '</button>'; }).join('') + '</div>';
     if (!readOnly) h += '<label class="fl-cn">My class number (if your teacher asks): <input id="fl-cn" inputmode="numeric" maxlength="6" value="' + esc(r.cn) + '"></label>';
     h += '<div class="om-row"><button class="om-btn primary" id="fl-dl">Download my score</button>' + (readOnly ? '' : '<button class="om-btn primary" id="fl-link">Copy link to my score</button><button class="om-btn" id="fl-again">Try again</button>' + (r.pr.length ? '<button class="om-btn" id="fl-slow">Practice my slow facts</button>' : '')) + '</div>' +
@@ -261,8 +267,18 @@
     var a = document.createElement('a'); a.href = c.toDataURL('image/png'); a.download = 'fact-check-score.png'; document.body.appendChild(a); a.click(); a.remove();
   }
 
+  /* a score link (?r=) is data anyone could have typed: every field is coerced to a number or escaped before it reaches innerHTML */
+  var OPS = ['+', '−', '×', '÷'];
+  function cleanScore(r) {
+    if (!r || typeof r !== 'object') return null;
+    function int(x, lo, hi) { x = +x | 0; return Math.max(lo, Math.min(hi, x)); }
+    var o = { L: String(r.L == null ? '' : r.L).slice(0, 120), d: isNaN(Date.parse(r.d)) ? new Date().toISOString() : new Date(r.d).toISOString(), tm: int(r.tm, 0, 3600),
+      n: int(r.n, 0, 999), pl: int(r.pl, 0, 999), c: int(r.c, 0, 999), f: int(r.f, 0, 999), s: int(r.s, 0, 999), m: int(r.m, 0, 999), sa: int(r.sa, -1, 2), cn: String(r.cn == null ? '' : r.cn).replace(/[^0-9A-Za-z-]/g, '').slice(0, 6), pr: [] };
+    (Array.isArray(r.pr) ? r.pr : []).slice(0, 24).forEach(function (f) { if (!f || typeof f !== 'object' || OPS.indexOf(f.op) < 0) return; var a = +f.a, b = +f.b, ans = +f.ans; if (!isFinite(a) || !isFinite(b) || !isFinite(ans)) return; o.pr.push({ a: a | 0, b: b | 0, op: f.op, ans: ans | 0 }); });
+    return o;
+  }
   /* ---------- route ---------- */
-  if (P.get('r')) { var rr = O.dec(P.get('r')); if (rr) { document.title = 'Fact Check score · OAO Math Tools'; scoreCard(rr, true); } else app.innerHTML = '<div class="fl-card"><p>This score link is broken.</p></div>'; }
+  if (P.get('r')) { var rr = cleanScore(O.dec(P.get('r'))); if (rr) { document.title = 'Fact Check score · OAO Math Tools'; scoreCard(rr, true); } else app.innerHTML = '<div class="fl-card"><p>This score link is broken.</p></div>'; }
   else if (isStudent) student();
   else teacher();
 })();

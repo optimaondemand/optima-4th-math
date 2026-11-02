@@ -35,7 +35,9 @@ body{display:flex;flex-direction:column;min-height:100%}
 (function () {
   var p = new URLSearchParams(location.search), $ = function (s) { return document.querySelector(s); };
   var isStudent = p.get('st') === '1', title = p.get('title') || 'Problem set';
-  var items = p.get('x') ? OAOM.dec(p.get('x')) : null;
+  /* the problems live in ?x=; a "Turn in my work" link carries every problem's work in #x= instead, which wins when both are there */
+  var hx = (location.hash.match(/x=([^&]+)/) || [])[1], xs = hx || p.get('x') || '';
+  var items = xs ? OAOM.dec(xs) : null;
   document.title = title + ' · OAO Math Tools';
   $('#title').textContent = title;
   if (!items || !items.length) { document.body.insertAdjacentHTML('beforeend', '<div class="set-msg"><h2>This link is missing its problems.</h2><p>Ask your teacher for the link again.</p></div>'); return; }
@@ -47,7 +49,7 @@ body{display:flex;flex-direction:column;min-height:100%}
   }
   var extra = '&embed=1&st=1' + (p.get('board') === '1' ? '&board=1' : '') + (p.get('plain') === '1' ? '&plain=1' : '');
   /* each problem keeps the student's work while they move around (and through a page refresh) */
-  var KEY = 'oaom.setwork.' + p.get('x').length + '.' + p.get('x').slice(-24);
+  var KEY = 'oaom.setwork.' + xs.length + '.' + xs.slice(-24);
   var states = items.map(function (x) { return x.s || null; }), seen = {}, i = 0;
   try { var keep = JSON.parse(sessionStorage.getItem(KEY) || 'null'); if (keep && keep.states && keep.states.length === items.length) { states = keep.states; i = keep.i || 0; seen = keep.seen || {}; } } catch (e) {}
   var fr = $('#fr');
@@ -56,7 +58,9 @@ body{display:flex;flex-direction:column;min-height:100%}
   function show(k) {
     i = Math.max(0, Math.min(items.length - 1, k)); seen[i] = 1;
     var it = items[i];
-    fr.src = OAOM.toolURL(it.t, states[i], extra);
+    /* replace, not assign: moving between problems must not pile up browser history, so Back leaves the set */
+    var u = OAOM.toolURL(it.t, states[i], extra);
+    try { fr.contentWindow.location.replace(u); } catch (e) { fr.src = u; }
     $('#where').innerHTML = 'Problem ' + (i + 1) + ' of ' + items.length + '<small>' + OAOM.esc(OAOM.meta(it.t).name) + '</small>';
     $('#dots').innerHTML = items.map(function (x, k2) { return '<button data-k="' + k2 + '" class="' + (seen[k2] ? 'seen' : '') + '"' + (k2 === i ? ' aria-current="step"' : '') + ' aria-label="Problem ' + (k2 + 1) + '">' + (k2 + 1) + '</button>'; }).join('');
     $('#dots').querySelectorAll('button').forEach(function (b) { b.onclick = function () { go(+b.dataset.k - i); }; });
@@ -71,6 +75,88 @@ body{display:flex;flex-direction:column;min-height:100%}
   $('#back').onclick = function () { go(-1); };
   $('#next').onclick = function () { go(1); };
   window.addEventListener('pagehide', function () { readFrame(); save(); });
+  /* ---------- student: one "Turn in my work" for the whole set ----------
+     a link that reopens the set with every problem's work, and one picture of every problem stitched together */
+  if (isStudent) {
+    $('#tacts').innerHTML = '<button class="om-btn small primary" id="turnin"><span class="lbl">Turn in my work</span> 📤</button>';
+    $('#turnin').onclick = turnIn;
+  }
+  var modal = null;
+  function closeM() { if (modal) modal.hidden = true; var pen = document.getElementById('set-pen'); if (pen) pen.remove(); }
+  function turnIn() {
+    readFrame(); save();
+    var work = items.map(function (it, k) { return { t: it.t, s: states[k] || it.s || null }; });
+    var link = location.href.split('#')[0] + '#x=' + OAOM.enc(work);
+    if (!modal) { modal = document.createElement('div'); modal.className = 'om-modal'; document.body.appendChild(modal); modal.addEventListener('click', function (e) { if (e.target === modal) closeM(); }); document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal && !modal.hidden) closeM(); }); }
+    modal.innerHTML = '<div class="om-dialog" role="dialog" aria-modal="true" aria-labelledby="set-ti-t"><h2 id="set-ti-t">Turn in my work</h2>' +
+      '<p class="sub">One picture of all ' + items.length + ' problems, or one link that opens every problem just the way it is now. Paste it where your teacher asked.</p>' +
+      '<div class="om-tipic" id="set-pic"><p class="om-hint">Making your picture…</p></div>' +
+      '<div class="om-row"><button class="om-btn small primary" id="set-copyimg" disabled>Copy picture</button><button class="om-btn small" id="set-dl" disabled>Download picture</button><button class="om-btn small primary" id="set-copylink">Copy link to my work</button></div>' +
+      '<p class="om-hint">Tip: in a Canvas assignment, choose <b>File Upload</b> for the picture, or <b>Website URL</b> for the link.</p>' +
+      '<div class="om-row" style="justify-content:flex-end"><button class="om-btn small" id="set-x">Close</button></div></div>';
+    modal.hidden = false; $('#set-x').onclick = closeM;
+    $('#set-copylink').onclick = function () { OAOM.copy(link, 'Link to your work copied'); };
+    setPicture(work, function (cv) {
+      var box = $('#set-pic'); box.innerHTML = ''; var im = new Image(); im.src = cv.toDataURL('image/png'); im.alt = 'Picture of my work'; box.appendChild(im);
+      $('#set-dl').disabled = false; $('#set-copyimg').disabled = false;
+      $('#set-dl').onclick = function () { var a = document.createElement('a'); a.href = im.src; a.download = title.replace(/[^a-z0-9]+/gi, '-').toLowerCase() + '-my-work.png'; document.body.appendChild(a); a.click(); a.remove(); };
+      $('#set-copyimg').onclick = function () { if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) cv.toBlob(function (b) { navigator.clipboard.write([new ClipboardItem({ 'image/png': b })]).then(function () { OAOM.toast('Picture copied. Paste it with Ctrl+V.'); }, function () { OAOM.toast('Copying didn’t work here. Use Download picture.'); }); }); else OAOM.toast('Copying pictures doesn’t work in this browser. Use Download picture.'); };
+    });
+  }
+  /* every problem is opened in a hidden frame, its stage is drawn the way the tool page's own Turn in draws it, and the pictures are stacked */
+  function setPicture(work, done) {
+    var pen = document.createElement('div'); pen.id = 'set-pen'; pen.setAttribute('aria-hidden', 'true'); pen.style.cssText = 'position:absolute;left:-10000px;top:0;width:760px;height:900px;overflow:hidden';
+    document.body.appendChild(pen);
+    var parts = [], k = 0;
+    (function nextFrame() {
+      if (k >= work.length) { pen.remove(); return stitch(parts, done); }
+      var it = work[k], f = document.createElement('iframe'); f.style.cssText = 'width:760px;height:900px;border:0'; pen.innerHTML = ''; pen.appendChild(f);
+      var fired = false;
+      function go() { if (fired) return; fired = true; setTimeout(function () { var cv = null; try { framePicture(f.contentWindow, k + 1, OAOM.meta(it.t).name, function (c) { parts.push(c); k++; nextFrame(); }); return; } catch (e) {} parts.push(cv); k++; nextFrame(); }, 350); }
+      f.onload = go; f.src = OAOM.toolURL(it.t, it.s, '&embed=1&st=1&plain=1'); setTimeout(go, 4000);
+    })();
+  }
+  /* the same routine core uses for one tool: each top-level svg drawn where it sits on the stage, pen ink on top, the readout underneath */
+  function framePicture(win, num, name, done) {
+    var doc = win.document, stage = doc.getElementById('om-stage'); if (!stage) return done(null);
+    var sr = stage.getBoundingClientRect();
+    var svgs = [].slice.call(stage.querySelectorAll('svg')).filter(function (v) { var r = v.getBoundingClientRect(); return r.width > 30 && r.height > 20 && v.parentNode.closest('svg') === null && (v.id !== 'om-ink' || v.querySelector('polyline')); });
+    svgs.sort(function (a, b) { return (a.id === 'om-ink') - (b.id === 'om-ink'); });
+    var ro = doc.getElementById('om-readout');
+    var readout = doc.body.classList.contains('hide-nums') || !ro ? '' : ([].map.call(ro.children, function (x) { return x.textContent.trim(); }).filter(Boolean).join('    ') || ro.textContent.trim());
+    var sc = 2, pad = 24, parts = [], minX = 1e9, minY = 1e9, maxX = 0, maxY = 0;
+    svgs.forEach(function (v) { var r = v.getBoundingClientRect(), x = r.left - sr.left, y = r.top - sr.top;
+      parts.push({ v: v, x: x, y: y, w: r.width, h: r.height, ink: v.id === 'om-ink' });
+      if (v.id !== 'om-ink') { minX = Math.min(minX, x); minY = Math.min(minY, y); maxX = Math.max(maxX, x + r.width); maxY = Math.max(maxY, y + r.height); } });
+    if (minX > maxX) { minX = 0; minY = 0; maxX = 420; maxY = 200; }
+    var head = 34, W = Math.max(maxX - minX, 300) + pad * 2, H = head + (maxY - minY) + (readout ? 56 : 0) + pad * 2;
+    var cv = document.createElement('canvas'); cv.width = W * sc; cv.height = H * sc; var g = cv.getContext('2d'); g.scale(sc, sc);
+    g.fillStyle = '#fff'; g.fillRect(0, 0, W, H);
+    g.fillStyle = '#0E1C42'; g.font = 'bold 20px Nunito, Arial, sans-serif'; g.fillText('Problem ' + num + ': ' + name, pad, pad + 20);
+    var oy = pad + head - minY, ox = pad - minX, i = 0;
+    (function next() {
+      if (i >= parts.length) {
+        if (readout) { var ry = oy + maxY + 14; g.fillStyle = '#EFE9FB'; g.fillRect(pad, ry, W - pad * 2, 40); g.fillStyle = '#0E1C42'; g.font = 'bold 17px Nunito, Arial, sans-serif'; g.fillText(readout.slice(0, 95), pad + 12, ry + 27); }
+        done(cv); return;
+      }
+      var pt = parts[i++], cl = pt.v.cloneNode(true); cl.setAttribute('xmlns', 'http://www.w3.org/2000/svg'); cl.setAttribute('width', pt.w); cl.setAttribute('height', pt.h);
+      [].slice.call(cl.querySelectorAll('[data-ui]')).forEach(function (n) { n.remove(); }); /* clean picture: no trays, no buttons */
+      var st = doc.createElementNS('http://www.w3.org/2000/svg', 'style'); st.textContent = 'text{font-family:Nunito,Arial,sans-serif;font-weight:700}'; cl.insertBefore(st, cl.firstChild);
+      var img = new Image(); img.onload = function () { g.drawImage(img, ox + pt.x, oy + pt.y, pt.w, pt.h); next(); }; img.onerror = function () { next(); };
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(cl));
+    })();
+  }
+  function stitch(parts, done) {
+    parts = parts.filter(Boolean); var sc = 2, pad = 24, gap = 16, head = 60;
+    var W = parts.reduce(function (m, c) { return Math.max(m, c.width / sc); }, 400) + pad * 2, H = head + parts.reduce(function (t, c) { return t + c.height / sc + gap; }, 0) + pad;
+    var cv = document.createElement('canvas'); cv.width = W * sc; cv.height = H * sc; var g = cv.getContext('2d'); g.scale(sc, sc);
+    g.fillStyle = '#fff'; g.fillRect(0, 0, W, H);
+    g.fillStyle = '#0E1C42'; g.font = 'bold 22px Nunito, Arial, sans-serif'; g.fillText(title, pad, pad + 4);
+    g.font = '13px Nunito, Arial, sans-serif'; g.fillStyle = '#5B6478'; g.fillText(new Date().toLocaleString() + '  ·  ' + parts.length + ' problem' + (parts.length === 1 ? '' : 's'), pad, pad + 26);
+    var y = head;
+    parts.forEach(function (c) { g.drawImage(c, pad, y, c.width / sc, c.height / sc); g.strokeStyle = '#C9D0E0'; g.strokeRect(pad + 0.5, y + 0.5, c.width / sc - 1, c.height / sc - 1); y += c.height / sc + gap; });
+    done(cv);
+  }
   $('#bar').hidden = false; fr.hidden = false;
   show(i);
 })();

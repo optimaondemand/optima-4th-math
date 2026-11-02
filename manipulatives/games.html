@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Math Game · OAO</title>
+<link rel="stylesheet" href="lib.css">
+<style>
+.gm-page{max-width:1100px;margin:0 auto;padding:1rem}
+.gm{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:1.2rem 1.4rem;margin:0 0 1rem}
+.gm-head h2{margin:.2rem 0 .4rem;color:var(--navy);font-size:1.7rem}
+.badges{display:flex;gap:.35rem;flex-wrap:wrap}
+.badge{display:inline-block;background:var(--violet-l);color:var(--violet);border-radius:999px;padding:.15em .7em;font-size:.85rem;font-weight:800}
+.badge.kit{background:var(--green-l);color:var(--green)}
+.gm-goal{font-size:1.35rem;font-weight:800;color:var(--ink);margin:.2rem 0 .6rem;line-height:1.45}
+.gm-need{margin:0 0 .8rem;color:var(--mute);font-weight:700}
+.gm-tool{display:inline-block;background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:.05em .5em;color:var(--navy);margin:.1em .1em}
+.gm-rules{margin:0 0 .9rem;padding:0 0 0 1.5em;font-size:1.25rem;line-height:1.5;counter-reset:step;list-style:none}
+.gm-rules li{position:relative;margin:0 0 .55rem;padding-left:.4em}
+.gm-rules li::before{counter-increment:step;content:counter(step);position:absolute;left:-1.55em;top:.1em;width:1.25em;height:1.25em;border-radius:50%;background:var(--violet);color:#fff;font-size:.9em;font-weight:800;display:flex;align-items:center;justify-content:center}
+.gm-win{font-size:1.2rem;background:var(--yellow-l);border-radius:12px;padding:.6rem .9rem;margin:0 0 .9rem}
+.gm-var h3{margin:0 0 .3rem;font-size:1rem;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
+.gm-var ul{margin:0 0 .6rem 1.2em;padding:0;line-height:1.5}
+.gm-notes{margin-top:.8rem;background:var(--bg);border-radius:12px;padding:.5rem .9rem}
+.gm-notes summary{cursor:pointer;font-weight:800;color:var(--navy)}
+.gm-notes h4{margin:.7rem 0 .2rem;font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mute)}
+.gm-notes p,.gm-notes ul{margin:0 0 .3rem;line-height:1.5}
+.gm-notes ul{padding-left:1.2em}
+.gm-src{color:var(--mute);font-size:.9rem}
+.gm-play{margin-top:1rem}
+.gm-switch{margin:0 0 .6rem;align-items:center}
+.gm-stage iframe{width:100%;height:720px;border:0;border-radius:14px;background:var(--bg)}
+.gm-stage iframe[hidden]{display:none}
+.gm-namebar{display:none}
+body.student .om-teach{display:none}
+@media (max-width:520px){.gm{padding:1rem}.gm-rules{font-size:1.1rem}.gm-goal{font-size:1.2rem}.gm-stage iframe{height:640px}}
+@media print{
+  body{background:#fff}.om-top,.om-noprint,.gm-play{display:none!important}
+  .gm{box-shadow:none;border:1px solid #999}
+  .gm-namebar{display:flex;justify-content:space-between;border-bottom:2px solid #000;margin-bottom:8px;padding-bottom:4px;font-size:14px}
+  .gm-notes{page-break-before:always;background:#fff;border:1px solid #999}
+  .gm-notes summary{list-style:none}
+  .gm-notes summary::-webkit-details-marker{display:none}
+}
+</style>
+</head>
+<body>
+<header class="om-top" id="top"></header>
+<main class="gm-page" id="main"></main>
+<script src="vendor/qrcode.js"></script>
+<script src="data.js"></script>
+<script src="core.js"></script>
+<script src="games.js"></script>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search), st = q.get('st') === '1', printMode = q.get('print') === '1';
+  var GM = OAOM_GAMES, main = document.getElementById('main'), top = document.getElementById('top');
+  function esc(t) { return OAOM.esc(t); }
+  document.body.classList.toggle('student', st);
+  var g = GM.get(q.get('g') || '');
+  var title = g ? g.title : 'Math game';
+  document.title = title + ' · OAO Math Games';
+  var base = location.href.split('#')[0].split('?')[0].replace(/[^\/]*$/, '');
+  top.innerHTML = (st ? '' : '<a class="back" href="index.html">← Library</a>') + '<h1>' + esc(title) + '</h1><div class="om-actions">' +
+    '<button class="om-btn small" id="pr">🖨 <span class="lbl">Print</span></button>' + (st ? '' : '<button class="om-btn small primary" id="sh">🔗 <span class="lbl">Share</span></button>') + '</div>';
+  if (!g) { main.innerHTML = '<p>That game was not found.</p>'; return; }
+  document.getElementById('pr').onclick = function () { window.print(); };
+  var sh = document.getElementById('sh');
+  if (sh) sh.onclick = function () {
+    OAOM.share({ title: g.title, url: base + 'games.html?g=' + encodeURIComponent(g.id),
+      note: 'Students get the rules and the tool, without the teacher notes and without a way back to the library.',
+      dir: { title: 'Math game: ' + g.title, intro: GM.fracText(g.goal), steps: GM.dirSteps(g) } });
+  };
+  /* the tool opens underneath, as a student link so there is no way back to the library from inside the game */
+  var toolURL = function (t, s) { return OAOM.toolURL(t, s, '&embed=1&st=1'); };
+  var box = document.createElement('section'); main.appendChild(box);
+  GM.render(box, g, { teacher: !st, print: printMode, embed: !printMode, toolURL: toolURL });
+  var nb = document.createElement('div'); nb.className = 'gm-namebar'; nb.innerHTML = '<span><b>Math game</b></span><span>Name: ____________________ &nbsp; Date: ________</span>'; box.insertBefore(nb, box.firstChild);
+  if (printMode) setTimeout(function () { try { window.print(); } catch (e) {} }, 400);
+})();
+</script>
+</body>
+</html>

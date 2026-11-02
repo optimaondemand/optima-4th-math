@@ -2,11 +2,23 @@
    bundling sticks, Cuisenaire rods, beads, attribute blocks, geometric solids, bucket balance.
    Open tools for young children: everything moves by dragging with a finger; taps and keys are the backup. */
 (function () {
-  var O = OAOM, lastDrag = 0;
+  var O = OAOM;
   var RED = '#D2453B', YEL = '#F2B705', BLU = '#2F6FDE', GRN = '#23915A', NAVY = '#0E1C42', VIO = '#6B46C1', ORG = '#F08A24', MUTE = '#5B6478', LINE = '#C9D0E0';
+  /* on a phone the stage is about 350 css px wide, so a narrow picture is 360 units wide (1 unit ≈ 1 px) and every piece is at least 44 units */
+  var NW = 360;
 
   /* ---------- shared helpers ---------- */
   function narrow(api) { return (api.stage.clientWidth || 800) < 560; }
+  /* redraw when the stage switches between the phone and wide layouts (core forgets the listener on the next mount) */
+  function onNarrow(api, draw) { var last = narrow(api); api.onResize(function () { var n = narrow(api); if (n !== last) { last = n; draw(); } }); }
+  /* Delete or Backspace on a focused piece */
+  function keyDel(node, fn) { var st = node.closest('.om-stage'); node.addEventListener('keydown', function (e) { if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); fn(e); keepIn(st); } }); }
+  /* after a piece is taken away by a key press, keep keyboard focus inside the stage (st = the stage, or a piece still attached to it) */
+  function keepIn(st) { if (st && !st.classList.contains('om-stage')) st = st.closest('.om-stage'); setTimeout(function () { if (!st || st.contains(document.activeElement)) return; var n = st.querySelector('[data-k]'); if (n) { try { n.focus({ preventScroll: true }); } catch (e) { n.focus(); } } }, 0); }
+  /* mark a tray or a stage button so the clean picture can leave it out */
+  function ui(node, kind) { node.setAttribute('data-ui', kind || 'tray'); return node; }
+  /* a tray: dashed box tagged data-ui="tray"; pieces drawn into it are left out of clean pictures too */
+  function tray(v, x, y, w, h) { var g = ui(O.s('g', {}, v), 'tray'); rect(g, x, y, w, h, { rx: 14, fill: '#F6F7FB', stroke: LINE, 'stroke-width': 2, 'stroke-dasharray': '6 5' }); return g; }
   function inR(p, r) { return r && p.x >= r.x && p.x <= r.x + r.w && p.y >= r.y && p.y <= r.y + r.h; }
   function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
   function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
@@ -19,33 +31,6 @@
   function svgBox(holder, W, H, label) { var v = O.svg(W, H, holder, label); v.style.touchAction = 'none'; return v; }
   function rect(v, x, y, w, h, a) { return O.s('rect', Object.assign({ x: x, y: y, width: w, height: h }, a || {}), v); }
   function txt(v, x, y, t, a) { return O.s('text', Object.assign({ x: x, y: y, 'text-anchor': 'middle', fill: NAVY, 'font-size': 16, text: t, style: 'pointer-events:none' }, a || {}), v); }
-  /* a piece you can drag (a ghost follows the finger) and tap. onDrop(p, p0) returns true when it changed the state */
-  function dragTap(svgEl, node, onTap, onDrop, label) {
-    if (onTap) O.tap(node, function (e) { if (e && e.stopPropagation) e.stopPropagation(); if (Date.now() - lastDrag < 350) return; onTap(e); }, label);
-    else if (label) node.setAttribute('aria-label', label);
-    node.style.cursor = 'grab';
-    node.addEventListener('pointerdown', function (e) {
-      if (e.button > 0) return; e.preventDefault(); e.stopPropagation();
-      var id = e.pointerId, p0 = O.pt(svgEl, e), moved = false, ghost = null, orig = node.getAttribute('transform') || '';
-      try { node.setPointerCapture(id); } catch (x) {}
-      function mv(ev) {
-        if (ev.pointerId !== id) return; var p = O.pt(svgEl, ev);
-        if (!moved && Math.hypot(p.x - p0.x, p.y - p0.y) > 6) { moved = true; ghost = node.cloneNode(true); ghost.style.pointerEvents = 'none'; ghost.removeAttribute('tabindex'); ghost.setAttribute('opacity', '0.92'); svgEl.appendChild(ghost); node.style.opacity = '0.25'; }
-        if (moved) ghost.setAttribute('transform', 'translate(' + (p.x - p0.x) + ' ' + (p.y - p0.y) + ') ' + orig);
-      }
-      function up(ev) {
-        if (ev.pointerId !== id) return;
-        node.removeEventListener('pointermove', mv); node.removeEventListener('pointerup', up); node.removeEventListener('pointercancel', up);
-        if (!moved) return; lastDrag = Date.now();
-        var pe = O.pt(svgEl, ev), ok = false;
-        try { ok = onDrop(pe, p0) === true; } catch (err) { if (window.console) console.error(err); }
-        if (ok) { if (ghost.parentNode) ghost.remove(); return; }
-        var dx = pe.x - p0.x, dy = pe.y - p0.y;
-        tw(300, function (k) { ghost.setAttribute('transform', 'translate(' + dx * (1 - k) + ' ' + dy * (1 - k) + ') ' + orig); }, function () { ghost.remove(); node.style.opacity = ''; });
-      }
-      node.addEventListener('pointermove', mv); node.addEventListener('pointerup', up); node.addEventListener('pointercancel', up);
-    });
-  }
   /* type a short label right on the picture */
   function editText(api, anchor, val, done) {
     var st = api.stage; st.style.position = 'relative';
@@ -57,13 +42,7 @@
     i.addEventListener('keydown', function (e) { if (e.key === 'Enter') fin(true); if (e.key === 'Escape') fin(false); });
     i.addEventListener('blur', function () { fin(true); });
   }
-  function sbtn(parent, label, fn, cls) { var b = O.el('button', { type: 'button', class: 'om-btn ' + (cls || '') }, label); b.addEventListener('click', fn); parent.appendChild(b); return b; }
-  /* redraw when the screen switches between phone and wide layouts */
-  function watchSize(api, holder, draw) {
-    var last = narrow(api);
-    function on() { if (!holder.isConnected) { window.removeEventListener('resize', on); return; } var n = narrow(api); if (n !== last) { last = n; draw(); } }
-    window.addEventListener('resize', on);
-  }
+  function sbtn(parent, label, fn, cls) { var b = O.el('button', { type: 'button', class: 'om-btn ' + (cls || ''), 'data-ui': 'btn' }, label); b.addEventListener('click', fn); parent.appendChild(b); return b; }
   function counter(v, x, y, r, c) {
     var g = O.s('g', {}, v);
     O.s('circle', { cx: x, cy: y, r: r, fill: c === 1 ? RED : YEL, stroke: c === 1 ? '#9E2A22' : '#B88700', 'stroke-width': 2.5 }, g);
@@ -81,10 +60,10 @@
       function nCells() { return S.m === 'five' ? 5 : S.m === 'one' ? 10 : 20; }
       function draw() {
         holder.innerHTML = ''; var nar = narrow(api);
-        api.say(S.m === 'ppw' ? 'Drag counters into the parts. The whole shows them all.' : 'Drag counters into the frame. Tap a counter to flip it.');
+        api.say(S.m === 'ppw' ? 'Drag counters into the two parts.' : 'Drag counters into the frame. Tap one to flip it.');
         if (S.m === 'ppw') return drawPPW(nar);
         var n = nCells(); while (S.c.length < n) S.c.push(0); S.c.length = n;
-        var C = nar ? 66 : 72, frames = n === 20 ? 2 : 1, rowsF = n === 5 ? 1 : 2, fw = 5 * C, fh = rowsF * C, side = frames === 2 && !nar;
+        var C = nar ? 60 : 72, frames = n === 20 ? 2 : 1, rowsF = n === 5 ? 1 : 2, fw = 5 * C, fh = rowsF * C, side = frames === 2 && !nar;
         var W = side ? fw * 2 + 80 : fw + 40, fy = 20, frameBottom = side || frames === 1 ? fy + fh : fy + fh * 2 + 30, ty = frameBottom + 30, H = ty + 100;
         var v = svgBox(holder, W, H, 'Ten frame');
         var cells = [];
@@ -101,21 +80,22 @@
         cells.forEach(function (cl, i) {
           if (!S.c[i]) return;
           var g = counter(v, cl.x + C / 2, cl.y + C / 2, C * 0.38, S.c[i]);
-          dragTap(v, g, function () { S.c[i] = 3 - S.c[i]; api.redraw(); }, function (p) {
+          O.dragTap(v, g, function () { S.c[i] = 3 - S.c[i]; api.redraw(); }, function (p) {
             var k = cellAt(p);
             if (k === i) return false;
             if (k >= 0) { if (S.c[k]) return false; S.c[k] = S.c[i]; S.c[i] = 0; api.redraw(); return true; }
             S.c[i] = 0; api.redraw(); return true;
-          }, 'Counter. Tap to flip. Drag away to take it off.');
+          }, (S.c[i] === 1 ? 'Red' : 'Yellow') + ' counter in box ' + (i + 1) + '. Enter flips it. Delete takes it off.', 'cell-' + i);
+          keyDel(g, function () { S.c[i] = 0; api.redraw(); });
         });
         /* tray */
-        rect(v, W / 2 - 130, ty, 260, 80, { rx: 16, fill: '#F6F7FB', stroke: LINE, 'stroke-width': 2, 'stroke-dasharray': '6 5' });
+        var tr = tray(v, W / 2 - 130, ty, 260, 80);
         [1, 2].forEach(function (k, idx) {
-          var g = counter(v, W / 2 - 50 + idx * 100, ty + 40, 28, k);
-          dragTap(v, g, function () { var e = S.c.indexOf(0); if (e < 0) { O.toast('The frame is full.'); return; } S.c[e] = k; api.redraw(); }, function (p) {
-            var c = cellAt(p); if (c < 0) return false; if (S.c[c]) { O.toast('That box has a counter. Pick an empty box.'); return false; }
+          var g = counter(tr, W / 2 - 50 + idx * 100, ty + 40, 28, k);
+          O.dragTap(v, g, function () { var e = S.c.indexOf(0); if (e < 0) { O.toast('The frame is full.'); return; } S.c[e] = k; api.redraw(); }, function (p) {
+            var c = cellAt(p); if (c < 0) return false; if (S.c[c]) { O.toast('That box is full. Pick an empty box.'); return false; }
             S.c[c] = k; api.redraw(); return true;
-          }, 'Add a ' + (k === 1 ? 'red' : 'yellow') + ' counter');
+          }, 'Add a ' + (k === 1 ? 'red' : 'yellow') + ' counter', 'tray-' + k);
         });
         /* readout */
         var red = S.c.filter(function (x) { return x === 1; }).length, yel = S.c.filter(function (x) { return x === 2; }).length, tot = red + yel;
@@ -129,8 +109,8 @@
         api.report({ v: String(tot), r: String(red), y: String(yel) });
       }
       function drawPPW(nar) {
-        var W = nar ? 400 : 760, Rw = nar ? 82 : 100, Rp = nar ? 88 : 110, cxw = W / 2, cyw = 20 + Rw + 14, cyp = cyw + Rw + Rp + 40;
-        var pa = { x: W / 2 - (nar ? 102 : 165), y: cyp }, pb = { x: W / 2 + (nar ? 102 : 165), y: cyp }, ty = cyp + Rp + 30, H = ty + 100;
+        var W = nar ? NW : 760, Rw = nar ? 76 : 100, Rp = nar ? 84 : 110, cxw = W / 2, cyw = 20 + Rw + 14, cyp = cyw + Rw + Rp + 40;
+        var pa = { x: W / 2 - (nar ? 90 : 165), y: cyp }, pb = { x: W / 2 + (nar ? 90 : 165), y: cyp }, ty = cyp + Rp + 30, H = ty + 100;
         var v = svgBox(holder, W, H, 'Part-part-whole mat');
         O.s('line', { x1: cxw, y1: cyw + Rw, x2: pa.x, y2: pa.y - Rp, stroke: NAVY, 'stroke-width': 4 }, v);
         O.s('line', { x1: cxw, y1: cyw + Rw, x2: pb.x, y2: pb.y - Rp, stroke: NAVY, 'stroke-width': 4 }, v);
@@ -138,41 +118,43 @@
         txt(v, cxw, cyw - Rw - 4, 'Whole', { 'font-size': 15, fill: VIO });
         [[pa, S.A, 'Part'], [pb, S.B, 'Part']].forEach(function (q) { O.s('circle', { cx: q[0].x, cy: q[0].y, r: Rp, fill: '#E5F5EC', stroke: GRN, 'stroke-width': 4 }, v); txt(v, q[0].x, q[0].y + Rp + 22, q[2], { 'font-size': 15, fill: GRN }); });
         function slots(c, r, cnt, cell, cols) { var rows = Math.ceil(Math.max(cnt, 1) / cols), out = []; for (var i = 0; i < cnt; i++) out.push({ x: c.x - (cols - 1) * cell / 2 + (i % cols) * cell, y: c.y - (rows - 1) * cell / 2 + Math.floor(i / cols) * cell }); return out; }
-        var cellP = nar ? 28 : 34;
+        var cellP = nar ? 30 : 34;
         [[pa, 'A'], [pb, 'B']].forEach(function (q) {
           var arr = S[q[1]], pos = slots(q[0], Rp, arr.length, cellP, 5);
           arr.forEach(function (col, i) {
             var g = counter(v, pos[i].x, pos[i].y, cellP * 0.42, col);
-            dragTap(v, g, function () { arr[i] = 3 - arr[i]; api.redraw(); }, function (p) {
+            O.hit(g, pos[i].x - 22, pos[i].y - 22, 44, 44);
+            O.dragTap(v, g, function () { arr[i] = 3 - arr[i]; api.redraw(); }, function (p) {
               var other = q[1] === 'A' ? 'B' : 'A', oc = q[1] === 'A' ? pb : pa;
               if (dist(p, oc) < Rp) { if (S[other].length >= 20) return false; S[other].push(arr[i]); arr.splice(i, 1); api.redraw(); return true; }
               if (dist(p, q[0]) < Rp) return false;
               arr.splice(i, 1); api.redraw(); return true;
-            }, 'Counter. Tap to flip. Drag to the other part, or away to take it off.');
+            }, (col === 1 ? 'Red' : 'Yellow') + ' counter in part ' + (q[1] === 'A' ? 1 : 2) + '. Enter flips it. Delete takes it off.', 'part' + q[1] + '-' + i);
+            keyDel(g, function () { arr.splice(i, 1); api.redraw(); });
           });
         });
         var all = S.A.concat(S.B), cellW = nar ? 20 : 24, wpos = slots({ x: cxw, y: cyw }, Rw, all.length, cellW, 8);
         all.forEach(function (col, i) { counter(v, wpos[i].x, wpos[i].y, cellW * 0.42, col).style.pointerEvents = 'none'; });
-        rect(v, W / 2 - 130, ty, 260, 80, { rx: 16, fill: '#F6F7FB', stroke: LINE, 'stroke-width': 2, 'stroke-dasharray': '6 5' });
+        var tr = tray(v, W / 2 - 130, ty, 260, 80);
         [1, 2].forEach(function (k, idx) {
-          var g = counter(v, W / 2 - 50 + idx * 100, ty + 40, 28, k);
-          dragTap(v, g, function () { var t = S.A.length <= S.B.length ? S.A : S.B; if (t.length >= 20) return; t.push(k); api.redraw(); }, function (p) {
+          var g = counter(tr, W / 2 - 50 + idx * 100, ty + 40, 28, k);
+          O.dragTap(v, g, function () { var t = S.A.length <= S.B.length ? S.A : S.B; if (t.length >= 20) return; t.push(k); api.redraw(); }, function (p) {
             if (dist(p, pa) < Rp && S.A.length < 20) { S.A.push(k); api.redraw(); return true; }
             if (dist(p, pb) < Rp && S.B.length < 20) { S.B.push(k); api.redraw(); return true; }
             if (dist(p, { x: cxw, y: cyw }) < Rw) O.toast('Put counters in the parts. The whole fills up by itself.');
             return false;
-          }, 'Add a ' + (k === 1 ? 'red' : 'yellow') + ' counter');
+          }, 'Add a ' + (k === 1 ? 'red' : 'yellow') + ' counter', 'tray-' + k);
         });
         var a = S.A.length, b = S.B.length;
         api.readout('<span><b>' + a + '</b> and <b>' + b + '</b> make <b>' + (a + b) + '</b></span>');
         api.report({ v: String(a + b), a: String(a), b: String(b) });
       }
-      api.onRedraw(draw); watchSize(api, holder, draw);
+      api.onRedraw(draw); onNarrow(api, draw);
     }
   });
 
   /* ═════════════ COUNTING BEARS ═════════════ */
-  var BEAR_COL = [['red', '#E0483E'], ['yellow', '#F2B705'], ['blue', '#2F6FDE'], ['green', '#23915A']], BEAR_SZ = ['small', 'middle', 'big'];
+  var BEAR_COL = [['red', '#E0483E'], ['yellow', '#F2B705'], ['blue', '#2F6FDE'], ['green', '#23915A']], BEAR_SZ = ['small', 'medium', 'big'];
   function bear(v, x, y, sz, col) {
     var s = [0.62, 0.82, 1.05][sz], c = BEAR_COL[col][1], g = O.s('g', {}, v);
     var dk = 'rgba(0,0,0,.18)';
@@ -188,20 +170,26 @@
     O.s('circle', { cx: x - 4.5 * s, cy: y - 24 * s, r: 1.8 * s, fill: NAVY }, g);
     O.s('circle', { cx: x + 4.5 * s, cy: y - 24 * s, r: 1.8 * s, fill: NAVY }, g);
     O.s('ellipse', { cx: x, cy: y - 18 * s, rx: 3 * s, ry: 2.2 * s, fill: NAVY }, g);
-    O.s('rect', { x: x - 22 * s, y: y - 40 * s, width: 44 * s, height: 70 * s, fill: 'transparent' }, g);
+    /* every bear, even a small one, is at least 44 units to touch */
+    var hw = Math.max(44, 44 * s), hh = Math.max(48, 70 * s);
+    O.hit(g, x - hw / 2, y - 40 * s - (hh - 70 * s) / 2, hw, hh);
     return g;
   }
+  /* a Counting Collection: a random pile of 8 to 30 bears, scattered on a wide mat (the draw clamps them onto a narrow one) */
+  function bearPile() { var n = rnd(8, 30), a = []; for (var i = 0; i < n; i++) a.push([rnd(60, 700), rnd(60, 280), rnd(0, 3), rnd(0, 2)]); return a; }
   O.register('bears', {
-    defaults: { m: 'free', b: [], lab: ['', '', '', ''], p: [] },
+    defaults: { m: 'free', b: [], lab: ['', '', '', ''], p: [], sh: 0 },
     mount: function (api) {
       var S = api.S, holder = O.el('div'); api.stage.appendChild(holder);
-      api.quick([['Free mat', { m: 'free', b: [] }], ['Sort into 2', { m: 'sort2', b: [] }], ['Sort into 3', { m: 'sort3', b: [] }], ['Pattern row', { m: 'pat', p: [] }]]);
-      api.button('Clear', function () { S.b = []; S.p = []; api.redraw(); });
+      api.quick([['Free mat', { m: 'free', b: [] }], ['Sort into 2', { m: 'sort2', b: [] }], ['Sort into 3', { m: 'sort3', b: [] }], ['Pattern row', { m: 'pat', p: [] }], ['Collection', { m: 'coll', b: bearPile(), sh: 0 }]]);
+      if (S.m === 'coll') api.button('New pile', function () { S.b = bearPile(); S.sh = 0; api.redraw(); });
+      else api.button('Clear', function () { S.b = []; S.p = []; api.redraw(); });
+      var coll = S.m === 'coll';
       function draw() {
-        holder.innerHTML = ''; var nar = narrow(api), W = nar ? 420 : 760, mh = nar ? 280 : 300, mat = { x: 10, y: 10, w: W - 20, h: mh };
-        var perRow = nar ? 6 : 12, cell = (W - 20) / perRow, ty = mat.y + mat.h + 20, trayH = (12 / perRow) * 74 + 10, H = ty + trayH + 10;
+        holder.innerHTML = ''; var nar = narrow(api), W = nar ? NW : 760, mh = nar ? 300 : 300, mat = { x: 10, y: 10, w: W - 20, h: mh };
+        var perRow = nar ? 6 : 12, cell = (W - 20) / perRow, ty = mat.y + mat.h + 20, trayH = coll ? 0 : (12 / perRow) * 74 + 10, H = ty + trayH + 10;
         var v = svgBox(holder, W, H, 'Counting bears mat');
-        api.say(S.m === 'pat' ? 'Drag bears into the boxes to make a pattern.' : 'Drag bears onto the mat. Drag a bear off to put it away.');
+        api.say(S.m === 'pat' ? 'Drag bears into the boxes. Make a pattern.' : coll ? 'How many bears? Move them into groups. Then count.' : S.m === 'free' ? 'Drag bears onto the mat.' : 'Drag each bear into a box.');
         rect(v, mat.x, mat.y, mat.w, mat.h, { rx: 18, fill: '#FFF8E6', stroke: '#E8D9A8', 'stroke-width': 3, class: 'paper' });
         var nb = S.m === 'sort2' ? 2 : S.m === 'sort3' ? 3 : 0, boxes = [];
         for (var i = 0; i < nb; i++) {
@@ -209,15 +197,18 @@
           boxes.push(b); rect(v, b.x, b.y, b.w, b.h, { rx: 16, fill: '#fff', stroke: [VIO, GRN, ORG][i], 'stroke-width': 3, 'stroke-dasharray': '8 6' });
           (function (i, b) {
             var lab = S.lab[i] || 'Box ' + (i + 1), t = txt(v, b.x + b.w / 2, mat.y + 30, lab + ' ✎', { 'font-size': 17, fill: [VIO, GRN, ORG][i], style: 'cursor:pointer' });
-            var hit = rect(v, b.x + b.w / 2 - 70, mat.y + 8, 140, 32, { fill: 'transparent', style: 'cursor:pointer' });
-            O.tap(hit, function () { editText(api, t, S.lab[i] || '', function (val) { S.lab[i] = val; api.redraw(); }); }, 'Name this box');
+            var hit = rect(v, b.x + b.w / 2 - 70, mat.y + 2, 140, 44, { fill: 'transparent', style: 'cursor:pointer' });
+            O.tap(hit, function () { editText(api, t, S.lab[i] || '', function (val) { S.lab[i] = val; api.redraw(); }); }, 'Name this box', 'label-' + i);
           })(i, b);
         }
+        function boxOf(q) { for (var k = 0; k < boxes.length; k++) if (inR({ x: q[0], y: q[1] }, boxes[k])) return k; return -1; }
+        /* a spot inside a box for a bear that gets there by a key press, not a drag */
+        function spotIn(b, n) { var cols = Math.max(1, Math.floor((b.w - 20) / 50)); return [b.x + 30 + (n % cols) * 50, b.y + 44 + Math.floor(n / cols) * 60]; }
         var slots = [];
         if (S.m === 'pat') {
           var n = nar ? 6 : 10, sw = Math.min(66, (mat.w - 20) / n);
           for (var k = 0; k < n * (nar ? 2 : 1); k++) {
-            var row = nar ? Math.floor(k / n) : 0, col = k % n, s = { x: mat.x + (mat.w - n * sw) / 2 + col * sw, y: mat.y + (nar ? 40 + row * 110 : 100), w: sw - 6, h: 96 };
+            var row = nar ? Math.floor(k / n) : 0, col = k % n, s = { x: mat.x + (mat.w - n * sw) / 2 + col * sw, y: mat.y + (nar ? 40 + row * 120 : 100), w: sw - 6, h: 96 };
             slots.push(s); rect(v, s.x, s.y, s.w, s.h, { rx: 10, fill: '#fff', stroke: LINE, 'stroke-width': 2 });
           }
           while (S.p.length < slots.length) S.p.push(null);
@@ -227,39 +218,48 @@
           slots.forEach(function (s, i) {
             var q = S.p[i]; if (!q) return;
             var g = bear(v, s.x + s.w / 2, s.y + s.h / 2 + 4, q[1], q[0]);
-            dragTap(v, g, function () { hop(g); }, function (p) {
+            O.dragTap(v, g, function () { hop(g); }, function (p) {
               var j = slotAt(p); if (j === i) return false;
               if (j >= 0) { var t = S.p[j]; S.p[j] = S.p[i]; S.p[i] = t; api.redraw(); return true; }
               S.p[i] = null; api.redraw(); return true;
-            }, BEAR_SZ[q[1]] + ' ' + BEAR_COL[q[0]][0] + ' bear');
+            }, BEAR_SZ[q[1]] + ' ' + BEAR_COL[q[0]][0] + ' bear in box ' + (i + 1) + '. Delete takes it out.', 'slot-' + i);
+            keyDel(g, function () { S.p[i] = null; api.redraw(); });
           });
         } else {
           S.b.forEach(function (q, i) {
             q[0] = O.clamp(q[0], mat.x + 24, mat.x + mat.w - 24); q[1] = O.clamp(q[1], mat.y + 40, mat.y + mat.h - 30);
-            var g = bear(v, q[0], q[1], q[3], q[2]);
-            dragTap(v, g, function () { hop(g); }, function (p, p0) {
+            var g = bear(v, q[0], q[1], q[3], q[2]), where = nb ? boxOf(q) : -1;
+            O.dragTap(v, g, function () {
+              if (!nb) { hop(g); return; }
+              /* Enter (or a tap) in sort mode: move the bear to the next box */
+              var next = (where + 1) % nb, bx = boxes[next], cnt = S.b.filter(function (o) { return boxOf(o) === next; }).length, sp = spotIn(bx, cnt);
+              q[0] = sp[0]; q[1] = sp[1]; api.redraw();
+            }, function (p, p0) {
               var nx = q[0] + p.x - p0.x, ny = q[1] + p.y - p0.y;
-              if (!inR({ x: nx, y: ny }, mat)) { S.b.splice(i, 1); api.redraw(); return true; }
+              if (!inR({ x: nx, y: ny }, mat)) { if (coll) return false; S.b.splice(i, 1); api.redraw(); return true; }
               q[0] = O.clamp(nx, mat.x + 24, mat.x + mat.w - 24); q[1] = O.clamp(ny, mat.y + 40, mat.y + mat.h - 30); api.redraw(); return true;
-            }, BEAR_SZ[q[3]] + ' ' + BEAR_COL[q[2]][0] + ' bear');
+            }, BEAR_SZ[q[3]] + ' ' + BEAR_COL[q[2]][0] + ' bear' + (nb ? (where >= 0 ? ' in ' + (S.lab[where] || 'box ' + (where + 1)) : ', not in a box') + '. Enter moves it to the next box.' : '') + (coll ? '' : ' Delete puts it away.'), 'bear-' + i);
+            if (!coll) keyDel(g, function () { S.b.splice(i, 1); api.redraw(); });
           });
         }
-        /* tray */
-        rect(v, 10, ty - 6, W - 20, trayH, { rx: 14, fill: '#F6F7FB', stroke: LINE, 'stroke-width': 2, 'stroke-dasharray': '6 5' });
-        var t = 0;
-        for (var c = 0; c < 4; c++) for (var z = 0; z < 3; z++) {
-          (function (c, z, t) {
-            var x = 10 + cell * (t % perRow) + cell / 2, y = ty + 44 + Math.floor(t / perRow) * 74, g = bear(v, x, y, z, c);
-            dragTap(v, g, function () {
-              if (S.m === 'pat') { var e = S.p.indexOf(null); if (e < 0) { O.toast('The pattern row is full.'); return; } S.p[e] = [c, z]; }
-              else { if (S.b.length >= 60) { O.toast('The mat is full.'); return; } S.b.push([rnd(mat.x + 40, mat.x + mat.w - 40), rnd(mat.y + (nb ? 100 : 50), mat.y + mat.h - 40), c, z]); }
-              api.redraw();
-            }, function (p) {
-              if (S.m === 'pat') { var j = slotAt(p); if (j < 0) return false; S.p[j] = [c, z]; api.redraw(); return true; }
-              if (!inR(p, mat) || S.b.length >= 60) return false;
-              S.b.push([O.clamp(p.x, mat.x + 24, mat.x + mat.w - 24), O.clamp(p.y, mat.y + 40, mat.y + mat.h - 30), c, z]); api.redraw(); return true;
-            }, 'Add a ' + BEAR_SZ[z] + ' ' + BEAR_COL[c][0] + ' bear');
-          })(c, z, t++);
+        /* tray (none for a collection: the pile is the whole set) */
+        if (!coll) {
+          var tr = tray(v, 10, ty - 6, W - 20, trayH), t = 0;
+          for (var c = 0; c < 4; c++) for (var z = 0; z < 3; z++) {
+            (function (c, z, t) {
+              var x = 10 + cell * (t % perRow) + cell / 2, y = ty + 44 + Math.floor(t / perRow) * 74, g = bear(tr, x, y, z, c);
+              O.dragTap(v, g, function () {
+                if (S.m === 'pat') { var e = S.p.indexOf(null); if (e < 0) { O.toast('The row is full.'); return; } S.p[e] = [c, z]; }
+                else if (nb) { if (S.b.length >= 60) { O.toast('The mat is full.'); return; } var cnt = S.b.filter(function (o) { return boxOf(o) === 0; }).length, sp = spotIn(boxes[0], cnt); S.b.push([sp[0], sp[1], c, z]); }
+                else { if (S.b.length >= 60) { O.toast('The mat is full.'); return; } S.b.push([rnd(mat.x + 40, mat.x + mat.w - 40), rnd(mat.y + 50, mat.y + mat.h - 40), c, z]); }
+                api.redraw();
+              }, function (p) {
+                if (S.m === 'pat') { var j = slotAt(p); if (j < 0) return false; S.p[j] = [c, z]; api.redraw(); return true; }
+                if (!inR(p, mat) || S.b.length >= 60) return false;
+                S.b.push([O.clamp(p.x, mat.x + 24, mat.x + mat.w - 24), O.clamp(p.y, mat.y + 40, mat.y + mat.h - 30), c, z]); api.redraw(); return true;
+              }, 'Add a ' + BEAR_SZ[z] + ' ' + BEAR_COL[c][0] + ' bear', 'tray-' + c + '-' + z);
+            })(c, z, t++);
+          }
         }
         /* readout */
         var out = [], tot;
@@ -281,11 +281,16 @@
             if (bs.length > 1) out.push('<span>' + bs.map(function (x) { return x[1] + ' ' + x[0]; }).join(', ') + '</span>');
           }
         }
-        api.readout(out.join(''));
+        if (coll) {
+          /* a collection keeps its count hidden until the student has counted */
+          var bar = O.el('div', { class: 'om-row', style: 'justify-content:center' }); holder.appendChild(bar);
+          if (!S.sh) { sbtn(bar, 'Show how many', function () { S.sh = 1; api.redraw(); }, 'primary'); api.readout(''); }
+          else { sbtn(bar, 'Hide it again', function () { S.sh = 0; api.redraw(); }); api.readout(out.join('')); }
+        } else api.readout(out.join(''));
         api.report({ v: String(tot) });
       }
       function hop(g) { tw(380, function (k) { var y = -Math.sin(k * Math.PI) * 14; g.setAttribute('transform', 'translate(0 ' + y + ')'); }, function () { g.removeAttribute('transform'); }); }
-      api.onRedraw(draw); watchSize(api, holder, draw);
+      api.onRedraw(draw); onNarrow(api, draw);
     }
   });
 
@@ -297,24 +302,29 @@
     O.s('rect', { x: x + U * 0.3, y: y + U * 0.3, width: U * 0.4, height: U * 0.4, rx: 3, fill: '#fff', opacity: 0.25 }, g);
     if (vert) O.s('rect', { x: x + U * 0.32, y: y - 3, width: U * 0.36, height: 6, rx: 2, fill: c, stroke: 'rgba(0,0,0,.3)' }, g);
     else O.s('rect', { x: x + U - 4, y: y + U * 0.32, width: 6, height: U * 0.36, rx: 2, fill: c, stroke: 'rgba(0,0,0,.3)' }, g);
+    O.hit(g, x - 1, y - 1, U + 2, U + 2);
     return g;
   }
+  /* a Counting Collection: 8 to 30 loose cubes scattered on the mat */
+  function cubePile() { var n = rnd(8, 30), a = []; for (var i = 0; i < n; i++) a.push({ x: rnd(14, 300), y: rnd(14, 250), c: [rnd(0, 9)] }); return a; }
   O.register('linkcubes', {
-    defaults: { m: 'train', t: [], meas: 0, ml: 6 },
+    defaults: { m: 'train', t: [], meas: 0, ml: 6, sh: 0 },
     mount: function (api) {
       var S = api.S, holder = O.el('div'); api.stage.appendChild(holder);
-      api.quick([['Trains', { m: 'train', t: [], meas: 0 }], ['Towers', { m: 'tower', t: [], meas: 0 }], ['Measure', { m: 'train', t: [], meas: 1, ml: rnd(3, 9) }]]);
-      api.button('Clear', function () { S.t = []; api.redraw(); });
+      api.quick([['Trains', { m: 'train', t: [], meas: 0 }], ['Towers', { m: 'tower', t: [], meas: 0 }], ['Measure', { m: 'train', t: [], meas: 1, ml: rnd(3, 9) }], ['Collection', { m: 'coll', t: cubePile(), meas: 0, sh: 0 }]]);
+      var coll = S.m === 'coll';
+      if (coll) api.button('New pile', function () { S.t = cubePile(); S.sh = 0; api.redraw(); });
+      else api.button('Clear', function () { S.t = []; api.redraw(); });
       api.more();
       api.check('Show numbers on the cubes', 'meas');
       api.num('Pencil length (cubes, measure)', 'ml', 2, 12, 1);
       api.endMore();
       function draw() {
-        holder.innerHTML = ''; var nar = narrow(api), U = nar ? 40 : 44, W = nar ? 420 : 760, tower = S.m === 'tower';
+        holder.innerHTML = ''; var nar = narrow(api), U = 44, W = nar ? NW : 760, tower = S.m === 'tower';
         var top = S.meas && !tower ? 70 : 10, mat = { x: 10, y: top, w: W - 20, h: tower ? 470 : 300 };
-        var perRow = nar ? 5 : 10, ty = mat.y + mat.h + 18, trayH = Math.ceil(10 / perRow) * (U + 16) + 20, H = ty + trayH + 8;
+        var perRow = nar ? 5 : 10, ty = mat.y + mat.h + 18, trayH = coll ? 0 : Math.ceil(10 / perRow) * (U + 16) + 20, H = ty + trayH + 8;
         var v = svgBox(holder, W, H, 'Linking cubes');
-        api.say(tower ? 'Drag cubes up onto a tower. Drag a cube off to break the tower.' : 'Drag cubes to snap them into trains. Drag a cube off to break the train.');
+        api.say(tower ? 'Drag cubes up onto a tower. Drag one off to break it.' : coll ? 'How many cubes? Snap them into trains. Then count.' : 'Drag cubes together to make a train. Drag one off to break it.');
         rect(v, mat.x, mat.y, mat.w, mat.h, { rx: 16, fill: '#fff', stroke: LINE, 'stroke-width': 2, class: 'paper' });
         if (tower) O.s('line', { x1: mat.x + 10, y1: mat.y + mat.h - 14, x2: mat.x + mat.w - 10, y2: mat.y + mat.h - 14, stroke: '#C9B48A', 'stroke-width': 6 }, v);
         if (S.meas && !tower) {
@@ -347,38 +357,49 @@
             var gp = O.s('g', {}, parent), pos = cubePos(T, k), cg = cubeShape(gp, pos.x, pos.y, U, col, tower);
             if (S.meas) txt(gp, pos.x + U / 2, pos.y + U / 2 + 6, String(k + 1), { 'font-size': 17, fill: '#fff', 'font-weight': 800 });
             (function (k, gp) {
-              dragTap(v, gp, function () {
-                if (k === T.c.length - 1) { T.c.pop(); if (!T.c.length) S.t.splice(ti, 1); api.redraw(); }
+              O.dragTap(v, gp, function () {
+                if (k === T.c.length - 1 && !coll) { T.c.pop(); if (!T.c.length) S.t.splice(ti, 1); api.redraw(); keepIn(api.stage); }
               }, function (p, p0) {
+                /* a small nudge is not a move: the train stays whole and the ghost flies back */
+                if (Math.hypot(p.x - p0.x, p.y - p0.y) < U * 0.7) return false;
                 var piece = T.c.slice(k), rest = T.c.slice(0, k), pos0 = cubePos(T, k), drop = { x: pos0.x + U / 2 + p.x - p0.x, y: pos0.y + U / 2 + p.y - p0.y };
-                T.c = rest; var skip = rest.length ? ti : -1;
-                var ok = place(piece, drop, skip);
+                T.c = rest;
+                var ok = place(piece, drop, ti);
+                if (!ok && !inR(drop, mat) && !coll) ok = true; /* dragged off the mat: those cubes go away */
+                if (!ok) { T.c = rest.concat(piece); return false; }
                 if (!rest.length) S.t.splice(S.t.indexOf(T), 1);
-                api.redraw(); return true || ok;
-              }, (k === 0 ? 'Train of ' + T.c.length + '. Drag to move it.' : 'Cube ' + (k + 1) + '. Drag to break the train here.'));
+                api.redraw(); return true;
+              }, (k === 0 ? (tower ? 'Tower' : 'Train') + ' of ' + T.c.length + '. Drag it to move it.' : 'Cube ' + (k + 1) + ' of ' + T.c.length + '. Drag it to break the ' + (tower ? 'tower' : 'train') + ' here.') + (coll ? '' : ' Delete takes it off.'), 'cube-' + ti + '-' + k);
+              if (!coll) keyDel(gp, function () { T.c.splice(k, 1); if (!T.c.length) S.t.splice(ti, 1); api.redraw(); });
             })(k, gp);
             parent = gp;
           });
         });
         /* tray */
-        rect(v, 10, ty - 6, W - 20, trayH, { rx: 14, fill: '#F6F7FB', stroke: LINE, 'stroke-width': 2, 'stroke-dasharray': '6 5' });
-        var gap = (W - 20 - perRow * U) / (perRow + 1);
-        CUBE.forEach(function (c, i) {
-          var x = 10 + gap + (i % perRow) * (U + gap), y = ty + 8 + Math.floor(i / perRow) * (U + 16), g = cubeShape(v, x, y, U, i, tower);
-          dragTap(v, g, function () {
-            var T = S.t[S.t.length - 1];
-            if (T && T.c.length < 20) T.c.push(i);
-            else S.t.push(tower ? { x: mat.x + 20 + S.t.length * (U + 20), y: mat.y + mat.h - 14 - U, c: [i] } : { x: mat.x + 20, y: mat.y + 20 + S.t.length * (U + 14), c: [i] });
-            api.redraw();
-          }, function (p) { var ok = place([i], p, -1); if (ok) api.redraw(); return ok; }, 'Add a cube');
-        });
-        var lens = S.t.map(function (T) { return T.c.length; }), out = [];
+        if (!coll) {
+          var tr = tray(v, 10, ty - 6, W - 20, trayH), gap = (W - 20 - perRow * U) / (perRow + 1);
+          CUBE.forEach(function (c, i) {
+            var x = 10 + gap + (i % perRow) * (U + gap), y = ty + 8 + Math.floor(i / perRow) * (U + 16), g = cubeShape(tr, x, y, U, i, tower);
+            O.dragTap(v, g, function () {
+              var T = S.t[S.t.length - 1];
+              if (T && T.c.length < 20) T.c.push(i);
+              else S.t.push(tower ? { x: mat.x + 20 + S.t.length * (U + 20), y: mat.y + mat.h - 14 - U, c: [i] } : { x: mat.x + 20, y: mat.y + 20 + S.t.length * (U + 14), c: [i] });
+              api.redraw();
+            }, function (p) { var ok = place([i], p, -1); if (ok) api.redraw(); return ok; }, 'Add a cube', 'tray-' + i);
+          });
+        }
+        var lens = S.t.map(function (T) { return T.c.length; }), out = [], tot = lens.reduce(function (a, b) { return a + b; }, 0);
         lens.forEach(function (n, i) { out.push('<span>' + (tower ? 'Tower ' : 'Train ') + (i + 1) + ': <b>' + n + '</b> cube' + (n === 1 ? '' : 's') + '</span>'); });
         if (lens.length === 2) { var a = lens[0], b = lens[1]; out.push('<span>' + (a === b ? 'They are the same.' : Math.max(a, b) + ' is ' + Math.abs(a - b) + ' more than ' + Math.min(a, b) + '.') + '</span>'); }
-        api.readout(out.join(''));
-        api.report({ v: lens.join(',') });
+        if (coll) {
+          out.unshift('<span><b>' + tot + '</b> cubes in all</span>');
+          var bar = O.el('div', { class: 'om-row', style: 'justify-content:center' }); holder.appendChild(bar);
+          if (!S.sh) { sbtn(bar, 'Show how many', function () { S.sh = 1; api.redraw(); }, 'primary'); api.readout(''); }
+          else { sbtn(bar, 'Hide it again', function () { S.sh = 0; api.redraw(); }); api.readout(out.slice(0, 7).join('')); }
+        } else api.readout(out.join(''));
+        api.report({ v: coll ? String(tot) : lens.join(',') });
       }
-      api.onRedraw(draw); watchSize(api, holder, draw);
+      api.onRedraw(draw); onNarrow(api, draw);
     }
   });
 
@@ -409,9 +430,9 @@
       function draw() {
         clearTimeout(timer); holder.innerHTML = ''; var nar = narrow(api);
         var r = range(); if (S.n < r[0] || S.n > r[1]) S.n = r[0] + Math.floor((r[1] - r[0]) / 2);
-        var wide = S.k === 'ten' || S.k === 'five' || S.k === 'dom', W = nar ? 380 : 520, cw = wide ? (nar ? 340 : 440) : (nar ? 260 : 300), ch = wide ? (S.k === 'five' ? 150 : 220) : (nar ? 260 : 300), H = ch + 40;
+        var wide = S.k === 'ten' || S.k === 'five' || S.k === 'dom', W = nar ? NW : 520, cw = wide ? (nar ? 330 : 440) : (nar ? 260 : 300), ch = wide ? (S.k === 'five' ? 150 : 220) : (nar ? 260 : 300), H = ch + 40;
         var v = svgBox(holder, W, H, 'Number card'), cx = (W - cw) / 2, cy = 20;
-        api.say('What number do you see? Drag the card away, or tap Next card.');
+        api.say('What number is it? Drag the card away for a new one.');
         var g = O.s('g', {}, v);
         rect(g, cx, cy, cw, ch, { rx: 22, fill: '#fff', stroke: NAVY, 'stroke-width': 4 });
         if (hidden) {
@@ -435,10 +456,10 @@
           var pad = 60, s = cw - pad * 2;
           dotPos(S.n).forEach(function (q) { O.s('circle', { cx: cx + pad + q[0] * s, cy: cy + (ch - s) / 2 + q[1] * s, r: S.n > 6 ? 18 : 22, fill: BLU }, g); });
         }
-        dragTap(v, g, function () { if (hidden) { hidden = false; draw(); } }, function (p, p0) {
+        O.dragTap(v, g, function () { if (hidden) { hidden = false; draw(); } }, function (p, p0) {
           if (Math.hypot(p.x - p0.x, p.y - p0.y) < 60) return false;
           var dx = p.x - p0.x; tw(260, function (k) { g.setAttribute('transform', 'translate(' + (dx + Math.sign(dx || 1) * 600 * k) + ' ' + (p.y - p0.y) + ')'); }, next); return true;
-        }, 'Number card. Drag it away for the next card.');
+        }, 'Number card. Drag it away for the next card.', 'card');
         var bar = O.el('div', { class: 'om-row', style: 'justify-content:center' }); holder.appendChild(bar);
         sbtn(bar, 'Next card ▶', next, 'primary');
         if (S.fl) sbtn(bar, 'Show again', function () { hidden = false; draw(); });
@@ -446,7 +467,7 @@
         api.readout(S.k === 'dom' ? '<span>' + Math.min(S.a, S.n) + ' and ' + (S.n - Math.min(S.a, S.n)) + ' make <b>' + S.n + '</b></span>' : '<span>The number is <b>' + S.n + '</b></span>');
         api.report({ v: String(S.n) });
       }
-      api.onRedraw(draw); watchSize(api, holder, draw);
+      api.onRedraw(draw); onNarrow(api, draw);
     }
   });
 
@@ -472,35 +493,36 @@
         if (!all.length) return null; var q = all[rnd(0, all.length - 1)]; return Math.random() < 0.5 ? q : [q[1], q[0]];
       }
       function draw() {
-        holder.innerHTML = ''; var nar = narrow(api), W = nar ? 420 : 760, mat = { x: 10, y: 10, w: W - 20, h: nar ? 360 : 320 }, pile = { x: W / 2 - 90, y: mat.y + mat.h + 16, w: 180, h: 96 }, H = pile.y + pile.h + 12;
+        holder.innerHTML = ''; var nar = narrow(api), W = nar ? NW : 760, mat = { x: 10, y: 10, w: W - 20, h: nar ? 360 : 320 }, pile = { x: W / 2 - 90, y: mat.y + mat.h + 16, w: 180, h: 96 }, H = pile.y + pile.h + 12;
         var v = svgBox(holder, W, H, 'Dominoes');
-        api.say('Drag a domino from the pile onto the mat. Tap a domino to turn it.');
+        api.say('Drag a domino onto the mat. Tap it to turn it.');
         rect(v, mat.x, mat.y, mat.w, mat.h, { rx: 16, fill: '#E5F5EC', stroke: '#B5DCC4', 'stroke-width': 3, class: 'paper' });
         function freeSpot() { var cols = Math.floor((mat.w - 20) / 160), i = S.d.length; return [mat.x + 20 + (i % cols) * 160, mat.y + 20 + Math.floor(i / cols) * 90 % (mat.h - 80)]; }
         S.d.forEach(function (q, i) {
           q[2] = O.clamp(q[2], mat.x + 4, mat.x + mat.w - 144); q[3] = O.clamp(q[3], mat.y + 4, mat.y + mat.h - 74);
           var g = domino(v, q[2], q[3], q[0], q[1], 0);
-          dragTap(v, g, function () {
+          O.dragTap(v, g, function () {
             var cx = q[2] + 70, cy = q[3] + 35;
             tw(350, function (k) { g.setAttribute('transform', 'rotate(' + (180 * k) + ' ' + cx + ' ' + cy + ')'); }, function () { var t = q[0]; q[0] = q[1]; q[1] = t; api.redraw(); });
           }, function (p, p0) {
             var nx = q[2] + p.x - p0.x, ny = q[3] + p.y - p0.y;
             if (!inR({ x: nx + 70, y: ny + 35 }, mat)) { S.d.splice(i, 1); api.redraw(); return true; }
             q[2] = O.clamp(nx, mat.x + 4, mat.x + mat.w - 144); q[3] = O.clamp(ny, mat.y + 4, mat.y + mat.h - 74); api.redraw(); return true;
-          }, q[0] + ' and ' + q[1] + '. Tap to turn it.');
+          }, q[0] + ' and ' + q[1] + '. Enter turns it. Delete puts it back.', 'dom-' + i);
+          keyDel(g, function () { S.d.splice(i, 1); api.redraw(); });
         });
         /* face-down pile */
-        var pg = O.s('g', {}, v);
+        var pg = ui(O.s('g', {}, v), 'tray');
         for (var k = 2; k >= 0; k--) rect(pg, pile.x + 20 + k * 6, pile.y + 10 + k * 5, 140, 70, { rx: 12, fill: VIO, stroke: '#4B2E91', 'stroke-width': 3 });
         txt(pg, pile.x + 90, pile.y + 52, 'Drag a domino', { fill: '#fff', 'font-size': 16 });
-        dragTap(v, pg, function () { var q = pick(); if (!q) { O.toast('All the dominoes are out.'); return; } var s = freeSpot(); S.d.push([q[0], q[1], s[0], s[1]]); api.redraw(); }, function (p) {
+        O.dragTap(v, pg, function () { var q = pick(); if (!q) { O.toast('All the dominoes are out.'); return; } var s = freeSpot(); S.d.push([q[0], q[1], s[0], s[1]]); api.redraw(); }, function (p) {
           if (!inR(p, mat)) return false; var q = pick(); if (!q) { O.toast('All the dominoes are out.'); return false; }
           S.d.push([q[0], q[1], O.clamp(p.x - 70, mat.x + 4, mat.x + mat.w - 144), O.clamp(p.y - 35, mat.y + 4, mat.y + mat.h - 74)]); api.redraw(); return true;
-        }, 'Take a domino');
+        }, 'Take a domino', 'pile');
         api.readout(S.d.slice(-6).map(function (q) { return '<span>' + q[0] + ' and ' + q[1] + ' make <b>' + (q[0] + q[1]) + '</b></span>'; }).join('') || '');
         api.report({ v: S.d.map(function (q) { return q[0] + q[1]; }).join(',') });
       }
-      api.onRedraw(draw); watchSize(api, holder, draw);
+      api.onRedraw(draw); onNarrow(api, draw);
     }
   });
 
@@ -509,6 +531,7 @@
     var g = O.s('g', {}, v);
     O.s('rect', { x: x - 5, y: y, width: 10, height: h, rx: 5, fill: '#E9BE68', stroke: '#B07F2A', 'stroke-width': 2 }, g);
     O.s('rect', { x: x - 2, y: y + 6, width: 3, height: h - 12, rx: 1.5, fill: '#fff', opacity: 0.35 }, g);
+    O.hit(g, x - 22, y - 2, 44, Math.max(44, h + 4));
     return g;
   }
   function bundle(v, x, y, h) {
@@ -524,11 +547,11 @@
       api.quick([['To 20', { mx: 20, t: 0, o: 0 }], ['To 100', { mx: 100, t: 0, o: 0 }]]);
       api.button('Clear', function () { S.t = 0; S.o = 0; api.redraw(); });
       function draw() {
-        holder.innerHTML = ''; var nar = narrow(api), W = nar ? 420 : 760, colW = (W - 50) / 2, SH = nar ? 76 : 90, rowsT = S.mx > 20 ? 2 : 1;
+        holder.innerHTML = ''; var nar = narrow(api), W = nar ? NW : 760, colW = (W - 50) / 2, SH = nar ? 76 : 90, rowsT = S.mx > 20 ? 2 : 1;
         var top = 10, colH = 52 + Math.max(rowsT * (SH + 18), 3 * (SH * 0.62 + 12)) + 10;
         var tens = { x: 15, y: top, w: colW, h: colH }, ones = { x: 35 + colW, y: top, w: colW, h: colH }, pile = { x: W / 2 - 150, y: top + colH + 16, w: 300, h: SH + 24 }, H = pile.y + pile.h + 10;
         var v = svgBox(holder, W, H, 'Bundling sticks');
-        api.say('Drag sticks to Ones. Got 10? Drag one up to Tens to make a bundle.');
+        api.say('Drag sticks into Ones. Got 10? Drag one to Tens to make a bundle.');
         [[tens, 'Tens', BLU], [ones, 'Ones', ORG]].forEach(function (q) {
           rect(v, q[0].x, q[0].y, q[0].w, q[0].h, { rx: 16, fill: '#fff', stroke: q[2], 'stroke-width': 3, class: 'paper' });
           rect(v, q[0].x, q[0].y, q[0].w, 40, { rx: 16, fill: q[2] }); rect(v, q[0].x, q[0].y + 24, q[0].w, 16, { fill: q[2] });
@@ -539,11 +562,13 @@
         for (var b = 0; b < S.t; b++) {
           (function (b) {
             var x = tens.x + 20 + 32 + (b % perB) * 64, y = tens.y + 52 + Math.floor(b / perB) * (SH + 18), g = bundle(v, x, y, SH);
-            dragTap(v, g, null, function (p) {
-              if (inR(p, ones)) { if (S.o + 10 > 29) { O.toast('Too many loose sticks. Bundle some first.'); return false; } S.t--; S.o += 10; api.redraw(); return true; }
+            function unbundle() { if (S.o + 10 > 29) { O.toast('Too many loose sticks. Make a bundle first.'); return false; } S.t--; S.o += 10; api.redraw(); keepIn(api.stage); return true; }
+            O.dragTap(v, g, unbundle, function (p) {
+              if (inR(p, ones)) return unbundle();
               if (inR(p, tens)) return false;
               S.t--; api.redraw(); return true;
-            }, 'A bundle of ten. Drag it to Ones to unbundle.');
+            }, 'A bundle of ten. Enter takes it apart into Ones. Delete puts it away.', 'bundle-' + b);
+            keyDel(g, function () { S.t--; api.redraw(); });
           })(b);
         }
         /* loose ones */
@@ -552,34 +577,35 @@
           (function (i) {
             var x = ones.x + 15 + sp / 2 + (i % perO) * sp, y = ones.y + 52 + Math.floor(i / perO) * (sh + 12), g = stick(v, x, y, sh);
             stickNodes.push({ g: g, x: x, y: y });
-            dragTap(v, g, null, function (p) {
-              if (inR(p, tens)) {
-                if (S.o < 10) { O.toast('You need 10 sticks to make a bundle. You have ' + S.o + '.'); return false; }
-                if (S.t >= S.mx / 10) { O.toast('That is as many tens as this mat holds.'); return false; }
-                var bx = tens.x + 20 + 32 + (S.t % perB) * 64, by = tens.y + 52 + Math.floor(S.t / perB) * (SH + 18);
-                stickNodes.slice(0, 10).forEach(function (s, k) { var dx = bx - 25 + k * 5 + 4 - s.x, dy = by - s.y; tw(450, function (e) { s.g.setAttribute('transform', 'translate(' + dx * e + ' ' + dy * e + ')'); }); });
-                setTimeout(function () { S.o -= 10; S.t++; api.redraw(); }, O.reduce ? 0 : 480); return true;
-              }
+            function bundleTen() {
+              if (S.o < 10) { O.toast('You need 10 sticks to make a bundle. You have ' + S.o + '.'); return false; }
+              if (S.t >= S.mx / 10) { O.toast('The Tens box is full.'); return false; }
+              var bx = tens.x + 20 + 32 + (S.t % perB) * 64, by = tens.y + 52 + Math.floor(S.t / perB) * (SH + 18);
+              stickNodes.slice(0, 10).forEach(function (s, k) { var dx = bx - 25 + k * 5 + 4 - s.x, dy = by - s.y; tw(450, function (e) { s.g.setAttribute('transform', 'translate(' + dx * e + ' ' + dy * e + ')'); }); });
+              setTimeout(function () { S.o -= 10; S.t++; api.redraw(); keepIn(api.stage); }, O.reduce ? 0 : 480); return true;
+            }
+            O.dragTap(v, g, bundleTen, function (p) {
+              if (inR(p, tens)) return bundleTen();
               if (inR(p, ones)) return false;
               S.o--; api.redraw(); return true;
-            }, 'A stick. Drag it to Tens to bundle ten.');
+            }, 'A stick. ' + (S.o >= 10 ? 'Enter bundles ten.' : 'Enter bundles ten when there are 10.') + ' Delete puts it away.', 'stick-' + i);
+            keyDel(g, function () { S.o--; api.redraw(); });
           })(i);
         }
         /* pile */
-        var pg = O.s('g', {}, v);
-        rect(pg, pile.x, pile.y, pile.w, pile.h, { rx: 16, fill: '#F6F7FB', stroke: LINE, 'stroke-width': 2, 'stroke-dasharray': '6 5' });
+        var pg = tray(v, pile.x, pile.y, pile.w, pile.h);
         for (var k = 0; k < 9; k++) { var s = stick(pg, pile.x + 40 + k * 13, pile.y + 12, SH); s.setAttribute('transform', 'rotate(' + (k - 4) * 5 + ' ' + (pile.x + 40 + k * 13) + ' ' + (pile.y + 12 + SH) + ')'); }
         txt(pg, pile.x + pile.w - 70, pile.y + pile.h / 2 + 6, 'Drag a stick', { 'font-size': 15, fill: MUTE });
-        dragTap(v, pg, function () { if (S.t * 10 + S.o >= S.mx) { O.toast('That is ' + S.mx + '. The mat is full.'); return; } if (S.o >= 29) { O.toast('Bundle some sticks first.'); return; } S.o++; api.redraw(); }, function (p) {
+        O.dragTap(v, pg, function () { if (S.t * 10 + S.o >= S.mx) { O.toast('That is ' + S.mx + '. The mat is full.'); return; } if (S.o >= 29) { O.toast('Bundle some sticks first.'); return; } S.o++; api.redraw(); }, function (p) {
           if (inR(p, ones)) { if (S.t * 10 + S.o >= S.mx) { O.toast('That is ' + S.mx + '. The mat is full.'); return false; } if (S.o >= 29) { O.toast('Bundle some sticks first.'); return false; } S.o++; api.redraw(); return true; }
-          if (inR(p, tens)) O.toast('Put sticks in Ones first. Then bundle 10 of them.');
+          if (inR(p, tens)) O.toast('Put sticks in Ones first. Then bundle 10.');
           return false;
-        }, 'Add a stick');
+        }, 'Add a stick', 'pile');
         var tot = S.t * 10 + S.o;
-        api.readout('<span><b>' + S.t + '</b> ten' + (S.t === 1 ? '' : 's') + ' <b>' + S.o + '</b> one' + (S.o === 1 ? '' : 's') + ' = <b>' + tot + '</b></span>' + (S.o >= 10 ? '<span style="color:#B45309">10 or more ones. Can you make a bundle?</span>' : ''));
+        api.readout('<span><b>' + S.t + '</b> ten' + (S.t === 1 ? '' : 's') + ' <b>' + S.o + '</b> one' + (S.o === 1 ? '' : 's') + ' = <b>' + tot + '</b></span>' + (S.o >= 10 ? '<span style="color:#B45309">10 ones! Can you make a bundle?</span>' : ''));
         api.report({ v: String(tot), t: String(S.t), o: String(S.o) });
       }
-      api.onRedraw(draw); watchSize(api, holder, draw);
+      api.onRedraw(draw); onNarrow(api, draw);
     }
   });
 
@@ -589,6 +615,7 @@
     var g = O.s('g', {}, v), w = vert ? U : n * U, h = vert ? n * U : U;
     rect(g, x + 1, y + 1, w - 2, h - 2, { rx: 4, fill: ROD[n][0], stroke: 'rgba(0,0,0,.45)', 'stroke-width': 1.5 });
     if (lab) txt(g, x + w / 2, y + h / 2 + 6, String(n), { fill: ROD[n][1], 'font-size': 16, 'font-weight': 800 });
+    var hw = Math.max(44, w), hh = Math.max(44, h); O.hit(g, x + w / 2 - hw / 2, y + h / 2 - hh / 2, hw, hh);
     return g;
   }
   O.register('cuisenaire', {
@@ -600,7 +627,7 @@
       api.check('Show numbers on the rods', 'lab');
       api.button('Clear', function () { S.r = []; api.redraw(); });
       function draw() {
-        holder.innerHTML = ''; var nar = narrow(api), cols = nar ? 10 : 20, U = nar ? 38 : 34, W = cols * U + 40;
+        holder.innerHTML = ''; var nar = narrow(api), cols = nar ? 10 : 20, U = nar ? 32 : 34, W = cols * U + 40;
         var mat = { x: 20, y: 14, w: cols * U, h: S.rows * U };
         S.r.forEach(function (q) { q[1] = Math.min(q[1], cols - (q[3] ? 1 : q[0])); });
         var rowsT = [], cur = [], used = 0; [10, 9, 8, 7, 6, 5, 4, 3, 2, 1].forEach(function (n) { if (used + n > cols) { rowsT.push(cur); cur = []; used = 0; } cur.push(n); used += n + 0.4; }); rowsT.push(cur);
@@ -616,26 +643,28 @@
         }
         S.r.forEach(function (q, i) {
           var n = q[0], vert = q[3], X = mat.x + q[1] * U, Y = mat.y + q[2] * U, g = rod(v, X, Y, n, U, vert, S.lab);
-          dragTap(v, g, function () {
+          O.dragTap(v, g, function () {
             var nv = vert ? 0 : 1, s = snap(n, nv, X, Y); if (nv && n > S.rows) { O.toast('Too long to stand up here.'); return; } q[3] = nv; q[1] = s[0]; q[2] = s[1]; api.redraw();
           }, function (p, p0) {
             var c = { x: X + (vert ? U : n * U) / 2 + p.x - p0.x, y: Y + (vert ? n * U : U) / 2 + p.y - p0.y };
             if (!inR(c, { x: mat.x - U / 2, y: mat.y - U / 2, w: mat.w + U, h: mat.h + U })) { S.r.splice(i, 1); api.redraw(); return true; }
             var s = snap(n, vert, X + p.x - p0.x, Y + p.y - p0.y); q[1] = s[0]; q[2] = s[1]; api.redraw(); return true;
-          }, 'Rod ' + n + '. Tap to turn it. Drag it off to put it away.');
+          }, 'Rod ' + n + '. Enter turns it. Delete puts it away.', 'rod-' + i);
+          keyDel(g, function () { S.r.splice(i, 1); api.redraw(); });
         });
+        var trayG = tray(v, mat.x - 6, ty - 6, mat.w + 12, rowsT.length * (U + 12) + 6);
         rowsT.forEach(function (row, ri) {
           var x = mat.x;
           row.forEach(function (n) {
             (function (n, x) {
-              var y = ty + ri * (U + 12), g = rod(v, x, y, n, U, 0, true);
-              dragTap(v, g, function () {
+              var y = ty + ri * (U + 12), g = rod(trayG, x, y, n, U, 0, true);
+              O.dragTap(v, g, function () {
                 for (var gy = 0; gy < S.rows; gy++) { var end = 0; S.r.forEach(function (q) { if (!q[3] && q[2] === gy) end = Math.max(end, q[1] + q[0]); }); if (end + n <= cols) { S.r.push([n, end, gy, 0]); api.redraw(); return; } }
                 O.toast('The mat is full.');
               }, function (p, p0) {
                 var tl = { x: x + p.x - p0.x, y: y + p.y - p0.y }, c = { x: tl.x + n * U / 2, y: tl.y + U / 2 };
                 if (!inR(c, mat)) return false; var s = snap(n, 0, tl.x, tl.y); S.r.push([n, s[0], s[1], 0]); api.redraw(); return true;
-              }, 'Rod ' + n);
+              }, 'Add a rod of ' + n, 'tray-' + n);
             })(n, x);
             x += (n + 0.4) * U;
           });
@@ -654,7 +683,7 @@
         api.readout(lines.slice(0, 6).join('') || (S.r.length ? '<span>' + S.r.length + ' rod' + (S.r.length === 1 ? '' : 's') + '</span>' : ''));
         api.report({ v: lines.length ? lines.map(function (l) { return l.replace(/<[^>]+>/g, '').replace(/ ✓/, ''); }).join('; ') : String(S.r.length) });
       }
-      api.onRedraw(draw); watchSize(api, holder, draw);
+      api.onRedraw(draw); onNarrow(api, draw);
     }
   });
 
@@ -666,6 +695,7 @@
     else O.s('circle', { cx: x, cy: y, r: r, fill: c, stroke: 'rgba(0,0,0,.35)', 'stroke-width': 2 }, g);
     O.s('circle', { cx: x - r * 0.35, cy: y - r * 0.35, r: r * 0.28, fill: '#fff', opacity: 0.4 }, g);
     O.s('circle', { cx: x, cy: y, r: r * 0.16, fill: '#fff', opacity: 0.7 }, g);
+    var hs = Math.max(44, 2 * r); O.hit(g, x - hs / 2, y - hs / 2, hs, hs);
     return g;
   }
   function beadName(q) { return BEAD[q[0]][0] + (q[1] ? ' cube' : ''); }
@@ -682,14 +712,14 @@
       api.button('Clear the string', function () { S.b = []; api.redraw(); });
       if (S.m === 'copy') api.button('New pattern card', function () { S.card = randCard(); S.b = []; api.redraw(); });
       function draw() {
-        holder.innerHTML = ''; var nar = narrow(api), W = nar ? 420 : 760, per = nar ? 10 : 20, sp = nar ? 38 : 35, R = nar ? 16 : 15;
+        holder.innerHTML = ''; var nar = narrow(api), W = nar ? NW : 760, per = nar ? 10 : 20, sp = nar ? 32 : 35, R = nar ? 16 : 15;
         var cardH = S.m === 'copy' && S.card.length ? 84 : 0, sy0 = 20 + cardH + 40, rows = nar ? 2 : 1, ty = sy0 + (rows - 1) * 90 + 60, trayPer = nar ? 4 : 8, trayH = (8 / trayPer) * 70 + 10, H = ty + trayH + 10;
         var v = svgBox(holder, W, H, 'Beads on a string');
-        api.say(S.m === 'copy' ? 'Copy the pattern. Drag beads onto the string.' : 'Drag beads onto the string. Drag a bead off to take it away.');
+        api.say(S.m === 'copy' ? 'Look at the card. Make the same pattern.' : S.m === 'own' ? 'Make a pattern with the beads.' : 'Drag beads onto the string.');
         if (cardH) {
-          rect(v, W / 2 - (nar ? 190 : 260), 14, nar ? 380 : 520, cardH - 6, { rx: 14, fill: '#FFF6D6', stroke: '#E8D18A', 'stroke-width': 2 });
+          rect(v, W / 2 - (nar ? 172 : 260), 14, nar ? 344 : 520, cardH - 6, { rx: 14, fill: '#FFF6D6', stroke: '#E8D18A', 'stroke-width': 2 });
           txt(v, W / 2, 34, 'Copy this pattern', { 'font-size': 14, fill: '#8a6400' });
-          var show = S.card.length === 2 ? 8 : 9, cw = (nar ? 330 : 470) / show;
+          var show = S.card.length === 2 ? 8 : 9, cw = (nar ? 300 : 470) / show;
           for (var c = 0; c < show; c++) bead(v, W / 2 - (show - 1) * cw / 2 + c * cw, 60, S.card[c % S.card.length], 13).style.pointerEvents = 'none';
           txt(v, W / 2 + (show / 2) * cw + 4, 66, '…', { 'font-size': 20, fill: MUTE });
         }
@@ -700,26 +730,34 @@
         S.b.forEach(function (q, i) {
           var s = slot(i), g = bead(v, s.x, s.y, q, R);
           if (lastAdd && lastAdd.i === i && !O.reduce) { var dx = lastAdd.x - s.x, dy = lastAdd.y - s.y; tw(320, function (k) { g.setAttribute('transform', 'translate(' + dx * (1 - k) + ' ' + dy * (1 - k) + ')'); }); }
-          dragTap(v, g, function () { S.b.splice(i, 1); api.redraw(); }, function (p) {
+          O.dragTap(v, g, function () { S.b.splice(i, 1); api.redraw(); keepIn(api.stage); }, function (p) {
             if (!inR(p, band)) { S.b.splice(i, 1); api.redraw(); return true; }
             var j = idxAt(p); S.b.splice(i, 1); if (j > i) j--; S.b.splice(Math.min(j, S.b.length), 0, q); api.redraw(); return true;
-          }, beadName(q) + ' bead. Drag it off to take it away.');
+          }, beadName(q) + ' bead. Enter or Delete takes it off.', 'bead-' + i);
+          keyDel(g, function () { S.b.splice(i, 1); api.redraw(); });
         });
         lastAdd = null;
-        rect(v, 10, ty - 6, W - 20, trayH, { rx: 14, fill: '#F6F7FB', stroke: LINE, 'stroke-width': 2, 'stroke-dasharray': '6 5' });
+        var tr = tray(v, 10, ty - 6, W - 20, trayH);
         var tc = (W - 20) / trayPer, t = 0;
         for (var sh = 0; sh < 2; sh++) for (var col = 0; col < 4; col++) {
           (function (q, t) {
-            var x = 10 + tc * (t % trayPer) + tc / 2, y = ty + 32 + Math.floor(t / trayPer) * 70, g = bead(v, x, y, q, 22);
-            dragTap(v, g, function () { if (S.b.length >= per * rows) { O.toast('The string is full.'); return; } lastAdd = { i: S.b.length, x: x, y: y }; S.b.push(q); api.redraw(); }, function (p) {
+            var x = 10 + tc * (t % trayPer) + tc / 2, y = ty + 32 + Math.floor(t / trayPer) * 70, g = bead(tr, x, y, q, 22);
+            O.dragTap(v, g, function () { if (S.b.length >= per * rows) { O.toast('The string is full.'); return; } lastAdd = { i: S.b.length, x: x, y: y }; S.b.push(q); api.redraw(); }, function (p) {
               if (!inR(p, band)) return false; if (S.b.length >= per * rows) { O.toast('The string is full.'); return false; }
               var j = idxAt(p); lastAdd = { i: j, x: p.x, y: p.y }; S.b.splice(j, 0, q); api.redraw(); return true;
-            }, 'Add a ' + beadName(q) + ' bead');
+            }, 'Add a ' + beadName(q) + ' bead', 'tray-' + t);
           })([col, sh], t++);
         }
         var n = S.b.length, cnt = {}; S.b.forEach(function (q) { var k = beadName(q); cnt[k] = (cnt[k] || 0) + 1; });
         var out = ['<span><b>' + n + '</b> bead' + (n === 1 ? '' : 's') + '</span>'];
         if (n) out.push('<span>' + Object.keys(cnt).map(function (k) { return cnt[k] + ' ' + k; }).join(', ') + '</span>');
+        if (S.m === 'copy' && S.card.length && n) {
+          /* does the string match the card so far? */
+          var bad = -1; for (var ci = 0; ci < n; ci++) { var want = S.card[ci % S.card.length]; if (S.b[ci][0] !== want[0] || S.b[ci][1] !== want[1]) { bad = ci; break; } }
+          if (bad >= 0) out.push('<span style="color:#B45309">Not yet. Look at bead ' + (bad + 1) + '.</span>');
+          else if (n >= S.card.length * 2) out.push('<span style="color:#23915A"><b>It matches!</b></span>');
+          else out.push('<span>Good so far. Keep going.</span>');
+        }
         if (S.m === 'own' && n >= 4) {
           var key = S.b.map(function (q) { return q.join(); });
           for (var p = 1; p <= n / 2; p++) { var ok = true; for (var i2 = p; i2 < n; i2++) if (key[i2] !== key[i2 - p]) { ok = false; break; } if (ok) { out.push('<span>It repeats: ' + S.b.slice(0, p).map(beadName).join(', ') + '</span>'); break; } }
@@ -727,7 +765,7 @@
         api.readout(out.join(''));
         api.report({ v: String(n) });
       }
-      api.onRedraw(draw); watchSize(api, holder, draw);
+      api.onRedraw(draw); onNarrow(api, draw);
     }
   });
 
@@ -758,52 +796,80 @@
       api.quick([['Free', { m: 'free', on: [] }], ['2 hoops', { m: 'two', on: [], lab: ['red', 'not red', ''] }], ['Venn', { m: 'venn', on: [], lab: ['red', 'triangle', ''] }]]);
       api.button('Put them all back', function () { S.on = []; api.redraw(); });
       function draw() {
-        holder.innerHTML = ''; var nar = narrow(api), W = nar ? 420 : 760, mat = { x: 10, y: 10, w: W - 20, h: nar ? 300 : 340 };
+        holder.innerHTML = ''; var nar = narrow(api), W = nar ? NW : 760, mat = { x: 10, y: 10, w: W - 20, h: nar ? 300 : 340 };
         var cols = nar ? 6 : 12, cell = (W - 20) / cols, ty = mat.y + mat.h + 20, rowsT = Math.ceil(60 / cols), H = ty + rowsT * 60 + 20;
         var v = svgBox(holder, W, H, 'Attribute blocks');
-        api.say('Drag blocks into the hoops to sort them. Tap a hoop name to change it.');
+        api.say(S.m === 'free' ? 'Drag blocks onto the mat. Sort them your way.' : 'Drag blocks into the hoops. Tap a hoop name to change it.');
         rect(v, mat.x, mat.y, mat.w, mat.h, { rx: 16, fill: '#fff', stroke: LINE, 'stroke-width': 2, class: 'paper' });
         var hoops = [];
-        if (S.m === 'two') { var r = nar ? 92 : 130; hoops = [{ x: mat.x + mat.w * 0.27, y: mat.y + mat.h / 2 + 14, r: r }, { x: mat.x + mat.w * 0.73, y: mat.y + mat.h / 2 + 14, r: r }]; }
-        if (S.m === 'venn') { var r2 = nar ? 100 : 140; hoops = [{ x: mat.x + mat.w / 2 - r2 * 0.6, y: mat.y + mat.h / 2 + 14, r: r2 }, { x: mat.x + mat.w / 2 + r2 * 0.6, y: mat.y + mat.h / 2 + 14, r: r2 }]; }
+        if (S.m === 'two') { var r = nar ? 80 : 130; hoops = [{ x: mat.x + mat.w * 0.27, y: mat.y + mat.h / 2 + 14, r: r }, { x: mat.x + mat.w * 0.73, y: mat.y + mat.h / 2 + 14, r: r }]; }
+        if (S.m === 'venn') { var r2 = nar ? 92 : 140; hoops = [{ x: mat.x + mat.w / 2 - r2 * 0.6, y: mat.y + mat.h / 2 + 14, r: r2 }, { x: mat.x + mat.w / 2 + r2 * 0.6, y: mat.y + mat.h / 2 + 14, r: r2 }]; }
         hoops.forEach(function (h, k) {
           O.s('circle', { cx: h.x, cy: h.y, r: h.r, fill: [VIO, GRN][k], 'fill-opacity': 0.06, stroke: [VIO, GRN][k], 'stroke-width': 5 }, v);
           var lab = S.lab[k] || ('Hoop ' + (k + 1)), lx = S.m === 'venn' ? h.x + (k ? 40 : -40) : h.x, t = txt(v, lx, h.y - h.r - 10, lab + ' ✎', { 'font-size': 17, fill: [VIO, GRN][k] });
-          var hit = rect(v, lx - 70, h.y - h.r - 34, 140, 32, { fill: 'transparent', style: 'cursor:pointer' });
-          O.tap(hit, function () { editText(api, t, S.lab[k], function (val) { S.lab[k] = val; api.redraw(); }); }, 'Name this hoop');
+          var hit = rect(v, lx - 70, h.y - h.r - 40, 140, 44, { fill: 'transparent', style: 'cursor:pointer' });
+          O.tap(hit, function () { editText(api, t, S.lab[k], function (val) { S.lab[k] = val; api.redraw(); }); }, 'Name this hoop', 'label-' + k);
         });
+        var inH = function (q, h) { return Math.hypot(q[1] - h.x, q[2] - h.y) < h.r; };
+        /* region of a block: 0 = first hoop only, 1 = both (Venn), 2 = second hoop only, 3 = outside */
+        function region(q) { if (!hoops.length) return 3; var a = inH(q, hoops[0]), b = inH(q, hoops[1]); return a && b ? 1 : a ? 0 : b ? 2 : 3; }
+        var CYCLE = S.m === 'venn' ? [0, 1, 2, 3] : S.m === 'two' ? [0, 2, 3] : [3];
+        /* a tidy spot for the n-th block in a region (used by Enter, so a key press never lands a block at random) */
+        function spotIn(reg, n) {
+          if (reg === 3 || !hoops.length) { var per = Math.floor((mat.w - 60) / 52); return [mat.x + 40 + (n % per) * 52, mat.y + 30 + Math.floor(n / per) * 52]; }
+          if (reg === 1) { var mx = (hoops[0].x + hoops[1].x) / 2, r0 = hoops[0].r; return [mx + (n % 2 ? 22 : -22), hoops[0].y - r0 * 0.45 + Math.floor(n / 2) * 48]; }
+          var h = hoops[reg === 0 ? 0 : 1], side = h.r * (S.m === 'venn' ? 0.9 : 1.3), x0 = h.x - side / 2 + (S.m === 'venn' ? (reg === 0 ? -h.r * 0.3 : h.r * 0.3) : 0), c = Math.max(1, Math.floor(side / 50));
+          return [x0 + 25 + (n % c) * 50, h.y - side / 2 + 25 + Math.floor(n / c) * 50];
+        }
+        function countIn(reg) { return S.on.filter(function (q) { return region(q) === reg; }).length; }
         var onSet = {}; S.on.forEach(function (q) { onSet[q[0]] = 1; });
         S.on.forEach(function (q, k) {
           q[1] = O.clamp(q[1], mat.x + 28, mat.x + mat.w - 28); q[2] = O.clamp(q[2], mat.y + 28, mat.y + mat.h - 28);
-          var g = aDraw(v, q[0], q[1], q[2]);
-          dragTap(v, g, function () { S.on.splice(k, 1); api.redraw(); }, function (p, p0) {
+          var g = aDraw(v, q[0], q[1], q[2]), reg = region(q);
+          var regName = ['in ' + (S.lab[0] || 'hoop 1'), 'in both hoops', 'in ' + (S.lab[1] || 'hoop 2'), 'outside the hoops'][reg];
+          O.dragTap(v, g, function () {
+            if (!hoops.length) { S.on.splice(k, 1); api.redraw(); keepIn(api.stage); return; }
+            var next = CYCLE[(CYCLE.indexOf(reg) + 1) % CYCLE.length], sp = spotIn(next, countIn(next));
+            q[1] = sp[0]; q[2] = sp[1]; api.redraw();
+          }, function (p, p0) {
             var nx = q[1] + p.x - p0.x, ny = q[2] + p.y - p0.y;
             if (!inR({ x: nx, y: ny }, mat)) { S.on.splice(k, 1); api.redraw(); return true; }
             q[1] = O.clamp(nx, mat.x + 28, mat.x + mat.w - 28); q[2] = O.clamp(ny, mat.y + 28, mat.y + mat.h - 28); api.redraw(); return true;
-          }, aName(q[0]));
+          }, aName(q[0]) + (hoops.length ? ', ' + regName + '. Enter moves it to the next hoop.' : '.') + ' Delete puts it back.', 'blk-' + q[0]);
+          keyDel(g, function () { S.on.splice(k, 1); api.redraw(); });
         });
-        rect(v, 10, ty - 8, W - 20, rowsT * 60 + 14, { rx: 14, fill: '#F6F7FB', stroke: LINE, 'stroke-width': 2, 'stroke-dasharray': '6 5' });
+        var tr = tray(v, 10, ty - 8, W - 20, rowsT * 60 + 14);
         var order = []; for (var sh = 0; sh < 5; sh++) for (var col = 0; col < 3; col++) for (var sz = 0; sz < 2; sz++) for (var th = 0; th < 2; th++) order.push(((sh * 3 + col) * 2 + sz) * 2 + th);
         order.forEach(function (bi, k) {
           if (onSet[bi]) return;
-          var x = 10 + (k % cols) * cell + cell / 2, y = ty + 24 + Math.floor(k / cols) * 60, g = aDraw(v, bi, x, y);
-          dragTap(v, g, function () { S.on.push([bi, rnd(mat.x + 40, mat.x + mat.w - 40), rnd(mat.y + 40, mat.y + mat.h - 40)]); api.redraw(); }, function (p) {
+          var x = 10 + (k % cols) * cell + cell / 2, y = ty + 24 + Math.floor(k / cols) * 60, g = aDraw(tr, bi, x, y);
+          O.dragTap(v, g, function () { var reg = CYCLE[0], sp = spotIn(reg, countIn(reg)); S.on.push([bi, O.clamp(sp[0], mat.x + 28, mat.x + mat.w - 28), O.clamp(sp[1], mat.y + 28, mat.y + mat.h - 28)]); api.redraw(); }, function (p) {
             if (!inR(p, mat)) return false; S.on.push([bi, O.clamp(p.x, mat.x + 28, mat.x + mat.w - 28), O.clamp(p.y, mat.y + 28, mat.y + mat.h - 28)]); api.redraw(); return true;
-          }, aName(bi));
+          }, aName(bi), 'tray-' + bi);
         });
-        var inH = function (q, h) { return Math.hypot(q[1] - h.x, q[2] - h.y) < h.r; }, out = [];
+        /* what do the blocks in a hoop share? ("All red", "All big") */
+        function shared(list) {
+          if (list.length < 2) return '';
+          var bs = list.map(function (q) { return ablock(q[0]); }), f = [];
+          if (bs.every(function (b) { return b.col === bs[0].col; })) f.push('all ' + A_COL[bs[0].col][0]);
+          if (bs.every(function (b) { return b.sh === bs[0].sh; })) f.push('all ' + A_SH[bs[0].sh] + 's');
+          if (bs.every(function (b) { return b.sz === bs[0].sz; })) f.push('all ' + (bs[0].sz ? 'small' : 'big'));
+          if (bs.every(function (b) { return b.th === bs[0].th; })) f.push('all ' + (bs[0].th ? 'thin' : 'thick'));
+          return f.length ? ' <i>' + f.join(', ').replace(/^all/, 'All') + '</i>' : '';
+        }
+        var out = [];
         if (hoops.length) {
-          var n1 = 0, n2 = 0, both = 0, none = 0;
-          S.on.forEach(function (q) { var a = inH(q, hoops[0]), b = inH(q, hoops[1]); if (a && b) both++; else if (a) n1++; else if (b) n2++; else none++; });
-          out.push('<span>' + O.esc(S.lab[0] || 'Hoop 1') + ': <b>' + (n1 + (S.m === 'venn' ? 0 : both)) + '</b></span>');
-          out.push('<span>' + O.esc(S.lab[1] || 'Hoop 2') + ': <b>' + (n2 + (S.m === 'venn' ? 0 : both)) + '</b></span>');
-          if (S.m === 'venn') out.push('<span>Both: <b>' + both + '</b></span>');
+          var n1 = 0, n2 = 0, both = 0, none = 0, in1 = [], in2 = [], inBoth = [];
+          S.on.forEach(function (q) { var a = inH(q, hoops[0]), b = inH(q, hoops[1]); if (a && b) { both++; inBoth.push(q); } else if (a) n1++; else if (b) n2++; else none++; if (a) in1.push(q); if (b) in2.push(q); });
+          out.push('<span>' + O.esc(S.lab[0] || 'Hoop 1') + ': <b>' + (n1 + (S.m === 'venn' ? 0 : both)) + '</b>' + shared(in1) + '</span>');
+          out.push('<span>' + O.esc(S.lab[1] || 'Hoop 2') + ': <b>' + (n2 + (S.m === 'venn' ? 0 : both)) + '</b>' + shared(in2) + '</span>');
+          if (S.m === 'venn') out.push('<span>Both: <b>' + both + '</b>' + shared(inBoth) + '</span>');
           out.push('<span>Outside: <b>' + none + '</b></span>');
           api.report({ v: [n1, n2, both, none].join(',') });
         } else { out.push('<span><b>' + S.on.length + '</b> block' + (S.on.length === 1 ? '' : 's') + ' on the mat</span>'); api.report({ v: String(S.on.length) }); }
         api.readout(out.join(''));
       }
-      api.onRedraw(draw); watchSize(api, holder, draw);
+      api.onRedraw(draw); onNarrow(api, draw);
     }
   });
 
@@ -828,7 +894,7 @@
     var g = O.s('g', {}, v), L = [-0.45, 0.65, 0.6], base = { cube: '#7FB3F5', rprism: '#9AD4A8', spyr: '#F7C66B', tprism: '#F49A8E', tpyr: '#C3A6F2', cyl: '#7FD3DC', cone: '#F7A85E', sphere: '#F28FAE' }[id];
     var PAL = ['#F4D35E', '#7FB3F5', '#F49A8E', '#9AD4A8', '#C3A6F2', '#F7A85E'];
     var faces = m.F.map(function (f, fi) {
-      var a = R[f.i[0]], b = R[f.i[1]], c = R[f.i[f.i.length > 3 ? 2 : 2]];
+      var a = R[f.i[0]], b = R[f.i[1]], c = R[f.i[2]];
       var u = [b[0] - a[0], b[1] - a[1], b[2] - a[2]], w = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
       var n = [u[1] * w[2] - u[2] * w[1], u[2] * w[0] - u[0] * w[2], u[0] * w[1] - u[1] * w[0]];
       var ctr = [0, 0, 0]; f.i.forEach(function (k) { ctr[0] += R[k][0]; ctr[1] += R[k][1]; ctr[2] += R[k][2]; }); ctr = ctr.map(function (q) { return q / f.i.length; });
@@ -863,7 +929,7 @@
     }
     return g;
   }
-  function mix(hex, k) { var n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255; function c(x) { return Math.round(Math.min(255, x * k + (k > 1 ? 0 : 0))); } return 'rgb(' + c(r) + ',' + c(g) + ',' + c(b) + ')'; }
+  function mix(hex, k) { var n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255; function c(x) { return Math.round(Math.min(255, x * k)); } return 'rgb(' + c(r) + ',' + c(g) + ',' + c(b) + ')'; }
   O.register('solids', {
     defaults: { k: 'cube', yaw: 0.6, pit: 0.45, m: 'one', hl: '' },
     mount: function (api) {
@@ -871,11 +937,11 @@
       api.quick([['Rotate one', { m: 'one' }], ['All solids (shelf)', { m: 'shelf' }]]);
       api.seg('Show', 'hl', [['', 'Just the shape'], ['faces', 'Faces'], ['edges', 'Edges'], ['verts', 'Corners']]);
       function draw() {
-        holder.innerHTML = ''; var nar = narrow(api), W = nar ? 400 : 700;
+        holder.innerHTML = ''; var nar = narrow(api), W = nar ? NW : 700;
         if (S.m === 'shelf') return drawShelf(nar, W);
         var H = 400 + (nar ? 90 : 100), sc = nar ? 84 : 98, cx = W / 2, cyy = 200;
         var v = svgBox(holder, W, H, SOLIDS[S.k].name);
-        api.say('Drag the shape to turn it. Tap a shape below to pick another one.');
+        api.say('Drag the shape to turn it. Tap a shape below to pick a new one.');
         rect(v, 0, 0, W, 380, { fill: '#fff', class: 'paper' });
         O.s('ellipse', { cx: cx, cy: 330, rx: sc * 1.2, ry: 16, fill: 'rgba(14,28,66,.10)' }, v);
         var holderG = O.s('g', {}, v), shapeG = renderSolid(holderG, S.k, cx, cyy, sc, S.yaw, S.pit, S.hl);
@@ -885,18 +951,19 @@
         hit.addEventListener('pointermove', function (e) { if (!p0) return; var p = O.pt(v, e); S.yaw = y0 + (p.x - p0.x) * 0.012; S.pit = O.clamp(q0 + (p.y - p0.y) * 0.012, -1.4, 1.4); holderG.innerHTML = ''; renderSolid(holderG, S.k, cx, cyy, sc, S.yaw, S.pit, S.hl); });
         function end() { if (p0) { p0 = null; api.changed(); } }
         hit.addEventListener('pointerup', end); hit.addEventListener('pointercancel', end);
-        hit.setAttribute('tabindex', '0'); hit.setAttribute('role', 'img'); hit.setAttribute('aria-label', SOLIDS[S.k].name + '. Use arrow keys to turn it.');
+        hit.setAttribute('tabindex', '0'); hit.setAttribute('role', 'img'); hit.setAttribute('aria-label', SOLIDS[S.k].name + '. Use arrow keys to turn it.'); hit.setAttribute('data-k', 'turn');
         hit.addEventListener('keydown', function (e) { var d = { ArrowLeft: [-0.2, 0], ArrowRight: [0.2, 0], ArrowUp: [0, -0.2], ArrowDown: [0, 0.2] }[e.key]; if (!d) return; e.preventDefault(); S.yaw += d[0]; S.pit = O.clamp(S.pit + d[1], -1.4, 1.4); holderG.innerHTML = ''; renderSolid(holderG, S.k, cx, cyy, sc, S.yaw, S.pit, S.hl); api.changed(); });
         txt(v, cx, 30, SOLIDS[S.k].name, { 'font-size': 22, 'font-weight': 800 });
         /* tray of solids */
         var per = nar ? 4 : 8, cw = W / per, rowsT = Math.ceil(8 / per), ty = 390;
         v.setAttribute('viewBox', '0 0 ' + W + ' ' + (ty + rowsT * 92 + 8)); v.setAttribute('height', ty + rowsT * 92 + 8);
+        var trG = ui(O.s('g', {}, v), 'tray');
         SOLID_IDS.forEach(function (id, i) {
-          var x = (i % per) * cw + cw / 2, y = ty + 40 + Math.floor(i / per) * 92, g = O.s('g', {}, v);
+          var x = (i % per) * cw + cw / 2, y = ty + 40 + Math.floor(i / per) * 92, g = O.s('g', {}, trG);
           rect(g, x - cw / 2 + 4, y - 40, cw - 8, 86, { rx: 12, fill: id === S.k ? '#EFE9FB' : '#F6F7FB', stroke: id === S.k ? VIO : LINE, 'stroke-width': id === S.k ? 3 : 1.5 });
           renderSolid(g, id, x, y - 4, 22, 0.6, 0.45, '');
           txt(g, x, y + 38, SOLIDS[id].name.replace('Rectangular', 'Rect.').replace('Triangular', 'Tri.'), { 'font-size': 11.5, fill: MUTE });
-          O.tap(g, function () { S.k = id; api.redraw(); }, SOLIDS[id].name);
+          O.tap(g, function () { S.k = id; api.redraw(); }, 'Pick the ' + SOLIDS[id].name.toLowerCase(), 'pick-' + id);
         });
         /* roll / stack */
         var bar = O.el('div', { class: 'om-row', style: 'justify-content:center' }); holder.appendChild(bar);
@@ -927,13 +994,13 @@
       function drawShelf(nar, W) {
         var per = nar ? 2 : 4, cw = W / per, rows = Math.ceil(8 / per), H = rows * 180 + 20;
         var v = svgBox(holder, W, H, 'Shelf of solids');
-        api.say('Tap a shape to turn it and look closer.');
+        api.say('Tap a shape to look closer.');
         SOLID_IDS.forEach(function (id, i) {
           var x = (i % per) * cw + cw / 2, y = 20 + Math.floor(i / per) * 180, g = O.s('g', {}, v);
           rect(g, x - cw / 2 + 6, y, cw - 12, 168, { rx: 14, fill: '#fff', stroke: LINE, 'stroke-width': 2, class: 'paper' });
           renderSolid(g, id, x, y + 74, 42, 0.6, 0.45, S.hl);
           txt(g, x, y + 154, SOLIDS[id].name, { 'font-size': 14 });
-          O.tap(g, function () { S.m = 'one'; S.k = id; api.redraw(); }, SOLIDS[id].name);
+          O.tap(g, function () { S.m = 'one'; S.k = id; api.redraw(); }, SOLIDS[id].name, 'shelf-' + id);
         });
         readout();
       }
@@ -947,7 +1014,7 @@
         api.readout(out.join(''));
         api.report({ v: S.k, f: String(i[0]), e: String(i[2]), c: String(i[3]) });
       }
-      api.onRedraw(draw); watchSize(api, holder, draw);
+      api.onRedraw(draw); onNarrow(api, draw);
     }
   });
 
@@ -961,7 +1028,7 @@
     else if (k === 'pencil') { O.s('rect', { x: x - 26 * s, y: y - 5 * s, width: 44 * s, height: 10 * s, fill: '#F2B705', stroke: '#B88700', 'stroke-width': 1.5 }, g); O.s('path', { d: 'M' + (x + 18 * s) + ' ' + (y - 5 * s) + 'L' + (x + 28 * s) + ' ' + y + 'L' + (x + 18 * s) + ' ' + (y + 5 * s) + 'Z', fill: '#F5D9A8', stroke: '#B88700' }, g); O.s('rect', { x: x - 30 * s, y: y - 5 * s, width: 5 * s, height: 10 * s, fill: '#F4A3B5' }, g); }
     else if (k === 'book') { O.s('rect', { x: x - 20 * s, y: y - 15 * s, width: 40 * s, height: 30 * s, rx: 3, fill: '#6B46C1', stroke: '#4B2E91', 'stroke-width': 2 }, g); O.s('rect', { x: x - 20 * s, y: y - 15 * s, width: 7 * s, height: 30 * s, fill: '#4B2E91' }, g); }
     else { O.s('rect', { x: x - 18 * s, y: y - 11 * s, width: 36 * s, height: 22 * s, rx: 3, fill: '#D9A86C', stroke: '#9E6F37', 'stroke-width': 2 }, g); }
-    O.s('rect', { x: x - 28 * s, y: y - 24 * s, width: 56 * s, height: 48 * s, fill: 'transparent' }, g);
+    var hw = Math.max(44, 56 * s), hh = Math.max(44, 48 * s); O.hit(g, x - hw / 2, y - hh / 2, hw, hh);
     return g;
   }
   O.register('bucket', {
@@ -976,10 +1043,10 @@
       function wt(arr) { return arr.reduce(function (s, k) { return s + THINGS[k][1]; }, 0); }
       function target() { return O.clamp((wt(S.R) - wt(S.L)) * 2.2, -16, 16); }
       function draw() {
-        holder.innerHTML = ''; var nar = narrow(api), W = nar ? 420 : 760, beam = nar ? 300 : 480, bw = nar ? 120 : 160, bh = nar ? 90 : 100, piv = { x: W / 2, y: 70 }, ty = 340, H = ty + 100;
-        var v = svgBox(holder, W, H, 'Bucket balance'), scene = O.s('g', {}, v);
-        api.say(S.m === 'cubes' ? 'Drag cubes into the right bucket until it balances.' : 'Drag things into the buckets. Which side is heavier?');
-        var tray = S.m === 'cubes' ? ['cube'] : ['bear', 'cube', 'apple', 'pencil', 'book', 'block'];
+        holder.innerHTML = ''; var nar = narrow(api), W = nar ? NW : 760, beam = nar ? 250 : 480, bw = nar ? 120 : 160, bh = nar ? 90 : 100, piv = { x: W / 2, y: 70 }, ty = 340, H = ty + 100;
+        var v = svgBox(holder, W, H, 'Bucket balance'), scene = O.s('g', {}, v); v.setAttribute('tabindex', '-1');
+        api.say(S.m === 'cubes' ? 'Drag cubes into the other bucket. Make it balance.' : 'Drag things into the buckets. Which side goes down?');
+        var things = S.m === 'cubes' ? ['cube'] : ['bear', 'cube', 'apple', 'pencil', 'book', 'block'];
         function geom(a) {
           var r = a * Math.PI / 180, ex = Math.cos(r) * beam / 2, ey = Math.sin(r) * beam / 2;
           return { L: { x: piv.x - ex, y: piv.y - ey }, R: { x: piv.x + ex, y: piv.y + ey } };
@@ -1003,29 +1070,34 @@
               var x = b.x + 15 + cw / 2 + (i % per) * cw, y = b.y + b.h - 22 - Math.floor(i / per) * 28 * s * 1.3, g = thing(scene, k, x, y, s);
               (function (i, side) {
                 if (S.m === 'cubes' && side === 'L') { g.style.pointerEvents = 'none'; return; }
-                dragTap(v, g, function () { S[side].splice(i, 1); animateTo(); }, function (p) {
-                  var other = side === 'L' ? 'R' : 'L', gm2 = geom(angle), ob = bucketRect(gm2[other]);
+                var other = side === 'L' ? 'R' : 'L', canMove = S.m !== 'cubes';
+                function moveOver() { if (!canMove) { S[side].splice(i, 1); animateTo(); keepIn(api.stage); return; } if (S[other].length >= 15) { O.toast('That bucket is full.'); return; } S[other].push(k); S[side].splice(i, 1); animateTo(); }
+                O.dragTap(v, g, moveOver, function (p) {
+                  var gm2 = geom(angle), ob = bucketRect(gm2[other]);
                   var big = { x: ob.x - 20, y: ob.y - 50, w: ob.w + 40, h: ob.h + 80 };
-                  if (inR(p, big) && !(S.m === 'cubes')) { S[other].push(k); S[side].splice(i, 1); animateTo(); return true; }
+                  if (inR(p, big) && canMove) { if (S[other].length >= 15) { O.toast('That bucket is full.'); return false; } S[other].push(k); S[side].splice(i, 1); animateTo(); return true; }
                   var mine = bucketRect(gm2[side]); if (inR(p, { x: mine.x - 20, y: mine.y - 50, w: mine.w + 40, h: mine.h + 80 })) return false;
                   S[side].splice(i, 1); animateTo(); return true;
-                }, THINGS[k][0] + ' in the ' + (side === 'L' ? 'left' : 'right') + ' bucket. Drag it out to take it away.');
+                }, THINGS[k][0] + ' in the ' + (side === 'L' ? 'left' : 'right') + ' bucket. ' + (canMove ? 'Enter moves it to the other bucket. ' : '') + 'Delete takes it out.', side + '-' + i);
+                keyDel(g, function () { S[side].splice(i, 1); animateTo(); });
               })(i, q[0]);
             });
           });
         }
         function animateTo() {
-          var from = angle, to = target(); api.changed(); readout();
-          tw(700, function (k) { angle = from + (to - from) * k; sceneDraw(angle); }, function () { angle = to; sceneDraw(angle); });
+          var from = angle, to = target(), f = O.focusKey(api.stage), first = true; api.changed(); readout();
+          /* the scene is rebuilt every frame, so keyboard focus is put back on the same piece (or the stage) */
+          function keep() { O.refocus(api.stage, f); if (!api.stage.contains(document.activeElement)) { try { v.focus({ preventScroll: true }); } catch (e) {} } }
+          tw(700, function (k) { angle = from + (to - from) * k; sceneDraw(angle); if (first) { first = false; keep(); } }, function () { angle = to; sceneDraw(angle); keep(); });
         }
         sceneDraw(angle);
         if (Math.abs(angle - target()) > 0.01) animateTo(); else readout();
         /* tray */
-        var tw2 = Math.min(W - 20, tray.length * 100 + 20), tx = (W - tw2) / 2;
-        rect(v, tx, ty, tw2, 86, { rx: 14, fill: '#F6F7FB', stroke: LINE, 'stroke-width': 2, 'stroke-dasharray': '6 5' });
-        tray.forEach(function (k, i) {
-          var x = tx + 10 + (tw2 - 20) / tray.length * (i + 0.5), g = thing(v, k, x, ty + 46, nar && tray.length > 4 ? 0.9 : 1);
-          dragTap(v, g, function () {
+        var tw2 = Math.min(W - 20, things.length * 100 + 20), tx = (W - tw2) / 2;
+        var trG = tray(v, tx, ty, tw2, 86);
+        things.forEach(function (k, i) {
+          var x = tx + 10 + (tw2 - 20) / things.length * (i + 0.5), g = thing(trG, k, x, ty + 46, nar && things.length > 4 ? 0.9 : 1);
+          O.dragTap(v, g, function () {
             var side = S.m === 'cubes' ? 'R' : (S.L.length <= S.R.length ? 'L' : 'R'); if (S[side].length >= 15) { O.toast('That bucket is full.'); return; } S[side].push(k); animateTo();
           }, function (p) {
             var gm = geom(angle);
@@ -1038,20 +1110,20 @@
               }
             }
             return false;
-          }, 'Add a ' + THINGS[k][0]);
+          }, 'Add a ' + THINGS[k][0], 'tray-' + k);
         });
       }
       function readout() {
         var l = wt(S.L), r = wt(S.R), out;
         if (S.m === 'cubes') {
           var n = S.R.length, nm = THINGS[S.obj][0];
-          out = l === r ? 'The ' + nm + ' weighs the same as <b>' + n + '</b> cube' + (n === 1 ? '' : 's') + '.' : (r < l ? '<b>' + n + '</b> cube' + (n === 1 ? '' : 's') + '. The ' + nm + ' is heavier. Add more cubes.' : '<b>' + n + '</b> cubes. The cubes are heavier. Take some out.');
+          out = l === r ? 'It balances! The ' + nm + ' is as heavy as <b>' + n + '</b> cube' + (n === 1 ? '' : 's') + '.' : (r < l ? '<b>' + n + '</b> cube' + (n === 1 ? '' : 's') + '. The ' + nm + ' side is down. Add more cubes.' : '<b>' + n + '</b> cubes. The cube side is down. Take some out.');
         } else if (!S.L.length && !S.R.length) out = 'The buckets are empty.';
         else out = l === r ? '<b>They balance.</b>' : l > r ? 'The <b>left</b> side is heavier.' : 'The <b>right</b> side is heavier.';
         api.readout('<span>' + out + '</span>');
         api.report({ v: l === r ? '=' : l > r ? 'L' : 'R', c: String(S.R.filter(function (k) { return k === 'cube'; }).length) });
       }
-      api.onRedraw(draw); watchSize(api, holder, draw);
+      api.onRedraw(draw); onNarrow(api, draw);
     }
   });
 })();
