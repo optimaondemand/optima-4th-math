@@ -110,8 +110,8 @@ function face(cnv, talk) {
 }
 function el(h) { var d = document.createElement('div'); d.innerHTML = h.trim(); return d.firstChild; }
 function build() {
-  root = el('<div class="cwg" aria-live="polite"></div>');
-  rail = el('<div class="cwg-rail" aria-hidden="true"></div>');
+  root = el('<div class="cwg"></div>');
+  rail = el('<div class="cwg-rail"></div>');
   root.appendChild(rail);
   (G.decor || []).forEach(function (d) {
     var c = ART[d.kind] ? ART[d.kind](false) : null; if (!c) return;
@@ -122,14 +122,14 @@ function build() {
   if (G.ride === 'lift') {
     root.classList.add('cwg-lift');
     wheelCv = document.createElement('canvas'); wheelCv.width = 34; wheelCv.height = 22; wheelCv.className = 'cwg-wheel'; wheelCv.setAttribute('aria-hidden', 'true'); rail.appendChild(wheelCv);
-    ropes = [el('<div class="cwg-rope l"></div>'), el('<div class="cwg-rope r"></div>')]; ropes.forEach(function (r) { rail.appendChild(r); });
+    ropes = [el('<div class="cwg-rope l" aria-hidden="true"></div>'), el('<div class="cwg-rope r" aria-hidden="true"></div>')]; ropes.forEach(function (r) { rail.appendChild(r); });
     drawWheel();
   }
   man = el('<button type="button" class="cwg-man" aria-haspopup="dialog" aria-expanded="false"></button>');
   man.setAttribute('aria-label', 'Ask ' + (G.name || 'the guide') + ' for help');
-  cv = document.createElement('canvas'); cv.width = 34; cv.height = 60; ctx = cv.getContext('2d'); ctx.imageSmoothingEnabled = false;
+  cv = document.createElement('canvas'); cv.setAttribute('aria-hidden', 'true'); cv.width = 34; cv.height = 60; ctx = cv.getContext('2d'); ctx.imageSmoothingEnabled = false;
   man.appendChild(cv); rail.appendChild(man);
-  pop = el('<div class="cwg-pop" hidden></div>'); rail.appendChild(pop);
+  pop = el('<div class="cwg-pop" role="status" hidden></div>'); rail.appendChild(pop);
   btn = el('<button type="button" class="cwg-btn" aria-haspopup="dialog" aria-expanded="false"><canvas width="40" height="40" aria-hidden="true"></canvas><span>Ask</span></button>');
   btn.setAttribute('aria-label', 'Ask ' + (G.name || 'the guide') + ' for help');
   face(btn.querySelector('canvas')); root.appendChild(btn);
@@ -179,6 +179,7 @@ function layout() {
   de.classList.remove('cwg-lane');
   var gutter = innerWidth - (box ? box.getBoundingClientRect().right : innerWidth);
   compact = innerWidth < 760 || innerHeight < 420;
+  if (!compact && gutter < LANE && innerWidth < 1100) compact = true;
   if (!compact && gutter < LANE) { de.classList.add('cwg-lane'); gutter = innerWidth - (box ? box.getBoundingClientRect().right : innerWidth); }
   root.classList.toggle('cwg-compact', compact);
   if (!compact) rail.style.right = Math.max(4, Math.min(gutter - RAIL_W - 12, Math.round((gutter - RAIL_W) / 2))) + 'px';   /* close to the lesson */
@@ -208,13 +209,13 @@ function onScroll() {
   var max = Math.max(1, document.documentElement.scrollHeight - innerHeight), now = performance.now(), y = scrollY;
   prog = Math.min(1, Math.max(0, y / max));
   var v = Math.abs(y - lastY) / Math.max(16, now - lastT) * 1000; lastY = y; lastT = now;
-  if (v > 4000 && !once.fast && !reduce) { once.fast = 1; say(G.fast || 'Whoa!', 1200); setTimeout(function () { once.fast = 0; }, 9000); }
   if (prog < 0.01 && !once.top && G.top) { once.top = 1; say(G.top, 2200); }
   if (prog > 0.99 && !once.bottom && G.bottom) { once.bottom = 1; say(G.bottom, 2600); }
   if (reduce) { shown = prog; place(); }
 }
 function tick(t) {
   var dt = Math.min(64, t - (tick.t || t)); tick.t = t;
+  if (document.hidden || document.body.classList.contains('pq-clean')) { setTimeout(function () { requestAnimationFrame(tick); }, 500); return; }   /* asleep (audit) */
   if (!reduce) {
     var moving = Math.abs(prog - shown) > 0.0015;
     shown += (prog - shown) * 0.12;
@@ -228,7 +229,8 @@ function tick(t) {
   }
   if (Math.random() < 0.004) blink = 140; if (blink > 0) blink -= dt;
   if (popT > 0) { popT -= dt; if (popT <= 0) pop.hidden = true; }
-  if (!compact) { place(); drawMan(); }
+  var busy = Math.abs(prog - shown) > 0.0015 || still < 300 || popT > 0 || flap > 0;
+  if (!compact && (busy || (tick.d = (tick.d || 0) + dt) > 120)) { tick.d = 0; place(); drawMan(); }   /* idle: ~8 frames a second */
   if ((tick.h = (tick.h || 0) + dt) > 200) { tick.h = 0; checkHop(); var dh = document.documentElement.scrollHeight; if (dh !== tick.dh) { tick.dh = dh; layout(); } }   /* the page grew or shrank: re-hang the keepsake */
   /* a quiet "?" once per section the student stays on, so they know he can help there */
   var s = findSpot();

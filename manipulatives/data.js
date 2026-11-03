@@ -634,7 +634,7 @@ window.OAOM_DATA = (function () {
     '4.10.04': [T('trademat', { u: 'galqt', b0: 2, s0: 1, take: 0 }, 'Add 1 gal 3 qt. Then trade 4 quarts for 1 gallon.', '1 gal = 4 qt.')],
     '4.10.05': [T('trademat', { u: 'hmin', b0: 1, s0: 40, take: 0 }, 'Add 35 minutes. Then trade 60 minutes for 1 hour.', '1 h = 60 min.')],
     '4.10.06': [T('barstrip', { mode: 'fill', whole: 12, wl: '1 ft', piece: 3, pl: '3 in', unit: 'in', hide: 1 }, 'How many 3-inch pieces fill 1 foot? So 3 inches is what fraction of a foot?')],
-    '4.11.01': [T('tiles', { cols: 10, rows: 8, unit: 'cm' }, 'Make a rectangle 6 tiles long and 4 tiles wide.', 'Rows × columns leads to length × width.')],
+    '4.11.01': [T('tiles', { cols: 20, rows: 8, unit: 'in' }, 'Each square is 1 inch, like one gold sheet. Build a rectangle, then count rows × tiles in a row.', 'Inch squares, like the lesson\'s gold sheets: rows × columns leads to length × width.')],
     '4.11.04': [T('tiles', { cols: 12, rows: 8, edge: true, unit: 'm' }, 'Make a rectangle with a perimeter of 14 m.')],
     '4.12.03': [T('decgrid', { m: 'h', c: 1 }, 'Shade 0.35 of the grid.', 'Tenths are columns, hundredths are squares.')],
     '4.15.02': [T('protractor', { target: '135' }, 'Make an angle of 135°.', 'Which scale starts at 0 on the arm?')],

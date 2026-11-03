@@ -296,3 +296,24 @@ body.cw-page .pqi-skip{font-family:'Nunito',system-ui,sans-serif}
 .cwg-man.away{cursor:default}
 
 .cwg-compact .cwg-wall{display:none}
+
+/* writing reminders are reminders, not grades (audit, 3 Nov 2026): a word match never shows a green check */
+body.cw-page .pq-chip.on{border-color:#b9a7e0;background:#f4f0fb;color:#4c3a7a}
+body.cw-page .pq-chip.on::before{content:"• "}
+/* the same 36 tiles, a new shape */
+.cw-same36{margin:14px 0 4px;padding:14px 16px;background:#fff;border:1.5px solid #e6dcc6;border-radius:14px}
+.cw-same-h{font-family:Cinzel,Georgia,serif;font-weight:700;font-size:17px;margin-bottom:8px;color:var(--cw-ink)}
+.cw-same36 svg{display:block;width:100%;max-width:420px;height:auto;margin:0 auto}
+.cw-same-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin-top:10px}
+.cw-same-n{font-weight:900;color:#7a5a00;background:#fff3c4;border-radius:999px;padding:4px 12px}
+.cw-same-q{text-align:center;margin:8px 0 0;font-size:16px}
+/* the turn-in checklist: an empty box until it's ticked */
+.turn-in-item:not(.checked) .turn-in-check{color:transparent}
+.turn-in-item:focus-visible{outline:3px solid var(--cw-navy);outline-offset:2px}
+.cw-howto{margin:16px 0;padding:14px 18px;background:#fff;border:1.5px solid #e6dcc6;border-left:5px solid var(--cw-gold);border-radius:12px}
+.cw-howto h4{margin:0 0 6px;font-family:Cinzel,Georgia,serif;font-size:17px;color:var(--cw-ink)}
+.cw-howto ol{margin:0;padding-left:22px;font-size:16px;line-height:1.55}
+
+/* tab checks mean the tab's work is done, not that it was visited */
+body.cw-page .tab-btn .tab-check{display:none!important}
+body.cw-page .tab-btn.cw-done .tab-check{display:inline!important}

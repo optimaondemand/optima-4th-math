@@ -87,7 +87,7 @@ function renderBoard(){
   var n=J.filter(function(j){return jobDone(j.id);}).length,scene=L.scene?L.scene(api):'';
   $$('.mk-board-mount').forEach(function(m){
     m.innerHTML='<div class="mk-board"><div class="mk-board-top"><div class="mk-bt"><div class="mk-q">📜 TODAY\'S PROBLEM · '+n+' of '+J.length+' jobs done</div><h3>'+P.title+'</h3><p>'+P.text+'</p></div>'+(scene?'<div class="mk-stand-wrap">'+scene+'</div>':'')+'</div>'+
-      '<div class="mk-jobs">'+J.map(function(j,i){return '<div class="mk-job'+(jobDone(j.id)?' done':'')+'" style="--r:'+(j.r||((i%2?1:-1)*(1+i%3*0.5))+'deg')+'"><span class="n">JOB '+(i+1)+'</span><b>'+j.t+'</b><span class="w">'+j.w+'</span><span class="stamp">DONE</span></div>';}).join('')+'</div></div>';
+      '<div class="mk-jobs">'+J.map(function(j,i){return '<div class="mk-job'+(jobDone(j.id)?' done':'')+'" style="--r:'+(j.r||((i%2?1:-1)*(1+i%3*0.5))+'deg')+'"><span class="n">JOB '+(i+1)+'</span><b>'+j.t+'</b><span class="w">'+j.w+'</span>'+(jobDone(j.id)?'<span class="stamp">DONE</span><span class="ok-sr"> (done)</span>':'')+'</div>';}).join('')+'</div></div>';
   });
   $$('.mk-stand-mount').forEach(function(m){m.innerHTML=scene;});
   // job notes are the plan only: no links that let students skip ahead (Bethany, 28 Oct 2026)
@@ -213,7 +213,7 @@ function norm(t){return ' '+String(t||'').toLowerCase().replace(/(\d),(?=\d{3})/
 function hit(text,w){w=norm(w).trim();if(!w)return false;var esc2=w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(^|[^a-z0-9])'+esc2+'(?=[^a-z0-9]|$)').test(text);}
 function writing(){
   var Wr=L.writing||{};Object.keys(Wr).forEach(function(id){var t=document.getElementById(id),cfg=Wr[id];if(!t){fail('writing','no box #'+id);return;}
-    var ui=el('<div class="pq-write"><span class="pq-count"></span>'+(cfg.chips&&cfg.chips.length?'<span class="pq-needs">Your answer needs:</span>'+cfg.chips.map(function(c,i){return '<span class="pq-chip" data-i="'+i+'">'+esc(c.label)+'</span>';}).join(''):'')+'</div>');
+    var ui=el('<div class="pq-write"><span class="pq-count"></span>'+(cfg.chips&&cfg.chips.length?'<span class="pq-needs">Remember to tell:</span>'+cfg.chips.map(function(c,i){return '<span class="pq-chip" data-i="'+i+'">'+esc(c.label)+'</span>';}).join(''):'')+'</div>');
     t.parentNode.insertBefore(ui,t.nextSibling);
     function upd(){var v=t.value,n=(v.trim().match(/\S+/g)||[]).length,txt=norm(v),min=cfg.min||8;
       var c=$('.pq-count',ui);c.textContent='📝 '+Math.min(n,min)+' of '+min+' words'+(n>=min?' ✓':n?'. Keep going…':'');c.classList.toggle('met',n>=min);
@@ -426,4 +426,78 @@ return {init:init,earn:earn,spend:spend,wallet:function(){return W;},saveWallet:
   }
   function later() { setTimeout(function () { move(); tidy(); }, 0); }
   if (document.readyState === 'complete') later(); else window.addEventListener('load', later);
+})();
+
+/* ═══ Audit fixes (3 Nov 2026): recovery, honest progress, a complete journal, a clear turn-in, labels ═══ */
+(function () {
+  function $(s, r) { return (r || document).querySelector(s); }
+  function $$(s, r) { return [].slice.call((r || document).querySelectorAll(s)); }
+  function L() { return window.PQ_LESSON || {}; }
+  function store(k, v) { var key = (L().key || location.pathname) + '-' + k;
+    try { if (arguments.length < 2) return JSON.parse(localStorage.getItem(key)); localStorage.setItem(key, JSON.stringify(v)); } catch (e) { return null; } }
+  function jobDone(id) { return !!(window.PQM && PQM.jobDone && PQM.jobDone(id)); }
+  function fixes() {
+    if (!document.body.classList.contains('cw-page')) return;
+    var J = L().jobs || [];
+    /* 1. the fact warm-up: answers save; a blank check doesn't score; students can fix and check again */
+    var fc = window.fluencyCheck, btn = $('#fluencyCheckBtn'), grid = $('#fluencyGrid');
+    if (fc && btn && grid) {
+      var ins = $$('.fluency-input', grid), sv = store('fl') || {};
+      ins.forEach(function (x, i) { if (sv[i] != null) x.value = sv[i];
+        x.addEventListener('input', function () { var o = store('fl') || {}; o[i] = x.value; store('fl', o); var it = x.closest('.fluency-item'); if (it) it.classList.remove('fluency-wrong', 'fluency-correct'); }); });
+      var again = function () { btn.disabled = false; btn.textContent = 'Check again'; ins.forEach(function (x) { x.disabled = false; }); };
+      window.fluencyCheck = function () {
+        if (ins.every(function (x) { return !x.value.trim(); })) { var r = $('#fluencyResult'); if (r) r.textContent = 'Type your answers first, then check.'; return; }
+        fc.apply(this, arguments); again();
+      };
+      if (ins.some(function (x) { return x.value.trim(); })) { fc(); again(); }
+    }
+    /* 2. progress means work done: jobs finished, not tabs visited; a tab gets its check when its jobs are done */
+    var lab = $('.progress-label'); if (lab) lab.textContent = '📐 Workshop jobs';
+    var swyk = function () { var a = $$('#tab-assignment input.ans-box'); return a.length && a.every(function (x) { return x.value.trim(); }); };
+    window.updateProgress = function () {
+      var d = J.filter(function (j) { return jobDone(j.id); }).length, n = J.length || 1, f = $('#progressFill'), p = $('#progressPct');
+      if (f) f.style.width = Math.round(d / n * 100) + '%'; if (p) p.textContent = d + ' of ' + n + ' jobs';
+      $$('.tab-btn').forEach(function (b) { var t = b.getAttribute('data-tab'), js = J.filter(function (j) { return j.tab === t; });
+        var done = js.length ? js.every(function (j) { return jobDone(j.id); }) && (t !== 'assignment' || swyk()) : (t === 'assignment' && swyk());
+        b.classList.remove('visited'); b.classList.toggle('cw-done', !!done); });
+    };
+    window.updateProgress(); setInterval(window.updateProgress, 1500);
+    /* 3. the journal records the work, not just the writing: every job's answers, Mental Math, the guided build */
+    var g = window.gatherAnswers;
+    var nums = function (el) { var out = [];
+      $$('form', el).forEach(function (f) { var vis = $$('input', f).filter(function (x) { return !x.classList.contains('mm-sm'); }); if (!vis.length) return;
+        var lb = f.querySelector('label') || f, c = lb.cloneNode(true);
+        $$('input', c).forEach(function (x, k) { var src = $$('input', lb)[k]; x.replaceWith((src && src.value.trim()) || '___'); });
+        $$('button,.ag-fb,.mm-fb', c).forEach(function (x) { x.remove(); });
+        var t = c.textContent.replace(/\s+/g, ' ').trim(); if (lb === f) t = t.replace(/Check/g, '').trim();
+        if (lb !== f && !lb.contains(vis[0])) t += ' ' + vis.map(function (x) { return x.value.trim() || '___'; }).join(', ');
+        out.push('   ' + t + (f.classList.contains('ok') ? '  ✓' : '')); });
+      var fd = $('.ag-found', el); if (fd && fd.textContent.trim()) out.push('   ' + fd.textContent.replace(/\s+/g, ' ').trim());
+      return out; };
+    if (g) window.gatherAnswers = function () {
+      var r = g.apply(this, arguments), o = $('#gatheredOutput'); if (!o) return r;
+      var lines = ['', '— MY WORKSHOP JOBS —'];
+      J.forEach(function (j, i) { var el = j.go && $(j.go); lines.push('Job ' + (i + 1) + ': ' + j.t + (jobDone(j.id) ? '  ✓ done' : '  [not finished]')); if (el) lines = lines.concat(nums(el)); });
+      [['#mk-mental', 'Mental Math'], ['#mk-guided', 'Let\'s Build It Together'], ['#mk-prove', 'Prove It: the numbers']].forEach(function (a) { var el = $(a[0]); if (el) { var n = nums(el); if (n.length) lines = lines.concat([a[1]], n); } });
+      o.value = o.value.replace(/\s*$/, '') + '\n' + lines.join('\n') + '\n'; return r; };
+    /* 4. say what the buttons really do; add a plain text download */
+    $$('button').forEach(function (b) { var oc = b.getAttribute('onclick') || '';
+      if (/downloadJournal/.test(oc) && !$('.cw-dltxt')) { b.textContent = '🖨️ Print or save as PDF';
+        var t = document.createElement('button'); t.type = 'button'; t.className = b.className + ' cw-dltxt'; t.textContent = '⬇️ Download as text';
+        t.onclick = function () { window.gatherAnswers(); var v = ($('#gatheredOutput') || {}).value || ''; var a = document.createElement('a');
+          a.href = URL.createObjectURL(new Blob([v], { type: 'text/plain' })); a.download = 'math-journal-' + (L().id || 'lesson') + '.txt'; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 4000); };
+        b.parentNode.insertBefore(t, b.nextSibling); } });
+    var pn = $('.practice-note'); if (pn) pn.textContent = 'Your answers and your work on this page save on this device as you go.';
+    /* 5. accessibility: real checkbox semantics, labeled writing boxes, headings, quiet stamps */
+    $$('.turn-in-item').forEach(function (it) { var ck = $('.turn-in-check', it);
+      var upd = function () { it.setAttribute('aria-checked', it.classList.contains('checked') ? 'true' : 'false'); if (ck) ck.textContent = it.classList.contains('checked') ? '✓' : ''; };
+      it.setAttribute('role', 'checkbox'); it.tabIndex = 0; if (ck) ck.setAttribute('aria-hidden', 'true'); upd();
+      it.addEventListener('click', function () { setTimeout(upd, 0); });
+      it.addEventListener('keydown', function (e) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); it.click(); } }); });
+    $$('textarea.journal-box').forEach(function (t, i) { var l = t.previousElementSibling;
+      if (l && l.classList.contains('journal-label')) { if (!l.id) l.id = 'jl-' + (t.id || i); t.setAttribute('aria-labelledby', l.id); } });
+    $$('.activity-title,.key-concept-label,.turn-in-header-title,.fluency-head-title,.cw-st-head').forEach(function (h) { h.setAttribute('role', 'heading'); h.setAttribute('aria-level', '3'); });
+  }
+  window.addEventListener('load', function () { setTimeout(fixes, 0); });
 })();

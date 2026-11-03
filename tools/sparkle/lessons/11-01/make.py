@@ -58,7 +58,7 @@ def grab(marker):
 GATHER = grab('<div class="gathered-box">')
 TURNIN = grab('<div class="turn-in-card">')
 for a, b in [('<span>I completed both quick checks above.</span>', '<span>I finished all six workshop jobs.</span>'),
-             ('<span>I showed my model or my steps for each problem.</span>', '<span>I typed an answer in every box.</span>'),
+             ('<span>I showed my model or my steps for each problem.</span>', '<span>I answered every Show What You Know question. (The number bonds and the bonus are optional.)</span>'),
              ('<span>I checked that each answer makes sense.</span>', '<span>I checked the units: same units first, square units in the answer.</span>')]:
     assert a in TURNIN; TURNIN = TURNIN.replace(a, b)
 
@@ -124,7 +124,10 @@ FREE = ('<details class="cw-extra" style="margin-top:16px;"><summary>🧰 An ext
 
 def nudge(tool, name, text):
     # a small "try a tool" button; the page moves it next to "Need a hint?" (Bethany, 3 Nov 2026: less to read)
-    return ('<div class="cw-nudge"><a class="cw-tool" href="manipulatives/tool.html?t=%s&amp;st=1" target="_blank" rel="noopener" title="%s">'
+    import base64, json   # the tool opens ready for this lesson: inch squares for the Color Tiles (audit, 3 Nov 2026)
+    st = {'tiles': {'cols': 20, 'rows': 8, 'unit': 'in'}}.get(tool)
+    tool = tool + ('&amp;st=1#s=' + base64.urlsafe_b64encode(json.dumps(st, separators=(',', ':')).encode()).decode().rstrip('=') if st else '&amp;st=1')
+    return ('<div class="cw-nudge"><a class="cw-tool" href="manipulatives/tool.html?t=%s" target="_blank" rel="noopener" title="%s">'
             '<span aria-hidden="true">🧮</span> Try the <b>%s</b> ↗</a></div>' % (tool, text.replace('"', '&quot;'), name))
 
 STUDY = ('<div class="activity bl-slate" id="mk-worked" style="margin-top:16px;"><div class="activity-head"><div class="activity-num" style="background:%s;">🔍</div><div><div class="activity-title">Study It: Leonardo\'s Mirror Frame</div>'
@@ -135,14 +138,14 @@ STUDY = ('<div class="activity bl-slate" id="mk-worked" style="margin-top:16px;"
  '<div class="we-way"><h5>Way 2: split where the units change</h5><ol><li>Split the strip at the 1-foot mark.</li><li>The 1-foot part is 12 in by 4 in: 12 × 4 = 48.</li><li>The 3-inch part is 3 in by 4 in: 3 × 4 = 12. 48 + 12 = 60. It needs <b>60 sheets</b>.</li></ol></div></div>'
  '<p style="margin:8px 0;font-weight:700;color:#3A4A6B;">Check it: 4 rows of 15 sheets. 15 + 15 + 15 + 15 = 60. ✓</p></div></div>') % SLATE
 
-FRAME = act('mk-frame', SLATE, '🖼️', 'Same Units First: a Frame Piece and a Floor', 'Job 1 · Convert first, then multiply',
+FRAME = act('mk-frame', SLATE, '🖼️', 'Same Units First: a Frame Piece and a Floor', 'Job 2 · Convert first, then multiply',
   job('The Duke\'s new painting needs a gold frame piece <strong>1 ft 4 in</strong> long and <strong>3 in</strong> wide. Then Atlas must tile the storeroom floor, <strong>1 yd 2 ft</strong> long and <strong>3 ft</strong> wide, with 1-foot square tiles. <strong>How many gold sheets for the frame piece? How many tiles for the floor?</strong>',
       ['Round 1: lay one row of gold sheets along the top of the frame piece and one column down the side. Each square is 1 inch.',
        'Type the length in inches. Then type how many sheets cover the whole piece.',
        'Round 2: do the same for the floor. Each square is now 1 foot. Type the length in feet, then the number of tiles.'])
   + tip('atlas', 'You don\'t have to fill every square! One row tells how many in each row. One column tells how many rows. That\'s the pattern.') + model('frame'), cls='bl-slate', extra=' style="margin-top:16px;"')
 
-SQUARE = act('mk-square', RUST, '⬛', 'A Square Panel: 9 in on Each Side', 'Job 2 · Squares: side × side',
+SQUARE = act('mk-square', RUST, '⬛', 'A Square Panel: 9 in on Each Side', 'Job 3 · Squares: side × side',
   job('Leonardo wants a small square panel for a portrait. Each side is <strong>9 in</strong>. <strong>How many gold sheets cover it? Why does a square need only one measurement?</strong>',
       ['Build the square on the grid: drag across the squares to lay the tiles.',
        'Type how many gold sheets cover it.',
@@ -151,7 +154,7 @@ SQUARE = act('mk-square', RUST, '⬛', 'A Square Panel: 9 in on Each Side', 'Job
   + nudge('geoboard', 'Geoboard', 'This might be a good time to try making a square on a geoboard. Stretch a band so all 4 sides are the same length.')
   + jbox('square', '✏️ Why does a square need only one measurement?', 'Lesson — Why a square needs one measurement'), cls='bl-violet', extra=' style="margin-top:16px;"')
 
-SAME = act('mk-same', '#23915A', '▭', 'Same Gold, Different Shape', 'Job 3 · Rectangles with the same area',
+SAME = act('mk-same', '#23915A', '▭', 'Same Gold, Different Shape', 'Job 4 · Rectangles with the same area',
   job('Hazel has <strong>18 gold sheets</strong> left. Leonardo wants a rectangle panel that uses all 18, with none left over. <strong>What rectangles could the panel be?</strong>',
       ['Build a rectangle with exactly 18 tiles. No holes, straight sides.',
        'Clear the tiles and build a different rectangle. Turning a rectangle sideways doesn\'t count as new.',
@@ -159,7 +162,7 @@ SAME = act('mk-same', '#23915A', '▭', 'Same Gold, Different Shape', 'Job 3 · 
   + tip('hazel', 'Picture them side by side. Bernardo thought longer means more, but these panels all look different and all use 18 sheets!') + nudge('tiles', 'Color Tiles', 'This might be a good time to try the Color Tiles. Build each rectangle with 18 tiles, then count its rows and columns.')
   + model('same'), cls='bl-slate', extra=' style="margin-top:16px;"')
 
-FIX = act('mk-fix', RUST, '📝', 'Bernardo\'s Note: 1 × 5 = 5 sheets?', 'Job 4 · Find and fix a unit mistake',
+FIX = act('mk-fix', RUST, '📝', 'Bernardo\'s Note: 1 × 5 = 5 sheets?', 'Job 5 · Find and fix a unit mistake',
   job('Bernardo\'s note says the jewelry box lid is <strong>1 ft</strong> long and <strong>5 in</strong> wide, and needs <strong>1 × 5 = 5</strong> gold sheets. <strong>What is wrong with his note? How many sheets does the lid really need?</strong>',
       ['Lay one row along the top of the lid and one column down the side. Each square is 1 inch.',
        'Type the lid\'s length in inches, then how many sheets it really needs.',
@@ -167,7 +170,7 @@ FIX = act('mk-fix', RUST, '📝', 'Bernardo\'s Note: 1 × 5 = 5 sheets?', 'Job 4
   + tip('cora', 'His times table is fine. Look at the units in his note. Are they the same?') + model('fix')
   + jbox('fix', '✏️ What was Bernardo\'s mistake? How do you fix it?', 'Lesson — Bernardo\'s mistake'), cls='bl-violet', extra=' style="margin-top:16px;"')
 
-PLASTER = act('mk-plaster', SLATE, '🪣', 'Plaster for the Wall', 'Job 5 · A word problem with two steps',
+PLASTER = act('mk-plaster', SLATE, '🪣', 'Plaster for the Wall', 'Job 6 · A word problem with two steps',
   job('Before Leonardo paints on a wall, the wall gets fresh plaster. The wall section is <strong>9 ft</strong> long and <strong>6 ft</strong> high. One bucket of plaster covers <strong>10 square feet</strong>. <strong>How many buckets must Felix carry?</strong>',
       ['Lay one row and one column on the wall. Each square is 1 square foot.',
        'Type the area of the wall.',
@@ -215,10 +218,16 @@ SW = ('<div class="activity bl-navy"><div class="activity-head"><div class="acti
  + model('bonus')
  + act('mk-prove', RUST, '🧾', 'Prove It: Is Bernardo Right?', 'Answer the Essential Question',
      job('Bernardo says a strip <strong>1 ft</strong> long and <strong>3 in</strong> wide needs <strong>3 gold sheets</strong>. <strong>Prove him wrong. Tell what to do first, and find the right number of sheets.</strong>',
-         ['Ask: are the lengths in the same units?', 'Convert, then multiply length × width.', 'Write your proof in the box.'])
+         ['Ask: are the lengths in the same units?', 'Fill in the two boxes: the inches, then the number of sheets.', 'Write your proof: what to do first, and how you found the sheets.'])
+     + model('prove')
      + nudge('whiteboard', 'Grid Whiteboard', 'A picture can prove it. Draw the strip on the Grid Whiteboard, 1 square for each inch.')
      + jbox('prove', '✏️ My proof', 'Show What You Know — Prove it: Bernardo\'s strip'), cls='bl-violet', extra=' style="margin-top:16px;"')
  + win('wrap') + video('wrap')
+ + ('<div class="cw-howto" id="mk-howto"><h4>📮 How to turn in your work</h4><ol>'
+    '<li>Check the list at the bottom: all six jobs and every Show What You Know question.</li>'
+    '<li>Press <b>Gather My Answers</b>, then <b>Copy All Answers</b>. (Or print it or save it as a PDF.)</li>'
+    '<li>Open this lesson\'s assignment in Canvas.</li>'
+    '<li>Paste your answers (or upload the PDF), then press <b>Submit</b>.</li></ol></div>')
  + GATHER
  + '<div class="activity bl-slate" id="mk-next" style="margin-top:18px;border-left-color:#0E8A8C;"><div class="activity-head"><div class="activity-num" style="background:#0E8A8C;color:#fff;">🗺️</div><div><div class="activity-title">What\'s Next</div><div class="activity-sub">Coming up in Unit 11</div></div></div>'
    '<div class="activity-body"><p>Next lesson, <strong>Area of Rectangles, Part 2</strong>: you know the area and one side. Can you find the missing side? Leonardo needs to know how long the Duke\'s panel must be.</p></div></div>'

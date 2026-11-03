@@ -48,6 +48,7 @@ function Win(slot,id,def){
   this.el.addEventListener('keydown',function(e){if((e.key===' '||e.key==='Enter')&&!(e.target.closest&&e.target.closest('button'))){e.preventDefault();self.advance();}});
   this.cv.addEventListener('mousemove',function(e){if(!self.exploring){self.cv.style.cursor='';return;}var p=self.xy(e);self.cv.style.cursor=self.spotAt(p)?'pointer':'';});
   if(done){this.showEnd(true);this.cover.querySelector('span').textContent='Watch again';}
+  if(window.IntersectionObserver){new IntersectionObserver(function(es){es.forEach(function(e){self.vis=e.isIntersecting&&!!self.slot.offsetParent;});}).observe(slot);}   /* only draw what's on screen (audit) */
   this.draw();Win.all.push(this);
 }
 Win.all=[];
@@ -68,7 +69,7 @@ P.start=function(){var self=this;this.guideIn=false;this.reset();this.guideEnter
   setTimeout(function(){self.el.classList.add('cine');},200);
   setTimeout(function(){self.titleEl.classList.remove('on');},reduce?900:2400);
   setTimeout(function(){self.run(self.def.script,function(){self.finish();});},reduce?1000:3000);
-  if(!Win.loop){Win.loop=true;(function L(){Win.t=(Win.t||0)+1;Win.all.forEach(function(w){if(w.running||w.exploring)w.draw();});requestAnimationFrame(L);})();}};
+  if(!Win.loop){Win.loop=true;(function L(){Win.t=(Win.t||0)+1;var off=document.hidden||document.body.classList.contains('pq-clean');Win.all.forEach(function(w){if((w.running||w.exploring)&&w.vis!==false&&!off)w.draw();});requestAnimationFrame(L);})();}};
 P.finish=function(){var d=ls(doneKey(),{});d[this.id]=1;lsSet(doneKey(),d);this.showEnd(false);if(window.CW_ONDONE)window.CW_ONDONE(this.id);};
 P.showEnd=function(quiet){var e=this.def.end||{},self=this;this.dlg.classList.add('on','tasking');
   this.task.innerHTML='<span class="lead">'+(e.lead||'📜 Your job')+'</span>'+(e.task||'')+(e.go?'<div><button type="button" class="cw-go">'+esc(e.go.label||'Go on ↓')+'</button></div>':'');

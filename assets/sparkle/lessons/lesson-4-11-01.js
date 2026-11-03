@@ -150,6 +150,21 @@ function modelThink(m){
   var ok=function(){var A=OAOKit._ls('g4-4-11-01-think-strip',{}),B=OAOKit._ls('g4-4-11-01-think-square',{});return A&&B&&A.done&&B.done;};
   m.addEventListener('submit',function(){setTimeout(function(){if(ok())setJob('j1',m);},50);},true);
   if(ok())setJob('j1',m);
+  /* the payoff (audit, 3 Nov 2026): once both panels are counted, the SAME 36 tiles move from the strip into the square.
+     Shown only after the Think is solved, so it never gives the answer away. */
+  var same=sub(m,'cw-same36');same.hidden=true;
+  var T=16,svgNS='http://www.w3.org/2000/svg',W=18*T+12,H=6*T+12;
+  same.innerHTML='<div class="cw-same-h">🔁 The same gold, a new shape</div><svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="36 gold tiles that cover the strip move into a 6 by 6 square. There are 36 tiles both times."></svg>'+
+    '<div class="cw-same-row"><button type="button" class="ok-btn cw-same-go">▶ Move the 36 tiles into a square</button><span class="cw-same-n">36 tiles</span></div>'+
+    '<p class="cw-same-q"><b>Think:</b> What changed? What stayed the same?</p>';
+  var sv=same.querySelector('svg'),tiles=[],shape=0,rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function at(k,sh){return sh?{x:6+(W-12-6*T)/2+(k%6)*T,y:6+Math.floor(k/6)*T}:{x:6+(k%18)*T,y:6+Math.floor(k/18)*T};}
+  for(var k=0;k<36;k++){var r=document.createElementNS(svgNS,'rect');var p0=at(k,0);r.setAttribute('x',p0.x+1);r.setAttribute('y',p0.y+1);r.setAttribute('width',T-2);r.setAttribute('height',T-2);r.setAttribute('rx',2);r.setAttribute('fill','#F2B705');r.setAttribute('stroke','#B88600');sv.appendChild(r);tiles.push(r);}
+  function move(to){var t0=performance.now(),D=rm?0:1400;(function f(now){var q=D?Math.min(1,(now-t0)/D):1;
+    tiles.forEach(function(r,k){var d=Math.min(1,Math.max(0,q*1.6-k/36*0.6)),e=d<.5?2*d*d:1-Math.pow(-2*d+2,2)/2,a=at(k,1-to),b=at(k,to);r.setAttribute('x',a.x+(b.x-a.x)*e+1);r.setAttribute('y',a.y+(b.y-a.y)*e+1);});
+    if(q<1)requestAnimationFrame(f);})(t0);}
+  var go=same.querySelector('.cw-same-go');go.onclick=function(){shape=1-shape;move(shape);go.textContent=shape?'◀ Move them back into the strip':'▶ Move the 36 tiles into a square';};
+  (function wait(){if(ok()){same.hidden=false;return;}setTimeout(wait,700);})();
 }
 /* Learn · Job 1: the frame piece (feet and inches) and the storeroom floor (yards and feet). Dimensions' model: tiles along one
    edge and down the other, then multiply. The tool never shows the total. */
@@ -219,12 +234,14 @@ function modelPlaster(m){
 }
 /* Learn · the guided build (the explicit teaching): see it with tiles → picture it with labels → write the number sentence.
    Each step opens only after the student finishes the one before. New numbers: 1 ft 5 in by 3 in. */
-function ask1(el,q,answer,mistakes,unit,onok,hint){
+function ask1(el,q,answer,mistakes,unit,onok,hint,keep){   /* keep = {get(), set(v)}: the box remembers its answer (audit, 3 Nov 2026) */
   var f=document.createElement('form');f.className='ag-ask';
   f.innerHTML='<label>'+q+' <input type="text" inputmode="numeric" autocomplete="off" aria-label="'+q.replace(/<[^>]+>/g,'')+'"> <span class="ag-u">'+(unit||'')+'</span></label> <button class="ok-btn" type="submit">Check</button><span class="ag-fb" aria-live="polite"></span>';
   var msg=document.createElement('div');msg.className='ok-msg';el.appendChild(f);el.appendChild(msg);var inp=f.querySelector('input');
-  f.onsubmit=function(e){e.preventDefault();var v=+String(inp.value).replace(/[,\s]/g,'');if(!inp.value.trim()){msg.className='ok-msg hint';msg.textContent='Type a number.';return;}
-    if(v===answer){f.classList.add('ok');inp.disabled=true;f.querySelector('.ag-fb').textContent='✓';msg.className='ok-msg';msg.textContent='';onok&&onok();return;}
+  var solved=false;function okNow(){f.classList.add('ok');inp.disabled=true;f.querySelector('.ag-fb').textContent='✓';msg.className='ok-msg';msg.textContent='';}
+  if(keep&&keep.get()!=null&&+keep.get()===answer){inp.value=keep.get();solved=true;okNow();}
+  f.onsubmit=function(e){e.preventDefault();if(solved)return;if(keep)keep.set(inp.value);var v=+String(inp.value).replace(/[,\s]/g,'');if(!inp.value.trim()){msg.className='ok-msg hint';msg.textContent='Type a number.';return;}
+    if(v===answer){solved=true;okNow();onok&&onok();return;}   /* counted once: a solved box never counts again */
     var m=(mistakes||[]).filter(function(x){return x.v===v;})[0];f.querySelector('.ag-fb').textContent='✗';msg.className='ok-msg hint';msg.textContent=m?m.text:(hint||'Not yet. Look at the step again.');};
   return f;}
 function modelGuided(m){
@@ -250,12 +267,13 @@ function modelGuided(m){
     +'<text class="gl" x="278" y="28" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="20" fill="#0E1C42">? in</text><text class="gw" x="524" y="88" font-family="Nunito" font-weight="900" font-size="20" fill="#0E1C42">? in</text></svg>';
   s2.querySelector('.cw-gstep-b').appendChild(pic);
   var gl=pic.querySelector('.gl'),gw=pic.querySelector('.gw'),n2=0;
-  function two(){if(++n2>=2){st.s2=1;save();open(s3,1);}}
-  ask1(s2.querySelector('.cw-gstep-b'),'Length:',17,[{v:1,text:'1 is the feet. Write the whole length in inches: 12 + 5.'},{v:15,text:'1 foot is 12 inches. Add the 5 more inches.'}],'in',function(){gl.textContent='17 in';two();});
-  ask1(s2.querySelector('.cw-gstep-b'),'Width:',3,[],'in',function(){gw.textContent='3 in';two();});
+  var got={};function two(k){got[k]=1;if(got.l&&got.w){st.s2=1;save();open(s3,1);}}
+  function keep(k){return {get:function(){return (st.v||{})[k];},set:function(v){st.v=st.v||{};st.v[k]=v;save();}};}
+  ask1(s2.querySelector('.cw-gstep-b'),'Length:',17,[{v:1,text:'1 is the feet. Write the whole length in inches: 12 + 5.'},{v:15,text:'1 foot is 12 inches. Add the 5 more inches.'}],'in',function(){gl.textContent='17 in';two('l');},null,keep('l'));
+  ask1(s2.querySelector('.cw-gstep-b'),'Width:',3,[],'in',function(){gw.textContent='3 in';two('w');},null,keep('w'));
   // step 3: the number sentence (abstract)
-  ask1(s3.querySelector('.cw-gstep-b'),'17 × 3 =',51,[{v:20,text:'17 + 3 adds the sides. Area multiplies: 3 rows of 17.'},{v:40,text:'40 is the distance around the strip. Area counts the sheets that cover it.'},{v:15,text:'5 × 3 forgets the foot. The length is 17 inches.'}],'square inches',function(){st.s3=1;save();done.hidden=false;});
-  open(s1,1);if(st.s1)open(s2,1);if(st.s2)open(s3,1);if(st.s3)done.hidden=false;
+  ask1(s3.querySelector('.cw-gstep-b'),'17 × 3 =',51,[{v:20,text:'17 + 3 adds the sides. Area multiplies: 3 rows of 17.'},{v:40,text:'40 is the distance around the strip. Area counts the sheets that cover it.'},{v:15,text:'5 × 3 forgets the foot. The length is 17 inches.'}],'square inches',function(){st.s3=1;save();done.hidden=false;},null,keep('p'));
+  open(s1,1);if(st.s1)open(s2,1);if(st.s2){open(s3,1);gl.textContent='17 in';gw.textContent='3 in';got.l=got.w=1;}if(st.s3)done.hidden=false;
 }
 /* Learn · a free tile grid (students try any rectangle; the teacher's live board in the videos) */
 function modelFree(m){
@@ -264,10 +282,16 @@ function modelFree(m){
     sym:function(n,s){return 'Tiles laid: <b>'+n+'</b>'+(s.rect&&n?' · a rectangle '+s.w+' in by '+s.h+' in':'');}});
 }
 function modelBonus(m){
-  OAOKit.challenge(m,{key:'g4-4-11-01-bonus',title:'Bonus quest: cut the gold',
+  OAOKit.challenge(m,{key:'g4-4-11-01-bonus',title:'Bonus quest (optional): cut the gold',
     text:'<p>Hazel has one big sheet of gold, <strong>1 ft</strong> long and <strong>6 in</strong> wide. Leonardo needs small pieces that are <strong>3 in</strong> long and <strong>2 in</strong> wide. What is the greatest number of small pieces Hazel can cut from the big sheet?</p><p>Type the number of pieces.</p>',
     answer:12,unit:'pieces',hint:'Change 1 ft to inches first. How many 3-inch pieces fit along the 12-inch side? How many 2-inch pieces fit along the 6-inch side?',
     explain:'<p>1 ft = 12 in. Along the 12-inch side, 12 ÷ 3 = 4 pieces fit. Along the 6-inch side, 6 ÷ 2 = 3 pieces fit. 4 × 3 = <strong>12 pieces</strong>. Check with area: the big sheet is 12 × 6 = 72 square inches, each piece is 3 × 2 = 6 square inches, and 12 × 6 = 72. Nothing is left over.</p>'});
+}
+/* Show What You Know · Prove It: the two numbers get exact checks; the proof box below is for the reasoning */
+function modelProve(m){var st=OAOKit._ls('g4-4-11-01-prove',{})||{};function keep(k){return {get:function(){return st[k];},set:function(v){st[k]=v;OAOKit._lsSet('g4-4-11-01-prove',st);}};}
+  var b=sub(m,'cw-prove-nums');
+  ask1(b,'First, 1 ft =',12,[{v:1,text:'1 is the feet. How many inches are in 1 foot?'},{v:10,text:'A foot is not 10 inches. Look at a ruler: 12 inch marks.'},{v:36,text:'36 inches is a yard. How many inches are in 1 foot?'}],'in',null,null,keep('ft'));
+  ask1(b,'So Bernardo\'s strip needs',36,[{v:3,text:'That is Bernardo\'s answer. Change 1 ft to inches first.'},{v:15,text:'12 + 3 adds the sides. Area multiplies: 3 rows of 12.'},{v:30,text:'30 is the distance around. Count the sheets that cover the strip.'}],'gold sheets',null,null,keep('n'));
 }
 function bind(f){return function(m,a){api=a;return f(m);};}
 return {
@@ -298,7 +322,7 @@ return {
     'journal-square':{min:10,chips:[{label:'equal sides',words:['equal','same','all four','4 sides','four sides','every side','each side','all the sides']},{label:'side × side',words:['times','×','multiply','9 × 9','side','81','itself']}]},
     'journal-fix':{min:10,chips:[{label:'the mistake',words:['feet','foot','inches','inch','units','unit','same unit','different units','mixed','1 ft','5 in']},{label:'the fix',words:['12','change','changed','convert','60','12 × 5','first']}]},
     'journal-big':{min:12,chips:[{label:'same unit first',words:['same unit','same units','change','convert','feet to inches','yards to feet','inches','feet','first']},{label:'length × width',words:['times','×','multiply','length','width','rows','split','add']},{label:'an example of your own',words:['ft','in','yd','cm','m','foot','inch','yard','=']}]},
-    'journal-prove':{min:12,chips:[{label:'what to do first',words:['change','convert','inches','12','same unit','same units','first','foot']},{label:'the right area',words:['36','12 × 3','36 sheets','36 square inches']}]}},
+    'journal-prove':{min:12,chips:[{label:'what to do first',words:['change','convert','inches','12','same unit','same units','first','foot']},{label:'how you found the sheets',words:['multiply','times','×','rows','row']}]}},
   /* the opening (anchor animation, 3 Nov 2026): Leonardo's notebook draws the lesson's math, in his ink.
      A ruler: 12 in = 1 ft · one gold sheet = 1 square inch · the strip and the square panel, to one scale, with
      their measures (feet AND inches on one side) · Leonardo asks the Think question. It never tiles a panel or shows 36. */
@@ -352,7 +376,7 @@ return {
   bigIdea:'To find the area of a rectangle, first put both sides in the same unit: change feet to inches, or yards to feet. Then multiply length × width, or split the long side where the units change and add the parts. The area is in square units.',
   words:[{w:'area',d:'how many square units cover a flat shape'},{w:'square units',d:'squares used to measure area, like square inches or square feet'},{w:'convert',d:'change a measurement to a different unit, like feet to inches'}],
   intendedWrong:['1 × 5 = 5 sheets'],
-  models:{mental:bind(modelMental),think:bind(modelThink),frame:bind(modelFrame),square:bind(modelSquare),same:bind(modelSame),fix:bind(modelFix),plaster:bind(modelPlaster),guided:bind(modelGuided),free:bind(modelFree),bonus:bind(modelBonus)}
+  models:{mental:bind(modelMental),think:bind(modelThink),frame:bind(modelFrame),square:bind(modelSquare),same:bind(modelSame),fix:bind(modelFix),plaster:bind(modelPlaster),guided:bind(modelGuided),prove:bind(modelProve),free:bind(modelFree),bonus:bind(modelBonus)}
 };
 })();
 /* the job list on the board updates when a window finishes, too */

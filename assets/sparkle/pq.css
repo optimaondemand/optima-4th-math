@@ -703,3 +703,5 @@ body.pqi-on{overflow:hidden}
 .mm-row{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
 .mm-bondp .mm-fb{text-align:center;flex-basis:auto!important;min-height:1.2em}
 .mm-probs:has(.mm-bondp){grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+
+.ok-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}

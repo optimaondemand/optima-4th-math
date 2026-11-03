@@ -1107,7 +1107,9 @@ function areaGrid(root,cfg){
     if(!was&&goalMet()){st.goal=true;save();snd.done();if(cfg.goalText)say(cfg.goalText,'good');if(cfg.onGoal)cfg.onGoal(root);}
     finish();}
   function finish(){if(st.done)return;var allAsk=asks.every(function(q,i){return st.ok[i];});
-    if((st.goal||cfg.askOnly)&&allAsk){st.done=true;save();if(cfg.doneText)say(cfg.doneText,'good');if(cfg.onDone)cfg.onDone(root);}}
+    if((st.goal||cfg.askOnly)&&allAsk){st.done=true;save();if(cfg.doneText)say(cfg.doneText,'good');if(cfg.onDone)cfg.onDone(root);}
+    /* the numbers are right but the tiles aren't there yet: say what's left (audit, 3 Nov 2026) */
+    else if(allAsk&&asks.length&&!st.goal&&!cfg.askOnly)say(cfg.needText||(mode==='edge'?'Your numbers are correct. Now show one row across the top and one column down the side.':'Your numbers are correct. Now cover the whole shape with tiles.'),'hint');}
   function renderFound(){var f=root.querySelector('.ag-found');if(!f)return;f.innerHTML='<b>Rectangles found ('+st.found.length+(cfg.need?' of '+cfg.need:'')+'):</b> '+
     (st.found.length?st.found.map(function(id){var p=id.split('x');return '<span class="ag-chip">'+p[0]+' '+U.s+' by '+p[1]+' '+U.s+'</span>';}).join(' '):'none yet');}
   var z=28,ML=58,MT=34,MB=cfg.split?30:12,MR=64;
@@ -1144,8 +1146,11 @@ function areaGrid(root,cfg){
   function up(){if(paint===null)return;paint=null;last=null;if(changed){changed=false;after();}}
   svg.addEventListener('pointerup',up);svg.addEventListener('pointercancel',up);
   svg.addEventListener('keydown',function(e){var d={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];
-    if(d){e.preventDefault();cur.x=Math.max(0,Math.min(C-1,cur.x+d[0]));cur.y=Math.max(0,Math.min(Rw-1,cur.y+d[1]));render();return;}
-    if(e.key===' '||e.key==='Enter'){e.preventDefault();if(set(cur.x,cur.y,!st.t[cur.x+'_'+cur.y])){snd.click();after();}}});
+    if(d){e.preventDefault();cur.x=Math.max(0,Math.min(C-1,cur.x+d[0]));cur.y=Math.max(0,Math.min(Rw-1,cur.y+d[1]));render();sr();return;}
+    if(e.key===' '||e.key==='Enter'){e.preventDefault();if(set(cur.x,cur.y,!st.t[cur.x+'_'+cur.y])){snd.click();after();}sr();}});
+  /* keyboard users hear where they are: row, column, tile or empty (audit, 3 Nov 2026) */
+  var live=document.createElement('span');live.className='ok-sr';live.setAttribute('aria-live','polite');root.appendChild(live);
+  function sr(){live.textContent='Row '+(cur.y+1)+', column '+(cur.x+1)+', '+(st.t[cur.x+'_'+cur.y]?'tile':'empty')+'.';}
   svg.addEventListener('focus',render);svg.addEventListener('blur',render);
   root.querySelector('.ok-reset').onclick=function(){st.t={};save();render();say('');};
   [].forEach.call(root.querySelectorAll('.ag-ask'),function(f){var i=+f.dataset.i,q=asks[i],inp=f.querySelector('input'),fb=f.querySelector('.ag-fb');

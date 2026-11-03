@@ -72,6 +72,8 @@ def main(code):
     # 3. inject the shared layer (stamp = hash of every file the page loads)
     classical = 'var CW_DATA' in lesson_js
     js = CW_JS if classical else SHARED_JS
+    if classical and not re.search(r'^\s*intro:\{', lesson_js, re.M):   # no opening animation on this lesson: don't load its script (audit)
+        js = [f for f in js if f != 'pq-intro.js']
     css = ['pq.css', 'cw.css'] if classical else ['pq.css']
     h = hashlib.sha1()
     for f in css + js:
@@ -83,7 +85,7 @@ def main(code):
     tags = ''.join('<script src="assets/sparkle/%s?v=%s"></script>\n' % (f, v) for f in js)
     tags += '<script src="%s?v=%s"></script>\n' % (data_rel, v)
     if classical:
-        tags += '<script>document.body.classList.add("cw-page");try{CW.init(CW_DATA);}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("windows: "+e.message);}PQM.init();try{if(CW_DATA.guide)CWGUIDE.init(CW_DATA.guide);}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("guide: "+e.message);}try{PQIntro.init();}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("intro: "+e.message);}</script>\n'
+        tags += '<script>document.body.classList.add("cw-page");try{CW.init(CW_DATA);}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("windows: "+e.message);}PQM.init();try{if(CW_DATA.guide)CWGUIDE.init(CW_DATA.guide);}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("guide: "+e.message);}try{if(window.PQIntro)PQIntro.init();}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("intro: "+e.message);}</script>\n'
     else:
       tags += '<script>try{PQ.init(PQ_DATA);}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("game: "+e.message);}PQM.init();try{PQIntro.init();}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("intro: "+e.message);}</script>\n'
     i = s.rindex('</body>')
