@@ -1,0 +1,269 @@
+{
+  "lesson": "10.07",
+  "grade": 4,
+  "prefix": "g4math-10-07",
+  "manifestKey": "g4math-10-07",
+  "title": "Fractions and Measurement, Part 2",
+  "other": [],
+  "pics": {},
+  "redo": [],
+  "welcomeSlot": "think",
+  "slots": {
+    "think": {
+      "label": "Think · Goldie's scarecrow",
+      "title": "The Farmers' Market",
+      "length": "about 1 min",
+      "want": true,
+      "where": "Warm-Up, under the Essential Question",
+      "parts": [
+        {
+          "label": "Market board",
+          "tag": "TODAY'S REAL PROBLEM",
+          "title": "Rebuild the Re-Stamper",
+          "col": "#C96512",
+          "rows": [
+            [
+              "Job 1",
+              "Change the two pieces"
+            ],
+            [
+              "Job 2",
+              "Measure the scarecrows"
+            ],
+            [
+              "Job 3",
+              "Weigh and time the market"
+            ],
+            [
+              "Job 4",
+              "Label the crates"
+            ],
+            [
+              "Job 5",
+              "Write it two ways"
+            ],
+            [
+              "Job 6",
+              "Fill the pumpkin order"
+            ]
+          ]
+        },
+        {
+          "label": "The scarecrow",
+          "tag": "THINK ABOUT IT",
+          "title": "The scarecrow is 2 and five sixths feet tall",
+          "col": "#6B3FA0",
+          "body": "Goldie's tape shows feet and inches. How tall is the scarecrow?"
+        },
+        {
+          "label": "The big question",
+          "tag": "ESSENTIAL QUESTION",
+          "title": "Feet and inches, or all inches?",
+          "col": "#2DB87A",
+          "body": "Two pieces: whole feet and a fraction of a foot. Notice, wonder, then try it your way."
+        }
+      ],
+      "script": "Good morning from the farmers' market!\n\n[ON SCREEN: Market board]\n\nThe sun is just coming up, and look at the hill. That shadow is the Brick Golem. Every brick on it has one of the Smudge's wrong stamps. Goldie, who keeps the market, has an old Re-Stamper that can fix them, but its pieces are lost. The six jobs on the board will rebuild it.\n\n[ON SCREEN: The scarecrow]\n\nHere's the first puzzle. Goldie's scarecrow is 2 and five sixths feet tall. Her tape shows feet and inches. How tall is it?\n\n[ON SCREEN: The big question]\n\nFirst, do Two Pieces on your page. You'll change whole units and fractions of a unit, one piece at a time. Then look at the scarecrow's tag. What do you notice? What do you wonder? Write it down, then try it your own way. Make a guess and hold on to it. On the Learn tab, the Math Crew will write it two ways."
+    },
+    "learn": {
+      "label": "Learn · two ways, then measure the scarecrows",
+      "title": "Two Ways",
+      "length": "about 1½ min",
+      "want": true,
+      "where": "Learn, top (before the Math Crew)",
+      "parts": [
+        {
+          "label": "Board: The scarecrow",
+          "kind": "board",
+          "pic": "10-07-learn-scarecrow",
+          "tag": "Goldie's scarecrow",
+          "board": {
+            "type": "problem",
+            "title": "2 and five sixths ft = ?",
+            "sub": "Two whole feet, and five sixths of one more foot.",
+            "model": {
+              "bond": {
+                "whole": "2 and 5/6 ft",
+                "parts": [
+                  "",
+                  ""
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "Board: Two ways",
+          "kind": "board",
+          "pic": "10-07-learn-twoways",
+          "tag": "Two ways",
+          "board": {
+            "type": "problem",
+            "title": "How tall is the scarecrow?",
+            "model": {
+              "twoway": [
+                {
+                  "who": "atlas",
+                  "title": "Feet and inches",
+                  "lines": [
+                    "The 2 ft stay: 2 ft",
+                    "5/6 ft = ___ in",
+                    "= ___ ft ___ in"
+                  ]
+                },
+                {
+                  "who": "felix",
+                  "title": "All inches",
+                  "lines": [
+                    "2 ft = 2 × 12 = ___ in",
+                    "5/6 ft = ___ in",
+                    "___ + ___ = ___ in"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "Live: Measure the Scarecrows",
+          "kind": "live",
+          "model": "split",
+          "tag": "On your page"
+        }
+      ],
+      "script": "Look at the scarecrow's tag again. 2 and five sixths feet. A mixed number: a whole number and a fraction together.\n\n[ON SCREEN: Board: The scarecrow]\n\n[DRAW: write 2 ft in one circle and 5/6 ft in the other.]\n\nSplit it into two pieces: 2 whole feet, and five sixths of one more foot. Now ask Cora's question: what needs changing, the fraction or the whole number?\n\n[ON SCREEN: Board: Two ways]\n\n[DRAW: fill in Atlas's blanks, then Felix's.]\n\nAtlas wants feet and inches, so the 2 feet stay. Only the fraction changes: five sixths of a foot is 10 inches. 2 feet 10 inches. Felix wants all inches, so both pieces change. 2 feet is 24 inches, plus 10. 34 inches. Same scarecrow.\n\nPause here. Say out loud which way is more like what you did.\n\n[ON SCREEN: Live: Measure the Scarecrows]\n\n[DO: tap + 1 whole foot twice. Tap Cut into 6. Tap 5 parts. Type 2 and 10, Check. Type 34, Check.]\n\nOn your page, the blue bars are whole feet. The last bar is the fraction part. Now measure the scarecrows yourself."
+    },
+    "do": {
+      "label": "Do · watch me solve (boards)",
+      "title": "Watch Me Solve It",
+      "length": "about 1½ min",
+      "want": true,
+      "where": "Learn, after Goldie's Mixed Number Board",
+      "screen": "boards",
+      "parts": [
+        {
+          "label": "Board: Problem 1",
+          "kind": "board",
+          "pic": "10-07-do-p1",
+          "tag": "Problem 1",
+          "board": {
+            "type": "problem",
+            "title": "3 and seven twelfths ft = ? ft ? in = ? in",
+            "sub": "Split it: whole feet, and a fraction of a foot.",
+            "model": {
+              "chart": {
+                "cols": [
+                  "whole feet",
+                  "fraction part",
+                  "ft and in",
+                  "all inches"
+                ],
+                "rows": 1,
+                "given": [
+                  [
+                    "3 ft",
+                    "7/12 ft",
+                    "",
+                    ""
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "Board: Problem 2",
+          "kind": "board",
+          "pic": "10-07-do-p2",
+          "tag": "Problem 2",
+          "board": {
+            "type": "problem",
+            "title": "2 and five sixteenths lb = ? oz",
+            "sub": "All ounces: change both pieces, then add.",
+            "model": {
+              "bond": {
+                "whole": "2 and 5/16 lb",
+                "parts": [
+                  "",
+                  ""
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "Board: Problem 3",
+          "kind": "board",
+          "pic": "10-07-do-p3",
+          "tag": "Problem 3",
+          "board": {
+            "type": "problem",
+            "title": "39 oz = ? lb (a mixed number)",
+            "sub": "Count whole pounds by 16s. The leftover goes over 16.",
+            "model": {
+              "chart": {
+                "cols": [
+                  "whole pounds",
+                  "leftover (oz)",
+                  "mixed number"
+                ],
+                "rows": 1,
+                "given": [
+                  [
+                    "",
+                    "",
+                    ""
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "Board: Spot the mistake",
+          "kind": "board",
+          "pic": "10-07-do-mistake",
+          "tag": "Spot the mistake",
+          "board": {
+            "type": "mistake",
+            "title": "Is this right?",
+            "say": "4 and five sixths feet is 4 ft 58 in.",
+            "fix": "Circle the mistake. What should it say?"
+          }
+        }
+      ],
+      "script": "Now watch me solve three. Pause any time.\n\n[ON SCREEN: Board: Problem 1]\n\n[DRAW: write 7 in under the fraction part. Write 3 ft 7 in. Write 36 + 7 = 43 in.]\n\n3 and seven twelfths feet. Feet and inches: the 3 feet stay, and seven twelfths of a foot is 7 inches. 3 feet 7 inches. All inches: 3 feet is 36 inches, plus 7. 43 inches.\n\n[ON SCREEN: Board: Problem 2]\n\nYour turn first. Pause the video and try this one on paper. Then press play and check.\n\n[DRAW: write 32 oz and 5 oz in the circles. Write 32 + 5 = 37 oz.]\n\n2 and five sixteenths pounds, all in ounces. Both pieces change. 2 pounds is 32 ounces. Five sixteenths of a pound is 5 ounces. 37 ounces.\n\n[ON SCREEN: Board: Problem 3]\n\n[DRAW: count 16, 32 beside the chart. Write 2, then 7, then 2 and 7/16 lb.]\n\nBackward. 39 ounces. Count whole pounds: 16, 32. That's 2 pounds, with 7 ounces left over. The leftover goes over 16. 2 and seven sixteenths pounds. No bigger part fits, so it's simplest.\n\n[ON SCREEN: Board: Spot the mistake]\n\n[DRAW: circle 58 in. Write 4 ft 10 in.]\n\nIs this right? The 58 inches counts the 4 feet again. For feet and inches, only the fraction changes: 4 feet 10 inches."
+    },
+    "wrap": {
+      "label": "Wrap · the Golem is beaten",
+      "title": "Level 10 Clear",
+      "length": "about 45 s",
+      "want": false,
+      "where": "Show What You Know, after the boss",
+      "parts": [
+        {
+          "label": "Two ways",
+          "tag": "TODAY",
+          "title": "Change just the fraction · or both pieces",
+          "col": "#2DB87A",
+          "body": "Split a mixed number into whole units and a fraction of a unit. Backward: count whole units, the leftover over the small units in one unit, simplify."
+        },
+        {
+          "label": "The Golem",
+          "tag": "YOU DID IT",
+          "title": "The Brick Golem is beaten",
+          "col": "#C96512",
+          "body": "Every brick re-stamped. The road south is open."
+        },
+        {
+          "label": "Next time",
+          "tag": "COMING UP",
+          "title": "The Unit 10 check",
+          "col": "#6B3FA0",
+          "body": "Everything from the whole market: metric, customary, time and fractions."
+        }
+      ],
+      "script": "Look how far you came!\n\n[ON SCREEN: Two ways]\n\nToday you split mixed numbers into whole units and a fraction of a unit. For feet and inches, you kept the whole feet and changed just the fraction. For all inches, you changed both pieces and added. And going backward, you counted whole units, put the leftover over the small units in one whole unit, and simplified.\n\n[ON SCREEN: The Golem]\n\nAnd you beat the Brick Golem. Every wrong stamp is fixed, the farmers' market is safe, and the road south is open.\n\n[ON SCREEN: Next time]\n\nNext comes the Unit 10 check. It covers the whole market: meters and grams, feet, pounds and quarts, time, and fractions of a unit. You've done all of it already. You're ready."
+    }
+  }
+}

@@ -1,0 +1,494 @@
+{
+ "felix": {
+  "voice_id": "MGT6a7Ww5AutlTP8OlBa",
+  "lines": [
+   {
+    "who": "felix",
+    "t": "5 is the number of feet. Each foot is 12 inches: 5 times 12.",
+    "key": "3875dd41"
+   },
+   {
+    "who": "felix",
+    "t": "A foot is 12 inches. 5 feet is 5 groups of 12 inches.",
+    "key": "8a9d7dff"
+   },
+   {
+    "who": "felix",
+    "t": "8 times 16 is 128, more than a whole pound. One eighth is one of 8 equal parts of the pound.",
+    "key": "8b9d2189"
+   },
+   {
+    "who": "felix",
+    "t": "A pound is 16 ounces. Eighths means 8 equal parts. How many ounces in one part?",
+    "key": "38b87785"
+   },
+   {
+    "who": "felix",
+    "t": "12 times 60 is 720, more than a whole hour. One twelfth is one of 12 equal parts of the hour.",
+    "key": "85095caf"
+   },
+   {
+    "who": "felix",
+    "t": "An hour is 60 minutes. Twelfths means 12 equal parts. How many minutes in one part?",
+    "key": "1aca5076"
+   },
+   {
+    "who": "felix",
+    "t": "16 ounces is the whole pound. Add the nine sixteenths of a pound: 9 more ounces.",
+    "key": "7e2eef0f"
+   },
+   {
+    "who": "felix",
+    "t": "Two pieces: 1 whole pound is 16 ounces, and nine sixteenths of a pound is 9 ounces. Put them together.",
+    "key": "84bf1921"
+   },
+   {
+    "who": "felix",
+    "t": "Change both pieces: 3 feet is 3 times 12 inches, and one twelfth of a foot is 1 inch.",
+    "key": "19aac520"
+   },
+   {
+    "who": "felix",
+    "t": "One fifth of an hour isn't 5 minutes. Cut 60 minutes into 5 equal parts: 12 minutes each.",
+    "key": "287cac9e"
+   },
+   {
+    "who": "felix",
+    "t": "One fifth of an hour is one of 5 equal parts of 60 minutes, not 1 minute.",
+    "key": "0fe8c406"
+   },
+   {
+    "who": "felix",
+    "t": "Change both pieces: 1 hour is 60 minutes, and one fifth of an hour is 60 cut into 5 equal parts.",
+    "key": "b5938d14"
+   },
+   {
+    "who": "felix",
+    "t": "4 meters is 400 centimeters, and 6 more is 406. 460 would be 4 meters 60 centimeters.",
+    "key": "acf7f7ab"
+   },
+   {
+    "who": "felix",
+    "t": "A meter is 100 centimeters. 4 meters is 400 centimeters. Add the 6.",
+    "key": "81949342"
+   },
+   {
+    "who": "felix",
+    "t": "2,000 grams and 300 more grams. 300, not 3.",
+    "key": "e3ba24d1"
+   },
+   {
+    "who": "felix",
+    "t": "A kilogram is 1,000 grams. 2 kilograms is 2,000 grams. Add the 300.",
+    "key": "53758e67"
+   },
+   {
+    "who": "felix",
+    "t": "3 plus 1 counts the pieces. Each gallon is 4 quarts: 3 times 4, then add 1.",
+    "key": "6d7edabb"
+   },
+   {
+    "who": "felix",
+    "t": "A gallon is 4 quarts. 3 gallons is 12 quarts. Add the 1 quart.",
+    "key": "431762dd"
+   },
+   {
+    "who": "felix",
+    "t": "Add the inches: 10 plus 6 is 16. Trade 12 of them for the fifth foot. What is left?",
+    "key": "86a36790"
+   },
+   {
+    "who": "felix",
+    "t": "4 plus 5 counts pieces. Each hour is 60 minutes: 4 times 60, then add 5.",
+    "key": "5d5c90da"
+   },
+   {
+    "who": "felix",
+    "t": "An hour is 60 minutes. 4 hours is 240 minutes. Add the 5.",
+    "key": "46d1e7d0"
+   },
+   {
+    "who": "felix",
+    "t": "7 times 60 is 420. Now divide by 10, because it's tenths.",
+    "key": "09e41dea"
+   },
+   {
+    "who": "felix",
+    "t": "An hour is 60 minutes, not 100. Cut 60 into 10 equal parts: 6 minutes each.",
+    "key": "d343d4f0"
+   },
+   {
+    "who": "felix",
+    "t": "Cut 60 minutes into 10 equal parts: 6 minutes each. Take 7 parts.",
+    "key": "70e34689"
+   },
+   {
+    "who": "felix",
+    "t": "3 ounces is only the fraction part. The 4 whole pounds are ounces too.",
+    "key": "6d44254f"
+   },
+   {
+    "who": "felix",
+    "t": "64 ounces is the 4 whole pounds. Add the fraction part: 3 more ounces.",
+    "key": "328c3df3"
+   },
+   {
+    "who": "felix",
+    "t": "All ounces: 4 pounds is 4 times 16 ounces. Three sixteenths of a pound is 3 ounces. Add them.",
+    "key": "acd21d0a"
+   },
+   {
+    "who": "felix",
+    "t": "My way is to change it all to inches.",
+    "key": "34e4d254"
+   },
+   {
+    "who": "felix",
+    "t": "2 feet is 2 times 12, that's 24 inches. Five sixths of a foot is 10 inches.",
+    "key": "250ef70b"
+   },
+   {
+    "who": "felix",
+    "t": "24 plus 10 is 34 inches. Same height as Atlas, just written in one unit!",
+    "key": "4b4cbc60"
+   },
+   {
+    "who": "felix",
+    "t": "Hey, I'm Felix! I tested every crate at Goldie's stand. Sturdy. But will they hold up against a brick monster?",
+    "key": "6c43c096"
+   },
+   {
+    "who": "felix",
+    "t": "For all inches, I change both pieces and add. 2 feet is 24 inches, and five sixths of a foot is 10 more: 34 inches.",
+    "key": "0724323f"
+   }
+  ],
+  "prompt": "5 is the number of feet. Each foot is 12 inches: 5 times 12. <break time=\"1.5s\" /> A foot is 12 inches. 5 feet is 5 groups of 12 inches. <break time=\"1.5s\" /> 8 times 16 is 128, more than a whole pound. One eighth is one of 8 equal parts of the pound. <break time=\"1.5s\" /> A pound is 16 ounces. Eighths means 8 equal parts. How many ounces in one part? <break time=\"1.5s\" /> 12 times 60 is 720, more than a whole hour. One twelfth is one of 12 equal parts of the hour. <break time=\"1.5s\" /> An hour is 60 minutes. Twelfths means 12 equal parts. How many minutes in one part? <break time=\"1.5s\" /> 16 ounces is the whole pound. Add the nine sixteenths of a pound: 9 more ounces. <break time=\"1.5s\" /> Two pieces: 1 whole pound is 16 ounces, and nine sixteenths of a pound is 9 ounces. Put them together. <break time=\"1.5s\" /> Change both pieces: 3 feet is 3 times 12 inches, and one twelfth of a foot is 1 inch. <break time=\"1.5s\" /> One fifth of an hour isn't 5 minutes. Cut 60 minutes into 5 equal parts: 12 minutes each. <break time=\"1.5s\" /> One fifth of an hour is one of 5 equal parts of 60 minutes, not 1 minute. <break time=\"1.5s\" /> Change both pieces: 1 hour is 60 minutes, and one fifth of an hour is 60 cut into 5 equal parts. <break time=\"1.5s\" /> 4 meters is 400 centimeters, and 6 more is 406. 460 would be 4 meters 60 centimeters. <break time=\"1.5s\" /> A meter is 100 centimeters. 4 meters is 400 centimeters. Add the 6. <break time=\"1.5s\" /> 2,000 grams and 300 more grams. 300, not 3. <break time=\"1.5s\" /> A kilogram is 1,000 grams. 2 kilograms is 2,000 grams. Add the 300. <break time=\"1.5s\" /> 3 plus 1 counts the pieces. Each gallon is 4 quarts: 3 times 4, then add 1. <break time=\"1.5s\" /> A gallon is 4 quarts. 3 gallons is 12 quarts. Add the 1 quart. <break time=\"1.5s\" /> Add the inches: 10 plus 6 is 16. Trade 12 of them for the fifth foot. What is left? <break time=\"1.5s\" /> 4 plus 5 counts pieces. Each hour is 60 minutes: 4 times 60, then add 5. <break time=\"1.5s\" /> An hour is 60 minutes. 4 hours is 240 minutes. Add the 5. <break time=\"1.5s\" /> 7 times 60 is 420. Now divide by 10, because it's tenths. <break time=\"1.5s\" /> An hour is 60 minutes, not 100. Cut 60 into 10 equal parts: 6 minutes each. <break time=\"1.5s\" /> Cut 60 minutes into 10 equal parts: 6 minutes each. Take 7 parts. <break time=\"1.5s\" /> 3 ounces is only the fraction part. The 4 whole pounds are ounces too. <break time=\"1.5s\" /> 64 ounces is the 4 whole pounds. Add the fraction part: 3 more ounces. <break time=\"1.5s\" /> All ounces: 4 pounds is 4 times 16 ounces. Three sixteenths of a pound is 3 ounces. Add them. <break time=\"1.5s\" /> My way is to change it all to inches. <break time=\"1.5s\" /> 2 feet is 2 times 12, that's 24 inches. Five sixths of a foot is 10 inches. <break time=\"1.5s\" /> 24 plus 10 is 34 inches. Same height as Atlas, just written in one unit! <break time=\"1.5s\" /> Hey, I'm Felix! I tested every crate at Goldie's stand. Sturdy. But will they hold up against a brick monster? <break time=\"1.5s\" /> For all inches, I change both pieces and add. 2 feet is 24 inches, and five sixths of a foot is 10 more: 34 inches."
+ },
+ "cora": {
+  "voice_id": "RQkZwiEDNTPnhccmEGaa",
+  "lines": [
+   {
+    "who": "cora",
+    "t": "5 plus 12 adds them. Each foot is 12 inches, and there are 5 of them: 5 times 12.",
+    "key": "d536f9fb"
+   },
+   {
+    "who": "cora",
+    "t": "8 is how many equal parts. Cut 16 ounces into 8 equal parts. How big is one part?",
+    "key": "f8a1d0c5"
+   },
+   {
+    "who": "cora",
+    "t": "12 is how many equal parts. Cut 60 minutes into 12 equal parts. How long is one part?",
+    "key": "e16cc444"
+   },
+   {
+    "who": "cora",
+    "t": "Nine ounces is only the fraction part. Change the whole pound too: 16 ounces, then add.",
+    "key": "9d602fcf"
+   },
+   {
+    "who": "cora",
+    "t": "One inch is only the fraction part. The 3 whole feet are inches too.",
+    "key": "7d7bfadb"
+   },
+   {
+    "who": "cora",
+    "t": "Twelve minutes is the fraction part. The 1 whole hour is 60 more minutes.",
+    "key": "c23a7c0b"
+   },
+   {
+    "who": "cora",
+    "t": "That's the Smudge's stamp! 4 meters is 400 centimeters. Then add the 6.",
+    "key": "324f7b5b"
+   },
+   {
+    "who": "cora",
+    "t": "That's the Smudge's stamp! A kilogram is 1,000 grams, so 2 kilograms is 2,000 grams.",
+    "key": "55b18adc"
+   },
+   {
+    "who": "cora",
+    "t": "That's the Smudge's stamp! It treats a gallon like 10 quarts. A gallon is 4 quarts.",
+    "key": "e053d071"
+   },
+   {
+    "who": "cora",
+    "t": "16 inches is more than a foot. Trade 12 of the inches for 1 foot. How many inches are left?",
+    "key": "271aeeee"
+   },
+   {
+    "who": "cora",
+    "t": "That's the Smudge's stamp! It treats an hour like 100 minutes. An hour is 60 minutes.",
+    "key": "f6a4a531"
+   },
+   {
+    "who": "cora",
+    "t": "That's the Smudge's stamp! Tenths means the hour is cut into 10 equal parts of 6 minutes. Take 7 parts.",
+    "key": "dfacc1e7"
+   },
+   {
+    "who": "cora",
+    "t": "That's the Smudge's stamp! For feet AND inches, the 3 whole feet stay. Only the fraction part changes.",
+    "key": "f436aa14"
+   },
+   {
+    "who": "cora",
+    "t": "The 3 feet are already written. Only five twelfths of a foot goes in the box.",
+    "key": "748e5003"
+   },
+   {
+    "who": "cora",
+    "t": "That's the Smudge's stamp! It added 4 and 3. Change both pieces to ounces first.",
+    "key": "ef75eaf0"
+   },
+   {
+    "who": "cora",
+    "t": "Before I change anything, I ask: what needs changing, the fraction or the whole number?",
+    "key": "e5e8ebe4"
+   },
+   {
+    "who": "cora",
+    "t": "For feet and inches, only the fraction changes. For all inches, both pieces change.",
+    "key": "644fd454"
+   },
+   {
+    "who": "cora",
+    "t": "Hello, I'm Cora. The Golem's bricks have stamps on them. If the Smudge made those stamps, they're wrong.",
+    "key": "a4c5c9d0"
+   },
+   {
+    "who": "cora",
+    "t": "Ask first: what needs changing, the fraction or the whole number? Then change only that.",
+    "key": "9dbfc43d"
+   }
+  ],
+  "prompt": "5 plus 12 adds them. Each foot is 12 inches, and there are 5 of them: 5 times 12. <break time=\"1.5s\" /> 8 is how many equal parts. Cut 16 ounces into 8 equal parts. How big is one part? <break time=\"1.5s\" /> 12 is how many equal parts. Cut 60 minutes into 12 equal parts. How long is one part? <break time=\"1.5s\" /> Nine ounces is only the fraction part. Change the whole pound too: 16 ounces, then add. <break time=\"1.5s\" /> One inch is only the fraction part. The 3 whole feet are inches too. <break time=\"1.5s\" /> Twelve minutes is the fraction part. The 1 whole hour is 60 more minutes. <break time=\"1.5s\" /> That's the Smudge's stamp! 4 meters is 400 centimeters. Then add the 6. <break time=\"1.5s\" /> That's the Smudge's stamp! A kilogram is 1,000 grams, so 2 kilograms is 2,000 grams. <break time=\"1.5s\" /> That's the Smudge's stamp! It treats a gallon like 10 quarts. A gallon is 4 quarts. <break time=\"1.5s\" /> 16 inches is more than a foot. Trade 12 of the inches for 1 foot. How many inches are left? <break time=\"1.5s\" /> That's the Smudge's stamp! It treats an hour like 100 minutes. An hour is 60 minutes. <break time=\"1.5s\" /> That's the Smudge's stamp! Tenths means the hour is cut into 10 equal parts of 6 minutes. Take 7 parts. <break time=\"1.5s\" /> That's the Smudge's stamp! For feet AND inches, the 3 whole feet stay. Only the fraction part changes. <break time=\"1.5s\" /> The 3 feet are already written. Only five twelfths of a foot goes in the box. <break time=\"1.5s\" /> That's the Smudge's stamp! It added 4 and 3. Change both pieces to ounces first. <break time=\"1.5s\" /> Before I change anything, I ask: what needs changing, the fraction or the whole number? <break time=\"1.5s\" /> For feet and inches, only the fraction changes. For all inches, both pieces change. <break time=\"1.5s\" /> Hello, I'm Cora. The Golem's bricks have stamps on them. If the Smudge made those stamps, they're wrong. <break time=\"1.5s\" /> Ask first: what needs changing, the fraction or the whole number? Then change only that."
+ },
+ "opti": {
+  "voice_id": "WdZjiN0nNcik2LBjOHiv",
+  "lines": [
+   {
+    "who": "opti",
+    "t": "Hoo! Welcome to the farmers' market, {name}. The sun is just coming up.",
+    "key": "06f4e977"
+   },
+   {
+    "who": "opti",
+    "t": "Look up at the hill. That giant shadow is the Brick Golem. It's here, just like the clock said.",
+    "key": "cd7c2aa2"
+   },
+   {
+    "who": "opti",
+    "t": "Goldie keeps the market. She'll know what to do. Go talk to her at her farm stand.",
+    "key": "6847a92e"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! The ground is shaking, {name}. The Golem is coming down the hill!",
+    "key": "26ad850f"
+   },
+   {
+    "who": "opti",
+    "t": "Goldie has the Re-Stamper ready. Go get it from her.",
+    "key": "ee9cb48f"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! You did it, {name}! The farmers' market is safe, and the barrier on the road south is gone.",
+    "key": "e914860d"
+   },
+   {
+    "who": "opti",
+    "t": "The seed packet says Greenhollow. That's where the road south goes. But first, the Unit 10 check. You're ready.",
+    "key": "c9e3210a"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! The Math Crew worked out the scarecrow puzzle. They each found the answer their own way.",
+    "key": "761fbced"
+   },
+   {
+    "who": "opti",
+    "t": "Walk up to each of them and listen. Then come back and tell me.",
+    "key": "dd07f9b6"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! Two ways to write it, and one height: 2 feet 10 inches is the same as 34 inches.",
+    "key": "196b14aa"
+   },
+   {
+    "who": "opti",
+    "t": "Which way is most like yours? Write about it on your page, right under the Crew's card.",
+    "key": "6eba99ec"
+   },
+   {
+    "who": "opti",
+    "t": "Walk up to each Crew member and listen to their way first.",
+    "key": "b722791e"
+   },
+   {
+    "who": "opti",
+    "t": "The Golem is beaten and the road south is open. Next, the Unit 10 check, {name}.",
+    "key": "8932d538"
+   },
+   {
+    "who": "opti",
+    "t": "Hoo! Every job on the page helps Goldie rebuild the Re-Stamper.",
+    "key": "888a042f"
+   }
+  ],
+  "prompt": "Welcome to the farmers' market, explorer. The sun is just coming up. <break time=\"1.5s\" /> Look up at the hill. That giant shadow is the Brick Golem. It's here, just like the clock said. <break time=\"1.5s\" /> Goldie keeps the market. She'll know what to do. Go talk to her at her farm stand. <break time=\"1.5s\" /> The ground is shaking, explorer. The Golem is coming down the hill! <break time=\"1.5s\" /> Goldie has the Re-Stamper ready. Go get it from her. <break time=\"1.5s\" /> You did it, explorer! The farmers' market is safe, and the barrier on the road south is gone. <break time=\"1.5s\" /> The seed packet says Greenhollow. That's where the road south goes. But first, the Unit 10 check. You're ready. <break time=\"1.5s\" /> The Math Crew worked out the scarecrow puzzle. They each found the answer their own way. <break time=\"1.5s\" /> Walk up to each of them and listen. Then come back and tell me. <break time=\"1.5s\" /> Two ways to write it, and one height: 2 feet 10 inches is the same as 34 inches. <break time=\"1.5s\" /> Which way is most like yours? Write about it on your page, right under the Crew's card. <break time=\"1.5s\" /> Walk up to each Crew member and listen to their way first. <break time=\"1.5s\" /> The Golem is beaten and the road south is open. Next, the Unit 10 check, explorer. <break time=\"1.5s\" /> Every job on the page helps Goldie rebuild the Re-Stamper."
+ },
+ "hazel": {
+  "voice_id": "MkTSSXNgnBULS6ek4pon",
+  "lines": [
+   {
+    "who": "hazel",
+    "t": "Picture 3 whole foot bars, 36 inches, and one more bar with just one twelfth shaded. Add that 1 inch.",
+    "key": "29a8be33"
+   },
+   {
+    "who": "hazel",
+    "t": "I picture two whole foot bars, 12 inches each.",
+    "key": "0ca48fe1"
+   },
+   {
+    "who": "hazel",
+    "t": "Then one more bar cut into 6 equal parts, with 5 of them shaded. That's the part that isn't a whole foot.",
+    "key": "10b40520"
+   },
+   {
+    "who": "hazel",
+    "t": "Hi! I'm Hazel. I'm drawing the pumpkins before the Golem gets here. So much orange!",
+    "key": "ed1b54fc"
+   },
+   {
+    "who": "hazel",
+    "t": "I picture whole bars for the whole units, and one more bar with only part of it shaded.",
+    "key": "94a1be22"
+   }
+  ],
+  "prompt": "Picture 3 whole foot bars, 36 inches, and one more bar with just one twelfth shaded. Add that 1 inch. <break time=\"1.5s\" /> I picture two whole foot bars, 12 inches each. <break time=\"1.5s\" /> Then one more bar cut into 6 equal parts, with 5 of them shaded. That's the part that isn't a whole foot. <break time=\"1.5s\" /> Hi! I'm Hazel. I'm drawing the pumpkins before the Golem gets here. So much orange! <break time=\"1.5s\" /> I picture whole bars for the whole units, and one more bar with only part of it shaded."
+ },
+ "atlas": {
+  "voice_id": "unWb9iRIK7Xxf4A5Hfis",
+  "lines": [
+   {
+    "who": "atlas",
+    "t": "Add the inches: 10 plus 6 is 16. Trade 12 inches for 1 foot. The leftover inches go in the box.",
+    "key": "02fcefb4"
+   },
+   {
+    "who": "atlas",
+    "t": "Ask: what needs changing, the fraction or the whole number? Just the fraction: five twelfths of a foot.",
+    "key": "d9c2f5c9"
+   },
+   {
+    "who": "atlas",
+    "t": "My way is to change just the fraction part.",
+    "key": "43c070dc"
+   },
+   {
+    "who": "atlas",
+    "t": "Two and five sixths feet is 2 whole feet and five sixths of a foot. The 2 feet stay.",
+    "key": "2e731b97"
+   },
+   {
+    "who": "atlas",
+    "t": "Five sixths of a foot is 10 inches. So the scarecrow is 2 feet 10 inches!",
+    "key": "f86046d2"
+   },
+   {
+    "who": "atlas",
+    "t": "Hi, I'm Atlas! I climbed the hill at sunrise. There's a giant shadow up there, and I think it moved.",
+    "key": "6c889638"
+   },
+   {
+    "who": "atlas",
+    "t": "For feet and inches, the whole feet stay. One and seven twelfths feet is 1 foot 7 inches.",
+    "key": "eae707b6"
+   }
+  ],
+  "prompt": "Add the inches: 10 plus 6 is 16. Trade 12 inches for 1 foot. The leftover inches go in the box. <break time=\"1.5s\" /> Ask: what needs changing, the fraction or the whole number? Just the fraction: five twelfths of a foot. <break time=\"1.5s\" /> My way is to change just the fraction part. <break time=\"1.5s\" /> Two and five sixths feet is 2 whole feet and five sixths of a foot. The 2 feet stay. <break time=\"1.5s\" /> Five sixths of a foot is 10 inches. So the scarecrow is 2 feet 10 inches! <break time=\"1.5s\" /> Hi, I'm Atlas! I climbed the hill at sunrise. There's a giant shadow up there, and I think it moved. <break time=\"1.5s\" /> For feet and inches, the whole feet stay. One and seven twelfths feet is 1 foot 7 inches."
+ },
+ "smudge": {
+  "voice_id": "b6EQtioQw8nYv45XG9Jo",
+  "lines": [
+   {
+    "who": "smudge",
+    "t": "My Golem! You re-stamped every brick. Grr. You haven't seen the last of me, Wayfinder!",
+    "key": "c9415e6a"
+   },
+   {
+    "who": "smudge",
+    "t": "My Brick Golem is finished! Every brick has my stamp on it. Heh heh heh!",
+    "key": "0945441f"
+   }
+  ],
+  "prompt": "My Golem! You re-stamped every brick. Grr. You haven't seen the last of me, Wayfinder! <break time=\"1.5s\" /> My Brick Golem is finished! Every brick has my stamp on it. Heh heh heh!"
+ },
+ "goldie": {
+  "voice_id": "yvlUFE2awMFG2s720MSk",
+  "lines": [
+   {
+    "who": "goldie",
+    "t": "Oh, you must be the Wayfinder! I'm Goldie. I keep the farmers' market.",
+    "key": "1aa24133"
+   },
+   {
+    "who": "goldie",
+    "t": "Every brick on that Golem has one of the Smudge's wrong stamps. My old Re-Stamper can fix them, one brick at a time.",
+    "key": "6711164b"
+   },
+   {
+    "who": "goldie",
+    "t": "But the Smudge hid its three pieces. I think the handle is under a pumpkin. Fix the smudged pumpkin tags and look underneath.",
+    "key": "749d8fd9"
+   },
+   {
+    "who": "goldie",
+    "t": "Look for the sparkly pumpkins. Fix each tag, like the two pieces on your page.",
+    "key": "ac4a4629"
+   },
+   {
+    "who": "goldie",
+    "t": "The handle! One piece found, two to go. Thank you, {name}.",
+    "key": "80391e72"
+   },
+   {
+    "who": "goldie",
+    "t": "Next is the stamp face. It's in the stamp shed, but its three dials are stuck.",
+    "key": "09e85c1f"
+   },
+   {
+    "who": "goldie",
+    "t": "Each dial shows a mixed number. Set it in small units: inches, ounces or minutes.",
+    "key": "6217c658"
+   },
+   {
+    "who": "goldie",
+    "t": "Here it is: the Re-Stamper, handle, face and ink. You built it, {name}.",
+    "key": "101bf9f6"
+   },
+   {
+    "who": "goldie",
+    "t": "Walk up the hill and fix every wrong stamp on the Golem. Take your time. Every brick you fix makes it weaker.",
+    "key": "7d472874"
+   },
+   {
+    "who": "goldie",
+    "t": "Welcome to the farmers' market! Pumpkins, beans and apples. Everything by the pound.",
+    "key": "28072e94"
+   },
+   {
+    "who": "goldie",
+    "t": "It fits! Now we just need ink.",
+    "key": "35e2fef9"
+   }
+  ],
+  "prompt": "Oh, you must be the Wayfinder! I'm Goldie. I keep the farmers' market. <break time=\"1.5s\" /> Every brick on that Golem has one of the Smudge's wrong stamps. My old Re-Stamper can fix them, one brick at a time. <break time=\"1.5s\" /> But the Smudge hid its three pieces. I think the handle is under a pumpkin. Fix the smudged pumpkin tags and look underneath. <break time=\"1.5s\" /> Look for the sparkly pumpkins. Fix each tag, like the two pieces on your page. <break time=\"1.5s\" /> The handle! One piece found, two to go. Thank you, explorer. <break time=\"1.5s\" /> Next is the stamp face. It's in the stamp shed, but its three dials are stuck. <break time=\"1.5s\" /> Each dial shows a mixed number. Set it in small units: inches, ounces or minutes. <break time=\"1.5s\" /> Here it is: the Re-Stamper, handle, face and ink. You built it, explorer. <break time=\"1.5s\" /> Walk up the hill and fix every wrong stamp on the Golem. Take your time. Every brick you fix makes it weaker. <break time=\"1.5s\" /> Welcome to the farmers' market! Pumpkins, beans and apples. Everything by the pound. <break time=\"1.5s\" /> It fits! Now we just need ink."
+ }
+}

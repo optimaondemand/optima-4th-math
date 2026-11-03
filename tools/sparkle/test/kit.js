@@ -51,6 +51,21 @@ await p.fill('#d-bm2 .bm-form input','18');await p.click('#d-bm2 .bm-form button
 // number bond
 for(const v of ['45','2','250']){await p.fill('#d-nb .nb-c input','99');await p.click('#d-nb .nb-check');await p.fill('#d-nb .nb-c input',v);await p.click('#d-nb .nb-check');const n=await p.$('#d-nb .ok-next');if(n)await n.click();}
 ok((await p.$eval('#d-nb .nb-eq',e=>e.textContent)).includes('250 = 200 + 50'),'number bond: three rounds');
+// mixed-number splitter: split mode (too many wholes, wrong cut, take by tap + drag, two asks), group mode (mark off, leftover refused, raw, group, simplest)
+const SP='#d-spl';await p.click(`${SP} .ok-sp-add`);await p.click(`${SP} .ok-sp-add`);await p.click(`${SP} .ok-sp-add`);ok((await p.$eval(`${SP} .ok-msg`,e=>e.textContent)).includes('only 2 whole'),'splitter: a third whole foot is refused');
+await p.click(`${SP} .ok-cut-btn[data-n="4"]`);ok((await p.$eval(`${SP} .ok-msg`,e=>e.textContent)).includes('bottom number'),'splitter: a wrong cut gets the hint');
+await p.click(`${SP} .ok-cut-btn[data-n="6"]`);ok((await p.$eval(`${SP} .ok-sym`,e=>e.textContent)).includes('each part is 2 inches'),'splitter: 2 whole feet + 6 parts of 2 in');
+for(const k of [0,1,2])await p.click(`${SP} .ok-part[data-k="${k}"]`);
+{const A=await p.$(`${SP} .ok-part[data-k="3"]`);const Z=await p.$(`${SP} .ok-part[data-k="4"]`);const ra=await A.boundingBox(),rz=await Z.boundingBox();await p.mouse.move(ra.x+4,ra.y+ra.height/2);await p.mouse.down();await p.mouse.move(rz.x+rz.width-4,rz.y+rz.height/2,{steps:8});await p.mouse.up();}
+ok((await p.$eval(`${SP} .ok-sym`,e=>e.textContent)).includes('5 of 6 parts')&&!!(await p.$(`${SP} .ok-sp-ask form`)),'splitter: tap + drag take 5 of 6; the first ask appears');
+{const I=await p.$$(`${SP} .ok-sp-ask form input`);await I[0].fill('2');await I[1].fill('34');await p.click(`${SP} .ok-sp-ask form button`);}ok((await p.$eval(`${SP} .ok-msg`,e=>e.textContent)).includes('Only the fraction'),'splitter: 2 ft 34 in gets its hint');
+{const I=await p.$$(`${SP} .ok-sp-ask form input`);await I[0].fill('2');await I[1].fill('10');await p.click(`${SP} .ok-sp-ask form button`);}ok(await p.$$eval(`${SP} .ok-sp-ask form`,x=>x.length)===1&&!!(await p.$(`${SP} .ok-sp-old`)),'splitter: 2 ft 10 in, the all-inches ask appears under it');
+await p.fill(`${SP} .ok-sp-ask form input`,'34');await p.click(`${SP} .ok-sp-ask form button`);ok(!!(await p.$(`${SP} .ok-next`)),'splitter: 34 in, next round');await p.click(`${SP} .ok-next`);
+await p.click(`${SP} .ok-sp-mark`);await p.click(`${SP} .ok-sp-mark`);ok(!(await p.$(`${SP} .ok-sp-mark`))&&(await p.$eval(`${SP} .ok-sym`,e=>e.textContent)).includes('2 of 12'),'splitter group: 2 feet marked off, 2 of 12 inches left over');
+{const I=await p.$$(`${SP} .ok-mixform input`);await I[0].fill('2');await I[1].fill('2');await I[2].fill('26');await p.click(`${SP} .ok-mixform button`);}ok((await p.$eval(`${SP} .ok-msg`,e=>e.textContent)).includes('bottom number is the whole'),'splitter group: 2 2/26 gets the whole-foot hint');
+{const I=await p.$$(`${SP} .ok-mixform input`);await I[0].fill('2');await I[1].fill('2');await I[2].fill('12');await p.click(`${SP} .ok-mixform button`);}ok(!!(await p.$(`${SP} .ok-grp-btn`)),'splitter group: 2 2/12 accepted, parts buttons appear');
+await p.click(`${SP} .ok-grp-btn[data-n="4"]`);ok((await p.$eval(`${SP} .ok-msg`,e=>e.textContent)).includes('middle of a part'),'splitter group: parts of 4 refused');
+await p.click(`${SP} .ok-grp-btn[data-n="2"]`);{const I=await p.$$(`${SP} .ok-mixform input`);await I[0].fill('2');await I[1].fill('1');await I[2].fill('6');await p.click(`${SP} .ok-mixform button`);}ok((await p.$eval(`${SP} .ok-do`,e=>e.textContent)).includes('Done'),'splitter group: 2 1/6 ft, done');
 // ribbon cutter: wrong cut hint, cut, tap + drag parts, ask; name mode: shade by drag, raw fraction, group, simplest form
 const RB='#d-rib';await p.click(`${RB} .ok-cut-btn[data-n="4"]`);ok((await p.$eval(`${RB} .ok-msg`,e=>e.textContent)).includes('bottom number'),'ribbon: a wrong cut gets the hint');
 await p.click(`${RB} .ok-cut-btn[data-n="3"]`);ok(await p.$$eval(`${RB} .ok-part`,x=>x.length)===3&&(await p.$eval(`${RB} .ok-sym`,e=>e.textContent)).includes('each part is 4'),'ribbon: cut into 3 parts of 4 in');

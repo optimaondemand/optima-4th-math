@@ -879,5 +879,168 @@ function ribbon(root,cfg){
   render();
   return {state:st};
 }
-K.ribbon=ribbon;K.clock=clock;K.pour=pour;K.scale=scale;K.unitMat=unitMat;K.tradeMat=tradeMat;K.stamps=stamps;K.barModel=barModel;K.numberBond=numberBond;K.mentalMath=mentalMath;K.challenge=challenge;
+/* ═══════════ MIXED-NUMBER SPLITTER (mixed numbers of a unit) ═══════════
+   Whole-unit bars stacked to scale (each bar = 1 big unit = `rate` small units) and one more bar for the fraction part.
+   split: a tag like 2 5/6 ft splits into whole units + a fraction of a unit. Tap "+ 1 whole" until the whole units match,
+          cut the last bar into equal parts (the bottom number) and take some (the top number, tap or drag). Then the
+          round's `asks` appear one after another (e.g. "2 5/6 ft = __ ft __ in", then "= __ in").
+   group: `total` small units sit on a tape (same scale). "Mark off 1 whole …" moves `rate` of them into a whole-unit bar
+          (skip-counting, no division). The leftover goes over `rate` on one more bar: whole + stacked fraction boxes. If
+          that fraction is not in simplest form, Parts-of buttons regroup the leftover bar, then the simplest form is asked.
+          `startWholes` puts whole bars there already (two-unit form like 5 ft 2 in → 5 1/6 ft).
+   round = {name, mode:'split'|'group', text, doneText, rate, big:{unit,name:[one,many]}, small:{unit,name:[one,many]},
+            split: w, n, d, cuts:[…], free (any wholes and any cut, no asks), asks:[{q, units, answer, mistakes:[{v,text}], hint, doneText}]
+            group: total, startWholes, groups:[…], answer:{w,n,d}, rawMistakes:[{w,n,d,text}], simpMistakes, rawQ, simpQ }
+   cfg = { key, rounds, onRound(i, root), onDone(root) } */
+function splitter(root,cfg){
+  var rounds=cfg.rounds,key=cfg.key,MAXW=7;
+  function fresh(){return {cur:0,w:rounds.map(function(r){return r.mode==='group'?(r.startWholes||0):0;}),pile:rounds.map(function(r){return r.total||0;}),cut:rounds.map(function(){return 0;}),on:rounds.map(function(){return [];}),
+    ask:rounds.map(function(){return 0;}),raw:rounds.map(function(){return false;}),grp:rounds.map(function(){return 0;}),won:rounds.map(function(){return false;}),a:rounds.map(function(){return {};}),fired:false};}
+  var st=ls(key,null);if(!st||!st.pile||st.pile.length!==rounds.length)st=fresh();
+  root.classList.add('ok-tool','ok-ribbon','ok-splitter');
+  root.innerHTML=(rounds.length>1?'<div class="ok-rounds" role="tablist">'+rounds.map(function(r,i){return '<button type="button" data-i="'+i+'">'+esc(r.name)+'</button>';}).join('')+'</div>':'')+
+    '<p class="ok-do" aria-live="polite"></p><div class="ok-sp-tag"></div><div class="ok-row ok-sp-wbtns"></div><div class="ok-row ok-cutbtns"></div>'+
+    '<div class="ok-stripbox"><svg class="ok-strip" viewBox="0 0 640 120" role="img"></svg></div>'+
+    '<div class="ok-sym" aria-live="polite"></div><div class="ok-ribbon-ask ok-sp-ask"></div><div class="ok-msg" aria-live="polite"></div>'+
+    '<div class="ok-row"><button class="ok-btn ok-reset" type="button">↺ Start over</button></div>';
+  var svg=$('.ok-strip',root),wb=$('.ok-sp-wbtns',root),btns=$('.ok-cutbtns',root),msg=$('.ok-msg',root),askEl=$('.ok-sp-ask',root),tagEl=$('.ok-sp-tag',root);
+  function say(t,k){msg.className='ok-msg'+(k?' '+k:'');msg.innerHTML=t||'';}
+  function save(){lsSet(key,st);}
+  function nm(u,n){return n===1?u.name[0]:u.name[1];}
+  function R(){return rounds[st.cur];}
+  function taken(i){return st.on[i].filter(Boolean).length;}
+  function frac(n,d){return '<span class="ok-frac"><b>'+n+'</b><i></i><b>'+d+'</b></span>';}
+  function mixed(w,n,d,u){return '<span class="ok-mixed">'+(w?'<b>'+w+'</b>':'')+(n?frac(n,d):'')+' '+esc(u)+'</span>';}
+  function gcd(a,b){return b?gcd(b,a%b):a;}
+  function leftover(i){return st.pile[i];}
+  function win(i){if(st.won[i])return;st.won[i]=true;save();snd.done();if(cfg.onRound)cfg.onRound(i,root);
+    if(st.won.every(Boolean)&&!st.fired){st.fired=true;save();if(cfg.onDone)cfg.onDone(root);}render();}
+  function ready(i){var r=rounds[i];return r.mode==='split'&&!r.free&&st.w[i]===r.w&&st.cut[i]===r.d&&taken(i)===r.n;}
+  function addWhole(dx){var i=st.cur,r=R();if(st.won[i])return;var v=st.w[i]+dx;
+    if(v<0)return;if(v>(r.free?6:r.w)){snd.no();say('The tag has only '+r.w+' whole '+nm(r.big,r.w)+'. The rest is the fraction part, on the last bar.','hint');return;}
+    st.w[i]=v;save();snd.click();say('');render();}
+  function cutTo(n){var i=st.cur,r=R();if(st.won[i])return;
+    if(!r.free&&n!==r.d){snd.no();say((r.cutHint||'Look at the bottom number of the fraction. It tells how many equal parts to cut the last '+r.big.name[0]+' into.')+' You cut '+n+'.','hint');}else say('');
+    st.cut[i]=n;st.on[i]=[];save();snd.split();render();}
+  function setOn(i,k,v){var r=rounds[i];if(st.won[i]||r.mode!=='split')return;var arr=st.on[i];if(!!arr[k]===!!v)return;
+    if(v&&!r.free&&taken(i)>=r.n){say('You have '+r.n+' parts already. The top number says how many parts to take.','hint');snd.no();return;}
+    arr[k]=!!v;snd.click();save();render();}
+  function markOff(){var i=st.cur,r=R();if(st.won[i])return;
+    if(st.pile[i]<r.rate){snd.no();say('Only '+st.pile[i]+' '+nm(r.small,st.pile[i])+' are left: not enough for another whole '+r.big.name[0]+'. They are the leftover.','hint');return;}
+    st.pile[i]-=r.rate;st.w[i]++;save();snd.merge();say(st.pile[i]<r.rate?(st.pile[i]?st.pile[i]+' '+nm(r.small,st.pile[i])+' left over: not enough for another whole '+r.big.name[0]+'.':'No '+r.small.name[1]+' left over.'):'');render();}
+  function groupTo(g){var i=st.cur,r=R();if(st.won[i]||!st.raw[i])return;var lo=leftover(i);
+    if(lo%g!==0||r.rate%g!==0){snd.no();say('Parts of '+g+' '+nm(r.small,g)+' don\'t fit: the leftover would end in the middle of a part. Try another size.','hint');return;}
+    st.grp[i]=g;save();snd.split();say('');render();}
+  function bar(s,x,y,w,h,fill,label,lc){s.push('<rect x="'+x.toFixed(1)+'" y="'+y+'" width="'+w.toFixed(1)+'" height="'+h+'" rx="5" fill="'+fill+'" stroke="#3B2417" stroke-width="3"/>');
+    if(label)s.push('<text x="'+(x+w/2).toFixed(1)+'" y="'+(y+h/2+5)+'" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="15" fill="'+(lc||'#fff')+'" pointer-events="none">'+label+'</text>');}
+  function drawStrip(){var r=R(),i=st.cur,n=r.rate,W=560,X=60,BH=32,G=8,s=[],y=26;
+    s.push('<text x="20" y="18" font-family="Nunito,sans-serif" font-weight="900" font-size="15" fill="#1E3A6E">Each bar is 1 '+esc(r.big.name[0])+' = '+n+' '+esc(r.small.name[1])+'</text>');
+    // whole-unit bars
+    for(var k=0;k<st.w[i];k++){s.push('<text x="20" y="'+(y+BH/2+5)+'" font-family="Nunito,sans-serif" font-weight="900" font-size="14" fill="#3B2417">1 '+esc(r.big.unit)+'</text>');
+      bar(s,X,y,W,BH,'#1F8FB4',n+' '+esc(r.small.unit));y+=BH+G;}
+    if(r.mode==='split'){var c=st.cut[i];
+      s.push('<text x="20" y="'+(y+BH/2+5)+'" font-family="Nunito,sans-serif" font-weight="900" font-size="14" fill="#C2601F">part</text>');
+      if(!c){bar(s,X,y,W,BH,'#FFF3DE','one more '+esc(r.big.name[0])+' · tap a cut button','#6B7290');}
+      else{var pw=W/c,pv=n/c;for(var q=0;q<c;q++){var on=!!st.on[i][q],px=X+q*pw;
+          s.push('<rect class="ok-part" data-k="'+q+'" x="'+px.toFixed(1)+'" y="'+y+'" width="'+pw.toFixed(1)+'" height="'+BH+'" fill="'+(on?'#6B3FA0':'#FFF3DE')+'" stroke="#3B2417" stroke-width="3" tabindex="0" role="button" aria-label="part '+(q+1)+' of '+c+(on?', taken':'')+'"/>');
+          if(pw>30)s.push('<text x="'+(px+pw/2).toFixed(1)+'" y="'+(y+BH/2+5)+'" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="'+(c>10?12:14)+'" fill="'+(on?'#fff':'#3B2417')+'" pointer-events="none">'+(Number.isInteger(pv)?pv:Math.round(pv*10)/10)+' '+esc(r.small.unit)+'</text>');}}
+      y+=BH+G;}
+    else{var lo=st.pile[i],mw=W/n;
+      if(lo>=n){ // the tape of small units still to mark off, wrapped at one big unit per row (same scale)
+        s.push('<text x="20" y="'+(y+BH/2+5)+'" font-family="Nunito,sans-serif" font-weight="900" font-size="14" fill="#2DB87A">tape</text>');
+        for(var m=0;m<lo;m++){var row=Math.floor(m/n),col=m%n;s.push('<rect x="'+(X+col*mw).toFixed(1)+'" y="'+(y+row*(BH+G))+'" width="'+mw.toFixed(1)+'" height="'+BH+'" fill="#2DB87A" stroke="'+(n>30?'#1E8C5A':'#3B2417')+'" stroke-width="'+(n>30?0.6:1.5)+'"/>');}
+        s.push('<text x="'+(X+W/2)+'" y="'+(y+Math.ceil(lo/n)*(BH+G)+10)+'" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="800" font-size="13" fill="#4A5068">'+lo+' '+esc(r.small.name[1])+' to mark off</text>');
+        y+=Math.ceil(lo/n)*(BH+G)+16;}
+      else{ // the leftover over one whole unit
+        var g=st.grp[i]||1;s.push('<text x="20" y="'+(y+BH/2+5)+'" font-family="Nunito,sans-serif" font-weight="900" font-size="14" fill="#C2601F">part</text>');
+        for(var m2=0;m2<n;m2++){var sh=m2<lo;s.push('<rect x="'+(X+m2*mw).toFixed(1)+'" y="'+y+'" width="'+mw.toFixed(1)+'" height="'+BH+'" fill="'+(sh?'#2DB87A':'#FFF3DE')+'" stroke="'+(g>1?'#C9BFB0':'#3B2417')+'" stroke-width="'+(g>1||n>30?0.8:1.5)+'"/>');}
+        if(g>1)for(var q2=0;q2<n/g;q2++)s.push('<rect x="'+(X+q2*g*mw).toFixed(1)+'" y="'+y+'" width="'+(g*mw).toFixed(1)+'" height="'+BH+'" fill="none" stroke="#3B2417" stroke-width="3" pointer-events="none"/>');
+        s.push('<rect x="'+X+'" y="'+y+'" width="'+W+'" height="'+BH+'" rx="5" fill="none" stroke="#3B2417" stroke-width="3"/>');
+        s.push('<text x="'+(X+W/2)+'" y="'+(y+BH+17)+'" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="800" font-size="13" fill="#4A5068">'+(g>1?(lo/g)+' of '+(n/g)+' parts of '+g+' '+esc(r.small.unit):lo+' of the '+n+' '+esc(r.small.name[1])+' in one more '+esc(r.big.name[0]))+'</text>');
+        y+=BH+26;}}
+    svg.innerHTML=s.join('');svg.setAttribute('viewBox','0 0 640 '+Math.max(80,y));
+    svg.setAttribute('aria-label',st.w[i]+' whole '+nm(r.big,st.w[i])+(r.mode==='split'?(st.cut[i]?' and one more '+r.big.name[0]+' cut into '+st.cut[i]+' equal parts, '+taken(i)+' taken':' and one more '+r.big.name[0]+', not cut yet'):', '+st.pile[i]+' '+r.small.name[1]+(st.pile[i]>=r.rate?' still to mark off':' left over')));}
+  function mixForm(id,q,unit){return '<form class="bm-form mk-two ok-fracform ok-mixform" data-f="'+id+'"><span class="mk-two-q">'+q+'</span><input type="text" inputmode="numeric" autocomplete="off" class="ok-mix-w" aria-label="whole '+esc(R().big.name[1])+'"><span class="ok-frac ok-frac-in"><input type="text" inputmode="numeric" autocomplete="off" aria-label="top number"><i></i><input type="text" inputmode="numeric" autocomplete="off" aria-label="bottom number"></span><span class="bm-u">'+esc(unit)+'</span><button type="submit" class="ok-btn">Check</button></form>';}
+  function render(){var i=st.cur,r=R(),n=r.rate;
+    if(rounds.length>1)$$('.ok-rounds button',root).forEach(function(b,k){b.classList.toggle('on',k===i);b.classList.toggle('won',!!st.won[k]);b.setAttribute('aria-selected',k===i);});
+    $('.ok-do',root).innerHTML=st.won[i]?'<span class="ok-step" style="background:#1E8C5A">Done</span>'+(r.doneText||''):r.text;
+    // the tag, split on a bond
+    if(r.mode==='split')tagEl.innerHTML='<span class="ok-sp-whole">'+mixed(r.w,r.n,r.d,r.big.unit)+'</span><span class="ok-sp-legs" aria-hidden="true">⟋ ⟍</span><span class="ok-sp-parts"><span>'+r.w+' '+esc(r.big.unit)+'</span><span>'+frac(r.n,r.d)+' '+esc(r.big.unit)+'</span></span>';
+    else tagEl.innerHTML='<span class="ok-sp-whole">'+(r.startWholes?r.startWholes+' '+esc(r.big.unit)+' '+r.total+' '+esc(r.small.unit):r.total+' '+esc(r.small.unit))+'</span><span class="ok-sp-legs" aria-hidden="true">⟋ ⟍</span><span class="ok-sp-parts"><span>whole '+esc(r.big.name[1])+'</span><span>leftover</span></span>';
+    var w='';if(!st.won[i]){
+      if(r.mode==='split')w='<button type="button" class="ok-btn ok-sp-add">+ 1 whole '+esc(r.big.name[0])+'</button><button type="button" class="ok-btn ok-sp-sub">− 1</button>';
+      else if(st.pile[i]>=n)w='<button type="button" class="ok-btn ok-sp-mark">Mark off 1 whole '+esc(r.big.name[0])+' ('+n+' '+esc(r.small.unit)+')</button>';}
+    wb.innerHTML=w;wb.style.display=w?'':'none';
+    var b='';
+    if(r.mode==='split'&&!st.won[i])(r.cuts||[2,3,4,6,12]).forEach(function(c){b+='<button type="button" class="ok-btn ok-cut-btn'+(st.cut[i]===c?' on':'')+'" data-n="'+c+'">Cut into '+c+'</button>';});
+    else if(r.mode==='group'&&st.raw[i]&&!st.won[i])(r.groups||[2,3,4,6]).forEach(function(g){b+='<button type="button" class="ok-btn ok-grp-btn'+(st.grp[i]===g?' on':'')+'" data-n="'+g+'">Parts of '+g+' '+esc(r.small.unit)+'</button>';});
+    btns.innerHTML=b;btns.style.display=b?'':'none';
+    var ad=$('.ok-sp-add',wb),sb=$('.ok-sp-sub',wb),mk=$('.ok-sp-mark',wb);if(ad)ad.onclick=function(){addWhole(1);};if(sb)sb.onclick=function(){addWhole(-1);};if(mk)mk.onclick=markOff;
+    $$('.ok-cut-btn',btns).forEach(function(x){x.onclick=function(){cutTo(+x.dataset.n);};});
+    $$('.ok-grp-btn',btns).forEach(function(x){x.onclick=function(){groupTo(+x.dataset.n);};});
+    drawStrip();
+    var sym=$('.ok-sym',root),t=taken(i);
+    if(r.mode==='split'){var c=st.cut[i];
+      sym.innerHTML='<span class="big">'+st.w[i]+' whole '+nm(r.big,st.w[i])+(c?' + '+t+' of '+c+' parts':'')+'</span><span class="exp">'+(st.w[i]?'each whole '+r.big.name[0]+' is '+n+' '+r.small.name[1]:'add the whole '+r.big.name[1]+' first')+(c?' · each part is '+(n/c)+' '+nm(r.small,n/c):'')+'</span>';}
+    else{var g=st.grp[i]||1,lo=st.pile[i];
+      sym.innerHTML=lo>=n?'<span class="big">'+st.w[i]+' whole '+nm(r.big,st.w[i])+' marked off</span><span class="exp">'+lo+' '+r.small.name[1]+' still on the tape</span>':
+        '<span class="big">'+st.w[i]+' whole '+nm(r.big,st.w[i])+' + '+(g>1?(lo/g)+' of '+(n/g)+' parts':lo+' of '+n+' '+r.small.name[1])+'</span><span class="exp">'+(g>1?'parts of '+g+' '+r.small.name[1]:'the leftover over the whole '+r.big.name[0]+', in '+r.small.name[1])+'</span>';}
+    // the ask
+    var show='';
+    if(r.mode==='split'&&(ready(i)||st.won[i])&&r.asks)show='ask'+Math.min(st.ask[i],r.asks.length-1);
+    if(r.mode==='group'&&st.pile[i]<n){var simpleRaw=gcd(st.pile[i],n)===1||st.pile[i]===0;
+      show=!st.raw[i]?'raw':st.won[i]?(simpleRaw?'raw':'simp'):(st.grp[i]||1)>1?'simp':'wait';}
+    if(askEl.dataset.r!==i+':'+show){askEl.dataset.r=i+':'+show;askEl.innerHTML='';
+      if(show.indexOf('ask')===0){var A=r.asks[+show.slice(3)],sa=st.a[i]['k'+show]||[];
+        askEl.innerHTML='<form class="bm-form mk-two"><span class="mk-two-q">'+A.q+'</span>'+A.units.map(function(u,k){return '<input type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc(A.q.replace(/<[^>]+>/g,'')+' '+u)+'" value="'+esc(sa[k]||'')+'"><span class="bm-u">'+esc(u)+'</span>';}).join('')+'<button type="submit" class="ok-btn">Check</button></form>';
+        var f=$('form',askEl),ins=$$('input',f),ai=+show.slice(3);if(st.won[i]||st.ask[i]>ai)ins.forEach(function(x){x.disabled=true;});
+        f.onsubmit=function(e){e.preventDefault();var j=st.cur;if(st.won[j])return;var vs=ins.map(function(x){return num(x.value);});st.a[j]['k'+show]=ins.map(function(x){return x.value;});save();
+          if(vs.some(function(x){return x==null;}))return say(ins.length>1?'Type a number in each box.':'Type a number first.','hint');
+          if(vs.every(function(x,k){return x===A.answer[k];})){ins.forEach(function(x){x.disabled=true;});say(A.doneText||'Yes!','good');
+            if(ai<r.asks.length-1){st.ask[j]=ai+1;save();snd.done();askEl.dataset.r='';render();say(A.doneText||'Yes!','good');return;}
+            st.ask[j]=r.asks.length;save();win(j);return;}
+          snd.no();var m=(A.mistakes||[]).filter(function(z){return z.v.every(function(x,k){return x===vs[k];});})[0];
+          if(m)return say(m.text,'hint');say(A.hint||'Count the whole '+R().big.name[1]+' and the parts you took.','hint');};
+        // earlier asks of this round stay on screen, filled in
+        for(var pa=ai-1;pa>=0;pa--){var P=r.asks[pa],sv=st.a[i]['kask'+pa]||P.answer;var old2=document.createElement('div');old2.className='ok-sp-old';
+          old2.innerHTML='<div class="bm-form mk-two"><span class="mk-two-q">'+P.q+'</span>'+P.units.map(function(u,k){return '<input type="text" disabled value="'+esc(sv[k]!=null?sv[k]:P.answer[k])+'"><span class="bm-u">'+esc(u)+'</span>';}).join('')+'</div>';askEl.insertBefore(old2,askEl.firstChild);}}
+      if(show==='raw'||show==='simp'){var simp=show==='simp',lo2=st.pile[i];
+        askEl.innerHTML=mixForm(show,simp?(r.simpQ||'In simplest form:'):(r.rawQ||'Whole '+r.big.name[1]+', then the leftover over '+n+':'),r.big.unit);
+        var f2=$('form',askEl),ii=$$('input',f2),sv2=st.a[i][show]||[];ii.forEach(function(x,k){x.value=sv2[k]||'';});
+        if(st.won[i]){ii.forEach(function(x){x.disabled=true;});var ans=simp?[r.answer.w,r.answer.n,r.answer.d]:[st.w[i],lo2,n];ii.forEach(function(x,k){x.value=ans[k];});}
+        else if(simp){var o=document.createElement('div');o.className='ok-sp-old';o.innerHTML='<div class="bm-form mk-two"><span class="mk-two-q">'+(r.rawQ||'Whole '+r.big.name[1]+', then the leftover over '+n+':')+'</span><span class="ok-mixed"><b>'+st.w[i]+'</b>'+frac(lo2,n)+' '+esc(r.big.unit)+'</span></div>';askEl.insertBefore(o,askEl.firstChild);}
+        f2.onsubmit=function(e){e.preventDefault();var rr=R(),j=st.cur;if(st.won[j])return;var v=ii.map(function(x){return num(x.value);});st.a[j][show]=ii.map(function(x){return x.value;});save();
+          if(v.some(function(x){return x==null;}))return say('Type the whole number, the top number and the bottom number.','hint');
+          var lo3=st.pile[j],wh=st.w[j],A2=rr.answer;
+          if(!simp){if(v[0]===wh&&v[1]===lo3&&v[2]===rr.rate){st.raw[j]=true;save();
+              if(gcd(lo3,rr.rate)===1||lo3===0){ii.forEach(function(x){x.disabled=true;});say(rr.rawDone||('Yes: '+wh+' whole '+nm(rr.big,wh)+' and '+lo3+' '+nm(rr.small,lo3)+' out of the '+rr.rate+' in one more '+rr.big.name[0]+'. No bigger equal part fits both numbers, so it is already in simplest form.'),'good');win(j);return;}
+              snd.done();say(rr.rawDone||('Yes: '+wh+' whole '+nm(rr.big,wh)+' and '+lo3+' out of '+rr.rate+'. Now make bigger equal parts to find the simplest form.'),'good');askEl.dataset.r='';render();return;}
+            snd.no();var m1=(rr.rawMistakes||[]).filter(function(z){return z.w===v[0]&&z.n===v[1]&&z.d===v[2];})[0];if(m1)return say(m1.text,'hint');
+            if(v[0]===A2.w&&v[1]===A2.n&&v[2]===A2.d)return say('That is the simplest form, and it is right! First write the leftover the long way: the '+rr.small.name[1]+' left over, out of the '+rr.rate+' in one whole '+rr.big.name[0]+'.','hint');
+            if(v[0]!==wh)return say('The whole number is how many whole '+rr.big.name[1]+' you marked off: count the blue bars.','hint');
+            if(v[2]===1||v[2]===rr.total||v[2]!==rr.rate)return say('The bottom number is the whole: one '+rr.big.name[0]+', written in '+rr.small.name[1]+'. How many '+rr.small.name[1]+' make 1 '+rr.big.name[0]+'?','hint');
+            return say('Top: how many '+rr.small.name[1]+' are left over (green on the last bar)?','hint');}
+          if(v[0]===A2.w&&v[1]===A2.n&&v[2]===A2.d){ii.forEach(function(x){x.disabled=true;});say(rr.doneText2||('Yes! '+A2.w+' and '+A2.n+' of '+A2.d+' equal parts. That is the simplest form.'),'good');win(j);return;}
+          snd.no();var m2=(rr.simpMistakes||[]).filter(function(z){return z.w===v[0]&&z.n===v[1]&&z.d===v[2];})[0];if(m2)return say(m2.text,'hint');
+          if(v[0]!==A2.w)return say('The whole '+rr.big.name[1]+' stay the same: '+wh+'. Only the leftover gets simpler.','hint');
+          if(v[1]*A2.d===v[2]*A2.n)return say(frac(v[1],v[2])+' is equal, but it is not the simplest form yet. Try bigger parts so fewer of them fill the bar.','hint');
+          return say('Read the last bar: how many parts are green, out of how many parts in all?','hint');};}}
+    var nx=$('.ok-next',root);
+    if(st.won[i]&&i<rounds.length-1){if(!nx){nx=document.createElement('button');nx.className='ok-btn ok-next';nx.type='button';nx.textContent='Next →';nx.onclick=function(){st.cur++;save();say('');askEl.dataset.r='';render();};$$('.ok-row',root).pop().appendChild(nx);}}
+    else if(nx)nx.remove();}
+  // tap a part; drag across several (pointer events)
+  var paint=null;
+  function hitAt(e){var el=document.elementFromPoint(e.clientX,e.clientY);return el&&svg.contains(el)&&el.classList.contains('ok-part')?el:null;}
+  svg.style.touchAction='none';
+  svg.addEventListener('pointerdown',function(e){var el=hitAt(e);if(!el)return;var k=+el.dataset.k,i=st.cur;paint={id:e.pointerId,v:!st.on[i][k],last:k};try{svg.setPointerCapture(e.pointerId);}catch(x){}e.preventDefault();setOn(i,k,paint.v);});
+  svg.addEventListener('pointermove',function(e){if(!paint||paint.id!==e.pointerId)return;var el=hitAt(e);if(!el)return;var k=+el.dataset.k;if(k===paint.last)return;paint.last=k;setOn(st.cur,k,paint.v);});
+  function end(e){if(paint&&paint.id===e.pointerId)paint=null;}
+  svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+  svg.addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ')return;var el=e.target;if(!el.dataset||el.dataset.k==null)return;e.preventDefault();setOn(st.cur,+el.dataset.k,!st.on[st.cur][+el.dataset.k]);});
+  if(rounds.length>1)$$('.ok-rounds button',root).forEach(function(b){b.onclick=function(){st.cur=+b.dataset.i;save();say('');askEl.dataset.r='';render();};});
+  $('.ok-reset',root).onclick=function(){var i=st.cur,r=R();st.w[i]=r.mode==='group'?(r.startWholes||0):0;st.pile[i]=r.total||0;st.cut[i]=0;st.on[i]=[];st.ask[i]=0;st.raw[i]=false;st.grp[i]=0;st.won[i]=false;st.a[i]={};save();say('');askEl.dataset.r='';render();};
+  render();
+  return {state:st};
+}
+K.splitter=splitter;K.ribbon=ribbon;K.clock=clock;K.pour=pour;K.scale=scale;K.unitMat=unitMat;K.tradeMat=tradeMat;K.stamps=stamps;K.barModel=barModel;K.numberBond=numberBond;K.mentalMath=mentalMath;K.challenge=challenge;
 })(OAOKit);

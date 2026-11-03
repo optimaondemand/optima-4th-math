@@ -46,7 +46,7 @@ window.PQ_MAP=[
 "id": "4.10.07",
 "title": "Fractions and Measurement — Part 2",
 "file": "math-lesson-4-10-07-fractions-and-measurement-pt-2.html",
-"sparkled": false
+"sparkled": true
 }
 ]
 },

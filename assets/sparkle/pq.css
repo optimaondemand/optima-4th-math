@@ -676,3 +676,17 @@ body.pqi-on{overflow:hidden}
 .ok-frac i{display:block;width:100%;min-width:18px;height:3px;background:currentColor;border-radius:2px}
 .ok-frac-in input{width:3.2em !important;text-align:center;margin:0 !important}
 .ok-frac-in i{margin:3px 0;background:#2B3040}
+/* Mixed-Number Splitter (OAOKit.splitter): the tag split on a bond, whole-unit bars, a mixed-number answer form */
+.ok-splitter .ok-sp-tag{display:flex;flex-direction:column;align-items:center;gap:0;margin:2px 0 6px;font-family:Nunito,sans-serif;font-weight:900;color:#3B2417}
+.ok-splitter .ok-sp-whole{background:#FFF3C4;border:3px solid #3B2417;border-radius:999px;padding:4px 16px;font-size:20px}
+.ok-splitter .ok-sp-legs{font-size:20px;line-height:1;color:#3B2417;letter-spacing:22px;margin-left:22px}
+.ok-splitter .ok-sp-parts{display:flex;gap:18px}
+.ok-splitter .ok-sp-parts>span{background:#FFFFFF;border:3px solid #3B2417;border-radius:999px;padding:3px 14px;font-size:17px;display:inline-flex;align-items:center}
+.ok-splitter .ok-sp-parts>span:first-child{border-color:#1F8FB4}
+.ok-splitter .ok-sp-parts>span:last-child{border-color:#C2601F}
+.ok-splitter .ok-sp-wbtns{justify-content:center;flex-wrap:wrap;margin:0 0 4px}
+.ok-mixed{display:inline-flex;align-items:center;gap:2px;font-weight:900}
+.ok-mixed>b{font-size:1.15em;padding-right:2px}
+.ok-mixform .ok-mix-w{width:3.2em !important;text-align:center}
+.ok-sp-old{opacity:.8;margin-bottom:4px}
+.ok-sp-old .bm-form{pointer-events:none}

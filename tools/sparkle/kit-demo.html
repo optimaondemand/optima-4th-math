@@ -10,6 +10,7 @@
 <div class="demo"><h2>Two-Unit Mat</h2><code>OAOKit.unitMat(el, cfg)</code><div id="d-um"></div></div>
 <div class="demo"><h2>Store Scale (lb and oz dial)</h2><code>OAOKit.scale(el, cfg)</code><div id="d-sc"></div></div>
 <div class="demo"><h2>Clock Hands (time)</h2><code>OAOKit.clock(el, cfg)</code><div id="d-clock"></div></div>
+<div class="demo"><h2>Mixed-Number Splitter (mixed numbers of a unit)</h2><code>OAOKit.splitter(el, cfg)</code><div id="d-spl"></div></div>
 <div class="demo"><h2>Ribbon Cutter (fractions of a unit)</h2><code>OAOKit.ribbon(el, cfg)</code><div id="d-rib"></div></div>
 <div class="demo"><h2>Pour Station (capacity)</h2><code>OAOKit.pour(el, cfg)</code><div id="d-pour"></div></div>
 <div class="demo"><h2>Trade Mat (any rate)</h2><code>OAOKit.tradeMat(el, cfg)</code><div id="d-tm"></div></div>
@@ -39,6 +40,12 @@ OAOKit.scale($('d-sc'),{rounds:[
 OAOKit.clock($('d-clock'),{rounds:[
   {name:'Group up',rate:60,big:{unit:'h',name:['hour','hours']},small:{unit:'min',name:['minute','minutes']},target:75,show:'count',text:'Wind 75 minutes.',ask:{q:'75 min =',units:['h','min'],answer:[1,15],mistakes:[{v:[0,75],text:'Count the full turns.'}]},doneText:'75 min = 1 h 15 min.'},
   {name:'Day wheel',rate:24,face:'day',big:{unit:'day',name:['day','days']},small:{unit:'h',name:['hour','hours']},target:50,show:'turns',steps:[1,6],text:'Wind 2 days 2 hours.',doneText:'2 days 2 h.'}]});
+OAOKit.splitter($('d-spl'),{rounds:[
+  {name:'Split it',mode:'split',rate:12,big:{unit:'ft',name:['foot','feet']},small:{unit:'in',name:['inch','inches']},w:2,n:5,d:6,cuts:[2,3,4,6,12],
+   text:'Split <b>2 5/6 ft</b>: add the whole feet, then cut one more foot and take the fraction part.',
+   asks:[{q:'2 5/6 ft =',units:['ft','in'],answer:[2,10],mistakes:[{v:[2,34],text:'Only the fraction part changes for feet and inches.'}]},{q:'2 5/6 ft =',units:['in'],answer:[34]}],doneText:'2 5/6 ft = 2 ft 10 in = 34 in.'},
+  {name:'Group it',mode:'group',rate:12,big:{unit:'ft',name:['foot','feet']},small:{unit:'in',name:['inch','inches']},total:26,groups:[2,3,4,6],answer:{w:2,n:1,d:6},
+   text:'Write <b>26 in</b> as a mixed number of feet: mark off whole feet, then put the leftover over 12.',doneText:'26 in = 2 2/12 ft = 2 1/6 ft.'}]});
 OAOKit.ribbon($('d-rib'),{rounds:[
   {name:'Take parts',mode:'take',rate:12,big:{unit:'ft',name:['foot','feet']},small:{unit:'in',name:['inch','inches']},num:2,den:3,cuts:[2,3,4,6,12],
    text:'Find <b>2/3</b> of a foot: cut the foot into equal parts, then take some.',ask:{q:'2/3 ft =',units:['in'],answer:[8],mistakes:[{v:[4],text:'That is one part. Take 2.'}]},doneText:'2/3 ft = 8 in.'},
