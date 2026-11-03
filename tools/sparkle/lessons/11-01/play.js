@@ -15,7 +15,7 @@ let fails=0;function ok(c,m){console.log((c?'ok   ':'FAIL ')+m);if(!c)fails++;}
     for(let i=0;i<200;i++){
       const st=await p.evaluate(s=>{const r=document.querySelector(s),t=r.querySelector('.cw-task');return {task:t.classList.contains('on')?t.textContent:'',reply:r.querySelectorAll('.cw-reply').length,kb:r.querySelectorAll('.cw-task.on .cw-kb button:not(.seen)').length,go:!!r.querySelector('.cw-task.on .cw-go'),next:r.querySelector('.cw-next').classList.contains('on'),text:r.querySelector('.cw-text').textContent};},sel);
       if(st.kb&&!st.go){await p.click(sel+' .cw-kb button:not(.seen) >> nth=0');await p.waitForTimeout(150);continue;}
-      if(st.go&&/Go on$/.test(st.task.trim().split('\n')[0])||st.go&&st.kb){await p.click(sel+' .cw-task .cw-go');await p.waitForTimeout(300);continue;}
+      if(st.go&&(/\d of \d/.test(st.task)||st.kb))   /* the explore step's Go on (its task shows the "2 of 2" counter) */{await p.click(sel+' .cw-task .cw-go');await p.waitForTimeout(300);continue;}
       if(st.go){if(shot)await p.screenshot({path:path.join(OUT,'win-'+id+'.png')});return st.task;}
       if(st.reply){await p.click(sel+' .cw-reply >> nth=0');await p.waitForTimeout(1200);continue;}
       await p.click(sel+' .cw-dlg',{force:true});await p.waitForTimeout(st.next?150:1600);
@@ -33,6 +33,7 @@ let fails=0;function ok(c,m){console.log((c?'ok   ':'FAIL ')+m);if(!c)fails++;}
 
   // Warm-Up
   const t1=await playWin('gold',true);ok(t1&&/1 ft 6 in by 2 in/.test(t1),'window "gold" ends with the written job');
+  ok(JSON.parse(await p.evaluate(()=>localStorage.getItem('g4-4-11-01-predict'))||'{}').id==='strip','gold window: the prediction is saved for the page');
   ok(await p.evaluate(()=>document.querySelector('.cw-slot[data-win="gold"] .cw-tag.on')!==null),'gold window: measure tags shown on the panels');
   const TA='[data-mk-model="think"] .cw-think-a',TB='[data-mk-model="think"] .cw-think-b';
   await drag(TA,0,0,17,0);await drag(TA,0,1,17,1);
@@ -40,6 +41,9 @@ let fails=0;function ok(c,m){console.log((c?'ok   ':'FAIL ')+m);if(!c)fails++;}
   await tap(TB,0,0);ok((await p.evaluate(s=>document.querySelector(s+' .ag-sym').textContent,TB)).includes('1'),'Think square: a tap lays a tile');
   await wrongThenRight(TA,0,32,36,'Think strip');await wrongThenRight(TB,0,24,36,'Think square');
   ok(await job('j1'),'job 1 done');
+  await p.waitForTimeout(900);ok(await p.$eval('.cw-same36',e=>!e.hidden),'Think solved: the same 36 tiles appear');
+  ok(/you thought the strip needed more gold/.test(await p.textContent('.cw-same36')),'Leonardo comes back to the prediction');
+  await p.locator('.cw-same36').screenshot({path:path.join(OUT,'same36.png')});
   await p.fill('#journal-notice','I notice the strip is long and thin and it uses feet. I wonder which needs more gold?');
   ok((await p.$$eval('#journal-notice ~ .pq-write .pq-chip.on',x=>x.length))===2,'notice box: a natural answer lights both chips');
   await p.fill('#journal-notice','idk');ok((await p.$$eval('#journal-notice ~ .pq-write .pq-chip.on',x=>x.length))===0,'notice box: "idk" lights none');

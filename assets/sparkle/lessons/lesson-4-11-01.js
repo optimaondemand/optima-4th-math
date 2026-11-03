@@ -13,43 +13,32 @@ var CW_DATA = {
       people:['leo'],
       objects:[{id:'strip',kind:'panel',x:92,y:46,w:72,h:8,name:'the strip',dims:{w:'1 ft 6 in',h:'2 in'}},
                {id:'square',kind:'panel',x:127,y:81,w:24,h:24,name:'the square panel',dims:{w:'6 in',h:'6 in'}}],
-      exploreText:'Click 2 things that glow gold to look up close.',
+      exploreText:'Click the 2 things that glow gold to look up close.',
+      /* only things that carry the math are clickable (3 Nov 2026): the panels and one gold sheet */
       spots:[
         {id:'panels',label:'The panels',x:88,y:42,w:80,h:66,zoom:1.5,lines:['These two wooden panels are for the Duke\'s hall.','One is a long, thin strip. One is a square. Both will be covered in gold.']},
         {id:'gold',label:'The gold',x:221,y:99,w:17,h:13,card:'<b class="h">1 gold sheet</b>Each sheet is a square, 1 inch on every side. On your page, a yellow tile like this stands for 1 sheet.<div class="cw-leaf"><div class="sq"><span class="side b">1 in</span><span class="side r">1 in</span></div></div>',
-         lines:['This is gold leaf. It\'s real gold, pounded very flat.','Each sheet is a square, 1 inch on every side. See?']},
-        {id:'book',label:'The notebook',x:172,y:99,w:30,h:13,card:'<b class="h">Leonardo\'s notebook</b>He wrote backward, like writing in a mirror. This says:<br><span class="mirror">Measure twice.</span>',
-         lines:['This is my notebook. I write backward, like in a mirror. Can you read it?','It says, "Measure twice." I write that a lot.']}],
+         lines:['This is gold leaf. It\'s real gold, pounded very flat.','Each sheet is a square, 1 inch on every side. See?']}],
+      /* under a minute: why Leonardo, the panels, a prediction the page comes back to, the units question */
       script:[
-        {w:'leo',t:'Hello! Come in. I\'m Leonardo da Vinci. I paint pictures and build machines.'},
-        {w:'leo',t:'Before I paint anything, I measure it. A painter has to know how much space there is to cover.'},
-        {w:'leo',t:'Do you ever look at a tabletop, or a floor, and wonder how much space it covers?',wonder:'How could you find out how much space is on this table?'},
-        {w:'leo',t:'Today the Duke of Milan wants two panels covered in gold. I need a helper who is good with numbers. That\'s you!'},
-        {w:'leo',t:'Look around first. The things that glow gold are things you can click.'},
+        {w:'leo',t:'Hello! I\'m Leonardo da Vinci. I paint pictures, and before I paint anything, I measure it.'},
+        {w:'leo',t:'The Duke of Milan wants two panels covered in gold. I need a helper who is good with numbers. That\'s you!'},
         {explore:{need:2}},
         {narr:'Someone knocks. The door opens.'},
         {enter:'bern'},
-        {w:'bern',t:'Master Leonardo! The Duke\'s gold is here. It cost a lot of money, so we can\'t waste a single sheet.'},
-        {card:'<b class="h">1 gold sheet</b>Each sheet is a square, 1 inch on every side.<div class="cw-leaf"><div class="sq"><span class="side b">1 in</span><span class="side r">1 in</span></div></div>'},
-        {w:'bern',t:'Each sheet is a square, 1 inch on every side.'},
-        {card:null},{focus:['strip','square']},{tags:['strip:name','square:name']},
-        {w:'bern',t:'Look at these two panels. This one is the strip. That one is the square panel.'},
-        {tags:['strip:w','square:w','square:h']},
-        {w:'bern',t:'The strip is 1 foot 6 inches long. The square is 6 inches on each side.'},
-        {w:'bern',t:'The strip is so much longer. It will need way more gold. Anyone can see that!'},
-        {w:'leo',t:'Hmm. What do you think? Which panel needs more gold?'},
-        {prompt:'Look at the two panels with gold borders. Pick what you think.',choice:[
-          {say:'The strip needs more.',then:[{w:'leo',t:'It does look that way. The strip is very long. But it\'s also very thin.'}]},
-          {say:'The square panel needs more.',then:[{w:'leo',t:'Interesting! The square is short, but it\'s much wider than the strip.'}]},
-          {say:'They need the same.',then:[{w:'leo',t:'Maybe! How could we check without guessing?'}]},
-          {say:'I\'m not sure yet.',then:[{w:'leo',t:'Good. "Not sure yet" is a great place to start.'}]}]},
-        {w:'leo',t:'Looking is a good start. But sometimes our eyes trick us.',wonder:'How could we know for sure how many gold sheets each panel needs?'},
-        {w:'leo',t:'Bernardo, how wide is the strip?'},
+        {w:'bern',t:'Master Leonardo! The Duke\'s gold is here. It cost a lot, so we can\'t waste a single sheet.'},
+        {focus:['strip','square']},{tags:['strip:name','square:name','strip:w','square:w','square:h']},
+        {w:'bern',t:'The strip is 1 foot 6 inches long. The square is 6 inches on each side. The strip will need way more gold!'},
+        {w:'leo',t:'Hmm. What do you think?'},
+        {prompt:'Which panel needs more gold? Pick what you think now. You will find out soon.',save:'predict',choice:[
+          {id:'strip',say:'The strip needs more.',then:[{w:'leo',t:'It does look that way. The strip is very long. But it\'s also very thin.'}]},
+          {id:'square',say:'The square panel needs more.',then:[{w:'leo',t:'Interesting! The square is short, but it\'s much wider than the strip.'}]},
+          {id:'same',say:'They need the same.',then:[{w:'leo',t:'Maybe! We\'ll have to check.'}]},
+          {id:'unsure',say:'I\'m not sure yet.',then:[{w:'leo',t:'Good. "Not sure yet" is a fine place to start.'}]}]},
         {tags:['strip:h']},
-        {w:'bern',t:'2 inches wide. Does that matter?'},
-        {w:'leo',t:'It might matter a lot.'},
-        {w:'leo',t:'Look at the tags. The strip\'s length is in feet and inches. The square and the gold sheets are in inches.',wonder:'Are all the lengths in the same units? What would we need to do first?'},
-        {w:'leo',t:'Let\'s find out how many gold sheets each panel needs. Then Bernardo will know how much gold to use.'}],
+        {w:'bern',t:'Oh, and the strip is 2 inches wide.'},
+        {w:'leo',t:'Look at the tags. The strip\'s length is in feet and inches. The gold sheets are in inches.',wonder:'Are all the lengths in the same units?'},
+        {w:'leo',t:'Let\'s count the gold for each panel. Then we\'ll know for sure.'}],
       end:{task:'Find out how many 1-inch gold sheets cover <b>the strip</b> (1 ft 6 in by 2 in) and how many cover <b>the square panel</b> (6 in by 6 in).',go:{tab:'warmup',sel:'#mk-think',label:'Go to the panels ↓'}}},
 
     /* Learn, before Job 4: Bernardo's note (the unit mistake from the guide and the IP's find-and-fix) */
@@ -75,7 +64,6 @@ var CW_DATA = {
       script:[
         {w:'bern',t:'Master Leonardo! The gold was just right. Not one sheet wasted!'},
         {w:'leo',t:'Because you measured, and you put every length in the same unit first.'},
-        {w:'leo',t:'Area is everywhere: a floor, a wall, a garden, the cover of a book.',wonder:'What is something in your home you would like to know the area of?'},
         {w:'bern',t:'Now the Duke has a new wish. He sent a letter.'},
         {card:'<b class="h">A letter from the Duke</b><span class="hand">Leonardo, make me a gold panel that uses exactly 48 gold sheets. It must be 4 inches wide. How long will it be?<br>— Ludovico, Duke of Milan</span>'},
         {w:'leo',t:'How long must it be? That is a puzzle for next time.'}],
@@ -154,7 +142,8 @@ function modelThink(m){
      Shown only after the Think is solved, so it never gives the answer away. */
   var same=sub(m,'cw-same36');same.hidden=true;
   var T=16,svgNS='http://www.w3.org/2000/svg',W=18*T+12,H=6*T+12;
-  same.innerHTML='<div class="cw-same-h">🔁 The same gold, a new shape</div><svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="36 gold tiles that cover the strip move into a 6 by 6 square. There are 36 tiles both times."></svg>'+
+  var PRED={strip:'Before you counted, you thought the strip needed more gold.',square:'Before you counted, you thought the square panel needed more gold.',same:'Before you counted, you thought they needed the same. You were right!',unsure:'Before you counted, you weren\'t sure.'};
+  same.innerHTML='<div class="cw-predict" hidden><canvas width="32" height="32" aria-hidden="true"></canvas><p></p></div><div class="cw-same-h">🔁 The same gold, a new shape</div><svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="36 gold tiles that cover the strip move into a 6 by 6 square. There are 36 tiles both times."></svg>'+
     '<div class="cw-same-row"><button type="button" class="ok-btn cw-same-go">▶ Move the 36 tiles into a square</button><span class="cw-same-n">36 tiles</span></div>'+
     '<p class="cw-same-q"><b>Think:</b> What changed? What stayed the same?</p>';
   var sv=same.querySelector('svg'),tiles=[],shape=0,rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -164,7 +153,10 @@ function modelThink(m){
     tiles.forEach(function(r,k){var d=Math.min(1,Math.max(0,q*1.6-k/36*0.6)),e=d<.5?2*d*d:1-Math.pow(-2*d+2,2)/2,a=at(k,1-to),b=at(k,to);r.setAttribute('x',a.x+(b.x-a.x)*e+1);r.setAttribute('y',a.y+(b.y-a.y)*e+1);});
     if(q<1)requestAnimationFrame(f);})(t0);}
   var go=same.querySelector('.cw-same-go');go.onclick=function(){shape=1-shape;move(shape);go.textContent=shape?'◀ Move them back into the strip':'▶ Move the 36 tiles into a square';};
-  (function wait(){if(ok()){same.hidden=false;return;}setTimeout(wait,700);})();
+  function predict(){var pr=OAOKit._ls('g4-4-11-01-predict',null),box=same.querySelector('.cw-predict');   /* read when shown: the window may come after */
+    if(!pr||!PRED[pr.id])return;box.querySelector('p').innerHTML='<b>Leonardo:</b> '+PRED[pr.id]+' You counted 36 sheets for each panel. What do you think now?';box.hidden=false;
+    var pc=box.querySelector('canvas');if(pc&&window.CWART)CWART.portrait(pc,'leo',true);}
+  (function wait(){if(ok()){same.hidden=false;predict();return;}setTimeout(wait,700);})();
 }
 /* Learn · Job 1: the frame piece (feet and inches) and the storeroom floor (yards and feet). Dimensions' model: tiles along one
    edge and down the other, then multiply. The tool never shows the total. */

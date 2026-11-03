@@ -325,3 +325,8 @@ body.cw-page .activity.cw-now,body.cw-page .q-block.cw-now{border-color:var(--cw
 .cw-kind-do{background:#fff3c4;color:#6b4a00}
 .cw-kind-write{background:#efe9fb;color:#4c3a7a}
 .cw-kind-read{background:#e9f1fb;color:#1f3f6b}
+
+/* the window's prediction comes back on the page */
+.cw-predict{display:flex;gap:10px;align-items:center;margin:0 0 12px;padding:10px 12px;background:#fffaf0;border:1.5px solid #e3d3ad;border-radius:12px}
+.cw-predict canvas{width:44px;height:44px;flex:none;border-radius:50%;image-rendering:pixelated;box-shadow:0 0 0 2px #fff,0 0 0 3.5px #d9c9a3}
+.cw-predict p{margin:0;font-size:16px;line-height:1.45}

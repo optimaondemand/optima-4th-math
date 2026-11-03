@@ -8,7 +8,7 @@
    spot = { id, x, y, w, h, lines:[…], card:'html' }      (clickable things during an explore step)
    step = { w:'leo', t:'…', wonder:'…' } · { narr:'…' } · { enter:'bern' } · { leave:'bern' } · { focus:['strip'] | null }
           { tags:['strip:name','strip:w','strip:h'], on:true|false } · { split:'strip' } · { card:'html' | null }
-          { explore:{need:2} } · { prompt:'…', choice:[{say, then:[steps]}] } · { pause:ms }
+          { explore:{need:2} } · { prompt:'…', choice:[{say, id, then:[steps]}], save:'predict' } · { pause:ms }
    Rules (Bethany, Nov 2026): every directive is written in a gold box; what students look at is lit, outlined and labeled;
    the window never does the math for students; dialogue is short and at a 4th-grade level. */
 var CW = (function(){
@@ -159,8 +159,8 @@ P.run=function(steps,done){var self=this,k=0;(function next(){if(!self.running)r
   if(s.choice){self.choice(s,next);return;}
   self.say(s.w||null,s.t||s.narr,{wonder:s.wonder,clip:s.clip?clip:null},next);})();};
 P.choice=function(s,done){var self=this;this.nx.classList.remove('on');this.rp.innerHTML='<div class="cw-ask"><span class="lead">👉 Your turn</span>'+(s.prompt||'Pick one.')+'</div>';
-  s.choice.forEach(function(o){var b=document.createElement('button');b.type='button';b.className='cw-reply';b.textContent=o.say;
-    b.onclick=function(ev){ev.stopPropagation();self.rp.innerHTML='';self.say('you',o.say,{noNext:true},function(){setTimeout(function(){self.run(o.then||[],done);},800);});};self.rp.appendChild(b);});
+  s.choice.forEach(function(o,k){var b=document.createElement('button');b.type='button';b.className='cw-reply';b.textContent=o.say;
+    b.onclick=function(ev){ev.stopPropagation();self.rp.innerHTML='';if(s.save)lsSet((D.key||'cw')+'-'+s.save,{i:k,id:o.id||String(k),say:o.say});   /* a prediction the page comes back to */self.say('you',o.say,{noNext:true},function(){setTimeout(function(){self.run(o.then||[],done);},800);});};self.rp.appendChild(b);});
   setTimeout(function(){var f=self.rp.querySelector('.cw-reply');if(f)try{f.focus({preventScroll:true});}catch(e){}},60);};
 /* explore: click the glowing things; a written counter says how many are left */
 P.xy=function(e){var r=this.cv.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*W,y:(e.clientY-r.top)/r.height*H};};
