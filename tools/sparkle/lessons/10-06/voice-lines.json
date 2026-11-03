@@ -90,8 +90,8 @@
    },
    {
     "who": "cora",
-    "t": "That's what the Smudge wrote! A third of an hour isn't 3 minutes. An hour is 60 minutes. Cut 60 into 3 equal parts.",
-    "key": "35175245"
+    "t": "That's what the Smudge wrote! A sixth of an hour isn't 6 minutes. An hour is 60 minutes. Cut 60 into 6 equal parts.",
+    "key": "1f844240"
    },
    {
     "who": "cora",
@@ -109,7 +109,7 @@
     "key": "8846a88f"
    }
   ],
-  "prompt": "Seven times 1,000 is 7,000. But a tenth means the liter is cut into 10 equal parts. One part is 100 milliliters. <break time=\"1.5s\" /> Four times 1,000 is 4,000. A fourth is one of 4 equal parts of the liter, so it is smaller than 1,000. <break time=\"1.5s\" /> Here is my rule for going backward, from inches to a fraction of a foot. <break time=\"1.5s\" /> The part and the whole must be in the same unit. 10 inches out of a foot is 10 inches out of 12 inches, never 10 out of 1. <break time=\"1.5s\" /> That's what the Smudge wrote! A third of an hour isn't 3 minutes. An hour is 60 minutes. Cut 60 into 3 equal parts. <break time=\"1.5s\" /> This tag is about a pound of tea, not a foot. A pound is 16 ounces. One fourth of 16 ounces is how many ounces? <break time=\"1.5s\" /> Hello, I'm Cora. Every ribbon here has a tag, and some of the tags look smudged. I don't trust them. <break time=\"1.5s\" /> Going backward, write the part over the whole in the same unit. Then make bigger equal parts to simplify."
+  "prompt": "Seven times 1,000 is 7,000. But a tenth means the liter is cut into 10 equal parts. One part is 100 milliliters. <break time=\"1.5s\" /> Four times 1,000 is 4,000. A fourth is one of 4 equal parts of the liter, so it is smaller than 1,000. <break time=\"1.5s\" /> Here is my rule for going backward, from inches to a fraction of a foot. <break time=\"1.5s\" /> The part and the whole must be in the same unit. 10 inches out of a foot is 10 inches out of 12 inches, never 10 out of 1. <break time=\"1.5s\" /> That's what the Smudge wrote! A sixth of an hour isn't 6 minutes. An hour is 60 minutes. Cut 60 into 6 equal parts. <break time=\"1.5s\" /> This tag is about a pound of tea, not a foot. A pound is 16 ounces. One fourth of 16 ounces is how many ounces? <break time=\"1.5s\" /> Hello, I'm Cora. Every ribbon here has a tag, and some of the tags look smudged. I don't trust them. <break time=\"1.5s\" /> Going backward, write the part over the whole in the same unit. Then make bigger equal parts to simplify."
  },
  "felix": {
   "voice_id": "MGT6a7Ww5AutlTP8OlBa",
@@ -156,13 +156,13 @@
    },
    {
     "who": "felix",
-    "t": "3 times 60 is 180. But a third is one of 3 equal parts of the hour, so it is less than 60 minutes.",
-    "key": "5c801bfe"
+    "t": "6 times 60 is 360. But a sixth is one of 6 equal parts of the hour, so it is less than 60 minutes.",
+    "key": "6c39cb8d"
    },
    {
     "who": "felix",
-    "t": "An hour is 60 minutes. A third means 3 equal parts. How many minutes in one part?",
-    "key": "32805dfd"
+    "t": "An hour is 60 minutes. A sixth means 6 equal parts. How many minutes in one part?",
+    "key": "19dcbf73"
    },
    {
     "who": "felix",
@@ -175,7 +175,7 @@
     "key": "26892c2b"
    }
   ],
-  "prompt": "That is one tenth. Ivy wants 7 of them. <break time=\"1.5s\" /> Cut 1,000 milliliters into 10 equal parts. One part is 100. Take 7 parts. <break time=\"1.5s\" /> Close! A liter is 1,000 milliliters, not 100. Cut 1,000 into 4 equal parts. <break time=\"1.5s\" /> Cut 1,000 milliliters into 4 equal parts. How big is one part? <break time=\"1.5s\" /> My way is to cut the foot into equal parts first. <break time=\"1.5s\" /> Sixths means 6 equal parts. 12 inches cut into 6 equal parts is 2 inches each. <break time=\"1.5s\" /> Then I take 5 of the parts. 5 times 2 inches is 10 inches. Same answer as Atlas! <break time=\"1.5s\" /> A fraction of a unit is a fraction of its small units. One third of a foot is one third of 12 inches. <break time=\"1.5s\" /> 3 times 60 is 180. But a third is one of 3 equal parts of the hour, so it is less than 60 minutes. <break time=\"1.5s\" /> An hour is 60 minutes. A third means 3 equal parts. How many minutes in one part? <break time=\"1.5s\" /> Hey, I'm Felix! I counted the hooks on the lantern string. Every one of them is empty. <break time=\"1.5s\" /> I cut the whole into equal parts first. Twelfths means 12 parts of 1 inch each. Seven parts is 7 inches."
+  "prompt": "That is one tenth. Ivy wants 7 of them. <break time=\"1.5s\" /> Cut 1,000 milliliters into 10 equal parts. One part is 100. Take 7 parts. <break time=\"1.5s\" /> Close! A liter is 1,000 milliliters, not 100. Cut 1,000 into 4 equal parts. <break time=\"1.5s\" /> Cut 1,000 milliliters into 4 equal parts. How big is one part? <break time=\"1.5s\" /> My way is to cut the foot into equal parts first. <break time=\"1.5s\" /> Sixths means 6 equal parts. 12 inches cut into 6 equal parts is 2 inches each. <break time=\"1.5s\" /> Then I take 5 of the parts. 5 times 2 inches is 10 inches. Same answer as Atlas! <break time=\"1.5s\" /> A fraction of a unit is a fraction of its small units. One third of a foot is one third of 12 inches. <break time=\"1.5s\" /> 6 times 60 is 360. But a sixth is one of 6 equal parts of the hour, so it is less than 60 minutes. <break time=\"1.5s\" /> An hour is 60 minutes. A sixth means 6 equal parts. How many minutes in one part? <break time=\"1.5s\" /> Hey, I'm Felix! I counted the hooks on the lantern string. Every one of them is empty. <break time=\"1.5s\" /> I cut the whole into equal parts first. Twelfths means 12 parts of 1 inch each. Seven parts is 7 inches."
  },
  "hazel": {
   "voice_id": "MkTSSXNgnBULS6ek4pon",

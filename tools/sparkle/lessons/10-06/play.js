@@ -111,9 +111,9 @@ await sweep(P,'ok-mark',0,4);ok((await sym(P)).includes('5 of 12 inches'),'prove
 ok((await frac(P,'5','1')).includes('Smudge wrote'),'prove: 5 over 1 (the Smudge\'s tag) gets the hint');ok((await frac(P,'12','5')).includes('part goes on top'),'prove: 12 over 5 gets the part-on-top hint');
 await frac(P,'5','12');ok((await msg(`${P} .ok-msg`)).includes('already in simplest form')&&await job('j6'),'job 6: the tag should say five twelfths ft, already simplest');
 await p.waitForTimeout(1300);await p.evaluate(()=>PQ._play('factory'));await p.waitForTimeout(800);await drain();
-await talkTo(12,12,'up');await talkTo(26,5,'up');ok(await padOn(),'factory: the gate asks one third of an hour');
-await pad(3);await drain();ok((await lastLog('factory')).includes('Smudge wrote'),'factory: 3 → Cora\'s hint');await pad(180);await drain();ok((await lastLog('factory')).includes('less than 60'),'factory: 180 → Felix\'s hint');
-await pad(20);for(let i=0;i<4;i++){await adv();await p.waitForTimeout(200);}await shot('factory','g-factory.png');await drain();await p.waitForTimeout(3000);
+await talkTo(12,12,'up');await talkTo(26,5,'up');ok(await padOn(),'factory: the gate asks one sixth of an hour');
+await pad(6);await drain();ok((await lastLog('factory')).includes('Smudge wrote'),'factory: 6 → Cora\'s hint');await pad(360);await drain();ok((await lastLog('factory')).includes('less than 60'),'factory: 360 → Felix\'s hint');
+await pad(10);for(let i=0;i<4;i++){await adv();await p.waitForTimeout(200);}await shot('factory','g-factory.png');await drain();await p.waitForTimeout(3000);
 ok(await p.evaluate(()=>!!PQ._state().world.factoryOpen&&!!PQ._state().done.factory),'factory quest: the brick factory is found (GOLEM PART 2)');
 await p.evaluate(()=>switchTab('warmup'));await p.waitForTimeout(400);const bd=await p.$('.mk-board');await bd.scrollIntoViewIfNeeded();await bd.screenshot({path:path.join(OUT,'g-board.png')});
 await p.evaluate(()=>switchTab('assignment'));await p.click('.ch-card summary');await p.fill('.ch-form input','6');await p.click('.ch-form button[type=submit]');const hint=await p.$eval('.ch-hint',e=>!e.hidden);await p.fill('.ch-form input','2');await p.click('.ch-form button[type=submit]');

@@ -171,13 +171,13 @@ D.quests.factory={
   teaser:'The lanterns are lit, and their light reaches the alley behind the market. There is a trail of gray brick dust on the ground.',
   lockText:'Finish the last job above (the Smudge\'s tag) to unlock this quest.',
   locked:function(){return !job('j6');},
-  doneText:'One third of an hour is 20 minutes, not 3. The gate opened, and the Smudge\'s brick factory is found: GOLEM PART 2. Next lesson, the farmers\' market, and the Golem itself.',
+  doneText:'One sixth of an hour is 10 minutes, not 6. The gate opened, and the Smudge\'s brick factory is found: GOLEM PART 2. Next lesson, the farmers\' market, and the Golem itself.',
   goal:function(S){var q=S.q.factory||{};return !q.met?'Talk to <b>Ivy</b>.':!S.world.factoryOpen?'Follow the brick dust up the alley to <b>the brick gate</b>.':'The factory is found!';},
   markers:function(S){var q=S.q.factory||{};return !q.met?[{id:'ivy'}]:!S.world.factoryOpen?[{id:'gate'}]:[];},
   start:function(api){api.S.world.lit=true;api.save();},
   reset:function(S){S.world.factoryOpen=false;S.q.factory={};},
   skip:function(S){S.world.factoryOpen=true;},
-  transcript:['Ivy: With the lanterns lit, I can see brick dust in the alley. Follow it!','The gate: GATE OPENS ONE THIRD OF AN HOUR AFTER DARK. THAT IS 3 MINUTES, HEH.','You: one third of an hour is 20 minutes.','The gate swings open. Inside: brick molds, and a stamp that says GOLEM PART 2.','The Smudge: You found my factory! But my Golem is almost finished. Heh heh heh!','Opti: Tomorrow, the farmers\' market. We will be ready for the Golem.']
+  transcript:['Ivy: With the lanterns lit, I can see brick dust in the alley. Follow it!','The gate: GATE OPENS ONE SIXTH OF AN HOUR AFTER DARK. THAT IS 6 MINUTES, HEH.','You: one sixth of an hour is 10 minutes.','The gate swings open. Inside: brick molds, and a stamp that says GOLEM PART 2.','The Smudge: You found my factory! But my Golem is almost finished. Heh heh heh!','Opti: Tomorrow, the farmers\' market. We will be ready for the Golem.']
 };
 
 D.quests.crew={
@@ -285,16 +285,16 @@ D.talk=function(id,api){
   }
   if(id==='tea'){return api.say([{who:'tea',t:job('j3')?'Three eighths of a pound of tea, 6 ounces. You weighed it just right.':'Tea by the bag! My bags are weighed in parts of a pound.'}]);}
   if(id==='gate'){
-    if(q==='factory'&&S.q.factory.met&&!S.world.factoryOpen){var g1=padOf('me','How many minutes is one third of an hour? Type it, then press OK.','one third of 1 h =','min',function(v,a,me){
-        if(v===20){a.snd.good();a.S.world.factoryOpen=true;a.save();
+    if(q==='factory'&&S.q.factory.met&&!S.world.factoryOpen){var g1=padOf('me','How many minutes is one sixth of an hour? Type it, then press OK.','one sixth of 1 h =','min',function(v,a,me){
+        if(v===10){a.snd.good();a.S.world.factoryOpen=true;a.save();
           a.say([{fn:function(b){b.snd.item();b.fx({t:0,update:function(dt){this.t+=dt;return this.t<1.2;},draw:function(x,cx,cy,tt){for(var k=0;k<8;k++){var px=26*16+k*5-cx-10,py=3*16-cy+(k%2?6:0);b.A.sparkle(x,px,py,tt+k,k%2?'#F5C518':'#FFFFFF');}}});}},
             {who:'sys',t:'The gate swings open. Inside: rows of brick molds, and a stamp on the wall that says GOLEM PART 2.'},
             {who:'smudge',t:'You found my factory! Too late, too late. My Golem is almost finished. Heh heh heh!'},
             {who:'opti',t:'Hoo! Part 1 at the dairy, part 2 here. The Golem is being built, {name}.'},{who:'opti',t:'Tomorrow, the farmers\' market. We\'ll be ready for it.'}],function(b){b.goal(D.quests.factory.goal(b.S));b.complete();});}
-        else if(v===3){a.snd.bad();a.say([{who:'cora',t:'That\'s what the Smudge wrote! A third of an hour isn\'t 3 minutes. An hour is 60 minutes. Cut 60 into 3 equal parts.'},me]);}
-        else if(v===180){a.snd.bad();a.say([{who:'felix',t:'3 times 60 is 180. But a third is one of 3 equal parts of the hour, so it is less than 60 minutes.'},me]);}
-        else{a.snd.bad();a.say([{who:'felix',t:'An hour is 60 minutes. A third means 3 equal parts. How many minutes in one part?'},me]);}});
-      return api.say([{who:'gate',t:'A smudged sign on the gate: GATE OPENS ONE THIRD OF AN HOUR AFTER DARK. THAT IS 3 MINUTES, HEH.'},{who:'me',t:'Three minutes? That can\'t be right. How many minutes is one third of an hour?'},g1]);}
+        else if(v===6){a.snd.bad();a.say([{who:'cora',t:'That\'s what the Smudge wrote! A sixth of an hour isn\'t 6 minutes. An hour is 60 minutes. Cut 60 into 6 equal parts.'},me]);}
+        else if(v===360){a.snd.bad();a.say([{who:'felix',t:'6 times 60 is 360. But a sixth is one of 6 equal parts of the hour, so it is less than 60 minutes.'},me]);}
+        else{a.snd.bad();a.say([{who:'felix',t:'An hour is 60 minutes. A sixth means 6 equal parts. How many minutes in one part?'},me]);}});
+      return api.say([{who:'gate',t:'A smudged sign on the gate: GATE OPENS ONE SIXTH OF AN HOUR AFTER DARK. THAT IS 6 MINUTES, HEH.'},{who:'me',t:'Six minutes? That can\'t be right. How many minutes is one sixth of an hour?'},g1]);}
     return api.say([{who:'sys',t:S.world.factoryOpen?'The gate stands open. Brick molds line the walls.':'A barred gate in a gray brick wall. Gray dust everywhere.'}]);
   }
   if(id==='bin4in'||id==='bin5in'||id==='bin6in'||id==='bin4oz'){
@@ -606,7 +606,7 @@ return {
     'journal-big':{min:12,chips:[{label:'cut into equal parts, or multiply',words:['cut','parts','part','equal','multiply','times','divide','bottom','top','one part','take']},{label:'an example of your own',words:['ft','in','lb','oz','h','min','m','cm','l','ml','foot','inches','inch','pound','ounces','hour','minutes','meter','liter','=','equals','is']},{label:'going backward',words:['backward','back','part over whole','over','same unit','simplest','simplify','simpler','bigger parts','out of']}]}},
   bigIdea:'To find a fraction of a unit, cut the unit\'s small units into equal parts: the bottom number says how many. Then take as many parts as the top number says. Or multiply the fraction by the number of small units. Both ways give the same answer. To go backward, write the small units you have over the small units in the whole, the same unit on top and bottom, then make bigger equal parts to simplify.',
   words:[{w:'fraction of a unit',d:'a part of one whole unit, like part of one foot or one hour'},{w:'equal parts',d:'pieces that are all the same size'},{w:'simplest form',d:'a fraction written with the fewest, biggest equal parts'},{w:'scrap',d:'a small leftover piece'}],
-  intendedWrong:['5 inches over 1 foot','one third of an hour isn\'t 3 minutes','4 inches over 1 foot','6 ounces over 1 pound','10 minutes over 1 hour','60 inches is 5 whole feet'],
+  intendedWrong:['5 inches over 1 foot','one sixth of an hour isn\'t 6 minutes','4 inches over 1 foot','6 ounces over 1 pound','10 minutes over 1 hour','60 inches is 5 whole feet'],
   intro:{card:false,len:7.6,
     alt:'A red ribbon unrolls to a full foot, 12 inches. Five snips cut it into 6 equal parts, each labeled 2. Five of the parts slide down and light a lantern, while one part stays behind. Ivy the lantern-keeper walks up and wonders how many inches the five parts are.',
     scene:introScene},

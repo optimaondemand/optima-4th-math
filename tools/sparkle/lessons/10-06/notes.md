@@ -38,10 +38,10 @@ IP results avoided everywhere (page, game, hints, scripts): 1/4 ft = 3 in, 3/4 f
 - 🟡 backward: part over whole in the same unit, simplify by bigger equal parts — Cora's card line, the Board, Study It (14 oz → 7/8 lb), then J4
 - 🟡 halving a fraction of a foot: halve the inches, write the new fraction — J5 (Story Bar Model)
 - No two-digit divisor anywhere: one part of 60 in 6 parts is a known fact or read off the strip; "84 ÷ 12" was removed.
-- Game: sort locked until j1 (uses 1/3, 1/2, 5/12 ft and 1/4 lb of tea: the strip skill from J1 + known 16 oz); crew on Learn; build after j2 (5/12, 1/6, 1/12 ft); deliver after j3 (7/10 L, 1/2 m, 1/4 L); factory after j6 (1/3 h = 20 min).
+- Game: sort locked until j1 (uses 1/3, 1/2, 5/12 ft and 1/4 lb of tea: the strip skill from J1 + known 16 oz); crew on Learn; build after j2 (5/12, 1/6, 1/12 ft); deliver after j3 (7/10 L, 1/2 m, 1/4 L); factory after j6 (1/6 h = 10 min; was 1/3 h = 20 min, swapped 2 Nov: it is 10.07 IP 3b's piece).
 
 ## Story, game, voices
-- Quests: **sort** (Ivy's fallen tags into 4 IN / 5 IN / 6 IN / 4 OZ bins) · **crew** · **build** (cut three ribbons at the lantern string; the string lights) · **deliver** (three lamp-oil orders at the lamp seller's stall) · **the factory** (brick dust up the alley; the gate's smudged sign says one third of an hour is 3 minutes → 20; GOLEM PART 2; one Smudge line; Opti: tomorrow the farmers' market).
+- Quests: **sort** (Ivy's fallen tags into 4 IN / 5 IN / 6 IN / 4 OZ bins) · **crew** · **build** (cut three ribbons at the lantern string; the string lights) · **deliver** (three lamp-oil orders at the lamp seller's stall) · **the factory** (brick dust up the alley; the gate's smudged sign says one sixth of an hour is 6 minutes → 10; GOLEM PART 2; one Smudge line; Opti: tomorrow the farmers' market).
 - Crew HELLO = the night market (Atlas: so many lanterns, Felix counted the empty hooks, Hazel draws Ivy's stall, Cora doesn't trust the smudged tags). CREW_TAUGHT = 'j2'.
 - Voices (new ElevenLabs account, 2 Nov): Opti (9 new lines, 3 generic Crew lines reused from 10-05), Hazel, Atlas done. **Cora, Felix, the Smudge and Ivy (secondary_woman) wait**: their old voice ids don't exist on the new account; Bethany is adding or picking voices. secondary_man is now EvqbdCtmQVi46OVEHwYm (Bethany's pick; 10.05's Otto uses it). Flow "G4 Math 4.10.06 voices"; takes in `3-5 Math OAO/voice-10-06`.
 
@@ -51,7 +51,7 @@ IP results avoided everywhere (page, game, hints, scripts): 1/4 ft = 3 in, 3/4 f
 
 ## Independent solve (2 Nov) — fixed
 IP collisions in the "different numbers" hint rungs and the One Picture example (2/3 ft = 8 in, 3/4 lb = 12 oz, 1/4 ft = 3 in, 8 oz = 1/2 lb) → 3/10 h = 18 min, 9/10 L, 1/5 m, 1/8 lb, 7/8 lb, 20 min = 1/3 h. SWYK answers that the game or page had already stated → SWYK is now 11/12 ft, 7/16 lb, 7/12 h, 9/10 m; 500 mL = 1/2 L, 25 cm = 1/4 m, 30 min = 1/2 h; the 2-oz tea sample (1/8 lb, half 1/16 lb); the sort tag 1/6 ft → 5/12 ft; the build ribbon 11/12 → 1/12. Compare box asks about 7/8 lb (5/6 lb is not a whole number of ounces). 84 ÷ 12 (two-digit divisor) reworded. Job 5 fraction-box texts reworded (no strip there; the hint no longer gives the answer). The lamp seller's 7/10 L order is the tea seller's, not Ivy's.
-Left: the sort quest states 1/4 lb = 4 oz and the factory quest 1/3 h = 20 min (both game, neither on the IP); "Conversion Chart" is the shared widget's name.
+Left: the sort quest states 1/4 lb = 4 oz and the factory quest 1/6 h = 10 min (both game, neither on the IP); "Conversion Chart" is the shared widget's name.
 
 ## Videos
 think (cards) · learn (ribbon bar board, two-ways board, live `?board=ribbons`; 169 words with 4 moves) · do (3/5 h = 36 min; 3/4 m = 75 cm "your turn first"; 12 min = 1/5 h; mistake "3 oz is 3 over 1 of a pound" → 3/16) · wrap.
