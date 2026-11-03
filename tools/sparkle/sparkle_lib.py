@@ -73,6 +73,11 @@ def game(quest):
 slot = game
 
 
+def win(wid, label="A window into Leonardo's workshop"):
+    """A classical-guide window (cw-engine.js). The id must exist in CW_DATA.windows."""
+    return '\n<div class="cw-sec">%s</div><div class="cw-slot" data-win="%s"></div>\n' % (label, wid)
+
+
 def video(name):
     """A teacher-video slot: think | learn | do | wrap. Invisible until a video exists."""
     return '<div class="pq-vslot" data-slot="%s"></div>' % name

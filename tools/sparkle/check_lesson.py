@@ -226,7 +226,16 @@ def main(code):
     qdef = set(re.findall(r"D\.quests\.(\w+)\s*=", lesson_js)) | set(re.findall(r"quests\[['\"](\w+)['\"]\]\s*=", lesson_js))
     for q in sorted(quests - qdef):
         out('FAIL', 'game window "%s" has no quest in PQ_DATA.quests' % q)
+    classical = 'var CW_DATA' in lesson_js   # the classical-guide layer: the guide's cast lives in cw-art.js
+    cast = set(re.findall(r"names:\{([^}]*)\}", open(os.path.join(REPO, 'assets', 'sparkle', 'cw-art.js'), encoding='utf8').read())[0].replace("'", '').replace(' ', '').split(',')) if classical else set()
+    cast = {c.split(':')[0] for c in cast}
+    wins = set(re.findall(r'class="cw-slot" data-win="(\w+)"', s))
+    for w in sorted(wins):
+        if not re.search(r"\b%s:\{title:" % w, lesson_js):
+            out('FAIL', 'workshop window "%s" has no entry in CW_DATA.windows' % w)
     for who in set(re.findall(r'class="mk-tip" data-who="(\w+)"', s)):
+        if classical and who in cast:
+            continue
         if who != 'opti' and not re.search(r"id:'%s'[^}]*look:" % who, lesson_js):
             out('FAIL', 'tip-giver "%s" has no pixel character (needs an npc with a look)' % who)
     for go in re.findall(r"go:'([^']+)'", lesson_js):
@@ -236,7 +245,7 @@ def main(code):
             out('FAIL', 'job target %s is not on the page' % sel)
     if len(quests) > 6:
         out('WARN', '%d game windows; 3–5 keeps the page calm' % len(quests))
-    out('ok', 'wiring: %d models, %d game windows' % (len(mounted), len(quests)))
+    out('ok', 'wiring: %d models, %d game windows%s' % (len(mounted), len(quests), (', %d workshop windows' % len(wins)) if classical else ''))
 
 
     # 8b helpers (the social studies set): hint ladders, writing help, defined words
@@ -261,6 +270,14 @@ def main(code):
     mm = re.search(r"OAOKit\.mentalMath\(m,\{[^}]*?name:'([^']*)'", lesson_js)
     if mm and re.search(r'next|regroup|trade', mm.group(1), re.I) and code.endswith('-01'):
         out('WARN', 'READINESS: the first lesson of a unit warms up with "%s", which uses the unit\'s new skill. Warm up with something students already know (check the chapter notes).' % mm.group(1))
+    # Mental Math: 3 problems max; a number-bond strategy gives every problem a blank bond (Bethany, 3 Nov 2026)
+    mmb = re.search(r"OAOKit\.mentalMath\(m,\{(.*?)\}\);", lesson_js, re.S)
+    if mmb:
+        nprob = len(re.findall(r"\{q:'", mmb.group(1).split('problems:', 1)[-1]))
+        if nprob > 3:
+            out('WARN', 'Mental Math has %d problems; 3 at most' % nprob)
+        if 'bond:' in mmb.group(1).split('problems:', 1)[0] and "work:'bond'" not in mmb.group(1):
+            out('WARN', "Mental Math teaches a number bond but the problems have no blank bonds (add work:'bond')")
     if re.search(r"(in|from) (third|3rd|second|2nd) grade", strip(tab(s, 'warmup')), re.I):
         out('WARN', 'READINESS: the Warm-Up says students learned something in an earlier grade. Check it against the chapter notes (4.10.01 said this about millimeters, which are new in Lesson 1).')
     out('ok', 'readiness checks run (Think answer format, warm-up strategy, prior-grade claims)')

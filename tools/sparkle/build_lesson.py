@@ -17,6 +17,8 @@ sys.path.insert(0, HERE)
 import sparkle_lib as L  # noqa: E402
 
 SHARED_JS = ['pq-art.js', 'pq-engine.js', 'oao-kit.js', 'pq-music.js', 'pq-layer.js', 'pq-intro.js']
+# the classical-guide layer (Nov 2026): a lesson whose lesson.js defines CW_DATA gets the workshop windows instead of the game
+CW_JS = ['pq-art.js', 'oao-kit.js', 'cw-art.js', 'cw-engine.js', 'cw-layer.js', 'cw-guide.js', 'pq-intro.js']   # pq-art.js: the Math Crew's Pixel Quest sprites
 
 
 def main(code):
@@ -34,7 +36,7 @@ def main(code):
     s = open(orig, encoding='utf8').read()
 
     # 1. the lesson's own page edits
-    G = {'s': s, 're': re, 'block_end': L.block_end, 'game': L.game, 'slot': L.slot, 'video': L.video, 'tip': L.tip,
+    G = {'s': s, 're': re, 'block_end': L.block_end, 'game': L.game, 'slot': L.slot, 'win': L.win, 'video': L.video, 'tip': L.tip,
          'model': L.model, 'BOARD': L.BOARD, 'TOWN': L.TOWN, 'box': L.box, 'part': L.part, 'problem': L.problem}
     G.update(L.helpers(G))
     exec(compile(open(os.path.join(d, 'make.py'), encoding='utf8').read(), 'make.py', 'exec'), G)
@@ -68,16 +70,22 @@ def main(code):
               ensure_ascii=False, indent=1)
 
     # 3. inject the shared layer (stamp = hash of every file the page loads)
+    classical = 'var CW_DATA' in lesson_js
+    js = CW_JS if classical else SHARED_JS
+    css = ['pq.css', 'cw.css'] if classical else ['pq.css']
     h = hashlib.sha1()
-    for f in ['pq.css'] + SHARED_JS:
+    for f in css + js:
         h.update(open(os.path.join(REPO, 'assets', 'sparkle', f), 'rb').read())
     h.update(data.encode('utf8'))
     v = h.hexdigest()[:8]
     s = re.sub(r'<title>\[GAME MOCKUP\] ', '<title>', s)
-    s = s.replace('</head>', '<link rel="stylesheet" href="assets/sparkle/pq.css?v=%s">\n</head>' % v, 1)
-    tags = ''.join('<script src="assets/sparkle/%s?v=%s"></script>\n' % (f, v) for f in SHARED_JS)
+    s = s.replace('</head>', ''.join('<link rel="stylesheet" href="assets/sparkle/%s?v=%s">\n' % (c, v) for c in css) + '</head>', 1)
+    tags = ''.join('<script src="assets/sparkle/%s?v=%s"></script>\n' % (f, v) for f in js)
     tags += '<script src="%s?v=%s"></script>\n' % (data_rel, v)
-    tags += '<script>try{PQ.init(PQ_DATA);}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("game: "+e.message);}PQM.init();try{PQIntro.init();}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("intro: "+e.message);}</script>\n'
+    if classical:
+        tags += '<script>document.body.classList.add("cw-page");try{CW.init(CW_DATA);}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("windows: "+e.message);}PQM.init();try{if(CW_DATA.guide)CWGUIDE.init(CW_DATA.guide);}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("guide: "+e.message);}try{PQIntro.init();}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("intro: "+e.message);}</script>\n'
+    else:
+      tags += '<script>try{PQ.init(PQ_DATA);}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("game: "+e.message);}PQM.init();try{PQIntro.init();}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push("intro: "+e.message);}</script>\n'
     i = s.rindex('</body>')
     s = s[:i] + tags + s[i:]
     # the "Math tools for this lesson" bar (manipulatives/lesson-tools.js, added to every G4 page on 2 Nov 2026) lives after

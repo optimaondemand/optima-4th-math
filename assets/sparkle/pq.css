@@ -690,3 +690,16 @@ body.pqi-on{overflow:hidden}
 .ok-mixform .ok-mix-w{width:3.2em !important;text-align:center}
 .ok-sp-old{opacity:.8;margin-bottom:4px}
 .ok-sp-old .bm-form{pointer-events:none}
+
+/* mental math: a blank number bond on every problem (cfg.work:'bond', 3 Nov 2026) */
+.mm-bondp{flex-direction:column;align-items:stretch;gap:10px}
+.mm-work{display:flex;justify-content:center}
+.mm-bond-in{gap:2px 22px}
+.mm-bond-in .pc{display:flex;flex-direction:column;align-items:center;gap:4px}
+.mm-bond-in .mm-sm{width:52px!important;font-size:16px!important;padding:3px 4px!important;border-radius:999px!important;border:2px dashed #9fb0d0!important;background:#fff}
+.mm-bond-in .pc .mm-sm:last-child{border-radius:8px!important}
+.mm-bond-in .mm-sm.good{border-style:solid!important;border-color:#2DB87A!important;background:#EAFBF3}
+.mm-x{font-size:14px;font-weight:800;color:#3A4A6B}
+.mm-row{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.mm-bondp .mm-fb{text-align:center;flex-basis:auto!important;min-height:1.2em}
+.mm-probs:has(.mm-bondp){grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}

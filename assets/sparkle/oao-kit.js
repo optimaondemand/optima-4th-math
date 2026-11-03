@@ -336,9 +336,23 @@ function mentalMath(m,cfg){
         p.units.map(function(u,k){return '<input id="'+id+(k?'-'+k:'')+'" type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc(p.q)+', '+(u==='m'?'meters':u==='cm'?'centimeters':u)+'" value="'+esc(sv[k]||'')+'"><span class="mm-u">'+esc(u)+'</span>';}).join('')+
         '<button type="submit" class="ok-btn">Check</button></div><span class="mm-fb" aria-live="polite"></span></form>';}
       if(p.pre)return '<form class="mm-p" data-i="'+i+'"><span class="mm-eq"><label for="'+id+'">'+esc(p.pre)+'</label><input id="'+id+'" type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc(p.pre+' ? '+(p.post||''))+'" value="'+esc(st.a[i]||'')+'"><span class="mm-post">'+esc(p.post||'')+'</span></span><button type="submit" class="ok-btn">Check</button><span class="mm-fb" aria-live="polite"></span></form>';
+      /* cfg.work:'bond' (Bethany, 3 Nov 2026): when the strategy is a number bond, every problem gets its own blank bond to use:
+         the whole is given, the two parts are blank, and each part has a blank "× n =" under it. Optional help; only the answer is checked. */
+      if(cfg.work==='bond'){var mt=/(\d+)\s*[×x]\s*(\d+)/.exec(p.q)||[],wh=p.whole||+mt[1],by=p.by||+mt[2],w=(st.w||{})[i]||{};
+        var bi=function(k,lab){return '<input class="mm-sm" data-k="'+k+'" type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc(lab)+'" value="'+esc(w[k]||'')+'">';};
+        return '<form class="mm-p mm-bondp" data-i="'+i+'"><div class="mm-work" role="group" aria-label="Number bond for '+esc(p.q)+' (optional)">'+
+          '<div class="mm-bond mm-bond-in"><span class="w">'+fmt(wh)+'</span><svg viewBox="0 0 80 26" aria-hidden="true"><path d="M40 2 L14 24 M40 2 L66 24" stroke="#3B2417" stroke-width="3"/></svg>'+
+          '<span class="pc">'+bi('p0','first part of '+wh)+'<span class="mm-x">× '+fmt(by)+' =</span>'+bi('q0','first part times '+by)+'</span>'+
+          '<span class="pc">'+bi('p1','second part of '+wh)+'<span class="mm-x">× '+fmt(by)+' =</span>'+bi('q1','second part times '+by)+'</span></div></div>'+
+          '<div class="mm-row"><label for="'+id+'">'+esc(p.q)+' =</label><input class="mm-ans" id="'+id+'" type="text" inputmode="numeric" autocomplete="off" value="'+esc(st.a[i]||'')+'"><button type="submit" class="ok-btn">Check</button></div><span class="mm-fb" aria-live="polite"></span></form>';}
       return '<form class="mm-p" data-i="'+i+'"><label for="'+id+'">'+esc(p.q)+' ='+(p.lead?' '+esc(p.lead):'')+'</label><input id="'+id+'" type="text" inputmode="numeric" autocomplete="off" value="'+esc(st.a[i]||'')+'">'+(p.post?'<span class="mm-post">'+esc(p.post)+'</span>':'')+'<button type="submit" class="ok-btn">Check</button><span class="mm-fb" aria-live="polite"></span></form>';}).join('')+'</div>';
-  $$('.mm-p',m).forEach(function(f){var i=+f.dataset.i,ins=$$('input',f),fb=$('.mm-fb',f),p=P[i];
-    function mark(){f.classList.add('ok');ins.forEach(function(x){x.disabled=true;});fb.textContent='✓';}
+  $$('.mm-p',m).forEach(function(f){var i=+f.dataset.i,all=$$('input',f),ins=$$('input.mm-ans',f),fb=$('.mm-fb',f),p=P[i];if(!ins.length)ins=all;
+    if(f.classList.contains('mm-bondp')){var mt=/(\d+)\s*[×x]\s*(\d+)/.exec(p.q)||[],wh=p.whole||+mt[1],by=p.by||+mt[2],W=function(k){return $('[data-k="'+k+'"]',f);};
+      var paint=function(){var a=num(W('p0').value),b=num(W('p1').value),split=a!=null&&b!=null&&a+b===wh;
+        W('p0').classList.toggle('good',split);W('p1').classList.toggle('good',split);
+        ['0','1'].forEach(function(k){var pt=num(W('p'+k).value),q=num(W('q'+k).value);W('q'+k).classList.toggle('good',pt!=null&&q!=null&&q===pt*by);});};
+      $$('.mm-sm',f).forEach(function(x){x.addEventListener('input',function(){st.w=st.w||{};var o=st.w[i]=st.w[i]||{};o[x.dataset.k]=x.value;lsSet(cfg.key,st);paint();});});paint();}
+    function mark(){f.classList.add('ok');all.forEach(function(x){x.disabled=true;});fb.textContent='✓';}
     function miss(t){snd.no();f.classList.remove('no');void f.offsetWidth;f.classList.add('no');fb.textContent=t;}
     if(st.ok[i])mark();
     f.onsubmit=function(e){e.preventDefault();
@@ -1043,4 +1057,108 @@ function splitter(root,cfg){
   return {state:st};
 }
 K.splitter=splitter;K.ribbon=ribbon;K.clock=clock;K.pour=pour;K.scale=scale;K.unitMat=unitMat;K.tradeMat=tradeMat;K.stamps=stamps;K.barModel=barModel;K.numberBond=numberBond;K.mentalMath=mentalMath;K.challenge=challenge;
+})(OAOKit);
+
+/* ═══ OAO MATH KIT, part 3 · Area Grid (Nov 2026, Unit 11) ═══
+   Square tiles on a grid, the way Dimensions draws area: a plain panel outline, side lengths on dimension lines OUTSIDE the
+   shape (← 1 ft 6 in →), unit tiles that students lay with their own hand (tap a square, or drag across squares).
+   It looks like the library's Color Tiles: white grid squares, plain yellow tiles (#F2B705). The tile count never shows
+   rows × columns for the student; they do that part.
+   cfg = { key, unit:{s:'in',one:'inch',many:'inches'}, cols, rows, rect:{x,y,w,h} (in squares), dimW, dimH (labels; '?' allowed),
+           split:{at, labels:['1 ft','6 in']}, mode:'cover'|'edge'|'free', showCount:true, todo:'one line of directions',
+           check:(shape)=>({ok, text}) (free mode; shape = {n, w, h, rect}), record:true + need:n (free mode: collect different rectangles),
+           ask:[{q, unit, answer, accept:[…], mistakes:[{v, text}], hint}], goalText, doneText, onGoal(root), onDone(root) } */
+(function(K){
+'use strict';
+var snd=K._snd,ls=K._ls,lsSet=K._lsSet,fmt=K.fmt;
+var NS='http://www.w3.org/2000/svg',TILE='#F2B705',TILE_D='#B98A00',LINE='#D9DEEA',NAVY='#0E1C42';
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function num(v){var t=String(v==null?'':v).replace(/[,\s]/g,'');return t===''||isNaN(+t)?null:+t;}
+function S(tag,a,p){var e=document.createElementNS(NS,tag);for(var k in a){if(k==='text')e.textContent=a[k];else e.setAttribute(k,a[k]);}if(p)p.appendChild(e);return e;}
+function areaGrid(root,cfg){
+  var U=cfg.unit||{s:'',one:'unit',many:'units'},C=cfg.cols,Rw=cfg.rows,rect=cfg.rect||{x:0,y:0,w:C,h:Rw},mode=cfg.mode||'cover';
+  var st=ls(cfg.key,null)||{t:{},a:{},ok:{},found:[],goal:false,done:false};st.t=st.t||{};st.a=st.a||{};st.ok=st.ok||{};st.found=st.found||[];
+  var cur={x:rect.x,y:rect.y},asks=cfg.ask||[];
+  root.classList.add('ok-tool','ag');
+  root.innerHTML=(cfg.todo?'<p class="ok-do">'+cfg.todo+'</p>':'')+'<div class="ag-wrap"><svg class="ag-svg" tabindex="0" role="application" aria-label="Grid of 1-'+esc(U.one)+' squares. Tap a square to lay a tile, or drag across squares. Arrow keys move, Space lays or lifts a tile."></svg></div>'+
+    '<div class="ok-sym ag-sym" aria-live="polite"></div>'+(cfg.record?'<div class="ag-found"></div>':'')+
+    (asks.length?'<div class="ag-asks">'+asks.map(function(q,i){return '<form class="ag-ask" data-i="'+i+'"><label>'+q.q+' <input type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc(String(q.q).replace(/<[^>]+>/g,''))+'" value="'+esc(st.a[i]||'')+'"> <span class="ag-u">'+esc(q.unit||'')+'</span></label> <button class="ok-btn" type="submit">Check</button><span class="ag-fb" aria-live="polite"></span></form>';}).join('')+'</div>':'')+
+    '<div class="ok-msg" aria-live="polite"></div><div class="ok-row"><button class="ok-btn ok-reset" type="button">↺ Clear the tiles</button></div>';
+  var svg=root.querySelector('.ag-svg'),msg=root.querySelector('.ok-msg'),sym=root.querySelector('.ag-sym');
+  function say(t,k){msg.className='ok-msg'+(k?' '+k:'');msg.innerHTML=t||'';}
+  function save(){lsSet(cfg.key,st);}
+  function inRect(x,y){return x>=rect.x&&x<rect.x+rect.w&&y>=rect.y&&y<rect.y+rect.h;}
+  function count(){return Object.keys(st.t).length;}
+  function shape(){var ks=Object.keys(st.t);if(!ks.length)return {n:0,w:0,h:0,rect:false};var xs=ks.map(function(k){return +k.split('_')[0];}),ys=ks.map(function(k){return +k.split('_')[1];});
+    var w=Math.max.apply(0,xs)-Math.min.apply(0,xs)+1,h=Math.max.apply(0,ys)-Math.min.apply(0,ys)+1;return {n:ks.length,w:w,h:h,rect:w*h===ks.length};}
+  function goalMet(){var x,y;
+    if(mode==='cover'){for(y=rect.y;y<rect.y+rect.h;y++)for(x=rect.x;x<rect.x+rect.w;x++)if(!st.t[x+'_'+y])return false;return true;}
+    if(mode==='edge'){for(x=rect.x;x<rect.x+rect.w;x++)if(!st.t[x+'_'+rect.y])return false;for(y=rect.y;y<rect.y+rect.h;y++)if(!st.t[rect.x+'_'+y])return false;return true;}
+    if(cfg.record)return st.found.length>=(cfg.need||1);
+    var r=cfg.check?cfg.check(shape()):{ok:false};return !!r.ok;}
+  function set(x,y,on){if(x<0||y<0||x>=C||y>=Rw)return false;var k=x+'_'+y;
+    if(on&&mode!=='free'&&!inRect(x,y)){say(cfg.offText||'Keep the tiles on the panel, inside the dark outline.','hint');return false;}
+    if(on===!!st.t[k])return false;if(on)st.t[k]=1;else delete st.t[k];return true;}
+  function after(){save();render();var was=st.goal;
+    if(mode==='free'){var sh=shape();if(cfg.record&&sh.rect&&sh.n===cfg.n){var id=Math.min(sh.w,sh.h)+'x'+Math.max(sh.w,sh.h);
+        if(st.found.indexOf(id)<0){st.found.push(id);snd.done();say('A new rectangle: <b>'+sh.w+' by '+sh.h+'</b>. It uses '+sh.n+' tiles. '+(st.found.length<(cfg.need||1)?'Clear the tiles and build a different one.':''),'good');save();renderFound();}
+        else say('You already found '+sh.w+' by '+sh.h+'. Turning it sideways makes the same rectangle. Try different side lengths.','hint');}
+      else if(cfg.check&&!cfg.record){var r=cfg.check(sh);if(r&&r.text)say(r.text,r.ok?'good':'hint');}}
+    if(!was&&goalMet()){st.goal=true;save();snd.done();if(cfg.goalText)say(cfg.goalText,'good');if(cfg.onGoal)cfg.onGoal(root);}
+    finish();}
+  function finish(){if(st.done)return;var allAsk=asks.every(function(q,i){return st.ok[i];});
+    if((st.goal||cfg.askOnly)&&allAsk){st.done=true;save();if(cfg.doneText)say(cfg.doneText,'good');if(cfg.onDone)cfg.onDone(root);}}
+  function renderFound(){var f=root.querySelector('.ag-found');if(!f)return;f.innerHTML='<b>Rectangles found ('+st.found.length+(cfg.need?' of '+cfg.need:'')+'):</b> '+
+    (st.found.length?st.found.map(function(id){var p=id.split('x');return '<span class="ag-chip">'+p[0]+' '+U.s+' by '+p[1]+' '+U.s+'</span>';}).join(' '):'none yet');}
+  var z=28,ML=58,MT=34,MB=cfg.split?30:12,MR=64;
+  function render(){
+    var avail=Math.max(260,(root.clientWidth||640)-8);z=Math.max(12,Math.min(cfg.cell||30,Math.floor((avail-ML-MR)/C)));
+    var Wd=ML+C*z+MR,Ht=MT+Rw*z+MB;svg.setAttribute('viewBox','0 0 '+Wd+' '+Ht);svg.setAttribute('width',Wd);svg.style.maxWidth='100%';
+    while(svg.firstChild)svg.removeChild(svg.firstChild);
+    S('defs',{},svg).innerHTML='<marker id="agA'+cfg.key+'" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="'+NAVY+'"/></marker>';
+    var x,y;for(y=0;y<Rw;y++)for(x=0;x<C;x++){var on=inRect(x,y)||mode==='free';
+      S('rect',{x:ML+x*z,y:MT+y*z,width:z,height:z,fill:on?'#fff':'#F1F2F5',stroke:LINE,'stroke-width':1.2,'data-c':x+'_'+y},svg);
+      if(st.t[x+'_'+y])S('rect',{x:ML+x*z+2,y:MT+y*z+2,width:z-4,height:z-4,rx:Math.max(2,z/7),fill:TILE,stroke:TILE_D,'stroke-width':1.2,'data-c':x+'_'+y},svg);}
+    if(mode!=='free'){var rx=ML+rect.x*z,ry=MT+rect.y*z,rw=rect.w*z,rh=rect.h*z,mk='url(#agA'+cfg.key+')';
+      S('rect',{x:rx,y:ry,width:rw,height:rh,fill:'none',stroke:NAVY,'stroke-width':3,style:'pointer-events:none'},svg);
+      S('line',{x1:rx,y1:ry-16,x2:rx+rw,y2:ry-16,stroke:NAVY,'stroke-width':1.6,'marker-start':mk,'marker-end':mk},svg);
+      var lw=cfg.dimW||rect.w+' '+U.s;S('rect',{x:rx+rw/2-(lw.length*4+8),y:ry-26,width:lw.length*8+16,height:20,rx:4,fill:'#fff'},svg);
+      S('text',{x:rx+rw/2,y:ry-11,'text-anchor':'middle','font-size':15,'font-weight':800,fill:NAVY,'font-family':'Nunito,Arial,sans-serif',text:lw},svg);
+      S('line',{x1:rx+rw+16,y1:ry,x2:rx+rw+16,y2:ry+rh,stroke:NAVY,'stroke-width':1.6,'marker-start':mk,'marker-end':mk},svg);
+      var lh=cfg.dimH||rect.h+' '+U.s;S('text',{x:rx+rw+24,y:ry+rh/2+5,'font-size':15,'font-weight':800,fill:NAVY,'font-family':'Nunito,Arial,sans-serif',text:lh},svg);
+      if(cfg.split){var sx=rx+cfg.split.at*z;S('line',{x1:sx,y1:ry-4,x2:sx,y2:ry+rh+4,stroke:'#9E4552','stroke-width':2.5,'stroke-dasharray':'5 4',style:'pointer-events:none'},svg);
+        cfg.split.labels.forEach(function(lb,i){var a=i?sx:rx,b=i?rx+rw:sx;S('line',{x1:a,y1:ry+rh+12,x2:b,y2:ry+rh+12,stroke:'#9E4552','stroke-width':1.4,'marker-start':mk,'marker-end':mk},svg);
+          S('text',{x:(a+b)/2,y:ry+rh+27,'text-anchor':'middle','font-size':13,'font-weight':800,fill:'#9E4552','font-family':'Nunito,Arial,sans-serif',text:lb},svg);});}}
+    if(document.activeElement===svg)S('rect',{x:ML+cur.x*z+1,y:MT+cur.y*z+1,width:z-2,height:z-2,fill:'none',stroke:'#2F6FDE','stroke-width':3,style:'pointer-events:none'},svg);
+    var n=count();sym.innerHTML=cfg.sym?cfg.sym(n,shape(),st):(cfg.showCount===false?'':'Tiles laid: <b>'+n+'</b>'+(n?' · each tile is 1 square '+esc(U.one):''));
+  }
+  function cellOf(e){var t=document.elementFromPoint(e.clientX,e.clientY);t=t&&t.closest&&t.closest('[data-c]');if(!t||!svg.contains(t))return null;var p=t.getAttribute('data-c').split('_');return {x:+p[0],y:+p[1]};}
+  var paint=null,changed=false,last=null;
+  svg.addEventListener('pointerdown',function(e){var c=cellOf(e);if(!c)return;e.preventDefault();try{svg.setPointerCapture(e.pointerId);}catch(x){}
+    paint=!st.t[c.x+'_'+c.y];last=c;changed=set(c.x,c.y,paint)||changed;if(changed){snd.click();render();}});
+  /* a fast swipe skips squares between two pointer events: fill every square on the line from the last one */
+  svg.addEventListener('pointermove',function(e){if(paint===null)return;var c=cellOf(e);if(!c||!last||(c.x===last.x&&c.y===last.y))return;
+    var n=Math.max(Math.abs(c.x-last.x),Math.abs(c.y-last.y)),any=false;
+    for(var k=1;k<=n;k++){var x=Math.round(last.x+(c.x-last.x)*k/n),y=Math.round(last.y+(c.y-last.y)*k/n);if(set(x,y,paint))any=true;}
+    last=c;if(any){changed=true;render();}});
+  function up(){if(paint===null)return;paint=null;last=null;if(changed){changed=false;after();}}
+  svg.addEventListener('pointerup',up);svg.addEventListener('pointercancel',up);
+  svg.addEventListener('keydown',function(e){var d={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];
+    if(d){e.preventDefault();cur.x=Math.max(0,Math.min(C-1,cur.x+d[0]));cur.y=Math.max(0,Math.min(Rw-1,cur.y+d[1]));render();return;}
+    if(e.key===' '||e.key==='Enter'){e.preventDefault();if(set(cur.x,cur.y,!st.t[cur.x+'_'+cur.y])){snd.click();after();}}});
+  svg.addEventListener('focus',render);svg.addEventListener('blur',render);
+  root.querySelector('.ok-reset').onclick=function(){st.t={};save();render();say('');};
+  [].forEach.call(root.querySelectorAll('.ag-ask'),function(f){var i=+f.dataset.i,q=asks[i],inp=f.querySelector('input'),fb=f.querySelector('.ag-fb');
+    function mark(){f.classList.add('ok');inp.disabled=true;fb.textContent='✓';}
+    if(st.ok[i])mark();
+    f.onsubmit=function(e){e.preventDefault();var v=num(inp.value);st.a[i]=inp.value;save();
+      if(v==null){fb.textContent='';say('Type a number.','hint');return;}
+      if([q.answer].concat(q.accept||[]).some(function(a){return num(a)===v;})){st.ok[i]=true;save();mark();snd.done();say(q.right||'','good');if(q.onRight)q.onRight(root);finish();return;}
+      var m=(q.mistakes||[]).filter(function(x){return [].concat(x.v).some(function(a){return num(a)===v;});})[0];snd.no();fb.textContent='✗';
+      say(m?m.text:(q.hint||'Not yet. Check your work and try again.'),'hint');};});
+  var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(render,120);});
+  render();renderFound();if(st.done&&cfg.doneText)say(cfg.doneText,'good');
+  return {state:st,count:count,shape:shape};
+}
+K.areaGrid=areaGrid;
 })(OAOKit);

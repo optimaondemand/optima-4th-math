@@ -104,7 +104,7 @@ function open(still){
   var st={c:c,raf:0,closing:false};cur=st;
   function frame(now){
     var t=still?len+hold:(now-t0)/1000;
-    backdrop(g,t);try{I.scene(g,Math.min(t,len+hold));}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push('intro: '+e.message);close(true);return;}
+    (typeof I.backdrop==='function'?I.backdrop:backdrop)(g,t);try{I.scene(g,Math.min(t,len+hold));}catch(e){(window.PQ_FAILED=window.PQ_FAILED||[]).push('intro: '+e.message);close(true);return;}
     if(t>=len&&I.card!==false)c.classList.add('title');
     if(!still&&t>=len+hold&&!st.closing)close();
     if(out!==null){                                              // pixel dissolve: clear 8×8 cells in a shuffled order
