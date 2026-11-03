@@ -27,6 +27,13 @@
     + '.olt-all{display:inline-flex;align-items:center;gap:.4em;margin-top:12px;border-radius:999px;padding:.45em 1em;font-weight:800;color:#fff;background:#0E1C42;text-decoration:none;min-height:40px}'
     + '.olt-all:hover,.olt-all:focus-visible{background:#1F2F55;outline:3px solid #F2B705}'
     + '.olt-top .olt-all{margin-top:0;margin-left:auto;font-size:.9em;min-height:34px}'
+    + '.olt-drawer{margin:4px 0 16px;padding:0;border-width:1.5px;box-shadow:none}'
+    + '.olt-drawer>summary{list-style:none;display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;font-weight:800;font-size:15px;color:#0E1C42}'
+    + '.olt-drawer>summary::-webkit-details-marker{display:none}'
+    + '.olt-dr-ic{display:flex;gap:6px}.olt-dr-ic span{width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:#F7F4FD;border-radius:7px}.olt-dr-ic svg{width:22px;height:22px}'
+    + '.olt-dr-more{margin-left:auto;font-size:13px;color:#4C2F93;border:1.5px solid #C9BCEB;border-radius:999px;padding:2px 10px}'
+    + '.olt-drawer[open]>summary{border-bottom:1px solid #E6E0F5}'
+    + '.olt-dr-b{padding:4px 14px 14px}.olt-dr-b .olt-all{margin-top:10px}'
     + '.olt-nudge{margin:12px 0}'
     + '.olt-nudge a{display:inline-flex;align-items:center;gap:.5em;background:#F7F4FD;border:2px solid #C9BCEB;border-radius:999px;padding:.5em 1.05em;font-weight:800;color:#4C2F93;text-decoration:none;font-size:1em;line-height:1.3;min-height:40px}'
     + '.olt-nudge a:hover,.olt-nudge a:focus-visible{border-color:#6B46C1;background:#FFFFFF;box-shadow:0 4px 12px rgba(107,70,193,.18);outline:none}';
@@ -52,9 +59,13 @@
     // compact row at the top of the first tab
     var first = document.querySelector('.tab-panel');
     if (first) {
-      var top = document.createElement('section'); top.className = 'oao-lesson-tools-top olt olt-top'; top.setAttribute('aria-label', 'Math tools you can open any time');
-      top.innerHTML = '<div class="olt-hd"><span class="olt-badge" aria-hidden="true">🧮</span><div><div class="olt-t">Math tools for this lesson</div><div class="olt-s">Open one any time you want to build or draw your thinking.</div></div>'
-        + (L.tools.length > 1 ? '<a class="olt-all" href="' + esc(all) + '" target="_blank" rel="noopener">Open all ' + L.tools.length + ' ↗</a>' : '') + '</div>' + tiles(false) + '<p class="olt-pro">⭐ <b>Pro tip:</b> In any tool, press <b>📤 Turn in my work</b> to copy a link to your work. If you want your teacher to see it, paste the link into your assignment.</p>';
+      /* a small drawer, closed by default (audit, 3 Nov 2026: the big shelf competed with the first task). The activities
+         carry their own "Try the …" buttons for the moment a tool helps. */
+      var top = document.createElement('details'); top.className = 'oao-lesson-tools-top olt olt-drawer';
+      var I2 = window.OAOM_ICONS || {};
+      top.innerHTML = '<summary><span class="olt-dr-t">🧮 Math tools</span><span class="olt-dr-ic" aria-hidden="true">' + L.tools.map(function (t) { return '<span>' + (I2[t.t] || '') + '</span>'; }).join('') + '</span><span class="olt-dr-more">Show</span></summary>'
+        + '<div class="olt-dr-b">' + tiles(false) + (L.tools.length > 1 ? '<a class="olt-all" href="' + esc(all) + '" target="_blank" rel="noopener">Open all ' + L.tools.length + ' ↗</a>' : '') + '<p class="olt-pro">⭐ <b>Pro tip:</b> In any tool, press <b>📤 Turn in my work</b> to copy a link to your work. If you want your teacher to see it, paste the link into your assignment.</p>' + '</div>';
+      top.addEventListener('toggle', function () { var sm = top.querySelector('.olt-dr-more'); if (sm) sm.textContent = top.open ? 'Hide' : 'Show'; });
       first.insertBefore(top, first.firstChild);
     }
   }

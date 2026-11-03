@@ -501,3 +501,30 @@ return {init:init,earn:earn,spend:spend,wallet:function(){return W;},saveWallet:
   }
   window.addEventListener('load', function () { setTimeout(fixes, 0); });
 })();
+
+/* The task in front of the student stands out (audit, 3 Nov 2026): the card being worked on (focus inside it, or the card at
+   the reading line) gets the strong frame; every card says up front what kind of work it is: Read, Do or Write. */
+(function () {
+  function go() {
+    if (!document.body.classList.contains('cw-page')) return;
+    var cards = [].slice.call(document.querySelectorAll('.tab-panel .activity, #tab-assignment .q-block'));
+    cards.forEach(function (c) {
+      var head = c.querySelector('.activity-head > div:last-child') || c.querySelector('.q-text'); if (!head || c.querySelector('.cw-kind')) return;
+      var doIt = c.querySelector('[data-mk-model], .mm-p, .ag-ask, input.ans-box, .fluency-grid'), write = c.querySelector('textarea.journal-box:not([readonly])');
+      var k = doIt ? ['do', '🔨 Do'] : write ? ['write', '✏️ Write'] : ['read', '📖 Read'];
+      var t = document.createElement('span'); t.className = 'cw-kind cw-kind-' + k[0]; t.textContent = k[1]; head.appendChild(t);
+    });
+    var now = null;
+    function pick() {
+      var a = document.activeElement, f = a && a.closest && a.closest('.activity, .q-block');
+      if (!f || !f.offsetParent) { var line = innerHeight * 0.4, best = 1e9; f = null;
+        cards.forEach(function (c) { if (!c.offsetParent) return; var r = c.getBoundingClientRect(); if (r.bottom < 80 || r.top > innerHeight) return;
+          var d = r.top <= line && r.bottom >= line ? 0 : Math.min(Math.abs(r.top - line), Math.abs(r.bottom - line)); if (d < best) { best = d; f = c; } }); }
+      if (f && f.parentElement && f.parentElement.closest('.activity')) f = f.parentElement.closest('.activity');   /* the outer card */
+      if (f !== now) { if (now) now.classList.remove('cw-now'); now = f; if (now) now.classList.add('cw-now'); }
+    }
+    var t0 = 0; addEventListener('scroll', function () { if (!t0) t0 = setTimeout(function () { t0 = 0; pick(); }, 120); }, { passive: true });
+    document.addEventListener('focusin', pick); document.addEventListener('click', function () { setTimeout(pick, 0); }); pick();
+  }
+  window.addEventListener('load', function () { setTimeout(go, 50); });
+})();

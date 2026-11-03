@@ -317,3 +317,11 @@ body.cw-page .pq-chip.on::before{content:"• "}
 /* tab checks mean the tab's work is done, not that it was visited */
 body.cw-page .tab-btn .tab-check{display:none!important}
 body.cw-page .tab-btn.cw-done .tab-check{display:inline!important}
+/* the task being worked on stands out; the rest stays quiet */
+body.cw-page .activity,body.cw-page .q-block{transition:border-color .25s,box-shadow .25s}
+body.cw-page .activity.cw-now,body.cw-page .q-block.cw-now{border-color:var(--cw-navy)!important;border-width:2px!important;box-shadow:0 0 0 3px rgba(242,201,76,.55),0 8px 22px rgba(31,47,85,.14)!important}
+.cw-kind{display:inline-block;margin-top:4px;font:800 12px/1 'Nunito',system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:4px 9px}
+.q-text .cw-kind{margin:0 0 0 8px;vertical-align:middle}
+.cw-kind-do{background:#fff3c4;color:#6b4a00}
+.cw-kind-write{background:#efe9fb;color:#4c3a7a}
+.cw-kind-read{background:#e9f1fb;color:#1f3f6b}
