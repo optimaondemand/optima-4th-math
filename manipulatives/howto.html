@@ -6,6 +6,13 @@
 <title>How the Tools Work · Math Manipulatives</title>
 <link rel="stylesheet" href="lib.css">
 <style>
+  /* hero styles (these live in index.html; standalone pages need their own copy) */
+  .lib-hero{background:var(--navy);color:#fff;padding:1.6rem 1rem 2.2rem;position:relative;overflow:hidden}
+  .lib-hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,var(--violet) 0 33%,var(--green) 33% 66%,var(--yellow) 66%)}
+  .lib-wrap{max-width:1180px;margin:0 auto}
+  .lib-hero h1{margin:0 0 .3rem;font-size:clamp(1.6rem,4vw,2.3rem)}
+  .lib-hero p{margin:0;opacity:.9;max-width:62ch}
+
   .hw-wrap{max-width:1040px;margin:0 auto;padding:1.2rem 1rem 3rem}
   .hw-intro{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:1rem 1.2rem;margin:1rem auto 1.4rem;max-width:1040px}
   .hw-intro p{margin:.3rem 0;color:#33405c}
