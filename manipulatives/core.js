@@ -398,6 +398,11 @@ var OAOM = (function () {
     document.title = m.name + ' · OAO Math Tools';
     $('#om-title').textContent = m.name;
     var hl = $('#om-howlist'); if (hl) hl.innerHTML = howFor(m).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
+    var hll = $('#om-howlinks');
+    if (hll) { var D = window.OAOM_DATA || {}, isStu = document.body.classList.contains('student'), links = '';
+      if (D.gifs && D.gifs.indexOf(m.id) > -1) links += '<a class="om-howlink gif" href="howto.html#' + m.id + '" target="_blank" rel="noopener">\u25B6 Watch how it works</a>';
+      if (!isStu && D.teach && D.teach[m.id]) links += '<a class="om-howlink teach" href="' + esc(D.teach[m.id].url) + '" target="_blank" rel="noopener">\uD83D\uDCD8 ' + esc(D.teach[m.id].label) + ' \u2197</a>';
+      hll.innerHTML = links; }
     document.body.classList.toggle('hide-nums', S._r === 0);
     var bt = $('#om-nums'); if (bt) bt.setAttribute('aria-pressed', S._r === 0 ? 'true' : 'false');
     var redrawFn = function () {}, into = side, isStu = document.body.classList.contains('student');
@@ -587,7 +592,7 @@ var OAOM = (function () {
       (isBoard ? '<button class="om-btn small" id="om-print" aria-label="Print" title="Print"><span class="lbl">Print</span><span aria-hidden="true">🖨</span></button>' + (isStudent ? '' : '<button class="om-btn small" id="om-pic" aria-label="Download a picture"><span class="lbl">Picture</span><span aria-hidden="true">🖼</span></button><button class="om-btn small" id="om-save" aria-label="Save this setup"><span class="lbl">Save setup</span><span aria-hidden="true">💾</span></button>') : '') +
       (isStudent ? '<button class="om-btn small primary" id="om-turnin" aria-label="Turn in my work"><span class="lbl">Turn in my work</span><span aria-hidden="true">📤</span></button>' : '<button class="om-btn small primary" id="om-share" aria-label="Share"><span class="lbl">Share</span><span aria-hidden="true">🔗</span></button>') + '</div></header>' +
       '<nav class="om-tabs" id="om-tabs" role="tablist" hidden></nav><p class="om-lessonnote" id="om-lnote" hidden></p>' +
-      '<main class="om-main" id="om-main"><section class="om-stagecard"><div class="om-printhead" id="om-printhead"></div><details class="om-how" id="om-how"' + (isEmbed ? '' : ' open') + '><summary>How to use this tool</summary><button type="button" class="om-btn small om-read" id="om-read">🔊 Read to me</button><ol id="om-howlist"></ol></details>' +
+      '<main class="om-main" id="om-main"><section class="om-stagecard"><div class="om-printhead" id="om-printhead"></div><details class="om-how" id="om-how"' + (isEmbed ? '' : ' open') + '><summary>How to use this tool</summary><button type="button" class="om-btn small om-read" id="om-read">🔊 Read to me</button><ol id="om-howlist"></ol><div class="om-howlinks" id="om-howlinks"></div></details>' +
       '<div class="om-toolbar om-noprint" role="toolbar" aria-label="Tool actions"><button type="button" class="om-btn small" id="om-undo" aria-label="Undo" title="Undo (Ctrl+Z)" disabled>↶ <span class="lbl">Undo</span></button><button type="button" class="om-btn small" id="om-redo" aria-label="Redo" title="Redo (Ctrl+Y)" disabled>↷ <span class="lbl">Redo</span></button>' +
       '<button type="button" class="om-btn small" id="om-pen" aria-pressed="false">✏️ <span class="lbl">Pen</span></button><span class="om-penbar" id="om-penbar" hidden><button type="button" class="om-sw" data-c="#0E1C42" style="background:#0E1C42" aria-label="Navy pen"></button><button type="button" class="om-sw" data-c="#D2453B" style="background:#D2453B" aria-label="Red pen"></button><button type="button" class="om-sw" data-c="#23915A" style="background:#23915A" aria-label="Green pen"></button><button type="button" class="om-btn small" id="om-penclear">Clear ink</button></span>' +
       '<button type="button" class="om-btn small" id="om-surprise" hidden>🎲 <span class="lbl">Surprise me</span></button>' +

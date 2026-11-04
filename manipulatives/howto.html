@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>How the Tools Work · Math Manipulatives</title>
+<link rel="stylesheet" href="lib.css">
+<style>
+  .hw-wrap{max-width:1040px;margin:0 auto;padding:1.2rem 1rem 3rem}
+  .hw-intro{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:1rem 1.2rem;margin:1rem auto 1.4rem;max-width:1040px}
+  .hw-intro p{margin:.3rem 0;color:#33405c}
+  .hw-group{margin:2rem 0 .6rem;color:var(--navy);font-size:1.25rem;border-bottom:3px solid #eceff5;padding-bottom:.3rem}
+  .hw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.1rem}
+  .hw-card{background:#fff;border-radius:16px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;scroll-margin-top:12px}
+  .hw-card h3{margin:0;padding:.7rem .9rem .2rem;color:var(--navy);font-size:1.08rem}
+  .hw-card .fig{background:#F6F7FB;border-top:1px solid #eef0f6;border-bottom:1px solid #eef0f6;text-align:center}
+  .hw-card .fig img{display:block;width:100%;height:auto}
+  .hw-card ol{margin:.6rem 0 .5rem;padding:0 1rem 0 2.1rem}
+  .hw-card ol li{margin:.2rem 0;color:#33405c;font-size:.93rem}
+  .hw-card .foot{margin-top:auto;padding:.5rem .9rem .9rem;display:flex;flex-wrap:wrap;gap:.5rem}
+  .hw-open{display:inline-flex;align-items:center;gap:.3rem;font-weight:700;font-size:.88rem;text-decoration:none;border-radius:999px;padding:.32rem .75rem;background:#F3EEFF;color:#5B34C7;border:2px solid #D8C8FF}
+  .hw-teach{display:inline-flex;align-items:center;gap:.3rem;font-weight:700;font-size:.88rem;text-decoration:none;border-radius:999px;padding:.32rem .75rem;background:#EAF4EE;color:#1C6B3F;border:2px solid #BFE0CC}
+  .hw-open:hover{background:#E9DEFF}.hw-teach:hover{background:#DCEEDE}
+  .hw-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.8rem}
+  .hw-li{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:.7rem .9rem}
+  .hw-li h3{margin:0 0 .2rem;color:var(--navy);font-size:1rem}
+  .hw-li p{margin:0 0 .4rem;color:#51607d;font-size:.9rem}
+  .back{color:#fff;text-decoration:none;font-weight:700;opacity:.92}
+  .back:hover{opacity:1;text-decoration:underline}
+</style>
+</head>
+<body>
+<header class="lib-hero">
+  <div class="lib-wrap">
+    <a class="back" href="index.html">← Library</a>
+    <h1 style="margin-top:.4rem">How the Tools Work</h1>
+    <p>Short, silent clips that show each tool in action, plus the written steps. The green links go to a quick outside explainer for teachers who want to know what a tool is and how it is used. This page is for teachers — the clips are also linked from each tool's own “How to use this tool” box.</p>
+  </div>
+</header>
+
+<div class="hw-wrap" id="hw"></div>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  var D = window.OAOM_DATA, root = document.getElementById('hw');
+  var byId = {}; D.tools.forEach(function (t) { byId[t.id] = t; });
+  var gifs = D.gifs || [], teach = D.teach || {};
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function steps(t){ return (t.how&&t.how.length)?'<ol>'+t.how.map(function(s){return '<li>'+esc(s)+'</li>';}).join('')+'</ol>':''; }
+  function teachLink(id){ var g=teach[id]; return g?'<a class="hw-teach" href="'+esc(g.url)+'" target="_blank" rel="noopener">📘 '+esc(g.label)+' ↗</a>':''; }
+
+  // group the GIF tools by category, in catalog order
+  var order=[], seen={};
+  D.tools.forEach(function(t){ if(gifs.indexOf(t.id)>-1 && !seen[t.g]){ order.push(t.g); seen[t.g]=1; } });
+  var html='';
+  order.forEach(function(g){
+    html+='<h2 class="hw-group">'+esc(g)+'</h2><div class="hw-grid">';
+    D.tools.forEach(function(t){
+      if(t.g!==g || gifs.indexOf(t.id)<0) return;
+      html+='<article class="hw-card" id="'+esc(t.id)+'">'
+        +'<h3>'+esc(t.name)+'</h3>'
+        +'<div class="fig"><img loading="lazy" alt="How to use '+esc(t.name)+'" src="howto/'+esc(t.id)+'.gif"></div>'
+        +steps(t)
+        +'<div class="foot"><a class="hw-open" href="tool.html?t='+esc(t.id)+'" target="_blank" rel="noopener">Open the tool ↗</a>'+teachLink(t.id)+'</div>'
+        +'</article>';
+    });
+    html+='</div>';
+  });
+
+  // tools with a teacher guide but no clip
+  var rest=D.tools.filter(function(t){ return teach[t.id] && gifs.indexOf(t.id)<0; });
+  if(rest.length){
+    html+='<h2 class="hw-group">More tools — written guides</h2><div class="hw-list">';
+    rest.forEach(function(t){
+      html+='<div class="hw-li" id="'+esc(t.id)+'"><h3>'+esc(t.name)+'</h3>'+(t.what?'<p>'+esc(t.what)+'</p>':'')
+        +'<div class="foot" style="padding:0;display:flex;gap:.5rem;flex-wrap:wrap"><a class="hw-open" href="tool.html?t='+esc(t.id)+'" target="_blank" rel="noopener">Open the tool ↗</a>'+teachLink(t.id)+'</div></div>';
+    });
+    html+='</div>';
+  }
+  root.innerHTML=html;
+
+  // deep-link highlight
+  if(location.hash){ var el=document.getElementById(location.hash.slice(1)); if(el){ el.scrollIntoView(); el.style.outline='3px solid var(--violet)'; el.style.outlineOffset='2px'; } }
+})();
+</script>
+</body>
+</html>

@@ -774,7 +774,39 @@ window.OAOM_DATA = (function () {
     solids: function (S) { var f = pick([['6 faces', '6'], ['5 faces', '5'], ['2 flat faces and a curved side', '2']]); return { set: { m: 'one' }, g: ['Find a shape with ' + f[0] + '.', f[1], [], 'f'] }; }
   };
 
-  var api = { questions: QUESTIONS, surprise: SURPRISE, howEs: HOW_ES, whatEs: WHAT_ES, tools: tools, groups: groups, base: base, units: units, lessons: lessons,
+  /* teacher-only 'how to use this foreign tool' links + which tools have a how-to GIF (both added Nov 2026) */
+  var TEACH = {
+    "discs": { label: "How place value discs work", url: "https://www.understood.org/en/articles/place-value-disks-an-evidence-based-math-strategy" },
+    "trademat": { label: "Trading & regrouping with place value", url: "https://www.understood.org/en/articles/place-value-disks-an-evidence-based-math-strategy" },
+    "blocks": { label: "How base-ten blocks work", url: "https://helpingwithmath.com/base-10-blocks/" },
+    "pvcards": { label: "How place-value (arrow) cards work", url: "https://www.educationworld.com/a_curr/Teaching-Place-Value-With-Arrow-Cards.shtml" },
+    "bond": { label: "What number bonds are", url: "https://helpingwithmath.com/number-bonds/" },
+    "bar": { label: "What a bar model is", url: "https://www.teachstarter.com/us/blog/the-bar-model-for-problem-solving-us/" },
+    "barstrip": { label: "Fraction/whole bar models", url: "https://courses.lumenlearning.com/wm-prealgebra/chapter/visualize-fractions" },
+    "numberline": { label: "How to use a number line", url: "https://www.math-only-math.com/use-a-number-line.html" },
+    "counters": { label: "Two-color counters & arrays", url: "https://courses.completemaths.com/teaching-with-two-colour-counters" },
+    "hundred": { label: "Ways to use a hundred chart", url: "https://thestemlaboratory.com/15-brilliant-ways-use-hundred-chart/" },
+    "fbars": { label: "How fraction strips work", url: "https://courses.lumenlearning.com/wm-prealgebra/chapter/visualize-fractions" },
+    "fcircles": { label: "How fraction circles work", url: "https://courses.lumenlearning.com/wm-prealgebra/chapter/visualize-fractions" },
+    "decgrid": { label: "Decimal tenths & hundredths grids", url: "https://www.onlinemathlearning.com/decimals-grade5.html" },
+    "scale": { label: "How to use a balance scale", url: "https://sciencing.com/use-balance-scale-4779772" },
+    "beaker": { label: "Reading a measuring cylinder", url: "https://knowledge.carolina.com/discipline/physical-science/chemistry/how-to-use-a-graduated-cylinder/" },
+    "clock": { label: "How to read an analog clock", url: "https://www.mathnasium.com/math-centers/lajolla/news/how-to-read-an-analog-clock" },
+    "tiles": { label: "Area by tiling with squares", url: "https://mathlessons.co/posts/area-and-tiling/" },
+    "geoboard": { label: "How to use a geoboard", url: "https://www.weareteachers.com/geoboards/" },
+    "tangram": { label: "What tangrams are", url: "https://www.cuemath.com/numbers/tangrams" },
+    "pattern": { label: "How to use pattern blocks", url: "https://classplayground.com/pattern-blocks/" },
+    "protractor": { label: "How to read a protractor", url: "https://helpingwithmath.com/using-a-protractor/" },
+    "setsquare": { label: "How to use a set square", url: "https://www.mathsteacher.com.au/year8/ch10_geomcons/07_setsquare/set.htm" },
+    "compass": { label: "How to use a compass", url: "https://www.intmath.com/functions-and-graphs/how-to-draw-a-compass-in-geometry.php" },
+    "cubes": { label: "Volume with unit cubes", url: "https://www.varsitytutors.com/practice/subjects/5th-grade-math/lessons/measure-volume-by-counting-cubes" },
+    "cuisenaire": { label: "Introducing Cuisenaire rods", url: "https://kcm.nku.edu/MathHub/introducing_cuisenaire_rods.php" },
+    "attrblocks": { label: "Using attribute blocks", url: "https://ourjourneywestward.com/attribute-blocks/" },
+    "tenframe": { label: "How to use a ten frame", url: "https://helpingwithmath.com/ten-frames/" }
+  };
+  var GIFS = ["discs", "fbars", "fcircles", "numberline", "counters", "barstrip", "beaker", "clock", "geoboard", "protractor", "compass", "cubes", "scale", "bar", "trademat"];
+
+  var api = { questions: QUESTIONS, surprise: SURPRISE, howEs: HOW_ES, whatEs: WHAT_ES, teach: TEACH, gifs: GIFS, tools: tools, groups: groups, base: base, units: units, lessons: lessons,
     lessonById: function (id) { id = String(id).trim(); return lessons.filter(function (l) { return l.id === id; })[0]; } };
   return api;
 })();

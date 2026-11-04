@@ -238,3 +238,12 @@ body.board.dark .om-dialog{background:#fff;color:#1B2238;--ink:#1B2238;--mute:#5
   .om-top #om-share .lbl,.om-top #om-turnin .lbl{display:inline}
   .om-menuitems{right:auto;left:0}
 }
+
+/* how-to box links: Watch how it works (GIF gallery) + teacher-only resource */
+.om-howlinks{display:flex;flex-wrap:wrap;gap:.4rem .6rem;margin:.55rem 0 .1rem}
+.om-howlink{display:inline-flex;align-items:center;gap:.3rem;font-size:.9rem;font-weight:700;text-decoration:none;border-radius:999px;padding:.3rem .7rem;border:2px solid transparent;line-height:1.2}
+.om-howlink.gif{background:#F3EEFF;color:#5B34C7;border-color:#D8C8FF}
+.om-howlink.gif:hover{background:#E9DEFF}
+.om-howlink.teach{background:#EAF4EE;color:#1C6B3F;border-color:#Bfe0cc}
+.om-howlink.teach:hover{background:#DcEede}
+@media print{.om-howlinks{display:none}}
