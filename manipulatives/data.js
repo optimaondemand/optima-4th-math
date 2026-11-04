@@ -779,7 +779,7 @@ window.OAOM_DATA = (function () {
     "discs": { label: "Teacher guide: Number Discs", url: "guide-discs.html" },
     "trademat": { label: "Teacher guide: the Trade Mat", url: "guide-discs.html#trade" },
     "pvcards": { label: "How place-value (arrow) cards work", url: "https://www.educationworld.com/a_curr/Teaching-Place-Value-With-Arrow-Cards.shtml" },
-    "bond": { label: "Number bonds explained (Maths \u2014 No Problem)", url: "https://mathsnoproblem.com/en/approach/number-bonds" },
+    "bond": { label: "Teacher guide: Number Bonds", url: "guide-bond.html" },
     "bar": { label: "Teacher guide: Bar Models", url: "bar-model-guide.html" },
     "barstrip": { label: "Teacher guide: Bar Models", url: "bar-model-guide.html" },
     "counters": { label: "Teacher guide: Counters & Arrays", url: "guide-counters.html" },
@@ -791,8 +791,12 @@ window.OAOM_DATA = (function () {
     "clock": { label: "How to use a clock (Math Learning Center)", url: "https://apps.mathlearningcenter.org/math-clock/info/info-how-to.html" },
     "tiles": { label: "Teacher guide: Color Tiles", url: "guide-tiles.html" },
     "tangram": { label: "Teacher guide: Tangrams", url: "guide-tangram.html" },
-    "setsquare": { label: "Drawing parallel & perpendicular lines (Alloprof)", url: "https://www.alloprof.qc.ca/en/students/vl/mathematics/constructing-perpendicular-and-parallel-lines-m1221" },
-    "compass": { label: "Teacher guide: the Compass", url: "guide-compass.html" }
+    "setsquare": { label: "Teacher guide: Set Squares", url: "guide-setsquare.html" },
+    "compass": { label: "Teacher guide: the Compass", url: "guide-compass.html" },
+    "cuisenaire": { label: "Teacher guide: Cuisenaire Rods", url: "guide-cuisenaire.html" },
+    "geoboard": { label: "Teacher guide: the Geoboard", url: "guide-geoboard.html" },
+    "pattern": { label: "Teacher guide: Pattern Blocks", url: "guide-pattern.html" },
+    "attrblocks": { label: "Teacher guide: Attribute Blocks", url: "guide-attrblocks.html" }
   };
   var GIFS = ["discs", "fbars", "fcircles", "numberline", "counters", "barstrip", "beaker", "clock", "geoboard", "protractor", "compass", "cubes", "scale", "bar", "trademat"];
 
