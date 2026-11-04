@@ -788,7 +788,7 @@ window.OAOM_DATA = (function () {
     "decgrid": { label: "Teacher guide: the Decimal Grid", url: "guide-decgrid.html" },
     "scale": { label: "Teacher guide: Scales & Measuring", url: "guide-measure.html" },
     "beaker": { label: "Teacher guide: Scales & Measuring", url: "guide-measure.html" },
-    "clock": { label: "How to use a clock (Math Learning Center)", url: "https://apps.mathlearningcenter.org/math-clock/info/info-how-to.html" },
+    "clock": { label: "Teacher guide: the Clock", url: "guide-clock.html" },
     "tiles": { label: "Teacher guide: Color Tiles", url: "guide-tiles.html" },
     "tangram": { label: "Teacher guide: Tangrams", url: "guide-tangram.html" },
     "setsquare": { label: "Teacher guide: Set Squares", url: "guide-setsquare.html" },
@@ -796,7 +796,13 @@ window.OAOM_DATA = (function () {
     "cuisenaire": { label: "Teacher guide: Cuisenaire Rods", url: "guide-cuisenaire.html" },
     "geoboard": { label: "Teacher guide: the Geoboard", url: "guide-geoboard.html" },
     "pattern": { label: "Teacher guide: Pattern Blocks", url: "guide-pattern.html" },
-    "attrblocks": { label: "Teacher guide: Attribute Blocks", url: "guide-attrblocks.html" }
+    "attrblocks": { label: "Teacher guide: Attribute Blocks", url: "guide-attrblocks.html" },
+    "blocks": { label: "Teacher guide: Base-Ten Blocks", url: "guide-blocks.html" },
+    "numberline": { label: "Teacher guide: the Number Line", url: "guide-numberline.html" },
+    "hundred": { label: "Teacher guide: the Hundred Chart", url: "guide-hundred.html" },
+    "tenframe": { label: "Teacher guide: Ten Frames", url: "guide-tenframe.html" },
+    "protractor": { label: "Teacher guide: the Protractor", url: "guide-protractor.html" },
+    "cubes": { label: "Teacher guide: Unit Cubes", url: "guide-cubes.html" }
   };
   var GIFS = ["discs", "fbars", "fcircles", "numberline", "counters", "barstrip", "beaker", "clock", "geoboard", "protractor", "compass", "cubes", "scale", "bar", "trademat"];
 
