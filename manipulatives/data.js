@@ -774,35 +774,25 @@ window.OAOM_DATA = (function () {
     solids: function (S) { var f = pick([['6 faces', '6'], ['5 faces', '5'], ['2 flat faces and a curved side', '2']]); return { set: { m: 'one' }, g: ['Find a shape with ' + f[0] + '.', f[1], [], 'f'] }; }
   };
 
-  /* teacher-only 'how to use this foreign tool' links + which tools have a how-to GIF (both added Nov 2026) */
+  /* teacher-only 'how to use this foreign tool' links: in-house guide-*.html first; outside links only when they are short and clear (audit Nov 4 2026) + which tools have a how-to GIF (both added Nov 2026) */
   var TEACH = {
-    "discs": { label: "How place value discs work", url: "https://www.understood.org/en/articles/place-value-disks-an-evidence-based-math-strategy" },
-    "trademat": { label: "Trading & regrouping with place value", url: "https://www.understood.org/en/articles/place-value-disks-an-evidence-based-math-strategy" },
-    "blocks": { label: "How to use base-ten pieces (Math Learning Center)", url: "https://apps.mathlearningcenter.org/number-pieces/info/info-how-to.html" },
+    "discs": { label: "Teacher guide: Number Discs", url: "guide-discs.html" },
+    "trademat": { label: "Teacher guide: the Trade Mat", url: "guide-discs.html#trade" },
     "pvcards": { label: "How place-value (arrow) cards work", url: "https://www.educationworld.com/a_curr/Teaching-Place-Value-With-Arrow-Cards.shtml" },
-    "bond": { label: "What number bonds are", url: "https://helpingwithmath.com/number-bonds/" },
-    "bar": { label: "Teaching with bar models (OAO guide)", url: "bar-model-guide.html" },
-    "barstrip": { label: "Teaching with bar models (OAO guide)", url: "bar-model-guide.html" },
-    "numberline": { label: "How to use a number line (Math Learning Center)", url: "https://apps.mathlearningcenter.org/number-line/info/info-how-to.html" },
-    "counters": { label: "Two-color counters (Toy Theater)", url: "https://toytheater.com/two-color-counter-numbers/" },
-    "hundred": { label: "Using a hundred square (NRICH)", url: "https://nrich.maths.org/100-square" },
+    "bond": { label: "Number bonds explained (Maths \u2014 No Problem)", url: "https://mathsnoproblem.com/en/approach/number-bonds" },
+    "bar": { label: "Teacher guide: Bar Models", url: "bar-model-guide.html" },
+    "barstrip": { label: "Teacher guide: Bar Models", url: "bar-model-guide.html" },
+    "counters": { label: "Teacher guide: Counters & Arrays", url: "guide-counters.html" },
     "fbars": { label: "How to use fraction bars (Math Learning Center)", url: "https://apps.mathlearningcenter.org/fractions/info/info-how-to.html" },
     "fcircles": { label: "How to use fraction circles (Math Learning Center)", url: "https://apps.mathlearningcenter.org/fractions/info/info-how-to.html" },
-    "decgrid": { label: "Decimal tenths & hundredths grids", url: "https://www.onlinemathlearning.com/decimals-grade5.html" },
-    "scale": { label: "How to use a balance scale", url: "https://sciencing.com/use-balance-scale-4779772" },
-    "beaker": { label: "Reading a measuring cylinder", url: "https://knowledge.carolina.com/discipline/physical-science/chemistry/how-to-use-a-graduated-cylinder/" },
+    "decgrid": { label: "Teacher guide: the Decimal Grid", url: "guide-decgrid.html" },
+    "scale": { label: "Teacher guide: Scales & Measuring", url: "guide-measure.html" },
+    "beaker": { label: "Teacher guide: Scales & Measuring", url: "guide-measure.html" },
     "clock": { label: "How to use a clock (Math Learning Center)", url: "https://apps.mathlearningcenter.org/math-clock/info/info-how-to.html" },
-    "tiles": { label: "Area by tiling with squares", url: "https://mathlessons.co/posts/area-and-tiling/" },
-    "geoboard": { label: "How to use a geoboard (Math Learning Center)", url: "https://apps.mathlearningcenter.org/geoboard/info/info-how-to.html" },
-    "tangram": { label: "What tangrams are", url: "https://www.cuemath.com/numbers/tangrams" },
-    "pattern": { label: "How to use pattern shapes (Math Learning Center)", url: "https://apps.mathlearningcenter.org/pattern-shapes/info/info-how-to.html" },
-    "protractor": { label: "How to read a protractor", url: "https://helpingwithmath.com/using-a-protractor/" },
-    "setsquare": { label: "How to use a set square", url: "https://www.mathsteacher.com.au/year8/ch10_geomcons/07_setsquare/set.htm" },
-    "compass": { label: "How to use a compass", url: "https://www.intmath.com/functions-and-graphs/how-to-draw-a-compass-in-geometry.php" },
-    "cubes": { label: "Volume with unit cubes", url: "https://www.varsitytutors.com/practice/subjects/5th-grade-math/lessons/measure-volume-by-counting-cubes" },
-    "cuisenaire": { label: "Introducing Cuisenaire rods", url: "https://kcm.nku.edu/MathHub/introducing_cuisenaire_rods.php" },
-    "attrblocks": { label: "Using attribute blocks", url: "https://ourjourneywestward.com/attribute-blocks/" },
-    "tenframe": { label: "How to use number/ten frames (Math Learning Center)", url: "https://apps.mathlearningcenter.org/number-frames/info/info-how-to.html" }
+    "tiles": { label: "Teacher guide: Color Tiles", url: "guide-tiles.html" },
+    "tangram": { label: "Teacher guide: Tangrams", url: "guide-tangram.html" },
+    "setsquare": { label: "Drawing parallel & perpendicular lines (Alloprof)", url: "https://www.alloprof.qc.ca/en/students/vl/mathematics/constructing-perpendicular-and-parallel-lines-m1221" },
+    "compass": { label: "Teacher guide: the Compass", url: "guide-compass.html" }
   };
   var GIFS = ["discs", "fbars", "fcircles", "numberline", "counters", "barstrip", "beaker", "clock", "geoboard", "protractor", "compass", "cubes", "scale", "bar", "trademat"];
 
