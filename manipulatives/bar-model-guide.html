@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Teaching with Bar Models · Math Manipulatives</title>
+<link rel="stylesheet" href="lib.css">
+<style>
+  .bg-wrap{max-width:820px;margin:0 auto;padding:1.2rem 1rem 3.5rem}
+  .bg-wrap h2{color:var(--navy);font-size:1.35rem;margin:2rem 0 .5rem;border-bottom:3px solid #eceff5;padding-bottom:.3rem}
+  .bg-wrap h3{color:var(--navy);font-size:1.08rem;margin:1.3rem 0 .3rem}
+  .bg-wrap p{color:#33405c;line-height:1.6;margin:.5rem 0}
+  .bg-wrap ul{color:#33405c;line-height:1.55} .bg-wrap li{margin:.3rem 0}
+  .bg-card{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:1rem 1.3rem;margin:1rem 0}
+  .bg-fig{background:#F8F7FC;border:1px solid #ece4fb;border-radius:12px;padding:1rem;margin:.7rem 0;text-align:center}
+  .bg-fig figcaption{color:#5b4b86;font-size:.9rem;margin-top:.5rem}
+  .bg-ex{border-left:4px solid var(--violet);background:#faf8ff;border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:1rem 0}
+  .bg-ex .q{font-weight:700;color:var(--navy)}
+  .bg-try{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:1rem 1.3rem;margin:1.4rem 0}
+  .bg-try iframe{width:100%;height:560px;border:1px solid #e5e8f0;border-radius:12px;background:#fff}
+  .bg-ref a{color:#1C6B3F;font-weight:700}
+  .back{color:#fff;text-decoration:none;font-weight:700;opacity:.92}.back:hover{opacity:1;text-decoration:underline}
+  .btnrow{display:flex;flex-wrap:wrap;gap:.6rem;margin:.6rem 0}
+  .bg-btn{display:inline-flex;align-items:center;gap:.3rem;font-weight:800;text-decoration:none;border-radius:999px;padding:.4rem .9rem;background:var(--violet);color:#fff}
+  .bg-btn.alt{background:#F3EEFF;color:#5B34C7;border:2px solid #D8C8FF}
+</style>
+</head>
+<body>
+<header class="lib-hero">
+  <div class="lib-wrap">
+    <a class="back" href="howto.html">← How the tools work</a>
+    <h1 style="margin-top:.4rem">Teaching with Bar Models</h1>
+    <p>The bar model is one of the most powerful tools in the kit and one of the most skipped, usually because it was never taught to us this way. This is a short guide to using it with confidence, with two models, a worked example, and the on-screen tool to try.</p>
+  </div>
+</header>
+
+<div class="bg-wrap">
+
+  <div class="bg-card">
+    <h3 style="margin-top:0">Why it is worth the trouble</h3>
+    <p>A bar model is a picture of a word problem. You draw a rectangle for each quantity you know and a rectangle for the one you are looking for, and the picture shows you what to do. People sometimes call it visual algebra, because it lets a third grader reason through a problem that would otherwise need an equation.</p>
+    <p>It also fixes the biggest trap in word problems: keyword guessing. Tell a class to underline "more than" and watch what happens with these two:</p>
+    <ul>
+      <li>"What is 4 <em>more than</em> 23?" &rarr; that is 23 + 4.</li>
+      <li>"How many <em>more than</em> 23 is 27?" &rarr; that is 27 &minus; 23.</li>
+    </ul>
+    <p>Same words, different operations. A student who draws the bars sees the difference instead of hunting for a word. The goal is always to build the model from the story, never from keywords.</p>
+  </div>
+
+  <h2>The two models to know</h2>
+
+  <h3>1. Part&ndash;whole</h3>
+  <p>You know two of three things &mdash; the whole, one part, the other part &mdash; and you find the one that is missing. The whole sits as one long bar; the parts sit underneath it and line up to the same length. Mark the unknown with a question mark. That question mark is the whole point: it tells you which calculation to do.</p>
+  <figure class="bg-fig">
+    <svg viewBox="0 0 440 150" width="100%" style="max-width:440px" role="img" aria-label="Part-whole bar model: whole 50 over parts 30 and question mark">
+      <rect x="20" y="20" width="400" height="40" rx="6" fill="#EDE7FB" stroke="#7C4DFF" stroke-width="2"/>
+      <text x="220" y="45" text-anchor="middle" font-size="18" font-weight="700" fill="#0E1C42">50 students</text>
+      <rect x="20" y="78" width="240" height="40" rx="6" fill="#23915A" stroke="#fff" stroke-width="2"/>
+      <text x="140" y="103" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">30 girls</text>
+      <rect x="264" y="78" width="156" height="40" rx="6" fill="#fff" stroke="#7C4DFF" stroke-width="2" stroke-dasharray="6 5"/>
+      <text x="342" y="104" text-anchor="middle" font-size="18" font-weight="800" fill="#7C4DFF">?</text>
+    </svg>
+    <figcaption>A class has 50 students. 30 are girls. The bar shows the boys are 50 &minus; 30 = 20.</figcaption>
+  </figure>
+  <p>Part&ndash;whole carries you a long way: all four operations, fractions, measurement, time, even ratio later on. It is the one to start with.</p>
+
+  <h3>2. Comparison</h3>
+  <p>Two bars sit one above the other so you can line them up and see the gap. Use it for "how many more", for "times as many", and for before-and-after stories where something changes.</p>
+  <figure class="bg-fig">
+    <svg viewBox="0 0 440 150" width="100%" style="max-width:440px" role="img" aria-label="Comparison bar model: Leo 12, Maria three times as many">
+      <text x="20" y="38" font-size="14" font-weight="700" fill="#0E1C42">Leo</text>
+      <rect x="70" y="22" width="110" height="34" rx="6" fill="#2F6FDE" stroke="#fff" stroke-width="2"/>
+      <text x="125" y="44" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">12</text>
+      <text x="20" y="98" font-size="14" font-weight="700" fill="#0E1C42">Maria</text>
+      <rect x="70" y="82" width="110" height="34" rx="6" fill="#7C4DFF" stroke="#fff" stroke-width="2"/>
+      <rect x="180" y="82" width="110" height="34" rx="6" fill="#7C4DFF" stroke="#fff" stroke-width="2"/>
+      <rect x="290" y="82" width="110" height="34" rx="6" fill="#7C4DFF" stroke="#fff" stroke-width="2"/>
+      <text x="235" y="104" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">?</text>
+    </svg>
+    <figcaption>Maria read 3 times as many pages as Leo, who read 12. Each unit is 12, so Maria read 3 &times; 12 = 36.</figcaption>
+  </figure>
+
+  <h2>How to start it with students</h2>
+  <p>Begin where they can touch it, then move to drawing, then to numbers alone. The on-screen Bar Model works at every one of these stages, and so do cut paper strips, Cuisenaire rods or linking cubes.</p>
+  <ul>
+    <li><strong>Concrete first.</strong> Build the bars out of something you can slide and cut: strips, rods, cubes. For before-and-after problems this matters, because students physically move a piece from one bar to the other.</li>
+    <li><strong>Then draw.</strong> Once they trust the pieces, draw the same bars on paper or on the tool. Keep the parts lined up and keep the single question mark.</li>
+    <li><strong>Then numbers.</strong> When the picture is secure, the number sentence falls out of it. Let a student drop back to drawing any time a problem gets hard &mdash; that is the tool doing its job, not a step backward.</li>
+    <li><strong>When to begin.</strong> Part&ndash;whole fits as early as students work with parts and totals. Comparison and "times as many" land well around third and fourth grade and keep paying off through fractions and ratio.</li>
+  </ul>
+
+  <h2>A worked example to try yourself</h2>
+  <div class="bg-ex">
+    <p class="q">Sam has 5 times as many marbles as Tom. Sam gives Tom 26 marbles, and now they have the same number. How many marbles are there in all?</p>
+  </div>
+  <p>Most of us reach for algebra here (5x &minus; 26 = x + 26) and most fourth graders can't. The bars make it reachable:</p>
+  <ul>
+    <li>Draw Tom as <strong>1 unit</strong> and Sam as <strong>5 units</strong>, lined up.</li>
+    <li>In the end they are equal. Six units shared into two equal bars is <strong>3 units each</strong>.</li>
+    <li>So Sam went from 5 units down to 3 units &mdash; he gave away <strong>2 units</strong>. Those 2 units are the 26 marbles.</li>
+    <li>2 units = 26, so <strong>1 unit = 13</strong>.</li>
+    <li>There are 6 units in all: 6 &times; 13 = <strong>78 marbles</strong>.</li>
+  </ul>
+  <p>No equation, no keyword. Students who would stall on the algebra can see it in the bars &mdash; often faster than the adults in the room.</p>
+
+  <h2>Making it work</h2>
+  <ul>
+    <li>Build the model from the story, not from underlined words.</li>
+    <li>Always mark the unknown with one question mark. It names the calculation for you.</li>
+    <li>Keep the parts lined up to the whole, and keep comparison bars left-aligned so the gap is honest.</li>
+    <li>Use pieces you can move for any "gives", "spends", or "before and after" problem.</li>
+    <li>Don't shrink the problems. Hand students a hard one and let the bars carry it; that is exactly where the model earns its keep.</li>
+  </ul>
+
+  <div class="bg-try">
+    <h2 style="margin-top:0;border:0">Try it in the tool</h2>
+    <p style="margin:.2rem 0 .7rem">Pick a model, tap a piece to type what you know, and mark the unknown with a question mark. Share any setup with students from the tool's own Share button.</p>
+    <div class="btnrow">
+      <a class="bg-btn" href="tool.html?t=bar" target="_blank" rel="noopener">Open the Bar Model tool ↗</a>
+      <a class="bg-btn alt" href="howto.html#bar" target="_blank" rel="noopener">▶ Watch the 20-second how-to</a>
+    </div>
+    <iframe src="tool.html?t=bar&embed=1" title="Bar Model tool" loading="lazy"></iframe>
+  </div>
+
+  <div class="bg-card bg-ref">
+    <h3 style="margin-top:0">Want to go deeper?</h3>
+    <p>Two references worth your time:</p>
+    <ul>
+      <li>Read: <a href="https://mathsnoproblem.com/blog/teaching-maths-mastery/making-the-most-of-bar-modelling" target="_blank" rel="noopener">Making the most of bar modelling</a> (Maths &mdash; No Problem) &mdash; the source for the marble problem above.</li>
+      <li>Watch: <a href="https://www.youtube.com/watch?v=PEAoJUYELtk" target="_blank" rel="noopener">Bar modelling walkthrough (video)</a>.</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
