@@ -30,6 +30,7 @@
   .btnrow{display:flex;flex-wrap:wrap;gap:.6rem;margin:.6rem 0}
   .bg-btn{display:inline-flex;align-items:center;gap:.3rem;font-weight:800;text-decoration:none;border-radius:999px;padding:.4rem .9rem;background:var(--violet);color:#fff}
   .bg-btn.alt{background:#F3EEFF;color:#5B34C7;border:2px solid #D8C8FF}
+  .bg-video{margin:1.2rem 0}.bg-video video{width:100%;border-radius:14px;border:1px solid #e5e8f0;display:block;background:#fff}.bg-video p{color:#5B6478;font-size:.92rem;margin:.45rem 0 0}
 </style>
 </head>
 <body>
@@ -37,11 +38,16 @@
   <div class="lib-wrap">
     <a class="back" href="howto.html">← How the tools work</a>
     <h1 style="margin-top:.4rem">Teaching with Bar Models</h1>
-    <p>The bar model is one of the most powerful tools in the kit and one of the most skipped, usually because it was never taught to us this way. This is a short guide to using it with confidence, with two models, a worked example, and the on-screen tool to try.</p>
+    <p>The bar model is one of the most powerful tools in the kit and one of the most skipped, usually because it was never taught to us this way. This is a short guide to using it with confidence, with three ways to use it, a worked example, and the on-screen tool to try.</p>
   </div>
 </header>
 
 <div class="bg-wrap">
+
+  <section class="bg-video">
+    <video controls preload="metadata" playsinline src="videos/bar-model.mp4" aria-label="Two-minute video: parts and whole, compare, and fractions with bar models, and how our tool works"></video>
+    <p>2-minute video · captions on screen</p>
+  </section>
 
   <div class="bg-card">
     <h3 style="margin-top:0">Why it is worth the trouble</h3>
@@ -54,7 +60,7 @@
     <p>Same words, different operations. A student who draws the bars sees the difference instead of hunting for a word. The goal is always to build the model from the story, never from keywords.</p>
   </div>
 
-  <h2>The two models to know</h2>
+  <h2>Three ways to use it</h2>
 
   <h3>1. Part&ndash;whole</h3>
   <p>You know two of three things &mdash; the whole, one part, the other part &mdash; and you find the one that is missing. The whole sits as one long bar; the parts sit underneath it and line up to the same length. Mark the unknown with a question mark. That question mark is the whole point: it tells you which calculation to do.</p>
@@ -86,6 +92,24 @@
     </svg>
     <figcaption>Maria read 3 times as many pages as Leo, who read 12. Each unit is 12, so Maria read 3 &times; 12 = 36.</figcaption>
   </figure>
+
+  <h3>3. Fractions</h3>
+  <p>Bar models carry a lot of fraction work in grades 3&ndash;5, especially finding a fraction of an amount. Draw one bar for the whole amount and cut it into as many equal units as the denominator. Find one unit, then count as many units as the numerator.</p>
+  <figure class="bg-fig">
+    <svg viewBox="0 0 440 160" width="100%" style="max-width:440px" role="img" aria-label="A bar of 24 cut into 8 equal units of 3; 3 units are shaded, making 9">
+      <text x="220" y="22" text-anchor="middle" font-size="16" font-weight="700" fill="#0E1C42">24 stickers</text>
+      <path d="M20 40 q0 -10 10 -10 H208 q12 0 12 -8 q0 8 12 8 H410 q10 0 10 10" fill="none" stroke="#0E1C42" stroke-width="2"/>
+      <g stroke="#0E1C42" stroke-width="2">
+        <rect x="20" y="46" width="50" height="44" fill="#FFE7A8"/><rect x="70" y="46" width="50" height="44" fill="#FFE7A8"/><rect x="120" y="46" width="50" height="44" fill="#FFE7A8"/>
+        <rect x="170" y="46" width="50" height="44" fill="#EDE7FB"/><rect x="220" y="46" width="50" height="44" fill="#EDE7FB"/><rect x="270" y="46" width="50" height="44" fill="#EDE7FB"/><rect x="320" y="46" width="50" height="44" fill="#EDE7FB"/><rect x="370" y="46" width="50" height="44" fill="#EDE7FB"/>
+      </g>
+      <g text-anchor="middle" font-size="17" font-weight="800" fill="#0E1C42"><text x="45" y="74">3</text><text x="95" y="74">3</text><text x="145" y="74">3</text><text x="195" y="74">3</text><text x="245" y="74">3</text><text x="295" y="74">3</text><text x="345" y="74">3</text><text x="395" y="74">3</text></g>
+      <path d="M20 98 q0 10 10 10 H83 q12 0 12 8 q0 -8 12 -8 H160 q10 0 10 -10" fill="none" stroke="#0E1C42" stroke-width="2"/>
+      <text x="95" y="140" text-anchor="middle" font-size="18" font-weight="800" fill="#7C4DFF">9</text>
+    </svg>
+    <figcaption>Sam had 24 stickers and gave away three eighths of them. 24 &divide; 8 = 3, so 3 units are 9 stickers.</figcaption>
+  </figure>
+  <p>The denominator tells you how many equal units to cut. The numerator tells you how many to count. In the tool, start from the <strong>Equal units</strong> picture.</p>
 
   <h2>How to start it with students</h2>
   <p>Begin where they can touch it, then move to drawing, then to numbers alone. The on-screen Bar Model works at every one of these stages, and so do cut paper strips, Cuisenaire rods or linking cubes.</p>
