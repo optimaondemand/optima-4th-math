@@ -784,7 +784,7 @@ window.OAOM_DATA = (function () {
     "barstrip": { label: "Teacher guide: Bar Models", url: "bar-model-guide.html" },
     "counters": { label: "Teacher guide: Counters & Arrays", url: "guide-counters.html" },
     "fbars": { label: "Teacher guide: Fraction Tiles", url: "guide-fbars.html" },
-    "fcircles": { label: "How to use fraction circles (Math Learning Center)", url: "https://apps.mathlearningcenter.org/fractions/info/info-how-to.html" },
+    "fcircles": { label: "Teacher guide: Fraction Circles", url: "guide-fcircles.html" },
     "decgrid": { label: "Teacher guide: the Decimal Grid", url: "guide-decgrid.html" },
     "scale": { label: "Teacher guide: Scales & Measuring", url: "guide-measure.html" },
     "beaker": { label: "Teacher guide: Scales & Measuring", url: "guide-measure.html" },
