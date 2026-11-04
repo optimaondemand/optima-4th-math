@@ -806,7 +806,14 @@ window.OAOM_DATA = (function () {
   };
   var GIFS = ["discs", "fbars", "fcircles", "numberline", "counters", "barstrip", "beaker", "clock", "geoboard", "protractor", "compass", "cubes", "scale", "bar", "trademat"];
 
-  var api = { questions: QUESTIONS, surprise: SURPRISE, howEs: HOW_ES, whatEs: WHAT_ES, teach: TEACH, gifs: GIFS, tools: tools, groups: groups, base: base, units: units, lessons: lessons,
+  /* Nov 2026: teacher-only guidance informed by Maths — No Problem blog posts (metacognition; manipulatives for x and /) */
+  var METACOG = { url: 'https://mathsnoproblem.com/blog/teaching-maths-mastery/metacognition-in-education',
+    prompts: ['What is the problem asking you to find?', 'What was your first step, and why did you pick it?', 'Are you still answering the question you started with?', 'Which idea helped you when you got stuck?', 'What would you do differently next time?'] };
+  var MULTDIV = { url: 'https://mathsnoproblem.com/blog/teaching-maths-mastery/manipulatives-to-deepen-primary-multiplication-division-fluency',
+    note: 'Build it by hand first — make equal groups, share them out, see the remainder that is left over, or watch the place-value chart when you multiply by 10 — so students see what \u00d7 and \u00f7 mean before the written method.',
+    ids: ['counters', 'discs', 'blocks', 'hundred', 'bar', 'numberline', 'pvcards', 'trademat'] };
+
+  var api = { questions: QUESTIONS, surprise: SURPRISE, howEs: HOW_ES, whatEs: WHAT_ES, teach: TEACH, gifs: GIFS, metacog: METACOG, multdiv: MULTDIV, tools: tools, groups: groups, base: base, units: units, lessons: lessons,
     lessonById: function (id) { id = String(id).trim(); return lessons.filter(function (l) { return l.id === id; })[0]; } };
   return api;
 })();

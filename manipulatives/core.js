@@ -477,6 +477,12 @@ var OAOM = (function () {
     if (m.kit) side.appendChild(el('details', { class: 'om-kit' }, '<summary>Use the real thing</summary><p><b>Hands-on:</b> ' + m.kit + (m.home ? '<br><b>At home:</b> ' + m.home : '') + '</p>'));
     var qs = window.OAOM_DATA && OAOM_DATA.questions && OAOM_DATA.questions[id];
     if (qs && !document.body.classList.contains('student')) side.appendChild(el('details', { class: 'om-qs' }, '<summary>Questions to ask (teacher only)</summary><ul>' + qs.map(function (q) { return '<li>' + esc(q) + '</li>'; }).join('') + '</ul>'));
+    if (!isStu && !document.body.classList.contains('board')) {
+      var DD = window.OAOM_DATA || {}, tips = '';
+      if (DD.metacog) tips += '<p style="margin:.1rem 0 .3rem"><b>Make them think about their thinking.</b> Ask:</p><ul>' + DD.metacog.prompts.map(function (q) { return '<li>' + esc(q) + '</li>'; }).join('') + '</ul><p style="margin:.1rem 0 .5rem"><a href="' + DD.metacog.url + '" target="_blank" rel="noopener">More on metacognition \u2197</a></p>';
+      if (DD.multdiv && DD.multdiv.ids.indexOf(m.id) > -1) tips += '<p style="margin:.1rem 0 .3rem"><b>For \u00d7 and \u00f7:</b> ' + esc(DD.multdiv.note) + ' <a href="' + DD.multdiv.url + '" target="_blank" rel="noopener">Manipulatives for \u00d7 and \u00f7 \u2197</a></p>';
+      if (tips) side.appendChild(el('details', { class: 'om-qs om-teachtips', open: '' }, '<summary>Teacher tips (not shown to students)</summary>' + tips));
+    }
     inkMount();
     var sb = $('#om-surprise'); if (sb) sb.hidden = !(window.OAOM_DATA && OAOM_DATA.surprise && OAOM_DATA.surprise[id]);
     $('#om-main').classList.toggle('nosetup', !side.children.length);

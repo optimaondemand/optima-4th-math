@@ -247,3 +247,5 @@ body.board.dark .om-dialog{background:#fff;color:#1B2238;--ink:#1B2238;--mute:#5
 .om-howlink.teach{background:#EAF4EE;color:#1C6B3F;border-color:#Bfe0cc}
 .om-howlink.teach:hover{background:#DcEede}
 @media print{.om-howlinks{display:none}}
+
+.nt-notes p a{color:#1C6B3F;font-weight:700}
