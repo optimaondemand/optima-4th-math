@@ -34,6 +34,9 @@
     + '.olt-dr-more{margin-left:auto;font-size:13px;color:#4C2F93;border:1.5px solid #C9BCEB;border-radius:999px;padding:2px 10px}'
     + '.olt-drawer[open]>summary{border-bottom:1px solid #E6E0F5}'
     + '.olt-dr-b{padding:4px 14px 14px}.olt-dr-b .olt-all{margin-top:10px}'
+    + '.olt-learn{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:10px 0 0;font-size:15px;font-weight:700;color:#1F2A44}'
+    + '.olt-learn a{display:inline-flex;align-items:center;gap:.4em;padding:.35em .9em;border-radius:999px;background:#F3EEFF;border:2px solid #D8C8FF;color:#5B34C7;font-weight:800;text-decoration:none;min-height:36px}'
+    + '.olt-learn a:hover,.olt-learn a:focus-visible{border-color:#6B46C1;background:#fff;outline:none}'
     + '.olt-nudge{margin:12px 0}'
     + '.olt-nudge a{display:inline-flex;align-items:center;gap:.5em;background:#F7F4FD;border:2px solid #C9BCEB;border-radius:999px;padding:.5em 1.05em;font-weight:800;color:#4C2F93;text-decoration:none;font-size:1em;line-height:1.3;min-height:40px}'
     + '.olt-nudge a:hover,.olt-nudge a:focus-visible{border-color:#6B46C1;background:#FFFFFF;box-shadow:0 4px 12px rgba(107,70,193,.18);outline:none}';
@@ -50,10 +53,14 @@
           + '<span><span class="olt-n">' + esc(n.name) + '</span>' + (full && tip ? '<span class="olt-w">' + esc(tip) + '</span>' : '') + '</span><span class="olt-go" aria-hidden="true">↗</span></a>';
       }).join('') + '</div>';
     }
+    /* "Learn to use this tool" videos (Bethany, 4 Nov 2026): opens the tool with its 1-minute student video drawer open */
+    function learn() { var SV = D.stuvid || {}, has = L.tools.filter(function (t) { return SV[t.t]; }); if (!has.length) return '';
+      return '<div class="olt-learn"><span>New to a tool? Watch a 1-minute video:</span>' + has.map(function (t) { var n = names[t.t] || { name: t.t };
+        return '<a href="' + esc(base + 'tool.html?t=' + encodeURIComponent(t.t) + '&st=1&learn=1') + '" target="_blank" rel="noopener">▶ ' + esc(n.name) + '</a>'; }).join('') + '</div>'; }
     // full card above the footer
     var bar = document.createElement('section'); bar.className = 'oao-lesson-tools olt olt-full'; bar.setAttribute('aria-label', 'Math tools for this lesson');
     bar.innerHTML = '<div class="olt-hd"><span class="olt-badge" aria-hidden="true">🧮</span><div><div class="olt-t">Math tools for this lesson</div><div class="olt-s">Open one in a new tab and use it on any problem here.</div></div></div>'
-      + tiles(true) + (L.tools.length > 1 ? '<a class="olt-all" href="' + esc(all) + '" target="_blank" rel="noopener">Open all ' + L.tools.length + ' together ↗</a>' : '') + '<p class="olt-pro">⭐ <b>Pro tip:</b> In any tool, press <b>📤 Turn in my work</b> to copy a link to your work. If you want your teacher to see it, paste the link into your assignment.</p>';
+      + tiles(true) + learn() + (L.tools.length > 1 ? '<a class="olt-all" href="' + esc(all) + '" target="_blank" rel="noopener">Open all ' + L.tools.length + ' together ↗</a>' : '') + '<p class="olt-pro">⭐ <b>Pro tip:</b> In any tool, press <b>📤 Turn in my work</b> to copy a link to your work. If you want your teacher to see it, paste the link into your assignment.</p>';
     // the bottom card only shows on a page with no tabs (Bethany, 3 Nov 2026: tools at the top only)
     if (!document.querySelector('.tab-panel')) { var foot = document.querySelector('.footer'); if (foot && foot.parentNode) foot.parentNode.insertBefore(bar, foot); else document.body.appendChild(bar); }
     // compact row at the top of the first tab
@@ -64,7 +71,7 @@
       var top = document.createElement('details'); top.className = 'oao-lesson-tools-top olt olt-drawer';
       var I2 = window.OAOM_ICONS || {};
       top.innerHTML = '<summary><span class="olt-dr-t">🧮 Math tools</span><span class="olt-dr-ic" aria-hidden="true">' + L.tools.map(function (t) { return '<span>' + (I2[t.t] || '') + '</span>'; }).join('') + '</span><span class="olt-dr-more">Show</span></summary>'
-        + '<div class="olt-dr-b">' + tiles(false) + (L.tools.length > 1 ? '<a class="olt-all" href="' + esc(all) + '" target="_blank" rel="noopener">Open all ' + L.tools.length + ' ↗</a>' : '') + '<p class="olt-pro">⭐ <b>Pro tip:</b> In any tool, press <b>📤 Turn in my work</b> to copy a link to your work. If you want your teacher to see it, paste the link into your assignment.</p>' + '</div>';
+        + '<div class="olt-dr-b">' + tiles(false) + learn() + (L.tools.length > 1 ? '<a class="olt-all" href="' + esc(all) + '" target="_blank" rel="noopener">Open all ' + L.tools.length + ' ↗</a>' : '') + '<p class="olt-pro">⭐ <b>Pro tip:</b> In any tool, press <b>📤 Turn in my work</b> to copy a link to your work. If you want your teacher to see it, paste the link into your assignment.</p>' + '</div>';
       top.addEventListener('toggle', function () { var sm = top.querySelector('.olt-dr-more'); if (sm) sm.textContent = top.open ? 'Hide' : 'Show'; });
       first.insertBefore(top, first.firstChild);
     }

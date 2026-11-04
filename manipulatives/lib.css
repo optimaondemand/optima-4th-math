@@ -247,5 +247,12 @@ body.board.dark .om-dialog{background:#fff;color:#1B2238;--ink:#1B2238;--mute:#5
 .om-howlink.teach{background:#EAF4EE;color:#1C6B3F;border-color:#Bfe0cc}
 .om-howlink.teach:hover{background:#DcEede}
 @media print{.om-howlinks{display:none}}
+.om-learn{margin:0 0 .7rem;background:#F3EEFF;border:2px solid #D8C8FF;border-radius:12px;padding:.5rem .9rem}
+.om-learn summary{font-weight:800;cursor:pointer;color:#5B34C7;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.om-learn-ic{display:inline-flex;align-items:center;justify-content:center;width:1.7rem;height:1.7rem;border-radius:50%;background:#6B46C1;color:#fff;font-size:.8rem}
+.om-learn-len{font-weight:700;font-size:.85rem;color:#5B6478}
+.om-learn video{display:block;width:100%;max-width:760px;margin:.6rem 0 .2rem;border-radius:10px;background:#000}
+body.plain .om-learn{display:none}
+@media print{.om-learn{display:none!important}}
 
 .nt-notes p a{color:#1C6B3F;font-weight:700}

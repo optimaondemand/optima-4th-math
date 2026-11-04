@@ -813,7 +813,9 @@ window.OAOM_DATA = (function () {
     note: 'Build it by hand first — make equal groups, share them out, see the remainder that is left over, or watch the place-value chart when you multiply by 10 — so students see what \u00d7 and \u00f7 mean before the written method.',
     ids: ['counters', 'discs', 'blocks', 'hundred', 'bar', 'numberline', 'pvcards', 'trademat'] };
 
-  var api = { questions: QUESTIONS, surprise: SURPRISE, howEs: HOW_ES, whatEs: WHAT_ES, teach: TEACH, gifs: GIFS, metacog: METACOG, multdiv: MULTDIV, tools: tools, groups: groups, base: base, units: units, lessons: lessons,
+  /* "Learn to use this tool" student videos (1 min, captions on screen): videos/student/<file>.mp4 */
+  var STUVID = { discs: "number-discs" };
+  var api = { stuvid: STUVID, questions: QUESTIONS, surprise: SURPRISE, howEs: HOW_ES, whatEs: WHAT_ES, teach: TEACH, gifs: GIFS, metacog: METACOG, multdiv: MULTDIV, tools: tools, groups: groups, base: base, units: units, lessons: lessons,
     lessonById: function (id) { id = String(id).trim(); return lessons.filter(function (l) { return l.id === id; })[0]; } };
   return api;
 })();
