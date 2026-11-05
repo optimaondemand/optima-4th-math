@@ -223,7 +223,7 @@ function modelPlaster(m){
     onDone:function(r){setJob('j6',r);}});
 }
 /* Learn · the guided build (the explicit teaching): see it with tiles → picture it with labels → write the number sentence.
-   Each step opens only after the student finishes the one before. New numbers: 1 ft 5 in by 3 in. */
+   Each step opens only after the student finishes the one before. New numbers: 1 ft 3 in by 4 in. */
 function ask1(el,q,answer,mistakes,unit,onok,hint,keep){   /* keep = {get(), set(v)}: the box remembers its answer (audit, 3 Nov 2026) */
   var f=document.createElement('form');f.className='ag-ask';
   f.innerHTML='<label>'+q+' <input type="text" inputmode="numeric" autocomplete="off" aria-label="'+q.replace(/<[^>]+>/g,'')+'"> <span class="ag-u">'+(unit||'')+'</span></label> <button class="ok-btn" type="submit">Check</button><span class="ag-fb" aria-live="polite"></span>';
@@ -240,30 +240,27 @@ function modelGuided(m){
   var s1=step(1,'See it: lay the gold sheets','<p>Lay <b>one row</b> of gold sheets along the top of the strip and <b>one column</b> down the side. Each square of the grid is 1 inch.</p>');
   var s2=step(2,'Picture it: same units on both sides','<p>Now write both sides in <b>inches</b>. The labels on the drawing fill in when you are right.</p>');
   var s3=step(3,'Write it: length × width','<p>Multiply the length by the width. Area is in <b>square inches</b>, because each gold sheet is 1 square inch.</p>');
-  var done=document.createElement('div');done.className='cw-gdone';done.hidden=true;done.innerHTML='✅ <b>Area = 51 square inches.</b> 1 ft 5 in is 17 in, so the strip is 17 in by 3 in, and 17 × 3 = 51. Same units first, then length × width.';m.appendChild(done);
+  var done=document.createElement('div');done.className='cw-gdone';done.hidden=true;done.innerHTML='✅ <b>Area = 60 square inches.</b> 1 ft 3 in is 15 in, so the strip is 15 in by 4 in, and 15 × 4 = 60. Same units first, then length × width.';m.appendChild(done);
   function open(d,on){d.classList.toggle('open',!!on);}
-  // step 1: tiles (concrete)
   var g=document.createElement('div');s1.querySelector('.cw-gstep-b').appendChild(g);
-  OAOKit.areaGrid(g,{key:key+'-tiles',unit:IN,cols:17,rows:3,dimW:'1 ft 5 in',dimH:'3 in',mode:'edge',cell:30,
+  OAOKit.areaGrid(g,{key:key+'-tiles',unit:IN,cols:15,rows:4,dimW:'1 ft 3 in',dimH:'4 in',mode:'edge',cell:30,
     goalText:'Row and column laid. Count them.',
-    ask:[{q:'Sheets in your top row: 1 ft 5 in =',unit:'in',answer:17,mistakes:[{v:15,text:'1 ft 5 in is not 15 inches. Count your row: 12 sheets make 1 foot, then 5 more.'},{v:6,text:'1 + 5 adds feet and inches. Count the sheets in your row.'},{v:5,text:'5 is only the inches part. The strip is 1 foot AND 5 inches.'}],hint:'Count the sheets in your top row.'},
-         {q:'Rows of gold sheets:',unit:'rows',answer:3,mistakes:[{v:17,text:'17 is how many in each row. Count down the column: how many rows?'}],hint:'Count the sheets in your column.'}],
+    ask:[{q:'Sheets in your top row: 1 ft 3 in =',unit:'in',answer:15,mistakes:[{v:13,text:'1 ft 3 in is not 13 inches. Count your row: 12 sheets make 1 foot, then 3 more.'},{v:4,text:'1 + 3 adds feet and inches. Count the sheets in your row.'},{v:3,text:'3 is only the inches part. The strip is 1 foot AND 3 inches.'}],hint:'Count the sheets in your top row.'},
+         {q:'Rows of gold sheets:',unit:'rows',answer:4,mistakes:[{v:15,text:'15 is how many in each row. Count down the column: how many rows?'}],hint:'Count the sheets in your column.'}],
     onDone:function(){st.s1=1;save();open(s2,1);}});
-  // step 2: the picture gets same-unit labels (pictorial)
   var pic=document.createElement('div');pic.className='cw-gpic';
-  pic.innerHTML='<svg viewBox="0 0 560 150" role="img" aria-label="The strip drawn as a rectangle, 17 squares long and 3 squares wide."><rect x="40" y="40" width="476" height="84" fill="#fff" stroke="#0E1C42" stroke-width="3"/>'
-    +Array.apply(null,{length:16}).map(function(_,i){return '<line x1="'+(40+28*(i+1))+'" y1="40" x2="'+(40+28*(i+1))+'" y2="124" stroke="#D9DEEA"/>';}).join('')
-    +'<line x1="40" y1="68" x2="516" y2="68" stroke="#D9DEEA"/><line x1="40" y1="96" x2="516" y2="96" stroke="#D9DEEA"/>'
-    +'<text class="gl" x="278" y="28" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="20" fill="#0E1C42">? in</text><text class="gw" x="524" y="88" font-family="Nunito" font-weight="900" font-size="20" fill="#0E1C42">? in</text></svg>';
+  pic.innerHTML='<svg viewBox="0 0 560 172" role="img" aria-label="The strip drawn as a rectangle, 15 squares long and 4 squares wide."><rect x="40" y="36" width="420" height="112" fill="#fff" stroke="#0E1C42" stroke-width="3"/>'
+    +Array.apply(null,{length:14}).map(function(_,i){return '<line x1="'+(40+28*(i+1))+'" y1="36" x2="'+(40+28*(i+1))+'" y2="148" stroke="#D9DEEA"/>';}).join('')
+    +[1,2,3].map(function(k){return '<line x1="40" y1="'+(36+28*k)+'" x2="460" y2="'+(36+28*k)+'" stroke="#D9DEEA"/>';}).join('')
+    +'<text class="gl" x="250" y="26" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="20" fill="#0E1C42">? in</text><text class="gw" x="470" y="98" font-family="Nunito" font-weight="900" font-size="20" fill="#0E1C42">? in</text></svg>';
   s2.querySelector('.cw-gstep-b').appendChild(pic);
-  var gl=pic.querySelector('.gl'),gw=pic.querySelector('.gw'),n2=0;
+  var gl=pic.querySelector('.gl'),gw=pic.querySelector('.gw');
   var got={};function two(k){got[k]=1;if(got.l&&got.w){st.s2=1;save();open(s3,1);}}
   function keep(k){return {get:function(){return (st.v||{})[k];},set:function(v){st.v=st.v||{};st.v[k]=v;save();}};}
-  ask1(s2.querySelector('.cw-gstep-b'),'Length:',17,[{v:1,text:'1 is the feet. Write the whole length in inches: 12 + 5.'},{v:15,text:'1 foot is 12 inches. Add the 5 more inches.'}],'in',function(){gl.textContent='17 in';two('l');},null,keep('l'));
-  ask1(s2.querySelector('.cw-gstep-b'),'Width:',3,[],'in',function(){gw.textContent='3 in';two('w');},null,keep('w'));
-  // step 3: the number sentence (abstract)
-  ask1(s3.querySelector('.cw-gstep-b'),'17 × 3 =',51,[{v:20,text:'17 + 3 adds the sides. Area multiplies: 3 rows of 17.'},{v:40,text:'40 is the distance around the strip. Area counts the sheets that cover it.'},{v:15,text:'5 × 3 forgets the foot. The length is 17 inches.'}],'square inches',function(){st.s3=1;save();done.hidden=false;},null,keep('p'));
-  open(s1,1);if(st.s1)open(s2,1);if(st.s2){open(s3,1);gl.textContent='17 in';gw.textContent='3 in';got.l=got.w=1;}if(st.s3)done.hidden=false;
+  ask1(s2.querySelector('.cw-gstep-b'),'Length:',15,[{v:1,text:'1 is the feet. Write the whole length in inches: 12 + 3.'},{v:13,text:'1 foot is 12 inches. Add the 3 more inches.'}],'in',function(){gl.textContent='15 in';two('l');},null,keep('l'));
+  ask1(s2.querySelector('.cw-gstep-b'),'Width:',4,[],'in',function(){gw.textContent='4 in';two('w');},null,keep('w'));
+  ask1(s3.querySelector('.cw-gstep-b'),'15 × 4 =',60,[{v:19,text:'15 + 4 adds the sides. Area multiplies: 4 rows of 15.'},{v:38,text:'38 is the distance around the strip. Area counts the sheets that cover it.'},{v:12,text:'3 × 4 forgets the foot. The length is 15 inches.'}],'square inches',function(){st.s3=1;save();done.hidden=false;},null,keep('p'));
+  open(s1,1);if(st.s1)open(s2,1);if(st.s2){open(s3,1);gl.textContent='15 in';gw.textContent='4 in';got.l=got.w=1;}if(st.s3)done.hidden=false;
 }
 /* Learn · a free tile grid (students try any rectangle; the teacher's live board in the videos) */
 function modelFree(m){
@@ -296,7 +293,7 @@ return {
     {id:'j6',t:'Plaster the wall',w:'Lesson · Plaster for the Wall',go:'#mk-plaster',tab:'learn',coins:0}],
   hints:[
     {sel:'#mk-think .callout-think',rungs:['Each gold sheet is a square, 1 inch on every side. Count how many cover each panel, or find a faster way than counting.','Look at the strip\'s length: 1 ft 6 in. The gold sheets are measured in inches. A foot is 12 inches.','Here are different numbers: a panel 1 ft 2 in long and 1 in wide is 14 inches long, so 14 sheets cover it.']},
-    {sel:'#mk-guided .activity-body > p',rungs:['Start with Step 1: lay the gold sheets in one row along the top. Count them.','12 sheets make 1 foot. 5 more make 1 ft 5 in. So the length in inches is 12 + 5.','Here are different numbers: a strip 1 ft 1 in long and 2 in wide is 13 in by 2 in, and 13 × 2 = 26 square inches.']},
+    {sel:'#mk-guided .activity-body > p',rungs:['Start with Step 1: lay the gold sheets in one row along the top. Count them.','12 sheets make 1 foot. 3 more make 1 ft 3 in. So the length in inches is 12 + 3.','Here are different numbers: a strip 1 ft 1 in long and 2 in wide is 13 in by 2 in, and 13 × 2 = 26 square inches.']},
     {sel:'#mk-frame .activity-body > .mk-todo',rungs:['Lay the top row first. Count the sheets in it: that is the length in inches.','1 foot is 12 inches. 1 yard is 3 feet. Change the bigger unit to the smaller one, then multiply length × width.','Here are different numbers: a strip 1 ft 1 in long and 2 in wide. 1 ft 1 in is 13 in, and 13 × 2 = 26 sheets.']},
     {sel:'#mk-square .activity-body > .mk-todo',rungs:['A square has 4 equal sides. Build a row of 9 first.','Then add rows until there are 9 rows. Area = side × side.','Here are different numbers: a square 4 inches on each side is 4 × 4 = 16 square inches.']},
     {sel:'#mk-same .activity-body > .mk-todo',rungs:['Try 1 long row of 18 first.','Think: what times what makes 18? Each pair is a rectangle.','Here are different numbers: 12 sheets make 1 by 12, 2 by 6 and 3 by 4.']},

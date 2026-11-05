@@ -338,19 +338,19 @@ function mentalMath(m,cfg){
       if(p.pre)return '<form class="mm-p" data-i="'+i+'"><span class="mm-eq"><label for="'+id+'">'+esc(p.pre)+'</label><input id="'+id+'" type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc(p.pre+' ? '+(p.post||''))+'" value="'+esc(st.a[i]||'')+'"><span class="mm-post">'+esc(p.post||'')+'</span></span><button type="submit" class="ok-btn">Check</button><span class="mm-fb" aria-live="polite"></span></form>';
       /* cfg.work:'bond' (Bethany, 3 Nov 2026): when the strategy is a number bond, every problem gets its own blank bond to use:
          the whole is given, the two parts are blank, and each part has a blank "× n =" under it. Optional help; only the answer is checked. */
-      if(cfg.work==='bond'){var mt=/(\d+)\s*[×x]\s*(\d+)/.exec(p.q)||[],wh=p.whole||+mt[1],by=p.by||+mt[2],w=(st.w||{})[i]||{};
+      if(cfg.work==='bond'){var mt=/(\d+)\s*([×x÷])\s*(\d+)/.exec(p.q)||[],wh=p.whole||+mt[1],by=p.by||+mt[3],op=mt[2]==='÷'?'÷':'×',w=(st.w||{})[i]||{};
         var bi=function(k,lab){return '<input class="mm-sm" data-k="'+k+'" type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc(lab)+'" value="'+esc(w[k]||'')+'">';};
         return '<form class="mm-p mm-bondp" data-i="'+i+'"><div class="mm-work" role="group" aria-label="Number bond for '+esc(p.q)+' (optional)">'+
           '<div class="mm-bond mm-bond-in"><span class="w">'+fmt(wh)+'</span><svg viewBox="0 0 80 26" aria-hidden="true"><path d="M40 2 L14 24 M40 2 L66 24" stroke="#3B2417" stroke-width="3"/></svg>'+
-          '<span class="pc">'+bi('p0','first part of '+wh)+'<span class="mm-x">× '+fmt(by)+' =</span>'+bi('q0','first part times '+by)+'</span>'+
-          '<span class="pc">'+bi('p1','second part of '+wh)+'<span class="mm-x">× '+fmt(by)+' =</span>'+bi('q1','second part times '+by)+'</span></div></div>'+
+          '<span class="pc">'+bi('p0','first part of '+wh)+'<span class="mm-x">'+op+' '+fmt(by)+' =</span>'+bi('q0','first part '+(op==='÷'?'divided by ':'times ')+by)+'</span>'+
+          '<span class="pc">'+bi('p1','second part of '+wh)+'<span class="mm-x">'+op+' '+fmt(by)+' =</span>'+bi('q1','second part '+(op==='÷'?'divided by ':'times ')+by)+'</span></div></div>'+
           '<div class="mm-row"><label for="'+id+'">'+esc(p.q)+' =</label><input class="mm-ans" id="'+id+'" type="text" inputmode="numeric" autocomplete="off" value="'+esc(st.a[i]||'')+'"><button type="submit" class="ok-btn">Check</button></div><span class="mm-fb" aria-live="polite"></span></form>';}
       return '<form class="mm-p" data-i="'+i+'"><label for="'+id+'">'+esc(p.q)+' ='+(p.lead?' '+esc(p.lead):'')+'</label><input id="'+id+'" type="text" inputmode="numeric" autocomplete="off" value="'+esc(st.a[i]||'')+'">'+(p.post?'<span class="mm-post">'+esc(p.post)+'</span>':'')+'<button type="submit" class="ok-btn">Check</button><span class="mm-fb" aria-live="polite"></span></form>';}).join('')+'</div>';
   $$('.mm-p',m).forEach(function(f){var i=+f.dataset.i,all=$$('input',f),ins=$$('input.mm-ans',f),fb=$('.mm-fb',f),p=P[i];if(!ins.length)ins=all;
-    if(f.classList.contains('mm-bondp')){var mt=/(\d+)\s*[×x]\s*(\d+)/.exec(p.q)||[],wh=p.whole||+mt[1],by=p.by||+mt[2],W=function(k){return $('[data-k="'+k+'"]',f);};
+    if(f.classList.contains('mm-bondp')){var mt=/(\d+)\s*([×x÷])\s*(\d+)/.exec(p.q)||[],wh=p.whole||+mt[1],by=p.by||+mt[3],dv=mt[2]==='÷',W=function(k){return $('[data-k="'+k+'"]',f);};
       var paint=function(){var a=num(W('p0').value),b=num(W('p1').value),split=a!=null&&b!=null&&a+b===wh;
         W('p0').classList.toggle('good',split);W('p1').classList.toggle('good',split);
-        ['0','1'].forEach(function(k){var pt=num(W('p'+k).value),q=num(W('q'+k).value);W('q'+k).classList.toggle('good',pt!=null&&q!=null&&q===pt*by);});};
+        ['0','1'].forEach(function(k){var pt=num(W('p'+k).value),q=num(W('q'+k).value);W('q'+k).classList.toggle('good',pt!=null&&q!=null&&(dv?q*by===pt:q===pt*by));});};
       $$('.mm-sm',f).forEach(function(x){x.addEventListener('input',function(){st.w=st.w||{};var o=st.w[i]=st.w[i]||{};o[x.dataset.k]=x.value;lsSet(cfg.key,st);paint();});});paint();}
     function mark(){f.classList.add('ok');all.forEach(function(x){x.disabled=true;});fb.textContent='✓';}
     function miss(t){snd.no();f.classList.remove('no');void f.offsetWidth;f.classList.add('no');fb.textContent=t;}
@@ -1067,7 +1067,11 @@ K.splitter=splitter;K.ribbon=ribbon;K.clock=clock;K.pour=pour;K.scale=scale;K.un
    cfg = { key, unit:{s:'in',one:'inch',many:'inches'}, cols, rows, rect:{x,y,w,h} (in squares), dimW, dimH (labels; '?' allowed),
            split:{at, labels:['1 ft','6 in']}, mode:'cover'|'edge'|'free', showCount:true, todo:'one line of directions',
            check:(shape)=>({ok, text}) (free mode; shape = {n, w, h, rect}), record:true + need:n (free mode: collect different rectangles),
-           ask:[{q, unit, answer, accept:[…], mistakes:[{v, text}], hint}], goalText, doneText, onGoal(root), onDone(root) } */
+           ask:[{q, unit, answer, accept:[…], mistakes:[{v, text}], hint}], goalText, doneText, onGoal(root), onDone(root) }
+   mode:'rows' (4.11.02, a missing side): the width is fixed (cols) and the other side is unknown. Students lay rows of the width
+   until all n tiles are used (cfg.n), then count the rows. The outline grows with the rows they build, the unknown side shows
+   cfg.dimH ('? ft'), "+ Add a row" / "− Take away a row" buttons lay or lift a whole row, and the count says tiles laid and left.
+   It never shows the number of rows. areaText:'Area = 98 sq in' writes a given area inside the outline (Dimensions' picture). */
 (function(K){
 'use strict';
 var snd=K._snd,ls=K._ls,lsSet=K._lsSet,fmt=K.fmt;
@@ -1077,13 +1081,14 @@ function num(v){var t=String(v==null?'':v).replace(/[,\s]/g,'');return t===''||i
 function S(tag,a,p){var e=document.createElementNS(NS,tag);for(var k in a){if(k==='text')e.textContent=a[k];else e.setAttribute(k,a[k]);}if(p)p.appendChild(e);return e;}
 function areaGrid(root,cfg){
   var U=cfg.unit||{s:'',one:'unit',many:'units'},C=cfg.cols,Rw=cfg.rows,rect=cfg.rect||{x:0,y:0,w:C,h:Rw},mode=cfg.mode||'cover';
+  var ROWS=mode==='rows',N=cfg.n||0;
   var st=ls(cfg.key,null)||{t:{},a:{},ok:{},found:[],goal:false,done:false};st.t=st.t||{};st.a=st.a||{};st.ok=st.ok||{};st.found=st.found||[];
   var cur={x:rect.x,y:rect.y},asks=cfg.ask||[];
   root.classList.add('ok-tool','ag');
   root.innerHTML=(cfg.todo?'<p class="ok-do">'+cfg.todo+'</p>':'')+'<div class="ag-wrap"><svg class="ag-svg" tabindex="0" role="application" aria-label="Grid of 1-'+esc(U.one)+' squares. Tap a square to lay a tile, or drag across squares. Arrow keys move, Space lays or lifts a tile."></svg></div>'+
     '<div class="ok-sym ag-sym" aria-live="polite"></div>'+(cfg.record?'<div class="ag-found"></div>':'')+
     (asks.length?'<div class="ag-asks">'+asks.map(function(q,i){return '<form class="ag-ask" data-i="'+i+'"><label>'+q.q+' <input type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc(String(q.q).replace(/<[^>]+>/g,''))+'" value="'+esc(st.a[i]||'')+'"> <span class="ag-u">'+esc(q.unit||'')+'</span></label> <button class="ok-btn" type="submit">Check</button><span class="ag-fb" aria-live="polite"></span></form>';}).join('')+'</div>':'')+
-    '<div class="ok-msg" aria-live="polite"></div><div class="ok-row"><button class="ok-btn ok-reset" type="button">↺ Clear the tiles</button></div>';
+    '<div class="ok-msg" aria-live="polite"></div><div class="ok-row">'+(ROWS?'<button class="ok-btn ag-addrow" type="button">+ Add a row</button><button class="ok-btn ag-droprow" type="button">− Take away a row</button>':'')+'<button class="ok-btn ok-reset" type="button">↺ Clear the tiles</button></div>';
   var svg=root.querySelector('.ag-svg'),msg=root.querySelector('.ok-msg'),sym=root.querySelector('.ag-sym');
   function say(t,k){msg.className='ok-msg'+(k?' '+k:'');msg.innerHTML=t||'';}
   function save(){lsSet(cfg.key,st);}
@@ -1094,10 +1099,15 @@ function areaGrid(root,cfg){
   function goalMet(){var x,y;
     if(mode==='cover'){for(y=rect.y;y<rect.y+rect.h;y++)for(x=rect.x;x<rect.x+rect.w;x++)if(!st.t[x+'_'+y])return false;return true;}
     if(mode==='edge'){for(x=rect.x;x<rect.x+rect.w;x++)if(!st.t[x+'_'+rect.y])return false;for(y=rect.y;y<rect.y+rect.h;y++)if(!st.t[rect.x+'_'+y])return false;return true;}
+    if(ROWS){var k=fullRows();return count()===N&&k*C===N;}
     if(cfg.record)return st.found.length>=(cfg.need||1);
     var r=cfg.check?cfg.check(shape()):{ok:false};return !!r.ok;}
+  /* rows mode: how many rows from the top are full, with nothing below them */
+  function fullRows(){var k=0;while(k<Rw){for(var x=0;x<C;x++)if(!st.t[x+'_'+k])return k;k++;}return k;}
+  function usedRows(){var m=0;Object.keys(st.t).forEach(function(q){m=Math.max(m,+q.split('_')[1]+1);});return m;}
   function set(x,y,on){if(x<0||y<0||x>=C||y>=Rw)return false;var k=x+'_'+y;
-    if(on&&mode!=='free'&&!inRect(x,y)){say(cfg.offText||'Keep the tiles on the panel, inside the dark outline.','hint');return false;}
+    if(on&&ROWS&&N&&count()>=N){say(cfg.outText||('That is all '+N+' tiles. There are none left to lay.'),'hint');return false;}
+    if(on&&mode!=='free'&&!ROWS&&!inRect(x,y)){say(cfg.offText||'Keep the tiles on the panel, inside the dark outline.','hint');return false;}
     if(on===!!st.t[k])return false;if(on)st.t[k]=1;else delete st.t[k];return true;}
   function after(){save();render();var was=st.goal;
     if(mode==='free'){var sh=shape();if(cfg.record&&sh.rect&&sh.n===cfg.n){var id=Math.min(sh.w,sh.h)+'x'+Math.max(sh.w,sh.h);
@@ -1118,7 +1128,8 @@ function areaGrid(root,cfg){
     var Wd=ML+C*z+MR,Ht=MT+Rw*z+MB;svg.setAttribute('viewBox','0 0 '+Wd+' '+Ht);svg.setAttribute('width',Wd);svg.style.maxWidth='100%';
     while(svg.firstChild)svg.removeChild(svg.firstChild);
     S('defs',{},svg).innerHTML='<marker id="agA'+cfg.key+'" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="'+NAVY+'"/></marker>';
-    var x,y;for(y=0;y<Rw;y++)for(x=0;x<C;x++){var on=inRect(x,y)||mode==='free';
+    if(ROWS)rect={x:0,y:0,w:C,h:Math.max(1,usedRows())};
+    var x,y;for(y=0;y<Rw;y++)for(x=0;x<C;x++){var on=inRect(x,y)||mode==='free'||ROWS;
       S('rect',{x:ML+x*z,y:MT+y*z,width:z,height:z,fill:on?'#fff':'#F1F2F5',stroke:LINE,'stroke-width':1.2,'data-c':x+'_'+y},svg);
       if(st.t[x+'_'+y])S('rect',{x:ML+x*z+2,y:MT+y*z+2,width:z-4,height:z-4,rx:Math.max(2,z/7),fill:TILE,stroke:TILE_D,'stroke-width':1.2,'data-c':x+'_'+y},svg);}
     if(mode!=='free'){var rx=ML+rect.x*z,ry=MT+rect.y*z,rw=rect.w*z,rh=rect.h*z,mk='url(#agA'+cfg.key+')';
@@ -1128,11 +1139,13 @@ function areaGrid(root,cfg){
       S('text',{x:rx+rw/2,y:ry-11,'text-anchor':'middle','font-size':15,'font-weight':800,fill:NAVY,'font-family':'Nunito,Arial,sans-serif',text:lw},svg);
       S('line',{x1:rx+rw+16,y1:ry,x2:rx+rw+16,y2:ry+rh,stroke:NAVY,'stroke-width':1.6,'marker-start':mk,'marker-end':mk},svg);
       var lh=cfg.dimH||rect.h+' '+U.s;S('text',{x:rx+rw+24,y:ry+rh/2+5,'font-size':15,'font-weight':800,fill:NAVY,'font-family':'Nunito,Arial,sans-serif',text:lh},svg);
+      if(cfg.areaText&&!ROWS){var aw=cfg.areaText.length*8+16;S('rect',{x:rx+rw/2-aw/2,y:ry+rh/2-13,width:aw,height:24,rx:5,fill:'#fff',stroke:NAVY,'stroke-width':1,style:'pointer-events:none'},svg);
+        S('text',{x:rx+rw/2,y:ry+rh/2+5,'text-anchor':'middle','font-size':15,'font-weight':800,fill:NAVY,'font-family':'Nunito,Arial,sans-serif',style:'pointer-events:none',text:cfg.areaText},svg);}
       if(cfg.split){var sx=rx+cfg.split.at*z;S('line',{x1:sx,y1:ry-4,x2:sx,y2:ry+rh+4,stroke:'#9E4552','stroke-width':2.5,'stroke-dasharray':'5 4',style:'pointer-events:none'},svg);
         cfg.split.labels.forEach(function(lb,i){var a=i?sx:rx,b=i?rx+rw:sx;S('line',{x1:a,y1:ry+rh+12,x2:b,y2:ry+rh+12,stroke:'#9E4552','stroke-width':1.4,'marker-start':mk,'marker-end':mk},svg);
           S('text',{x:(a+b)/2,y:ry+rh+27,'text-anchor':'middle','font-size':13,'font-weight':800,fill:'#9E4552','font-family':'Nunito,Arial,sans-serif',text:lb},svg);});}}
     if(document.activeElement===svg)S('rect',{x:ML+cur.x*z+1,y:MT+cur.y*z+1,width:z-2,height:z-2,fill:'none',stroke:'#2F6FDE','stroke-width':3,style:'pointer-events:none'},svg);
-    var n=count();sym.innerHTML=cfg.sym?cfg.sym(n,shape(),st):(cfg.showCount===false?'':'Tiles laid: <b>'+n+'</b>'+(n?' · each tile is 1 square '+esc(U.one):''));
+    var n=count();sym.innerHTML=cfg.sym?cfg.sym(n,shape(),st):ROWS?'Tiles laid: <b>'+n+'</b> of '+N+' · tiles left: <b>'+(N-n)+'</b>':(cfg.showCount===false?'':'Tiles laid: <b>'+n+'</b>'+(n?' · each tile is 1 square '+esc(U.one):''));
   }
   function cellOf(e){var t=document.elementFromPoint(e.clientX,e.clientY);t=t&&t.closest&&t.closest('[data-c]');if(!t||!svg.contains(t))return null;var p=t.getAttribute('data-c').split('_');return {x:+p[0],y:+p[1]};}
   var paint=null,changed=false,last=null;
@@ -1153,6 +1166,9 @@ function areaGrid(root,cfg){
   function sr(){live.textContent='Row '+(cur.y+1)+', column '+(cur.x+1)+', '+(st.t[cur.x+'_'+cur.y]?'tile':'empty')+'.';}
   svg.addEventListener('focus',render);svg.addEventListener('blur',render);
   root.querySelector('.ok-reset').onclick=function(){st.t={};save();render();say('');};
+  if(ROWS){root.querySelector('.ag-addrow').onclick=function(){var y=fullRows();if(y>=Rw)return;if(N&&count()+C-[].filter.call(Array(C).fill(0).map(function(_,x){return st.t[x+'_'+y];}),Boolean).length>N){say(cfg.outText||('Not enough tiles left for a whole row. There are '+(N-count())+' left.'),'hint');return;}
+      for(var x=0;x<C;x++)st.t[x+'_'+y]=1;snd.click();after();};
+    root.querySelector('.ag-droprow').onclick=function(){var y=usedRows()-1;if(y<0)return;for(var x=0;x<C;x++)delete st.t[x+'_'+y];snd.click();say('');after();};}
   [].forEach.call(root.querySelectorAll('.ag-ask'),function(f){var i=+f.dataset.i,q=asks[i],inp=f.querySelector('input'),fb=f.querySelector('.ag-fb');
     function mark(){f.classList.add('ok');inp.disabled=true;fb.textContent='✓';}
     if(st.ok[i])mark();

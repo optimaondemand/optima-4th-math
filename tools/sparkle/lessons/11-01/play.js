@@ -60,16 +60,16 @@ let fails=0;function ok(c,m){console.log((c?'ok   ':'FAIL ')+m);if(!c)fails++;}
   // guided build: gated steps, concrete → picture → number sentence
   const GS=n=>'[data-mk-model="guided"] .cw-gstep[data-n="'+n+'"]';
   ok(!(await p.$eval(GS(2),e=>e.classList.contains('open'))),'Guided: step 2 is locked until step 1 is done');
-  const G1=GS(1)+' .cw-gstep-b > div';await drag(G1,0,0,16,0);await drag(G1,0,1,0,2);
-  await wrongThenRight(G1,0,15,17,'Guided top row');await wrongThenRight(G1,1,17,3,'Guided rows');
+  const G1=GS(1)+' .cw-gstep-b > div';await drag(G1,0,0,14,0);await drag(G1,0,1,0,3);
+  await wrongThenRight(G1,0,13,15,'Guided top row');await wrongThenRight(G1,1,15,4,'Guided rows');
   ok(await p.$eval(GS(2),e=>e.classList.contains('open')),'Guided: step 2 opens after step 1');
   const ask=async(sel,i,v)=>{const f=p.locator(sel+' .ag-ask').nth(i);await f.locator('input').fill(String(v));await f.locator('button').click();await p.waitForTimeout(60);};
   await ask(GS(2),0,1);ok(/feet/.test(await p.$eval(GS(2)+' .ok-msg',e=>e.textContent)),'Guided step 2: 1 gets the feet hint');
-  await ask(GS(2),0,17);await ask(GS(2),1,3);
-  ok(await p.$eval(GS(2)+' .gl',e=>e.textContent==='17 in'),'Guided step 2: the drawing gets its 17 in label');
+  await ask(GS(2),0,15);await ask(GS(2),1,4);
+  ok(await p.$eval(GS(2)+' .gl',e=>e.textContent==='15 in'),'Guided step 2: the drawing gets its 15 in label');
   ok(await p.$eval(GS(3),e=>e.classList.contains('open')),'Guided: step 3 opens after step 2');
-  await ask(GS(3),0,20);ok(/adds/.test(await p.$eval(GS(3)+' .ok-msg',e=>e.textContent)),'Guided step 3: 20 gets the adding hint');
-  await ask(GS(3),0,51);ok(await p.$eval('[data-mk-model="guided"] .cw-gdone',e=>!e.hidden),'Guided: done box shows 51 square inches');
+  await ask(GS(3),0,19);ok(/adds/.test(await p.$eval(GS(3)+' .ok-msg',e=>e.textContent)),'Guided step 3: 20 gets the adding hint');
+  await ask(GS(3),0,60);ok(await p.$eval('[data-mk-model="guided"] .cw-gdone',e=>!e.hidden),'Guided: done box shows 60 square inches');
   await p.locator('#mk-guided').screenshot({path:path.join(OUT,'learn-guided.png')});
   await p.click('.cw-station[data-st="1"] .cw-st-next button',{force:true});await p.waitForTimeout(1200);
   ok(JSON.stringify(await vis())==='[false,true,false]','Learn: Next station opens station 2');

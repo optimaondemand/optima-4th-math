@@ -109,9 +109,9 @@ def ways_card():
 
 # the explicit teaching (Bethany, 3 Nov 2026): one guided build, concrete → picture → number sentence, each step opens after
 # the student does the one before it. Then the rules, then the Do video.
-GUIDED = act('mk-guided', '#2DB87A', '🧱', 'Let\'s Build It Together', 'Step by step: same units first, then length × width',
-  '<p style="font-weight:700;">A gold strip is <strong>1 ft 5 in</strong> long and <strong>3 in</strong> wide. Each gold sheet is 1 inch on every side. Follow the steps. Each step opens when you finish the one before it.</p>'
-  + tip('cora', 'Step 1 is always the same: look at the units. 1 ft 5 in is feet AND inches. The gold sheets are inches.')
+GUIDED = act('mk-guided', '#2DB87A', '🧱', 'Your Turn', 'Build a new panel, step by step — same unit first, then length × width',
+  '<p style="font-weight:700;">A gold strip is <strong>1 ft 3 in</strong> long and <strong>4 in</strong> wide. Each gold sheet is 1 inch on every side. Follow the steps. Each step opens when you finish the one before it.</p>'
+  + tip('cora', 'Step 1 is always the same: look at the units. 1 ft 3 in is feet AND inches. The gold sheets are inches.')
   + model('guided'), cls='bl-green', extra=' style="margin-top:16px;"')
 KEY = ('<div class="key-concept" id="mk-key" style="margin-top:16px;"><div class="key-concept-label">📐 Leonardo\'s Measuring Rules</div>'
   '<p>Area is always in <strong>square units</strong>, like square inches (in²) or square feet (ft²). So the two sides must be in the <strong>same unit</strong> before you multiply.</p>'

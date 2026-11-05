@@ -27,6 +27,7 @@ JARGON = ['socratic', 'maintenance', 'fluency', 'reasonableness', 'powers of 10'
 PLACEHOLDERS = ['message from your teacher', 'video-placeholder', '[game mockup]', 'recording script', 'lorem', 'todo', 'tbd',
                 'in your notebook', 'go back to', 'click here to']
 MAX_WORDS = 230      # a 2-minute script at a calm pace
+MAX_PRODUCED = 330   # a produced main video (Learn slot, voiced by ElevenLabs): about 2½ minutes
 WANT_WORDS = 160     # most scripts should be shorter
 VISIBLE_BUDGET = 2600
 
@@ -171,7 +172,7 @@ def main(code):
         out('FAIL', 'video slots must be think, learn, do (+ optional wrap); found ' + ', '.join(names))
     # math videos teach on boards (tools/sparkle/boards.js): Learn and Do each show and draw on at least one
     for n in ('learn', 'do'):
-        if n in slots and not any(p.get('kind') in ('board', 'live') for p in slots[n].get('parts', [])) and not (n == 'do' and slots[n].get('screen')):
+        if n in slots and not slots[n].get('produced') and not any(p.get('kind') in ('board', 'live') for p in slots[n].get('parts', [])) and not (n == 'do' and slots[n].get('screen')):
             out('FAIL', 'the "%s" video has no board to draw on (add "kind":"board" parts and run node tools/sparkle/boards.js %s)' % (n, code))
     for n, v in slots.items():
         bds = [p for p in v.get('parts', []) if p.get('kind') == 'board']
@@ -203,6 +204,10 @@ def main(code):
         w += 8 * moves  # each live-board move costs about 4 s of silence: budget it as 8 words
         if moves and w > MAX_WORDS:
             out('FAIL', 'video "%s" is over 2 minutes once its %d live-board moves are counted (about 4 s each)' % (n, moves))
+        if v.get('produced'):   # the produced main video (Learn slot, classical skill § 8): up to about 2½ minutes, narrated by voices
+            if w > MAX_PRODUCED:
+                out('FAIL', 'produced video "%s" is %d words (over about 2½ minutes; keep it under %d)' % (n, w, MAX_PRODUCED))
+            continue
         if w > MAX_WORDS:
             out('FAIL', 'video "%s" is %d words (over 2 minutes; keep it under %d)' % (n, w, MAX_WORDS))
         elif w > WANT_WORDS:
