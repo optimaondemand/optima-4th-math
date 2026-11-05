@@ -94,7 +94,7 @@ window.OAOM_PUZZLES = (function () {
   function shape(n, sz) { return '<svg viewBox="0 0 32 32" width="' + (sz || 32) + '" height="' + (sz || 32) + '" aria-label="' + n + '" role="img">' + SHAPE[n] + '</svg>'; }
 
   function render(el, p, o) {
-    o = o || {}; el.innerHTML = ''; el.className = 'pz pz-' + p.kind + (o.print ? ' pz-print' : '');
+    o = o || {}; el.innerHTML = ''; el.className = 'pz pz-kind-' + p.kind + (o.print ? ' pz-print' : ''); /* pz-kind-*, not pz-*: "pz-card" and "pz-target" are styles for the number cards and the Make-N line */
     var head = h('div', { class: 'pz-head' }, '<h2>' + esc(p.title) + '</h2>');
     el.appendChild(head);
     var body = h('div', { class: 'pz-body' }); el.appendChild(body);
