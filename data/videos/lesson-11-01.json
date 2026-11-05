@@ -60,7 +60,7 @@
   },
   "learn": {
    "label": "Lesson · the Crew's ways: same units first, or split where the units change",
-   "title": "Two Ways, One Answer",
+   "title": "Find the Area: Same Unit First",
    "length": "about 1½ min",
    "want": true,
    "where": "Lesson tab, top (before the Math Crew card)",
@@ -97,7 +97,7 @@
      ]
     }
    ],
-   "script": "Welcome back. Let's look at the strip again. What's different about its two sides? One is in feet and inches, and one is in inches. Hmm.\n\n[ON SCREEN: Live: the tile grid]\n[DO: lay a row of 18 tiles along the top, then a second row under it]\n\nThe gold sheets are 1 inch on every side, so I'll put inches on both sides. 1 foot is 12 inches, and 6 more is 18. Watch: one row of 18 sheets, and a second row. 2 rows of 18. 18 times 2 is 36.\n\n[ON SCREEN: The Crew's ways]\n\nThat's Atlas's way: same units first. Felix splits the strip at the 1-foot mark. 12 times 2 is 24, 6 times 2 is 12, and 24 plus 12 is 36. Same answer. Hazel pictures the square: 6 rows of 6. And Cora checks the units before anyone multiplies.\n\nPause here. Say out loud which way is more like what you did.\n\nHere's the big idea: area is always in square units, so the sides must be in the same unit before you multiply. Now read the Crew's ways, and then try your first job."
+   "script": "Here's Leonardo's gold panel. It's 1 foot 5 inches long, and 3 inches wide. Each gold sheet is a 1-inch square. Before we count anything, look at the two sides. One side is in feet and inches. The other side is just in inches. They don't match — and here's the big idea for today: you can't find the area until both sides use the same unit.\n\nSo let's fix that first. We'll change the long side into inches. One foot is 12 inches. 12 inches, plus 5 more inches, makes 17 inches. Now both sides are in inches: the panel is 17 inches long and 3 inches wide.\n\nNow we can cover it. Watch the bottom row — one sheet, two, three, all the way across. The panel is 17 inches long, so one full row is 17 sheets.\n\nThe panel is 3 inches tall, so the rows stack up: one, two, three. Three rows, and every row is the same — 17 sheets.\n\nWe don't have to count them one by one. Three rows of 17 is 17 times 3. That's the area — the squares that cover the rectangle. Length times width.\n\n17 times 3 is 51. The area is 51 square inches, because every sheet is one square inch. 51 square inches means 51 sheets of gold.\n\nSo remember the order. First, make both sides the same unit. Then multiply length times width. And always write the area in square units."
   },
   "do": {
    "label": "Do · convert first, then multiply",
