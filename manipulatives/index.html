@@ -349,22 +349,85 @@ select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;m
     return h + '</div></article>';
   }
 
+  /* ---------- search helpers: teacher words → concepts → tools, so "regrouping" finds Number Discs ---------- */
+  var CONCEPTS = [
+    { w: ['multiplication', 'multiply', 'multiplying', 'times', 'equal groups', 'array', 'arrays', 'product', 'factor', 'factors', 'multiples', 'skip count'], t: ['counters', 'discs', 'bar', 'hundred', 'blocks'] },
+    { w: ['division', 'divide', 'dividing', 'quotient', 'remainder', 'sharing', 'share equally'], t: ['counters', 'discs', 'bar', 'blocks'] },
+    { w: ['addition', 'add', 'adding', 'sum', 'plus'], t: ['discs', 'blocks', 'bond', 'bar', 'numberline', 'tenframe'] },
+    { w: ['subtraction', 'subtract', 'subtracting', 'difference', 'take away', 'minus'], t: ['discs', 'blocks', 'bond', 'bar', 'numberline', 'tenframe'] },
+    { w: ['regroup', 'regrouping', 'rename', 'renaming', 'exchange', 'trade', 'trading', 'carry', 'borrow', 'unbundle'], t: ['discs', 'blocks', 'trademat', 'sticks'] },
+    { w: ['place value', 'digit', 'digits', 'expanded form', 'ones', 'tens', 'hundreds', 'thousands', 'value of a digit'], t: ['discs', 'pvcards', 'blocks', 'sticks'] },
+    { w: ['rounding', 'round', 'nearest ten', 'nearest hundred', 'nearest thousand', 'estimate', 'estimation', 'estimating'], t: ['numberline', 'discs', 'pvcards'] },
+    { w: ['equivalent fractions', 'equivalent fraction', 'equal fractions', 'equivalent', 'simplest form', 'simplify'], t: ['fbars', 'fcircles', 'numberline'] },
+    { w: ['fraction', 'fractions', 'numerator', 'denominator', 'mixed number', 'mixed numbers', 'improper fraction', 'unit fraction'], t: ['fbars', 'fcircles', 'numberline', 'bar', 'pattern'] },
+    { w: ['compare fractions', 'comparing fractions'], t: ['fbars', 'numberline', 'fcircles'] },
+    { w: ['decimal', 'decimals', 'tenths', 'hundredths', 'thousandths', 'percent'], t: ['decgrid', 'discs', 'numberline', 'money'] },
+    { w: ['compare', 'comparing', 'greater than', 'less than', 'order numbers'], t: ['numberline', 'discs', 'pvcards', 'bar'] },
+    { w: ['word problem', 'word problems', 'story problem', 'model drawing', 'tape diagram', 'part whole', 'part-whole'], t: ['bar', 'bond', 'barstrip'] },
+    { w: ['area', 'square units', 'square inches', 'square centimeters'], t: ['tiles', 'geoboard', 'whiteboard'] },
+    { w: ['perimeter'], t: ['tiles', 'geoboard', 'ruler'] },
+    { w: ['volume', 'cubic units'], t: ['cubes', 'beaker'] },
+    { w: ['angle', 'angles', 'degrees', 'right angle', 'acute', 'obtuse'], t: ['protractor', 'geoboard', 'setsquare'] },
+    { w: ['parallel', 'perpendicular', 'lines'], t: ['setsquare', 'geoboard', 'whiteboard'] },
+    { w: ['symmetry', 'line of symmetry'], t: ['pattern', 'geoboard', 'whiteboard'] },
+    { w: ['shapes', 'polygon', 'polygons', 'quadrilateral', 'triangle', 'triangles'], t: ['geoboard', 'pattern', 'tangram', 'attrblocks'] },
+    { w: ['length', 'measure', 'measuring', 'inches', 'feet', 'centimeters', 'meters', 'yards'], t: ['ruler', 'trademat', 'barstrip'] },
+    { w: ['weight', 'mass', 'grams', 'kilograms', 'pounds', 'ounces'], t: ['scale', 'bucket', 'trademat'] },
+    { w: ['capacity', 'liquid volume', 'liters', 'milliliters', 'cups', 'gallons', 'quarts', 'pints'], t: ['beaker', 'trademat'] },
+    { w: ['time', 'elapsed time', 'clock', 'minutes', 'hours'], t: ['clock', 'numberline'] },
+    { w: ['money', 'coins', 'dollars', 'cents', 'change'], t: ['money'] },
+    { w: ['unit conversion', 'convert', 'converting', 'mixed units'], t: ['trademat', 'barstrip', 'ruler'] },
+    { w: ['number line', 'numberline'], t: ['numberline'] },
+    { w: ['counting', 'count', 'number sense', 'subitize', 'subitizing'], t: ['tenframe', 'dotcards', 'bears', 'linkcubes', 'counters'] },
+    { w: ['patterns', 'pattern'], t: ['hundred', 'pattern', 'beads', 'linkcubes'] }
+  ];
+  function norm(q) { return String(q || '').toLowerCase().replace(/[‐-―]/g, '-').replace(/\s+/g, ' ').trim(); }
+  /* every word list a query touches: "numberline" and "number line" land in the same place */
+  /* an exact word wins ("time" means clock, not "times"); only when nothing matches exactly do partial words count ("frac", "regrouping with discs") */
+  function conceptsFor(q) { q = norm(q); if (!q) return []; var flat = q.replace(/[\s-]/g, '');
+    var exact = CONCEPTS.filter(function (c) { return c.w.some(function (w) { return w === q || w.replace(/[\s-]/g, '') === flat; }); });
+    if (exact.length || q.length < 4) return exact;
+    return CONCEPTS.filter(function (c) { return c.w.some(function (w) { return w.indexOf(q) === 0 || (w.length >= 5 && q.indexOf(w) > -1); }); }); }
+  /* lesson ids: 4.11.1, 4.11.01 and 4-11-1 all mean 4.11.01 */
+  function normId(q) { var m = String(q).trim().match(/^(\d)[.\-\s](\d{1,2})(?:[.\-\s](\d{1,2}))?$/); if (!m) return null; var pad = function (x) { return ('0' + x).slice(-2); }; return m[1] + '.' + pad(m[2]) + (m[3] ? '.' + pad(m[3]) : ''); }
+
+  /* all matching lessons, best first: id match, then title, then unit name (no cap: the page shows them a dozen at a time) */
   function findLessons(q) {
-    q = q.trim().toLowerCase(); if (!q) return [];
-    var exact = D.lessonById(q); if (exact) return [exact];
-    var qs = q.replace(/[^0-9.]/g, '');
-    return D.lessons.filter(function (l) { return (qs && qs.length >= 3 && l.id.indexOf(qs) === 0) || l.title.toLowerCase().indexOf(q) > -1 || l.unitName.toLowerCase().indexOf(q) > -1; }).slice(0, 12);
+    q = norm(q); if (!q) return [];
+    var id = normId(q) || q, exact = D.lessonById(id); if (exact) return [exact];
+    var qs = id.replace(/[^0-9.]/g, ''), words = [q], cs = conceptsFor(q);
+    cs.forEach(function (c) { c.w.forEach(function (w) { if (w.length >= 4 && words.indexOf(w) < 0) words.push(w); }); });
+    var out = [];
+    D.lessons.forEach(function (l) {
+      var t = l.title.toLowerCase(), u = l.unitName.toLowerCase(), sc = 0;
+      if (qs && qs.length >= 3 && l.id.indexOf(qs) === 0) sc = 4;
+      else if (t.indexOf(q) > -1) sc = 3;
+      else if (words.some(function (w) { return t.indexOf(w) > -1; })) sc = 2;
+      else if (u.indexOf(q) > -1 || words.some(function (w) { return u.indexOf(w) > -1; })) sc = 1;
+      if (sc) out.push({ l: l, sc: sc });
+    });
+    out.sort(function (a, b) { return b.sc - a.sc || a.l.id.localeCompare(b.l.id); });
+    return out.map(function (x) { return x.l; });
   }
 
   function renderLessons() {
     var h = '';
     if (st.find) {
-      var res = findLessons(st.find);
-      if (res.length === 1) h += lessonCard(res[0]);
-      else if (res.length) { h += '<p class="empty">' + res.length + ' lessons match “' + esc(st.find) + '”:</p>'; res.forEach(function (l) { h += lessonCard(l); }); }
-      else h += '<p class="empty">No lesson matches “' + esc(st.find) + '”. Try a number like 3.09.02.</p>';
+      var all = findLessons(st.find), sg = st.sg === undefined ? st.g : st.sg;
+      if (st.findWas !== st.find) { st.findWas = st.find; st.more = 12; }
+      var byG = function (g) { return all.filter(function (l) { return l.g === g; }).length; };
+      if (all.length > 1) h += '<div class="pills" role="group" aria-label="Grade for search results"><b>Grade</b>' + [3, 4, 5].map(function (g) { return '<button data-sg="' + g + '" aria-pressed="' + (sg === g) + '">Grade ' + g + ' (' + byG(g) + ')</button>'; }).join('') + '<button data-sg="all" aria-pressed="' + (sg === 'all') + '">All grades (' + all.length + ')</button></div>';
+      var res = all.length > 1 && sg !== 'all' ? all.filter(function (l) { return l.g === sg; }) : all, shown = res.slice(0, st.more);
+      var gl = sg === 'all' || all.length < 2 ? '' : 'Grade ' + sg + ' ';
+      if (all.length === 1) h += lessonCard(all[0]);
+      else if (res.length) { h += '<p class="empty" role="status">' + (shown.length < res.length ? 'Showing ' + shown.length + ' of ' + res.length + ' ' : res.length + ' ') + gl + 'lesson' + (res.length === 1 ? '' : 's') + ' match “' + esc(st.find) + '”' + (sg !== 'all' && res.length < all.length ? ' (' + (all.length - res.length) + ' more in other grades)' : '') + ':</p>'; shown.forEach(function (l) { h += lessonCard(l); }); if (shown.length < res.length) h += '<p><button class="om-btn" id="findmore">Show ' + Math.min(12, res.length - shown.length) + ' more</button></p>'; }
+      else if (all.length) h += '<p class="empty" role="status">No ' + gl + 'lessons match “' + esc(st.find) + '”. ' + all.length + ' match in other grades: tap a grade above.</p>';
+      else h += '<p class="empty" role="status">No lesson matches “' + esc(st.find) + '”. Try a number like 3.09.02.</p>';
       h += '<p><button class="om-btn small" id="clearfind">Show all lessons</button></p>';
-      view.innerHTML = h; bindShare(); document.getElementById('clearfind').onclick = function () { st.find = ''; document.getElementById('q').value = ''; render(); }; return;
+      view.innerHTML = h; bindShare();
+      view.querySelectorAll('[data-sg]').forEach(function (b) { b.onclick = function () { st.sg = b.dataset.sg === 'all' ? 'all' : +b.dataset.sg; if (st.sg !== 'all') { st.g = st.sg; store('g', st.g); } st.more = 12; render(); var nb = view.querySelector('[data-sg="' + b.dataset.sg + '"]'); if (nb) nb.focus(); }; });
+      var fm = document.getElementById('findmore'); if (fm) fm.onclick = function () { var n = st.more; st.more += 12; render(); var cardsNow = view.querySelectorAll('article.lres'); if (cardsNow[n]) { var hh = cardsNow[n].querySelector('h2'); hh.setAttribute('tabindex', '-1'); hh.focus(); } };
+      document.getElementById('clearfind').onclick = function () { st.find = ''; document.getElementById('q').value = ''; render(); }; return;
     }
     h += '<div class="pills" role="group" aria-label="Grade"><b>Grade</b>' + [3, 4, 5].map(function (g) { return '<button data-g="' + g + '" aria-pressed="' + (st.g === g) + '">Grade ' + g + '</button>'; }).join('') + '</div>';
     var byUnit = {}; D.lessons.filter(function (l) { return l.g === st.g; }).forEach(function (l) { (byUnit[l.unit] = byUnit[l.unit] || []).push(l); });
@@ -395,9 +458,10 @@ select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;m
     cards();
   }
   function cards() {
-    var q = (st.ts || '').toLowerCase(), out = '';
+    var q = norm(st.ts), qf = q.replace(/[\s-]/g, ''), hit = {}; conceptsFor(q).forEach(function (c) { c.t.forEach(function (id) { hit[id] = 1; }); });
+    var match = function (t) { if (!q || hit[t.id]) return true; var tx = (t.name + ' ' + t.what + ' ' + t.kit + ' ' + t.g).toLowerCase(); return (' ' + tx.replace(/[^a-z0-9×÷]+/g, ' ')).indexOf(' ' + q.replace(/[^a-z0-9×÷]+/g, ' ')) > -1 || (q.length >= 6 && tx.replace(/[\s-]/g, '').indexOf(qf) > -1); }, out = '';
     D.groups.forEach(function (gname) {
-      var list = D.tools.filter(function (t) { return t.g === gname && (st.tg === 'all' || t.grades.indexOf(+st.tg) > -1) && (!q || (t.name + ' ' + t.what + ' ' + t.kit + ' ' + t.g).toLowerCase().indexOf(q) > -1); });
+      var list = D.tools.filter(function (t) { return t.g === gname && (st.tg === 'all' || t.grades.indexOf(+st.tg) > -1) && match(t); });
       if (!list.length) return;
       out += '<section class="group"><h2>' + esc(gname) + '</h2><div class="cards">';
       list.forEach(function (t) {
@@ -596,10 +660,13 @@ select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;m
       stg.innerHTML = '<div class="lines">' + k.show.text.slice(0, i + 1).map(function (t, j) { return '<div class="' + (j < i ? 'old' : '') + '">' + fracHTML(t) + '</div>'; }).join('') + '</div>'; }
     paint();
     ov.addEventListener('click', function (e) { var a = e.target.closest('[data-a]'); if (!a) return; if (a.dataset.a === 'x') close(); if (a.dataset.a === 'next' && i < k.show.text.length - 1) { i++; paint(); } if (a.dataset.a === 'prev' && i > 0) { i--; paint(); } });
-    function key(e) { if (e.key === 'Escape') close(); if (k.show.text && (e.key === 'ArrowRight' || e.key === ' ')) { if (i < k.show.text.length - 1) { i++; paint(); } e.preventDefault(); } if (k.show.text && e.key === 'ArrowLeft' && i > 0) { i--; paint(); } }
+    /* Space and arrows step the talk, but not while a button or field has focus: then Space presses that button (Close, Back, Next) as usual */
+    function key(e) { if (e.key === 'Escape') { close(); return; } var tg = e.target, onCtl = tg && tg.closest && tg.closest('button,a[href],input,textarea,select,summary,[role="button"]'); if (onCtl && (e.key === ' ' || e.key === 'Enter')) return; if (k.show.text && (e.key === 'ArrowRight' || e.key === ' ')) { if (i < k.show.text.length - 1) { i++; paint(); } e.preventDefault(); } if (k.show.text && e.key === 'ArrowLeft' && i > 0) { i--; paint(); } }
     document.addEventListener('keydown', key);
-    function close() { document.removeEventListener('keydown', key); ov.remove(); }
-    ov.querySelector('[data-a="x"]').focus();
+    var opener = document.activeElement;
+    function close() { document.removeEventListener('keydown', key); ov.remove(); if (opener && document.contains(opener)) try { opener.focus(); } catch (e) {} }
+    /* focus starts on the talk itself, so Space steps it; Tab reaches Back, Next and Close */
+    stg.setAttribute('tabindex', '-1'); stg.style.outline = 'none'; stg.focus();
   }
   function printTalk(k) {
     var w = window.open('', '_blank'); if (!w) { OAOM.toast('Allow pop-ups to print notes.'); return; }
@@ -668,9 +735,10 @@ select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;m
   /* ═══════════ Fact check ═══════════ */
   function renderFacts() {
     view.innerHTML = '<div class="facts"><h2>Fact check</h2><p>Practice math facts by family: adding, subtracting, multiplying and dividing. Each fact answered within about 3 seconds is marked <b>fast</b>; the rest show the strategy students used. There is no timer unless you turn one on. Students can download a score card to share with you.</p>' +
-      '<div class="om-row"><a class="om-btn primary" href="fluency.html" target="_blank" rel="noopener">Open Fact check ↗</a><button class="om-btn" id="fx-share">Share with students</button></div>' +
+      '<div class="om-row"><a class="om-btn primary" href="fluency.html" target="_blank" rel="noopener">Set up a fact check ↗</a><button class="om-btn" id="fx-share">Share a practice link</button></div>' +
+      '<p class="om-hint" style="margin:.4rem 0 0">To give the class a set of facts: set it up, then tap <b>Share with students</b> on that page. For free practice: share the practice link, and each student picks their own facts.</p>' +
       '<p class="om-hint" style="margin-top:.8rem">Florida B.E.S.T. expects automatic recall of sums to 10 in Grade 1 and sums to 20 in Grade 2. Multiplication and division facts to 12 × 12 are expected with procedural reliability in Grade 3 and with automaticity in Grade 4. The score card is self-reported: it is what the student saw, not a test.</p></div>';
-    document.getElementById('fx-share').onclick = function () { OAOM.share({ title: 'Fact check', url: BASE + 'fluency.html', dir: { title: 'Math fact check', intro: 'Pick your facts and start. Answer as many as you can. Download your score card when you finish.' } }); };
+    document.getElementById('fx-share').onclick = function () { OAOM.share({ title: 'Fact check practice', url: BASE + 'fluency.html?pick=1', note: 'Students pick their own facts and practice. To give everyone the same facts, use Set up a fact check instead.', dir: { title: 'Math fact practice', intro: 'Pick the facts you want to practice, then tap Start. Download your score card when you finish.' } }); };
   }
 
   /* example links for the "two ways to share" cards */

@@ -230,7 +230,31 @@ var OAOM = (function () {
   function whatFor(m) { return (params.get('lang') === 'es' && window.OAOM_DATA && OAOM_DATA.whatEs && OAOM_DATA.whatEs[m.id]) || m.what || ''; }
 
   /* ---------- share modal (used by tool page + library) ---------- */
-  var modal;
+  var modal, modalOpener = null;
+  /* one dialog box for Share, Save setup, Download a picture and Turn in: focus moves in, Tab and Shift+Tab stay inside, the page behind is inert, Escape closes, focus goes back to the button that opened it */
+  function ensureModal() {
+    if (modal) return;
+    modal = el('div', { class: 'om-modal', hidden: '' }); document.body.appendChild(modal);
+    modal.addEventListener('click', function (e) { if (e.target === modal) closeShare(); });
+    document.addEventListener('keydown', function (e) {
+      if (!modal || modal.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); closeShare(); return; }
+      if (e.key !== 'Tab') return;
+      var f = [].filter.call(modal.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),textarea,select,summary,[tabindex]:not([tabindex="-1"])'), function (x) { return x.offsetParent !== null; });
+      if (!f.length) return;
+      var a = document.activeElement, first = f[0], last = f[f.length - 1];
+      if (!modal.contains(a)) { e.preventDefault(); first.focus(); }
+      else if (e.shiftKey && a === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && a === last) { e.preventDefault(); first.focus(); }
+    }, true);
+  }
+  function openModal(focusSel) {
+    if (modal.hidden) modalOpener = document.activeElement && document.activeElement !== document.body ? document.activeElement : null;
+    modal.hidden = false;
+    [].forEach.call(document.body.children, function (c) { if (c !== modal && c !== toastEl && c.tagName !== 'SCRIPT') { if (!c.hasAttribute('inert')) c.setAttribute('data-om-inert', ''); c.setAttribute('inert', ''); } });
+    var t = (focusSel && modal.querySelector(focusSel)) || modal.querySelector('input,button,textarea,a[href]');
+    if (t) t.focus();
+  }
   /* ---------- My saved setups (teacher, this browser only) ----------
      localStorage 'oaom.saved' = [{id, name, t, s, at}]  (t = tool id, s = tool state) */
   var saved = {
@@ -240,7 +264,15 @@ var OAOM = (function () {
     remove: function (id) { saved.put(saved.list().filter(function (x) { return x.id !== id; })); },
     rename: function (id, name) { saved.put(saved.list().map(function (x) { if (x.id === id) x.name = name; return x; })); }
   };
-  function addSt(u) { return /[?&]st=1/.test(u) ? u : u.replace(/(\?[^#]*)/, '$1&st=1'); }
+  /* withParam(url, key, value): set one query option (value null/false removes it). Works with or without an existing ?query, and keeps the #state */
+  function withParam(u, k, v) {
+    var h = '', i = u.indexOf('#'); if (i > -1) { h = u.slice(i); u = u.slice(0, i); }
+    var j = u.indexOf('?'), path = j > -1 ? u.slice(0, j) : u, parts = j > -1 ? u.slice(j + 1).split('&').filter(function (x) { return x && x.split('=')[0] !== k; }) : [];
+    if (v !== null && v !== undefined && v !== false) parts.push(k + '=' + encodeURIComponent(v));
+    return path + (parts.length ? '?' + parts.join('&') : '') + h;
+  }
+  function hasParam(u, k, v) { var q = u.split('#')[0].split('?')[1] || ''; return q.split('&').some(function (x) { var p = x.split('='); return p[0] === k && (v === undefined || decodeURIComponent(p[1] || '') === v); }); }
+  function addSt(u) { return withParam(u, 'st', '1'); }
   /* ---------- Turn in my work (students): a picture + a link to their exact work ---------- */
   /* picture of the tool: every svg drawn where it sits on the stage (pen ink on top); opts = {title, date, totals} */
   function workPicture(done, opts) {
@@ -278,7 +310,7 @@ var OAOM = (function () {
   /* ---------- Download picture (teacher): PNG or JPEG for slides and anchor charts ---------- */
   function picture() {
     if (!cur) return;
-    if (!modal) { modal = el('div', { class: 'om-modal', hidden: '' }); document.body.appendChild(modal); modal.addEventListener('click', function (e) { if (e.target === modal) closeShare(); }); document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeShare(); }); }
+    ensureModal();
     var opt = { title: false, date: false, totals: true, clean: true };
     modal.innerHTML = '<div class="om-dialog" role="dialog" aria-modal="true" aria-labelledby="om-pic-t"><h2 id="om-pic-t">Download a picture</h2>' +
       '<p class="sub">A picture of the tool just as it looks now, for slides, anchor charts or a Canvas page.</p>' +
@@ -287,7 +319,7 @@ var OAOM = (function () {
       '<div class="om-row"><button class="om-btn small primary" data-k="png">Download PNG</button><button class="om-btn small" data-k="jpg">Download JPEG</button><button class="om-btn small" data-k="copy">Copy picture</button></div>' +
       '<p class="om-hint">PNG stays sharp in slides. JPEG makes a smaller file. Tip: Hide totals first if the picture should not show the answer.</p>' +
       '<div class="om-row" style="justify-content:flex-end"><button class="om-btn small" data-x>Close</button></div></div>';
-    modal.hidden = false; modal.querySelector('[data-x]').onclick = closeShare;
+    openModal(); modal.querySelector('[data-x]').onclick = closeShare;
     var canvas = null, name = meta(cur.id).name.replace(/[^a-z0-9]+/gi, '-').toLowerCase();
     function render() { workPicture(function (cv) { canvas = cv; var box = modal.querySelector('.om-tipic'); box.innerHTML = ''; var im = new Image(); im.src = cv.toDataURL('image/png'); im.alt = 'Picture of the tool'; box.appendChild(im); }, opt); }
     [].forEach.call(modal.querySelectorAll('[data-o]'), function (b) { b.onchange = function () { opt[b.dataset.o] = b.checked; render(); }; });
@@ -299,7 +331,7 @@ var OAOM = (function () {
   }
   function turnIn() {
     if (!cur) return;
-    if (!modal) { modal = el('div', { class: 'om-modal', hidden: '' }); document.body.appendChild(modal); modal.addEventListener('click', function (e) { if (e.target === modal) closeShare(); }); document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeShare(); }); }
+    ensureModal();
     var link = addSt(toolURL(cur.id, cur.S));
     modal.innerHTML = '<div class="om-dialog" role="dialog" aria-modal="true" aria-labelledby="om-ti-t"><h2 id="om-ti-t">' + (document.body.classList.contains('student') ? 'Turn in my work' : 'Save this work') + '</h2>' +
       '<p class="sub">Send your teacher a picture of your work, or a link that opens it just the way it is now. Paste it where your teacher asked: a Canvas assignment, a discussion, or the chat.</p>' +
@@ -307,7 +339,7 @@ var OAOM = (function () {
       '<div class="om-row"><button class="om-btn small primary" data-k="copyimg">Copy picture</button><button class="om-btn small" data-k="dl">Download picture</button><button class="om-btn small primary" data-k="copylink">Copy link to my work</button></div>' +
       '<p class="om-hint">Tip: in a Canvas assignment, choose <b>File Upload</b> for the picture, or <b>Website URL</b> for the link.</p>' +
       '<div class="om-row" style="justify-content:flex-end"><button class="om-btn small" data-x>Close</button></div></div>';
-    modal.hidden = false; modal.querySelector('[data-x]').onclick = closeShare;
+    openModal(); modal.querySelector('[data-x]').onclick = closeShare;
     modal.querySelector('[data-k="copylink"]').onclick = function () { copy(link, 'Link to your work copied'); };
     workPicture(function (cv) {
       var box = modal.querySelector('.om-tipic'); box.innerHTML = ''; var im = new Image(); im.src = cv.toDataURL('image/png'); im.alt = 'Picture of my work'; box.appendChild(im);
@@ -320,22 +352,22 @@ var OAOM = (function () {
     }, { clean: true });
   }
 
-  function share(o) { /* o = {title, url, boardUrl, embedUrl} */
-    if (!modal) { modal = el('div', { class: 'om-modal', hidden: '' }); document.body.appendChild(modal); modal.addEventListener('click', function (e) { if (e.target === modal) closeShare(); }); document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeShare(); }); }
+  function share(o, focusSel) { /* o = {title, url, boardUrl, embedUrl} */
+    ensureModal();
     /* every link a teacher shares is a student link: it opens without the way back to the library */
     o = Object.assign({}, o, { url: addSt(o.url) });
-    var orig = o; if (o.plain) { o = Object.assign({}, o, { url: o.url.replace(/(\?[^#]*)/, '$1&plain=1'), dir: null, note: 'A plain tool: no directions, ready for students to explore.' }); }
-    var embedUrl = o.embedUrl || (o.url + (o.url.indexOf('#') > -1 ? '' : '')).replace(/(\?[^#]*)/, '$1&embed=1');
-    var boardUrl = o.boardUrl || o.url.replace(/(\?[^#]*)/, '$1&board=1');
+    var orig = o; if (o.plain) { o = Object.assign({}, o, { url: withParam(o.url, 'plain', '1'), dir: null, note: 'A plain tool: no directions, ready for students to explore.' }); }
+    var embedUrl = o.embedUrl || withParam(o.url, 'embed', '1');
+    var boardUrl = o.boardUrl || withParam(o.url, 'board', '1');
     var iframe = '<iframe src="' + embedUrl + '" title="' + esc(o.title) + '" width="100%" height="680" style="border:0;max-width:100%" allow="fullscreen; clipboard-write" allowfullscreen></iframe>';
-    var isEs = /[?&]lang=es/.test(o.url), d = isEs && o.dirEs ? o.dirEs : o.dir;
+    var isEs = hasParam(o.url, 'lang', 'es'), d = isEs && o.dirEs ? o.dirEs : o.dir;
     var dirs = d ? directions(Object.assign({}, d, { es: isEs })) : '';
     var embed = dirs + iframe;
     modal.innerHTML = '<div class="om-dialog" role="dialog" aria-modal="true" aria-labelledby="om-sh-t">' +
       '<h2 id="om-sh-t">Share: ' + esc(o.title) + '</h2><p class="sub">' + (o.note || 'The link opens the tool set up exactly the way it looks right now.') + '</p>' +
       '<div class="om-row" style="margin:0 0 .5rem;gap:.3rem 1rem"><label class="om-check" style="margin:0"><input type="checkbox" id="om-incdir"' + (orig.plain ? '' : ' checked') + '> Include the how-to directions</label>' +
       (o.hasState ? '<label class="om-check" style="margin:0" title="The total stays hidden until the student taps “I said it”"><input type="checkbox" id="om-sayfirst"' + (o.sayFirst ? ' checked' : '') + '> Students say it before they see the total</label>' : '') +
-      (o.hasEs ? '<label class="om-check" style="margin:0"><input type="checkbox" id="om-es"' + (/[?&]lang=es/.test(o.url) ? ' checked' : '') + '> Directions in Spanish</label>' : '') + '</div>' +
+      (o.hasEs ? '<label class="om-check" style="margin:0"><input type="checkbox" id="om-es"' + (isEs ? ' checked' : '') + '> Directions in Spanish</label>' : '') + '</div>' +
       '<div class="om-sharegrid"><div>' +
       '<div class="om-label">Student link</div><div class="om-copy"><input readonly value="' + esc(o.url) + '" aria-label="Student link"><button class="om-btn small primary" data-c="0">Copy</button></div>' +
       '<div class="om-label">Big-screen link (for live class)</div><div class="om-copy"><input readonly value="' + esc(boardUrl) + '" aria-label="Big-screen link"><button class="om-btn small" data-c="1">Copy</button></div>' +
@@ -345,22 +377,45 @@ var OAOM = (function () {
       '</div><div class="om-qr"><div class="om-label">QR code</div><div class="qrbox"></div><button class="om-btn small" data-dl>Download QR</button></div></div>' +
       '<div class="om-row" style="justify-content:flex-end"><a class="om-btn small" target="_blank" rel="noopener" href="' + esc(o.url) + '">Open in new tab ↗</a><button class="om-btn small" data-x>Close</button></div></div>';
     var vals = [o.url, boardUrl, embed, dirs];
-    modal.querySelector('#om-incdir').onchange = function () { share(Object.assign({}, orig, { plain: !this.checked })); };
-    var sf = modal.querySelector('#om-sayfirst'); if (sf) sf.onchange = function () { share(Object.assign({}, orig, { sayFirst: this.checked, url: orig.rebuild(this.checked) })); };
-    var esb = modal.querySelector('#om-es'); if (esb) esb.onchange = function () { var on = this.checked, u = orig.url.replace(/&lang=es/, ''); share(Object.assign({}, orig, { url: on ? u.replace(/(\?[^#]*)/, '$1&lang=es') : u })); };
+    modal.querySelector('#om-incdir').onchange = function () { share(Object.assign({}, orig, { plain: !this.checked }), '#om-incdir'); };
+    var sf = modal.querySelector('#om-sayfirst'); if (sf) sf.onchange = function () { var u = addSt(orig.rebuild(this.checked)); share(Object.assign({}, orig, { sayFirst: this.checked, url: withParam(u, 'lang', hasParam(orig.url, 'lang', 'es') ? 'es' : null) }), '#om-sayfirst'); };
+    var esb = modal.querySelector('#om-es'); if (esb) esb.onchange = function () { share(Object.assign({}, orig, { url: withParam(orig.url, 'lang', this.checked ? 'es' : null) }), '#om-es'); };
     modal.querySelectorAll('[data-c]').forEach(function (b) { b.addEventListener('click', function () { copy(vals[+b.dataset.c], ['Student link copied', 'Big-screen link copied', 'Embed code copied', 'Directions copied'][+b.dataset.c]); }); });
     modal.querySelector('[data-x]').addEventListener('click', closeShare);
-    var box = modal.querySelector('.qrbox'), dataUrl = '';
-    try {
-      var q = qrcode(0, 'M'); q.addData(o.url); q.make();
+    var box = modal.querySelector('.qrbox'), dlb = modal.querySelector('[data-dl]'), dataUrl = '', qrFor = o.url;
+    dlb.disabled = true;
+    function drawQR() {
+      if (!modal.contains(box) || qrFor !== o.url) return; /* the box was rebuilt while the QR script loaded */
+      if (typeof qrcode !== 'function') { box.innerHTML = '<p class="om-hint">The QR code could not load. Check the connection, or use the student link.</p>'; return; }
+      var q;
+      try { q = qrcode(0, 'M'); q.addData(o.url); q.make(); }
+      catch (e) { box.innerHTML = '<p class="om-hint">' + (o.url.length > 2000 ? 'This link is too long for a QR code. Use the student link instead.' : 'The QR code could not be made. Use the student link instead.') + '</p>'; return; }
       var n = q.getModuleCount(), sc = Math.max(2, Math.floor(340 / (n + 8))), c = document.createElement('canvas'); c.width = c.height = (n + 8) * sc; var g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.fillStyle = '#0E1C42';
       for (var r = 0; r < n; r++) for (var k = 0; k < n; k++) if (q.isDark(r, k)) g.fillRect((k + 4) * sc, (r + 4) * sc, sc, sc);
-      box.appendChild(c); dataUrl = c.toDataURL('image/png');
-    } catch (e) { box.innerHTML = '<p class="om-hint">This link is too long for a QR code. Use the student link instead.</p>'; }
+      c.setAttribute('role', 'img'); c.setAttribute('aria-label', 'QR code for the student link');
+      box.innerHTML = ''; box.appendChild(c); dataUrl = c.toDataURL('image/png'); dlb.disabled = false;
+    }
+    if (typeof qrcode === 'function') drawQR();
+    else { box.innerHTML = '<p class="om-hint">Making the QR code…</p>'; loadQR(drawQR); }
     modal.querySelector('[data-dl]').addEventListener('click', function () { if (!dataUrl) return; var a = el('a', { href: dataUrl, download: (o.title || 'math-tool').replace(/[^a-z0-9]+/gi, '-').toLowerCase() + '-qr.png' }); document.body.appendChild(a); a.click(); a.remove(); });
-    modal.hidden = false; modal.querySelector('input').focus();
+    openModal(focusSel);
   }
-  function closeShare() { if (modal) modal.hidden = true; }
+  /* the QR maker loads itself the first time a Share box needs it, on any page (side by side and problem sets included) */
+  var qrWait = null;
+  function loadQR(done) {
+    if (typeof qrcode === 'function') { done(); return; }
+    if (qrWait) { qrWait.push(done); return; }
+    qrWait = [done];
+    var sc = document.createElement('script'); sc.src = base() + 'vendor/qrcode.js';
+    sc.onload = sc.onerror = function () { var w = qrWait; qrWait = null; w.forEach(function (f) { try { f(); } catch (e) {} }); };
+    document.head.appendChild(sc);
+  }
+  function closeShare() {
+    if (!modal || modal.hidden) return;
+    modal.hidden = true;
+    [].forEach.call(document.querySelectorAll('[data-om-inert]'), function (c) { c.removeAttribute('inert'); c.removeAttribute('data-om-inert'); });
+    if (modalOpener && document.contains(modalOpener)) { try { modalOpener.focus(); } catch (e) {} } modalOpener = null;
+  }
 
   /* ---------- tool data lookups ---------- */
   function meta(id) { return (window.OAOM_DATA && OAOM_DATA.tools.filter(function (t) { return t.id === id; })[0]) || { id: id, name: id }; }
@@ -393,7 +448,8 @@ var OAOM = (function () {
     var S = Object.assign(clone(def.defaults || {}), state || {});
     var prevInitial = keepHist && cur ? cur.initial : null, prevL = cur ? { lessonId: cur.lessonId, lessonStates: cur.lessonStates, tab: cur.tab } : {};
     cur = { id: id, def: def, S: S, initial: prevInitial || clone(S) };
-    if (keepHist) Object.assign(cur, prevL);
+    /* the lesson tab this tool sits in belongs to the page, not to undo history: keep it through every remount (reset and quick setups too) */
+    if (prevL.lessonStates) Object.assign(cur, prevL);
     if (!keepHist) histReset(id, S);
     document.title = m.name + ' · OAO Math Tools';
     $('#om-title').textContent = m.name;
@@ -441,7 +497,7 @@ var OAOM = (function () {
       /* quick(presets): one-tap setups shown at the top of Set up. presets = [[label, {state keys}], ...] */
       quick: function (presets, label) {
         var box = el('div', { class: 'om-quick' }, '<h3>' + (label || 'Quick setup') + '</h3>'); var g = el('div', { class: 'om-seg' });
-        presets.forEach(function (p) { var b = el('button', { type: 'button' }, p[0]); b.onclick = function () { var ns = Object.assign(clone(S), clone(p[1])); mount(id, ns); cur.initial = clone(cur.S); if (!params.get('lesson')) history.replaceState(null, '', '#s=' + enc(cur.S)); }; g.appendChild(b); });
+        presets.forEach(function (p) { var b = el('button', { type: 'button' }, p[0]); b.onclick = function () { var ns = Object.assign(clone(S), clone(p[1])); mount(id, ns); cur.initial = clone(cur.S); if (!params.get('lesson')) history.replaceState(null, '', '#s=' + enc(cur.S)); else if (cur.lessonStates) cur.lessonStates[cur.tab] = clone(cur.S); }; g.appendChild(b); });
         box.appendChild(g); side.insertBefore(box, side.firstChild); return box;
       },
       /* more(label): everything added after this goes in a folded "More options" box until endMore() */
@@ -572,12 +628,12 @@ var OAOM = (function () {
   function readAloud() { var m = meta(cur.id); speak([m.name + '.', whatFor(m)].concat(howFor(m)).join(' ')); }
   /* ---------- Save setup (teacher) ---------- */
   function saveSetup() {
-    if (!modal) { modal = el('div', { class: 'om-modal', hidden: '' }); document.body.appendChild(modal); modal.addEventListener('click', function (e) { if (e.target === modal) closeShare(); }); document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeShare(); }); }
+    ensureModal();
     var m = meta(cur.id);
     modal.innerHTML = '<div class="om-dialog" role="dialog" aria-modal="true" aria-labelledby="om-sv-t"><h2 id="om-sv-t">Save this setup</h2><p class="sub">It goes in <b>My setups</b> in the library, on this computer and browser. Open it, share it, or put it in a problem set later.</p>' +
       '<label class="om-field"><span>Name</span><input type="text" id="om-svname" value="' + esc(m.name + ' ' + new Date().toLocaleDateString()) + '"></label>' +
       '<div class="om-row" style="justify-content:flex-end"><button class="om-btn small" data-x>Cancel</button><button class="om-btn small primary" data-ok>Save</button></div></div>';
-    modal.hidden = false; var inp = $('#om-svname'); inp.select();
+    openModal('#om-svname'); var inp = $('#om-svname'); inp.select();
     modal.querySelector('[data-x]').onclick = closeShare;
     function go() { var st = clone(cur.S); delete st._g; var it = saved.add(inp.value.trim() || m.name, cur.id, st); closeShare(); toast(it ? 'Saved to My setups' : 'Could not save in this browser.'); }
     modal.querySelector('[data-ok]').onclick = go; inp.onkeydown = function (e) { if (e.key === 'Enter') go(); };
@@ -611,7 +667,7 @@ var OAOM = (function () {
       (isStudent ? '' : '<span class="om-flashgrp"><button type="button" class="om-btn small" id="om-flash" title="Show the tool for a few seconds, then hide it">⚡ <span class="lbl">Flash it</span></button><select id="om-flashs" aria-label="Seconds to show"><option value="2">2 s</option><option value="3" selected>3 s</option><option value="5">5 s</option><option value="10">10 s</option></select></span>') + '</div><p class="om-say" id="om-say" aria-live="polite"></p><div class="om-goal" id="om-goal" hidden></div><div class="om-stage" id="om-stage"></div><div class="om-readout om-num" id="om-readout" aria-live="polite"></div></section>' +
       '<aside class="om-side"><h2>Set up</h2><div id="om-setup"></div></aside></main>';
 
-    $('#om-reset').onclick = function () { if (!cur) return; mount(cur.id, clone(cur.initial)); if (!lid) history.replaceState(null, '', '#s=' + enc(cur.initial)); };
+    $('#om-reset').onclick = function () { if (!cur) return; mount(cur.id, clone(cur.initial)); if (!lid) history.replaceState(null, '', '#s=' + enc(cur.initial)); else if (cur.lessonStates) cur.lessonStates[cur.tab] = clone(cur.S); };
     $('#om-nums').onclick = function () { if (!cur) return; cur.S._r = cur.S._r === 0 ? 1 : 0; document.body.classList.toggle('hide-nums', cur.S._r === 0); this.setAttribute('aria-pressed', cur.S._r === 0 ? 'true' : 'false'); goalBar(); goalCheck(); if (!lid) history.replaceState(null, '', '#s=' + enc(cur.S)); };
     $('#om-print').onclick = function () { window.print(); };
     $('#om-setbtn').onclick = function () { var on = document.body.classList.toggle('show-setup'); this.setAttribute('aria-pressed', on); };

@@ -112,13 +112,14 @@
   function btn(label, cls, fn, parent) { var b = O.el('button', { type: 'button', class: 'om-btn small ' + (cls || '') }, label); b.onclick = fn; (parent || acts).appendChild(b); return b; }
 
   /* ================= TEACHER SETUP ================= */
-  function teacher() {
+  /* practice = a student picking their own facts (?st=1&pick=1): same picker, no teacher notes, no sharing, just Start */
+  function teacher(practice) {
     var s = S0(P.get('q'));
-    document.title = 'Fact Check · set up · OAO Math Tools';
-    app.innerHTML = '<div class="fl-grid"><section class="fl-card" id="fl-setup"></section><section class="fl-card fl-notes" id="fl-notes"></section></div>';
+    document.title = practice ? 'Fact Check · pick your facts · OAO Math Tools' : 'Fact Check · set up · OAO Math Tools';
+    app.innerHTML = practice ? '<div class="fl-grid" style="grid-template-columns:1fr;max-width:760px;margin:0 auto"><section class="fl-card" id="fl-setup"></section></div>' : '<div class="fl-grid"><section class="fl-card" id="fl-setup"></section><section class="fl-card fl-notes" id="fl-notes"></section></div>';
     var box = document.getElementById('fl-setup');
     function paint() {
-      var h = '<h2>Set up a fact check</h2><h3>Operation</h3><div class="fl-chips" data-k="op">' +
+      var h = (practice ? '<h2>Pick your facts</h2><p class="om-hint" style="margin:0 0 .4rem">Choose what you want to practice, then tap Start.</p>' : '<h2>Set up a fact check</h2>') + '<h3>Operation</h3><div class="fl-chips" data-k="op">' +
         [['add', '+ Add'], ['sub', '− Subtract'], ['addsub', '+ and −'], ['mul', '× Multiply'], ['div', '÷ Divide'], ['muldiv', '× and ÷']].map(function (o) { return '<button data-v="' + o[0] + '" aria-pressed="' + (s.op === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
       if (!isMul(s.op)) {
         h += '<h3>Facts</h3><div class="fl-chips" data-k="fam">' + ADD_FAMS.map(function (f) { return '<button data-v="' + f[0] + '" aria-pressed="' + (s.fam === f[0]) + '">' + esc(f[1]) + ' <small style="opacity:.7">' + f[2] + '</small></button>'; }).join('') + '</div>';
@@ -132,10 +133,10 @@
       var pool = makeFacts(s).length;
       h += '<h3>How many facts</h3><div class="fl-chips" data-k="n">' + [[10, '10'], [20, '20'], [30, '30'], [0, 'All ' + pool]].map(function (o) { return '<button data-v="' + o[0] + '" aria-pressed="' + (s.n === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>' +
         '<h3>Timer</h3><div class="fl-chips" data-k="tm">' + [[0, 'Off (recommended)'], [60, '1 minute'], [120, '2 minutes']].map(function (o) { return '<button data-v="' + o[0] + '" aria-pressed="' + (s.tm === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>' +
-        '<label class="om-check" style="margin-top:.7rem"><input type="checkbox" data-c="goal"' + (s.goal ? ' checked' : '') + '> Show students the fast-fact goal (about 3 seconds a fact)</label>' +
-        '<div class="fl-goal">' + goalText(s) + '</div>' +
+        '<label class="om-check" style="margin-top:.7rem"><input type="checkbox" data-c="goal"' + (s.goal ? ' checked' : '') + '> ' + (practice ? 'Show me the fast-fact goal (about 3 seconds a fact)' : 'Show students the fast-fact goal (about 3 seconds a fact)') + '</label>' +
+        (practice ? '' : '<div class="fl-goal">' + goalText(s) + '</div>') +
         '<p class="fl-sum">' + esc(label(s)) + ' · ' + pool + ' different facts' + (s.tm ? ' · ' + (s.tm / 60) + '-minute timer' : ' · no timer') + '</p>' +
-        '<div class="om-row"><button class="om-btn primary" id="fl-share">Share with students</button><button class="om-btn" id="fl-try">Try it ↗</button></div>';
+        (practice ? '<div class="om-row"><button class="om-btn primary" id="fl-start">Start ▶</button></div>' : '<div class="om-row"><button class="om-btn primary" id="fl-share">Share with students</button><button class="om-btn" id="fl-try">Try it ↗</button></div>');
       box.innerHTML = h;
       [].forEach.call(box.querySelectorAll('.fl-chips button'), function (b) {
         b.onclick = function () {
@@ -149,6 +150,7 @@
         };
       });
       [].forEach.call(box.querySelectorAll('[data-c]'), function (c) { c.onchange = function () { s[c.dataset.c] = c.checked ? 1 : 0; paint(); }; });
+      if (practice) { document.getElementById('fl-start').onclick = function () { if (!makeFacts(s).length) { O.toast('Pick at least one fact family.'); return; } location.href = O.addSt(link(s)) + '&pick=1'; }; return; }
       document.getElementById('fl-share').onclick = function () {
         if (!makeFacts(s).length) { O.toast('Pick at least one fact family.'); return; }
         O.share({ title: 'Fact Check: ' + label(s), url: link(s), note: 'Students open a clean fact check. No names, no logins. They can download their score or send you a link to it.',
@@ -157,6 +159,7 @@
       document.getElementById('fl-try').onclick = function () { if (!makeFacts(s).length) { O.toast('Pick at least one fact family.'); return; } window.open(O.addSt(link(s)), '_blank'); };
     }
     paint();
+    if (practice) return;
     document.getElementById('fl-notes').innerHTML =
       '<h2>Teacher notes</h2>' +
       '<p><b>What fluency means.</b> Fact fluency is more than speed. Researchers describe four parts: <b>accuracy</b> (getting it right), <b>efficiency</b> (a quick, sensible path), <b>flexibility</b> (more than one way), and <b>choosing a good strategy</b> for the fact in front of you.</p>' +
@@ -176,6 +179,7 @@
     var facts = facts0 || deal(pool, s.n), log = [], i = 0, t0 = 0, typed = '', busy = false, endAt = 0, tick = null, nextT = null;
     document.title = 'Fact Check · OAO Math Tools';
     acts.innerHTML = '';
+    if (P.get('pick')) btn('Pick different facts', '', function () { location.href = O.addSt(location.href.split('#')[0].split('?')[0] + '?pick=1'); });
     if (!pool.length) { app.innerHTML = '<div class="fl-card"><p>This fact check has no facts. Ask your teacher for a new link.</p></div>'; return; }
     app.innerHTML = '<div class="fl-card fl-stage fl-start"><p class="big">Fact Check</p><p>' + esc(label(s)) + '</p><p>' + facts.length + ' facts. ' +
       (s.tm ? 'You have ' + (s.tm / 60) + ' minute' + (s.tm > 60 ? 's' : '') + '.' : 'Take your time.') + '</p>' +
@@ -279,6 +283,7 @@
   }
   /* ---------- route ---------- */
   if (P.get('r')) { var rr = cleanScore(O.dec(P.get('r'))); if (rr) { document.title = 'Fact Check score · OAO Math Tools'; scoreCard(rr, true); } else app.innerHTML = '<div class="fl-card"><p>This score link is broken.</p></div>'; }
+  else if (isStudent && P.get('pick') && !P.get('q')) teacher(true);
   else if (isStudent) student();
   else teacher();
 })();
