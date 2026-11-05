@@ -33,8 +33,47 @@
 .way .ex{background:var(--violet-l);border-radius:12px;padding:.6rem .8rem;font-size:.93rem}
 .way .ex b{color:var(--violet)}
 .way .om-row{margin-top:auto}
-.lib-tabs{display:flex;gap:.4rem 1.1rem;flex-wrap:wrap;margin:1.2rem auto .8rem;max-width:1180px;padding:0 1rem}
-.lib-tabs .tabgrp{display:inline-flex;gap:.3rem;flex-wrap:wrap;padding:.25rem;border-radius:999px;background:#fff;box-shadow:var(--shadow)}
+/* ---- library navigation: one flat row, then a quieter filter row ---- */
+.lib-nav{max-width:1180px;margin:1.1rem auto 0;padding:0 1rem}
+.lib-nav .nav-row{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:stretch;gap:0 .35rem;border-bottom:1px solid var(--line)}
+.lib-nav .nav-row>li{position:relative;display:flex}
+.nav-item{appearance:none;background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-1px;padding:.55rem .8rem .5rem;min-height:46px;display:inline-flex;align-items:center;gap:.35rem;
+  font:inherit;font-weight:700;font-size:1rem;color:var(--mute);cursor:pointer;text-decoration:none;border-radius:8px 8px 0 0;white-space:nowrap}
+.nav-item:hover{color:var(--navy);background:rgba(107,70,193,.06)}
+.nav-item[aria-current="page"],.nav-item.is-active{color:var(--navy);font-weight:800;border-bottom-color:var(--violet)}
+.nav-item .chev{width:12px;height:12px;flex:none;transition:transform .15s}
+.nav-item[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.nav-item:focus-visible,.nav-menu-list a:focus-visible,.nav-menu-list button:focus-visible,.lib-filters button:focus-visible{outline:3px solid var(--navy);outline-offset:2px;box-shadow:0 0 0 6px var(--yellow)}
+.nav-menu-list{position:absolute;top:calc(100% + 4px);left:0;z-index:40;list-style:none;margin:0;padding:.35rem;min-width:240px;max-width:calc(100vw - 2rem);
+  background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(14,28,66,.12)}
+.nav-menu-list[hidden]{display:none}
+.nav-menu-list.to-right{left:auto;right:0}
+.nav-menu-list a,.nav-menu-list button{display:flex;align-items:center;gap:.5rem;width:100%;min-height:44px;padding:.5rem .7rem;border:0;background:none;border-radius:8px;
+  font:inherit;font-weight:700;color:var(--ink);text-align:left;text-decoration:none;cursor:pointer;white-space:nowrap}
+.nav-menu-list a:hover,.nav-menu-list button:hover{background:var(--bg)}
+.nav-menu-list .tick{width:16px;height:16px;flex:none;color:var(--violet);visibility:hidden}
+.nav-menu-list [aria-current="page"]{background:var(--violet-l);color:var(--violet)}
+.nav-menu-list [aria-current="page"] .tick{visibility:visible}
+.lib-filters{max-width:1180px;margin:0 auto .9rem;padding:.55rem 1rem 0;display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .8rem}
+.lib-filters[hidden]{display:none}
+.lib-filters .fgrp{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .25rem}
+.lib-filters .fgrp[hidden]{display:none}
+.lib-filters .flab{color:var(--mute);font-weight:700;font-size:.9rem;margin-right:.2rem}
+.lib-filters .fgrp button{appearance:none;border:1px solid transparent;background:none;border-radius:999px;padding:.2rem .7rem;min-height:36px;
+  font:inherit;font-size:.9rem;font-weight:700;color:var(--mute);cursor:pointer}
+.lib-filters .fgrp button:hover{color:var(--violet);border-color:var(--line)}
+.lib-filters .fgrp button[aria-pressed="true"]{background:var(--violet-l);color:var(--violet);border-color:#DCD0F5}
+.lib-filters .fcount{margin:0 0 0 auto;color:var(--mute);font-size:.9rem;font-weight:600;white-space:nowrap}
+@media (max-width:640px){
+  .lib-nav .nav-row{gap:0}
+  .nav-item{padding:.5rem .55rem .45rem;font-size:.95rem}
+  .lib-filters{gap:.25rem .5rem}
+  .lib-filters .fgrp{gap:.15rem}
+  .lib-filters .flab{font-size:.85rem;margin-right:.1rem}
+  .lib-filters .fgrp button{padding:.2rem .5rem;font-size:.85rem;min-height:36px}
+  .lib-filters .fcount{flex-basis:100%;margin:0;font-size:.85rem}
+}
+.lgrade{font-size:1.15rem;margin:1.2rem 0 .5rem}
 details.ways{max-width:1180px;margin:1.2rem auto 2.5rem;padding:0 1rem}
 details.ways>summary{list-style:none;cursor:pointer;background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:.8rem 1.1rem;border-left:6px solid var(--green)}
 details.ways>summary::-webkit-details-marker{display:none}
@@ -56,8 +95,6 @@ details.ways .ways-grid{margin-top:1rem}
 .nt-show .pair{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;width:min(1100px,100%)}
 .nt-show .pair>div{border:4px solid var(--navy);border-radius:20px;min-height:36vh;display:flex;align-items:center;justify-content:center;padding:1rem}
 .nt-show .pair svg{max-height:40vh;max-width:100%}
-.lib-tabs button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:.45em 1em;font-weight:800;cursor:pointer;min-height:42px}
-.lib-tabs button[aria-selected="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
 .lib-body{max-width:1180px;margin:0 auto;padding:0 1rem 3rem}
 .pills{display:flex;gap:.35rem;flex-wrap:wrap;align-items:center;margin:.2rem 0 1rem}
 .pills b{margin-right:.3rem;color:var(--mute);font-size:.9rem}
@@ -175,7 +212,7 @@ details.ways .ways-grid{margin-top:1rem}
   .lrow .acts{grid-column:1/-1;justify-content:flex-start}
   .unit>summary .chips{display:none}
 }
-@media print{.lib-hero .lookup,.lib-tabs,.pills,.om-row,.lrow .acts,.noprint{display:none!important}.lib-hero{background:#fff;color:#000}.card,.unit,.kitcol,.guide,.lres{box-shadow:none;border:1px solid #bbb}}
+@media print{.lib-hero .lookup,.lib-nav,.lib-filters,.pills,.om-row,.lrow .acts,.noprint{display:none!important}.lib-hero{background:#fff;color:#000}.card,.unit,.kitcol,.guide,.lres{box-shadow:none;border:1px solid #bbb}}
 
 /* number talks */
 .nt-guide{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:1rem 1.2rem;margin:0 0 1rem;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1rem}
@@ -239,12 +276,27 @@ select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;m
   </div>
 </header>
 
-<nav class="lib-tabs" role="tablist" aria-label="Library views">
-  <span class="tabgrp"><button role="tab" data-v="tools" aria-selected="true">All tools</button><button role="tab" data-v="lessons" aria-selected="false">By lesson</button><button role="tab" data-v="mine" aria-selected="false">My setups</button></span>
-  <span class="tabgrp"><button role="tab" data-v="talks" aria-selected="false">Number talks</button><button role="tab" data-v="games" aria-selected="false">Games</button><button role="tab" data-v="puzzles" aria-selected="false">Puzzles</button><button role="tab" data-v="facts" aria-selected="false">Fact check</button></span>
-  <span class="tabgrp"><button role="tab" data-v="kit" aria-selected="false">Hands-on kit list</button><button role="tab" data-v="guide" aria-selected="false">How to use this</button></span>
-  <span class="tabgrp"><a class="tab-ext" href="howto.html" style="display:inline-flex;align-items:center;gap:.3rem;text-decoration:none;font-weight:800;color:var(--violet);border:2px solid var(--violet);border-radius:999px;padding:.35rem .8rem">▶ How the tools work</a></span>
+<nav class="lib-nav" aria-label="Library">
+  <ul class="nav-row">
+    <li><button type="button" class="nav-item" data-v="tools">All tools</button></li>
+    <li><button type="button" class="nav-item" data-v="lessons">By lesson</button></li>
+    <li><button type="button" class="nav-item" data-v="mine">My setups</button></li>
+    <li class="nav-menu"><button type="button" class="nav-item nav-trigger" id="nav-act" aria-expanded="false" aria-controls="nav-act-list"><span class="lbl">Activities</span><svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <ul class="nav-menu-list" id="nav-act-list" hidden aria-label="Activities">
+        <li><button type="button" data-v="talks"><svg class="tick" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Number talks</button></li>
+        <li><button type="button" data-v="games"><svg class="tick" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Games</button></li>
+        <li><button type="button" data-v="puzzles"><svg class="tick" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Puzzles</button></li>
+        <li><button type="button" data-v="facts"><svg class="tick" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Fact check</button></li>
+      </ul></li>
+    <li class="nav-menu"><button type="button" class="nav-item nav-trigger" id="nav-res" aria-expanded="false" aria-controls="nav-res-list"><span class="lbl">Resources</span><svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <ul class="nav-menu-list" id="nav-res-list" hidden aria-label="Resources">
+        <li><button type="button" data-v="kit"><svg class="tick" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Hands-on kit checklist</button></li>
+        <li><button type="button" data-v="guide"><svg class="tick" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Library &amp; sharing help</button></li>
+        <li><a href="howto.html"><svg class="tick" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Tool demonstrations</a></li>
+      </ul></li>
+  </ul>
 </nav>
+<div class="lib-filters" id="libfilters" hidden><div class="fgrp" id="fgrp" role="group" aria-label="Grade"></div><p class="fcount" id="fcount" role="status" aria-live="polite"></p></div>
 <main class="lib-body" id="view"></main>
 
 <details class="ways" id="ways">
@@ -314,7 +366,7 @@ select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;m
   var toolById = {}; D.tools.forEach(function (t) { toolById[t.id] = t; });
   var view = document.getElementById('view');
   function store(k, v) { try { if (v === undefined) return localStorage.getItem('oaom.' + k); localStorage.setItem('oaom.' + k, v); } catch (e) { return null; } }
-  var st = { v: store('v') || 'tools', g: +(store('g') || 4), tg: store('tg') || 'all', grp: 'all', find: '', kb: store('kb') || '', pick: [], duo: false };
+  var st = { v: store('v') || 'tools', g: store('g') === 'all' ? 'all' : +(store('g') || 4), tg: store('tg') || 'all', grp: 'all', find: '', kb: store('kb') || '', pick: [], duo: false };
   if (!/^(all|-1|[0-5])$/.test(st.tg)) st.tg = 'all';
 
   /* Official Dimensions Math classroom kit contents (singaporemath.com, Grades 3–5) mapped to tools */
@@ -410,27 +462,31 @@ select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;m
     return out.map(function (x) { return x.l; });
   }
 
+  function lessonFilters() { filters([['all', 'All grades'], ['3', 'Grade 3'], ['4', 'Grade 4'], ['5', 'Grade 5']], st.g, function (v) { st.g = v === 'all' ? 'all' : +v; store('g', String(st.g)); st.more = 12; renderLessons(); }); }
   function renderLessons() {
     var h = '';
     if (st.find) {
-      var all = findLessons(st.find), sg = st.sg === undefined ? st.g : st.sg;
+      var all = findLessons(st.find), sg = st.g;
       if (st.findWas !== st.find) { st.findWas = st.find; st.more = 12; }
-      var byG = function (g) { return all.filter(function (l) { return l.g === g; }).length; };
-      if (all.length > 1) h += '<div class="pills" role="group" aria-label="Grade for search results"><b>Grade</b>' + [3, 4, 5].map(function (g) { return '<button data-sg="' + g + '" aria-pressed="' + (sg === g) + '">Grade ' + g + ' (' + byG(g) + ')</button>'; }).join('') + '<button data-sg="all" aria-pressed="' + (sg === 'all') + '">All grades (' + all.length + ')</button></div>';
+      lessonFilters();
       var res = all.length > 1 && sg !== 'all' ? all.filter(function (l) { return l.g === sg; }) : all, shown = res.slice(0, st.more);
       var gl = sg === 'all' || all.length < 2 ? '' : 'Grade ' + sg + ' ';
+      count(res.length, 'lesson', 'lessons');
       if (all.length === 1) h += lessonCard(all[0]);
-      else if (res.length) { h += '<p class="empty" role="status">' + (shown.length < res.length ? 'Showing ' + shown.length + ' of ' + res.length + ' ' : res.length + ' ') + gl + 'lesson' + (res.length === 1 ? '' : 's') + ' match “' + esc(st.find) + '”' + (sg !== 'all' && res.length < all.length ? ' (' + (all.length - res.length) + ' more in other grades)' : '') + ':</p>'; shown.forEach(function (l) { h += lessonCard(l); }); if (shown.length < res.length) h += '<p><button class="om-btn" id="findmore">Show ' + Math.min(12, res.length - shown.length) + ' more</button></p>'; }
-      else if (all.length) h += '<p class="empty" role="status">No ' + gl + 'lessons match “' + esc(st.find) + '”. ' + all.length + ' match in other grades: tap a grade above.</p>';
-      else h += '<p class="empty" role="status">No lesson matches “' + esc(st.find) + '”. Try a number like 3.09.02.</p>';
+      else if (res.length) { h += '<p class="empty">' + (shown.length < res.length ? 'Showing ' + shown.length + ' of ' + res.length + ' ' : res.length + ' ') + gl + 'lesson' + (res.length === 1 ? '' : 's') + ' match “' + esc(st.find) + '”' + (sg !== 'all' && res.length < all.length ? ' (' + (all.length - res.length) + ' more in other grades)' : '') + ':</p>'; shown.forEach(function (l) { h += lessonCard(l); }); if (shown.length < res.length) h += '<p><button class="om-btn" id="findmore">Show ' + Math.min(12, res.length - shown.length) + ' more</button></p>'; }
+      else if (all.length) h += '<p class="empty">No ' + gl + 'lessons match “' + esc(st.find) + '”. ' + all.length + ' match in other grades: pick All grades above.</p>';
+      else h += '<p class="empty">No lesson matches “' + esc(st.find) + '”. Try a number like 3.09.02.</p>';
       h += '<p><button class="om-btn small" id="clearfind">Show all lessons</button></p>';
       view.innerHTML = h; bindShare();
-      view.querySelectorAll('[data-sg]').forEach(function (b) { b.onclick = function () { st.sg = b.dataset.sg === 'all' ? 'all' : +b.dataset.sg; if (st.sg !== 'all') { st.g = st.sg; store('g', st.g); } st.more = 12; render(); var nb = view.querySelector('[data-sg="' + b.dataset.sg + '"]'); if (nb) nb.focus(); }; });
       var fm = document.getElementById('findmore'); if (fm) fm.onclick = function () { var n = st.more; st.more += 12; render(); var cardsNow = view.querySelectorAll('article.lres'); if (cardsNow[n]) { var hh = cardsNow[n].querySelector('h2'); hh.setAttribute('tabindex', '-1'); hh.focus(); } };
       document.getElementById('clearfind').onclick = function () { st.find = ''; document.getElementById('q').value = ''; render(); }; return;
     }
-    h += '<div class="pills" role="group" aria-label="Grade"><b>Grade</b>' + [3, 4, 5].map(function (g) { return '<button data-g="' + g + '" aria-pressed="' + (st.g === g) + '">Grade ' + g + '</button>'; }).join('') + '</div>';
-    var byUnit = {}; D.lessons.filter(function (l) { return l.g === st.g; }).forEach(function (l) { (byUnit[l.unit] = byUnit[l.unit] || []).push(l); });
+    lessonFilters();
+    var inG = D.lessons.filter(function (l) { return st.g === 'all' || l.g === st.g; });
+    count(inG.length, 'lesson', 'lessons');
+    (st.g === 'all' ? [3, 4, 5] : [st.g]).forEach(function (gr) {
+    var byUnit = {}; inG.filter(function (l) { return l.g === gr; }).forEach(function (l) { (byUnit[l.unit] = byUnit[l.unit] || []).push(l); });
+    if (st.g === 'all') h += '<h2 class="lgrade">Grade ' + gr + '</h2>';
     Object.keys(byUnit).sort().forEach(function (u) {
       var ls = byUnit[u], tset = {}; ls.forEach(function (l) { l.tools.forEach(function (t) { tset[t.t] = 1; }); });
       h += '<details class="unit"><summary><span class="num">Unit ' + (+u.slice(2)) + '</span>' + esc(ls[0].unitName) + ' <span style="color:var(--mute);font-weight:600">· ' + ls.length + ' lessons</span><span class="chips">' + Object.keys(tset).slice(0, 7).map(function (k) { return I[k]; }).join('') + '</span></summary>';
@@ -441,19 +497,19 @@ select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;m
       });
       h += '</details>';
     });
+    });
     view.innerHTML = h;
-    view.querySelectorAll('[data-g]').forEach(function (b) { b.onclick = function () { st.g = +b.dataset.g; store('g', st.g); render(); }; });
-    view.querySelectorAll('[data-lopen]').forEach(function (b) { b.onclick = function () { st.find = b.dataset.lopen; document.getElementById('q').value = st.find; render(); window.scrollTo({ top: document.querySelector('.lib-tabs').offsetTop - 8, behavior: 'smooth' }); }; });
+    view.querySelectorAll('[data-lopen]').forEach(function (b) { b.onclick = function () { st.find = b.dataset.lopen; document.getElementById('q').value = st.find; render(); window.scrollTo({ top: document.querySelector('.lib-nav').offsetTop - 8, behavior: 'smooth' }); }; });
     bindShare();
   }
 
   function renderTools() {
-    var h = '<div class="pills" role="group" aria-label="Filter tools"><b>Grade</b>' + ['all', '-1', '0', '1', '2', '3', '4', '5'].map(function (g) { return '<button data-tg="' + g + '" aria-pressed="' + (st.tg === g) + '">' + (g === 'all' ? 'All' : GL(+g)) + '</button>'; }).join('') +
+    filters(GRADES_ALL, st.tg, function (v) { st.tg = v; store('tg', st.tg); cards(); fgrp.querySelectorAll('[data-f]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.f === v); }); });
+    var h = '<div class="pills" role="group" aria-label="Find a tool">' +
       '<input class="search" id="tsearch" type="search" placeholder="Search tools (fractions, angles…)" aria-label="Search tools" value="' + esc(st.ts || '') + '"><button class="om-btn small" id="duobtn" aria-expanded="' + st.duo + '" style="border-color:var(--green)">⧉ Side by side</button></div><div id="duopick"></div><div id="cardsout"></div>';
     view.innerHTML = h;
     document.getElementById('duobtn').onclick = function () { st.duo = !st.duo; this.setAttribute('aria-expanded', st.duo); duoPicker(); };
     duoPicker();
-    view.querySelectorAll('[data-tg]').forEach(function (b) { b.onclick = function () { st.tg = b.dataset.tg; store('tg', st.tg); render(); }; });
     var si = document.getElementById('tsearch'); si.oninput = function () { st.ts = si.value; cards(); };
     cards();
   }
@@ -475,7 +531,7 @@ select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;m
       });
       out += '</div></section>';
     });
-    var co = document.getElementById('cardsout'); co.innerHTML = out || '<p class="empty">No tools match.</p>';
+    var co = document.getElementById('cardsout'); co.innerHTML = out || '<p class="empty">No tools match.</p>'; count(co.querySelectorAll('article.card').length, 'tool', 'tools');
     co.querySelectorAll('[data-share]').forEach(function (b) { b.onclick = function () { OAOM.share(OAOM.toolShare(b.dataset.share, null)); }; });
   }
 
@@ -509,6 +565,7 @@ select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;m
   function renderMine() {
     var list = OAOM.saved.list(), byId = {}; list.forEach(function (x) { byId[x.id] = x; });
     st.pick = st.pick.filter(function (id) { return byId[id]; });
+    noFilters(); var nSets = sets().length; count(list.length, 'saved setup', 'saved setups'); if (nSets) fcount.textContent += ' · ' + nSets + ' problem set' + (nSets === 1 ? '' : 's');
     var h = '<p style="max-width:72ch;margin-top:0">Tools you set up and saved. Open one to use it again, share it with students, or put a few in order as a problem set. <b>These are saved in this browser only</b>, so use the same computer and browser to find them again.</p><div class="mine-wrap"><div class="mine-list">';
     if (!list.length) h += '<div class="srow" style="display:block"><p style="margin:0;font-weight:700">No saved setups yet.</p><ol style="margin:.4rem 0 0 1.2rem;padding:0"><li>Open any tool from <b>All tools</b>.</li><li>Set it up: build a number, flip counters, pick fraction rows.</li><li>Tap <b>Save setup</b> at the top and give it a name.</li></ol><p class="om-hint" style="margin:.5rem 0 0">It shows up here, ready to share or reuse next time.</p></div>';
     list.forEach(function (x) {
@@ -554,14 +611,15 @@ select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;m
     if (!st.kb) st.kb = (st.tg !== 'all' && +st.tg < 3) ? 'early' : 'upper';
     var band = st.kb === 'early' ? [-1, 0, 1, 2] : [3, 4, 5];
     var h = '<p style="max-width:70ch">These are the items in the Dimensions Math classroom manipulative kits for each grade. Use the checklist to take stock of your room or to tell families what to look for at home. Every item has an on-screen version here.</p>' +
-      '<div class="pills noprint" role="group" aria-label="Grades"><b>Grades</b><button data-kb="early" aria-pressed="' + (st.kb === 'early') + '">Pre-K to Grade 2</button><button data-kb="upper" aria-pressed="' + (st.kb === 'upper') + '">Grades 3 to 5</button></div>' +
+
       '<div class="om-row noprint" style="margin-bottom:1rem"><button class="om-btn small" onclick="window.print()">Print the checklist</button></div><div class="kitgrid">';
     band.forEach(function (g) {
       h += '<section class="kitcol"><h2>' + (g === -1 ? 'Pre-K' : g === 0 ? 'Kindergarten' : 'Grade ' + g) + ' kit</h2><ul>' + KIT[g].map(function (k, i) { var id = 'k' + g + '_' + i; return '<li><input type="checkbox" id="' + id + '"><label for="' + id + '">' + esc(k[0]) + '</label><a href="' + esc(OAOM.toolURL(k[1])) + '" target="_blank" rel="noopener">' + esc(toolById[k[1]].name) + ' ↗</a></li>'; }).join('') + '</ul></section>';
     });
     h += '</div><p class="src">Kit lists: Singapore Math Inc., Dimensions Math Classroom Manipulative Kits for Pre-K, Kindergarten and Grades 1 to 5, and the Dimensions Math PK–5 homeschool kit grade notes, marked “homeschool list” (singaporemath.com, checked October 2026).</p>';
     view.innerHTML = h;
-    view.querySelectorAll('[data-kb]').forEach(function (b) { b.onclick = function () { st.kb = b.dataset.kb; store('kb', st.kb); renderKit(); }; });
+    filters([['early', 'Pre-K to Grade 2'], ['upper', 'Grades 3 to 5']], st.kb, function (v) { st.kb = v; store('kb', st.kb); renderKit(); }, 'Grades');
+    count(band.reduce(function (n, g) { return n + KIT[g].length; }, 0), 'kit item', 'kit items');
   }
 
   function renderGuide() {
@@ -633,20 +691,20 @@ select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;m
   function gradeText(gs) { return runs(gs).join(', '); }
   function renderTalks() {
     st.ntg = st.ntg || 'all'; st.ntt = st.ntt || 'all';
-    var G = [['all', 'All'], ['-1', 'Pre-K'], ['0', 'K'], ['1', 'Gr 1'], ['2', 'Gr 2'], ['35', 'Gr 3–5']];
+    var G = [['all', 'All grades'], ['-1', 'Pre-K'], ['0', 'K'], ['1', 'Grade 1'], ['2', 'Grade 2'], ['35', 'Grades 3–5']];
     var h = '<section class="nt-guide"><div><h2>How to run a number talk (5–10 minutes)</h2><ol><li><b>Show</b> the picture or problem. For quick images, open it on the big screen and tap <b>Flash it</b> so students can’t count one by one.</li><li><b>Think time.</b> Students solve in their heads and put a quiet thumb up on their chest. Add a finger for each other way they find.</li><li><b>Share answers.</b> Collect every answer, right or wrong, without saying which is right.</li><li><b>Record strategies.</b> Write or draw each student’s thinking as they say it, with their name.</li><li><b>Ask.</b> “How did you see it? Who saw it another way? How is ___’s way like ___’s?”</li></ol></div>' +
       '<div><h2>About number talks</h2><p style="margin:0 0 .4rem">Short, daily, whole-class talks about mental math. The goal is many ways to see and solve, not speed. Treat every answer the same way so students feel safe to share.</p><p class="src" style="margin:0">Sources: ' + NT.sources.map(function (x) { return '<a href="' + esc(x[1]) + '" target="_blank" rel="noopener">' + esc(x[0]) + '</a>'; }).join('; ') + '.</p></div></section>';
-    h += '<div class="pills" role="group" aria-label="Grade"><b>Grade</b>' + G.map(function (g) { return '<button data-ntg="' + g[0] + '" aria-pressed="' + (st.ntg === g[0]) + '">' + g[1] + '</button>'; }).join('') +
+    h += '<div class="pills" role="group" aria-label="Topic">' +
       '<select class="fsel" id="ntt" aria-label="Topic"><option value="all">All topics</option>' + NT.topics.map(function (t) { return '<option' + (st.ntt === t ? ' selected' : '') + '>' + esc(t) + '</option>'; }).join('') + '</select></div>';
     var list = NT.talks.filter(function (k) { var gOk = st.ntg === 'all' || (st.ntg === '35' ? k.grades.some(function (g) { return g >= 3; }) : k.grades.indexOf(+st.ntg) > -1); return gOk && (st.ntt === 'all' || k.topic === st.ntt); });
-    h += '<p class="om-hint" style="margin:0 0 .6rem">' + list.length + ' number talks. Teacher notes never appear on student links.</p><div class="nt-cards">';
+    filters(G, st.ntg, function (v) { st.ntg = v; renderTalks(); }); count(list.length, 'number talk', 'number talks');
+    h += '<p class="om-hint" style="margin:0 0 .6rem">Teacher notes never appear on student links.</p><div class="nt-cards">';
     list.forEach(function (k) {
       h += '<article class="nt-card"><div class="badges"><span class="badge">' + esc(gradeText(k.grades)) + '</span><span class="badge kit">' + esc(k.topic) + '</span></div><h3>' + esc(k.title) + '</h3><div class="nt-pic" aria-hidden="true">' + mini(k.show) + '</div>' +
         '<details class="nt-notes"><summary>Teacher notes</summary>' + notesHTML(k) + '</details>' +
         '<div class="om-row">' + talkBtns(k) + '<button class="om-btn small" data-ntprint="' + k.id + '">Print notes</button></div></article>';
     });
     view.innerHTML = h + '</div>' + (list.length ? '' : '<p class="empty">No number talks match.</p>');
-    view.querySelectorAll('[data-ntg]').forEach(function (b) { b.onclick = function () { st.ntg = b.dataset.ntg; renderTalks(); }; });
     document.getElementById('ntt').onchange = function () { st.ntt = this.value; renderTalks(); };
     view.querySelectorAll('[data-ntshow]').forEach(function (b) { b.onclick = function () { showTalk(NT.talks.filter(function (k) { return k.id === b.dataset.ntshow; })[0]); }; });
     view.querySelectorAll('[data-ntprint]').forEach(function (b) { b.onclick = function () { printTalk(NT.talks.filter(function (k) { return k.id === b.dataset.ntprint; })[0]); }; });
@@ -680,12 +738,12 @@ select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;m
   function packURL(ids, extra) { return BASE + 'puzzle.html?pack=' + encodeURIComponent(ids.join(',')) + '&title=' + encodeURIComponent('Party pack') + (extra || ''); }
   function renderPuzzles() {
     st.pzg = st.pzg || 'all'; st.pzt = st.pzt || 'all'; st.pzo = st.pzo || 'all'; st.pack = st.pack || [];
-    var G = [['all', 'All'], ['0', 'K'], ['1', 'Gr 1'], ['2', 'Gr 2'], ['3', 'Gr 3'], ['4', 'Gr 4'], ['5', 'Gr 5']], O = [['all', 'Any time'], ['early', 'Early finishers'], ['party', 'Party day']];
+    var G = [['all', 'All grades'], ['0', 'K'], ['1', 'Grade 1'], ['2', 'Grade 2'], ['3', 'Grade 3'], ['4', 'Grade 4'], ['5', 'Grade 5']], O = [['all', 'Any time'], ['early', 'Early finishers'], ['party', 'Party day']];
     var h = '<p style="max-width:75ch;margin:0 0 .8rem">Puzzles for students who finish early, or for a party day. <b>Play</b> shares a student link with a Check button and hints, never the answer. <b>Print</b> gives a paper copy. Tick a few and make a <b>party pack</b> to print together with an answer key.</p>' +
-      '<div class="pills" role="group" aria-label="Grade"><b>Grade</b>' + G.map(function (g) { return '<button data-pzg="' + g[0] + '" aria-pressed="' + (st.pzg === g[0]) + '">' + g[1] + '</button>'; }).join('') + '</div>' +
       '<div class="pills" role="group" aria-label="When"><b>When</b>' + O.map(function (g) { return '<button data-pzo="' + g[0] + '" aria-pressed="' + (st.pzo === g[0]) + '">' + g[1] + '</button>'; }).join('') +
       '<select class="fsel" id="pzt" aria-label="Puzzle type"><option value="all">All types</option>' + PZ.types.map(function (t) { return '<option' + (st.pzt === t ? ' selected' : '') + '>' + esc(t) + '</option>'; }).join('') + '</select></div>';
     var list = filtered();
+    filters(G, st.pzg, function (v) { st.pzg = v; renderPuzzles(); }); count(list.length, 'puzzle', 'puzzles');
     function filtered() { return PZ.list.filter(function (p) { return (st.pzg === 'all' || p.grades.indexOf(+st.pzg) > -1) && (st.pzt === 'all' || p.type === st.pzt) && (st.pzo === 'all' || p.occ === st.pzo || p.occ === 'both'); }); }
     h += '<div class="pz-cards">';
     list.forEach(function (p) {
@@ -697,7 +755,6 @@ select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;m
     h += '</div>' + (list.length ? '' : '<p class="empty">No puzzles match.</p>');
     h += '<div class="packbar"><b id="packn"></b><button class="om-btn small" id="pk-rand">Pick 5 for me</button><button class="om-btn small" id="pk-print">Print party pack</button><button class="om-btn small" id="pk-clear">Clear</button></div>';
     view.innerHTML = h;
-    view.querySelectorAll('[data-pzg]').forEach(function (b) { b.onclick = function () { st.pzg = b.dataset.pzg; renderPuzzles(); }; });
     view.querySelectorAll('[data-pzo]').forEach(function (b) { b.onclick = function () { st.pzo = b.dataset.pzo; renderPuzzles(); }; });
     document.getElementById('pzt').onchange = function () { st.pzt = this.value; renderPuzzles(); };
     view.querySelectorAll('[data-pzshare]').forEach(function (b) { b.onclick = function () { var p = PZ.get(b.dataset.pzshare); OAOM.share({ title: p.title, url: pzURL(p.id), note: 'Students get the puzzle with Check and hints, no answer, and no way back to the library.', dir: { title: 'Math puzzle: ' + p.title, intro: 'Solve the puzzle, then tap Check. Stuck? Tap Need a hint.' } }); }; });
@@ -714,19 +771,18 @@ select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;m
   function gameURL(id, extra) { return BASE + 'games.html?g=' + encodeURIComponent(id) + (extra || ''); }
   function renderGames() {
     st.gmg = st.gmg || 'all'; st.gmt = st.gmt || 'all'; st.gmp = st.gmp || 'all';
-    var G = [['all', 'All'], ['-1', 'Pre-K'], ['0', 'K'], ['1', 'Gr 1'], ['2', 'Gr 2'], ['3', 'Gr 3'], ['4', 'Gr 4'], ['5', 'Gr 5']], P = [['all', 'Any'], ['2', 'Two players'], ['team', 'Small group'], ['class', 'Whole class']];
+    var G = GRADES_ALL, P = [['all', 'Any'], ['2', 'Two players'], ['team', 'Small group'], ['class', 'Whole class']];
     var h = '<p style="max-width:75ch;margin:0 0 .8rem">Short games that run on these tools, for partners, small groups or the whole class. Each one opens as a rules card with the tool under it. <b>Share</b> sends students the card and the tool. <b>Print</b> gives a paper card with your notes on the back. Many are inspired by the free games at <a href="https://mathforlove.com/lessons/" target="_blank" rel="noopener">Math for Love</a>.</p>' +
-      '<div class="pills" role="group" aria-label="Grade"><b>Grade</b>' + G.map(function (g) { return '<button data-gmg="' + g[0] + '" aria-pressed="' + (st.gmg === g[0]) + '">' + g[1] + '</button>'; }).join('') + '</div>' +
       '<div class="pills" role="group" aria-label="Players"><b>Players</b>' + P.map(function (g) { return '<button data-gmp="' + g[0] + '" aria-pressed="' + (st.gmp === g[0]) + '">' + g[1] + '</button>'; }).join('') +
       '<select class="fsel" id="gmt" aria-label="Game type"><option value="all">All types</option>' + GM.types.map(function (t) { return '<option' + (st.gmt === t ? ' selected' : '') + '>' + esc(t) + '</option>'; }).join('') + '</select></div>';
     var list = GM.list.filter(function (g) { return (st.gmg === 'all' || g.grades.indexOf(+st.gmg) > -1) && (st.gmt === 'all' || g.type === st.gmt) && (st.gmp === 'all' || g.players === st.gmp); });
+    filters(G, st.gmg, function (v) { st.gmg = v; renderGames(); }); count(list.length, 'game', 'games');
     h += '<div class="gm-cards">' + list.map(function (g) {
       return '<article class="gmc"><div class="badges"><span class="badge">' + esc(GM.gradeText(g.grades)) + '</span><span class="badge kit">' + esc(g.type) + '</span><span class="badge model">' + ({ 2: 'Two players', team: 'Small group', class: 'Whole class' }[g.players] || esc(g.players)) + ' · ' + g.minutes + ' min</span></div>' +
         '<h3>' + esc(g.title) + '</h3><p class="goal">' + GM.fracHTML(g.goal) + '</p><p class="tools">' + g.tools.map(function (t) { return I[t] ? '<span style="display:inline-flex;align-items:center;gap:.2rem;margin-right:.4rem">' + I[t].replace('width="48" height="48"', 'width="22" height="22"') + esc(OAOM.meta(t).name) + '</span>' : esc(OAOM.meta(t).name); }).join('') + '</p>' +
         '<div class="om-row"><button class="om-btn small primary" data-gmshare="' + g.id + '">Play (share)</button>' + openBtn(gameURL(g.id), 'Preview') + openBtn(gameURL(g.id, '&print=1'), 'Print') + '</div></article>';
     }).join('') + '</div>' + (list.length ? '' : '<p class="empty">No games match.</p>');
     view.innerHTML = h;
-    view.querySelectorAll('[data-gmg]').forEach(function (b) { b.onclick = function () { st.gmg = b.dataset.gmg; renderGames(); }; });
     view.querySelectorAll('[data-gmp]').forEach(function (b) { b.onclick = function () { st.gmp = b.dataset.gmp; renderGames(); }; });
     document.getElementById('gmt').onchange = function () { st.gmt = this.value; renderGames(); };
     view.querySelectorAll('[data-gmshare]').forEach(function (b) { b.onclick = function () { var g = GM.get(b.dataset.gmshare); OAOM.share({ title: g.title, url: gameURL(g.id), note: 'Students get the rules card with the tool under it, and no way back to the library.', dir: { title: 'Math game: ' + g.title, intro: GM.fracText(g.goal), steps: GM.dirSteps(g) } }); }; });
@@ -746,13 +802,65 @@ select.fsel{border:2px solid var(--line);border-radius:999px;padding:.3em .8em;m
   document.getElementById('ex-turnin').href = OAOM.toolURL('counters', { mode: 'array', r: 4, c: 6, split: 3 }, '&st=1');
   document.getElementById('ex-discs').href = OAOM.toolURL('discs', { hi: 3, lo: 0, c: { 3: 2, 2: 4, 0: 7 }, cap: 1 }, '&st=1');
   document.getElementById('ex-array').href = OAOM.toolURL('counters', { mode: 'array', r: 4, c: 6 }, '&st=1');
+  /* ═══════════ filter row: the grade choice for the current view on the left, one results count on the right ═══════════ */
+  var fbar = document.getElementById('libfilters'), fgrp = document.getElementById('fgrp'), fcount = document.getElementById('fcount');
+  /* filters(opts, current, onPick): opts = [[value, label], ...] */
+  function filters(opts, cur, onPick, label) {
+    fbar.hidden = false;
+    fgrp.hidden = false; fgrp.setAttribute('aria-label', label || 'Grade');
+    fgrp.innerHTML = '<span class="flab" aria-hidden="true">' + esc(label || 'Grade') + ':</span>' + opts.map(function (o) { return '<button type="button" data-f="' + esc(String(o[0])) + '" aria-pressed="' + (String(o[0]) === String(cur)) + '">' + esc(o[1]) + '</button>'; }).join('');
+    fgrp.querySelectorAll('[data-f]').forEach(function (b) { b.onclick = function () { var v = b.dataset.f; onPick(v); var nb = fgrp.querySelector('[data-f="' + v + '"]'); if (nb) nb.focus(); }; });
+  }
+  function count(n, one, many) { fbar.hidden = false; fcount.textContent = n + ' ' + (n === 1 ? one : many); }
+  function noFilters() { fbar.hidden = true; fgrp.hidden = true; fgrp.innerHTML = ''; fcount.textContent = ''; }
+  var GRADES_ALL = [['all', 'All grades'], ['-1', 'Pre-K'], ['0', 'K'], ['1', 'Grade 1'], ['2', 'Grade 2'], ['3', 'Grade 3'], ['4', 'Grade 4'], ['5', 'Grade 5']];
+
+  /* ═══════════ main navigation: three direct views and two small menus (disclosure buttons) ═══════════ */
+  var ACT = { talks: 'Number talks', games: 'Games', puzzles: 'Puzzles', facts: 'Fact check' }, RES = { kit: 'Hands-on kit checklist', guide: 'Library and sharing help' };
+  var navEl = document.querySelector('.lib-nav'), trigs = [].slice.call(navEl.querySelectorAll('.nav-trigger'));
+  function menuOf(t) { return document.getElementById(t.getAttribute('aria-controls')); }
+  function closeMenus(except) { trigs.forEach(function (t) { if (t === except) return; t.setAttribute('aria-expanded', 'false'); menuOf(t).hidden = true; }); }
+  function openMenu(t, focusTo) {
+    closeMenus(t); var m = menuOf(t); m.hidden = false; t.setAttribute('aria-expanded', 'true');
+    m.classList.remove('to-right'); if (m.getBoundingClientRect().right > document.documentElement.clientWidth - 8) m.classList.add('to-right');
+    if (focusTo) { var items = m.querySelectorAll('a,button'), cur = m.querySelector('[aria-current="page"]'); (focusTo === 'last' ? items[items.length - 1] : cur || items[0]).focus(); }
+  }
+  trigs.forEach(function (t) {
+    var m = menuOf(t);
+    t.addEventListener('click', function (e) { if (t.getAttribute('aria-expanded') === 'true') closeMenus(); else openMenu(t, e.detail === 0 ? 'first' : false); }); /* Enter/Space (detail 0) moves focus into the menu */
+    t.addEventListener('keydown', function (e) { if (e.key === 'ArrowDown') { e.preventDefault(); openMenu(t, 'first'); } else if (e.key === 'ArrowUp') { e.preventDefault(); openMenu(t, 'last'); } });
+    m.addEventListener('keydown', function (e) {
+      var items = [].slice.call(m.querySelectorAll('a,button')), i = items.indexOf(document.activeElement);
+      if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+      else if (e.key === 'Home') { e.preventDefault(); items[0].focus(); }
+      else if (e.key === 'End') { e.preventDefault(); items[items.length - 1].focus(); }
+    });
+    /* tabbing out of an open menu closes it */
+    t.parentNode.addEventListener('focusout', function (e) { if (e.relatedTarget && !t.parentNode.contains(e.relatedTarget)) { t.setAttribute('aria-expanded', 'false'); m.hidden = true; } });
+  });
+  /* Escape closes an open menu and puts focus back on its button; a tap or click anywhere else closes it */
+  document.addEventListener('keydown', function (e) { if (e.key !== 'Escape') return; var open = trigs.filter(function (t) { return t.getAttribute('aria-expanded') === 'true'; })[0]; if (open) { e.preventDefault(); closeMenus(); open.focus(); } });
+  document.addEventListener('pointerdown', function (e) { if (!e.target.closest('.nav-menu')) closeMenus(); });
+  navEl.querySelectorAll('[data-v]').forEach(function (b) { b.addEventListener('click', function () {
+    var inMenu = b.closest('.nav-menu-list'); st.v = b.dataset.v; store('v', st.v); if (st.v !== 'lessons') st.find = ''; closeMenus(); render();
+    if (inMenu) document.getElementById(inMenu.id.replace('-list', '')).focus();
+  }); });
+  function paintNav() {
+    navEl.querySelectorAll('[data-v]').forEach(function (b) { if (b.dataset.v === st.v) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+    var act = document.getElementById('nav-act'), res = document.getElementById('nav-res');
+    act.classList.toggle('is-active', !!ACT[st.v]); act.querySelector('.lbl').textContent = ACT[st.v] || 'Activities';
+    if (ACT[st.v]) act.setAttribute('aria-label', 'Activities: ' + ACT[st.v]); else act.removeAttribute('aria-label');
+    res.classList.toggle('is-active', !!RES[st.v]);
+    if (RES[st.v]) res.setAttribute('aria-label', 'Resources: ' + RES[st.v]); else res.removeAttribute('aria-label');
+  }
+
   function render() {
-    document.querySelectorAll('.lib-tabs button').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.v === st.v ? 'true' : 'false'); });
+    paintNav(); noFilters();
     if (!{ lessons: 1, tools: 1, kit: 1, guide: 1, mine: 1, talks: 1, puzzles: 1, facts: 1, games: 1 }[st.v]) st.v = 'tools';
     ({ lessons: renderLessons, tools: renderTools, kit: renderKit, guide: renderGuide, mine: renderMine, talks: renderTalks, puzzles: renderPuzzles, facts: renderFacts, games: renderGames })[st.v]();
   }
-  document.querySelectorAll('.lib-tabs button').forEach(function (b) { b.onclick = function () { st.v = b.dataset.v; store('v', st.v); if (st.v !== 'lessons') st.find = ''; render(); }; });
-  function goTab(v) { st.v = v; store('v', v); st.find = ''; render(); document.querySelector('.lib-tabs').scrollIntoView({ behavior: 'smooth' }); }
+  function goTab(v) { st.v = v; store('v', v); st.find = ''; render(); document.querySelector('.lib-nav').scrollIntoView({ behavior: 'smooth' }); }
   var ways = document.getElementById('ways'); if (ways) { ways.open = store('ways') !== 'closed' && store('ways') !== 'open' ? true : store('ways') === 'open'; ways.addEventListener('toggle', function () { store('ways', ways.open ? 'open' : 'closed'); }); }
   document.getElementById('go-mine').onclick = function () { goTab('mine'); };
   document.getElementById('go-duo').onclick = function () { st.duo = true; goTab('tools'); };
