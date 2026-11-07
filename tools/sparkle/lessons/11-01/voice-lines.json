@@ -1,0 +1,119 @@
+{
+ "leo": {
+  "voice_id": "u9kBnBpH3bCKSdL7a34X",
+  "lines": [
+   {
+    "who": "leo",
+    "t": "Hello! I'm Leonardo da Vinci. I paint pictures, and before I paint anything, I measure it.",
+    "key": "4a4def04"
+   },
+   {
+    "who": "leo",
+    "t": "The Duke of Milan wants two panels covered in gold. I need a helper who is good with numbers. That's you!",
+    "key": "77abcfd0"
+   },
+   {
+    "who": "leo",
+    "t": "Hmm. What do you think?",
+    "key": "b17c365a"
+   },
+   {
+    "who": "leo",
+    "t": "It does look that way. The strip is very long. But it's also very thin.",
+    "key": "aece4d67"
+   },
+   {
+    "who": "leo",
+    "t": "Interesting! The square is short, but it's much wider than the strip.",
+    "key": "f210a994"
+   },
+   {
+    "who": "leo",
+    "t": "Maybe! We'll have to check.",
+    "key": "6f4b9c2a"
+   },
+   {
+    "who": "leo",
+    "t": "Good. \"Not sure yet\" is a fine place to start.",
+    "key": "7fbc106d"
+   },
+   {
+    "who": "leo",
+    "t": "Look at the tags. The strip's length is in feet and inches. The gold sheets are in inches.",
+    "key": "9ccfd604"
+   },
+   {
+    "who": "leo",
+    "t": "Let's count the gold for each panel. Then we'll know for sure.",
+    "key": "14b23b09"
+   },
+   {
+    "who": "leo",
+    "t": "Five sheets? Hmm. Look at the lid. Then look at the note.",
+    "key": "b5ba236a"
+   },
+   {
+    "who": "leo",
+    "t": "Your times table is right, my friend. But something else is not.",
+    "key": "3e3da083"
+   },
+   {
+    "who": "leo",
+    "t": "I think I see it. Do you?",
+    "key": "5f62a36a"
+   },
+   {
+    "who": "leo",
+    "t": "Because you measured, and you put every length in the same unit first.",
+    "key": "2d1cde80"
+   },
+   {
+    "who": "leo",
+    "t": "How long must it be? That is a puzzle for next time.",
+    "key": "0f8d2110"
+   }
+  ],
+  "prompt": "Hello! I'm Leonardo da Vinci. I paint pictures, and before I paint anything, I measure it. <break time=\"1.5s\" /> The Duke of Milan wants two panels covered in gold. I need a helper who is good with numbers. That's you! <break time=\"1.5s\" /> Hmm. What do you think? <break time=\"1.5s\" /> It does look that way. The strip is very long. But it's also very thin. <break time=\"1.5s\" /> Interesting! The square is short, but it's much wider than the strip. <break time=\"1.5s\" /> Maybe! We'll have to check. <break time=\"1.5s\" /> Good. \"Not sure yet\" is a fine place to start. <break time=\"1.5s\" /> Look at the tags. The strip's length is in feet and inches. The gold sheets are in inches. <break time=\"1.5s\" /> Let's count the gold for each panel. Then we'll know for sure. <break time=\"1.5s\" /> Five sheets? Hmm. Look at the lid. Then look at the note. <break time=\"1.5s\" /> Your times table is right, my friend. But something else is not. <break time=\"1.5s\" /> I think I see it. Do you? <break time=\"1.5s\" /> Because you measured, and you put every length in the same unit first. <break time=\"1.5s\" /> How long must it be? That is a puzzle for next time."
+ },
+ "bern": {
+  "voice_id": "EvqbdCtmQVi46OVEHwYm",
+  "lines": [
+   {
+    "who": "bern",
+    "t": "Master Leonardo! The Duke's gold is here. It cost a lot, so we can't waste a single sheet.",
+    "key": "877b2dfc"
+   },
+   {
+    "who": "bern",
+    "t": "The strip is 1 foot 6 inches long. The square is 6 inches on each side. The strip will need way more gold!",
+    "key": "94f0bab7"
+   },
+   {
+    "who": "bern",
+    "t": "Oh, and the strip is 2 inches wide.",
+    "key": "fe729380"
+   },
+   {
+    "who": "bern",
+    "t": "Master Leonardo, I measured the lid of the Duke's jewelry box myself. I wrote a note for the gold.",
+    "key": "47d575ee"
+   },
+   {
+    "who": "bern",
+    "t": "1 times 5 is 5. I'm sure of it!",
+    "key": "ca1531f0"
+   },
+   {
+    "who": "bern",
+    "t": "Master Leonardo! The gold was just right. Not one sheet wasted!",
+    "key": "c76b1f28"
+   },
+   {
+    "who": "bern",
+    "t": "Now the Duke has a new wish. He sent a letter.",
+    "key": "6220131a"
+   }
+  ],
+  "prompt": "Master Leonardo! The Duke's gold is here. It cost a lot, so we can't waste a single sheet. <break time=\"1.5s\" /> The strip is 1 foot 6 inches long. The square is 6 inches on each side. The strip will need way more gold! <break time=\"1.5s\" /> Oh, and the strip is 2 inches wide. <break time=\"1.5s\" /> Master Leonardo, I measured the lid of the Duke's jewelry box myself. I wrote a note for the gold. <break time=\"1.5s\" /> 1 times 5 is 5. I'm sure of it! <break time=\"1.5s\" /> Master Leonardo! The gold was just right. Not one sheet wasted! <break time=\"1.5s\" /> Now the Duke has a new wish. He sent a letter."
+ }
+}

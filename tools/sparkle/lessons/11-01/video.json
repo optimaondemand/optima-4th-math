@@ -10,9 +10,9 @@
  "welcomeSlot": "think",
  "slots": {
   "think": {
-   "label": "Think · Bernardo's gold",
+   "label": "Think · Bernardo's gold (produced: Claire)",
    "title": "Leonardo's Workshop",
-   "length": "about 1 min",
+   "length": "about 55 s",
    "want": true,
    "where": "Warm-Up, under the Essential Question",
    "parts": [
@@ -47,16 +47,10 @@
        "Plaster the wall"
       ]
      ]
-    },
-    {
-     "label": "The two panels",
-     "tag": "THINK ABOUT IT",
-     "title": "A strip and a square",
-     "col": "#1F2F55",
-     "body": "The strip: 1 ft 6 in by 2 in. The square: 6 in by 6 in. Each gold sheet: 1 in by 1 in."
     }
    ],
-   "script": "Hello, mathematicians! Today we're stepping into a real workshop: Leonardo da Vinci's, in Milan, more than five hundred years ago.\n\n[ON SCREEN: The workshop jobs]\n\nLeonardo painted pictures and built machines, and before he painted anything, he measured it. After the warm-up, you'll find a board with six workshop jobs for today.\n\n[ON SCREEN: The two panels]\n\nHere's the first puzzle. Two panels need gold. One is a long, thin strip, 1 foot 6 inches long and 2 inches wide. The other is a square, 6 inches on each side. Each gold sheet is a square, 1 inch on every side. Bernardo thinks the long strip needs way more gold.\n\nLook at the two panels before you do anything. What do you notice? What do you wonder? Look at the units, too. Write that down, then make a guess and hold on to it. Then find out your own way. On the Lesson tab, the Math Crew will show you their ways."
+   "script": "Welcome to Leonardo da Vinci's workshop in Milan, more than five hundred years ago. Leonardo painted pictures and built machines, and before he painted anything, he measured it. Here are two wooden panels. One is a long, thin strip, 1 foot 6 inches long and 2 inches wide. The other is a square, 6 inches on each side. Both will be covered in gold. Each gold sheet is a square, 1 inch on every side. Bernardo thinks the long strip needs way more gold. Look at the two panels. What do you notice? What do you wonder? Look at the units, too. Write it down. Then make a guess: which panel needs more gold? Hold on to your guess, and find out your own way.",
+   "produced": true
   },
   "learn": {
    "label": "Lesson · the Crew's ways: same units first, or split where the units change",
@@ -101,40 +95,28 @@
    "produced": true
   },
   "do": {
-   "label": "Do · convert first, then multiply",
+   "label": "Do · same units first, three problems (produced: Claire)",
    "title": "Let's Do Some Together",
    "length": "about 1½ min",
    "want": true,
    "where": "Lesson tab, after Leonardo's Measuring Rules",
    "parts": [
     {
-     "label": "Live: problem 1",
-     "kind": "live",
-     "model": "free",
-     "tag": "On your page"
-    },
-    {
      "label": "Problem 2",
      "tag": "DO",
      "title": "A rug: 3 yd by 2 ft",
      "col": "#3A6B9A",
      "body": "Express the area in square feet."
-    },
-    {
-     "label": "Watch out",
-     "tag": "THE MISTAKE",
-     "title": "1 ft by 7 in = 7 square inches?",
-     "col": "#9E4552",
-     "body": "What went wrong? Fix it."
     }
    ],
-   "script": "Let's do a few together.\n\n[ON SCREEN: Live: problem 1]\n[DO: build a rectangle 14 tiles long and 2 tiles wide]\n\nProblem 1: a gold strip 1 foot 2 inches long and 2 inches wide. Are the lengths in the same units? No. 1 foot 2 inches is 14 inches. 14 times 2 is 28 square inches.\n\n[ON SCREEN: Problem 2]\n[DRAW: a rectangle; write 3 yd on top and 2 ft on the side, then 9 ft above 3 yd]\n\nYour turn first. Pause the video and try this one on paper. Then press play and check. A rug 3 yards long and 2 feet wide, in square feet. 1 yard is 3 feet, so 3 yards is 9 feet. 9 times 2 is 18 square feet.\n\n[ON SCREEN: Watch out]\n[DRAW: circle the 1 ft and the 7 in, then write 12 × 7 = 84]\n\nSomeone wrote 1 times 7 is 7. The times table is right, but the units are mixed. Change 1 foot to 12 inches. 12 times 7 is 84 square inches. Ask it every time: are the lengths in the same units?"
+   "script": "Let's do a few together. Problem 1. A gold strip is 1 foot 2 inches long and 2 inches wide. How many gold sheets cover it? Are the lengths in the same units? No. One side is in feet and inches, and the other is in inches. 1 foot is 12 inches, and 2 more is 14. So the strip is 14 inches long. One row of 14 sheets. And there are 2 rows. 14 times 2 is 28. The area is 28 square inches. Problem 2. Your turn first. Pause the video and try this one. Then press play and check. A rug is 3 yards long and 2 feet wide. Find the area in square feet. 1 yard is 3 feet, so 3 yards is 9 feet. 9 times 2 is 18. The area is 18 square feet. Problem 3. Watch out for this one. A lid is 1 foot long and 7 inches wide. Someone wrote 1 times 7 is 7. The times table is right, but the units are mixed. Change 1 foot to 12 inches. 12 times 7 is 84. The area is 84 square inches. Ask it every time: are the lengths in the same units?",
+   "produced": true
   },
   "wrap": {
-   "label": "Wrap · not one sheet wasted",
+   "label": "Wrap · not one sheet wasted (produced: Claire)",
    "title": "Not One Sheet Wasted",
-   "length": "about 45 s",
-   "want": false,
+   "length": "about 40 s",
+   "want": true,
    "where": "Show What You Know, after the last window",
    "parts": [
     {
@@ -145,7 +127,8 @@
      "body": "Put both sides in the same unit first. Then length × width."
     }
    ],
-   "script": "You did it. Not one sheet of the Duke's gold was wasted.\n\n[ON SCREEN: The big question]\n\nSo, how can you find the area when the sides use different units? Change them to the same unit first, usually the smaller one, like feet to inches or yards to feet. Then multiply length times width, and write your answer in square units.\n\nNext time, the Duke wants a panel that uses exactly 48 gold sheets and is 4 inches wide. How long must it be? That's Area of Rectangles, Part 2. See you in the workshop."
+   "script": "Not one sheet of the Duke's gold was wasted. So, how can you find the area when the sides use different units? Change them to the same unit first, usually the smaller one, like feet to inches or yards to feet. Then multiply length times width, and write the area in square units. Next time, the Duke wants a panel that uses exactly 48 gold sheets and is 4 inches wide. How long must it be? That's Area of Rectangles, Part 2. See you in the workshop.",
+   "produced": true
   }
  }
 }
