@@ -346,7 +346,7 @@ window.OAOM_DATA = (function () {
         '3.08.06': [T('hundred', { mode: 'times', sk1: 9 }, 'Add the digits of each 9s answer. What do you get?')]
       } },
     '3.09': { name: 'Fractions, Part 1', tools: [
-      T('fcircles', { c: 1, n: 4 }, 'Shade 3 slices. What fraction of the circle is shaded?', 'Equal parts first: talk about why the slices must be the same size.'),
+      T('fcircles', { c: 1, n: 5 }, 'Shade 4 slices. What fraction is shaded? What fraction is not?', 'Equal parts first: talk about why the slices must be the same size.'),
       T('fbars', { d: [2, 3, 4, 6, 8], lab: 1 }, 'Shade 1 tile in each row. Which unit fraction is biggest?', 'More pieces in the whole means smaller pieces.'),
       T('numberline', { a: 0, b: 1, parts: 4, mode: 'frac', lab: 'ends' }, 'Name every mark between 0 and 1.') ],
       L: {
@@ -619,7 +619,7 @@ window.OAOM_DATA = (function () {
     '3.03.02': [T('discs', { hi: 2, lo: 0, c: { 2: 5, 1: 2, 0: 3 } }, 'Take away 168 from 523. Break a disc when you don’t have enough.', 'Students break a ten, then a hundred, before they subtract.')],
     '3.03.03': [T('discs', { hi: 3, lo: 0, c: { 3: 1 } }, 'Take away 1 from 1,000. Break one disc at a time.', 'Subtracting across zeros: break 1,000 → 10 hundreds → 9 hundreds 10 tens, and so on.')],
     '3.04.05': [T('counters', { mode: 'share', n: 14, g: 3 }, 'Share 14 counters into 3 equal groups. How many are left over?', 'The remainder must be less than the number of groups.')],
-    '3.09.01': [T('fcircles', { c: 1, n: 4 }, 'Shade 3 fourths of the circle.', 'Equal parts first.')],
+    '3.09.01': [T('fbars', { bm: 'build', d: [4, 6, 8], bt: [] }, 'Fill the bar under the 1 with equal tiles. Then shade some tiles and name the fraction.', 'Equal parts first: a fraction needs equal parts. The shaded and unshaded parts together make 1 whole.')],
     '3.10.06': [T('fbars', { bm: 'build', d: [5], bt: [] }, 'Build 2 fifths, then add 2 more fifths.', 'Add like fractions by counting unit fractions.')],
     '3.11.02': [T('trademat', { u: 'mcm', b0: 1, s0: 0, b: 1, sp: [0, 0], take: 1, tb: 0, ts: 64, zb: 0, zp: [0, 0] }, 'Take 64 cm away from 1 m. Break the meter first.', 'Breaking 1 m into 100 cm is the key move.')],
     '3.11.04': [T('trademat', { u: 'kmm', b0: 1, s0: 0, take: 1, tb: 0, ts: 375 }, 'Take 375 m away from 1 km.', '1 km = 1,000 m.')],
