@@ -330,3 +330,15 @@ body.cw-page .activity.cw-now,body.cw-page .q-block.cw-now{border-color:var(--cw
 .cw-predict{display:flex;gap:10px;align-items:center;margin:0 0 12px;padding:10px 12px;background:#fffaf0;border:1.5px solid #e3d3ad;border-radius:12px}
 .cw-predict canvas{width:44px;height:44px;flex:none;border-radius:50%;image-rendering:pixelated;box-shadow:0 0 0 2px #fff,0 0 0 3.5px #d9c9a3}
 .cw-predict p{margin:0;font-size:16px;line-height:1.45}
+/* Shape Cutter (OAOKit.shapeCutter, 4.11.03) */
+.sc-wrap{overflow-x:auto;padding:4px 0}
+.sc-svg{display:block;margin:0 auto;user-select:none;-webkit-user-select:none}
+.sc-cut{cursor:pointer;outline:none}
+.sc-cut:hover .sc-cut-l,.sc-cut:focus-visible .sc-cut-l{stroke:#9E4552;stroke-width:4}
+.sc-cut:focus-visible .sc-cut-l{stroke:#2F6FDE}
+.sc-sides{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0 4px}
+.sc-side:disabled{opacity:.45;cursor:default}
+.sc-ask label{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.sc-ask input{width:64px}
+.sc-let{font-size:18px}
+.sc-sym:empty{display:none}

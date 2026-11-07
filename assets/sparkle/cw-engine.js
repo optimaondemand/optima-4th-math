@@ -4,7 +4,7 @@
 
    CW_DATA = { key, room:'workshop', place:{t1,t2,t3},
      windows:{ id:{ title, people:['leo'], objects:[obj], spots:[spot], script:[step], end:{task, go:{tab, sel, label}} } } }
-   obj  = { id, kind:'panel'|'note'|'stack', x, y, w, h, name, dims:{w:'1 ft 6 in', h:'2 in'}, split:{at:48, labels:['1 ft','6 in']} }   (canvas px, to scale)
+   obj  = { id, kind:'panel'|'note'|'stack'|'mirror', x, y, w, h, name, dims:{w:'1 ft 6 in', h:'2 in'}, split:{at:48, labels:['1 ft','6 in']} }   (canvas px, to scale)
    spot = { id, x, y, w, h, lines:[…], card:'html' }      (clickable things during an explore step)
    step = { w:'leo', t:'…', wonder:'…' } · { narr:'…' } · { enter:'bern' } · { leave:'bern' } · { focus:['strip'] | null }
           { tags:['strip:name','strip:w','strip:h'], on:true|false } · { split:'strip' } · { card:'html' | null }
@@ -96,6 +96,9 @@ P.draw=function(){var g=this.g,t=Win.t||0,self=this;
   Object.keys(this.objs).forEach(function(k){var o=self.objs[k];if(o.hidden)return;
     if(o.kind==='note'){R(g,'#3f2716',o.x-1,o.y-1,o.w+2,o.h+2);R(g,'#fbf3dc',o.x,o.y,o.w,o.h);for(var r=0;r<3;r++)R(g,'#a8916a',o.x+2,o.y+3+r*3,o.w-4,1);return;}
     /* a stack of square floor tiles seen from the side (4.11.02): plain terracotta slabs, o.w = one tile's side, o.h = the stack */
+    /* a plain mirror (4.11.03): glass with a frame line and one shine stroke, to scale like every object */
+    if(o.kind==='mirror'){R(g,'#3f2716',o.x-1,o.y-1,o.w+2,o.h+2);R(g,'#8fa8c4',o.x,o.y,o.w,o.h);R(g,'#c4d5e8',o.x+1,o.y+1,o.w-2,o.h-2);
+      for(var k=0;k<Math.min(o.w,o.h)/2;k++){R(g,'#f2f7fc',o.x+3+k,o.y+o.h-4-k,2,1);R(g,'#e1ebf5',o.x+7+k,o.y+o.h-4-k,1,1);}return;}
     if(o.kind==='stack'){for(var sy=o.y+o.h-3;sy>=o.y;sy-=3){R(g,'#7a3f22',o.x,sy,o.w,3);R(g,'#c4703f',o.x,sy,o.w,2);R(g,'#de8b55',o.x,sy,o.w,1);}return;}
     R(g,'#3f2716',o.x-1,o.y-1,o.w+2,o.h+2);R(g,'#8a5a32',o.x,o.y,o.w,o.h);R(g,'#fbf6ea',o.x+1,o.y+1,o.w-2,o.h-2);
     if(self.splitOn[k]&&o.split){for(var y=o.y;y<o.y+o.h;y+=2)R(g,'#9e4552',o.x+o.split.at,y,1,1);}});

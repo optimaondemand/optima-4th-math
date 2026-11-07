@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OAO Math Kit · every tool</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Lora:wght@400;700&family=Nunito:wght@400;700;800;900&display=swap">
-<link rel="stylesheet" href="../../assets/sparkle/pq.css">
+<link rel="stylesheet" href="../../assets/sparkle/pq.css"><link rel="stylesheet" href="../../assets/sparkle/cw.css">
 <style>body{font-family:Nunito,sans-serif;background:#FFF8EC;margin:0;padding:20px;color:#3A4A6B}.demo{max-width:900px;margin:0 auto 22px;background:#fff;border:3px solid #3B2417;border-radius:14px;padding:16px 18px}h1{font-family:Lora,serif;color:#0E1C42;max-width:900px;margin:0 auto 14px}h2{font-family:Lora,serif;color:#0E1C42;margin:0 0 4px;font-size:20px}code{font-size:13px;color:#7A5A40}</style>
 </head><body>
 <h1>OAO Math Kit · every tool with sample settings</h1>
@@ -21,6 +21,9 @@
 <div class="demo"><h2>Number Bond</h2><code>OAOKit.numberBond(el, cfg)</code><div id="d-nb"></div></div>
 <div class="demo"><h2>Mental Math warm-up</h2><code>OAOKit.mentalMath(el, cfg)</code><div id="d-mm"></div></div>
 <div class="demo"><h2>Bonus Quest</h2><code>OAOKit.challenge(el, cfg)</code><div id="d-ch"></div></div>
+<div class="demo"><h2>Shape Cutter · split (an L, two ways)</h2><code>OAOKit.shapeCutter(el, {mode:'split', …})</code><div id="d-scs"></div></div>
+<div class="demo"><h2>Shape Cutter · take away (lift the cut-out)</h2><code>OAOKit.shapeCutter(el, {mode:'away', …})</code><div id="d-sca"></div></div>
+<div class="demo"><h2>Shape Cutter · border (both sides first)</h2><code>OAOKit.shapeCutter(el, {mode:'border', …})</code><div id="d-scb"></div></div>
 <script src="../../assets/sparkle/oao-kit.js"></script>
 <script>
 var $=function(s){return document.getElementById(s);};
@@ -71,4 +74,10 @@ OAOKit.barModel($('d-bm2'),{kind:'compare',unit:'oz',story:[{t:'Mo\'s pumpkin we
 OAOKit.numberBond($('d-nb'),{text:'Split the number to make a hundred.',rounds:[{whole:46,parts:[1,45],hide:1,note:'99 + 46 = 100 + 45'},{whole:37,parts:[2,35],hide:0},{whole:250,parts:[200,50],hide:'whole'}]});
 OAOKit.mentalMath($('d-mm'),{name:'Make a hundred',how:'Take a little from one number to make the other a hundred.',example:{q:'99 + 46',bond:{whole:46,parts:[1,45]},steps:['99 + 1 = 100','100 + 45 = 145']},problems:[{q:'98 + 37',a:135,hint:'Take 2 from 37.'},{q:'99 + 58',a:157},{q:'97 + 24',a:121}]});
 OAOKit.challenge($('d-ch'),{title:'Bonus quest',text:'<p>How many 250 mL cups fill 3 L?</p>',answer:12,unit:'cups',hint:'4 cups fill 1 L.',explain:'<p>3 × 4 = 12 cups.</p>'});
+var FT={s:'ft',one:'foot',many:'feet'},INCH={s:'in',one:'inch',many:'inches'};
+OAOKit.shapeCutter($('d-scs'),{unit:FT,mode:'split',w:6,h:5,holes:[{x:3,y:0,w:3,h:2}],ways:2,
+  dims:[{x1:0,y1:0,x2:3,y2:0,side:'top',text:'3 ft'},{x1:0,y1:0,x2:0,y2:5,side:'left',text:'5 ft'},{x1:0,y1:5,x2:6,y2:5,side:'bottom',text:'6 ft'},{x1:6,y1:2,x2:6,y2:5,side:'right',text:'3 ft'}],
+  todo:'Click a dashed line to cut the L into 2 rectangles.',doneText:'Two splits, the same total.'});
+OAOKit.shapeCutter($('d-sca'),{unit:FT,mode:'away',w:7,h:5,holes:[{x:1,y:2,w:2,h:3,name:'door'}],todo:'Find the whole, lift the door out, take it away.'});
+OAOKit.shapeCutter($('d-scb'),{unit:INCH,mode:'border',inner:{w:5,h:3},p:1,innerName:'card',todo:'Lay the border on all four sides.'});
 </script></body></html>

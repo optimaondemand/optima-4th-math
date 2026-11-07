@@ -1,0 +1,104 @@
+{
+ "leo": {
+  "voice_id": "u9kBnBpH3bCKSdL7a34X",
+  "lines": [
+   {
+    "who": "leo",
+    "t": "Buongiorno, my helper! Look what came today.",
+    "key": "39c18052"
+   },
+   {
+    "who": "leo",
+    "t": "The gold goes around the mirror, not on top of it. The glass stays clear.",
+    "key": "f328706a"
+   },
+   {
+    "who": "leo",
+    "t": "Maybe! A border goes all the way around.",
+    "key": "bc53cf83"
+   },
+   {
+    "who": "leo",
+    "t": "Hmm. The mirror is big. We'll have to check.",
+    "key": "ce102367"
+   },
+   {
+    "who": "leo",
+    "t": "The same? That would be a surprise. Let's see.",
+    "key": "282fb664"
+   },
+   {
+    "who": "leo",
+    "t": "Good. \"Not sure yet\" is a fine place to start.",
+    "key": "7fbc106d"
+   },
+   {
+    "who": "leo",
+    "t": "The border is 2 inches wide on every side.",
+    "key": "14e4d15c"
+   },
+   {
+    "who": "leo",
+    "t": "Let's find out how many gold sheets the border needs.",
+    "key": "54fc69ba"
+   },
+   {
+    "who": "leo",
+    "t": "You took the painting away. Good. That is the right idea.",
+    "key": "638a2288"
+   },
+   {
+    "who": "leo",
+    "t": "Your math is right, my friend. But look at the frame.",
+    "key": "7cbcccdf"
+   },
+   {
+    "who": "leo",
+    "t": "I think I see it. Do you?",
+    "key": "5f62a36a"
+   },
+   {
+    "who": "leo",
+    "t": "Because you found the whole size first, then took the mirror away.",
+    "key": "aa2a245b"
+   },
+   {
+    "who": "leo",
+    "t": "A fence does not cover the garden. It goes around the edge. That is a new puzzle for next time.",
+    "key": "a1bdb82d"
+   }
+  ],
+  "prompt": "Buongiorno, my helper! Look what came today. <break time=\"1.5s\" /> The gold goes around the mirror, not on top of it. The glass stays clear. <break time=\"1.5s\" /> Maybe! A border goes all the way around. <break time=\"1.5s\" /> Hmm. The mirror is big. We'll have to check. <break time=\"1.5s\" /> The same? That would be a surprise. Let's see. <break time=\"1.5s\" /> Good. \"Not sure yet\" is a fine place to start. <break time=\"1.5s\" /> The border is 2 inches wide on every side. <break time=\"1.5s\" /> Let's find out how many gold sheets the border needs. <break time=\"1.5s\" /> You took the painting away. Good. That is the right idea. <break time=\"1.5s\" /> Your math is right, my friend. But look at the frame. <break time=\"1.5s\" /> I think I see it. Do you? <break time=\"1.5s\" /> Because you found the whole size first, then took the mirror away. <break time=\"1.5s\" /> A fence does not cover the garden. It goes around the edge. That is a new puzzle for next time."
+ },
+ "bern": {
+  "voice_id": "EvqbdCtmQVi46OVEHwYm",
+  "lines": [
+   {
+    "who": "bern",
+    "t": "Master Leonardo! The Duke wrote again. Here is his letter.",
+    "key": "97c3447e"
+   },
+   {
+    "who": "bern",
+    "t": "Master Leonardo, this painting needs a gold frame, 2 inches wide on every side. I found how many sheets!",
+    "key": "351f77b8"
+   },
+   {
+    "who": "bern",
+    "t": "And 11 times 9 is 99. I checked it twice!",
+    "key": "a365f35a"
+   },
+   {
+    "who": "bern",
+    "t": "Master Leonardo! The border is done. Every gold sheet fit.",
+    "key": "0d5e67a1"
+   },
+   {
+    "who": "bern",
+    "t": "The Duke has a new wish. He sent another letter.",
+    "key": "f786bb62"
+   }
+  ],
+  "prompt": "Master Leonardo! The Duke wrote again. Here is his letter. <break time=\"1.5s\" /> Master Leonardo, this painting needs a gold frame, 2 inches wide on every side. I found how many sheets! <break time=\"1.5s\" /> And 11 times 9 is 99. I checked it twice! <break time=\"1.5s\" /> Master Leonardo! The border is done. Every gold sheet fit. <break time=\"1.5s\" /> The Duke has a new wish. He sent another letter."
+ }
+}

@@ -1,0 +1,106 @@
+{
+ "lesson": "11.03",
+ "grade": 4,
+ "prefix": "g4math-11-03",
+ "manifestKey": "g4math-11-03",
+ "title": "Area of Composite Figures",
+ "other": [],
+ "pics": {},
+ "redo": [],
+ "welcomeSlot": "think",
+ "slots": {
+  "think": {
+   "label": "Think · the Duke's mirror (produced: Claire)",
+   "title": "See the Rectangles",
+   "length": "about 45 s",
+   "want": true,
+   "where": "Warm-Up, at the top",
+   "parts": [
+    {
+     "label": "The workshop jobs",
+     "tag": "TODAY'S PROBLEM",
+     "title": "See the Rectangles",
+     "col": "#9E4552",
+     "rows": [
+      [
+       "Job 1",
+       "The Duke's mirror"
+      ],
+      [
+       "Job 2",
+       "The L-shaped floor"
+      ],
+      [
+       "Job 3",
+       "Add the parts"
+      ],
+      [
+       "Job 4",
+       "The workshop wall"
+      ],
+      [
+       "Job 5",
+       "Fix Bernardo's frame"
+      ]
+     ]
+    }
+   ],
+   "script": "Welcome back to Leonardo's workshop in Milan. Last time, you found a missing side. Today, the Duke has a new mirror. It is 8 inches long and 6 inches wide. He wants a gold border around it, 2 inches wide on every side. The gold goes around the mirror, not on top of it. Each gold sheet is a square, 1 inch on every side. So, how many gold sheets will the border need? Look at the mirror and the border. What do you notice? What do you wonder? Write it down. Then make a guess: will the border need more gold than the mirror would, or less? Hold on to your guess, and find out your own way.",
+   "produced": true
+  },
+  "learn": {
+   "label": "Lesson · the main video: whole, then take away (produced: Claire + Leonardo)",
+   "title": "See the Rectangles: Whole, Then Take Away",
+   "length": "about 2½ min",
+   "want": true,
+   "where": "Lesson tab, Learn it station, top",
+   "parts": [
+    {
+     "label": "The board",
+     "tag": "LEARN",
+     "title": "9 in × 7 in, a 4 in × 4 in window",
+     "col": "#6B3FA0",
+     "body": "Find the whole, lift the window out, take it away."
+    }
+   ],
+   "script": "[Leonardo] Come in, come in. This wooden board is for my new machine. Bernardo cut a square window in it. Now the front needs gold, but not the window. How many gold sheets? A careful worker would know before he starts. Would you? I'll watch.\n\nHere is the board. It is 9 inches long and 7 inches wide. The window is 4 inches by 4 inches. Is this shape one plain rectangle? No. It has a hole. So let's see the rectangles. There are two: the whole board, and the window.\n\nFirst, the whole board, as if there were no window. 9 times 7 is 63. That's 63 square inches.\n\nNow lift the window out. Watch. The window is a rectangle too. 4 times 4 is 16 square inches.\n\nThe gold does not go in the window. So we subtract the area of the window from the total area. 63 minus 16 is 47.\n\nThe board needs 47 square inches of gold. That's 47 gold sheets.\n\nWatch out. The window is not part of the gold. If you add it on instead of taking it away, you get 79. Too many sheets.\n\nThere is another way. You could split the board around the window into rectangles: a strip on top, a strip on the bottom, and a piece on each side. Find each area, then add. You get 47 again. Which way has easier steps? For a shape with a hole, taking away is quick.\n\nSo, to find the area of a shape that isn't one rectangle, see the rectangles. Find the whole rectangle, and take away the part that is missing. Or split the shape into rectangles, and add.\n\n[Leonardo] Forty-seven sheets, and the window stays clear. But what if the gold goes around the outside of something, like a frame? Your turn first. Try the frame below.",
+   "produced": true
+  },
+  "do": {
+   "label": "Do · three problems on the Shape Cutter (produced: Claire)",
+   "title": "Let's Do Some Together",
+   "length": "about 1½ min",
+   "want": true,
+   "where": "Lesson tab, after Leonardo's Measuring Rules",
+   "parts": [
+    {
+     "label": "Problem 2",
+     "tag": "DO",
+     "title": "14 in × 8 in, a 5 in square hole",
+     "col": "#3A6B9A",
+     "body": "Whole, then take away."
+    }
+   ],
+   "script": "Let's do a few together. Problem 1. A shelf is an L: a rectangle 10 feet by 8 feet, with a 4 foot by 4 foot corner missing. Let's split it. I'll cut straight across. The bottom part is 10 feet by 4 feet. That's 40 square feet. The top part is 10 minus 4, 6 feet long, and 4 feet tall. That's 24 square feet. 40 plus 24 is 64 square feet. Problem 2. Your turn first. Pause the video and try this one. Then press play and check. A tabletop is 14 inches by 8 inches, with a square hole, 5 inches on each side. The whole tabletop is 14 times 8, 112 square inches. The hole is 5 times 5, 25 square inches. Take it away: 112 minus 25 is 87 square inches. Problem 3. Watch out for this one. A picture is 6 inches by 4 inches, with a border 2 inches wide. Someone wrote the outside is 8 by 6. But the border is on both sides. 2 plus 6 plus 2 is 10. 2 plus 4 plus 2 is 8. The whole is 10 times 8, 80. The picture is 24. The border is 80 minus 24, 56 square inches. Add the border on both sides first.",
+   "produced": true
+  },
+  "wrap": {
+   "label": "Wrap · a gold border (produced: Claire)",
+   "title": "A Gold Border",
+   "length": "about 40 s",
+   "want": true,
+   "where": "Show What You Know, after the last window",
+   "parts": [
+    {
+     "label": "The big question",
+     "tag": "ESSENTIAL QUESTION",
+     "title": "Not one rectangle?",
+     "col": "#2DB87A",
+     "body": "See the rectangles. Split and add, or whole minus the missing part."
+    }
+   ],
+   "script": "The border is done. Every gold sheet is in its place, and the glass stays clear. So, how can you find the area of a shape that isn't a simple rectangle? See the rectangles inside it. Split the shape into rectangles and add their areas. Or find the whole rectangle and take away the part that is missing. For a border or a path, add it on both sides first. Then take away the middle. Next time, the Duke wants a fence around his new garden. A fence doesn't cover the garden. It goes around the edge. That's perimeter. See you in the workshop.",
+   "produced": true
+  }
+ }
+}

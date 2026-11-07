@@ -1,0 +1,40 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:01.501
+The border is done.
+
+00:00:01.916 --> 00:00:06.621
+Every gold sheet is in its place, and the glass stays clear.
+
+00:00:07.767 --> 00:00:12.275
+So, how can you find the area of a shape that isn't a simple rectangle?
+
+00:00:12.968 --> 00:00:14.737
+See the rectangles inside it.
+
+00:00:15.325 --> 00:00:19.067
+Split the shape into rectangles and add their areas.
+
+00:00:19.760 --> 00:00:23.641
+Or find the whole rectangle and take away the part that is missing.
+
+00:00:24.590 --> 00:00:28.402
+For a border or a path, add it on both sides first.
+
+00:00:28.978 --> 00:00:30.248
+Then take away the middle.
+
+00:00:31.184 --> 00:00:34.416
+Next time, the Duke wants a fence around his new garden.
+
+00:00:35.085 --> 00:00:37.109
+A fence doesn't cover the garden.
+
+00:00:37.686 --> 00:00:39.118
+It goes around the edge.
+
+00:00:39.312 --> 00:00:40.407
+That's perimeter.
+
+00:00:41.169 --> 00:00:42.589
+See you in the workshop.

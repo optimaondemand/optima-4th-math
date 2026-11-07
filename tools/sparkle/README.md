@@ -97,6 +97,7 @@ A model gets `(mount, api)`; `api` = `earn(key, coins, xp, el, label)`, `setJob(
 | `OAOKit.numberBond(el, cfg)` | part-whole facts, splitting for mental math | `rounds[{whole, parts:[a,b], hide:'whole'|0|1, note}]` |
 | `OAOKit.mentalMath(el, cfg)` | the Warm-Up strategy (one strategy, 4–6 problems) | `name`, `how`, `example{q, bond, steps}`, `problems[{q, a, hint, lead, post}]` (`lead:'1 m', post:'cm'` → 60 cm + 55 cm = 1 m [__] cm) |
 | `OAOKit.challenge(el, cfg)` | the optional Bonus quest (the teacher's guide "Extend") | `title`, `text`, `answer`, `unit`, `hint`, `explain` |
+| `OAOKit.shapeCutter(el, cfg)` | **area of composite figures** (4.11.03): split an L/T into rectangles (`mode:'split'`, `ways:2`, fixed `cuts`), whole − cut-outs (`mode:'away'`, Lift out), a border/path built one side at a time (`mode:'border'`, outer sides shown as sums 2 + 8 + 2) | graph paper to scale, dims outside the shape; built-in asks open one at a time (ids in the header comment), `mistakes:{id:[…]}` come first; `ask`+`askNow` for a Think. Cut lines are `.sc-cut[data-cut="v4"]` (click or Enter/Space) |
 
 Design rules for every model: plain pieces, always to scale, labels on the model, one line of directions, live number sentence,
 drag AND tap, fixed place-value colors (1,000 violet · 100 blue · 10 green · 1 orange), gentle hints that point where to look,

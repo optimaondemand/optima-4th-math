@@ -111,6 +111,18 @@ ok((await p.$eval('#d-pour .ok-sym',e=>e.textContent)).includes('19 fluid ounces
 for(const [i,a] of [[0,'135'],[1,'157'],[2,'121']]){await p.fill(`#d-mm .mm-p[data-i="${i}"] input`,a);await p.click(`#d-mm .mm-p[data-i="${i}"] button`);}
 ok(await p.$$eval('#d-mm .mm-p.ok',x=>x.length)===3,'mental math: 3 right');
 await p.click('#d-ch summary');await p.fill('#d-ch input','12');await p.click('#d-ch .ch-form button[type=submit]');ok(await p.$eval('#d-ch .ch-explain',e=>!e.hidden),'bonus quest solved');
+// shape cutter: split by click and keyboard (a non-rectangle cut is named, the same split twice is refused), take away, border
+{const S='#d-scs',A=async(r,id,v)=>{const f=r+' .sc-ask[data-id="'+id+'"]';const I=await p.$$(f+' input');for(let i=0;i<v.length;i++)await I[i].fill(String(v[i]));await p.click(f+' button');await p.waitForTimeout(60);};
+ const msgOf=r=>p.$eval(r+' .ok-msg',e=>e.textContent);
+ await p.$eval(S,e=>e.scrollIntoView({block:'center'}));await p.click(S+' .sc-cut[data-cut="h3"]');ok(/not a rectangle/.test(await msgOf(S)),'shape cutter: a cut below the corner leaves an L part and says so');
+ await p.click(S+' .sc-cut[data-cut="h3"]');await p.click(S+' .sc-cut[data-cut="v3"]');await A(S,'w0p0',[3,5,15]);await A(S,'w0p1',[3,3,9]);await A(S,'w0t',[30]);ok(/30 is the whole|whole/.test(await msgOf(S)),'shape cutter: the whole rectangle as the total gets a hint');
+ await A(S,'w0t',[24]);await p.click(S+' .sc-again');await p.focus(S+' .sc-cut[data-cut="v3"]');await p.keyboard.press('Enter');ok(/already split/.test(await msgOf(S)),'shape cutter: the same split twice is refused (keyboard)');
+ await p.focus(S+' .sc-cut[data-cut="h2"]');await p.keyboard.press('Enter');await A(S,'w1p0',[3,2,6]);await A(S,'w1p1',[6,3,18]);await A(S,'w1t',[24]);ok(/same total/.test(await msgOf(S)),'shape cutter: two different splits, the same total');
+ const T='#d-sca';await A(T,'whole',[35]);await p.click(T+' .sc-lift');await A(T,'h0',[6]);await A(T,'left',[41]);ok(/NOT part/.test(await msgOf(T)),'shape cutter: adding the cut-out on gets a hint');await A(T,'left',[29]);
+ ok(await p.$$eval(T+' .sc-ask.ok',x=>x.length)===3,'shape cutter: take away 35 − 6 = 29');
+ const B='#d-scb';for(const s of ['left','right','top','bottom'])await p.click(B+' .sc-side[data-side="'+s+'"]');ok(/1 \+ 5 \+ 1 in/.test(await p.textContent(B+' .sc-svg')),'shape cutter: the border lines show 1 + 5 + 1');
+ await A(B,'ow',[6]);ok(/BOTH/.test(await msgOf(B)),'shape cutter: one side only gets the both-sides hint');await A(B,'ow',[7]);await A(B,'oh',[5]);await A(B,'oa',[35]);await A(B,'ia',[15]);await A(B,'bd',[20]);
+ ok(await p.$$eval(B+' .sc-ask.ok',x=>x.length)===5,'shape cutter: border 35 − 15 = 20');}
 await p.screenshot({path:path.join(H.REPO,'tools/sparkle/out/kit-1150.png'),fullPage:true});
 await p.setViewportSize({width:390,height:844});await p.waitForTimeout(300);ok(await p.evaluate(()=>document.documentElement.scrollWidth)<=390,'kit: no sideways scroll at 390');
 await p.screenshot({path:path.join(H.REPO,'tools/sparkle/out/kit-390.png'),fullPage:true});

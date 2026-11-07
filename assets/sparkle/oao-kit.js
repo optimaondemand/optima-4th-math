@@ -1183,3 +1183,255 @@ function areaGrid(root,cfg){
 }
 K.areaGrid=areaGrid;
 })(OAOKit);
+
+/* ═══ OAO MATH KIT, part 4 · Shape Cutter (Nov 2026, Unit 11 · 4.11.03 area of composite figures) ═══
+   Dimensions 11-3: "see the rectangles". A shape drawn on graph paper, to scale, side lengths on dimension lines OUTSIDE it.
+   mode:'split'  an L or T: students click a dashed grid line inside the shape to cut it; each part gets its own color and
+                 letter. When every part is a rectangle, they type each part's sides and area, then the total.
+                 ways:2 asks for a second, different split (same total). cuts:[…] + fixed:true draws given cuts (parts glued in a row).
+   mode:'away'   a whole rectangle with cut-outs tinted a different color (a notch, a door): area of the whole first, then
+                 "Lift out" moves each cut-out beside the shape, then its area, then whole − cut-outs.
+   mode:'border' an inner rectangle (a mirror) and a border p wide: "+ Border on the left / right / top / bottom" lay the border
+                 tiles one side at a time while the dimension lines grow as sums (2 + 8 + 2 in). Then outer sides, outer area,
+                 inner area, border = outer − inner.
+   cfg = { key, unit:{s,one,many}, mode, cell, todo, w, h (split/away), holes:[{x,y,w,h,name}] (split: notches; away: cut-outs),
+           dims:[{x1,y1,x2,y2,side:'top'|'bottom'|'left'|'right',text}] (split), dimW, dimH (away), parts (split, default 2),
+           ways (split, default 1), cuts:['v4','h5'] + fixed, inner:{w,h,name}, p (border), innerName,
+           ask:[{q, unit, answer, mistakes:[{v,text}], hint}] (replaces the built-in asks; shown right away), askNow,
+           mistakes:{<ask id>:[{v,text}]}, goalText, doneText, onDone(root) }
+   Built-in ask ids: split  'w<n>p<i>' (part i: two sides and an area), 'w<n>t' (total);
+                     away   'whole', 'h<i>', 'left'; border 'ow','oh','oa','ia','bd'. */
+(function(K){
+'use strict';
+var snd=K._snd,ls=K._ls,lsSet=K._lsSet;
+var NS='http://www.w3.org/2000/svg',NAVY='#0E1C42',GRID='#E1E5EE',RUST='#9E4552',TILE='#F2B705',TILE_D='#B98A00';
+var PART=['#FFE39A','#BFDDF6','#C9EBD3','#F1D3F0'],PART_D=['#9A7400','#2C5B88','#1E7A4E','#7E3A7C'],LET='ABCD';
+var FONT='Nunito,Arial,sans-serif';
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function num(v){var t=String(v==null?'':v).replace(/[,\s]/g,'');return t===''||isNaN(+t)?null:+t;}
+function S(tag,a,p){var e=document.createElementNS(NS,tag);for(var k in a){if(k==='text')e.textContent=a[k];else e.setAttribute(k,a[k]);}if(p)p.appendChild(e);return e;}
+
+function shapeCutter(root,cfg){
+  var U=cfg.unit||{s:'',one:'unit',many:'units'},mode=cfg.mode||'split',key=cfg.key,us=U.s;
+  var st=ls(key,null)||{};st.cuts=st.cuts||[];st.ways=st.ways||[];st.ok=st.ok||{};st.a=st.a||{};st.sides=st.sides||{};
+  if(cfg.fixed)st.cuts=(cfg.cuts||[]).slice();
+  function save(){lsSet(key,st);}
+  var P=cfg.p||0,O,holes=cfg.holes||[],inner=null,GX,GY;
+  if(mode==='border'){inner={x:P,y:P,w:cfg.inner.w,h:cfg.inner.h};O={x:0,y:0,w:inner.w+2*P,h:inner.h+2*P};GX=O.w;GY=O.h;}
+  else{O={x:0,y:0,w:cfg.w,h:cfg.h};GX=O.w;GY=O.h;
+    if(mode==='away'){GX=O.w+1+Math.max.apply(0,holes.map(function(h){return h.w;}));GY=Math.max(O.h,holes.reduce(function(a,h){return a+h.h+2;},0)-1);}}
+  var WAYS=cfg.ways||1,PARTS=cfg.parts||2;
+  root.classList.add('ok-tool','sc');
+  root.innerHTML=(cfg.todo?'<p class="ok-do">'+cfg.todo+'</p>':'')+'<div class="sc-wrap"><svg class="sc-svg" role="img"></svg></div>'+
+    '<div class="ok-sym sc-sym" aria-live="polite"></div><div class="sc-tools"></div><div class="ag-asks sc-asks"></div>'+
+    '<div class="ok-msg" aria-live="polite"></div><div class="ok-row sc-row"></div>';
+  var svg=root.querySelector('.sc-svg'),msg=root.querySelector('.ok-msg'),sym=root.querySelector('.sc-sym'),tools=root.querySelector('.sc-tools'),
+      asksEl=root.querySelector('.sc-asks'),row=root.querySelector('.sc-row');
+  function say(t,k){msg.className='ok-msg'+(k?' '+k:'');msg.innerHTML=t||'';}
+
+  /* ── cells ── */
+  function inHole(x,y){return holes.some(function(h){return x>=h.x&&x<h.x+h.w&&y>=h.y&&y<h.y+h.h;});}
+  function inShape(x,y){
+    if(mode==='border'){if(x<0||y<0||x>=O.w||y>=O.h)return false;if(x>=inner.x&&x<inner.x+inner.w&&y>=inner.y&&y<inner.y+inner.h)return true;return border(x,y);}
+    if(x<0||y<0||x>=O.w||y>=O.h)return false;return mode==='away'?true:!inHole(x,y);}
+  function border(x,y){var L=st.sides;
+    if(x<P)return !!L.left;if(x>=P+inner.w)return !!L.right;if(y<P)return !!L.top;if(y>=P+inner.h)return !!L.bottom;return false;}
+  /* ── split: regions after the cuts ── */
+  function blocked(a,b){return st.cuts.some(function(c){var v=c[0]==='v',n=+c.slice(1);
+    return v?(a.y===b.y&&Math.min(a.x,b.x)+1===n&&Math.abs(a.x-b.x)===1):(a.x===b.x&&Math.min(a.y,b.y)+1===n&&Math.abs(a.y-b.y)===1);});}
+  function regions(){var seen={},out=[];for(var y=0;y<O.h;y++)for(var x=0;x<O.w;x++){if(!inShape(x,y)||seen[x+'_'+y])continue;
+      var q=[{x:x,y:y}],cs=[];seen[x+'_'+y]=1;while(q.length){var c=q.pop();cs.push(c);[[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){var n={x:c.x+d[0],y:c.y+d[1]};
+        if(inShape(n.x,n.y)&&!seen[n.x+'_'+n.y]&&!blocked(c,n)){seen[n.x+'_'+n.y]=1;q.push(n);}});}
+      var xs=cs.map(function(c){return c.x;}),ys=cs.map(function(c){return c.y;}),x0=Math.min.apply(0,xs),y0=Math.min.apply(0,ys),
+          w=Math.max.apply(0,xs)-x0+1,h=Math.max.apply(0,ys)-y0+1;
+      out.push({cells:cs,x:x0,y:y0,w:w,h:h,rect:w*h===cs.length});}
+    return out;}
+  function sig(){return st.cuts.slice().sort().join(',');}
+  function wayN(){return st.ways.length;}
+  function ready(){var R=regions();return R.length===PARTS&&R.every(function(r){return r.rect;});}
+  /* cut candidates: interior grid lines that cross the shape */
+  function candidates(){var out=[],x,y,k;
+    for(x=1;x<O.w;x++){var seg=[];for(y=0;y<O.h;y++)if(inShape(x-1,y)&&inShape(x,y))seg.push(y);if(seg.length)out.push({id:'v'+x,v:true,n:x,a:Math.min.apply(0,seg),b:Math.max.apply(0,seg)+1});}
+    for(y=1;y<O.h;y++){var sg=[];for(x=0;x<O.w;x++)if(inShape(x,y-1)&&inShape(x,y))sg.push(x);if(sg.length)out.push({id:'h'+y,v:false,n:y,a:Math.min.apply(0,sg),b:Math.max.apply(0,sg)+1});}
+    return out;}
+
+  /* ── drawing ── */
+  var z=28,ML=66,MT=44,MR=74,MB=44;
+  function dim(x1,y1,x2,y2,side,text,col){col=col||NAVY;var o=side==='top'||side==='left'?-18:18,mk='url(#scA'+key+')';
+    if(side==='top'||side==='bottom'){var y=MT+y1*z+o;S('line',{x1:ML+x1*z,y1:y,x2:ML+x2*z,y2:y,stroke:col,'stroke-width':1.6,'marker-start':mk,'marker-end':mk},svg);
+      var tw=String(text).length*8+14,cx=ML+(x1+x2)/2*z;S('rect',{x:cx-tw/2,y:y-11,width:tw,height:21,rx:4,fill:'#fff'},svg);
+      S('text',{x:cx,y:y+5,'text-anchor':'middle','font-size':15,'font-weight':800,fill:col,'font-family':FONT,text:text},svg);}
+    else{var x=ML+x1*z+o;S('line',{x1:x,y1:MT+y1*z,x2:x,y2:MT+y2*z,stroke:col,'stroke-width':1.6,'marker-start':mk,'marker-end':mk},svg);
+      var ty=MT+(y1+y2)/2*z,t=S('text',{x:side==='left'?x-6:x+6,y:ty+5,'text-anchor':side==='left'?'end':'start','font-size':15,'font-weight':800,fill:col,'font-family':FONT,text:text},svg);
+      S('rect',{x:side==='left'?x-12-String(text).length*8:x+2,y:ty-11,width:String(text).length*8+12,height:21,rx:4,fill:'#fff'},svg,t);svg.appendChild(t);}}
+  function outline(test,col,wd,dash){var x,y;for(y=-1;y<=GY;y++)for(x=-1;x<=GX;x++){if(!test(x,y))continue;
+      if(!test(x,y-1))S('line',{x1:ML+x*z,y1:MT+y*z,x2:ML+(x+1)*z,y2:MT+y*z,stroke:col,'stroke-width':wd,'stroke-linecap':'square','stroke-dasharray':dash||'',style:'pointer-events:none'},svg);
+      if(!test(x,y+1))S('line',{x1:ML+x*z,y1:MT+(y+1)*z,x2:ML+(x+1)*z,y2:MT+(y+1)*z,stroke:col,'stroke-width':wd,'stroke-linecap':'square','stroke-dasharray':dash||'',style:'pointer-events:none'},svg);
+      if(!test(x-1,y))S('line',{x1:ML+x*z,y1:MT+y*z,x2:ML+x*z,y2:MT+(y+1)*z,stroke:col,'stroke-width':wd,'stroke-linecap':'square','stroke-dasharray':dash||'',style:'pointer-events:none'},svg);
+      if(!test(x+1,y))S('line',{x1:ML+(x+1)*z,y1:MT+y*z,x2:ML+(x+1)*z,y2:MT+(y+1)*z,stroke:col,'stroke-width':wd,'stroke-linecap':'square','stroke-dasharray':dash||'',style:'pointer-events:none'},svg);}}
+  function render(){
+    var lefts=mode==='border'?[(P+' + '+inner.h+' + '+P+' '+us)]:mode==='away'?[cfg.dimH||O.h+' '+us]:(cfg.dims||[]).filter(function(d){return d.side==='left';}).map(function(d){return d.text;});
+    var rights=mode==='split'?(cfg.dims||[]).filter(function(d){return d.side==='right';}).map(function(d){return d.text;}):mode==='away'?holes.map(function(h){return h.dimH||h.h+' '+us;}):[];
+    ML=Math.max(44,30+8*Math.max.apply(0,[0].concat(lefts.map(function(t){return String(t).length;}))));MR=Math.max(30,30+8*Math.max.apply(0,[0].concat(rights.map(function(t){return String(t).length;}))));
+    var pad=cfg.pad!=null?cfg.pad:(mode==='border'?1:0);   /* border mode: graph paper past the outer edge, so it doesn't give the outer size away */
+    var avail=Math.max(260,(root.clientWidth||640)-8);z=Math.max(12,Math.min(cfg.cell||30,Math.floor((avail-ML-MR)/(GX+2*pad))));
+    ML+=pad*z;MR+=pad*z;MT=44+pad*z;var MB2=MB+pad*z;
+    var Wd=ML+GX*z+MR,Ht=MT+GY*z+MB2;svg.setAttribute('viewBox','0 0 '+Wd+' '+Ht);svg.setAttribute('width',Wd);svg.style.maxWidth='100%';
+    while(svg.firstChild)svg.removeChild(svg.firstChild);
+    S('defs',{},svg).innerHTML='<marker id="scA'+key+'" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="'+NAVY+'"/></marker>';
+    var x,y;
+    /* graph paper */
+    for(y=-pad;y<GY+pad;y++)for(x=-pad;x<GX+pad;x++)S('rect',{x:ML+x*z,y:MT+y*z,width:z,height:z,fill:'#fff',stroke:GRID,'stroke-width':1},svg);
+    if(mode==='split')drawSplit();else if(mode==='away')drawAway();else drawBorder();
+    sym.innerHTML=symText();
+    svg.setAttribute('aria-label',ariaText());
+  }
+  function cellRect(x,y,fill,stroke){return S('rect',{x:ML+x*z,y:MT+y*z,width:z,height:z,fill:fill,stroke:stroke,'stroke-width':1,style:'pointer-events:none'},svg);}
+  function drawSplit(){
+    var R=regions(),many=R.length>1,cuts=candidates(),x,y;
+    R.forEach(function(r,i){r.cells.forEach(function(c){cellRect(c.x,c.y,many?PART[i%4]:'#FFF1BF',many?'rgba(0,0,0,.12)':'#EAD27A');});});
+    outline(function(a,b){return inShape(a,b);},NAVY,3);
+    (cfg.dims||[]).forEach(function(d){dim(d.x1,d.y1,d.x2,d.y2,d.side,d.text);});
+    cuts.forEach(function(c){var on=st.cuts.indexOf(c.id)>=0;
+      var a=c.v?{x1:ML+c.n*z,y1:MT+c.a*z,x2:ML+c.n*z,y2:MT+c.b*z}:{x1:ML+c.a*z,y1:MT+c.n*z,x2:ML+c.b*z,y2:MT+c.n*z};
+      var g=S('g',{'class':'sc-cut'+(on?' on':''),'data-cut':c.id,tabindex:cfg.fixed?-1:0,role:'button','aria-pressed':on?'true':'false',
+        'aria-label':(on?'Remove the cut ':'Cut ')+(c.v?'down the line '+c.n+' '+U.many+' from the left':'across the line '+c.n+' '+U.many+' from the top')},svg);
+      var hw=Math.max(14,z*.6);S('rect',c.v?{x:a.x1-hw/2,y:a.y1,width:hw,height:a.y2-a.y1,fill:'transparent','pointer-events':'all'}:{x:a.x1,y:a.y1-hw/2,width:a.x2-a.x1,height:hw,fill:'transparent','pointer-events':'all'},g);
+      S('line',Object.assign({'class':'sc-cut-l',stroke:on?RUST:'#B4BED6','stroke-width':on?4:1.6,'stroke-dasharray':on?'8 5':'2 6'},a),g);});
+    if(many)R.forEach(function(r,i){var cx=ML+(r.x+r.w/2)*z,cy=MT+(r.y+r.h/2)*z;
+      S('circle',{cx:cx,cy:cy,r:15,fill:'#fff',stroke:PART_D[i%4],'stroke-width':2.5,style:'pointer-events:none'},svg);
+      S('text',{x:cx,y:cy+6,'text-anchor':'middle','font-size':17,'font-weight':900,fill:PART_D[i%4],'font-family':FONT,style:'pointer-events:none',text:LET[i]},svg);});
+  }
+  function drawAway(){var lift=!!st.lifted;
+    for(var y=0;y<O.h;y++)for(var x=0;x<O.w;x++){var h=inHole(x,y);if(h&&lift)continue;cellRect(x,y,h?'#F6D9DD':'#FFF1BF',h?'#E4A9B2':'#EAD27A');}
+    outline(function(a,b){return a>=0&&b>=0&&a<O.w&&b<O.h;},NAVY,3);
+    dim(0,0,O.w,0,'top',cfg.dimW||O.w+' '+us);dim(0,0,0,O.h,'left',cfg.dimH||O.h+' '+us);
+    var oy=0;holes.forEach(function(hl,i){var hx=lift?O.w+1:hl.x,hy=lift?oy:hl.y;oy+=hl.h+2;
+      if(lift){outline(function(a,b){return a>=hl.x&&a<hl.x+hl.w&&b>=hl.y&&b<hl.y+hl.h;},RUST,2,'6 4');
+        for(var yy=0;yy<hl.h;yy++)for(var xx=0;xx<hl.w;xx++)cellRect(hx+xx,hy+yy,'#F6D9DD','#E4A9B2');}
+      outline(function(a,b){return a>=hx&&a<hx+hl.w&&b>=hy&&b<hy+hl.h;},RUST,3);
+      var t=S('text',{x:ML+(hx+hl.w/2)*z,y:MT+(hy+hl.h/2)*z+5,'text-anchor':'middle','font-size':Math.max(9,Math.min(15,z*.6,hl.w*z/(String(hl.name||'cut-out').length*.62))),'font-weight':900,fill:RUST,'font-family':FONT,style:'pointer-events:none',text:hl.name||'cut-out'},svg);
+      if(lift){dim(hx,hy+hl.h,hx+hl.w,hy+hl.h,'bottom',hl.dimW||hl.w+' '+us,RUST);dim(hx+hl.w,hy,hx+hl.w,hy+hl.h,'right',hl.dimH||hl.h+' '+us,RUST);}
+      else if(hl.showDims!==false&&cfg.holeDims){dim(hl.x,hl.y+hl.h,hl.x+hl.w,hl.y+hl.h,'bottom',hl.dimW||hl.w+' '+us,RUST);}});
+  }
+  function drawBorder(){var x,y,L=st.sides;
+    for(y=0;y<O.h;y++)for(x=0;x<O.w;x++)if(border(x,y))S('rect',{x:ML+x*z+2,y:MT+y*z+2,width:z-4,height:z-4,rx:Math.max(2,z/7),fill:TILE,stroke:TILE_D,'stroke-width':1.2,style:'pointer-events:none'},svg);
+    var ix=ML+inner.x*z,iy=MT+inner.y*z,iw=inner.w*z,ih=inner.h*z;
+    S('rect',{x:ix,y:iy,width:iw,height:ih,fill:'#DCE7F3',stroke:'#5B7BA6','stroke-width':3,style:'pointer-events:none'},svg);
+    S('line',{x1:ix+iw*.18,y1:iy+ih*.75,x2:ix+iw*.42,y2:iy+ih*.2,stroke:'#fff','stroke-width':5,'stroke-linecap':'round',opacity:.8,style:'pointer-events:none'},svg);
+    S('text',{x:ix+iw/2,y:iy+ih/2+6,'text-anchor':'middle','font-size':16,'font-weight':900,fill:'#2C4A73','font-family':FONT,style:'pointer-events:none',text:cfg.innerName||'mirror'},svg);
+    /* inner sides: inside the mirror, so the outside lines stay free for the outer sides */
+    S('text',{x:ix+iw/2,y:iy+18,'text-anchor':'middle','font-size':14,'font-weight':800,fill:'#2C4A73','font-family':FONT,text:inner.w+' '+us},svg);
+    S('text',{x:ix+8,y:iy+ih/2+30,'font-size':14,'font-weight':800,fill:'#2C4A73','font-family':FONT,text:inner.h+' '+us},svg);
+    outline(function(a,b){return inShape(a,b);},NAVY,3);
+    var any=L.left||L.right||L.top||L.bottom;if(!any)return;
+    var x0=L.left?0:P,x1=L.right?O.w:P+inner.w;
+    var wt=(L.left?P+' + ':'')+inner.w+(L.right?' + '+P:'')+' '+us,ht=(L.top?P+' + ':'')+inner.h+(L.bottom?' + '+P:'')+' '+us;
+    dim(x0,0,x1,0,'top',wt);dim(0,(L.top?0:P),0,(L.bottom?O.h:P+inner.h),'left',ht);
+  }
+  function symText(){
+    if(mode==='split'){var R=regions();if(!st.cuts.length)return 'Click a dashed line inside the shape to cut it.';
+      return 'Parts: <b>'+R.length+'</b>'+(R.every(function(r){return r.rect;})?' · every part is a rectangle':' · <b>not every part is a rectangle yet</b>');}
+    if(mode==='away')return st.lifted?'The '+esc(holes.map(function(h){return h.name;}).join(' and the '))+(holes.length>1?' are':' is')+' lifted out.':'';
+    var n=0;for(var y=0;y<O.h;y++)for(var x=0;x<O.w;x++)if(border(x,y))n++;
+    return 'Border tiles laid: <b>'+n+'</b>'+(n?' · each tile is 1 square '+esc(U.one):'');}
+  function ariaText(){if(mode==='border')return 'A '+(cfg.innerName||'mirror')+' '+inner.w+' '+U.many+' by '+inner.h+' '+U.many+'. A border '+P+' '+U.many+' wide goes around it.';
+    if(mode==='away')return 'A rectangle '+O.w+' '+U.many+' by '+O.h+' '+U.many+' with '+holes.map(function(h){return 'a '+h.name+' '+h.w+' by '+h.h;}).join(' and ')+' cut out.';
+    return (cfg.alt||'A shape made of rectangles.')+' Each dashed line inside it can be clicked to cut the shape.';}
+
+  /* ── asks ── */
+  function form(id,q,answers,unit,opts){opts=opts||{};var f=document.createElement('form');f.className='ag-ask sc-ask';f.dataset.id=id;
+    var parts=String(q).split('[]'),h='<label>';parts.forEach(function(p,i){h+=p;if(i<parts.length-1)h+=' <input type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc((opts.labels&&opts.labels[i])||String(q).replace(/<[^>]+>/g,'').replace(/\[\]/g,'what number'))+'"> ';});
+    h+=(unit?' <span class="ag-u">'+unit+'</span>':'')+'</label> <button class="ok-btn" type="submit">Check</button><span class="ag-fb" aria-live="polite"></span>';f.innerHTML=h;
+    var ins=[].slice.call(f.querySelectorAll('input')),fb=f.querySelector('.ag-fb');
+    (st.a[id]||[]).forEach(function(v,i){if(ins[i])ins[i].value=v;});
+    function mark(){f.classList.add('ok');ins.forEach(function(i){i.disabled=true;});fb.textContent='✓';}
+    if(st.ok[id])mark();
+    f.onsubmit=function(e){e.preventDefault();if(st.ok[id])return;var vals=ins.map(function(i){return num(i.value);});st.a[id]=ins.map(function(i){return i.value;});save();
+      if(vals.some(function(v){return v==null;})){fb.textContent='';say(ins.length>1?'Fill in every box.':'Type a number.','hint');return;}
+      var good=opts.anyOrder?(vals[0]===answers[0]&&vals[1]===answers[1]||vals[0]===answers[1]&&vals[1]===answers[0])&&vals.slice(2).every(function(v,i){return v===answers[i+2];})
+                            :vals.every(function(v,i){return v===answers[i];});
+      if(good){st.ok[id]=1;save();mark();snd.done();say(opts.right||'','good');flow();return;}
+      snd.no();fb.textContent='✗';var last=vals[vals.length-1],mm=((cfg.mistakes||{})[id]||[]).concat(opts.mistakes||[]).filter(function(m){return [].concat(m.v).indexOf(last)>=0;})[0];
+      say(mm?mm.text:(typeof opts.hint==='function'?opts.hint(vals):opts.hint)||'Not yet. Look at the drawing again.','hint');};
+    asksEl.appendChild(f);return f;}
+  function has(id){return !!asksEl.querySelector('[data-id="'+id+'"]');}
+
+  /* what to show next: asks open one at a time, the next one after the last is right */
+  function flow(){
+    if(cfg.ask&&(cfg.askNow||gate())){cfg.ask.forEach(function(q,i){var id='c'+i;if(!has(id)&&(i===0||st.ok['c'+(i-1)]))form(id,q.q+' []',[q.answer],q.unit,{mistakes:q.mistakes,hint:q.hint,right:q.right});});
+      if(cfg.ask.every(function(q,i){return st.ok['c'+i];}))finish();return;}
+    if(mode==='split')flowSplit();else if(mode==='away')flowAway();else flowBorder();}
+  function gate(){if(mode==='split')return ready();if(mode==='away')return !!st.lifted;return ['left','right','top','bottom'].every(function(k){return st.sides[k];});}
+  function flowSplit(){var n=wayN(),all=n>=WAYS;
+    if(all&&!ready()){finish();return;}
+    if(!all&&n&&st.ways.indexOf(sig())>=0){againBtn();return;}
+    if(!ready()){asksEl.innerHTML='';return;}
+    var R=regions(),pre='w'+(all?WAYS-1:n);
+    for(var i=0;i<R.length;i++){var r=R[i],id=pre+'p'+i;if(!has(id))form(id,'Part <b class="sc-let" style="color:'+PART_D[i%4]+'">'+LET[i]+'</b> is [] '+us+' by [] '+us+'. Its area is []',[r.w,r.h,r.w*r.h],'square '+U.many,
+        {anyOrder:true,labels:['Part '+LET[i]+', one side','Part '+LET[i]+', the other side','Part '+LET[i]+', area'],
+         hint:function(v){return 'Find part '+LET[i]+'\'s two sides on the drawing. If a side has no label, it is part of a longer side: subtract. Then multiply.';}});
+      if(!st.ok[id])return;}
+    var tot=R.reduce(function(a,r){return a+r.w*r.h;},0),tid=pre+'t';
+    if(!has(tid))form(tid,R.map(function(r,i){return LET[i];}).join(' + ')+' = []',[tot],'square '+U.many,{hint:'Add the areas of all the parts.',
+      mistakes:[{v:O.w*O.h,text:'That is the area of the whole big rectangle, with the missing corner too. Add only the parts.'}]});
+    if(!st.ok[tid])return;
+    if(all){finish();return;}
+    st.ways.push(sig());save();
+    if(st.ways.length<WAYS){say((cfg.wayText||'The total is '+tot+' square '+U.many+'. Now cut the same shape a different way. Is the total the same?'),'good');againBtn();return;}
+    finish();}
+  function againBtn(){if(row.querySelector('.sc-again'))return;var b=document.createElement('button');b.type='button';b.className='ok-btn sc-again';b.textContent='✂️ Split it a different way';
+    row.insertBefore(b,row.firstChild);b.onclick=function(){st.cuts=[];save();b.remove();asksEl.innerHTML='';say('');render();};}
+  function flowAway(){var whole=O.w*O.h;
+    if(!has('whole'))form('whole',(cfg.wholeName||'The whole rectangle')+': '+O.w+' × '+O.h+' = []',[whole],'square '+U.many,{hint:'Multiply the two outside sides.',
+      mistakes:[{v:O.w+O.h,text:'That adds the sides. Area multiplies: length × width.'},{v:2*(O.w+O.h),text:'That is the distance around. Area is the square '+U.many+' that cover it.'}]});
+    if(!st.ok.whole)return;
+    var lb=row.querySelector('.sc-lift');
+    if(!st.lifted){if(!lb){lb=document.createElement('button');lb.type='button';lb.className='ok-btn sc-lift';lb.textContent='⬆ Lift out the '+holes.map(function(h){return h.name;}).join(' and the ');
+        row.insertBefore(lb,row.firstChild);lb.onclick=function(){st.lifted=1;save();snd.split();lb.remove();render();flow();};}return;}
+    var left=whole;for(var i=0;i<holes.length;i++){var h=holes[i],id='h'+i;left-=h.w*h.h;
+      if(!has(id))form(id,'The '+h.name+': '+h.w+' × '+h.h+' = []',[h.w*h.h],'square '+U.many,{hint:'The '+h.name+' is a rectangle too. Multiply its two sides.'});if(!st.ok[id])return;}
+    if(!has('left'))form('left',(cfg.leftName||'What is left')+': '+whole+' − '+holes.map(function(h){return h.w*h.h;}).join(' − ')+' = []',[left],'square '+U.many,{hint:'Subtract the cut-out from the whole.',
+      mistakes:[{v:whole+holes.reduce(function(a,h){return a+h.w*h.h;},0),text:'That adds the cut-out on. The cut-out is NOT part of it: take it away.'}]});
+    if(st.ok.left)finish();}
+  function flowBorder(){var sides=['left','right','top','bottom'];
+    if(!sides.every(function(k){return st.sides[k];}))return;
+    var W=O.w,H=O.h,A=W*H,I=inner.w*inner.h;
+    var q=[['ow','The outer length: '+P+' + '+inner.w+' + '+P+' = []',W,us,[{v:inner.w+P,text:'That adds the border on one side only. The border is on BOTH sides: '+P+' + '+inner.w+' + '+P+'.'}]],
+           ['oh','The outer width: '+P+' + '+inner.h+' + '+P+' = []',H,us,[{v:inner.h+P,text:'That adds the border on one side only. The border is on BOTH sides: '+P+' + '+inner.h+' + '+P+'.'}]],
+           ['oa','The outer area: '+W+' × '+H+' = []',A,'square '+U.many,[{v:W+H,text:'That adds the sides. Area multiplies.'}]],
+           ['ia','The '+(cfg.innerName||'mirror')+': '+inner.w+' × '+inner.h+' = []',I,'square '+U.many,[]],
+           ['bd','The border: '+A+' − '+I+' = []',A-I,'square '+U.many,[{v:A+I,text:'The '+(cfg.innerName||'mirror')+' is not part of the border. Subtract it.'}]]];
+    for(var i=0;i<q.length;i++){if(!has(q[i][0]))form(q[i][0],q[i][1],[q[i][2]],q[i][3],{mistakes:q[i][4],hint:'Look at the drawing: the dimension lines show the sides.'});if(!st.ok[q[i][0]])return;}
+    finish();}
+  function finish(){if(st.done){return;}st.done=1;save();snd.done();if(cfg.doneText||cfg.goalText)say(cfg.doneText||cfg.goalText,'good');if(cfg.onDone)cfg.onDone(root);}
+
+  /* ── controls ── */
+  if(mode==='border'){tools.innerHTML='<div class="sc-sides" role="group" aria-label="Lay the border">'+
+      [['left','⬅ Border on the left'],['right','Border on the right ➡'],['top','⬆ Border on the top'],['bottom','⬇ Border on the bottom']].map(function(s){
+        return '<button type="button" class="ok-btn sc-side" data-side="'+s[0]+'"'+(st.sides[s[0]]?' disabled':'')+'>'+s[1]+'</button>';}).join('')+'</div>';
+    [].forEach.call(tools.querySelectorAll('.sc-side'),function(b){b.onclick=function(){st.sides[b.dataset.side]=1;save();b.disabled=true;snd.merge();render();
+      var left=['left','right','top','bottom'].filter(function(k){return !st.sides[k];});
+      say(left.length?'The border is '+P+' '+U.many+' wide on that side. '+left.length+' side'+(left.length>1?'s':'')+' to go.':'The border goes all the way around. Look at the outside lines: '+P+' is added on BOTH sides.',left.length?'':'good');flow();};});}
+  if(mode==='split'&&!cfg.fixed){var rb=document.createElement('button');rb.type='button';rb.className='ok-btn ok-reset';rb.textContent='↺ Take away the cuts';row.appendChild(rb);
+    rb.onclick=function(){if(st.done)return;st.cuts=[];save();asksEl.innerHTML='';say('');render();};}
+  function toggle(id){if(cfg.fixed||st.done||row.querySelector('.sc-again'))return;
+    var i=st.cuts.indexOf(id);if(i>=0)st.cuts.splice(i,1);else st.cuts.push(id);
+    if(wayN()&&st.ways.indexOf(sig())>=0&&ready()){st.cuts.splice(st.cuts.indexOf(id),1);snd.no();save();render();say('You already split it that way. Try a cut along a different line.','hint');return;}
+    save();snd.split();asksEl.innerHTML='';render();
+    var R=regions();
+    if(R.length>PARTS)say('That makes '+R.length+' parts. Here you need only '+PARTS+'. Click a red cut to take it away.','hint');
+    else if(R.length>1&&!R.every(function(r){return r.rect;}))say('One part is not a rectangle yet. Look for a line that starts at the inside corner.','hint');
+    else if(R.length===PARTS)say('Every part is a rectangle. Now find each part\'s area.','good');else say('');
+    flow();}
+  svg.addEventListener('click',function(e){var g=e.target.closest&&e.target.closest('.sc-cut');if(g)toggle(g.getAttribute('data-cut'));});
+  svg.addEventListener('keydown',function(e){var g=e.target.closest&&e.target.closest('.sc-cut');if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();var id=g.getAttribute('data-cut');toggle(id);
+    var n=svg.querySelector('.sc-cut[data-cut="'+id+'"]');if(n)n.focus();}});
+  var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(render,120);});
+  render();
+  /* rebuild asks from saved state (finished ways keep their record) */
+  flow();if(st.done&&(cfg.doneText||cfg.goalText))say(cfg.doneText||cfg.goalText,'good');
+  return {state:st,regions:regions,render:render};
+}
+K.shapeCutter=shapeCutter;
+})(OAOKit);
