@@ -348,10 +348,10 @@ window.OAOM_DATA = (function () {
     '3.09': { name: 'Fractions, Part 1', tools: [
       T('fcircles', { c: 1, n: 5 }, 'Shade 4 slices. What fraction is shaded? What fraction is not?', 'Equal parts first: talk about why the slices must be the same size.'),
       T('fbars', { d: [2, 3, 4, 6, 8], lab: 1 }, 'Shade 1 tile in each row. Which unit fraction is biggest?', 'More pieces in the whole means smaller pieces.'),
-      T('numberline', { a: 0, b: 1, parts: 4, mode: 'frac', lab: 'ends' }, 'Name every mark between 0 and 1.') ],
+      T('numberline', { a: 0, b: 1, parts: 5, mode: 'frac', lab: 'ends' }, 'Name every mark between 0 and 1.') ],
       L: {
         '3.09.02': [T('numberline', { a: 0, b: 2, parts: 10, mode: 'frac', lab: 'ends' }, 'Put dots on two fifths and on seven fifths.', 'Fractions greater than 1 on the line.')],
-        '3.09.03': [T('fbars', { d: [8], lab: 1 }, 'Shade 3 eighths, then 5 eighths. Which is more?', 'Same denominator: compare the number of pieces.')],
+        '3.09.03': [T('fbars', { d: [12], lab: 1 }, 'Shade 5 twelfths in one bar and 11 twelfths in the other. Which is more?', 'Same denominator: compare the number of pieces.')],
         '3.09.04': [T('fbars', { d: [3, 5, 8], lab: 1 }, 'Shade 2 tiles in each row. Which row shows the most?', 'Same numerator: bigger pieces make the bigger fraction.')]
       } },
     '3.10': { name: 'Fractions, Part 2', tools: [
