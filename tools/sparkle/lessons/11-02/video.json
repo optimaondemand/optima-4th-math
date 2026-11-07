@@ -10,9 +10,9 @@
  "welcomeSlot": "think",
  "slots": {
   "think": {
-   "label": "Think · the storeroom floor",
+   "label": "Think · the storeroom floor (produced: Claire)",
    "title": "A Missing Side",
-   "length": "about 1 min",
+   "length": "about 45 s",
    "want": true,
    "where": "Warm-Up, at the top",
    "parts": [
@@ -47,19 +47,13 @@
        "The big drawing paper"
       ]
      ]
-    },
-    {
-     "label": "The floor",
-     "tag": "THINK ABOUT IT",
-     "title": "7 ft wide, 56 tiles",
-     "col": "#1F2F55",
-     "body": "Each tile is 1 foot on every side. 56 tiles cover the floor with none left over. How long is it?"
     }
    ],
-   "script": "Welcome back to Leonardo's workshop in Milan. Last time you counted gold. Today, something is missing.\n\n[ON SCREEN: The workshop jobs]\n\nAfter the warm-up, you'll find six workshop jobs. In every one, Leonardo knows the area and one side, and he needs the other side.\n\n[ON SCREEN: The floor]\n\nHere's the first puzzle. The storeroom floor is 7 feet wide. Bernardo counted 56 floor tiles, and each tile is 1 foot on every side. They cover the whole floor with none left over. But crates block the far wall, so nobody can measure how long the room is.\n\nLook at the floor and the tiles. What do you notice? What do you wonder? Write that down. Then make a guess: is the floor longer than it is wide, or shorter? Hold on to your guess, and find out your own way."
+   "script": "Welcome back to Leonardo's workshop in Milan. Last time, you counted gold. Today, something is missing. The storeroom floor is 7 feet wide. Bernardo counted 56 floor tiles. Each tile is a square, 1 foot on every side, and the tiles cover the whole floor with none left over. But crates block the far wall, so nobody can measure how long the room is. Look at the floor and the tiles. What do you notice? What do you wonder? Write it down. Then make a guess: is the floor longer than it is wide, or shorter? Hold on to your guess, and find out your own way.",
+   "produced": true
   },
   "learn": {
-   "label": "Lesson · the main video: find a missing side",
+   "label": "Lesson · the main video: find a missing side (produced: Claire + Leonardo)",
    "title": "Find a Missing Side: Side × ? = Area",
    "length": "about 2½ min",
    "want": true,
@@ -77,40 +71,28 @@
    "script": "[Leonardo] Come in, come in. Bernardo has 65 gold sheets for a new panel, and the panel must be 5 inches wide. How long will it be? A careful worker would know before cutting the wood. Would you? I'll watch.\n\nHere is the panel. We know two things. The area is 65 square inches. One side is 5 inches. The other side is missing. In what units is each one given? The area is in square inches. The side is in inches. They match, so we can start.\n\nEach gold sheet covers 1 square inch. One row across the panel takes 5 sheets. Watch. One row: 5. Another row: 10. Keep going, row after row, all the way to 65. Now every sheet is used.\n\nHow many rows did we make? Let's count. 13 rows. Each row is 1 inch of the length. So the panel is 13 inches long.\n\nHere is what we were really asking: 5 times what number makes 65? That is a missing factor. And we find a missing factor by dividing. 65 divided by 5 is 13.\n\nNow check by multiplying. 13 times 5 is 65. That is the area. It matches.\n\nWatch the unit. The area is in square inches. But the missing side is a length, so it is 13 inches, not 13 square inches. And if the side you know is in feet, change it to inches first.\n\nSo, to find a missing side, ask: the side I know, times what, makes the area? Divide the area by the side you know. Then multiply to check.\n\n[Leonardo] Thirteen inches. Bernardo can cut the wood now. But what if the side I knew were in feet? Your turn first. Try the panel below."
   },
   "do": {
-   "label": "Do · find the missing side",
+   "label": "Do · three problems on the Row Builder and drawings (produced: Claire)",
    "title": "Let's Do Some Together",
    "length": "about 1½ min",
    "want": true,
    "where": "Lesson tab, after Leonardo's Measuring Rules",
    "parts": [
     {
-     "label": "Live: problem 1",
-     "kind": "live",
-     "model": "free",
-     "tag": "On your page"
-    },
-    {
      "label": "Problem 2",
      "tag": "DO",
      "title": "Area 84 sq in, one side ½ ft",
      "col": "#3A6B9A",
      "body": "Find the other side in inches."
-    },
-    {
-     "label": "Watch out",
-     "tag": "THE MISTAKE",
-     "title": "48 sq in, one side 1 ft: 48 in?",
-     "col": "#9E4552",
-     "body": "What went wrong? Fix it."
     }
    ],
-   "script": "Let's do a few together.\n\n[ON SCREEN: Live: problem 1]\n[DO: lay rows of 4 tiles, one row at a time, until you have 76 tiles; then count the rows]\n\nProblem 1: a floor covers 76 square feet, and it is 4 feet wide. How long is it? The units match. 4 times what makes 76? I'll build rows of 4 and count: 19 rows. 76 divided by 4 is 19. Check: 19 times 4 is 76. The floor is 19 feet long.\n\n[ON SCREEN: Problem 2]\nYour turn first. Pause the video and try this one on paper. Then press play and check.\n[DRAW: a rectangle; write ½ ft on top, 84 sq in inside, and ? on the side; then write 6 in above ½ ft]\n\nThe area is 84 square inches, and one side is one half of a foot. The units don't match. Half of 12 inches is 6 inches. 6 times what makes 84? 84 divided by 6 is 14. Check: 14 times 6 is 84. The side is 14 inches.\n\n[ON SCREEN: Watch out]\n[DRAW: circle 1 ft, write 12 in under it, then write 48 ÷ 12 = 4]\n\nA rectangle covers 48 square inches, and one side is 1 foot. Someone wrote 48 divided by 1 is 48 inches. But 1 foot is 12 inches. 48 divided by 12 is 4. The side is 4 inches. Same units first, then divide."
+   "script": "Let's do a few together. Problem 1. A floor covers 76 square feet, and it is 4 feet wide. How long is it? The area is in square feet, and the side is in feet. They match. So, 4 times what makes 76? I'll build rows of 4. Row after row, until all 76 tiles are used. Now count the rows. 19 rows. 76 divided by 4 is 19. Check: 19 times 4 is 76. The floor is 19 feet long. Problem 2. Your turn first. Pause the video and try this one. Then press play and check. The area is 84 square inches, and one side is one half of a foot. The units don't match. Half of 12 inches is 6 inches. So, 6 times what makes 84? 84 divided by 6 is 14. Check: 14 times 6 is 84. The side is 14 inches. Problem 3. Watch out for this one. A rectangle covers 48 square inches, and one side is 1 foot. Someone wrote 48 divided by 1 is 48 inches. But the units don't match. 1 foot is 12 inches. 48 divided by 12 is 4. The side is 4 inches. Same units first, then divide.",
+   "produced": true
   },
   "wrap": {
-   "label": "Wrap · every tile in its place",
+   "label": "Wrap · every tile in its place (produced: Claire)",
    "title": "Every Tile in Its Place",
-   "length": "about 45 s",
-   "want": false,
+   "length": "about 40 s",
+   "want": true,
    "where": "Show What You Know, after the last window",
    "parts": [
     {
@@ -121,7 +103,8 @@
      "body": "Side × ? = area. Divide, then multiply to check."
     }
    ],
-   "script": "The storeroom floor is done. Every tile is in its place.\n\n[ON SCREEN: The big question]\n\nSo, if you know the area and one side, how can you find the other side? Ask: the side I know, times what, makes the area? Divide the area by that side. Put both in the same units first. Then multiply to check that you get the area back.\n\nNext time, the Duke wants a gold border around his mirror. A border isn't one plain rectangle. That's Area of Composite Figures. See you in the workshop."
+   "script": "The storeroom floor is done. Every tile is in its place. So, if you know the area and one side, how can you find the other side? Ask: the side I know, times what, makes the area? Put both in the same units first. Divide the area by that side. Then multiply to check that you get the area back. Next time, the Duke wants a gold border around his mirror. A border isn't one plain rectangle. That's Area of Composite Figures. See you in the workshop.",
+   "produced": true
   }
  }
 }

@@ -1,0 +1,114 @@
+{
+ "leo": {
+  "voice_id": "u9kBnBpH3bCKSdL7a34X",
+  "lines": [
+   {
+    "who": "leo",
+    "t": "Welcome back, my helper! The Duke's gold panels are finished. Now they need a safe room to stay in.",
+    "key": "7934e14a"
+   },
+   {
+    "who": "leo",
+    "t": "We are putting a new floor in the storeroom. Look around.",
+    "key": "e2306cf5"
+   },
+   {
+    "who": "leo",
+    "t": "Hmm. We know the tiles and one side. Can the tiles tell us the other side?",
+    "key": "93fe0226"
+   },
+   {
+    "who": "leo",
+    "t": "Maybe! 56 is a lot of tiles.",
+    "key": "f83aae01"
+   },
+   {
+    "who": "leo",
+    "t": "Interesting. We'll have to check.",
+    "key": "3be24ad3"
+   },
+   {
+    "who": "leo",
+    "t": "A square room? That would be tidy. Let's see.",
+    "key": "7fa71b96"
+   },
+   {
+    "who": "leo",
+    "t": "Good. \"Not sure yet\" is a fine place to start.",
+    "key": "7fbc106d"
+   },
+   {
+    "who": "leo",
+    "t": "One row across the room takes 7 tiles.",
+    "key": "b13c2f6c"
+   },
+   {
+    "who": "leo",
+    "t": "Let's find out how long the floor is.",
+    "key": "0cf630d2"
+   },
+   {
+    "who": "leo",
+    "t": "576 inches? That is longer than this whole workshop.",
+    "key": "dd613d7b"
+   },
+   {
+    "who": "leo",
+    "t": "Your times table is right, my friend. But is times the right thing to do here?",
+    "key": "71a35d39"
+   },
+   {
+    "who": "leo",
+    "t": "I think I see it. Do you?",
+    "key": "5f62a36a"
+   },
+   {
+    "who": "leo",
+    "t": "Because you knew the area and one side, and you found the other side.",
+    "key": "3561672b"
+   },
+   {
+    "who": "leo",
+    "t": "A border is not one plain rectangle. That is a puzzle for next time.",
+    "key": "30c1d4bd"
+   }
+  ],
+  "prompt": "Welcome back, my helper! The Duke's gold panels are finished. Now they need a safe room to stay in. <break time=\"1.5s\" /> We are putting a new floor in the storeroom. Look around. <break time=\"1.5s\" /> Hmm. We know the tiles and one side. Can the tiles tell us the other side? <break time=\"1.5s\" /> Maybe! 56 is a lot of tiles. <break time=\"1.5s\" /> Interesting. We'll have to check. <break time=\"1.5s\" /> A square room? That would be tidy. Let's see. <break time=\"1.5s\" /> Good. \"Not sure yet\" is a fine place to start. <break time=\"1.5s\" /> One row across the room takes 7 tiles. <break time=\"1.5s\" /> Let's find out how long the floor is. <break time=\"1.5s\" /> 576 inches? That is longer than this whole workshop. <break time=\"1.5s\" /> Your times table is right, my friend. But is times the right thing to do here? <break time=\"1.5s\" /> I think I see it. Do you? <break time=\"1.5s\" /> Because you knew the area and one side, and you found the other side. <break time=\"1.5s\" /> A border is not one plain rectangle. That is a puzzle for next time."
+ },
+ "bern": {
+  "voice_id": "EvqbdCtmQVi46OVEHwYm",
+  "lines": [
+   {
+    "who": "bern",
+    "t": "Master Leonardo! I counted the tiles. There are 56. They will cover the whole floor, with none left over.",
+    "key": "a2c54b0b"
+   },
+   {
+    "who": "bern",
+    "t": "The storeroom is 7 feet wide. But crates block the far wall. I can't measure how long the room is!",
+    "key": "ef9feaa0"
+   },
+   {
+    "who": "bern",
+    "t": "Master Leonardo, the lid of the Duke's chest needs 72 gold sheets. One side is 8 inches. I found the other side!",
+    "key": "e9a633ef"
+   },
+   {
+    "who": "bern",
+    "t": "But 72 times 8 is 576. I checked it twice!",
+    "key": "bbf03358"
+   },
+   {
+    "who": "bern",
+    "t": "Master Leonardo! The storeroom floor is done. Every tile fit, and not one was left over.",
+    "key": "f9ca9a04"
+   },
+   {
+    "who": "bern",
+    "t": "Now the Duke has a new wish. He sent a letter.",
+    "key": "6220131a"
+   }
+  ],
+  "prompt": "Master Leonardo! I counted the tiles. There are 56. They will cover the whole floor, with none left over. <break time=\"1.5s\" /> The storeroom is 7 feet wide. But crates block the far wall. I can't measure how long the room is! <break time=\"1.5s\" /> Master Leonardo, the lid of the Duke's chest needs 72 gold sheets. One side is 8 inches. I found the other side! <break time=\"1.5s\" /> But 72 times 8 is 576. I checked it twice! <break time=\"1.5s\" /> Master Leonardo! The storeroom floor is done. Every tile fit, and not one was left over. <break time=\"1.5s\" /> Now the Duke has a new wish. He sent a letter."
+ }
+}

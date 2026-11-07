@@ -28,11 +28,14 @@
   "hank": "secondary_man",
   "otto": "secondary_man",
   "ivy": "secondary_woman",
-  "goldie": "secondary_woman"
+  "goldie": "secondary_woman",
+  "bern": "secondary_man"
  },
  "_fx": {
   "_note": "Optional sound effect per character (presets in voice.py FX). Only Opti has one: a light \"robot\" tinniness (Bethany, 28 Oct 2026). Everyone else is clean (she found the full 8-bit \"handheld\" filter tinny on the cast).",
   "default": "",
   "opti": "robot"
- }
+ },
+ "leo": "u9kBnBpH3bCKSdL7a34X",
+ "_classical_note": "Classical-guide windows (Unit 11 on): the unit guide has its own voice (leo = Leonardo, Bethany approved 5 Nov 2026); the guide's helper (bern = Bernardo) uses secondary_man. Narration ({narr}) and the student's replies stay silent."
 }

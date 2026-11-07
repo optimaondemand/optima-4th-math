@@ -63,7 +63,7 @@ def main(code):
         for k, f in V['clips'].items():
             fp = os.path.join(REPO, V['dir'], f)
             if os.path.exists(fp): V['clips'][k] = f + '?v=' + hashlib.md5(open(fp, 'rb').read()).hexdigest()[:8]
-        data += '\nPQ_DATA.voice=' + json.dumps(V, ensure_ascii=False) + ';\n'
+        data += '\n' + ('CW_DATA' if 'var CW_DATA' in lesson_js else 'PQ_DATA') + '.voice=' + json.dumps(V, ensure_ascii=False) + ';\n'
     open(os.path.join(REPO, data_rel), 'w', encoding='utf8').write(data)
     os.makedirs(os.path.join(REPO, 'data', 'videos'), exist_ok=True)
     json.dump(video, open(os.path.join(REPO, 'data', 'videos', 'lesson-%s-%s.json' % (uu, ll)), 'w', encoding='utf8'),

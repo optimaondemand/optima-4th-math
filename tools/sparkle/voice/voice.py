@@ -26,6 +26,11 @@ def lines(code):
     js = open(os.path.join(REPO, 'tools/sparkle/lessons', code, 'lesson.js'), encoding='utf8').read()
     js = js[:js.index('var PQ_LESSON')]                       # game dialog only
     out, seen = [], set()
+    if 'var CW_DATA' in js:   # classical-guide windows: every {w:'leo',t:'…'} line, in script order (choices' answers included)
+        for m in re.finditer(r"\{w:'([\w-]+)',t:'((?:[^'\\]|\\.)*)'", js):
+            t = unesc(m.group(2)); k = key(m.group(1), t)
+            if k not in seen: seen.add(k); out.append({'who': m.group(1), 't': t, 'key': k})
+        return out
     def add(who, t):
         k = key(who, t)
         if k in seen: return
@@ -129,8 +134,28 @@ def cmd_one(code, who, text_start, take):
     json.dump(V, open(vp, 'w', encoding='utf8'), ensure_ascii=False, indent=1)
     print('%s: wrote %s' % (who, f))
 
+def cmd_cutat(code, sp, take, starts):
+    """Cut a take at given line START times (seconds, comma list; from an ElevenLabs transcription's <break> markers,
+    which is free with eleven_scribe_v1). Use when split's longest-pause guess cuts a line wrong (a dramatic pause inside a line)."""
+    plan = json.load(open(os.path.join(REPO, 'tools/sparkle/lessons', code, 'voice-lines.json'), encoding='utf8'))[sp]
+    st = [0.0] + [float(x) for x in starts.split(',')]
+    if len(st) != len(plan['lines']): sys.exit('%s: %d starts for %d lines' % (sp, len(st), len(plan['lines'])))
+    outdir = os.path.join(REPO, 'assets/audio/lessons', code); os.makedirs(outdir, exist_ok=True)
+    vp = os.path.join(REPO, 'tools/sparkle/lessons', code, 'voice.json')
+    V = json.load(open(vp, encoding='utf8')) if os.path.exists(vp) else {'dir': 'assets/audio/lessons/%s/' % code, 'clips': {}}
+    fx = fx_for(sp); trim = 'silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,'
+    for i, l in enumerate(plan['lines']):
+        a = max(0, st[i] - 0.08); b = st[i + 1] - 0.05 if i + 1 < len(st) else None
+        f = '%s-%s.mp3' % (l['who'], l['key'])
+        subprocess.run(['ffmpeg', '-y', '-v', 'error', '-ss', '%.3f' % a] + (['-to', '%.3f' % b] if b else []) + ['-i', take, '-af', trim + 'afade=t=in:d=0.02,' + (fx + ',' if fx else '') + 'loudnorm=I=-18:TP=-2',
+                        '-ac', '1', '-ar', '44100', '-b:a', '64k', os.path.join(outdir, f)], check=True)
+        V['clips'][l['key']] = f
+    json.dump(V, open(vp, 'w', encoding='utf8'), ensure_ascii=False, indent=1)
+    print('%s: %d clips written at the given starts' % (sp, len(plan['lines'])))
+
 if __name__ == '__main__':
     a = sys.argv[1:]
     if a[0] == 'lines': cmd_lines(a[1])
     elif a[0] == 'split': cmd_split(a[1], a[2], a[3])
     elif a[0] == 'one': cmd_one(a[1], a[2], a[3], a[4])
+    elif a[0] == 'cutat': cmd_cutat(a[1], a[2], a[3], a[4])

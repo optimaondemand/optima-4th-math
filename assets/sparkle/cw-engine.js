@@ -19,6 +19,7 @@ function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function R(g,c,x,y,w,h){g.fillStyle=c;g.fillRect(x|0,y|0,w|0,h|0);}
 var POS={leo:{x:256,y:116},salai:{x:188,y:128},bern:{x:296,y:120},atlas:{x:62,y:131},felix:{x:92,y:131},hazel:{x:170,y:131},cora:{x:200,y:131}};
+function fnv(str){var h=0x811c9dc5;for(var i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)>>>0;}return ('0000000'+h.toString(16)).slice(-8);}
 function doneKey(){return (D.key||'cw')+'-cw-done';}
 
 function Win(slot,id,def){
@@ -56,14 +57,14 @@ var P=Win.prototype;
 /* the page's guide (CW_DATA.guide) is not in the window until the student presses play: then he walks in from the
    side, and he leaves again when he goes back to his lift (Bethany, 3 Nov 2026: never two of him at once) */
 function guideWho(){return D.guide?(D.guide.who||'leo'):null;}
-P.reset=function(){this.people={};var self=this,gw=guideWho();(this.def.people||['leo']).forEach(function(w){if(w===gw&&!self.guideIn)return;self.people[w]={x:POS[w].x,to:POS[w].x};});
+P.reset=function(){if(this.audio)try{this.audio.pause();}catch(e){}this.people={};var self=this,gw=guideWho();(this.def.people||['leo']).forEach(function(w){if(w===gw&&!self.guideIn)return;self.people[w]={x:POS[w].x,to:POS[w].x};});
   this.focus=null;this.dim=0;this.dimT=0;this.shown={};this.splitOn={};this.visited={};this.exploring=false;this.speaker=null;this.talk=0;this.typing=null;this.waitFn=null;this.lock=false;
   this.camTo();this.card.classList.remove('on');this.task.classList.remove('on');this.task.innerHTML='';this.rp.innerHTML='';this.dlg.classList.remove('on','tasking');this.paintTags();};
 P.guideEnter=function(){var gw=guideWho();if(!gw||this.guideIn||(this.def.people||['leo']).indexOf(gw)<0)return;
   var self=this;this.wanted=true;var walk=function(){self.guideIn=true;self.people[gw]={x:reduce?POS[gw].x:336,to:POS[gw].x};if(!reduce)self.door=40;self.draw();};
   if(window.CWGUIDE&&CWGUIDE.enterWindow)CWGUIDE.enterWindow(this.slot,walk);else walk();};
 P.guideBack=function(){var gw=guideWho();if(!gw||this.guideIn||!this.wanted)return;this.guideIn=true;this.people[gw]={x:POS[gw].x,to:POS[gw].x};this.draw();};  /* scrolled back to a window he was in */
-P.guideLeave=function(){var gw=guideWho();if(!gw||!this.guideIn)return;this.guideIn=false;delete this.people[gw];this.draw();};
+P.guideLeave=function(){if(this.audio)try{this.audio.pause();}catch(e){}var gw=guideWho();if(!gw||!this.guideIn)return;this.guideIn=false;delete this.people[gw];this.draw();};
 P.start=function(){var self=this;this.guideIn=false;this.reset();this.guideEnter();this.running=true;this.cover.hidden=true;this.again.hidden=false;this.el.classList.add('playing');
   this.el.classList.remove('cine');this.titleEl.classList.add('on');try{this.el.focus({preventScroll:true});}catch(e){}
   setTimeout(function(){self.el.classList.add('cine');},200);
@@ -136,13 +137,13 @@ P.say=function(who,text,opts,done){opts=opts||{};var self=this,i=0;
   this.nm.className='cw-name '+(who||'none');this.nm.textContent=who==='you'?'You':(A.names[who]||'');if(A.colors[who])this.nm.style.background=A.colors[who];else this.nm.style.background='';
   this.tx.className='cw-text'+(who?'':' narr');var face=!!A.names[who];this.por.classList.toggle('hide',!face);
   this.speaker=who;this.talk=1;if(face)A.portrait(this.por,who,0);this.tx.textContent='';clearInterval(this.typing);
-  if(D.voice&&opts.clip)this.play(opts.clip);
+  if(D.voice&&who&&who!=='you'){var vk=fnv(who+'|'+text);if(D.voice.clips[vk])this.play(vk);else if(this.audio)this.audio.pause();}   /* voiced lines (voice.py keys: FNV-1a of who|line) */
   var fin=function(){clearInterval(self.typing);self.typing=null;self.tx.textContent=text;self.talk=0;if(face)A.portrait(self.por,who,0);
     if(opts.wonder)self.wonder(opts.wonder,done);else if(opts.noNext)done&&done();else{self.nx.classList.add('on');self.waitFn=done;}};
   this.skip=fin;
   if(reduce){fin();return;}
   this.typing=setInterval(function(){i++;self.tx.textContent=text.slice(0,i);if(face&&i%3===0)A.portrait(self.por,who,(i/3)%2);if(i>=text.length)fin();},30);};
-P.play=function(clip){try{var f=D.voice.clips[clip];if(!f)return;if(this.audio)this.audio.pause();this.audio=new Audio(D.voice.dir+'/'+f);this.audio.play().catch(function(){});}catch(e){}};
+P.play=function(clip){try{var f=D.voice.clips[clip];if(!f)return;if(this.audio)this.audio.pause();this.audio=new Audio(D.voice.dir.replace(/\/$/,'')+'/'+f);this.audio.play().catch(function(){});}catch(e){}};
 /* the Mr. Rogers pause: ask, lean in, wait; Continue only after a few quiet seconds */
 P.wonder=function(prompt,done){var self=this;this.lock=true;this.wd.classList.add('on');this.wdt.textContent='Take a moment to wonder.';
   this.dimT=.18;var L=this.people.leo;this.camTo(L?L.x:160,128,1.12);
