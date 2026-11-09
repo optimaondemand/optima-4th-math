@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 11 Family Guide · 4th Grade Math · Optima Academy Online</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@400;600;700;800;900&display=swap');
+:root{--navy:#0E1C42;--ink:#3A4A6B;--muted:#5E6C8C;--brown:#3F2716;--wine:#9E4552;--wine-bg:#F8ECEE;--gold:#F2B705;--gold-dk:#8A6400;--parch:#F7EFDC;--cream:#FBF6EA;--line:#E6D9BD;
+ --sky-bg:#EAF4FB;--gold-bg:#FFF3D1;--green-bg:#E3F8ED;--plum-bg:#F1ECFA;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);font-family:"Nunito",sans-serif;font-size:18px;line-height:1.6}
+.wrap{max-width:880px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{font-family:"Lora",Georgia,serif;color:var(--navy);margin:0}
+p{margin:0 0 10px} strong{color:var(--navy)}
+.px{font-family:"Lora",Georgia,serif;font-style:italic;font-weight:600;letter-spacing:.03em}
+.hero{background:var(--navy);color:#fff;border:3px solid var(--brown);border-radius:18px;padding:26px 28px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:6px;background:var(--gold)}
+.hero .brand{font-size:16px;color:#F5D97A;margin-bottom:10px}
+.hero h1{color:#fff;font-size:34px;line-height:1.2;margin-bottom:6px}
+.hero .sub{font-size:19px;color:#DCE6F7;margin-bottom:14px;max-width:560px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;max-width:600px}
+.chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:4px 13px;font-size:16px;font-weight:700}
+.hero .town{position:absolute;right:18px;bottom:18px;opacity:.95}
+.print-btn{display:inline-block;margin-top:16px;background:var(--wine);color:#fff;border:2px solid #fff;border-radius:10px;padding:8px 16px;font:800 16px "Nunito",sans-serif;cursor:pointer}
+.card{background:#fff;border:3px solid var(--brown);border-radius:16px;padding:22px 24px;margin-top:18px;box-shadow:0 4px 0 rgba(63,39,22,.12)}
+.card-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.card-head .ico{font-size:26px;line-height:1}
+.card-head h2{font-size:24px}
+.card-head .tag{margin-left:auto;font-size:15px;color:var(--wine)}
+ul.how{list-style:none;padding:0;margin:0}
+ul.how li{display:flex;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
+ul.how li:last-child{border-bottom:none}
+ul.how .i{font-size:22px;width:30px;flex-shrink:0;text-align:center}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.box{border-radius:12px;padding:14px 16px}
+.box-label{font-size:15px;margin-bottom:4px}
+.b-sky{background:var(--sky-bg)}.b-sky .box-label{color:#1F6FA0}
+.b-gold{background:var(--gold-bg)}.b-gold .box-label{color:var(--gold-dk)}
+.b-green{background:var(--green-bg)}.b-green .box-label{color:#1F8452}
+.b-wine{background:var(--wine-bg)}.b-wine .box-label{color:var(--wine)}
+.b-parch{background:var(--parch)}.b-parch .box-label{color:var(--brown)}
+table.days{width:100%;border-collapse:collapse}
+.days th{font-size:15px;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:2px solid var(--line);font-family:"Lora",Georgia,serif;font-style:italic;font-weight:600}
+.days td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.days tr:last-child td{border-bottom:none}
+.ln{font-family:"Lora",Georgia,serif;font-weight:700;font-size:20px;color:var(--navy);white-space:nowrap}
+.ln span{display:block;font-family:"Nunito",sans-serif;font-size:14px;font-weight:700;color:var(--muted);white-space:normal}
+.ttl{font-weight:800;color:var(--navy)}
+.small{font-size:16px;color:var(--muted)}
+.eg{display:inline-block;background:var(--parch);border:1.5px solid var(--line);border-radius:8px;padding:2px 10px;font-weight:800;color:var(--navy);margin-top:4px}
+.chk-row td{background:#F6F1E6}
+.stairs{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;align-items:center}
+.stairs svg{width:100%;height:auto;display:block}
+.rule{display:flex;flex-direction:column;gap:8px}
+.rule div{background:var(--parch);border:2px solid var(--brown);border-radius:10px;padding:8px 12px;font-weight:800;color:var(--navy)}
+.rule div span{color:var(--wine)}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.fact{border:2px solid var(--brown);border-radius:12px;padding:10px 12px;background:#fff}
+.fact h3{font-size:17px;font-style:italic;font-weight:600;color:var(--wine);margin-bottom:4px}
+.fact p{font-size:15px;margin:0;line-height:1.5}
+.words{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.word{background:var(--parch);border-radius:10px;padding:10px 14px}
+.word b{display:block;color:var(--navy);font-size:19px}
+.word span{font-size:16px}
+ol.home{margin:0;padding-left:22px} ol.home li{margin-bottom:10px}
+.mist li{margin-bottom:8px}
+.links a{color:#1F6FA0;font-weight:800}
+.tracker{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stop{border:2px dashed var(--brown);border-radius:12px;padding:10px;text-align:center;font-weight:800;color:var(--navy);font-size:15px;min-height:96px;display:flex;flex-direction:column;justify-content:space-between}
+.stop small{display:block;font-weight:600;color:var(--muted);font-size:14px}
+.stop .bx{width:30px;height:30px;border:2.5px solid var(--brown);border-radius:6px;margin:6px auto 0;background:#fff}
+.stop.boss{background:var(--gold-bg);border-style:solid}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1;margin:0 .1em;font-size:.9em}
+.frac .num{border-bottom:1.6px solid currentColor;padding:0 .2em .05em}
+.frac .den{padding:.05em .2em 0}
+.note{font-size:14px;color:var(--muted);margin-top:8px}
+.foot{text-align:center;font-size:14px;color:var(--muted);margin-top:24px}
+@media(max-width:640px){.two,.stairs,.words{grid-template-columns:1fr}.facts{grid-template-columns:1fr 1fr}.tracker{grid-template-columns:1fr}.hero{padding:22px 18px}.hero h1{font-size:28px}.hero .town{display:none}.days .hide-sm{display:none}.card{padding:18px 16px}.card-head .tag{font-size:13px;text-align:right}}
+@media print{body{background:#fff;font-size:15px}.print-btn{display:none}.card{box-shadow:none;break-inside:avoid;border-width:2px}.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}.wrap{padding:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="brand px">Family Guide · 4th Grade Math</div>
+  <h1>Unit 11: Area</h1>
+  <p class="sub">Area of rectangles, and of shapes made of rectangles</p>
+  <div class="chips"><span class="chip">Lessons 11.01–11.03</span><span class="chip">Guide: Leonardo da Vinci</span><span class="chip">Florida B.E.S.T. MA.4.GR.2.1 · MA.4.GR.2.2</span></div>
+  <button class="print-btn" type="button" onclick="window.print()">🖨️ Print this guide</button>
+  <svg class="town" width="132" height="70" viewBox="0 0 66 35" aria-hidden="true" shape-rendering="crispEdges">
+    <rect x="2" y="2" width="16" height="22" fill="#2B3A66"/><rect x="4" y="5" width="12" height="17" fill="#8FB4E0"/><rect x="9" y="5" width="2" height="17" fill="#2B3A66"/><rect x="4" y="12" width="12" height="2" fill="#2B3A66"/><rect x="6" y="2" width="8" height="3" fill="#2B3A66"/>
+    <rect x="0" y="31" width="66" height="4" fill="#8A5A33"/>
+    <rect x="27" y="10" width="2" height="21" fill="#B07A45"/><rect x="41" y="10" width="2" height="21" fill="#B07A45"/><rect x="33" y="6" width="4" height="25" fill="#9C6A3A"/><rect x="26" y="24" width="18" height="2" fill="#8A5A33"/>
+    <rect x="28" y="12" width="14" height="12" fill="#F7EBD3"/><rect x="30" y="14" width="10" height="8" fill="#F2B705"/><rect x="30" y="14" width="10" height="1" fill="#FFD84D"/><rect x="34" y="14" width="1" height="8" fill="#D49A00"/><rect x="30" y="18" width="10" height="1" fill="#D49A00"/>
+    <rect x="48" y="23" width="18" height="2" fill="#6B4423"/><rect x="50" y="25" width="2" height="6" fill="#6B4423"/><rect x="62" y="25" width="2" height="6" fill="#6B4423"/>
+    <rect x="51" y="19" width="5" height="4" fill="#F2B705"/><rect x="52" y="17" width="5" height="2" fill="#E0A800"/><rect x="58" y="20" width="6" height="3" fill="#F7EBD3"/><rect x="58" y="20" width="6" height="1" fill="#5A3A22"/>
+  </svg>
+</header>
+
+<section class="card">
+  <div class="card-head"><span class="ico">🧭</span><h2>How the Lesson Pages Work</h2></div>
+  <ul class="how">
+    <li><span class="i">🗂️</span><span><strong>Three tabs, in order:</strong> Warm-Up → Lesson → Show What You Know. The Lesson tab has three stations: <strong>Learn it</strong>, <strong>Practice together</strong> and <strong>On your own</strong>. A bar at the top shows where your student is, and <strong>Next station</strong> moves on.</span></li>
+    <li><span class="i">🎨</span><span><strong>Leonardo da Vinci guides the unit.</strong> Short, voiced <strong>workshop windows</strong> show his workshop in Milan in 1495. One opens the lesson and asks your student to make a guess. One in the middle brings a note from his helper Bernardo with a mistake to find. One at the end brings a letter from the Duke of Milan that sets up the next lesson. If they're distracting, the <strong>🎬 Workshop windows</strong> button at the top turns them off and keeps the math.</span></li>
+    <li><span class="i">🔨</span><span><strong>Every task is a workshop job.</strong> The <strong>Workshop jobs</strong> bar at the top counts them as your student finishes. Most jobs start on a tile grid: your student taps or drags to lay 1-inch gold sheets or 1-foot floor tiles, then types the answer. A wrong answer gets a note about what probably went wrong. <strong>💡 Need a hint?</strong> gives up to three hints, and the last one shows the same steps with different numbers.</span></li>
+    <li><span class="i">🪜</span><span><strong>Ask Leonardo.</strong> Leonardo rides a little lift beside the page (on a phone, it's the <strong>Ask</strong> button in the corner). Tapping him gives a tip for that part of the page and a question or two your student can ask. He gives hints, never answers.</span></li>
+    <li><span class="i">🔤</span><span><strong>New words have a dotted underline.</strong> Tapping one shows what it means, and the day's words are added to the Math Journal as "Words I learned today."</span></li>
+    <li><span class="i">💾</span><span><strong>Written answers save as you type,</strong> but only in that browser on that computer. The practice tools themselves don't save if your student leaves the page.</span></li>
+    <li><span class="i">📋</span><span><strong>Turning it in:</strong> the checklist at the bottom of Show What You Know lists every job and question. Press <strong>Gather My Answers</strong>, then <strong>Copy All Answers</strong> (or print or save it as a PDF). Open the lesson's assignment in Canvas, paste the answers or upload the PDF, and press <strong>Submit</strong>. A lesson isn't turned in until it's submitted in Canvas.</span></li>
+    <li><span class="i">🧠</span><span><strong>Each Warm-Up starts with a fact warm-up and a mental math strategy.</strong> The number bonds and the <strong>★ Bonus quest</strong> are optional.</span></li>
+    <li><span class="i">🔊</span><span><strong>Read aloud</strong> at the top reads the page aloud. <strong>🧮 Math tools</strong> opens online color tiles, a geoboard and a grid whiteboard.</span></li>
+  </ul>
+</section>
+
+<section class="card">
+  <div class="card-head"><span class="ico">🗺️</span><h2>This Unit at a Glance</h2></div>
+  <p>Area is how many square units cover a flat shape. Your student finds the area of rectangles when the sides use different units, finds a missing side when the area is known, and then finds the area of shapes that aren't one simple rectangle. Perimeter, the distance around a shape, comes next, starting with lesson 11.04.</p>
+  <div class="two">
+    <div class="box b-wine"><div class="box-label px">The big idea</div><p style="margin:0"><strong>Same unit first, then length × width.</strong> The area is in square units.<br><strong>Know the area and one side?</strong> Divide, then multiply to check.<br><strong>Not one rectangle?</strong> See the rectangles inside it.</p></div>
+    <div class="box b-gold"><div class="box-label px">The story</div><p style="margin:0">Your student helps <strong>Leonardo da Vinci</strong>, the painter and inventor, in his workshop in Milan. The Duke's gold is costly, so not one sheet can be wasted, and every job needs careful measuring. His helper Bernardo keeps making mistakes your student gets to fix. Each lesson, Leonardo also shows a keepsake: the Mona Lisa, a drawing of a flying machine, and his notebook, written backwards.</p></div>
+  </div>
+  <p class="note">The <strong>Math Crew</strong> (Atlas, Felix, Hazel and Cora) shows up in each lesson with four ways to solve the opening problem. Your student picks the way most like their own and says why.</p>
+</section>
+
+<section class="card">
+  <div class="card-head"><span class="ico">📅</span><h2>Lesson by Lesson</h2></div>
+  <table class="days">
+    <thead><tr><th>Lesson</th><th>What we learn</th><th class="hide-sm">An example</th></tr></thead>
+    <tbody>
+      <tr><td class="ln">11.01<span>Area of rectangles, part 1</span></td><td><span class="ttl">Finding area when the sides use different units.</span><br><span class="small">Cover a rectangle with square units, then multiply length × width. Put both sides in the same unit first: feet to inches, or yards to feet. A square needs only one measurement, because all 4 sides are equal. Different rectangles can have the same area, and a two-step word problem asks how many buckets of plaster cover a wall. Story: cover the Duke's panels in gold, without wasting a sheet.</span></td><td class="hide-sm"><span class="eg">1 ft 3 in × 4 in = 60 sq in</span><div class="small">1 ft 3 in is 15 in, and 15 × 4 = 60. Or split at the foot: 12 × 4 = 48 and 3 × 4 = 12; 48 + 12 = 60.</div></td></tr>
+      <tr><td class="ln">11.02<span>Area of rectangles, part 2</span></td><td><span class="ttl">Finding a missing side when you know the area.</span><br><span class="small">Build rows of the side you know, or think "side × ? = area" and divide. Check by multiplying. For a square, ask what number times itself makes the area. If the side is in feet and the area is in square inches, change the side to inches first, even a fraction of a foot like <span class="frac"><span class="num">3</span><span class="den">4</span></span> ft (split 12 inches into 4 equal parts). Story: the storeroom floor, and the Duke's letter asking for a panel of exactly 48 gold sheets, 4 inches wide.</span></td><td class="hide-sm"><span class="eg">91 sq in, 7 in wide → 13 in long</span><div class="small">7 × ? = 91. Split 91: 70 ÷ 7 = 10 and 21 ÷ 7 = 3, so 13. Check: 13 × 7 = 91. It's 13 inches, not 13 square inches.</div></td></tr>
+      <tr><td class="ln">11.03<span>Composite figures</span></td><td><span class="ttl">Finding the area of a shape made of rectangles.</span><br><span class="small">Two ways: split the shape into rectangles and add, or find the whole rectangle and take away the missing part. For a border or a path, add it on both sides first (2 + 8 + 2), then take away the middle. A side with no label is part of a longer side, so subtract to find it. Story: a gold border for the Duke's mirror, an L-shaped floor, a T-shaped table top, and a wall with a door and a window.</span></td><td class="hide-sm"><span class="eg">L-shaped rug = 64 sq ft</span><div class="small">A 12 ft by 8 ft rectangle with an 8 ft by 4 ft corner missing: 96 − 32 = 64. Or split: 12 × 4 = 48 and 4 × 4 = 16; 48 + 16 = 64.</div></td></tr>
+      <tr class="chk-row"><td class="ln">Next<span>11.04</span></td><td colspan="2"><span class="ttl">Perimeter, Part 1.</span> <span class="small">The Duke wants a fence around his new garden. A fence doesn't cover the garden; it goes around the edge.</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="card">
+  <div class="card-head"><span class="ico">📐</span><h2>How We Teach It</h2></div>
+  <p>Each lesson builds the idea in three steps: <strong>see it</strong> (lay tiles on a grid), <strong>picture it</strong> (label a drawing) and <strong>write it</strong> (the number sentence). Your student lays one row of tiles along the top and one column down the side. The row shows how many fit along the length, and the column shows how many rows there are. That's all they need to multiply.</p>
+  <div class="stairs">
+    <svg viewBox="0 0 300 150" role="img" aria-label="A strip 1 foot 3 inches long and 4 inches wide, drawn as a grid 15 squares long and 4 squares tall. It is split at the 12-inch mark: the 1-foot part is 12 by 4, or 48 squares, and the 3-inch part is 3 by 4, or 12 squares.">
+      <g stroke="#E6D9BD" stroke-width="1">
+        <line x1="34" y1="40" x2="34" y2="112"/><line x1="52" y1="40" x2="52" y2="112"/><line x1="70" y1="40" x2="70" y2="112"/><line x1="88" y1="40" x2="88" y2="112"/><line x1="106" y1="40" x2="106" y2="112"/><line x1="124" y1="40" x2="124" y2="112"/><line x1="142" y1="40" x2="142" y2="112"/><line x1="160" y1="40" x2="160" y2="112"/><line x1="178" y1="40" x2="178" y2="112"/><line x1="196" y1="40" x2="196" y2="112"/><line x1="214" y1="40" x2="214" y2="112"/><line x1="250" y1="40" x2="250" y2="112"/><line x1="268" y1="40" x2="268" y2="112"/>
+        <line x1="16" y1="58" x2="286" y2="58"/><line x1="16" y1="76" x2="286" y2="76"/><line x1="16" y1="94" x2="286" y2="94"/>
+      </g>
+      <rect x="16" y="40" width="216" height="72" fill="#F2B705" fill-opacity=".22"/>
+      <rect x="232" y="40" width="54" height="72" fill="#9E4552" fill-opacity=".16"/>
+      <rect x="16" y="40" width="270" height="72" fill="none" stroke="#3F2716" stroke-width="2.5"/>
+      <line x1="232" y1="34" x2="232" y2="118" stroke="#9E4552" stroke-width="2.5" stroke-dasharray="5 4"/>
+      <text x="124" y="28" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="14" fill="#0E1C42">1 ft = 12 in</text>
+      <text x="259" y="28" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="14" fill="#0E1C42">3 in</text>
+      <text x="124" y="82" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="16" fill="#0E1C42">12 × 4 = 48</text>
+      <text x="259" y="82" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="13" fill="#0E1C42">3 × 4</text>
+      <text x="259" y="98" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="13" fill="#0E1C42">= 12</text>
+      <text x="8" y="80" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="13" fill="#0E1C42" transform="rotate(-90 8 80)">4 in</text>
+      <text x="151" y="140" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="14" fill="#5E6C8C">15 in × 4 in = 60 square inches</text>
+    </svg>
+    <div class="rule"><div><span>1.</span> Are the lengths in the same units? If not, convert to the smaller unit.</div><div><span>2.</span> Multiply length × width.</div><div><span>3.</span> Write the area in square units.</div></div>
+  </div>
+  <p style="margin-top:14px"><strong>Leonardo's question.</strong> "Ask it every time: are the lengths in the same units?" These are Leonardo's Measuring Rules, and they come back on every page.</p>
+  <p><strong>The same picture, run backward.</strong> In 11.02 the area is known and a side is missing. Your student lays rows of the side they know until the tiles run out. Then they think "side × ? = area," divide, and multiply to check. In 11.03 the shape isn't one rectangle, so they look for the rectangles inside it and pick the way with easier steps.</p>
+</section>
+
+<section class="card">
+  <div class="card-head"><span class="ico">🧾</span><h2>The Numbers to Know</h2><span class="tag px">Fridge copy</span></div>
+  <div class="facts">
+    <div class="fact"><h3>Units</h3><p>1 ft = 12 in<br>1 yd = 3 ft<br>Convert to the smaller unit first.</p></div>
+    <div class="fact"><h3>Area</h3><p>Rectangle:<br>length × width<br>Square:<br>side × side<br>Answer in square units: in², ft²</p></div>
+    <div class="fact"><h3>Missing side</h3><p>side × ? = area<br>area ÷ side you know<br>Check: multiply the two sides.</p></div>
+    <div class="fact"><h3>Not one rectangle</h3><p>Split and add.<br>Or: whole − the missing part.<br>Border: add it on both sides (2 + 8 + 2), then take away the middle.</p></div>
+  </div>
+  <p class="note">The missing side is a length, in inches or feet. Only the area is in square units.</p>
+</section>
+
+<section class="card">
+  <div class="card-head"><span class="ico">🔤</span><h2>Words to Know</h2></div>
+  <div class="words">
+    <div class="word"><b>area</b><span>how many square units cover a flat shape</span></div>
+    <div class="word"><b>square units</b><span>squares used to measure area, like square inches or square feet</span></div>
+    <div class="word"><b>square foot</b><span>a square 1 foot on each side, used to measure area</span></div>
+    <div class="word"><b>convert</b><span>change a measurement to a different unit, like feet to inches</span></div>
+    <div class="word"><b>missing factor</b><span>the unknown number in a fact like 7 × ? = 56</span></div>
+    <div class="word"><b>composite figure</b><span>a shape made of two or more simpler shapes put together</span></div>
+    <div class="word"><b>border</b><span>a strip that goes all the way around the edge of something</span></div>
+    <div class="word"><b>path</b><span>a strip of ground around something, made for walking</span></div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="card-head"><span class="ico">⚠️</span><h2>Mix-Ups to Watch For</h2><span class="tag px">Bernardo's mistakes</span></div>
+  <ul class="mist">
+    <li><strong>Multiplying feet by inches.</strong> A lid 1 ft long and 2 in wide needs 12 × 2 = 24 one-inch sheets, not 1 × 2 = 2. Ask: "Are the lengths in the same units?"</li>
+    <li><strong>Adding the sides, or going around the edge.</strong> Area multiplies. Adding the sides, or adding all four, finds part of the distance around, not what covers the inside.</li>
+    <li><strong>Multiplying when they should divide.</strong> An area of 35 square inches with one side of 5 in has another side of 35 ÷ 5 = 7 in, not 35 × 5. Ask: "5 times what makes 35?"</li>
+    <li><strong>Square units on a side.</strong> A missing side is a length: 13 inches, not 13 square inches.</li>
+    <li><strong>A border on one side only.</strong> A border goes on both ends. A 3 in by 2 in card with a 1-inch border is 1 + 3 + 1 = 5 in long and 4 in wide all together.</li>
+    <li><strong>Leaving the last bit uncovered.</strong> If one bucket covers 10 square feet, 37 square feet needs 4 buckets. 3 buckets cover only 30.</li>
+  </ul>
+</section>
+
+<section class="card">
+  <div class="card-head"><span class="ico">🏠</span><h2>Try It at Home</h2></div>
+  <ol class="home">
+    <li><strong>Tile count.</strong> Find a tiled floor, a backsplash or a sheet of square stickers. Count the tiles in one row and in one column, multiply, then count to check.</li>
+    <li><strong>Same area, different shape.</strong> With 12 square crackers or sticky notes, build every rectangle that uses all 12 (no holes, straight sides). Is a long, thin one really bigger?</li>
+    <li><strong>The missing side.</strong> Lay squares in a rectangle while your student looks away. Say how many squares there are and how many are in one row. Your student finds the number of rows, then checks by multiplying.</li>
+    <li><strong>Mixed-unit measuring.</strong> Measure a placemat or a book cover with a ruler. If one side is more than 12 inches, write it in feet and inches, then change it back to inches before finding the area.</li>
+    <li><strong>Floor plan.</strong> Sketch an L-shaped room, a hallway or a garden bed. Find its area by splitting it into rectangles, then again by taking away the missing corner. Do both ways match?</li>
+    <li><strong>Picture frame.</strong> Measure a framed photo, outside and inside. How many square inches is the frame itself?</li>
+  </ol>
+  <p class="note">The best question to ask at home is Leonardo's: <strong>"Are the lengths in the same units?"</strong></p>
+</section>
+
+<section class="card">
+  <div class="card-head"><span class="ico">📎</span><h2>Free Printables and Tools</h2></div>
+  <p class="links">From Singapore Math, the publisher of our Dimensions Math curriculum:</p>
+  <ul class="links">
+    <li><a href="https://singapore-math.s3.us-west-2.amazonaws.com/BLMs/DM_4_LETTERHOME_11.pdf" target="_blank" rel="noopener">Dimensions Math letter home for Chapter 11 (Area and Perimeter)</a></li>
+  </ul>
+  <p class="links">The same online tools linked on the lesson pages:</p>
+  <ul class="links">
+    <li><a href="manipulatives/tool.html?t=tiles&amp;st=1" target="_blank" rel="noopener">Color Tiles</a></li>
+    <li><a href="manipulatives/tool.html?t=geoboard&amp;st=1" target="_blank" rel="noopener">Geoboard</a></li>
+    <li><a href="manipulatives/tool.html?t=whiteboard&amp;st=1" target="_blank" rel="noopener">Grid Whiteboard</a></li>
+  </ul>
+</section>
+
+<section class="card">
+  <div class="card-head"><span class="ico">✅</span><h2>Unit 11 Tracker</h2><span class="tag px">Leonardo's Workshop</span></div>
+  <p class="small">Check off each lesson as your student finishes it.</p>
+  <div class="tracker">
+    <div class="stop">11.01 Area of rectangles, part 1<small>The Duke's gold panels · 6 jobs</small><div class="bx"></div></div>
+    <div class="stop">11.02 Area of rectangles, part 2<small>The storeroom floor · 6 jobs</small><div class="bx"></div></div>
+    <div class="stop boss">11.03 Composite figures<small>A gold border for the mirror · 5 jobs</small><div class="bx"></div></div>
+  </div>
+</section>
+
+<p class="foot">Optima Academy Online · 4th Grade Math · Unit 11 Family Guide</p>
+</div>
+</body>
+</html>
