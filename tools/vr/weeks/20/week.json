@@ -1,0 +1,335 @@
+{
+ "id": "g4math-vr-20",
+ "week": 20,
+ "lesson": "4.11.03",
+ "lessonTitle": "Area of Composite Figures",
+ "title": "The Castle Floor",
+ "emoji": "🏰",
+ "canvasName": "4.11.03 VR · The Castle Floor",
+ "scope": "lesson",
+ "guide": {
+  "key": "leo",
+  "name": "Leonardo da Vinci",
+  "short": "Leonardo",
+  "role": "Master of the Workshop",
+  "voice": "u9kBnBpH3bCKSdL7a34X",
+  "alt": "Leonardo da Vinci, drawn as a pixel portrait"
+ },
+ "details": [
+  "📅 Q2 · Unit 11 · Area and Perimeter",
+  "📖 Week 20 · goes with Lesson 4.11.03",
+  "🔢 MA.4.GR.2.2",
+  "⏱ About 15 minutes"
+ ],
+ "map": "Medieval Castle (Day)",
+ "mapWord": "Castle",
+ "badge": {
+  "emoji": "🛡️",
+  "name": "Sforza Castle seal",
+  "line": "Only VR builders earn this seal. Leonardo pins your floor in his notebook."
+ },
+ "stamp": "Sketchbook Day · The Castle Floor",
+ "bannedNumbers": [
+  "7×5",
+  "3×2",
+  "35−6",
+  "29",
+  "4×5",
+  "3×3",
+  "7×3",
+  "4×2",
+  "8×3",
+  "24+20",
+  "10×6",
+  "3×4",
+  "60−12",
+  "3×5",
+  "2×5",
+  "15+20+10",
+  "13×10",
+  "130",
+  "13+3+3",
+  "10+3+3",
+  "19×16",
+  "304−130",
+  "7×6",
+  "42",
+  "9×7",
+  "63",
+  "5×4",
+  "8×6",
+  "48",
+  "12×6",
+  "72",
+  "6×4",
+  "9×2",
+  "18+18",
+  "36",
+  "12×8",
+  "8×4",
+  "64",
+  "10×9",
+  "66",
+  "4×7",
+  "6×7",
+  "84",
+  "12×9",
+  "76",
+  "13×11",
+  "80",
+  "4×4",
+  "47",
+  "10×8",
+  "40+24",
+  "14×8",
+  "5×5",
+  "87",
+  "56",
+  "126",
+  "112",
+  "144",
+  "96",
+  "240",
+  "104"
+ ],
+ "facts": [
+  "10×10",
+  "100",
+  "4×10",
+  "40",
+  "100+40",
+  "140"
+ ],
+ "hook": {
+  "look": "A <b>commission</b> is a job someone asks an artist to do. This letter is your job from Leonardo.",
+  "head": "Commission 20 · The Castle Floor",
+  "sub": "Milan, Italy",
+  "rows": [
+   [
+    "From",
+    "Leonardo da Vinci"
+   ],
+   [
+    "For",
+    "Duke Ludovico Sforza"
+   ],
+   [
+    "Where",
+    "The Duke's castle in Milan"
+   ]
+  ],
+  "img": "hook",
+  "alt": "A round stone tower of the Sforza Castle in Milan, with a carved family shield on its wall",
+  "cap": "A real tower of the Sforza Castle in Milan. The carved shield is the Sforza family's coat of arms.",
+  "note": "The Duke wants a new floor shaped like an L. How many small square tiles will it need?"
+ },
+ "say": {
+  "brief": "Hello, friend. I did work for Duke Sforza at his castle in Milan. Let's imagine he wants an L-shaped floor. Will you help me plan the tiles?",
+  "sketchbook": "No headset today? Tile the floor in my sketchbook. Then write me a paragraph about how you solved it."
+ },
+ "vr": {
+  "look": "A <b>composite figure</b> is a shape made of rectangles put together. Your floor is one. Each <b>small square</b> on a Base 10 piece is 1 square unit.",
+  "groups": [
+   {
+    "title": "🧱 Floor pieces (drawn models)",
+    "models": [
+     {
+      "name": "Base 10 - Flat (Orange)",
+      "say": "Flat: 100 small squares, 10 by 10",
+      "word": "Flat",
+      "count": 1,
+      "draw": {
+       "b10": "flat"
+      },
+      "alt": "A drawn model of a Base 10 flat: a 10 by 10 square"
+     },
+     {
+      "name": "Base 10 - Rod (Red)",
+      "say": "Rod: 10 small squares, 1 by 10",
+      "word": "Rod",
+      "count": 4,
+      "draw": {
+       "b10": "rod"
+      },
+      "alt": "A drawn model of a Base 10 rod: a strip of 10 squares"
+     }
+    ]
+   },
+   {
+    "title": "🔢 Answer models (drawn models)",
+    "models": [
+     {
+      "name": "Number Five",
+      "family": "Number",
+      "say": "Number: pick each digit you need",
+      "word": "Number",
+      "count": "you pick",
+      "draw": {
+       "digit": "5"
+      },
+      "alt": "A drawn model of a number, the digit 5"
+     },
+     {
+      "name": "Plus Sign",
+      "say": "Plus Sign",
+      "word": "Plus Sign",
+      "count": 1,
+      "draw": {
+       "sign": "+"
+      },
+      "alt": "A drawn model of a plus sign"
+     },
+     {
+      "name": "Equal Sign",
+      "say": "Equal Sign",
+      "word": "Equal Sign",
+      "count": 1,
+      "draw": {
+       "sign": "="
+      },
+      "alt": "A drawn model of an equal sign"
+     }
+    ]
+   }
+  ],
+  "answerPieces": 10,
+  "steps": [
+   {
+    "where": "🖥️ Before your headset",
+    "title": "Know your models",
+    "html": "<p>In VR, type the gray word in <b>Filter models</b>.</p>@MODELS@<p>This list is also in VR: open your menu, click the <b>Canvas</b> tab, then pick our assignment.</p>"
+   },
+   {
+    "where": "🥽 In VR",
+    "title": "Go in",
+    "html": "<div class=\"vr-how\">🔗 <b>First time only:</b> connect Canvas at <a href=\"https://xr.optimaed.com\" target=\"_blank\" rel=\"noopener\">xr.optimaed.com</a>. The steps are in <b>Having trouble in VR?</b> below.</div><p>Open the <b>On-Demand</b> app. Click <b>Explore</b>. Type <b>Castle</b> in <b>Filter environments</b>. Click <b>Medieval Castle (Day)</b>, then <b>Begin Solo</b>.</p>"
+   },
+   {
+    "title": "Build the floor",
+    "html": "<p>Walk to an open, flat spot. Open your menu (the <b>top button on your right controller</b>) and click <b>Models</b>.</p>@SKETCH@<p><b>Part A:</b> lay down 1 Flat.</p><p><b>Part B:</b> line up 4 Rods side by side. Push them against the back edge of the Flat, on its left side.</p><div class=\"vr-how\">✋ Grab a model with the <b>palm trigger</b>. Keep every piece its real size.</div>",
+    "clip": "build"
+   },
+   {
+    "title": "Write the area with models",
+    "html": "<p>How many small squares cover the whole floor? Find the area of each part. Then add.</p><p>In front of the floor, make a line of models: <b>Part A's area</b>, a <b>Plus Sign</b>, <b>Part B's area</b>, an <b>Equal Sign</b>, then the <b>total</b>.</p><div class=\"vr-say\">🗣 <b>Say it out loud:</b> how did you find the area of each part?</div>"
+   },
+   {
+    "title": "Extra, if you have time",
+    "optional": true,
+    "html": "<p>Slide the 4 Rods to a new spot along the Flat. They must still touch it. Does the floor need the same number of tiles? Why?</p>"
+   },
+   {
+    "title": "Snap or record, then submit",
+    "html": "<p>Stand back so the floor and your answer both fit. Open your menu, click <b>Library</b>, then <b>Camera</b>.</p><p>Take a photo, <b>or</b> switch to <b>Video</b> and record up to 30 seconds.</p><p>Click the <b>Canvas</b> tab and pick <b>@CANVAS@</b>. Click <b>Choose from My Files</b>, pick your photo or video, click <b>Use this file</b>, then <b>Submit to Canvas</b>. Look for the green <b>Submitted</b> tag.</p><p>One photo or one video is the only thing you turn in.</p><div class=\"vr-how\">🔁 Want to fix it? Move the models and submit a new one.</div>"
+   },
+   {
+    "where": "✅ After",
+    "title": "Check and leave",
+    "html": "<p>Press the <b>Meta button</b>, then click <b>Quit</b>. Open the Canvas assignment. Not there? Open <b>Having trouble in VR?</b> below.</p>"
+   }
+  ],
+  "full": "Your photo or video (30 seconds or less) shows the floor with 1 Flat and 4 Rods touching, and your answer in Number models: Part A's area + Part B's area = the total."
+ },
+ "sketch": {
+  "partA": {
+   "x": 0,
+   "y": 10,
+   "w": 10,
+   "h": 10,
+   "piece": "flat",
+   "count": 1,
+   "label": "Part A"
+  },
+  "partB": {
+   "x": 0,
+   "y": 0,
+   "w": 4,
+   "h": 10,
+   "piece": "rod",
+   "count": 4,
+   "label": "Part B"
+  },
+  "total": 140,
+  "parts": [
+   100,
+   40
+  ]
+ },
+ "sketchbook": {
+  "kicker": "Sketchbook Day · no headset",
+  "title": "Tile the floor sketch",
+  "look": "This is Leonardo's <b>sketch</b> of the floor. Each small square on the grid is 1 square unit. A <b>Flat</b> covers 100 small squares. A <b>Rod</b> covers 10.",
+  "do": "Drag or tap the pieces onto the sketch, one part at a time. Then build your equation with the number tiles.",
+  "pieceNames": {
+   "flat": [
+    "Flat",
+    "Flats"
+   ],
+   "rod": [
+    "Rod",
+    "Rods"
+   ]
+  },
+  "eq": {
+   "do": "Build an equation for the whole floor: Part A's area, +, Part B's area, =, the total. Tap a tile, or drag it to the line.",
+   "noPlus": "Show both parts. Put a + between Part A's area and Part B's area.",
+   "notTrue": "Your equation says {eq}. The two sides of the = do not match. Check your adding.",
+   "wrongParts": "Your equation says {eq}. Count the small squares in each part again.",
+   "ok": "Yes! Your equation shows both parts and the whole floor."
+  },
+  "write": {
+   "prompt": "A <b>math paragraph</b> tells how you solved it. Write <b>4 sentences or more (45 words or more)</b>:<ol><li>What did you build, and what is the answer?</li><li>How did you solve it? Use the numbers.</li><li>How do you know it is right?</li><li>Use 2 of our math words.</li></ol>",
+   "min": 45,
+   "sentences": 4,
+   "checks": [
+    {
+     "label": "The answer",
+     "re": "\\b140\\b"
+    },
+    {
+     "label": "How you solved it, with numbers",
+     "re": "^(?=[\\s\\S]*\\b100\\b)(?=[\\s\\S]*\\b40\\b)"
+    },
+    {
+     "label": "How you know it is right",
+     "re": "\\b(because|know|knew|check|checked|counted|count|same|proves?)\\b"
+    },
+    {
+     "label": "2 math words",
+     "words": [
+      "composite figure",
+      "area",
+      "square units",
+      "square unit",
+      "rectangle",
+      "rectangles",
+      "split",
+      "add",
+      "part"
+     ],
+     "need": 2
+    }
+   ],
+   "starters": [
+    "First I",
+    "Then I",
+    "I know it is right because"
+   ],
+   "chips": [
+    "area",
+    "square units",
+    "composite figure",
+    "rectangle",
+    "split",
+    "add",
+    "part"
+   ]
+  },
+  "full": "You tiled both parts and built a true equation for the whole floor. Your paragraph has 4 sentences, 45 words or more, and lights up every check."
+ },
+ "voice": {
+  "brief": "Hello, friend. I did work for Duke Sforza at his castle in Milan. Let's imagine he wants an L-shaped floor. Will you help me plan the tiles?",
+  "build": "Lay down the Flat, then line up four Rods along its back edge. How many small squares cover the whole floor? I wonder.",
+  "sketchbook": "No headset today? Tile the floor in my sketchbook. Then write me a paragraph about how you solved it."
+ }
+}

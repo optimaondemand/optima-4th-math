@@ -1,0 +1,337 @@
+{
+ "source": "dimensions_math_grades_3_5_planning_table.xlsx, Grade 4 rows, 4 days a week, CC and SA count as days",
+ "weeks": {
+  "1": [
+   "4.01.01",
+   "4.01.02",
+   "4.01.03",
+   "4.01.04"
+  ],
+  "2": [
+   "4.01.CC",
+   "4.01.05",
+   "4.01.06",
+   "4.01.07"
+  ],
+  "3": [
+   "4.01.SA",
+   "4.02.01",
+   "4.02.02",
+   "4.02.03"
+  ],
+  "4": [
+   "4.02.CC",
+   "4.02.04",
+   "4.02.05",
+   "4.02.SA"
+  ],
+  "5": [
+   "4.03.01",
+   "4.03.02",
+   "4.03.03",
+   "4.03.CC"
+  ],
+  "6": [
+   "4.03.04",
+   "4.03.05",
+   "4.03.SA",
+   "4.04.01"
+  ],
+  "7": [
+   "4.04.02",
+   "4.04.03",
+   "4.04.CC",
+   "4.04.04"
+  ],
+  "8": [
+   "4.04.05",
+   "4.04.06",
+   "4.04.SA",
+   "4.05.01"
+  ],
+  "9": [
+   "4.05.02",
+   "4.05.CC",
+   "4.05.03",
+   "4.05.04"
+  ],
+  "10": [
+   "4.05.SA",
+   "4.06.01",
+   "4.06.02",
+   "4.06.03"
+  ],
+  "11": [
+   "4.06.CC",
+   "4.06.04",
+   "4.06.05",
+   "4.06.SA"
+  ],
+  "12": [
+   "4.07.01",
+   "4.07.02",
+   "4.07.03",
+   "4.07.CC"
+  ],
+  "13": [
+   "4.07.04",
+   "4.07.05",
+   "4.07.06",
+   "4.07.SA"
+  ],
+  "14": [
+   "4.08.01",
+   "4.08.02",
+   "4.08.03",
+   "4.08.04"
+  ],
+  "15": [
+   "4.08.CC",
+   "4.08.05",
+   "4.08.06",
+   "4.08.07"
+  ],
+  "16": [
+   "4.08.08",
+   "4.08.SA",
+   "4.09.01",
+   "4.09.02"
+  ],
+  "17": [
+   "4.09.03",
+   "4.09.SA",
+   "4.10.01",
+   "4.10.02"
+  ],
+  "18": [
+   "4.10.03",
+   "4.10.04",
+   "4.10.CC",
+   "4.10.05"
+  ],
+  "19": [
+   "4.10.06",
+   "4.10.07",
+   "4.10.SA",
+   "4.11.01"
+  ],
+  "20": [
+   "4.11.02",
+   "4.11.03",
+   "4.11.CC",
+   "4.11.04"
+  ],
+  "21": [
+   "4.11.05",
+   "4.11.SA",
+   "4.12.01",
+   "4.12.02"
+  ],
+  "22": [
+   "4.12.03",
+   "4.12.04",
+   "4.12.CC",
+   "4.12.05"
+  ],
+  "23": [
+   "4.12.06",
+   "4.12.07",
+   "4.12.08",
+   "4.12.SA"
+  ],
+  "24": [
+   "4.13.01",
+   "4.13.02",
+   "4.13.03",
+   "4.13.04"
+  ],
+  "25": [
+   "4.13.CC",
+   "4.13.05",
+   "4.13.06",
+   "4.13.07"
+  ],
+  "26": [
+   "4.13.SA",
+   "4.14.01",
+   "4.14.02",
+   "4.14.03"
+  ],
+  "27": [
+   "4.14.04",
+   "4.14.CC",
+   "4.14.05",
+   "4.14.06"
+  ],
+  "28": [
+   "4.14.07",
+   "4.14.SA",
+   "4.15.01",
+   "4.15.02"
+  ],
+  "29": [
+   "4.15.03",
+   "4.15.CC",
+   "4.15.04",
+   "4.15.05"
+  ],
+  "30": [
+   "4.15.SA",
+   "4.16.01",
+   "4.16.02",
+   "4.16.03"
+  ],
+  "31": [
+   "4.16.CC",
+   "4.16.04",
+   "4.16.05",
+   "4.16.06"
+  ],
+  "32": [
+   "4.16.SA",
+   "4.17.01",
+   "4.17.02",
+   "4.17.03"
+  ],
+  "33": [
+   "4.17.SA"
+  ]
+ },
+ "titles": {
+  "4.01.01": "Numbers to 100,000",
+  "4.01.02": "Numbers to 1,000,000",
+  "4.01.03": "Number Patterns",
+  "4.01.04": "Comparing and Ordering Numbers",
+  "4.01.CC": "Concept Check: Numbers to 1,000,000",
+  "4.01.05": "Rounding 5-Digit Numbers",
+  "4.01.06": "Rounding 6-Digit Numbers",
+  "4.01.07": "Calculations and Place Value",
+  "4.01.SA": "Summative Assessment: Numbers to 1,000,000",
+  "4.02.01": "Addition",
+  "4.02.02": "Subtraction",
+  "4.02.03": "Other Ways to Add and Subtract - Part 1",
+  "4.02.CC": "Concept Check: Addition and Subtraction",
+  "4.02.04": "Other Ways to Add and Subtract - Part 2",
+  "4.02.05": "Word Problems",
+  "4.02.SA": "Summative Assessment: Addition and Subtraction",
+  "4.03.01": "Multiples",
+  "4.03.02": "Common Multiples",
+  "4.03.03": "Factors",
+  "4.03.CC": "Concept Check: Multiples and Factors",
+  "4.03.04": "Prime Numbers and Composite Numbers",
+  "4.03.05": "Common Factors",
+  "4.03.SA": "Summative Assessment: Multiples and Factors",
+  "4.04.01": "Mental Math for Multiplication",
+  "4.04.02": "Multiplying a 1-Digit Number - Part 1",
+  "4.04.03": "Multiplying a 1-Digit Number - Part 2",
+  "4.04.CC": "Concept Check: Multiplication",
+  "4.04.04": "Multiplying by a Multiple of 10",
+  "4.04.05": "Multiplying by a 2-Digit Number - Part 1",
+  "4.04.06": "Multiplying by a 2-Digit Number - Part 2",
+  "4.04.SA": "Summative Assessment: Multiplication",
+  "4.05.01": "Mental Math for Division",
+  "4.05.02": "Estimation and Division",
+  "4.05.CC": "Concept Check: Division",
+  "4.05.03": "Dividing 4-Digit Numbers",
+  "4.05.04": "Word Problems",
+  "4.05.SA": "Summative Assessment: Division",
+  "4.06.01": "Equivalent Fractions",
+  "4.06.02": "Comparing and Ordering Fractions",
+  "4.06.03": "Improper Fractions and Mixed Numbers",
+  "4.06.CC": "Concept Check: Fractions",
+  "4.06.04": "Expressing a Mixed Number as an Improper Fraction",
+  "4.06.05": "Fractions and Division",
+  "4.06.SA": "Summative Assessment: Fractions",
+  "4.07.01": "Adding and Subtracting Fractions - Part 1",
+  "4.07.02": "Adding and Subtracting Fractions - Part 2",
+  "4.07.03": "Adding Mixed Numbers and a Fraction",
+  "4.07.CC": "Concept Check: Adding and Subtracting Fractions",
+  "4.07.04": "Adding Mixed Numbers",
+  "4.07.05": "Subtracting a Fraction from a Mixed Number",
+  "4.07.06": "Subtracting Mixed Numbers",
+  "4.07.SA": "Summative Assessment: Adding and Subtracting Fractions",
+  "4.08.01": "Multiplying a Unit Fraction by a Whole Number",
+  "4.08.02": "Multiplying a Fraction by a Whole Number - Part 1",
+  "4.08.03": "Multiplying a Fraction by a Whole Number - Part 2",
+  "4.08.04": "Fraction of a Set",
+  "4.08.CC": "Concept Check: Multiplying a Fraction by a Whole Number",
+  "4.08.05": "Multiplying a Whole Number by a Fraction - Part 1",
+  "4.08.06": "Multiplying a Whole Number by a Fraction - Part 2",
+  "4.08.07": "Word Problems - Part 1",
+  "4.08.08": "Word Problems - Part 2",
+  "4.08.SA": "Summative Assessment: Multiplying a Fraction by a Whole Number",
+  "4.09.01": "Line Graphs",
+  "4.09.02": "Drawing Line Graphs",
+  "4.09.03": "Line Plots",
+  "4.09.SA": "Summative Assessment: Line Graphs and Line Plots",
+  "4.10.01": "Metric Units of Measurement",
+  "4.10.02": "Customary Units of Length",
+  "4.10.03": "Customary Units of Weight",
+  "4.10.04": "Customary Units of Capacity",
+  "4.10.CC": "Concept Check: Measurement",
+  "4.10.05": "Units of Time",
+  "4.10.06": "Fractions and Measurement - Part 1",
+  "4.10.07": "Fractions and Measurement - Part 2",
+  "4.10.SA": "Summative Assessment: Measurement",
+  "4.11.01": "Area of Rectangles - Part 1",
+  "4.11.02": "Area of Rectangles - Part 2",
+  "4.11.03": "Area of Composite Figures",
+  "4.11.CC": "Concept Check: Area and Perimeter",
+  "4.11.04": "Perimeter - Part 1",
+  "4.11.05": "Perimeter - Part 2",
+  "4.11.SA": "Summative Assessment: Area and Perimeter",
+  "4.12.01": "Tenths - Part 1",
+  "4.12.02": "Tenths - Part 2",
+  "4.12.03": "Hundredths - Part 1",
+  "4.12.04": "Hundredths - Part 2",
+  "4.12.CC": "Concept Check: Decimals",
+  "4.12.05": "Expressing Decimals as a Fraction in Simplest Form",
+  "4.12.06": "Expressing Fractions as Decimals",
+  "4.12.07": "Comparing and Ordering Decimals",
+  "4.12.08": "Rounding Decimals",
+  "4.12.SA": "Summative Assessment: Decimals",
+  "4.13.01": "Adding and Subtracting Tenths",
+  "4.13.02": "Adding Tenths with Regrouping",
+  "4.13.03": "Subtracting Tenths with Regrouping",
+  "4.13.04": "Adding Hundredths",
+  "4.13.CC": "Concept Check: Addition and Subtraction of Decimals",
+  "4.13.05": "Subtracting from 1 and 0.1",
+  "4.13.06": "Subtracting Hundredths",
+  "4.13.07": "Money, Decimals, and Fractions",
+  "4.13.SA": "Summative Assessment: Addition and Subtraction of Decimals",
+  "4.14.01": "Multiplying Tenths and Hundredths",
+  "4.14.02": "Multiplying Decimals by a Whole Number - Part 1",
+  "4.14.03": "Multiplying Decimals by a Whole Number - Part 2",
+  "4.14.04": "Dividing Tenths and Hundredths",
+  "4.14.CC": "Concept Check: Multiplication and Division of Decimals",
+  "4.14.05": "Dividing Decimals by a Whole Number - Part 1",
+  "4.14.06": "Dividing Decimals by a Whole Number - Part 2",
+  "4.14.07": "Dividing Decimals by a Whole Number - Part 3",
+  "4.14.SA": "Summative Assessment: Multiplication and Division of Decimals",
+  "4.15.01": "The Size of Angles",
+  "4.15.02": "Measuring Angles",
+  "4.15.03": "Drawing Angles",
+  "4.15.CC": "Concept Check: Angles",
+  "4.15.04": "Adding and Subtracting Angles",
+  "4.15.05": "Reflex Angles",
+  "4.15.SA": "Summative Assessment: Angles",
+  "4.16.01": "Perpendicular Lines",
+  "4.16.02": "Parallel Lines",
+  "4.16.03": "Drawing Perpendicular and Parallel Lines",
+  "4.16.CC": "Concept Check: Lines and Shapes",
+  "4.16.04": "Quadrilaterals",
+  "4.16.05": "Lines of Symmetry",
+  "4.16.06": "Symmetrical Figures and Patterns",
+  "4.16.SA": "Summative Assessment: Lines and Shapes",
+  "4.17.01": "Cuboids",
+  "4.17.02": "Nets of Cuboids",
+  "4.17.03": "Faces and Edges of Cuboids",
+  "4.17.SA": "Summative Assessment: Properties of Cuboids"
+ },
+ "pilotException": {
+  "20": {
+   "lesson": "4.11.03",
+   "why": "Bethany's call for the pilot only (9 Nov 2026). Rule says 4.11.04."
+  }
+ }
+}
