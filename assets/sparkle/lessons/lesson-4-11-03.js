@@ -222,7 +222,7 @@ function modelProve(m){var S=store('g4-4-11-03-prove'),b=sub(m,'cw-prove-nums');
 }
 function bind(f){return function(m,a){api=a;return f(m);};}
 return {
-  id:'4.11.03', key:'g4-4-11-03', title:'Area of Composite Figures', unit:11, level:'Leonardo\'s Workshop', standard:'MA.4.GR.2.1', boss:null,
+  id:'4.11.03', key:'g4-4-11-03', title:'Area of Composite Figures', unit:11, level:'Leonardo\'s Workshop', standard:'MA.3.GR.2.4', boss:null,
   problem:{title:'See the Rectangles',text:'In each job, the shape is not one plain rectangle. Leonardo finds the rectangles inside it. Each job below uses today\'s math.',jobWord:'Workshop job',jobsTitle:'Workshop jobs'},
   jobs:[
     {id:'j1',t:'Find the gold for the mirror\'s border',w:'Warm-Up · The Duke\'s Mirror',go:'#mk-think',tab:'warmup',coins:0},

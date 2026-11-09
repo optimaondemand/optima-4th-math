@@ -580,7 +580,7 @@ function modelBonus(m){
 }
 function bind(f){return function(m,a){api=a;return f(m);};}
 return {
-  id:'4.10.06', key:'g4-4-10-06', title:'Fractions and Measurement', unit:10, level:'Metric Market', standard:'MA.4.M.2.1', boss:null,
+  id:'4.10.06', key:'g4-4-10-06', title:'Fractions and Measurement', unit:10, level:'Metric Market', standard:'MA.4.M.1.2', boss:null,
   problem:{title:'Hang the Night Market Lanterns',text:'Lantern-keeper Ivy has ribbons to cut, tea to weigh and oil to pour, and every tag is a fraction of a unit. Each job below uses today\'s math. Finish all six and the lanterns light the way to the Smudge\'s factory.',jobWord:'Lantern job',jobsTitle:'Lantern jobs'},
   jobs:[
     {id:'j1',t:'Cut the foot',w:'Warm-Up · Cut the Foot',go:'#mk-cut',tab:'warmup',r:'-2deg',coins:5},

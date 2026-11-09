@@ -542,7 +542,7 @@ function modelBonus(m){
 }
 function bind(f){return function(m,a){api=a;return f(m);};}
 return {
-  id:'4.10.05', key:'g4-4-10-05', title:'Units of Time', unit:10, level:'Metric Market', standard:'MA.4.M.2.1', boss:null,
+  id:'4.10.05', key:'g4-4-10-05', title:'Units of Time', unit:10, level:'Metric Market', standard:'MA.4.M.1.2', boss:null,
   problem:{title:'Restart the Clock Tower',text:'The Smudge stopped the Clock Tower, and the trains are all mixed up. Each job below uses today\'s math. Finish all six and the clock can tell us when the Golem comes.',jobWord:'Tower job',jobsTitle:'Tower jobs'},
   jobs:[
     {id:'j1',t:'Wind the clock',w:'Warm-Up · Wind the Clock',go:'#mk-wind',tab:'warmup',r:'-2deg',coins:5},
