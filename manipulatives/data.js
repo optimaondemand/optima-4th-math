@@ -352,7 +352,7 @@ window.OAOM_DATA = (function () {
       L: {
         '3.09.02': [T('numberline', { a: 0, b: 2, parts: 10, mode: 'frac', lab: 'ends' }, 'Put dots on two fifths and on seven fifths.', 'Fractions greater than 1 on the line.')],
         '3.09.03': [T('fbars', { d: [12], lab: 1 }, 'Shade 5 twelfths in one bar and 11 twelfths in the other. Which is more?', 'Same denominator: compare the number of pieces.')],
-        '3.09.04': [T('fbars', { d: [3, 5, 8], lab: 1 }, 'Shade 2 tiles in each row. Which row shows the most?', 'Same numerator: bigger pieces make the bigger fraction.')]
+        '3.09.04': [T('fbars', { d: [8, 10, 12], lab: 1 }, 'Shade 5 tiles in each row. Which row shows the most?', 'Same numerator: bigger pieces make the bigger fraction.')]
       } },
     '3.10': { name: 'Fractions, Part 2', tools: [
       T('fbars', { d: [3, 6], lab: 1 }, 'Shade 1 third. How many sixths line up with it?', 'Use the line-up guide to prove equivalence.'),
