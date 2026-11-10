@@ -65,7 +65,7 @@ P.guideEnter=function(){var gw=guideWho();if(!gw||this.guideIn||(this.def.people
   if(window.CWGUIDE&&CWGUIDE.enterWindow)CWGUIDE.enterWindow(this.slot,walk);else walk();};
 P.guideBack=function(){var gw=guideWho();if(!gw||this.guideIn||!this.wanted)return;this.guideIn=true;this.people[gw]={x:POS[gw].x,to:POS[gw].x};this.draw();};  /* scrolled back to a window he was in */
 P.guideLeave=function(){if(this.audio)try{this.audio.pause();}catch(e){}var gw=guideWho();if(!gw||!this.guideIn)return;this.guideIn=false;delete this.people[gw];this.draw();};
-P.start=function(){var self=this;this.guideIn=false;this.reset();this.guideEnter();this.running=true;this.cover.hidden=true;this.again.hidden=false;this.el.classList.add('playing');
+P.start=function(){var self=this;this.guideIn=false;this.reset();this.unlock();this.guideEnter();this.running=true;this.cover.hidden=true;this.again.hidden=false;this.el.classList.add('playing');
   this.el.classList.remove('cine');this.titleEl.classList.add('on');try{this.el.focus({preventScroll:true});}catch(e){}
   setTimeout(function(){self.el.classList.add('cine');},200);
   setTimeout(function(){self.titleEl.classList.remove('on');},reduce?900:2400);
@@ -146,7 +146,10 @@ P.say=function(who,text,opts,done){opts=opts||{};var self=this,i=0;
   this.skip=fin;
   if(reduce){fin();return;}
   this.typing=setInterval(function(){i++;self.tx.textContent=text.slice(0,i);if(face&&i%3===0)A.portrait(self.por,who,(i/3)%2);if(i>=text.length)fin();},30);};
-P.play=function(clip){try{var f=D.voice.clips[clip];if(!f)return;if(this.audio)this.audio.pause();this.audio=new Audio(D.voice.dir.replace(/\/$/,'')+'/'+f);this.audio.play().catch(function(){});}catch(e){}};
+P.play=function(clip){try{var f=D.voice.clips[clip];if(!f)return;var a=this.audio||(this.audio=new Audio());a.pause();a.src=D.voice.dir.replace(/\/$/,'')+'/'+f;var pr=a.play();if(pr&&pr.catch)pr.catch(function(){});}catch(e){}};
+/* iPad / Safari only lets an audio element play after a tap on it has played once. Lines often start on a timer (someone
+   walks in, a reply), so the play press unlocks ONE element with a silent clip and every line reuses it (audit, 10 Nov 2026) */
+P.unlock=function(){try{if(!D.voice||this._unl)return;this._unl=1;var a=this.audio||(this.audio=new Audio());a.src='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';var pr=a.play();if(pr&&pr.catch)pr.catch(function(){});}catch(e){}};
 /* the Mr. Rogers pause: ask, lean in, wait; Continue only after a few quiet seconds */
 P.wonder=function(prompt,done){var self=this;this.lock=true;this.wd.classList.add('on');this.wdt.textContent='Take a moment to wonder.';
   this.dimT=.18;var L=this.people.leo;this.camTo(L?L.x:160,128,1.12);

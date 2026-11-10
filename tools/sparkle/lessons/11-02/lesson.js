@@ -259,7 +259,7 @@ function modelFree(m){
     sym:function(n,s){return 'Tiles laid: <b>'+n+'</b>'+(s.rect&&n?' · a rectangle '+s.w+' in by '+s.h+' in':'');}});
 }
 function modelBonus(m){
-  OAOKit.challenge(m,{key:'g4-4-11-02-bonus',title:'Bonus quest (optional): the long panel',
+  OAOKit.challenge(m,{key:'g4-4-11-02-bonus',title:'Bonus (optional): the long panel',
     text:'<p>A panel covers <strong>36 square inches</strong>. Its length is <strong>4 times</strong> its width. Both sides are whole inches. How long is the panel?</p><p>Type the length in inches.</p>',
     answer:12,unit:'in',hint:'List the rectangles with an area of 36: 1 by 36, 2 by 18, 3 by 12, 4 by 9, 6 by 6. Which one has a length 4 times its width?',
     explain:'<p>Try the pairs that multiply to 36. For 3 by 12, 3 × 4 = 12, so the length is 4 times the width. The panel is <strong>12 inches</strong> long and 3 inches wide. Check: 12 × 3 = 36. ✓</p>'});

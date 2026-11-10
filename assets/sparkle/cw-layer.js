@@ -588,7 +588,8 @@ return {init:init,earn:earn,spend:spend,wallet:function(){return W;},saveWallet:
     $$('[data-mk-model="mental"]').forEach(function (m) {
       if (m.querySelector('.cw-order') || !m.querySelector('.mm-sm')) return;
       var first = m.querySelector('.mm-p') || m.querySelector('.mm-sm').closest('div');
-      var o = el('p', 'cw-order', '<b>👉 Your turn, one problem at a time:</b> 1. Fill in the number bond. 2. Multiply each part. 3. Type the answer and press <b>Check</b>.');
+      var verb = /÷/.test(m.textContent) ? 'Divide' : 'Multiply';   /* the card's own operation (4.11.02 divides) */
+      var o = el('p', 'cw-order', '<b>👉 Your turn, one problem at a time:</b> 1. Fill in the number bond. 2. ' + verb + ' each part. 3. Type the answer and press <b>Check</b>.');
       var ex = m.querySelector('.mm-card'); (ex && ex.nextSibling ? ex.parentNode.insertBefore(o, ex.nextSibling) : m.insertBefore(o, first));
     });
   }

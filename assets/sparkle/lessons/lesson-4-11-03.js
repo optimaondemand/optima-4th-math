@@ -210,7 +210,7 @@ function modelFix(m){
     doneText:'The frame really needs 80 sheets, not 36.',onDone:function(r){setJob('j5',r);}});
 }
 function modelBonus(m){
-  OAOKit.challenge(m,{key:'g4-4-11-03-bonus',title:'Bonus quest (optional): two borders',
+  OAOKit.challenge(m,{key:'g4-4-11-03-bonus',title:'Bonus (optional): two borders',
     text:'<p>A small mirror is <strong>6 in</strong> by <strong>3 in</strong>. A border <strong>1 in</strong> wide goes around it. Then a second border, also <strong>1 in</strong> wide, goes around the first border.</p><p>How many gold sheets does the <strong>second</strong> border need?</p>',
     answer:30,unit:'sheets',hint:'Find the size after the first border: 1 + 6 + 1 by 1 + 3 + 1. Then add 1 inch on every side again. The second border is the biggest rectangle minus the middle one.',
     explain:'<p>After the first border, the whole thing is 8 in by 5 in = 40 square inches. After the second border, it is 10 in by 7 in = 70 square inches. The second border is <strong>70 − 40 = 30</strong> sheets.</p>'});

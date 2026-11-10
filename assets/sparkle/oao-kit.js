@@ -375,11 +375,11 @@ function challenge(m,cfg){
   m.innerHTML='<details class="ch-card"'+(st.done?' open':'')+'><summary><span class="ch-star">★</span> '+esc(cfg.title||'Bonus quest')+' <span class="ch-opt">optional · for when you want a harder one</span></summary>'+
     '<div class="ch-body"><div class="ch-text">'+cfg.text+'</div><form class="ch-form"><input type="text" inputmode="numeric" autocomplete="off" aria-label="Bonus answer" value="'+esc(st.ans)+'">'+(cfg.unit?'<span class="bm-u">'+esc(cfg.unit)+'</span>':'')+'<button type="submit" class="ok-btn">Check</button><button type="button" class="ok-btn ch-hint" hidden>Hint</button></form><div class="ok-msg" aria-live="polite"></div><div class="ch-explain"'+(st.done?'':' hidden')+'>'+(cfg.explain||'')+'</div></div></details>';
   var f=$('form',m),inp=$('input',f),msg=$('.ok-msg',m),hb=$('.ch-hint',m),exp=$('.ch-explain',m);
-  if(st.done){inp.disabled=true;msg.className='ok-msg good';msg.textContent='Bonus quest complete!';}
+  if(st.done){inp.disabled=true;msg.className='ok-msg good';msg.textContent=(/quest/i.test(cfg.title||'Bonus quest')?'Bonus quest complete!':'Bonus complete!');}
   if(st.miss&&!st.done)hb.hidden=false;
   hb.onclick=function(){msg.className='ok-msg hint';msg.textContent=cfg.hint||'';};
   f.onsubmit=function(e){e.preventDefault();var v=num(inp.value);st.ans=inp.value;lsSet(cfg.key,st);if(v==null){msg.className='ok-msg hint';msg.textContent='Type a number.';return;}
-    if([cfg.answer].concat(cfg.accept||[]).some(function(a){return num(a)===v;})){st.done=true;lsSet(cfg.key,st);snd.done();inp.disabled=true;msg.className='ok-msg good';msg.textContent='Bonus quest complete!';exp.hidden=false;if(cfg.onDone)cfg.onDone(m);}
+    if([cfg.answer].concat(cfg.accept||[]).some(function(a){return num(a)===v;})){st.done=true;lsSet(cfg.key,st);snd.done();inp.disabled=true;msg.className='ok-msg good';msg.textContent=(/quest/i.test(cfg.title||'Bonus quest')?'Bonus quest complete!':'Bonus complete!');exp.hidden=false;if(cfg.onDone)cfg.onDone(m);}
     else{st.miss=(st.miss||0)+1;lsSet(cfg.key,st);snd.no();hb.hidden=false;msg.className='ok-msg hint';msg.textContent='Not yet. Try again, or tap Hint.';}};
   return {state:st};
 }

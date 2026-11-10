@@ -56,6 +56,7 @@ FL = FL.replace('Warm up your fact fluency before today’s lesson. Work through
 FL = FL.replace('data-label="Fluency Warm-Up (Fact Families — All Four Operations)"', 'data-label="Fact Warm-Up (Division Facts)"')
 s = s.replace('var FLUENCY_TITLE = "Fact Families — All Four Operations";', 'var FLUENCY_TITLE = "Division Facts";')
 s = s.replace('onclick="switchTab(\'learn\')">📐 Learn ', 'onclick="switchTab(\'learn\')">📐 Lesson ')
+s = s.replace('<em>Area of Rectangles — Part 2</em>', '<em>Area of Rectangles, Part 2</em>')   # no em dash in the student title (audit, 10 Nov 2026)
 
 def grab(marker):
     i = s.index(marker); return s[i:block_end(s, i)]

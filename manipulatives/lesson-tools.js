@@ -86,6 +86,7 @@
       var t = q.textContent.replace(/[=\s]/g, ''), a, b, mm;
       if ((mm = /^(\d+)[×x\*](\d+)$/.exec(t))) { a = +mm[1]; b = +mm[2]; }
       else if ((mm = /^(\d+)÷(\d+)$/.exec(t))) { b = +mm[2]; a = b ? +mm[1] / b : 0; }
+      else if ((mm = /^(\d+)[×x\*]_+(\d+)$/.exec(t))) { a = +mm[1]; b = a ? +mm[2] / a : 0; }   /* 6 × ___ = 48 */
       else return;
       if (a === b) return;
       [a, b].forEach(function (k) { if (k >= 2 && k <= 12 && k === Math.floor(k)) n[k] = (n[k] || 0) + 1; });

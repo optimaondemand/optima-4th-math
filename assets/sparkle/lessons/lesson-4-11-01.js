@@ -271,7 +271,7 @@ function modelFree(m){
     sym:function(n,s){return 'Tiles laid: <b>'+n+'</b>'+(s.rect&&n?' · a rectangle '+s.w+' in by '+s.h+' in':'');}});
 }
 function modelBonus(m){
-  OAOKit.challenge(m,{key:'g4-4-11-01-bonus',title:'Bonus quest (optional): cut the gold',
+  OAOKit.challenge(m,{key:'g4-4-11-01-bonus',title:'Bonus (optional): cut the gold',
     text:'<p>Hazel has one big sheet of gold, <strong>1 ft</strong> long and <strong>6 in</strong> wide. Leonardo needs small pieces that are <strong>3 in</strong> long and <strong>2 in</strong> wide. What is the greatest number of small pieces Hazel can cut from the big sheet?</p><p>Type the number of pieces.</p>',
     answer:12,unit:'pieces',hint:'Change 1 ft to inches first. How many 3-inch pieces fit along the 12-inch side? How many 2-inch pieces fit along the 6-inch side?',
     explain:'<p>1 ft = 12 in. Along the 12-inch side, 12 ÷ 3 = 4 pieces fit. Along the 6-inch side, 6 ÷ 2 = 3 pieces fit. 4 × 3 = <strong>12 pieces</strong>. Check with area: the big sheet is 12 × 6 = 72 square inches, each piece is 3 × 2 = 6 square inches, and 12 × 6 = 72. Nothing is left over.</p>'});
