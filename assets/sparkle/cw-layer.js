@@ -593,35 +593,28 @@ return {init:init,earn:earn,spend:spend,wallet:function(){return W;},saveWallet:
     });
   }
 
-  /* ❓ How this works: a pill in the header opens a small panel (video when it exists + the tour) */
+  /* ▶ Start here (Bethany, 10 Nov 2026): not a small pill in the banner. A drawer at the very top of the lesson,
+     before the Essential Question, with Opti's how-to video and the tour. Open on a first visit; after that it stays
+     closed unless the student opens it (the browser remembers). */
   function howTo() {
-    var tools = $('.pq-hdr-tools'); if (!tools || $('.cw-howchip')) return;
-    var chip = el('button', 'pq-pill cw-howchip', '❓ How this works'); chip.type = 'button'; chip.setAttribute('aria-expanded', 'false');
-    tools.appendChild(chip);
-    var pane = el('div', 'cw-howpane'); pane.hidden = true;
-    pane.innerHTML = '<div class="hv" hidden><video controls playsinline preload="metadata"></video></div>' +
-      '<p class="ht">New to these lessons? Take a quick tour. Opti shows you where to click.</p>' +
-      '<div class="cw-row"><button type="button" class="cw-tbtn gold tour-go">🧭 Show me around</button><button type="button" class="cw-tbtn ghost how-x">Close</button></div>';
-    $('.header').appendChild(pane);
-    var v = $('video', pane), hv = $('.hv', pane);
-    v.addEventListener('loadedmetadata', function () { hv.hidden = false; $('.ht', pane).textContent = 'Watch Opti show how a lesson works. Or take the tour and click along.'; });
-    v.src = VID; v.poster = VID.replace(/\.mp4$/, '.jpg');
-    function open(o) { pane.hidden = !o; chip.setAttribute('aria-expanded', o); if (!o && !v.paused) v.pause(); }
-    chip.addEventListener('click', function () { open(pane.hidden); });
-    $('.how-x', pane).addEventListener('click', function () { open(false); });
-    $('.tour-go', pane).addEventListener('click', function () { open(false); tour(); });
+    if ($('.cw-start')) return;
     var seen = false; try { seen = !!localStorage.getItem(SEEN); } catch (e) {}
-    var first = $('#tab-warmup') || $('.tab-panel');
-    if (!seen && first) {
-      var n = el('div', 'cw-newhere', '<span class="ow">🧭</span><div><b>New to these lessons?</b> Watch Opti for 1 minute, or take the tour. It shows you what to click.</div>' +
-        '<button type="button" class="cw-tbtn gold watch">▶ Watch how</button><button type="button" class="cw-tbtn gold go">Show me around</button><button type="button" class="cw-tbtn ghost no">No thanks</button>');
-      $('.watch', n).hidden = true; v.addEventListener('loadedmetadata', function () { $('.watch', n).hidden = false; });
-      first.insertBefore(n, first.firstChild);
-      function done() { n.remove(); try { localStorage.setItem(SEEN, '1'); } catch (e) {} }
-      $('.watch', n).addEventListener('click', function () { done(); open(true); toTop(); try { v.play(); } catch (e) {} });
-      $('.go', n).addEventListener('click', function () { done(); tour(); });
-      $('.no', n).addEventListener('click', done);
-    }
+    var d = el('details', 'cw-start');
+    d.innerHTML = '<summary><span class="cw-start-t"><b>▶ Start here:</b> how this works</span><span class="cw-start-s">New to these lessons? Watch Opti for 1 minute.</span></summary>' +
+      '<div class="cw-start-b"><div class="hv" hidden><video controls playsinline preload="metadata"></video></div>' +
+      '<p class="ht">Watch Opti show how a lesson works. Or take the tour and click along.</p>' +
+      '<div class="cw-row"><button type="button" class="cw-tbtn gold tour-go">🧭 Show me around</button><button type="button" class="cw-tbtn ghost how-x">Close</button></div></div>';
+    var intro = $('details.pq-intro'), key = $('.cw-key'), hdr = $('.header');
+    var at = intro || (key ? key.nextSibling : hdr && hdr.nextSibling);
+    if (!at || !at.parentNode) return; at.parentNode.insertBefore(d, at);
+    d.open = !seen;
+    var v = $('video', d), hv = $('.hv', d);
+    v.addEventListener('loadedmetadata', function () { hv.hidden = false; });
+    v.addEventListener('play', function () { try { localStorage.setItem(SEEN, '1'); } catch (e) {} });
+    v.src = VID; v.poster = VID.replace(/\.mp4$/, '.jpg');
+    d.addEventListener('toggle', function () { if (!d.open) { if (!v.paused) v.pause(); try { localStorage.setItem(SEEN, '1'); } catch (e) {} } });
+    $('.how-x', d).addEventListener('click', function () { d.open = false; });
+    $('.tour-go', d).addEventListener('click', function () { d.open = false; tour(); });
   }
 
   function owl() {
@@ -631,8 +624,7 @@ return {init:init,earn:earn,spend:spend,wallet:function(){return W;},saveWallet:
   }
   /* the tour: a ring around one thing at a time, Opti's note right under it (Warm-Up tab) */
   function tour() {
-    $$('.cw-newhere').forEach(function (n) { n.remove(); });
-    var t0 = ($('.tab-btn') || { dataset: {} }).dataset.tab; if (t0 && window.switchTab) window.switchTab(t0);
+        var t0 = ($('.tab-btn') || { dataset: {} }).dataset.tab; if (t0 && window.switchTab) window.switchTab(t0);
     function vis(sel) { return $$(sel).filter(shown)[0]; }
     var S = [
       ['.tab-bar', 'Your lesson has 3 tabs. Do them in order: <b>Warm-Up</b>, then <b>Lesson</b>, then <b>Show What You Know</b>.'],
