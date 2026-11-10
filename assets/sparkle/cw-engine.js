@@ -47,7 +47,7 @@ function Win(slot,id,def){
   q('.cw-stage').addEventListener('click',function(e){if(e.target.closest('.cw-tools,.cw-cover'))return;if(self.exploring){self.hit(e);return;}self.advance();});
   this.dlg.addEventListener('click',function(e){if(e.target.closest('button'))return;self.advance();});
   this.el.addEventListener('keydown',function(e){if((e.key===' '||e.key==='Enter')&&!(e.target.closest&&e.target.closest('button'))){e.preventDefault();self.advance();}});
-  this.cv.addEventListener('mousemove',function(e){if(!self.exploring){self.cv.style.cursor='';return;}var p=self.xy(e);self.cv.style.cursor=self.spotAt(p)?'pointer':'';});
+  this.cv.addEventListener('mousemove',function(e){if(!self.exploring){self.cv.style.cursor='';return;}var p=self.xy(e),sp=self.spotAt(p);self.cv.style.cursor=sp&&!self.visited[sp.id]?'pointer':'';});
   if(done){this.showEnd(true);this.cover.querySelector('span').textContent='Watch again';}
   if(window.IntersectionObserver){new IntersectionObserver(function(es){es.forEach(function(e){self.vis=e.isIntersecting&&!!self.slot.offsetParent;});}).observe(slot);}   /* only draw what's on screen (audit) */
   this.draw();Win.all.push(this);
@@ -173,16 +173,17 @@ P.xy=function(e){var r=this.cv.getBoundingClientRect();return {x:(e.clientX-r.le
 P.spotAt=function(p){return (this.def.spots||[]).filter(function(s){return p.x>=s.x&&p.x<=s.x+s.w&&p.y>=s.y&&p.y<=s.y+s.h;})[0];};
 P.explore=function(cfg,done){var self=this;this.exNeed=cfg.need||2;this.exDone=done;this.exploring=true;this.exTask();
   // keyboard and screen-reader users get buttons for the same things
-  var kb=document.createElement('div');kb.className='cw-kb';(this.def.spots||[]).forEach(function(s){var b=document.createElement('button');b.type='button';b.dataset.spot=s.id;b.textContent=s.label||s.id;b.onclick=function(ev){ev.stopPropagation();self.open(s);};kb.appendChild(b);});
+  var kb=document.createElement('div');kb.className='cw-kb';(this.def.spots||[]).forEach(function(s){var b=document.createElement('button');b.type='button';b.dataset.spot=s.id;b.textContent=s.label||s.id;b.onclick=function(ev){ev.stopPropagation();if(!self.visited[s.id])self.open(s);};kb.appendChild(b);});
   this.task.appendChild(kb);};
 P.exTask=function(){var n=Object.keys(this.visited).length,need=this.exNeed,self=this;this.dlg.classList.add('on','tasking');this.task.classList.add('on');
   var kb=this.task.querySelector('.cw-kb');this.task.innerHTML='<span class="lead">👉 Your turn</span>'+(this.def.exploreText||'Click the things that glow gold to look up close.')+' <span class="prog">'+Math.min(n,need)+' of '+need+'</span>';
-  if(n>=need){var b=document.createElement('button');b.type='button';b.className='cw-go';b.textContent='Go on';
+  if(n>=need){var b=document.createElement('button');b.type='button';b.className='cw-go ready';b.textContent='Go on ▶';setTimeout(function(){try{b.focus({preventScroll:true});}catch(x){}},60);
     b.onclick=function(ev){ev.stopPropagation();self.exploring=false;self.task.classList.remove('on');var f=self.exDone;self.exDone=null;f&&f();};
     var d=document.createElement('div');d.appendChild(b);if(n<(this.def.spots||[]).length)this.task.insertAdjacentHTML('beforeend',' You can look at one more, or go on.');this.task.appendChild(d);}
   if(kb)this.task.appendChild(kb);};
-P.hit=function(e){var s=this.spotAt(this.xy(e));if(s)this.open(s);};
-P.open=function(s){if(this.busy)return;var self=this;this.busy=true;this.visited[s.id]=1;var kbb=this.task.querySelector('.cw-kb [data-spot="'+s.id+'"]');if(kbb){kbb.classList.add('seen');kbb.textContent='✓ '+(s.label||s.id);}this.exploring=false;this.task.classList.remove('on');
+/* a seen spot stays seen: a second click never restarts it (pilot feedback, 10 Nov 2026: "it went back to the 1×1 square") */
+P.hit=function(e){var s=this.spotAt(this.xy(e));if(s&&!this.visited[s.id])this.open(s);};
+P.open=function(s){if(this.busy)return;var self=this;this.busy=true;this.visited[s.id]=1;var kbb=this.task.querySelector('.cw-kb [data-spot="'+s.id+'"]');if(kbb){kbb.classList.add('seen');kbb.disabled=true;kbb.textContent='✓ '+(s.label||s.id);}this.exploring=false;this.task.classList.remove('on');
   this.camTo(s.x+s.w/2,s.y+s.h/2,s.zoom||1.8);if(s.card){this.card.innerHTML=s.card;this.card.classList.add('on');}
   this.run(s.lines.map(function(l){return typeof l==='string'?{w:'leo',t:l}:l;}),function(){self.card.classList.remove('on');self.camTo();self.busy=false;self.exploring=true;self.exTask();});};
 

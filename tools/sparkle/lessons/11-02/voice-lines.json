@@ -71,9 +71,29 @@
     "who": "leo",
     "t": "A border is not one plain rectangle. That is a puzzle for next time.",
     "key": "30c1d4bd"
+   },
+   {
+    "who": "leo",
+    "t": "These are the new floor tiles for the storeroom.",
+    "key": "9d75a2f8"
+   },
+   {
+    "who": "leo",
+    "t": "Each tile is a square, 1 foot on every side.",
+    "key": "8e528194"
+   },
+   {
+    "who": "leo",
+    "t": "My drawing of the storeroom floor.",
+    "key": "5e19c7ed"
+   },
+   {
+    "who": "leo",
+    "t": "One side is 7 feet. The other side has a question mark.",
+    "key": "447d96e1"
    }
   ],
-  "prompt": "Welcome back, my helper! The Duke's gold panels are finished. Now they need a safe room to stay in. <break time=\"1.5s\" /> We are putting a new floor in the storeroom. Look around. <break time=\"1.5s\" /> Hmm. We know the tiles and one side. Can the tiles tell us the other side? <break time=\"1.5s\" /> Maybe! 56 is a lot of tiles. <break time=\"1.5s\" /> Interesting. We'll have to check. <break time=\"1.5s\" /> A square room? That would be tidy. Let's see. <break time=\"1.5s\" /> Good. \"Not sure yet\" is a fine place to start. <break time=\"1.5s\" /> One row across the room takes 7 tiles. <break time=\"1.5s\" /> Let's find out how long the floor is. <break time=\"1.5s\" /> 576 inches? That is longer than this whole workshop. <break time=\"1.5s\" /> Your times table is right, my friend. But is times the right thing to do here? <break time=\"1.5s\" /> I think I see it. Do you? <break time=\"1.5s\" /> Because you knew the area and one side, and you found the other side. <break time=\"1.5s\" /> A border is not one plain rectangle. That is a puzzle for next time."
+  "prompt": "Welcome back, my helper! The Duke's gold panels are finished. Now they need a safe room to stay in. <break time=\"1.5s\" /> We are putting a new floor in the storeroom. Look around. <break time=\"1.5s\" /> Hmm. We know the tiles and one side. Can the tiles tell us the other side? <break time=\"1.5s\" /> Maybe! 56 is a lot of tiles. <break time=\"1.5s\" /> Interesting. We'll have to check. <break time=\"1.5s\" /> A square room? That would be tidy. Let's see. <break time=\"1.5s\" /> Good. \"Not sure yet\" is a fine place to start. <break time=\"1.5s\" /> One row across the room takes 7 tiles. <break time=\"1.5s\" /> Let's find out how long the floor is. <break time=\"1.5s\" /> 576 inches? That is longer than this whole workshop. <break time=\"1.5s\" /> Your times table is right, my friend. But is times the right thing to do here? <break time=\"1.5s\" /> I think I see it. Do you? <break time=\"1.5s\" /> Because you knew the area and one side, and you found the other side. <break time=\"1.5s\" /> A border is not one plain rectangle. That is a puzzle for next time. <break time=\"1.5s\" /> These are the new floor tiles for the storeroom. <break time=\"1.5s\" /> Each tile is a square, 1 foot on every side. <break time=\"1.5s\" /> My drawing of the storeroom floor. <break time=\"1.5s\" /> One side is 7 feet. The other side has a question mark."
  },
  "bern": {
   "voice_id": "EvqbdCtmQVi46OVEHwYm",

@@ -2,6 +2,7 @@
 """Character voices for one lesson's game dialog.
 
   python3 tools/sparkle/voice/voice.py lines 10-01            # list every voiced line, write lessons/10-01/voice-lines.json
+  python3 tools/sparkle/voice/voice.py lines 10-01 --missing  # only lines with no clip yet (a top-up take)
   python3 tools/sparkle/voice/voice.py split 10-01 mo take.mp3  # cut one character's take into clips (lines in order), update voice.json
 
 How a take is made: one ElevenLabs generation per character with all of that character's lines in order,
@@ -30,6 +31,13 @@ def lines(code):
         for m in re.finditer(r"\{w:'([\w-]+)',t:'((?:[^'\\]|\\.)*)'", js):
             t = unesc(m.group(2)); k = key(m.group(1), t)
             if k not in seen: seen.add(k); out.append({'who': m.group(1), 't': t, 'key': k})
+        # explore-spot lines written as plain strings (lines:['…']) are the guide's too: the engine plays them as {w:'leo'}.
+        # Missed before 10 Nov 2026, so every spot went silent after the first scene (pilot-week feedback).
+        g = re.search(r"guide:\{who:'([\w-]+)'", js); gw = g.group(1) if g else 'leo'
+        for arr in re.finditer(r"lines:\[((?:\s*(?:'(?:[^'\\]|\\.)*'|\{[^{}]*\})\s*,?)*)\s*\]", js):
+            for m in re.finditer(r"(?:^|,)\s*'((?:[^'\\]|\\.)*)'", arr.group(1)):
+                t = unesc(m.group(1)); k = key(gw, t)
+                if k not in seen: seen.add(k); out.append({'who': gw, 't': t, 'key': k})
         return out
     def add(who, t):
         k = key(who, t)
@@ -70,8 +78,14 @@ def spoken(t):
     t = t.replace('→', '').replace('↓', '').replace('____', 'blank').strip()
     return t[:1].upper() + t[1:]
 
-def cmd_lines(code):
+def have(code):
+    vp = os.path.join(REPO, 'tools/sparkle/lessons', code, 'voice.json')
+    return json.load(open(vp, encoding='utf8')).get('clips', {}) if os.path.exists(vp) else {}
+
+def cmd_lines(code, missing=False):
+    """missing=True (voice.py lines 11-01 --missing): plan only the lines with no clip yet, so a top-up take splits cleanly."""
     L = lines(code); by = {}
+    if missing: H = have(code); L = [l for l in L if l['key'] not in H]
     for l in L:
         sp = speaker(l['who'])
         if sp: by.setdefault(sp, []).append(l)
@@ -155,7 +169,7 @@ def cmd_cutat(code, sp, take, starts):
 
 if __name__ == '__main__':
     a = sys.argv[1:]
-    if a[0] == 'lines': cmd_lines(a[1])
+    if a[0] == 'lines': cmd_lines(a[1], '--missing' in a)
     elif a[0] == 'split': cmd_split(a[1], a[2], a[3])
     elif a[0] == 'one': cmd_one(a[1], a[2], a[3], a[4])
     elif a[0] == 'cutat': cmd_cutat(a[1], a[2], a[3], a[4])

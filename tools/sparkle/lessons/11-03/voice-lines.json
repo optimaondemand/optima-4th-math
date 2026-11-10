@@ -66,9 +66,24 @@
     "who": "leo",
     "t": "A fence does not cover the garden. It goes around the edge. That is a new puzzle for next time.",
     "key": "a1bdb82d"
+   },
+   {
+    "who": "leo",
+    "t": "This is the Duke's new mirror.",
+    "key": "1864bdc8"
+   },
+   {
+    "who": "leo",
+    "t": "It is 8 inches long and 6 inches wide.",
+    "key": "d2c43ea8"
+   },
+   {
+    "who": "leo",
+    "t": "Our gold sheets. Each one is a square, 1 inch on every side.",
+    "key": "4c7b44d8"
    }
   ],
-  "prompt": "Buongiorno, my helper! Look what came today. <break time=\"1.5s\" /> The gold goes around the mirror, not on top of it. The glass stays clear. <break time=\"1.5s\" /> Maybe! A border goes all the way around. <break time=\"1.5s\" /> Hmm. The mirror is big. We'll have to check. <break time=\"1.5s\" /> The same? That would be a surprise. Let's see. <break time=\"1.5s\" /> Good. \"Not sure yet\" is a fine place to start. <break time=\"1.5s\" /> The border is 2 inches wide on every side. <break time=\"1.5s\" /> Let's find out how many gold sheets the border needs. <break time=\"1.5s\" /> You took the painting away. Good. That is the right idea. <break time=\"1.5s\" /> Your math is right, my friend. But look at the frame. <break time=\"1.5s\" /> I think I see it. Do you? <break time=\"1.5s\" /> Because you found the whole size first, then took the mirror away. <break time=\"1.5s\" /> A fence does not cover the garden. It goes around the edge. That is a new puzzle for next time."
+  "prompt": "Buongiorno, my helper! Look what came today. <break time=\"1.5s\" /> The gold goes around the mirror, not on top of it. The glass stays clear. <break time=\"1.5s\" /> Maybe! A border goes all the way around. <break time=\"1.5s\" /> Hmm. The mirror is big. We'll have to check. <break time=\"1.5s\" /> The same? That would be a surprise. Let's see. <break time=\"1.5s\" /> Good. \"Not sure yet\" is a fine place to start. <break time=\"1.5s\" /> The border is 2 inches wide on every side. <break time=\"1.5s\" /> Let's find out how many gold sheets the border needs. <break time=\"1.5s\" /> You took the painting away. Good. That is the right idea. <break time=\"1.5s\" /> Your math is right, my friend. But look at the frame. <break time=\"1.5s\" /> I think I see it. Do you? <break time=\"1.5s\" /> Because you found the whole size first, then took the mirror away. <break time=\"1.5s\" /> A fence does not cover the garden. It goes around the edge. That is a new puzzle for next time. <break time=\"1.5s\" /> This is the Duke's new mirror. <break time=\"1.5s\" /> It is 8 inches long and 6 inches wide. <break time=\"1.5s\" /> Our gold sheets. Each one is a square, 1 inch on every side."
  },
  "bern": {
   "voice_id": "EvqbdCtmQVi46OVEHwYm",

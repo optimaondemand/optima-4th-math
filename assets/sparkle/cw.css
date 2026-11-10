@@ -342,3 +342,9 @@ body.cw-page .activity.cw-now,body.cw-page .q-block.cw-now{border-color:var(--cw
 .sc-ask input{width:64px}
 .sc-let{font-size:18px}
 .sc-sym:empty{display:none}
+
+/* explore done: the glow moves to Go on; seen spots can't be restarted (10 Nov 2026) */
+.cw-kb button.seen{cursor:default}
+.cw-go.ready{animation:cwReady 1.2s ease-in-out infinite}
+@keyframes cwReady{0%,100%{box-shadow:0 0 0 0 rgba(242,201,76,.0)}50%{box-shadow:0 0 0 5px rgba(242,201,76,.75)}}
+@media (prefers-reduced-motion: reduce){.cw-go.ready{animation:none;box-shadow:0 0 0 3px #f2c94c}}

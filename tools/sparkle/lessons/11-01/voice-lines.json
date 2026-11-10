@@ -71,9 +71,29 @@
     "who": "leo",
     "t": "How long must it be? That is a puzzle for next time.",
     "key": "0f8d2110"
+   },
+   {
+    "who": "leo",
+    "t": "These two wooden panels are for the Duke's hall.",
+    "key": "1f7028f1"
+   },
+   {
+    "who": "leo",
+    "t": "One is a long, thin strip. One is a square. Both will be covered in gold.",
+    "key": "39d1d1e0"
+   },
+   {
+    "who": "leo",
+    "t": "This is gold leaf. It's real gold, pounded very flat.",
+    "key": "194228b8"
+   },
+   {
+    "who": "leo",
+    "t": "Each sheet is a square, 1 inch on every side. See?",
+    "key": "afa6f173"
    }
   ],
-  "prompt": "Hello! I'm Leonardo da Vinci. I paint pictures, and before I paint anything, I measure it. <break time=\"1.5s\" /> The Duke of Milan wants two panels covered in gold. I need a helper who is good with numbers. That's you! <break time=\"1.5s\" /> Hmm. What do you think? <break time=\"1.5s\" /> It does look that way. The strip is very long. But it's also very thin. <break time=\"1.5s\" /> Interesting! The square is short, but it's much wider than the strip. <break time=\"1.5s\" /> Maybe! We'll have to check. <break time=\"1.5s\" /> Good. \"Not sure yet\" is a fine place to start. <break time=\"1.5s\" /> Look at the tags. The strip's length is in feet and inches. The gold sheets are in inches. <break time=\"1.5s\" /> Let's count the gold for each panel. Then we'll know for sure. <break time=\"1.5s\" /> Five sheets? Hmm. Look at the lid. Then look at the note. <break time=\"1.5s\" /> Your times table is right, my friend. But something else is not. <break time=\"1.5s\" /> I think I see it. Do you? <break time=\"1.5s\" /> Because you measured, and you put every length in the same unit first. <break time=\"1.5s\" /> How long must it be? That is a puzzle for next time."
+  "prompt": "Hello! I'm Leonardo da Vinci. I paint pictures, and before I paint anything, I measure it. <break time=\"1.5s\" /> The Duke of Milan wants two panels covered in gold. I need a helper who is good with numbers. That's you! <break time=\"1.5s\" /> Hmm. What do you think? <break time=\"1.5s\" /> It does look that way. The strip is very long. But it's also very thin. <break time=\"1.5s\" /> Interesting! The square is short, but it's much wider than the strip. <break time=\"1.5s\" /> Maybe! We'll have to check. <break time=\"1.5s\" /> Good. \"Not sure yet\" is a fine place to start. <break time=\"1.5s\" /> Look at the tags. The strip's length is in feet and inches. The gold sheets are in inches. <break time=\"1.5s\" /> Let's count the gold for each panel. Then we'll know for sure. <break time=\"1.5s\" /> Five sheets? Hmm. Look at the lid. Then look at the note. <break time=\"1.5s\" /> Your times table is right, my friend. But something else is not. <break time=\"1.5s\" /> I think I see it. Do you? <break time=\"1.5s\" /> Because you measured, and you put every length in the same unit first. <break time=\"1.5s\" /> How long must it be? That is a puzzle for next time. <break time=\"1.5s\" /> These two wooden panels are for the Duke's hall. <break time=\"1.5s\" /> One is a long, thin strip. One is a square. Both will be covered in gold. <break time=\"1.5s\" /> This is gold leaf. It's real gold, pounded very flat. <break time=\"1.5s\" /> Each sheet is a square, 1 inch on every side. See?"
  },
  "bern": {
   "voice_id": "EvqbdCtmQVi46OVEHwYm",

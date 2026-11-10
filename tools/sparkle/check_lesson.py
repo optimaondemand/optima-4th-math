@@ -220,6 +220,18 @@ def main(code):
                     out('FAIL', 'video "%s": [ON SCREEN: %s] matches no card label (%s)' % (n, c.strip(), ', '.join(sorted(labels))))
     out('ok', 'video plan: %s · %s words' % (', '.join(names), ', '.join(str(len(re.sub(r'\[(?:ON SCREEN|DRAW|DO):[^\]]*\]', '', v.get('script', '')).split())) for v in slots.values())))
 
+    # 8a voiced windows: once a character speaks in a window, every line of theirs has a clip, explore spots included.
+    # A silent line reads as "the sound broke" (pilot-week feedback, 10 Nov 2026: Leonardo went quiet after the first scene).
+    if 'var CW_DATA' in lesson_js:
+        sys.path.insert(0, os.path.join(HERE, 'voice'))
+        import voice  # noqa: E402
+        have = voice.have(code); voiced = {re.sub(r'-[0-9a-f]{8}\.mp3.*$', '', f) for f in have.values()}
+        for l in voice.lines(code):
+            if l['who'] in voiced and l['key'] not in have:
+                out('FAIL', 'silent window line (%s has a voice, this line has no clip; voice.py lines %s --missing): %s' % (l['who'], code, l['t'][:70]))
+            elif l['who'] in voiced:
+                f = os.path.join(REPO, 'assets/audio/lessons', code, have[l['key']].split('?')[0])
+                if not os.path.exists(f): out('FAIL', 'voice clip missing on disk: %s' % f)
     # 8 wiring
     mounted = set(re.findall(r'data-mk-model="(\w+)"', s))
     defined = set(re.findall(r'(\w+):bind\(', lesson_js)) | set(re.findall(r'models:\{([^}]*)\}', lesson_js) and re.findall(r'(\w+):', re.findall(r'models:\{([^}]*)\}', lesson_js)[0]))
