@@ -164,7 +164,7 @@ def build(week_path, out_path, repo=False):
           '<div class="wl-card"><div class="vr-kick">Commission in VR · about 15 minutes</div><h3 class="vr-h3">%s</h3>'
           '<div class="wl-look"><b>👀 What am I looking at?</b> %s</div>'
           '<div class="vr-job"><span><span class="n">1</span>Build it in VR</span><i>→</i><span><span class="n">2</span>Take a photo or a 30 second video</span><i>→</i><span><span class="n">3</span>Submit it to Canvas</span></div>'
-          '<div class="vr-prog" aria-live="polite"><span id="vr-prog-t">0 of %d steps done</span> · tap the box when you finish a step<div class="bar"><i id="vr-prog-b"></i></div></div>'
+          '<div class="vr-prog" aria-live="polite"><span id="vr-prog-t">0 of %d steps done</span> · click the box when you finish a step<div class="bar"><i id="vr-prog-b"></i></div></div>'
           '%s'
           '<div class="vr-full">⭐ <b>Full points:</b> %s</div>'
           '<label class="vr-done"><input type="checkbox" id="vr-sent"> Submitted!</label>'
@@ -206,7 +206,7 @@ def build(week_path, out_path, repo=False):
            'lesson': W['lesson'], 'stamp': W['stamp'], 'guide': G['short'],
            'video': 'assets/video/teacher/g4math-vr-%s.mp4' % wk if repo else ''}
 
-    paths = ('<div class="vr-paths" role="group" aria-label="Pick your path">'
+    paths = ('<p class="vr-pick"><b>👉 Pick your path:</b> click the one that fits today.</p><div class="vr-paths" role="group" aria-label="Pick your path">'
              '<button class="vr-path" type="button" data-path="vr-trip" aria-pressed="true"><span class="ic">🥽</span><span><b>Commission in VR</b><small>Earn the %s</small></span></button>'
              '<button class="vr-path" type="button" data-path="vr-post" aria-pressed="false"><span class="ic">📓</span><span><b>No headset today? Sketchbook Day</b><small>Do it on your computer</small></span></button></div>'
              % E(B['name']))

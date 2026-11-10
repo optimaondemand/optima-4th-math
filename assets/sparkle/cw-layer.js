@@ -528,3 +528,166 @@ return {init:init,earn:earn,spend:spend,wallet:function(){return W;},saveWallet:
   }
   window.addEventListener('load', function () { setTimeout(go, 50); });
 })();
+
+/* ── click cues + "How this works" (pilot-week feedback, 10 Nov 2026; same idea as G3 ELA and G3 math) ──────────
+   Students weren't sure what to click or what order to go in. The same cues on every lesson:
+   1. a key line under the header: 👆 click it · 🔊 listen · dotted word · 🔒 opens next;
+   2. a small hand inside every button, and buttons press down; labels (Do / Write / Read, "Remember to tell") are plain text;
+   3. a bouncing hand on a grid nobody has touched yet (the first one in each card); gone on the first touch;
+   4. "❓ How this works": Opti's how-to video (shown once the mp4 exists) + a Show-me-around tour, and a first-visit note.
+   Also: tabs and Next go to the very top of the lesson in Canvas (the lesson sits in a tall iframe, so the Canvas page
+   is what scrolls). Nothing uses position:fixed: in Canvas's tall iframe it would land at the bottom of the lesson. */
+(function () {
+  var HAND = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 2.6a1.5 1.5 0 0 1 3 0V10h.6V8.2a1.5 1.5 0 0 1 3 0V10h.6V9.2a1.5 1.5 0 0 1 3 0v1.5h.3a1.4 1.4 0 0 1 2.8 0V16c0 3.6-2.6 6-6 6h-1.6c-2.2 0-3.8-.9-5-2.7l-4.1-5.5a1.6 1.6 0 0 1 2.5-2L9 14.6V2.6z"/></svg>';
+  var VID = 'assets/video/g4math-howto.mp4', SEEN = 'g4cw-howto-seen';
+  function $(s, r) { return (r || document).querySelector(s); }
+  function $$(s, r) { return [].slice.call((r || document).querySelectorAll(s)); }
+  function el(t, c, h) { var n = document.createElement(t); if (c) n.className = c; if (h != null) n.innerHTML = h; return n; }
+  function shown(n) { var r = n.getBoundingClientRect(); return r.width > 0 && r.height > 0 && !n.closest('[hidden]'); }
+
+  /* back to the top: the frame, then scrollIntoView (carried up to the Canvas page), then Canvas itself */
+  function toTop() {
+    try { window.scrollTo({ top: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, 0); }
+    try { if (window.top !== window.self) (document.body.firstElementChild || document.body).scrollIntoView({ block: 'start', behavior: 'instant' }); } catch (e) {}
+    try { if (window.parent !== window) window.parent.postMessage(JSON.stringify({ subject: 'lti.scrollToTop' }), '*'); } catch (e) {}
+  }
+  window.CW_TOTOP = toTop;
+
+  function key() {
+    if ($('.cw-key')) return; var hdr = $('.header'); if (!hdr) return;
+    var k = el('div', 'cw-key', '<span><i class="cw-key-hand">' + HAND + '</i> You can click it.</span><span><b>🔊</b> You can listen.</span>' +
+      '<span><b class="cw-key-dot">dotted word</b> Click it to see what it means.</span><span><b>🔒</b> Opens when you finish the step before.</span>');
+    var ra = document.getElementById('optima-read-aloud'), after = ra && ra.previousElementSibling === hdr ? ra : hdr;
+    after.parentNode.insertBefore(k, after.nextSibling);
+  }
+
+  /* the bouncing hand on a grid no one has touched yet: one per card */
+  function cue() {
+    $$('.cw-hand').forEach(function (h) { if (!h._g || !h._g.isConnected) h.remove(); });
+    $$('.tab-panel.active .activity, .tab-panel.active .q-block').forEach(function (card) {
+      if (!shown(card) || card._cwCued) return;
+      var g = $$('.ag-wrap', card).filter(function (w) { return shown(w) && !w._cwTouched; })[0]; if (!g) return;
+      var svg = $('svg', g), cell = svg && ($('rect[data-c], rect.ag-c, g rect', svg) || svg); if (!cell) return;
+      card._cwCued = true;
+      if (getComputedStyle(g).position === 'static') g.style.position = 'relative';
+      var h = el('span', 'cw-hand', HAND); h.setAttribute('aria-hidden', 'true'); h._g = g; h._t = cell; g.appendChild(h); place(h);
+      function gone() { g._cwTouched = true; h.remove(); g.removeEventListener('pointerdown', gone, true); g.removeEventListener('keydown', gone, true); }
+      g.addEventListener('pointerdown', gone, true); g.addEventListener('keydown', gone, true);
+    });
+  }
+  function place(h) {
+    var g = h._g, t = h._t, gr = g.getBoundingClientRect(), r = t.getBoundingClientRect();
+    if (!gr.width || !r.width) { h.hidden = true; return; }
+    var w = Math.min(r.width, 30), hh = Math.min(r.height, 30);
+    h.hidden = false; h.style.left = (r.left - gr.left + w / 2 - 6) + 'px'; h.style.top = (r.top - gr.top + hh / 2) + 'px';
+  }
+  function recue() { $$('.cw-hand').forEach(place); cue(); }
+
+  /* the order inside a Mental Math card, written before the problems */
+  function mentalOrder() {
+    $$('[data-mk-model="mental"]').forEach(function (m) {
+      if (m.querySelector('.cw-order') || !m.querySelector('.mm-sm')) return;
+      var first = m.querySelector('.mm-p') || m.querySelector('.mm-sm').closest('div');
+      var o = el('p', 'cw-order', '<b>👉 Your turn, one problem at a time:</b> 1. Fill in the number bond. 2. Multiply each part. 3. Type the answer and press <b>Check</b>.');
+      var ex = m.querySelector('.mm-card'); (ex && ex.nextSibling ? ex.parentNode.insertBefore(o, ex.nextSibling) : m.insertBefore(o, first));
+    });
+  }
+
+  /* ❓ How this works: a pill in the header opens a small panel (video when it exists + the tour) */
+  function howTo() {
+    var tools = $('.pq-hdr-tools'); if (!tools || $('.cw-howchip')) return;
+    var chip = el('button', 'pq-pill cw-howchip', '❓ How this works'); chip.type = 'button'; chip.setAttribute('aria-expanded', 'false');
+    tools.appendChild(chip);
+    var pane = el('div', 'cw-howpane'); pane.hidden = true;
+    pane.innerHTML = '<div class="hv" hidden><video controls playsinline preload="metadata"></video></div>' +
+      '<p class="ht">New to these lessons? Take a quick tour. Opti shows you where to click.</p>' +
+      '<div class="cw-row"><button type="button" class="cw-tbtn gold tour-go">🧭 Show me around</button><button type="button" class="cw-tbtn ghost how-x">Close</button></div>';
+    $('.header').appendChild(pane);
+    var v = $('video', pane), hv = $('.hv', pane);
+    v.addEventListener('loadedmetadata', function () { hv.hidden = false; $('.ht', pane).textContent = 'Watch Opti show how a lesson works. Or take the tour and click along.'; });
+    v.src = VID; v.poster = VID.replace(/\.mp4$/, '.jpg');
+    function open(o) { pane.hidden = !o; chip.setAttribute('aria-expanded', o); if (!o && !v.paused) v.pause(); }
+    chip.addEventListener('click', function () { open(pane.hidden); });
+    $('.how-x', pane).addEventListener('click', function () { open(false); });
+    $('.tour-go', pane).addEventListener('click', function () { open(false); tour(); });
+    var seen = false; try { seen = !!localStorage.getItem(SEEN); } catch (e) {}
+    var first = $('#tab-warmup') || $('.tab-panel');
+    if (!seen && first) {
+      var n = el('div', 'cw-newhere', '<span class="ow">🧭</span><div><b>New to these lessons?</b> Watch Opti for 1 minute, or take the tour. It shows you what to click.</div>' +
+        '<button type="button" class="cw-tbtn gold watch">▶ Watch how</button><button type="button" class="cw-tbtn gold go">Show me around</button><button type="button" class="cw-tbtn ghost no">No thanks</button>');
+      $('.watch', n).hidden = true; v.addEventListener('loadedmetadata', function () { $('.watch', n).hidden = false; });
+      first.insertBefore(n, first.firstChild);
+      function done() { n.remove(); try { localStorage.setItem(SEEN, '1'); } catch (e) {} }
+      $('.watch', n).addEventListener('click', function () { done(); open(true); toTop(); try { v.play(); } catch (e) {} });
+      $('.go', n).addEventListener('click', function () { done(); tour(); });
+      $('.no', n).addEventListener('click', done);
+    }
+  }
+
+  function owl() {
+    var c = document.createElement('canvas'); c.width = 16; c.height = 20; c.className = 'cw-tour-owl';
+    if (window.PQART) { var x = c.getContext('2d'); x.imageSmoothingEnabled = false; x.drawImage(PQART.buildOwl(), 0, 0, 16, 20, 0, 0, 16, 20); }
+    return c;
+  }
+  /* the tour: a ring around one thing at a time, Opti's note right under it (Warm-Up tab) */
+  function tour() {
+    $$('.cw-newhere').forEach(function (n) { n.remove(); });
+    var t0 = ($('.tab-btn') || { dataset: {} }).dataset.tab; if (t0 && window.switchTab) window.switchTab(t0);
+    function vis(sel) { return $$(sel).filter(shown)[0]; }
+    var S = [
+      ['.tab-bar', 'Your lesson has 3 tabs. Do them in order: <b>Warm-Up</b>, then <b>Lesson</b>, then <b>Show What You Know</b>.'],
+      ['.pq-ra-btn', 'Press <b>🔊 Read aloud</b> to hear the page read to you.'],
+      ['.cw-key', 'This key tells you what things mean. <b>See a little hand? You can click it.</b>'],
+      ['.cw-slot .cw-play', 'Press play to step into the workshop. Read along, and click to go on. Do what the gold box says.', '.cw-slot'],
+      ['.pq-def', 'A word with <b>dots under it</b> is a key word. Click it to see what it means.'],
+      ['.cw-hand', 'The <b>bouncing hand</b> shows you where to click or drag first.', '.ag-wrap'],
+      ['.pq-hint-btn', 'Stuck? Press <b>💡 Need a hint?</b> Each press gives a bigger hint.'],
+      ['.cwg-btn, .cwg-man', 'You can ask Leonardo, too. Click him for a tip about the part you are on.'],
+      ['.tab-next-btn', 'Done with this tab? Press <b>Continue</b>. The page goes back to the top for you.'],
+      ['.progress-wrap', 'This bar fills up as you finish your jobs. You are ready. Let\'s go!']
+    ].map(function (s) { var n = vis(s[0]); if (n && s[2]) n = n.closest(s[2]) || n; return { n: n, t: s[1] }; }).filter(function (s) { return s.n; });
+    if (!S.length) return;
+    var ring = el('div', 'cw-ring'), tip = el('div', 'cw-tourtip'); ring.setAttribute('aria-hidden', 'true');
+    tip.setAttribute('role', 'dialog'); tip.setAttribute('aria-label', 'Lesson tour');
+    document.body.appendChild(ring); document.body.appendChild(tip);
+    var i = 0;
+    function go(k) {
+      i = k; var s = S[i], n = s.n, pad = 8, stuck = /sticky|fixed/.test(getComputedStyle(n).position);
+      if (stuck) { var ps = n.style.position; n.style.position = 'relative'; n.scrollIntoView({ block: 'center', behavior: 'instant' }); n.style.position = ps; }
+      else n.scrollIntoView({ block: 'center', behavior: 'instant' });
+      var r = n.getBoundingClientRect(), y = r.top + window.scrollY, x = r.left + window.scrollX;
+      ring.style.cssText = 'left:' + (x - pad) + 'px;top:' + (y - pad) + 'px;width:' + (r.width + pad * 2) + 'px;height:' + (r.height + pad * 2) + 'px';
+      tip.innerHTML = '<div class="tx"><div class="nn">Opti · ' + (i + 1) + ' of ' + S.length + '</div><p>' + s.t + '</p>' +
+        '<div class="cw-row">' + (i ? '<button type="button" class="cw-tbtn ghost bk">← Back</button>' : '') +
+        '<button type="button" class="cw-tbtn nx">' + (i < S.length - 1 ? 'Next →' : '✓ Done') + '</button>' +
+        (i < S.length - 1 ? '<button type="button" class="cw-tbtn ghost sk">Skip tour</button>' : '') + '</div></div>';
+      tip.insertBefore(owl(), tip.firstChild);
+      var below = y + r.height + pad + 14, w = Math.min(420, document.documentElement.clientWidth - 24);
+      tip.style.width = w + 'px'; tip.style.left = Math.max(12, Math.min(x, document.documentElement.clientWidth - w - 12)) + 'px'; tip.style.top = below + 'px';
+      var th = tip.offsetHeight, docH = document.documentElement.scrollHeight;
+      if (below + th > Math.min(docH, window.scrollY + innerHeight) && y - pad - 14 - th > 0) tip.style.top = (y - pad - 14 - th) + 'px';
+      try { tip.scrollIntoView({ block: 'nearest', behavior: 'instant' }); } catch (e) {}
+      $('.nx', tip).onclick = function () { if (i < S.length - 1) go(i + 1); else end(); };
+      if ($('.bk', tip)) $('.bk', tip).onclick = function () { go(i - 1); };
+      if ($('.sk', tip)) $('.sk', tip).onclick = end;
+      try { $('.nx', tip).focus({ preventScroll: true }); } catch (e) {}
+    }
+    function esc(e) { if (e.key === 'Escape') end(); }
+    function end() { ring.remove(); tip.remove(); document.removeEventListener('keydown', esc); try { localStorage.setItem(SEEN, '1'); } catch (e) {} toTop(); }
+    document.addEventListener('keydown', esc);
+    go(0);
+  }
+  window.CW_TOUR = tour;
+
+  function init() {
+    if (!document.body.classList.contains('cw-page')) return;
+    key(); howTo(); mentalOrder();
+    var sw = window.switchTab;
+    if (sw && !sw._cwTop) { window.switchTab = function () { var r = sw.apply(this, arguments); toTop(); setTimeout(recue, 120); return r; }; window.switchTab._cwTop = true; }
+    document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('.cw-path-b, .cw-station .tab-next-btn')) setTimeout(recue, 150); });
+    addEventListener('resize', function () { requestAnimationFrame(recue); });
+    setTimeout(recue, 300);
+    if (window.MutationObserver) { var t = 0; new MutationObserver(function () { clearTimeout(t); t = setTimeout(function () { mentalOrder(); cue(); }, 120); }).observe(document.body, { childList: true, subtree: true }); }
+  }
+  window.addEventListener('load', function () { setTimeout(init, 120); });
+})();
