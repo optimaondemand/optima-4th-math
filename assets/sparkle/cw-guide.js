@@ -1,3 +1,38 @@
+/* ── OAOFrame: what part of the lesson is on the student's screen, even inside Canvas (10 Nov 2026) ──
+   Canvas can show a lesson in one tall iframe: the CANVAS page scrolls, not the lesson, so position:fixed lands at the
+   bottom of the lesson and scroll events never fire. Strips of invisible markers down the page + IntersectionObserver
+   (which measures against the real browser window, cross-origin too) tell us which band of the lesson is visible.
+   OAOFrame.tall() is true in that case; OAOFrame.vis() = {top, bottom} of the visible band in page coordinates;
+   OAOFrame.on(fn) calls fn whenever it changes. Outside a tall frame: {top: scrollY, bottom: scrollY + innerHeight}. */
+window.OAOFrame = window.OAOFrame || (function () {
+  var subs = [], tall = false, box = null, io = null, rects = {}, V = null, STRIP = 80, t = 0;
+  function isTall() { try { if (window.top === window.self) return false; } catch (e) {} return document.documentElement.scrollHeight <= innerHeight + 8; }
+  function fire() { subs.forEach(function (f) { try { f(vis()); } catch (e) {} }); }
+  function vis() { return tall && V ? V : { top: window.scrollY, bottom: window.scrollY + innerHeight }; }
+  function calc() { var top = 1e9, bot = -1; for (var k in rects) { var r = rects[k]; if (r) { top = Math.min(top, r[0]); bot = Math.max(bot, r[1]); } } V = bot < 0 ? null : { top: top, bottom: bot }; fire(); }
+  function setup() {
+    if (io) { io.disconnect(); io = null; } if (box) { box.remove(); box = null; } rects = {};   /* measure without our own markers */
+    var was = tall; tall = isTall(); document.documentElement.classList.toggle('oao-tall', tall);
+    if (!tall || !('IntersectionObserver' in window)) { if (was !== tall) fire(); return; }
+    var H = Math.max(document.body.scrollHeight, innerHeight) - 2, n = Math.ceil(H / STRIP), th = [0, .25, .5, .75, 1];
+    box = document.createElement('div'); box.setAttribute('aria-hidden', 'true');
+    box.style.cssText = 'position:absolute;left:0;top:0;width:1px;height:' + H + 'px;pointer-events:none;visibility:hidden;z-index:-1';
+    io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { var i = e.target._i, y0 = i * STRIP; rects[i] = e.isIntersecting ? [y0 + (e.intersectionRect.top - e.boundingClientRect.top), y0 + (e.intersectionRect.bottom - e.boundingClientRect.top)] : null; });
+      calc();
+    }, { threshold: th });
+    for (var i = 0; i < n; i++) { var s = document.createElement('div'); s._i = i; s.style.cssText = 'position:absolute;left:0;width:1px;top:' + (i * STRIP) + 'px;height:' + Math.min(STRIP, H - i * STRIP) + 'px'; box.appendChild(s); io.observe(s); }
+    document.body.appendChild(box);
+    if (was !== tall) fire();
+  }
+  function later() { clearTimeout(t); t = setTimeout(setup, 250); }
+  addEventListener('resize', later); addEventListener('load', later);
+  if (window.ResizeObserver) { try { new ResizeObserver(later).observe(document.documentElement); } catch (e) {} }
+  if (document.readyState !== 'loading') later(); else document.addEventListener('DOMContentLoaded', later);
+  addEventListener('scroll', fire, { passive: true });
+  return { tall: function () { return tall; }, vis: vis, on: function (f) { subs.push(f); } };
+})();
+
 /* cw-guide.js — the guide on a ladder (classical layer, sparkle only; Bethany, 3 Nov 2026).
    A small sprite of the unit's guide climbs a ladder at the side of the page as the student scrolls.
    Click him: a short tip for the part of the page you are on, plus a question you can ask him.
@@ -143,10 +178,11 @@ function build() {
 /* ── which part of the page is the student looking at? ── */
 function activeTab() { var a = document.querySelector('.tab-btn.active'); return a ? a.getAttribute('data-tab') : ''; }
 function findSpot() {
-  var best = null, line = innerHeight * 0.4, bd = 1e9;
+  var vt = 0, vb = innerHeight; if (tallF()) { var v = OAOFrame.vis(); vt = v.top - scrollY; vb = v.bottom - scrollY; }   /* what the student can see */
+  var best = null, line = vt + (vb - vt) * 0.4, bd = 1e9;
   (G.spots || []).forEach(function (s) {
     var e = document.querySelector(s.sel); if (!e || !e.offsetParent) return;
-    var r = e.getBoundingClientRect(); if (r.bottom < 60 || r.top > innerHeight) return;
+    var r = e.getBoundingClientRect(); if (r.bottom < vt + 60 || r.top > vb) return;
     var d = (r.top <= line && r.bottom >= line) ? 0 : Math.min(Math.abs(r.top - line), Math.abs(r.bottom - line));
     if (d < bd) { bd = d; best = s; }
   });
@@ -178,7 +214,7 @@ function layout() {
   var de = document.documentElement, host = document.querySelector('.tab-panel'), box = host ? host.parentElement : null;
   de.classList.remove('cwg-lane');
   var gutter = innerWidth - (box ? box.getBoundingClientRect().right : innerWidth);
-  compact = innerWidth < 760 || innerHeight < 420;
+  compact = innerWidth < 760 || innerHeight < 420 || tallF();   /* a tall Canvas frame: the lift can't ride the scroll, so he is the Ask button that follows the screen */
   if (!compact && gutter < LANE && innerWidth < 1100) compact = true;
   if (!compact && gutter < LANE) { de.classList.add('cwg-lane'); gutter = innerWidth - (box ? box.getBoundingClientRect().right : innerWidth); }
   root.classList.toggle('cwg-compact', compact);
@@ -194,12 +230,15 @@ function layout() {
 }
 function railH() { return innerHeight - TOP - BOT; }
 function manY() { return padTop() + Math.round(shown * (railH() - MAN_H - padTop() - PAD)); }
+function tallF() { return !!(window.OAOFrame && OAOFrame.tall()); }
 function place() {
   var y = manY();
   man.style.top = y + 'px'; pop.style.top = (y - 4) + 'px';
   ropes.forEach(function (r) { r.style.height = Math.max(0, y + MAN_H - 8 - 7) + 'px'; });
+  if (compact && tallF()) { var vb = OAOFrame.vis(); btn.style.top = (vb.bottom - (btn.offsetHeight || 70) - 12) + 'px'; } else btn.style.top = '';
   if (!panel.hidden) {
-    if (compact) { panel.style.top = ''; panel.style.right = ''; }
+    if (compact && tallF()) { var v = OAOFrame.vis(), bh = btn.offsetHeight || 70; panel.style.right = ''; panel.style.top = Math.max(v.top + 10, v.bottom - bh - 24 - panel.offsetHeight) + 'px'; }
+    else if (compact) { panel.style.top = ''; panel.style.right = ''; }
     else { panel.style.top = Math.min(innerHeight - panel.offsetHeight - 10, Math.max(PANEL_MIN, TOP + y - 10)) + 'px'; panel.style.right = (parseInt(rail.style.right, 10) + RAIL_W + 10) + 'px'; }
   }
 }
@@ -294,6 +333,7 @@ function init(data) {
   try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
   build(); layout(); lastY = scrollY; lastT = performance.now(); onScroll(); shown = prog;
   addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', layout);
+  if (window.OAOFrame) { var wasT = false; OAOFrame.on(function () { if (tallF() !== wasT) { wasT = tallF(); layout(); } else if (tallF()) place(); }); }
   var sw = window.switchTab; if (typeof sw === 'function') window.switchTab = function () { var r = sw.apply(this, arguments); close(); setTimeout(function () { onScroll(); layout(); }, 50); return r; };
   drawMan(); requestAnimationFrame(tick);
 }

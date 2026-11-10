@@ -415,3 +415,7 @@ body.cw-page .pq-write .pq-chip:not(.on)::before{content:"• "}
 .cw-start-b .ht{margin:0 0 10px;font-weight:700}
 @media (max-width:600px){.cw-start{margin:12px 12px 0}}
 @media print{.cw-start{display:none!important}}
+
+/* in a tall Canvas frame the guide is the Ask button riding on the page, following what the student can see (OAOFrame, 10 Nov 2026) */
+.oao-tall .cwg-compact .cwg-btn,.oao-tall .cwg-compact .cwg-panel{position:absolute;bottom:auto}
+.oao-tall .cwg-compact .cwg-panel{right:12px}
