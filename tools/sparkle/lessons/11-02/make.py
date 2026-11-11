@@ -14,6 +14,7 @@ def act(id, color, icon, title, sub, body, cls='bl-slate', extra=''):
             '<div class="activity-sub">%s</div></div></div><div class="activity-body">%s</div></div>') % (cls, id, extra, color, icon, title, sub, body)
 
 def jbox(id, prompt, data, ph=''):
+    data = data.replace(' — ', ' · ')   # no em dash in the journal labels students see in their gathered answers (audit, 11 Nov 2026)
     return ('<div class="journal-label">%s <span class="saved-dot" id="dot-%s"></span></div>'
             '<textarea class="journal-box" data-label="%s" id="journal-%s" oninput="autoSave(this,\'dot-%s\')" placeholder="%s"></textarea>') % (prompt, id, data, id, id, ph)
 
@@ -231,3 +232,7 @@ SW = ('<div class="activity bl-navy"><div class="activity-head"><div class="acti
  + TURNIN + '</div></div>')
 panel('assignment', SW)
 answer_boxes_save()
+
+# audit, 11 Nov 2026: no em dash in the gathered journal's first line; footer year
+s = re.sub(r"(let out='Lesson 4\.\d\d\.\d\d) — ([^']*?)(\\n\\n')", lambda m: m.group(1) + ' · ' + m.group(2).replace(' — ', ', ') + m.group(3), s)
+s = s.replace('© 2025 Optima Academy Online', '© 2026 Optima Academy Online')
