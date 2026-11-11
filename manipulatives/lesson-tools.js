@@ -7,6 +7,16 @@
   var m = /math-lesson-(\d)-(\d\d)-(\d\d)/.exec(location.pathname); if (!m) return;
   var lid = m[1] + '.' + m[2] + '.' + m[3];
   var me = document.currentScript, base = me && me.src ? me.src.replace(/[^\/]*$/, '') : 'manipulatives/';
+  /* One step at a time (11 Nov 2026): on the three sparkle layers (G3 Storybook, G4 classical guide, G5 Master Builders) one part
+     of a tab shows at a time, with Back / Next and "Step 3 of 21". The code is onestep-math.js, next to this file. ?steps=0 = off. */
+  (function () {
+    function go() {
+      if (window.__osMath || /[?&]steps=0\b/.test(location.search)) return;
+      if (!document.querySelector('body.sb .sb-panel, .bd-panel, .tab-panel .cw-slot, .tab-panel .cw-station')) return;
+      var s = document.createElement('script'); s.src = base + 'onestep-math.js?v=1'; document.head.appendChild(s);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
+  })();
   function enc(o) { return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
   function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   var CSS = '.olt{font-family:Nunito,Arial,sans-serif;font-size:17px;color:#0E1C42;border-radius:16px;background:#FFFFFF;border:2px solid #C9BCEB;box-shadow:0 6px 18px rgba(14,28,66,.08)}'
