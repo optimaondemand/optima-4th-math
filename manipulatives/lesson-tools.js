@@ -13,7 +13,7 @@
     function go() {
       if (window.__osMath || /[?&]steps=0\b/.test(location.search)) return;
       if (!document.querySelector('body.sb .sb-panel, .bd-panel, .tab-panel .cw-slot, .tab-panel .cw-station')) return;
-      var s = document.createElement('script'); s.src = base + 'onestep-math.js?v=1'; document.head.appendChild(s);
+      var s = document.createElement('script'); s.src = base + 'onestep-math.js?v=2'; document.head.appendChild(s);
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
   })();
