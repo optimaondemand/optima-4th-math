@@ -359,7 +359,7 @@ window.OAOM_DATA = (function () {
       T('numberline', { a: 0, b: 1, parts: 3, mode: 'frac', lab: 'all', two: 1, parts2: 6 }, 'Which marks land in the same spot on both lines?'),
       T('pattern', { frac: true }, 'The hexagon is 1 whole. Cover it with triangles. What fraction is 1 triangle?') ],
       L: {
-        '3.10.03': [T('fbars', { d: [2, 4, 8], lab: 1 }, 'Shade 6 eighths. Find the fewest tiles that cover the same amount.', 'Simplest form = fewest, biggest pieces.')],
+        '3.10.03': [T('fbars', { d: [2, 5, 10], lab: 1 }, 'Shade 8 tenths. Find the fewest tiles that cover the same amount.', 'Simplest form = fewest, biggest pieces.')],
         '3.10.04': [T('fbars', { d: [2, 3, 4, 6], lab: 1 }, 'Compare 2 thirds and 3 fourths. Line them up.')],
         '3.10.06': [T('fbars', { d: [5], lab: 1 }, 'Shade 2 fifths, then 2 more. How many fifths in all?', 'Add like fractions by counting unit fractions.')],
         '3.10.07': [T('fbars', { d: [4, 8], lab: 1 }, 'Shade 1 fourth and 3 eighths. How many eighths is that?', 'Related denominators: change fourths to eighths.')]
