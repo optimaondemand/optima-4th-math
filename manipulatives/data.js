@@ -355,7 +355,7 @@ window.OAOM_DATA = (function () {
         '3.09.04': [T('fbars', { d: [8, 10, 12], lab: 1 }, 'Shade 5 tiles in each row. Which row shows the most?', 'Same numerator: bigger pieces make the bigger fraction.')]
       } },
     '3.10': { name: 'Fractions, Part 2', tools: [
-      T('fbars', { d: [3, 6], lab: 1 }, 'Shade 1 third. How many sixths line up with it?', 'Use the line-up guide to prove equivalence.'),
+      T('fbars', { d: [6, 12], lab: 1 }, 'Shade 5 sixths. How many twelfths line up with it?', 'Use the line-up guide to prove equivalence.'),
       T('numberline', { a: 0, b: 1, parts: 3, mode: 'frac', lab: 'all', two: 1, parts2: 6 }, 'Which marks land in the same spot on both lines?'),
       T('pattern', { frac: true }, 'The hexagon is 1 whole. Cover it with triangles. What fraction is 1 triangle?') ],
       L: {
