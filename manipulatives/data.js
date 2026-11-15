@@ -369,6 +369,7 @@ window.OAOM_DATA = (function () {
       T('bond', { parts: 2, w: '1 m', p: ['64 cm', '?'] }, 'What goes with 64 cm to make 1 meter?'),
       T('bar', BAR([R('', '?', 'above', [['', '', 1], ['', '', 2]])]), 'Draw the measurement story as a bar.') ],
       L: {
+        '3.11.01': [T('ruler', { u: 'm', a: 0, b: 91, len: 91 }, 'How long is the ribbon? Is it more or less than 1 meter? How many centimeters make 1 meter?', '1 meter = 100 centimeters. Start the ribbon at 0.')],
         '3.11.03': [T('bond', { parts: 2, w: '1 km', p: ['650 m', '?'] }, 'What goes with 650 m to make 1 kilometer?', '1 km = 1,000 m.'), T('numberline', { a: 0, b: 2000, parts: 20, mode: 'whole', lab: 'ends' }, 'Put a dot on 1 km 300 m. How many meters is that?')],
         '3.11.04': [T('bond', { parts: 2, w: '1,000', p: ['375', '?'] }, 'Take 375 m away from 1 km. Use the bond.')],
         '3.11.05': [T('beaker', { u: 'ml', mx: 2000, tk: 100, c: 2, tk: 50, a0: 1250, a1: 600 }, 'How much water is in each beaker? How much in all?', '1 L = 1,000 mL.')],
@@ -622,6 +623,7 @@ window.OAOM_DATA = (function () {
     '3.09.01': [T('fbars', { bm: 'build', d: [4, 6, 8], bt: [] }, 'Fill the bar under the 1 with equal tiles. Then shade some tiles and name the fraction.', 'Equal parts first: a fraction needs equal parts. The shaded and unshaded parts together make 1 whole.')],
     '3.10.06': [T('fbars', { bm: 'build', d: [9], bt: [] }, 'Build 4 ninths, then add 3 more ninths.', 'Add like fractions by counting unit fractions.')],
     '3.10.07': [T('fbars', { bm: 'build', d: [11], bt: [] }, 'Build 5 elevenths. Add 4 more, then take away 6.', 'Two steps with like fractions: add, then take away. The unit stays elevenths.')],
+    '3.11.01': [T('ruler', { u: 'm', a: 0, b: 91, len: 91 }, 'How long is the ribbon? Is it more or less than 1 meter? How many centimeters make 1 meter?', '1 meter = 100 centimeters. Start the ribbon at 0.')],
     '3.11.02': [T('trademat', { u: 'mcm', b0: 1, s0: 0, b: 1, sp: [0, 0], take: 1, tb: 0, ts: 64, zb: 0, zp: [0, 0] }, 'Take 64 cm away from 1 m. Break the meter first.', 'Breaking 1 m into 100 cm is the key move.')],
     '3.11.04': [T('trademat', { u: 'kmm', b0: 1, s0: 0, take: 1, tb: 0, ts: 375 }, 'Take 375 m away from 1 km.', '1 km = 1,000 m.')],
     '3.12.07': [T('compass', { r: 2 }, 'Open the compass to 4 cm and draw a circle.', 'Practice on screen, then with the safety compass.')],
