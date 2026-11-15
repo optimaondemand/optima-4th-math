@@ -370,7 +370,7 @@ window.OAOM_DATA = (function () {
       T('bar', BAR([R('', '?', 'above', [['', '', 1], ['', '', 2]])]), 'Draw the measurement story as a bar.') ],
       L: {
         '3.11.01': [T('ruler', { u: 'm', a: 0, b: 91, len: 91 }, 'How long is the ribbon? Is it more or less than 1 meter? How many centimeters make 1 meter?', '1 meter = 100 centimeters. Start the ribbon at 0.')],
-        '3.11.03': [T('bond', { parts: 2, w: '1 km', p: ['650 m', '?'] }, 'What goes with 650 m to make 1 kilometer?', '1 km = 1,000 m.'), T('numberline', { a: 0, b: 2000, parts: 20, mode: 'whole', lab: 'ends' }, 'Put a dot on 1 km 300 m. How many meters is that?')],
+        '3.11.03': [T('bond', { parts: 2, w: '1 km', p: ['240 m', '?'] }, 'What goes with 240 m to make 1 kilometer?', '1 km = 1,000 m.'), T('numberline', { a: 0, b: 3000, parts: 30, mode: 'whole', lab: 'ends' }, 'Put a dot on 2 km 100 m. How many meters is that?')],
         '3.11.04': [T('bond', { parts: 2, w: '1,000', p: ['375', '?'] }, 'Take 375 m away from 1 km. Use the bond.')],
         '3.11.05': [T('beaker', { u: 'ml', mx: 2000, tk: 100, c: 2, tk: 50, a0: 1250, a1: 600 }, 'How much water is in each beaker? How much in all?', '1 L = 1,000 mL.')],
         '3.11.06': [T('scale', { m: 'dial', u: 'kg', mx: 1, tk: 20, w: 640 }, 'What does the scale show? How many more grams make 1 kg?', 'Count the small marks to find their value first.'), T('scale', { m: 'bal', bw: 350 }, 'Balance the box. How heavy is it?')],
