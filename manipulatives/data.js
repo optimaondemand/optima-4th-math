@@ -373,7 +373,7 @@ window.OAOM_DATA = (function () {
         '3.11.03': [T('bond', { parts: 2, w: '1 km', p: ['240 m', '?'] }, 'What goes with 240 m to make 1 kilometer?', '1 km = 1,000 m.'), T('numberline', { a: 0, b: 3000, parts: 30, mode: 'whole', lab: 'ends' }, 'Put a dot on 2 km 100 m. How many meters is that?')],
         '3.11.04': [T('bond', { parts: 2, w: '1,000', p: ['650', '?'] }, 'Take 650 m away from 1 km. Use the bond.')],
         '3.11.05': [T('beaker', { u: 'ml', mx: 2000, tk: 100, c: 2, tk: 50, a0: 1150, a1: 500 }, 'How much water is in each beaker? How much in all?', '1 L = 1,000 mL.')],
-        '3.11.06': [T('scale', { m: 'dial', u: 'kg', mx: 1, tk: 20, w: 640 }, 'What does the scale show? How many more grams make 1 kg?', 'Count the small marks to find their value first.'), T('scale', { m: 'bal', bw: 350 }, 'Balance the box. How heavy is it?')],
+        '3.11.06': [T('scale', { m: 'dial', u: 'kg', mx: 1, tk: 20, w: 640 }, 'What does the scale show? How many more grams make 1 kg?', 'Count the small marks to find their value first.'), T('scale', { m: 'bal', bw: 450 }, 'Balance the box. How heavy is it?')],
         '3.11.07': [T('bar', BAR([R('', '2 kg', 'above', [['', '750 g', 1], ['', '?', 0]])]), 'Find the missing part. Change kilograms to grams first.')]
       } },
     '3.12': { name: 'Geometry', tools: [
