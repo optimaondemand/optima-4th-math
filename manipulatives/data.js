@@ -374,7 +374,7 @@ window.OAOM_DATA = (function () {
         '3.11.04': [T('bond', { parts: 2, w: '1,000', p: ['650', '?'] }, 'Take 650 m away from 1 km. Use the bond.')],
         '3.11.05': [T('beaker', { u: 'ml', mx: 2000, tk: 100, c: 2, tk: 50, a0: 1150, a1: 500 }, 'How much water is in each beaker? How much in all?', '1 L = 1,000 mL.')],
         '3.11.06': [T('scale', { m: 'dial', u: 'kg', mx: 1, tk: 20, w: 640 }, 'What does the scale show? How many more grams make 1 kg?', 'Count the small marks to find their value first.'), T('scale', { m: 'bal', bw: 450 }, 'Balance the box. How heavy is it?')],
-        '3.11.07': [T('bar', BAR([R('', '2 kg', 'above', [['', '750 g', 1], ['', '?', 0]])]), 'Find the missing part. Change kilograms to grams first.')]
+        '3.11.07': [T('bar', BAR([R('', '3 kg', 'above', [['', '1 kg 300 g', 1], ['', '?', 0]])]), 'Find the missing part. Change kilograms to grams first.')]
       } },
     '3.12': { name: 'Geometry', tools: [
       T('geoboard', { n: 11 }, 'Make a shape with 4 sides. How many square corners does it have?'),
