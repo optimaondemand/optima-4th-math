@@ -381,7 +381,7 @@ window.OAOM_DATA = (function () {
       T('tangram', { pz: 'sq7' }, 'Make the square with all seven pieces.', 'Tangrams build spatial reasoning about triangles and quadrilaterals.'),
       T('compass', { r: 3 }, 'Draw a circle with a radius of 3 cm. What is its diameter?') ],
       L: {
-        '3.12.01': [T('compass', { r: 3, circ: [[9, 6, 3]], lines: true }, 'Measure the radius and the diameter. What do you notice?', 'Diameter = 2 radii.')],
+        '3.12.01': [T('compass', { r: 2, circ: [[9, 6, 2]], lines: true }, 'Measure the radius and the diameter. What do you notice?', 'Diameter = 2 radii.')],
         '3.12.02': [T('geoboard', { n: 11, mode: 'line' }, 'Make an angle with two bands that meet at one pin.'), T('clock', { t: 180, dg: 0 }, 'The hands make an angle. Is it a square corner?')],
         '3.12.03': [T('setsquare', { mode: 'move', sel: 's45' }, 'Use the square corner of the triangle to check for right angles.', 'The set square corner is a right angle tester.')],
         '3.12.04': [T('geoboard', { n: 11 }, 'Make 3 different triangles.'), T('tangram', { pz: 'tri3' }, 'Make a big triangle from smaller pieces.')],
