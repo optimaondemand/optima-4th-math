@@ -383,7 +383,7 @@ window.OAOM_DATA = (function () {
       L: {
         '3.12.01': [T('compass', { r: 2, circ: [[9, 6, 2]], lines: true }, 'Measure the radius and the diameter. What do you notice?', 'Diameter = 2 radii.')],
         '3.12.02': [T('geoboard', { n: 11, mode: 'line' }, 'Make an angle with two bands that meet at one pin.'), T('clock', { t: 180, dg: 0 }, 'The hands make an angle. Is it a square corner?'), T('setsquare', { mode: 'move', sel: 's45' }, 'Put the square corner of the set square on an angle. Is the angle smaller than, the same as, or bigger than a right angle?', 'The set square corner is a right angle checker.')],
-        '3.12.03': [T('setsquare', { mode: 'move', sel: 's45' }, 'Use the square corner of the triangle to check for right angles.', 'The set square corner is a right angle tester.')],
+        '3.12.03': [T('setsquare', { mode: 'move', sel: 's45' }, 'Use the square corner of the triangle to check for right angles.', 'The set square corner is a right angle tester.'), T('geoboard', { n: 11 }, 'Make a shape with exactly 1 right angle. Check it with the set square.')],
         '3.12.04': [T('geoboard', { n: 11 }, 'Make 3 different triangles.'), T('tangram', { pz: 'tri3' }, 'Make a big triangle from smaller pieces.')],
         '3.12.05': [T('geoboard', { n: 11 }, 'Make a triangle with a right angle. Make one with two equal sides.')],
         '3.12.06': [T('geoboard', { n: 11, bands: [{ p: [[1, 1], [6, 1], [6, 4], [1, 4]], k: 1, c: 0 }] }, 'Change the rectangle into a different quadrilateral. What changed?')],
