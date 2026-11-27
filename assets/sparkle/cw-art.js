@@ -144,8 +144,60 @@ function portrait(cnv,who,talk){var p=cnv.getContext('2d');p.imageSmoothingEnabl
   R('#c9a56b',0,0,S,S,p);R('#b48c55',0,Math.round(S*0.66),S,S,p);var s=person(who,0,0,talk);
   p.drawImage(s,0,0,s.width,26,Math.round((S-s.width)/2),1,s.width,26);}
 
+/* ───────── the Duke's garden behind the castle, Milan 1495 (4.11.04) ───────── */
+function garden(){return mk(W,H,function(c){
+  // sky, lightest at the horizon (early morning)
+  for(var y=0;y<46;y++)R(y<16?'#9ec4dd':y<32?'#b4d3e4':'#cde3ea',0,y,W,1,c);
+  dith('#b4d3e4','#cde3ea',0,30,W,3,c);
+  [[30,10,22],[58,14,13],[196,8,26],[228,12,15],[128,6,17]].forEach(function(q){
+    R('#e7f1f4',q[0],q[1],q[2],4,c);R('#e7f1f4',q[0]+3,q[1]-3,q[2]-7,3,c);R('#d2e3e9',q[0],q[1]+4,q[2],1,c);});
+  // the castle's towers on the skyline, far off
+  [[6,18,22],[34,24,16],[262,22,18]].forEach(function(t){
+    R('#9aa3ae',t[0],46-t[1],t[2],t[1],c);R('#aab3bd',t[0],46-t[1],2,t[1],c);R('#7f8894',t[0]+t[2]-2,46-t[1],2,t[1],c);
+    for(var m=0;m<t[2];m+=5){R('#9aa3ae',t[0]+m,46-t[1]-3,3,3,c);}
+    R('#6b4a3a',t[0]+t[2]/2-2,46-t[1]+6,4,5,c);});
+  // the long stone wall the garden runs along
+  R('#b9ae99',0,46,W,74,c);
+  for(var row=0;row<9;row++){var yy=50+row*8,off=(row%2)*13;
+    for(var bx=-13+off;bx<W;bx+=26){R('#c3b8a2',bx,yy,24,6,c);R('#aa9f8a',bx,yy+5,24,1,c);R('#aa9f8a',bx+23,yy,1,6,c);}}
+  R('#cfc5b0',0,44,W,4,c);R('#9a907c',0,47,W,1,c);                                  // coping along the top
+  // ivy spilling over the coping
+  [14,52,96,150,206,250].forEach(function(ix){for(var k=0;k<7;k++){
+    R(k%2?'#4f7a4a':'#5f8c56',ix+((k*3)%7),44+k*3,5,4,c);R('#6f9c62',ix+((k*3)%7),44+k*3,2,2,c);}});
+  // the garden gate (the engine darkens 291,56 → 24 × 78 when someone comes through)
+  R('#6b5a46',286,44,34,90,c);
+  for(var a=0;a<=12;a++){var hw=Math.round(Math.sqrt(Math.max(0,144-(12-a)*(12-a))));
+    R('#6b5a46',303-hw,36+a,hw*2+2,1,c);R('#8a7a63',303-hw+2,40+a,hw*2-2,1,c);}
+  R('#5a3a22',289,52,28,82,c);R('#7a5133',289,52,28,2,c);
+  for(var dk=0;dk<5;dk++)R('#4a2e1a',292+dk*5,54,1,78,c);
+  R('#c9a56b',312,96,3,3,c);
+  // the ground: clipped grass, then the gravel path along the front
+  for(var gy=118;gy<154;gy++)R(gy<124?'#7fa36a':gy<140?'#769962':'#6c8f5a',0,gy,W,1,c);
+  dith('#769962','#7fa36a',0,122,W,4,c);dith('#6c8f5a','#769962',0,138,W,4,c);
+  for(var tuft=0;tuft<70;tuft++){var tx=(tuft*37)%W,ty=120+((tuft*13)%32);R('#86ab72',tx,ty,1,2,c);if(tuft%3===0)R('#5f8550',tx+1,ty+1,1,1,c);}
+  for(var py=154;py<H;py++)R(((py-154)>>3)%2?'#cbbfa4':'#c6b99c',0,py,W,1,c);
+  R('#a89c81',0,152,W,3,c);
+  for(var st=0;st<120;st++){var sx=(st*53)%W,sy=155+((st*19)%24);R(st%4?'#b7aa8e':'#d6cbb2',sx,sy,2,1,c);}
+  // clipped box hedges either side, and a bay tree in a pot
+  [[0,112],[250,112]].forEach(function(h){
+    R('#3f6b3c',h[0],h[1],70,26,c);R('#4f7f49',h[0],h[1],70,4,c);R('#345c32',h[0],h[1]+22,70,4,c);
+    for(var k=0;k<24;k++)R('#588a50',h[0]+((k*11)%68),h[1]+2+((k*7)%20),3,2,c);});
+  R('#a8653f',214,126,16,14,c);R('#b97a52',214,126,16,3,c);R('#8d5030',214,138,16,2,c);
+  R('#3f6b3c',216,106,12,22,c);R('#4f7f49',218,104,8,8,c);R('#345c32',217,120,10,6,c);R('#6b4a2a',221,124,2,6,c);
+  // a row of stakes and twine where the new garden will go (the math object sits on this)
+  for(var sx2=104;sx2<=170;sx2+=11){R('#8a6a4a',sx2,120,2,10,c);R('#a3835f',sx2,120,1,10,c);}
+  R('#e4dcc4',104,122,68,1,c);
+  // the gardener's board leaning on the wall, with two plans chalked on it
+  R('#5a3a22',240,88,42,32,c);R('#2f3a30',243,91,36,26,c);
+  R('#e4dcc4',246,96,14,7,c);R('#e4dcc4',265,97,10,9,c);
+  R('#9fb79a',246,107,8,1,c);R('#9fb79a',265,110,8,1,c);
+  // a watering can and a spade on the path
+  R('#8a8f93',24,142,14,11,c);R('#9ba0a4',24,142,14,2,c);R('#8a8f93',37,138,7,3,c);R('#6f7478',22,146,3,3,c);
+  R('#6b4a2a',62,132,2,20,c);R('#9aa0a4',59,150,8,5,c);R('#b6bcc0',59,150,8,1,c);
+},false);}
+
 var ROOMS={};
-function room(name){return ROOMS[name]||(ROOMS[name]=({workshop:workshop})[name]());}
+function room(name){return ROOMS[name]||(ROOMS[name]=({workshop:workshop,garden:garden})[name]());}
 return {W:W,H:H,R:R,mk:mk,room:room,bench:bench,person:person,portrait:portrait,
   heights:{leo:56,bern:50,salai:44,atlas:41,felix:41,hazel:41,cora:41},names:{leo:'Leonardo',bern:'Bernardo',salai:'Salaì',atlas:'Atlas',felix:'Felix',hazel:'Hazel',cora:'Cora'},colors:{leo:'#9e4552',bern:'#2f5d4a',salai:'#2e5480',atlas:'#1F8FB4',felix:'#1E8C5A',hazel:'#B08A0A',cora:'#C2601F'}};
 })();

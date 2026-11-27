@@ -1435,3 +1435,272 @@ function shapeCutter(root,cfg){
 }
 K.shapeCutter=shapeCutter;
 })(OAOKit);
+
+/* ═══ OAO MATH KIT, part 5 · Fence Builder (Nov 2026, Unit 11 · 4.11.04 perimeter) ═══
+   Dimensions 11-4: students build a fence with toothpicks, each one 1 unit long, and walk the distance around.
+   Rails are laid ONE unit at a time along the edge of a garden drawn on graph paper, side lengths on dimension
+   lines OUTSIDE it, the way Dimensions draws it. The tool never adds the sides up for them.
+   mode:'walk'     the garden's two sides are given. Students lay rails all the way around, the running total ticks
+                   up side by side, then they type the distance around.
+   mode:'missing'  a set length of fencing (cfg.total) and ONE side given (cfg.known). The two short sides start at
+                   nothing and GROW as rails are laid, so the garden closes only when the fencing runs out and the
+                   two short sides match. The unknown sides show "?" until then.
+   mode:'free'     no given sides: a fixed number of rails (cfg.rails) and students build any closed garden they
+                   like. record:true + need:n collects the different gardens they make, with each one's area.
+   cfg = { key, unit:{s,one,many}, mode, cell, todo, w, h (walk), total, known (missing), rails (free),
+           maxSide, name ('garden'), ask:[{id,q,unit,answer,accept,mistakes,hint}] (replaces the built-in asks),
+           mistakes:{<ask id>:[{v,text}]}, askNow, record, need, goalText, doneText, onGoal(root), onDone(root) }
+   Built-in ask ids: walk 'p' · missing 'two', 'left', 'short'. */
+(function(K){
+'use strict';
+var snd=K._snd,ls=K._ls,lsSet=K._lsSet;
+var NS='http://www.w3.org/2000/svg',NAVY='#0E1C42',GRID='#E1E5EE',RUST='#9E4552';
+var WOOD='#A2703F',WOOD_D='#6E4A26',GRASS='#EAF6EC',GRASS_L='#CFE8D5',FONT='Nunito,Arial,sans-serif';
+var SIDE=['t','r','b','l'],SIDE_NAME={t:'the top',r:'the right side',b:'the bottom',l:'the left side'};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function num(v){var t=String(v==null?'':v).replace(/[,\s]/g,'');return t===''||isNaN(+t)?null:+t;}
+function S(tag,a,p){var e=document.createElementNS(NS,tag);for(var k in a){if(k==='text')e.textContent=a[k];else e.setAttribute(k,a[k]);}if(p)p.appendChild(e);return e;}
+
+function fenceBuilder(root,cfg){
+  var U=cfg.unit||{s:'',one:'unit',many:'units'},mode=cfg.mode||'walk',NAME=cfg.name||'garden';
+  var KNOWN=cfg.known||0,TOTAL=cfg.total||0,RAILS=cfg.rails||0;
+  var CAP=cfg.maxSide||(mode==='missing'?Math.max(1,Math.floor((TOTAL-2*KNOWN)/2)+2)
+                       :mode==='free'?Math.max(1,Math.floor(RAILS/2)-1):0);
+  /* how many rail slots each side offers */
+  var MAX={t:mode==='walk'?cfg.w:mode==='missing'?KNOWN:CAP,
+           b:mode==='walk'?cfg.w:mode==='missing'?KNOWN:CAP,
+           r:mode==='walk'?cfg.h:CAP, l:mode==='walk'?cfg.h:CAP};
+  var SUPPLY=mode==='missing'?TOTAL:mode==='free'?RAILS:0;
+  var st=ls(cfg.key,null)||{s:{t:0,r:0,b:0,l:0},a:{},ok:{},found:[],goal:false,done:false};
+  st.s=st.s||{t:0,r:0,b:0,l:0};st.a=st.a||{};st.ok=st.ok||{};st.found=st.found||[];
+
+  function amt(n){return n+' '+(n===1?U.one:U.many);}   /* "1 foot", not "1 feet" */
+  function laid(){return st.s.t+st.s.r+st.s.b+st.s.l;}
+  function left(){return SUPPLY-laid();}
+  function curW(){return mode==='walk'?cfg.w:mode==='missing'?KNOWN:Math.max(1,Math.max(st.s.t,st.s.b));}
+  function curH(){return mode==='walk'?cfg.h:Math.max(1,Math.max(st.s.r,st.s.l));}
+  function closed(){return st.s.t===st.s.b&&st.s.r===st.s.l&&st.s.t>0&&st.s.r>0;}
+
+  /* ── the questions under the picture ───────────────────────────────── */
+  var DEF={walk:[{id:'p',q:'The distance all the way around the '+NAME+' =',unit:U.s,answer:2*(cfg.w+cfg.h),
+        mistakes:[{v:cfg.w*cfg.h,text:'That is the area: the squares INSIDE. Perimeter is the distance around the edge. Add the sides.'},
+                  {v:cfg.w+cfg.h,text:'That is one long side and one short side. A rectangle has two of each. Walk all four.'}],
+        hint:'Add every side once: '+'length + width + length + width.'}],
+    missing:[{id:'two',q:'The two long sides use',unit:U.s,answer:2*KNOWN,
+        mistakes:[{v:KNOWN,text:'That is ONE long side. A rectangle has two of them.'}],hint:'One long side is '+KNOWN+' '+U.many+'. There are two.'},
+      {id:'left',q:'Fencing left for the two short sides =',unit:U.s,answer:TOTAL-2*KNOWN,
+        mistakes:[{v:(TOTAL-2*KNOWN)/2,text:'That is what ONE short side gets. First find what is left for both of them.'}],
+        hint:'Take the two long sides away from all the fencing.'},
+      {id:'short',q:'So each short side =',unit:U.s,answer:(TOTAL-2*KNOWN)/2,
+        mistakes:[{v:TOTAL-2*KNOWN,text:'That is what is left for BOTH short sides. They share it. Split it in two.'}],
+        hint:'The two short sides are the same length. Share what is left between them.'}],
+    free:[]};
+  var asks=(cfg.ask||DEF[mode]||[]).map(function(q,i){
+    var extra=cfg.mistakes&&q.id&&cfg.mistakes[q.id];
+    return extra?Object.assign({},q,{mistakes:(q.mistakes||[]).concat(extra)}):q;});
+
+  root.classList.add('ok-tool','fb');
+  root.innerHTML=(cfg.todo?'<p class="ok-do">'+cfg.todo+'</p>':'')
+    +'<div class="fb-wrap"><svg class="fb-svg" tabindex="0" role="application" aria-label="A '+esc(NAME)+' on grid paper. Each rail of fence is 1 '+esc(U.one)+' long. Tap a gap in the fence to lay a rail, or tap a rail to lift it. Arrow keys move, Space lays or lifts."></svg></div>'
+    +'<div class="fb-sides"></div>'
+    +'<div class="ok-sym fb-sym" aria-live="polite"></div>'
+    +(cfg.record?'<div class="ag-found fb-found"></div>':'')
+    +(asks.length?'<div class="ag-asks fb-asks">'+asks.map(function(q,i){
+        return '<form class="ag-ask fb-ask" data-i="'+i+'" data-id="'+esc(q.id||i)+'"><label>'+q.q+' <input type="text" inputmode="numeric" autocomplete="off" aria-label="'+esc(String(q.q).replace(/<[^>]+>/g,''))+'" value="'+esc(st.a[i]||'')+'"> <span class="ag-u">'+esc(q.unit||U.s)+'</span></label> <button class="ok-btn" type="submit">Check</button><span class="ag-fb" aria-live="polite"></span></form>';}).join('')+'</div>':'')
+    +'<div class="ok-msg" aria-live="polite"></div>'
+    +'<div class="ok-row"><button class="ok-btn fb-next" type="button">🚧 Lay the next side</button><button class="ok-btn ok-reset" type="button">↺ Take the fence down</button></div>';
+  var svg=root.querySelector('.fb-svg'),msg=root.querySelector('.ok-msg'),sym=root.querySelector('.fb-sym'),
+      sideRow=root.querySelector('.fb-sides'),asksEl=root.querySelector('.fb-asks');
+  if(asksEl&&!cfg.askNow&&mode!=='free')asksEl.hidden=!(st.goal||st.done);
+  function say(t,k){msg.className='ok-msg'+(k?' '+k:'');msg.innerHTML=t||'';}
+  function save(){lsSet(cfg.key,st);}
+
+  /* ── laying and lifting ─────────────────────────────────────────────── */
+  function set(side,n){
+    n=Math.max(0,Math.min(MAX[side],n));
+    if(n===st.s[side])return false;
+    if(n>st.s[side]&&SUPPLY&&laid()+(n-st.s[side])>SUPPLY){
+      say('There is not enough fencing left. You have <b>'+amt(left())+'</b> on the coil.','hint');snd.no();return false;}
+    st.s[side]=n;return true;}
+  function after(){save();render();
+    var was=st.goal;
+    var spoke=mode==='free'&&record();  /* the new garden is written down before the goal is weighed */
+    if(!was&&goalMet()){st.goal=true;save();snd.done();if(asksEl)asksEl.hidden=false;
+      if(cfg.onGoal)cfg.onGoal(root);
+      if(cfg.goalText)say(cfg.goalText,'good');
+      else if(!spoke)say('');           /* never leave a half-finished message up once it is built */}
+    else if(!st.goal&&!spoke)coach();
+    finish();}
+  function goalMet(){
+    if(mode==='walk')return st.s.t===cfg.w&&st.s.b===cfg.w&&st.s.r===cfg.h&&st.s.l===cfg.h;
+    if(mode==='missing')return left()===0&&st.s.t===KNOWN&&st.s.b===KNOWN&&st.s.r===st.s.l&&st.s.r>0;
+    if(cfg.record)return st.found.length>=(cfg.need||1);
+    return left()===0&&closed();}
+  /* says what is still missing, never the answer */
+  function coach(){
+    if(mode==='walk'){var gaps=SIDE.filter(function(k){return st.s[k]<MAX[k];});
+      if(!gaps.length)return;
+      if(gaps.length===4&&laid()===0)return say('');
+      return say('There is still a gap on '+SIDE_NAME[gaps[0]]+'. A fence has to go all the way around.','hint');}
+    if(mode==='missing'){
+      if(st.s.t<KNOWN||st.s.b<KNOWN)return say('Lay both long sides first. They are '+amt(KNOWN)+' each.','hint');
+      if(left()>0)return say('You used the two long sides. There is still <b>'+amt(left())+'</b> of fencing on the coil for the two short sides.','hint');
+      if(st.s.r!==st.s.l)return say('The fencing is all used, but the two short sides do not match: <b>'+st.s.r+'</b> and <b>'+st.s.l+'</b>. Opposite sides of a rectangle are the same length.','hint');
+      return say('');}
+    if(left()>0)return say('You still have <b>'+amt(left())+'</b> of fencing. Use every rail.','hint');
+    if(!closed())return say('Opposite sides have to match: top and bottom, left and right.','hint');
+    say('');}
+  /* free mode: each different closed garden is written down with its area */
+  function record(){
+    if(!cfg.record||!closed()||left()!==0)return false;
+    var a=Math.min(st.s.t,st.s.r),b=Math.max(st.s.t,st.s.r),id=a+'x'+b;
+    if(st.found.indexOf(id)<0){st.found.push(id);save();snd.done();renderFound();
+      say('A new '+NAME+': <b>'+a+' by '+b+'</b>. It holds <b>'+(a*b)+'</b> square '+U.many+'. '
+        +(st.found.length<(cfg.need||1)?'Take the fence down and build a different one with the same '+RAILS+' rails.':''),'good');}
+    else say('You already built '+a+' by '+b+'. Turning it sideways makes the same '+NAME+'. Try different side lengths.','hint');
+    return true;}
+  function renderFound(){var f=root.querySelector('.fb-found');if(!f)return;
+    f.innerHTML='<b>Gardens built ('+st.found.length+(cfg.need?' of '+cfg.need:'')+'):</b> '
+      +(st.found.length?st.found.map(function(id){var p=id.split('x');
+        return '<span class="ag-chip">'+p[0]+' by '+p[1]+' '+U.s+' · '+(p[0]*p[1])+' sq '+U.s+'</span>';}).join(' '):'none yet');}
+  function finish(){if(st.done)return;
+    var allAsk=asks.every(function(q,i){return st.ok[i];});
+    if((st.goal||cfg.askOnly)&&allAsk){st.done=true;save();if(cfg.doneText)say(cfg.doneText,'good');if(cfg.onDone)cfg.onDone(root);}
+    else if(allAsk&&asks.length&&!st.goal&&!cfg.askOnly)
+      say(cfg.needText||'Your numbers are right. Now lay the fence all the way around so you can see it.','hint');}
+
+  /* ── drawing ────────────────────────────────────────────────────────── */
+  var z=30,ML=56,MT=40,MR=SUPPLY?132:76,MB=34;   /* room on the right for the dimension line AND the coil */
+  function slots(){   /* every rail slot, in reading order, for the keyboard and for hit-testing */
+    var out=[],k;
+    for(k=0;k<MAX.t;k++)out.push({side:'t',i:k});
+    for(k=0;k<MAX.r;k++)out.push({side:'r',i:k});
+    for(k=0;k<MAX.b;k++)out.push({side:'b',i:k});
+    for(k=0;k<MAX.l;k++)out.push({side:'l',i:k});
+    return out;}
+  var cur=0;
+  function geom(side,i,W,H){   /* where slot i of a side sits, in grid units: {x,y,w,h,horiz} */
+    if(side==='t')return {x:i,y:0,horiz:true};
+    if(side==='b')return {x:i,y:H,horiz:true};
+    if(side==='l')return {x:0,y:i,horiz:false};
+    return {x:W,y:i,horiz:false};}
+  function render(){
+    var W=curW(),H=curH(),rows=Math.max(H,mode==='walk'?cfg.h:CAP),cols=Math.max(W,MAX.t);
+    var avail=Math.max(260,(root.clientWidth||640)-8);
+    z=Math.max(14,Math.min(cfg.cell||30,Math.floor((avail-ML-MR)/Math.max(1,cols))));
+    var Wd=ML+cols*z+MR,Ht=MT+rows*z+MB;
+    svg.setAttribute('viewBox','0 0 '+Wd+' '+Ht);svg.setAttribute('width',Wd);svg.style.maxWidth='100%';
+    while(svg.firstChild)svg.removeChild(svg.firstChild);
+    S('defs',{},svg).innerHTML='<marker id="fbA'+cfg.key+'" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="'+NAVY+'"/></marker>';
+    var X=function(u){return ML+u*z;},Y=function(u){return MT+u*z;};
+    /* grid paper */
+    var x,y;
+    for(y=0;y<=rows;y++)S('line',{x1:X(0),y1:Y(y),x2:X(cols),y2:Y(y),stroke:GRID,'stroke-width':1},svg);
+    for(x=0;x<=cols;x++)S('line',{x1:X(x),y1:Y(0),x2:X(x),y2:Y(rows),stroke:GRID,'stroke-width':1},svg);
+    /* the ground inside the fence */
+    S('rect',{x:X(0),y:Y(0),width:W*z,height:H*z,fill:closed()||mode==='walk'?GRASS:GRASS_L,stroke:'none'},svg);
+    /* the four sides, slot by slot */
+    var S4=SIDE,fs=Math.max(10,Math.min(14,z*0.46));
+    S4.forEach(function(side){
+      for(var i=0;i<MAX[side];i++){
+        var g=geom(side,i,W,H),on=i<st.s[side];
+        var gx=X(g.x),gy=Y(g.y);
+        var rx=g.horiz?gx+2:gx-3,ry=g.horiz?gy-3:gy+2,rw=g.horiz?z-4:6,rh=g.horiz?6:z-4;
+        /* a slot past the current corner is a faint ghost: the garden has not grown that far yet */
+        var ghost=(side==='b'&&g.y>H)||(side==='r'&&g.x>W)||(!on&&((side==='r'||side==='l')&&i>=Math.max(st.s.r,st.s.l)+1));
+        S('rect',{x:rx,y:ry,width:rw,height:rh,rx:3,
+          fill:on?WOOD:'none',stroke:on?WOOD_D:(ghost?'#DCE0E8':'#9aa6c4'),'stroke-width':on?1.4:1.6,
+          'stroke-dasharray':on?'':'4 3',style:'pointer-events:none'},svg);
+        /* a fat see-through hit area over each slot: a 6px rail is too thin to tap, and an
+           unlaid rail is fill:none, which catches no pointer at all (the 11.03 lesson, again) */
+        S('rect',{x:g.horiz?gx:gx-9,y:g.horiz?gy-9:gy,width:g.horiz?z:18,height:g.horiz?18:z,
+          fill:'transparent','data-s':side,'data-i':i,class:'fb-hit',style:'cursor:pointer'},svg);
+        /* posts at the ends of a laid rail */
+        if(on){S('circle',{cx:gx,cy:gy,r:2.6,fill:WOOD_D,style:'pointer-events:none'},svg);
+          var e=g.horiz?{x:gx+z,y:gy}:{x:gx,y:gy+z};
+          S('circle',{cx:e.x,cy:e.y,r:2.6,fill:WOOD_D,style:'pointer-events:none'},svg);}}});
+    /* dimension lines OUTSIDE, the way Dimensions draws them; "?" while a side is unknown */
+    var mk='url(#fbA'+cfg.key+')';
+    function dimTop(){var txt=mode==='missing'?KNOWN+' '+U.s
+          :mode==='walk'?W+' '+U.s
+          :(st.s.t===st.s.b&&st.s.t>0&&left()===0?W+' '+U.s:'?');
+      S('line',{x1:X(0),y1:Y(0)-22,x2:X(W),y2:Y(0)-22,stroke:NAVY,'stroke-width':1.6,'marker-start':mk,'marker-end':mk},svg);
+      S('rect',{x:X(W/2)-(txt.length*4+8),y:Y(0)-33,width:txt.length*8+16,height:20,rx:4,fill:'#fff'},svg);
+      S('text',{x:X(W/2),y:Y(0)-18,'text-anchor':'middle','font-size':15,'font-weight':800,fill:NAVY,'font-family':FONT,text:txt},svg);}
+    function dimRight(){
+      var txt=mode==='walk'?H+' '+U.s:(st.s.r===st.s.l&&st.s.r>0&&left()===0?H+' '+U.s:'?');
+      S('line',{x1:X(W)+22,y1:Y(0),x2:X(W)+22,y2:Y(H),stroke:NAVY,'stroke-width':1.6,'marker-start':mk,'marker-end':mk},svg);
+      S('text',{x:X(W)+30,y:Y(H/2)+5,'font-size':15,'font-weight':800,fill:NAVY,'font-family':FONT,text:txt},svg);}
+    dimTop();dimRight();
+    /* the coil of fencing still to use */
+    if(SUPPLY){
+      var cx=X(cols)+78,cy=MT+16,r=left()>0?Math.max(7,Math.min(17,5+left())):0;
+      if(r){for(var q=0;q<3;q++)S('circle',{cx:cx,cy:cy,r:r-q*3.2,fill:'none',stroke:WOOD,'stroke-width':2.4},svg);}
+      else S('text',{x:cx,y:cy+5,'text-anchor':'middle','font-size':15,fill:WOOD_D,'font-family':FONT,text:'✓'},svg);
+      S('text',{x:cx,y:cy+r+18,'text-anchor':'middle','font-size':12,'font-weight':800,fill:WOOD_D,'font-family':FONT,
+        text:left()+' '+U.s+' left'},svg);}
+    /* keyboard cursor */
+    if(document.activeElement===svg){var sl=slots()[cur];
+      if(sl){var g2=geom(sl.side,sl.i,W,H),gx2=X(g2.x),gy2=Y(g2.y);
+        S('rect',{x:(g2.horiz?gx2:gx2-6)+0,y:(g2.horiz?gy2-6:gy2)+0,width:g2.horiz?z:12,height:g2.horiz?12:z,
+          fill:'none',stroke:'#2F6FDE','stroke-width':3,rx:3,style:'pointer-events:none'},svg);}}
+    /* the running total: side by side, never added up for them */
+    var parts=SIDE.filter(function(k){return st.s[k];}).map(function(k){return st.s[k];});
+    sym.innerHTML=mode==='free'
+      ? 'Rails used: <b>'+laid()+'</b> of '+RAILS+(closed()&&left()===0?' · this '+NAME+' is '+Math.min(st.s.t,st.s.r)+' by '+Math.max(st.s.t,st.s.r)+' '+U.many:'')
+      : 'Fence laid: '+(parts.length>1?parts.join(' + ')+' = ':'')+'<b>'+laid()+'</b> '+(laid()===1?U.one:U.many)
+        +(SUPPLY?' · on the coil: <b>'+left()+'</b> '+(left()===1?U.one:U.many):'');
+    /* the per-side buttons under the picture */
+    sideRow.innerHTML=SIDE.map(function(k){
+      return '<button class="ok-btn fb-side" type="button" data-s="'+k+'">'+({t:'↑',r:'→',b:'↓',l:'←'}[k])+' '
+        +SIDE_NAME[k].replace('the ','')+': <b>'+st.s[k]+'</b></button>';}).join('');
+  }
+
+  /* ── input ──────────────────────────────────────────────────────────── */
+  function hit(e){var t=document.elementFromPoint(e.clientX,e.clientY);
+    t=t&&t.closest&&t.closest('[data-s]');return t&&svg.contains(t)?t:null;}
+  svg.addEventListener('pointerdown',function(e){var t=hit(e);if(!t)return;e.preventDefault();
+    var side=t.getAttribute('data-s'),i=+t.getAttribute('data-i');
+    /* a rail goes next to the ones already there: tapping a gap fills up to it, tapping a rail lifts back to it */
+    var want=i<st.s[side]?i:i+1;
+    if(set(side,want)){snd.click();after();}});
+  svg.addEventListener('keydown',function(e){
+    var L=slots();
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();cur=(cur+1)%L.length;render();sr();return;}
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();cur=(cur-1+L.length)%L.length;render();sr();return;}
+    if(e.key===' '||e.key==='Enter'){e.preventDefault();var sl=L[cur];if(!sl)return;
+      var want=sl.i<st.s[sl.side]?sl.i:sl.i+1;
+      if(set(sl.side,want)){snd.click();after();}sr();}});
+  var live=document.createElement('span');live.className='ok-sr';live.setAttribute('aria-live','polite');root.appendChild(live);
+  function sr(){var sl=slots()[cur];if(!sl)return;
+    live.textContent=SIDE_NAME[sl.side]+', rail '+(sl.i+1)+' of '+MAX[sl.side]+', '+(sl.i<st.s[sl.side]?'laid':'empty')+'.';}
+  svg.addEventListener('focus',render);svg.addEventListener('blur',render);
+  sideRow.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.fb-side');if(!b)return;
+    var side=b.getAttribute('data-s');if(set(side,st.s[side]+1)){snd.click();after();}});
+  root.querySelector('.fb-next').onclick=function(){
+    /* both given sides first when one side is known, so the fencing left is easy to see */
+    var order=mode==='missing'?['t','b','r','l']:SIDE;
+    var side=order.filter(function(k){return st.s[k]<MAX[k];})[0];
+    if(!side)return say('Every side is fenced.','good');
+    var room=SUPPLY?Math.min(MAX[side],st.s[side]+left()):MAX[side];
+    if(room===st.s[side])return say('There is no fencing left on the coil.','hint');
+    if(set(side,room)){snd.click();after();}};
+  root.querySelector('.ok-reset').onclick=function(){st.s={t:0,r:0,b:0,l:0};save();render();say('');};
+  [].forEach.call(root.querySelectorAll('.fb-ask'),function(f){
+    var i=+f.dataset.i,q=asks[i],inp=f.querySelector('input'),fb=f.querySelector('.ag-fb');
+    function mark(){f.classList.add('ok');inp.disabled=true;fb.textContent='✓';}
+    if(st.ok[i])mark();
+    f.onsubmit=function(e){e.preventDefault();var v=num(inp.value);st.a[i]=inp.value;save();
+      if(v==null){fb.textContent='';say('Type a number.','hint');return;}
+      if([q.answer].concat(q.accept||[]).some(function(a){return num(a)===v;})){
+        st.ok[i]=true;save();mark();snd.done();say(q.right||'','good');if(q.onRight)q.onRight(root);finish();return;}
+      var m=(q.mistakes||[]).filter(function(x){return [].concat(x.v).some(function(a){return num(a)===v;});})[0];
+      snd.no();fb.textContent='✗';say(m?m.text:(q.hint||'Not yet. Check your work and try again.'),'hint');};});
+  var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(render,120);});
+  render();renderFound();
+  if(st.goal&&asksEl)asksEl.hidden=false;
+  if(st.done&&cfg.doneText)say(cfg.doneText,'good');
+  return {state:st,laid:laid,left:left,sides:st.s,render:render};
+}
+K.fenceBuilder=fenceBuilder;
+})(OAOKit);

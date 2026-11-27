@@ -50,6 +50,10 @@ body.pq-clean .cw-slot,body.pq-clean .cw-sec{display:none!important}
 .cw-leaf{display:flex;align-items:flex-end;gap:8px;margin:6px 0 18px}
 .cw-leaf .sq{width:52px;height:52px;background:#fff;border:1.5px solid #D9DEEA;position:relative}
 .cw-leaf .sq:after{content:"";position:absolute;inset:3px;border-radius:6px;background:#F2B705;border:1.5px solid rgba(0,0,0,.25)}
+/* one rail of fence, the unit piece in 4.11.04: the same wood as the Fence Builder lays */
+.cw-leaf .rail{width:72px;height:14px;position:relative;background:#A2703F;border:1.5px solid #6E4A26;border-radius:4px}
+.cw-leaf .rail:before,.cw-leaf .rail:after{content:"";position:absolute;top:-4px;width:6px;height:22px;background:#6E4A26;border-radius:2px}
+.cw-leaf .rail:before{left:-4px}.cw-leaf .rail:after{right:-4px}
 .cw-leaf .side{position:absolute;font:800 13px Nunito,Arial,sans-serif;white-space:nowrap}
 .cw-leaf .side.b{left:50%;bottom:-19px;transform:translateX(-50%)}.cw-leaf .side.r{right:-34px;top:50%;transform:translateY(-50%)}
 
@@ -419,3 +423,17 @@ body.cw-page .pq-write .pq-chip:not(.on)::before{content:"• "}
 /* in a tall Canvas frame the guide is the Ask button riding on the page, following what the student can see (OAOFrame, 10 Nov 2026) */
 .oao-tall .cwg-compact .cwg-btn,.oao-tall .cwg-compact .cwg-panel{position:absolute;bottom:auto}
 .oao-tall .cwg-compact .cwg-panel{right:12px}
+/* Fence Builder (OAOKit.fenceBuilder, 4.11.04) */
+.fb-wrap{overflow-x:auto;padding:4px 0}
+.fb-svg{display:block;margin:0 auto;touch-action:none;user-select:none;-webkit-user-select:none;cursor:pointer}
+.fb-svg:focus-visible{outline:3px solid #2F6FDE;outline-offset:3px}
+.fb-sides{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0 2px}
+.fb-side{font:800 15px Nunito,Arial,sans-serif}
+.fb-side b{color:#6E4A26}
+.fb-sym:empty{display:none}
+.fb-asks[hidden]{display:none}
+.fb-ask input{width:68px}
+
+/* a short aside inside a rules card: the same idea written the short way (4.11.04) */
+.cw-aside{margin:10px 0 2px;padding:9px 12px;background:#F4F7FB;border-left:4px solid #3A6B9A;border-radius:0 8px 8px 0;font:600 15px Nunito,Arial,sans-serif;color:#2A3A58}
+.cw-aside b{color:#0E1C42}

@@ -24,6 +24,9 @@
 <div class="demo"><h2>Shape Cutter · split (an L, two ways)</h2><code>OAOKit.shapeCutter(el, {mode:'split', …})</code><div id="d-scs"></div></div>
 <div class="demo"><h2>Shape Cutter · take away (lift the cut-out)</h2><code>OAOKit.shapeCutter(el, {mode:'away', …})</code><div id="d-sca"></div></div>
 <div class="demo"><h2>Shape Cutter · border (both sides first)</h2><code>OAOKit.shapeCutter(el, {mode:'border', …})</code><div id="d-scb"></div></div>
+<div class="demo"><h2>Fence Builder · walk (both sides given)</h2><code>OAOKit.fenceBuilder(el, {mode:'walk', …})</code><div id="d-fbw"></div></div>
+<div class="demo"><h2>Fence Builder · missing (a set length of fencing, one side given)</h2><code>OAOKit.fenceBuilder(el, {mode:'missing', …})</code><div id="d-fbm"></div></div>
+<div class="demo"><h2>Fence Builder · free (a fixed number of rails)</h2><code>OAOKit.fenceBuilder(el, {mode:'free', …})</code><div id="d-fbf"></div></div>
 <script src="../../assets/sparkle/oao-kit.js"></script>
 <script>
 var $=function(s){return document.getElementById(s);};
@@ -80,4 +83,7 @@ OAOKit.shapeCutter($('d-scs'),{unit:FT,mode:'split',w:6,h:5,holes:[{x:3,y:0,w:3,
   todo:'Click a dashed line to cut the L into 2 rectangles.',doneText:'Two splits, the same total.'});
 OAOKit.shapeCutter($('d-sca'),{unit:FT,mode:'away',w:7,h:5,holes:[{x:1,y:2,w:2,h:3,name:'door'}],todo:'Find the whole, lift the door out, take it away.'});
 OAOKit.shapeCutter($('d-scb'),{unit:INCH,mode:'border',inner:{w:5,h:3},p:1,innerName:'card',todo:'Lay the border on all four sides.'});
+OAOKit.fenceBuilder($('d-fbw'),{unit:FT,mode:'walk',w:7,h:4,todo:'Lay a rail on every side, then find the distance around.'});
+OAOKit.fenceBuilder($('d-fbm'),{unit:FT,mode:'missing',total:22,known:7,todo:'22 feet of fencing. The long side is 7 feet. Use every rail.'});
+OAOKit.fenceBuilder($('d-fbf'),{unit:FT,mode:'free',rails:10,record:true,need:2,todo:'10 rails. Build two different gardens that use every rail.'});
 </script></body></html>

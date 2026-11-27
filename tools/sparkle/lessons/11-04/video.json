@@ -1,0 +1,37 @@
+{
+ "lesson": "11.04",
+ "grade": 4,
+ "prefix": "g4math-11-04",
+ "manifestKey": "g4math-11-04",
+ "title": "Perimeter, Part 1",
+ "other": [],
+ "pics": {},
+ "redo": [],
+ "slots": {
+  "learn": {
+   "label": "Lesson · the main video: walk every side, and work backward (produced: Claire + Leonardo)",
+   "title": "Walk Every Side: Perimeter, and a Missing Side",
+   "length": "about 2½ min",
+   "want": true,
+   "produced": true,
+   "where": "Lesson tab, Learn it station, top",
+   "parts": [
+    {
+     "label": "The rose bed",
+     "tag": "LEARN",
+     "title": "18 ft × 6 ft",
+     "col": "#3A6B9A",
+     "body": "Walk every side once and add. Then add one of each and double."
+    },
+    {
+     "label": "The herb bed",
+     "tag": "BACKWARD",
+     "title": "52 ft of fencing, long side 17 ft",
+     "col": "#9E4552",
+     "body": "Take the two long sides away, then halve what is left."
+    }
+   ],
+   "script": "[Leonardo] Come out to the garden. The Duke sent fencing for a rose bed, and I must know how much before the gardener digs. A careful worker knows before he starts. Would you?\n\n[ON SCREEN: The rose bed]\nHere is the rose bed, 18 feet long and 6 feet wide. The fence does not cover the bed. It goes around the edge. That distance all the way around is the perimeter.\n\nWalk it with me. Top, 18. Side, 6. Bottom, 18. Last side, 6. Back where we started.\n\nAdd every side once. 18 plus 6 plus 18 plus 6 is 48. The fence is 48 feet.\n\nNow a quicker way. Opposite sides of a rectangle match, so one long side and one short side is exactly half the way around. 18 plus 6 is 24. Double it. 48 again.\n\nSay the units carefully. 48 feet, not 48 square feet. Perimeter is a length.\n\n[ON SCREEN: The herb bed]\nNow backward. The Duke sends 52 feet of fencing for the herb bed, and the long side must be 17 feet. How long is the short side?\n\nTwo long sides use 17 and 17, which is 34. Take it away. 52 minus 34 is 18.\n\nThose 18 feet belong to the two short sides, and they share them evenly. 18 divided by 2 is 9.\n\nWatch out. Do not stop at 18. That is both short sides together, not one.\n\nOr halve first. Half of 52 is 26. Half a fence is one long side and one short side. 26 minus 17 is 9. The same answer.\n\nSo: walk every side once and add. Or add the length and the width and double. For a missing side, take away the sides you know, then halve what is left.\n\n[Leonardo] Nine feet. The gardener may dig. Next the Duke wants a pen that bends around the old well, with sides that carry no number. Your turn first: 24 feet of fencing, long side 7 feet. Find the short side."
+  }
+ }
+}

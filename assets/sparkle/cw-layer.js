@@ -453,7 +453,9 @@ return {init:init,earn:earn,spend:spend,wallet:function(){return W;},saveWallet:
       if (ins.some(function (x) { return x.value.trim(); })) { fc(); again(); }
     }
     /* 2. progress means work done: jobs finished, not tabs visited; a tab gets its check when its jobs are done */
-    var lab = $('.progress-label'); if (lab) lab.textContent = '📐 Workshop jobs';
+    /* the lesson names its own jobs (Workshop jobs, Garden jobs…): don't hardcode one unit's word */
+    var LP = (window.PQ_LESSON && window.PQ_LESSON.problem) || {};
+    var lab = $('.progress-label'); if (lab) lab.textContent = '📐 ' + (LP.jobsTitle || 'Jobs');
     var swyk = function () { var a = $$('#tab-assignment input.ans-box'); return a.length && a.every(function (x) { return x.value.trim(); }); };
     window.updateProgress = function () {
       var d = J.filter(function (j) { return jobDone(j.id); }).length, n = J.length || 1, f = $('#progressFill'), p = $('#progressPct');

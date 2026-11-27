@@ -4,7 +4,7 @@
 
    CW_DATA = { key, room:'workshop', place:{t1,t2,t3},
      windows:{ id:{ title, people:['leo'], objects:[obj], spots:[spot], script:[step], end:{task, go:{tab, sel, label}} } } }
-   obj  = { id, kind:'panel'|'note'|'stack'|'mirror', x, y, w, h, name, dims:{w:'1 ft 6 in', h:'2 in'}, split:{at:48, labels:['1 ft','6 in']} }   (canvas px, to scale)
+   obj  = { id, kind:'panel'|'note'|'stack'|'mirror'|'plot', x, y, w, h, name, dims:{w:'1 ft 6 in', h:'2 in'}, split:{at:48, labels:['1 ft','6 in']} }   (canvas px, to scale)
    spot = { id, x, y, w, h, lines:[…], card:'html' }      (clickable things during an explore step)
    step = { w:'leo', t:'…', wonder:'…' } · { narr:'…' } · { enter:'bern' } · { leave:'bern' } · { focus:['strip'] | null }
           { tags:['strip:name','strip:w','strip:h'], on:true|false } · { split:'strip' } · { card:'html' | null }
@@ -82,16 +82,27 @@ function go(g){if(g.tab&&window.switchTab){var a=document.querySelector('.tab-bt
 
 /* ───── drawing ───── */
 P.draw=function(){var g=this.g,t=Win.t||0,self=this;
-  g.drawImage(A.room(D.room||'workshop'),0,0);
-  g.save();g.globalAlpha=.10;g.fillStyle='#fff1c4';g.beginPath();g.moveTo(24,40);g.lineTo(70,40);g.lineTo(168,176);g.lineTo(96,176);g.closePath();g.fill();g.restore();
-  if(!this.motes){this.motes=[];for(var i=0;i<14;i++)this.motes.push({x:40+Math.random()*80,y:40+Math.random()*120,v:.04+Math.random()*.06,p:Math.random()*6});}
-  if(!reduce)this.motes.forEach(function(m){m.y-=m.v;m.x+=Math.sin(t/60+m.p)*.05;if(m.y<36){m.y=170;m.x=50+Math.random()*80;}
-    if(m.x>24+(m.y-40)*.6&&m.x<70+(m.y-40)*.72){g.globalAlpha=.5+.35*Math.sin(t/20+m.p);R(g,'#fff6d8',m.x,m.y,1,1);g.globalAlpha=1;}});
-  var sway=reduce?0:Math.round(Math.sin(t/90)*1.2);R(g,'#2b2118',190+sway,10,1,8);R(g,'#2b2118',218+sway,10,1,8);g.drawImage(A.bench.wings,173+sway,14);
-  g.drawImage(A.bench.notebook,174,101);g.drawImage(A.bench.ink,201,97);g.drawImage(A.bench.gold,224,104);
-  R(g,'#efe3c6',215,100,4,10);R(g,'#d7c59d',218,100,1,10);R(g,'#5a3a22',213,109,8,2);
-  var fl=reduce?0:Math.floor(t/6)%3;R(g,'#f2c94c',216,95+(fl===1?1:0),2,5-(fl===1?1:0));R(g,'#fff1a8',216,97,1,2);
-  g.save();g.globalAlpha=.08+.02*fl;g.fillStyle='#ffd27a';g.beginPath();g.arc(217,98,22,0,6.283);g.fill();g.restore();
+  var ROOM=D.room||'workshop';
+  g.drawImage(A.room(ROOM),0,0);
+  /* the workshop's own light, dust and bench things. They belong to that room only: an outdoor room
+     (4.11.04's garden) got the flying machine, candle and inkwell floating in its sky before this check. */
+  if(ROOM==='workshop'){
+    g.save();g.globalAlpha=.10;g.fillStyle='#fff1c4';g.beginPath();g.moveTo(24,40);g.lineTo(70,40);g.lineTo(168,176);g.lineTo(96,176);g.closePath();g.fill();g.restore();
+    if(!this.motes){this.motes=[];for(var i=0;i<14;i++)this.motes.push({x:40+Math.random()*80,y:40+Math.random()*120,v:.04+Math.random()*.06,p:Math.random()*6});}
+    if(!reduce)this.motes.forEach(function(m){m.y-=m.v;m.x+=Math.sin(t/60+m.p)*.05;if(m.y<36){m.y=170;m.x=50+Math.random()*80;}
+      if(m.x>24+(m.y-40)*.6&&m.x<70+(m.y-40)*.72){g.globalAlpha=.5+.35*Math.sin(t/20+m.p);R(g,'#fff6d8',m.x,m.y,1,1);g.globalAlpha=1;}});
+    var sway=reduce?0:Math.round(Math.sin(t/90)*1.2);R(g,'#2b2118',190+sway,10,1,8);R(g,'#2b2118',218+sway,10,1,8);g.drawImage(A.bench.wings,173+sway,14);
+    g.drawImage(A.bench.notebook,174,101);g.drawImage(A.bench.ink,201,97);g.drawImage(A.bench.gold,224,104);
+    R(g,'#efe3c6',215,100,4,10);R(g,'#d7c59d',218,100,1,10);R(g,'#5a3a22',213,109,8,2);
+    var fl=reduce?0:Math.floor(t/6)%3;R(g,'#f2c94c',216,95+(fl===1?1:0),2,5-(fl===1?1:0));R(g,'#fff1a8',216,97,1,2);
+    g.save();g.globalAlpha=.08+.02*fl;g.fillStyle='#ffd27a';g.beginPath();g.arc(217,98,22,0,6.283);g.fill();g.restore();
+  } else if(ROOM==='garden'){
+    /* morning light from the left, and a few seeds drifting over the beds */
+    g.save();g.globalAlpha=.08;g.fillStyle='#fff6d0';g.beginPath();g.moveTo(0,44);g.lineTo(58,44);g.lineTo(150,176);g.lineTo(0,176);g.closePath();g.fill();g.restore();
+    if(!this.motes){this.motes=[];for(var i2=0;i2<10;i2++)this.motes.push({x:Math.random()*300,y:60+Math.random()*80,v:.03+Math.random()*.05,p:Math.random()*6});}
+    if(!reduce)this.motes.forEach(function(m){m.x+=m.v*2;m.y+=Math.sin(t/70+m.p)*.08;if(m.x>316){m.x=-4;m.y=60+Math.random()*70;}
+      g.globalAlpha=.35+.25*Math.sin(t/26+m.p);R(g,'#fdf6de',m.x,m.y,1,1);g.globalAlpha=1;});
+  }
   // the lesson's math objects (plain, to scale)
   Object.keys(this.objs).forEach(function(k){var o=self.objs[k];if(o.hidden)return;
     if(o.kind==='note'){R(g,'#3f2716',o.x-1,o.y-1,o.w+2,o.h+2);R(g,'#fbf3dc',o.x,o.y,o.w,o.h);for(var r=0;r<3;r++)R(g,'#a8916a',o.x+2,o.y+3+r*3,o.w-4,1);return;}
@@ -99,6 +110,11 @@ P.draw=function(){var g=this.g,t=Win.t||0,self=this;
     /* a plain mirror (4.11.03): glass with a frame line and one shine stroke, to scale like every object */
     if(o.kind==='mirror'){R(g,'#3f2716',o.x-1,o.y-1,o.w+2,o.h+2);R(g,'#8fa8c4',o.x,o.y,o.w,o.h);R(g,'#c4d5e8',o.x+1,o.y+1,o.w-2,o.h-2);
       for(var k=0;k<Math.min(o.w,o.h)/2;k++){R(g,'#f2f7fc',o.x+3+k,o.y+o.h-4-k,2,1);R(g,'#e1ebf5',o.x+7+k,o.y+o.h-4-k,1,1);}return;}
+    /* staked-out ground (4.11.04): turned soil inside a line of stakes and twine, plain and to scale */
+    if(o.kind==='plot'){R(g,'#6b4a2a',o.x,o.y,o.w,o.h);R(g,'#7d5932',o.x+1,o.y+1,o.w-2,o.h-2);
+      for(var sr=0;sr<o.h;sr+=3)R(g,'#5c3f23',o.x+2,o.y+2+sr,o.w-4,1);
+      for(var st2=0;st2<=o.w;st2+=Math.max(8,Math.round(o.w/5))){R(g,'#9a7a56',o.x+Math.min(st2,o.w-2),o.y-4,2,o.h+6);}
+      R(g,'#e9e2cb',o.x,o.y-3,o.w,1);R(g,'#e9e2cb',o.x,o.y+o.h+1,o.w,1);return;}
     if(o.kind==='stack'){for(var sy=o.y+o.h-3;sy>=o.y;sy-=3){R(g,'#7a3f22',o.x,sy,o.w,3);R(g,'#c4703f',o.x,sy,o.w,2);R(g,'#de8b55',o.x,sy,o.w,1);}return;}
     R(g,'#3f2716',o.x-1,o.y-1,o.w+2,o.h+2);R(g,'#8a5a32',o.x,o.y,o.w,o.h);R(g,'#fbf6ea',o.x+1,o.y+1,o.w-2,o.h-2);
     if(self.splitOn[k]&&o.split){for(var y=o.y;y<o.y+o.h;y+=2)R(g,'#9e4552',o.x+o.split.at,y,1,1);}});

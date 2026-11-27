@@ -123,6 +123,31 @@ await p.click('#d-ch summary');await p.fill('#d-ch input','12');await p.click('#
  const B='#d-scb';for(const s of ['left','right','top','bottom'])await p.click(B+' .sc-side[data-side="'+s+'"]');ok(/1 \+ 5 \+ 1 in/.test(await p.textContent(B+' .sc-svg')),'shape cutter: the border lines show 1 + 5 + 1');
  await A(B,'ow',[6]);ok(/BOTH/.test(await msgOf(B)),'shape cutter: one side only gets the both-sides hint');await A(B,'ow',[7]);await A(B,'oh',[5]);await A(B,'oa',[35]);await A(B,'ia',[15]);await A(B,'bd',[20]);
  ok(await p.$$eval(B+' .sc-ask.ok',x=>x.length)===5,'shape cutter: border 35 − 15 = 20');}
+// fence builder: walk, a set length of fencing with one side given, and a fixed number of rails
+{const msgOf=r=>p.evaluate(x=>{const m=document.querySelectorAll(x+' .ok-msg');return m[m.length-1].textContent;},r);
+ const W='#d-fbw';for(let i=0;i<4;i++)await p.click(W+' .fb-next');
+ ok(/7 \+ 4 \+ 7 \+ 4 = 22/.test(await p.textContent(W+' .fb-sym')),'fence builder: the sides are shown side by side, never added up');
+ await p.fill(W+' .fb-ask input','28');await p.click(W+' .fb-ask button');ok(/area/.test(await msgOf(W)),'fence builder: the area gets the perimeter-is-the-edge hint');
+ await p.fill(W+' .fb-ask input','22');await p.click(W+' .fb-ask button');ok(await p.$$eval(W+' .fb-ask.ok',x=>x.length)===1,'fence builder: walk 7 + 4 + 7 + 4 = 22');
+ const M='#d-fbm';await p.click(M+' .fb-next');await p.click(M+' .fb-next');
+ ok(/8 feet.*on the coil/s.test(await msgOf(M)),'fence builder: after both long sides, the coil still holds 8 ft');
+ for(let i=0;i<5;i++)await p.click(M+' .fb-side[data-s="r"]');for(let i=0;i<3;i++)await p.click(M+' .fb-side[data-s="l"]');
+ ok(/do not match/.test(await msgOf(M)),'fence builder: 5 and 3 do not close the garden');
+ await p.click(M+' .fb-side[data-s="l"]');ok(/not enough fencing/.test(await msgOf(M)),'fence builder: a rail too many is refused');
+ await p.click(M+' .ok-reset');for(const s2 of ['t','b'])for(let i=0;i<7;i++)await p.click(M+' .fb-side[data-s="'+s2+'"]');
+ for(const s2 of ['r','l'])for(let i=0;i<4;i++)await p.click(M+' .fb-side[data-s="'+s2+'"]');
+ ok(/on the coil: 0/.test(await p.textContent(M+' .fb-sym')),'fence builder: 7 + 4 + 7 + 4 uses all 22 ft');
+ const MA=async(i,v)=>{const f=await p.$$(M+' .fb-ask');await (await f[i].$('input')).fill(String(v));await (await f[i].$('button')).click();};
+ await MA(0,7);ok(/ONE long side/.test(await msgOf(M)),'fence builder: one long side gets the two-of-them hint');
+ await MA(0,14);await MA(1,8);await MA(2,8);ok(/share it|Split it in two/.test(await msgOf(M)),'fence builder: both short sides as one gets the share hint');
+ await MA(2,4);ok(await p.$$eval(M+' .fb-ask.ok',x=>x.length)===3,'fence builder: 22 − 14 = 8, each short side 4');
+ const F='#d-fbf';for(const [L,Wd] of [[4,1],[3,2]]){await p.click(F+' .ok-reset');
+   for(const s2 of ['t','b'])for(let i=0;i<L;i++)await p.click(F+' .fb-side[data-s="'+s2+'"]');
+   for(const s2 of ['r','l'])for(let i=0;i<Wd;i++)await p.click(F+' .fb-side[data-s="'+s2+'"]');}
+ ok(/1 by 4 ft/.test(await p.textContent(F+' .fb-found'))&&/2 by 3 ft/.test(await p.textContent(F+' .fb-found')),'fence builder: the same 10 rails make gardens of 4 and 6 square feet');
+ // a slot is tapped straight on the picture, not only with the side buttons
+ await p.click(F+' .ok-reset');await p.click(F+' .fb-hit[data-s="t"][data-i="2"]');
+ ok(/Rails used: 3/.test(await p.textContent(F+' .fb-sym')),'fence builder: tapping the third slot lays 3 rails');}
 await p.screenshot({path:path.join(H.REPO,'tools/sparkle/out/kit-1150.png'),fullPage:true});
 await p.setViewportSize({width:390,height:844});await p.waitForTimeout(300);ok(await p.evaluate(()=>document.documentElement.scrollWidth)<=390,'kit: no sideways scroll at 390');
 await p.screenshot({path:path.join(H.REPO,'tools/sparkle/out/kit-390.png'),fullPage:true});

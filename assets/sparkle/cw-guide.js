@@ -77,6 +77,23 @@ var ART = {
     R('#9a7a5a', 21, 4, 9, 1, p); R('#9a7a5a', 21, 7, 6, 1, p);
     for (var a = 0; a < 16; a++) { var x = 25 + Math.round(4 * Math.cos(a / 16 * 6.283)), y = 15 + Math.round(4 * Math.sin(a / 16 * 6.283)); R('#6b4f35', x, y, 1, 1, p); }
     R('#6b4f35', 25, 15, 1, 1, p);
+  }); },
+  /* the Duke's great horse: the full-size CLAY model Leonardo built for the bronze monument.
+     It was standing in Milan in 1495; the bronze was taken for cannon and the statue was never cast. */
+  horse: function () { return mkc(40, 36, function (p) {
+    var clay = '#c08f5e', lit = '#d6a87a', dark = '#8a6134', hoof = '#5e411f';
+    R('#9a8871', 2, 32, 36, 4, p); R('#b3a28c', 2, 32, 36, 1, p);                      // the wooden stand
+    R(clay, 10, 14, 20, 10, p); R(lit, 10, 14, 20, 2, p); R(dark, 10, 22, 20, 2, p);   // barrel
+    R(clay, 7, 15, 4, 8, p); R(dark, 7, 21, 4, 2, p);                                   // rump
+    R(clay, 27, 15, 5, 8, p);                                                           // chest
+    R(clay, 28, 7, 6, 9, p); R(lit, 32, 7, 2, 9, p);                                    // neck
+    R(clay, 30, 3, 8, 6, p); R(clay, 36, 6, 3, 4, p); R(lit, 30, 3, 8, 1, p);            // head and muzzle
+    R(hoof, 37, 7, 1, 1, p); R(dark, 34, 5, 1, 1, p);                                    // nostril, eye
+    R(clay, 31, 1, 2, 2, p); R(clay, 34, 1, 2, 2, p);                                    // ears
+    R(dark, 27, 3, 3, 12, p); R('#6f4d29', 28, 5, 1, 9, p);                              // mane
+    R(dark, 5, 14, 2, 11, p); R('#6f4d29', 5, 20, 2, 5, p);                              // tail
+    [9, 13, 24, 28].forEach(function (x) { R(clay, x, 24, 3, 8, p); R(hoof, x, 31, 3, 1, p); });
+    R(dark, 13, 24, 1, 8, p); R(dark, 28, 24, 1, 8, p);
   }); }
 };
 

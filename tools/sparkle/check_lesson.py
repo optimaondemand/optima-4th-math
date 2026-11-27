@@ -168,7 +168,14 @@ def main(code):
     # 7 videos
     slots = video['slots']
     names = list(slots)
-    if [n for n in names if n not in ('think', 'learn', 'do', 'wrap')] or not all(k in names for k in ('think', 'learn', 'do')):
+    # From 4.11.04 on a classical lesson has ONE video, the produced Learn video (Bethany, 9 + 27 Nov 2026): the first
+    # voiced window is the Warm-Up's media and the wrap window closes the lesson. 4.11.01-03 keep the four they already have.
+    classical = 'var CW_DATA' in lesson_js
+    if [n for n in names if n not in ('think', 'learn', 'do', 'wrap')]:
+        out('FAIL', 'video slots must be think, learn, do (+ optional wrap); found ' + ', '.join(names))
+    elif classical and names == ['learn']:
+        out('ok', 'one produced video: the Learn video (no Think, Do or Wrap video)')
+    elif not all(k in names for k in ('think', 'learn', 'do')):
         out('FAIL', 'video slots must be think, learn, do (+ optional wrap); found ' + ', '.join(names))
     # math videos teach on boards (tools/sparkle/boards.js): Learn and Do each show and draw on at least one
     for n in ('learn', 'do'):

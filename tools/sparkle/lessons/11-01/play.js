@@ -2,7 +2,9 @@
 // node tools/sparkle/lessons/11-01/play.js   (screenshots → tools/sparkle/out/11-01/)
 const {chromium}=require('playwright');const path=require('path'),fs=require('fs');
 const REPO=path.resolve(__dirname,'../../../..'),OUT=path.join(REPO,'tools/sparkle/out/11-01');fs.mkdirSync(OUT,{recursive:true});
-const PAGE='file://'+path.join(REPO,'math-lesson-4-11-01-area-of-rectangles-pt-1.html');
+// the walk-through runs with the one-part-at-a-time view off (manipulatives/onestep-math.js, Nov 2026),
+// so every part of a tab is reachable; without it the windows sit inside a closed step
+const PAGE=process.env.PAGE_URL||('file://'+path.join(REPO,'math-lesson-4-11-01-area-of-rectangles-pt-1.html')+'?steps=0');
 let fails=0;function ok(c,m){console.log((c?'ok   ':'FAIL ')+m);if(!c)fails++;}
 (async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:1150,height:900},reducedMotion:'reduce'});
   const errs=[];p.on('pageerror',e=>errs.push(e.message));
