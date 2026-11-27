@@ -387,7 +387,7 @@ window.OAOM_DATA = (function () {
         '3.12.04': [T('geoboard', { n: 11 }, 'Make 3 different triangles.'), T('cuisenaire', { r: [], lab: 1, rows: 8 }, 'Pick any 3 rods. Can you lay them end to end so they close into a triangle?'), T('tangram', { pz: 'tri3' }, 'Make a big triangle from smaller pieces.')],
         '3.12.05': [T('geoboard', { n: 11 }, 'Make a triangle with a right angle. Make one with two equal sides.'), T('cuisenaire', { r: [], lab: 1, rows: 8 }, 'Build a triangle from 3 rods. Are all 3 rods the same length, 2 the same, or none the same?'), T('setsquare', { mode: 'move', sel: 's45' }, 'Check each corner of a triangle. Is it smaller than, the same as, or bigger than the square corner?')],
         '3.12.06': [T('geoboard', { n: 11, bands: [{ p: [[1, 1], [6, 1], [6, 4], [1, 4]], k: 1, c: 0 }] }, 'Change the rectangle into a different quadrilateral. What changed?'), T('setsquare', { mode: 'move', sel: 's45' }, 'Check each corner of a 4-sided shape. How many square corners does it have?')],
-        '3.12.07': [T('compass', { r: 4 }, 'Set the compass to 4 cm and draw a circle.', 'Practice on screen, then with the safety compass.')]
+        '3.12.07': [T('compass', { r: 3 }, 'Open the compass to 3 cm and draw a circle. Then open it wider and draw another one around the same needle point.', 'Practice on screen, then with the safety compass.'), T('geoboard', { n: 11 }, 'Make half a shape on one side of a line of pins, then build the other half so both halves match.')]
       } },
 
     /* ═════════ GRADE 4 ═════════ */
@@ -626,7 +626,7 @@ window.OAOM_DATA = (function () {
     '3.11.01': [T('ruler', { u: 'm', a: 0, b: 91, len: 91 }, 'How long is the ribbon? Is it more or less than 1 meter? How many centimeters make 1 meter?', '1 meter = 100 centimeters. Start the ribbon at 0.')],
     '3.11.02': [T('trademat', { u: 'mcm', b0: 1, s0: 0, b: 1, sp: [0, 0], take: 1, tb: 0, ts: 57, zb: 0, zp: [0, 0] }, 'Take 57 cm away from 1 m. Break the meter first.', 'Breaking 1 m into 100 cm is the key move.')],
     '3.11.04': [T('trademat', { u: 'kmm', b0: 1, s0: 0, take: 1, tb: 0, ts: 650 }, 'Take 650 m away from 1 km.', '1 km = 1,000 m.')],
-    '3.12.07': [T('compass', { r: 2 }, 'Open the compass to 4 cm and draw a circle.', 'Practice on screen, then with the safety compass.')],
+    '3.12.07': [T('compass', { r: 3 }, 'Open the compass to 3 cm and draw a circle. Then open it wider and draw another one around the same needle point.', 'Practice on screen, then with the safety compass.'), T('geoboard', { n: 11 }, 'Make half a shape on one side of a line of pins, then build the other half so both halves match.')],
     '4.01.01': [T('discs', { hi: 5, lo: 0, c: {} }, 'Build 230,406 with discs.', 'Read the thousands period, then the ones period.')],
     '4.06.01': [T('fbars', { bm: 'build', d: [6], bt: [] }, 'Use sixth tiles to make the same amount as 2 thirds.', 'Build it, then line it up against thirds.')],
     '4.07.01': [T('fbars', { bm: 'build', d: [8], bt: [] }, 'Build 3 eighths, then add 4 more eighths.')],
